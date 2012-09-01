@@ -1,6 +1,6 @@
 minetest.register_node( "technic:mineral_diamond", {
 	description = "Diamond Ore",
-	tile_images = { "default_stone.png^technic_mineral_diamond.png" },
+	tiles = { "default_stone.png^technic_mineral_diamond.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -12,6 +12,83 @@ minetest.register_craftitem( "technic:diamond", {
 	inventory_image = "technic_diamond.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 })
+
+minetest.register_node( "technic:mineral_uranium", {
+	description = "Uranium Ore",
+	tiles = { "default_stone.png^technic_mineral_uranium.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:uranium" 1',
+}) 
+
+minetest.register_craftitem( "technic:uranium", {
+	description = "Uranium",
+	inventory_image = "technic_uranium.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_node( "technic:mineral_chromium", {
+	description = "Chromium Ore",
+	tiles = { "default_stone.png^technic_mineral_chromium.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:chromium_lump" 1',
+}) 
+
+minetest.register_node( "technic:diamond_block", {
+	description = "Diamond Block",
+	tiles = { "technic_diamond_block.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:diamond_block" 1',
+}) 
+
+minetest.register_node( "technic:diamond_block_red", {
+	description = "Red Diamond Block",
+	tiles = { "technic_diamond_block_red.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:diamond_block_red" 1',
+}) 
+minetest.register_node( "technic:diamond_block_green", {
+	description = "Green Diamond Block",
+	tiles = { "technic_diamond_block_green.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:diamond_block_green" 1',
+}) 
+minetest.register_node( "technic:diamond_block_blue", {
+	description = "Red Diamond Block",
+	tiles = { "technic_diamond_block_blue.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+	drop = 'craft "technic:diamond_block_blue" 1',
+}) 
+
+
+minetest.register_craftitem( "technic:chromium_lump", {
+	description = "Chromium Lump",
+	inventory_image = "technic_chromium_lump.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem( "technic:chromium_ingot", {
+	description = "Chromium Ingot",
+	inventory_image = "technic_chromium_ingot.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+				type = 'cooking',
+				output = "technic:chromium_ingot",
+				recipe = "technic:chromium_lump"
+			})
 
 local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, ore_per_chunk, height_min, height_max)
 	if maxp.y < height_min or minp.y > height_max then
@@ -57,4 +134,6 @@ end
 
 minetest.register_on_generated(function(minp, maxp, seed)
 generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -31000,  -450)
+generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -300,  -150)
+generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+20,   1/13/13/13,    1, -600,  -100)
 end)
