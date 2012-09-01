@@ -1,4 +1,3 @@
-
 minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
 	output = 'technic:music_player',
@@ -33,6 +32,7 @@ minetest.register_node("technic:music_player", {
 	internal_EU_buffer=0,
 	internal_EU_buffer_size=5000,
 	music_player_on=0,
+	music_playing =0,
 	music_handle = 0,
 	music_player_current_track =1,
 	on_construct = function(pos)
@@ -63,11 +63,13 @@ minetest.register_node("technic:music_player", {
 	if fields.track9 then music_player_current_track=9 end
 	meta:set_float("music_player_current_track",music_player_current_track)
 	if fields.play and player_on==1 then  
-	minetest.sound_stop(music_handle)
+	if music_handle then minetest.sound_stop(music_handle) end
 	music_handle=minetest.sound_play("technic_track"..music_player_current_track, {pos = pos, gain = 1.0,loop = true, max_hear_distance = 72,}) 	
+	meta:set_float("music_playing",1)
 	end
 	if fields.stop then  
-	minetest.sound_stop(music_handle)
+	meta:set_float("music_playing",0)
+	if music_handle then minetest.sound_stop(music_handle) end
 	end
 	meta:set_float("music_handle",music_handle)
 	end,
@@ -86,13 +88,13 @@ minetest.register_abm({
 	local play_cost=80
 	
 	if charge>play_cost then 
-		charge=charge-play_cost;
+		if meta:get_float("music_playing")==1 then charge=charge-play_cost end
 		meta:set_float("internal_EU_buffer",charge)
 		meta:set_float("music_player_on",1)
 	else 
-		player_on=0
+		meta:set_float("music_playing",0)
 		meta:set_float("music_player_on",0)
-		minetest.sound_stop(music_handle)
+		if music_handle then minetest.sound_stop(music_handle) end
 	end
 	local load = math.floor((charge/max_charge)*100)
 	meta:set_string("formspec",
