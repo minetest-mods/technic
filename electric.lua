@@ -410,13 +410,23 @@ table_index=1
 local pos1={}
 i=1
 	repeat
-	if PR_nodes[i]==nil then break end
+	if PR_nodes[i]==nil then break end -- gettin power from all connected producers
 		pos1.x=PR_nodes[i].x
 		pos1.y=PR_nodes[i].y
 		pos1.z=PR_nodes[i].z
 	local meta1 = minetest.env:get_meta(pos1)
-	local active=meta1:get_float("active")
-	if active==1 then charge=charge+80 end
+	local internal_EU_buffer=meta1:get_float("internal_EU_buffer")
+	if charge<max_charge then 
+	charge_to_take=200	
+	if internal_EU_buffer-charge_to_take<=0 then
+		charge_to_take=internal_EU_buffer
+	end
+	if charge_to_take>0 then 
+	charge=charge+charge_to_take 
+	internal_EU_buffer=internal_EU_buffer-charge_to_take
+	meta1:set_float("internal_EU_buffer",internal_EU_buffer)
+	end
+	end
 	i=i+1
 	until false
 
@@ -499,6 +509,7 @@ function check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
 meta = minetest.env:get_meta(pos1)
 if meta:get_float("cablelike")==1 then new_node_added=add_new_cable_node(LV_nodes,pos1) end
 if minetest.env:get_node(pos1).name == "technic:solar_panel" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:generator" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:tool_workshop" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
@@ -525,64 +536,3 @@ function get_connected_charge (charge,pos1)
 	end
 return charge
 end
-
-minetest.register_node("technic:solar_panel", {
-	tiles = {"technic_solar_panel_top.png", "technic_solar_panel_side.png", "technic_solar_panel_side.png",
-		"technic_solar_panel_side.png", "technic_solar_panel_side.png", "technic_solar_panel_side.png"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-	sounds = default.node_sound_wood_defaults(),
-    	description="Solar Panel",
-	active = false,
-	technic_power_machine=1,
-	drawtype = "nodebox",
-	paramtype = "light",
-	is_ground_content = true,	
-	node_box = {
-			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
-		},
-		selection_box = {
-			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
-		},
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_float("technic_power_machine", 1)
-		meta:set_string("infotext", "Solar Panel")
-		meta:set_float("active", false)
-	end,
-})
-
-minetest.register_craft({
-	output = 'technic:solar_panel 1',
-	recipe = {
-		{'default:sand', 'default:sand','default:sand'},
-		{'default:sand', 'moreores:copper_ingot','default:sand'},
-		{'default:sand', 'default:sand','default:sand'},
-
-	}
-})
-
-minetest.register_abm(
-	{nodenames = {"technic:solar_panel"},
-	interval = 1,
-	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		
-		local pos1={}
-		pos1.y=pos.y+1
-		pos1.x=pos.x
-		pos1.z=pos.z
-
-		local light = minetest.env:get_node_light(pos1, nil)
-		local meta = minetest.env:get_meta(pos)
-		if light == nil then light = 0 end
-		if light >= 12 then
-			meta:set_string("infotext", "Solar Panel is active ")
-			meta:set_float("active",1)
-		else
-			meta:set_string("infotext", "Solar Panel is inactive");
-			meta:set_float("active",0)
-		end
-	end,
-}) 
