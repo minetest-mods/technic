@@ -74,17 +74,17 @@ minetest.register_abm({
 	local load_step=0
 
 	pos.x=pos.x+1
-	local check=check_node_around (pos)
+	local check=check_node_around_mill (pos)
 	if check==1 then water_nodes=water_nodes+1 end
 	pos.x=pos.x-2
-	check=check_node_around (pos)
+	check=check_node_around_mill (pos)
 	if check==1 then water_nodes=water_nodes+1 end
 	pos.x=pos.x+1
 	pos.z=pos.z+1
-	check=check_node_around (pos)
+	check=check_node_around_mill (pos)
 	if check==1 then water_nodes=water_nodes+1 end
 	pos.z=pos.z-2
-	check=check_node_around (pos)
+	check=check_node_around_mill (pos)
 	if check==1 then water_nodes=water_nodes+1 end
 	pos.z=pos.z+1
 	
@@ -121,7 +121,7 @@ minetest.register_abm({
 end
 }) 
 
-function check_node_around (pos)
+function check_node_around_mill (pos)
 local node=minetest.env:get_node(pos)
 if node.name=="default:water_flowing"  then return 1 end
 return 0
