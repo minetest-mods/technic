@@ -31,7 +31,6 @@ dofile(minetest.get_modpath("technic").."/grinder.lua")
 dofile(minetest.get_modpath("technic").."/mining_laser_mk1.lua")
 --dofile(minetest.get_modpath("technic").."/project_table.lua")
 --dofile(minetest.get_modpath("technic").."/injector.lua")
-dofile(minetest.get_modpath("technic").."/generator.lua")
 dofile(minetest.get_modpath("technic").."/solar_panel.lua")
 
 
