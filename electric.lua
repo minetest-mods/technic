@@ -513,6 +513,8 @@ if minetest.env:get_node(pos1).name == "technic:generator" then 	new_node_added=
 if minetest.env:get_node(pos1).name == "technic:generator_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:geothermal" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:geothermal_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:water_mill" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:water_mill_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:tool_workshop" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
