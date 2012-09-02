@@ -510,6 +510,7 @@ meta = minetest.env:get_meta(pos1)
 if meta:get_float("cablelike")==1 then new_node_added=add_new_cable_node(LV_nodes,pos1) end
 if minetest.env:get_node(pos1).name == "technic:solar_panel" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:generator" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:generator_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:tool_workshop" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
