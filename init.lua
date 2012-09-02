@@ -33,6 +33,7 @@ dofile(minetest.get_modpath("technic").."/mining_laser_mk1.lua")
 --dofile(minetest.get_modpath("technic").."/injector.lua")
 dofile(minetest.get_modpath("technic").."/generator.lua")
 dofile(minetest.get_modpath("technic").."/solar_panel.lua")
+dofile(minetest.get_modpath("technic").."/geothermal.lua")
 
 
 function has_locked_chest_privilege(meta, player)
