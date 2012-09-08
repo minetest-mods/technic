@@ -59,7 +59,9 @@ minetest.register_abm(
 			meta:set_float("active",1)
 			local internal_EU_buffer=meta:get_float("internal_EU_buffer")
 			local internal_EU_buffer_size=meta:get_float("internal_EU_buffer_size")
-			local charge_to_give=80
+			local charge_to_give=40+(pos1.y/250*40) -- make solar energy depending on height
+			if charge_to_give<0 then charge_to_give=0 end
+			if charge_to_give>160 then charge_to_give=160 end
 			if internal_EU_buffer+charge_to_give>internal_EU_buffer_size then
 			charge_to_give=internal_EU_buffer_size-internal_EU_buffer
 			end
