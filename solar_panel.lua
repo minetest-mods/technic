@@ -33,9 +33,9 @@ minetest.register_node("technic:solar_panel", {
 minetest.register_craft({
 	output = 'technic:solar_panel 1',
 	recipe = {
-		{'default:sand', 'default:sand','default:sand'},
-		{'default:sand', 'moreores:copper_ingot','default:sand'},
-		{'default:sand', 'default:sand','default:sand'},
+		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer','technic:doped_silicon_wafer'},
+		{'technic:doped_silicon_wafer', 'moreores:copper_ingot','technic:doped_silicon_wafer'},
+		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer','technic:doped_silicon_wafer'},
 
 	}
 })
