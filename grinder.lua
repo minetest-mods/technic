@@ -71,6 +71,40 @@ minetest.register_craft({
     recipe = "technic:mithril_dust",
 }) 
 
+minetest.register_craftitem( "technic:chromium_dust", {
+	description = "Chromium Dust",
+	inventory_image = "technic_chromium_dust.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+	})
+minetest.register_craft({
+    type = "cooking",
+    output = "technic:chromium_ingot",
+    recipe = "technic:chromium_dust",
+}) 
+
+minetest.register_craftitem( "technic:bronze_dust", {
+	description = "Bronze Dust",
+	inventory_image = "technic_bronze_dust.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+	})
+minetest.register_craft({
+    type = "cooking",
+    output = "moreores:bronze_ingot",
+    recipe = "technic:bronze_dust",
+}) 
+
+minetest.register_craftitem( "technic:stainless_steel_dust", {
+	description = "Stainless Steel Dust",
+	inventory_image = "technic_stainless_steel_dust.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+	})
+
+minetest.register_craft({
+    type = "cooking",
+    output = "technic:stainless_steel_ingot",
+    recipe = "technic:stainless_steel_dust",
+}) 
+
 minetest.register_alias("grinder", "technic:grinder")
 minetest.register_craft({
 	output = 'technic:grinder',

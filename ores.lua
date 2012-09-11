@@ -84,6 +84,12 @@ minetest.register_craftitem( "technic:chromium_ingot", {
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
+minetest.register_craftitem( "technic:stainless_steel_ingot", {
+	description = "Stainless Steel Ingot",
+	inventory_image = "technic_stainless_steel_ingot.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
 minetest.register_craft({
 				type = 'cooking',
 				output = "technic:chromium_ingot",
