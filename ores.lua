@@ -106,5 +106,5 @@ end
 minetest.register_on_generated(function(minp, maxp, seed)
 generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -31000,  -450)
 generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -300,  -150)
-generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+20,   1/13/13/13,    1, -600,  -100)
+generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+20,   1/13/13/13,    1, -31000,  -100)
 end)
