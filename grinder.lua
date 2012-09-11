@@ -1,3 +1,27 @@
+grinder_recipes ={}
+
+registered_grinder_recipes_count=1
+
+function register_grinder_recipe (string1,string2)
+grinder_recipes[registered_grinder_recipes_count]={}
+grinder_recipes[registered_grinder_recipes_count].src_name=string1
+grinder_recipes[registered_grinder_recipes_count].dst_name=string2
+registered_grinder_recipes_count=registered_grinder_recipes_count+1
+end
+
+register_grinder_recipe("default:stone","default:sand")
+register_grinder_recipe("default:cobble","default:gravel")
+register_grinder_recipe("default:gravel","default:dirt")
+register_grinder_recipe("default:desert_stone","default:desert_sand")
+register_grinder_recipe("default:iron_lump","technic:iron_dust 2") 
+register_grinder_recipe("default:coal_lump","technic:coal_dust 2") 
+register_grinder_recipe("moreores:copper_lump","technic:copper_dust 2")
+register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2") 
+register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
+register_grinder_recipe("moreores:gold_lump","technic:gold_dust 2") 
+register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2") 
+
+
 minetest.register_craftitem( "technic:coal_dust", {
 	description = "Coal Dust",
 	inventory_image = "technic_coal_dust.png",
@@ -253,18 +277,11 @@ function get_grinded_item (items)
 new_item =nil
 src_item=items:to_table()
 item_name=src_item["name"]
-		
-if item_name=="default:stone" then new_item=ItemStack("default:sand") return new_item end
-if item_name=="default:cobble" then new_item=ItemStack("default:gravel") return new_item end
-if item_name=="default:gravel" then new_item=ItemStack("default:dirt") return new_item end
-if item_name=="default:desert_stone" then new_item=ItemStack("default:desert_sand") return new_item end
-if item_name=="default:iron_lump" then new_item=ItemStack("technic:iron_dust 2") return new_item end
-if item_name=="default:coal_lump" then new_item=ItemStack("technic:coal_dust 2") return new_item end
-if item_name=="moreores:copper_lump" then new_item=ItemStack("technic:copper_dust 2") return new_item end
-if item_name=="moreores:tin_lump" then new_item=ItemStack("technic:tin_dust 2") return new_item end
-if item_name=="moreores:silver_lump" then new_item=ItemStack("technic:silver_dust 2") return new_item end
-if item_name=="moreores:gold_lump" then new_item=ItemStack("technic:gold_dust 2") return new_item end
-if item_name=="moreores:mithril_lump" then new_item=ItemStack("technic:mithril_dust 2") return new_item end
 
+local counter=registered_grinder_recipes_count-1
+for i=1, counter,1 do
+if	grinder_recipes[i].src_name==item_name then return ItemStack(grinder_recipes[i].dst_name) end
+end
 return nil
+		
 end
