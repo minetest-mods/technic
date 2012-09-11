@@ -338,6 +338,27 @@ minetest.register_abm({
 		end
 		end
 		meta:set_float("battery_charge",charge)
+		
+		if inv:is_empty("src")==false  then 
+		srcstack = inv:get_stack("src", 1)
+		src_item=srcstack:to_table()
+		if src_item["name"]== "technic:mining_drill" then
+		local load1=tonumber((src_item["wear"])) 
+		load1=get_RE_item_load(load1,60000)
+		load_step=1000
+		if load1<60000 and charge>0 then 
+		 if charge-load_step<0 then load_step=charge end
+		 if load1+load_step>60000 then load_step=60000-load1 end
+		load1=load1+load_step
+		charge=charge-load_step
+		load1=set_RE_item_load(load1,60000)
+		src_item["wear"]=tostring(load1)
+		inv:set_stack("src", 1, src_item)
+		end		
+		end
+		end
+		meta:set_float("battery_charge",charge)
+
 
 
 		if inv:is_empty("dst") == false then 

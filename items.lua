@@ -11,7 +11,7 @@ minetest.register_craftitem( "technic:doped_silicon_wafer", {
 })
 
 minetest.register_craft({
-	output = 'pipeworks:tube_000000 8',
+	output = 'pipeworks:tube_000000 9',
 	recipe = {
 		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
 		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
