@@ -37,41 +37,6 @@ minetest.register_node( "technic:mineral_chromium", {
 	drop = 'craft "technic:chromium_lump" 1',
 }) 
 
-minetest.register_node( "technic:diamond_block", {
-	description = "Diamond Block",
-	tiles = { "technic_diamond_block.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-	drop = 'craft "technic:diamond_block" 1',
-}) 
-
-minetest.register_node( "technic:diamond_block_red", {
-	description = "Red Diamond Block",
-	tiles = { "technic_diamond_block_red.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-	drop = 'craft "technic:diamond_block_red" 1',
-}) 
-minetest.register_node( "technic:diamond_block_green", {
-	description = "Green Diamond Block",
-	tiles = { "technic_diamond_block_green.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-	drop = 'craft "technic:diamond_block_green" 1',
-}) 
-minetest.register_node( "technic:diamond_block_blue", {
-	description = "Red Diamond Block",
-	tiles = { "technic_diamond_block_blue.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-	drop = 'craft "technic:diamond_block_blue" 1',
-}) 
-
-
 minetest.register_craftitem( "technic:chromium_lump", {
 	description = "Chromium Lump",
 	inventory_image = "technic_chromium_lump.png",
