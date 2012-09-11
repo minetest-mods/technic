@@ -1,3 +1,18 @@
+power_tools ={}
+
+registered_power_tools_count=1
+
+function register_power_tool (string1,max_charge)
+power_tools[registered_power_tools_count]={}
+power_tools[registered_power_tools_count].tool_name=string1
+power_tools[registered_power_tools_count].max_charge=max_charge
+registered_power_tools_count=registered_power_tools_count+1
+end
+
+register_power_tool ("technic:mining_drill",60000)
+register_power_tool ("technic:laser_mk1",40000)
+register_power_tool ("technic:battery",10000)
+
 minetest.register_alias("battery", "technic:battery")
 minetest.register_alias("battery_box", "technic:battery_box")
 minetest.register_alias("electric_furnace", "technic:electric_furnace")
@@ -30,12 +45,6 @@ minetest.register_craft({
 	}
 })
 
-
---minetest.register_craftitem("technic:battery", {
---	description = "Recharcheable battery",
---	inventory_image = "technic_battery.png",
---	stack_max = 1,
---}) 
 
 minetest.register_tool("technic:battery",
 {description = "RE Battery",
@@ -295,72 +304,36 @@ minetest.register_abm({
 	local meta = minetest.env:get_meta(pos)
 	charge= meta:get_float("battery_charge")
 	max_charge= 60000
-		
-		local inv = meta:get_inventory()
-		if inv:is_empty("src")==false  then 
+
+	local inv = meta:get_inventory()
+	if inv:is_empty("src")==false  then 
 		srcstack = inv:get_stack("src", 1)
 		src_item=srcstack:to_table()
-		if src_item["name"]== "technic:battery" then
+	local item_max_charge = nil
+	local counter=registered_power_tools_count-1
+	for i=1, counter,1 do
+		if power_tools[i].tool_name==src_item["name"] then
+		item_max_charge=power_tools[i].max_charge	
+		end
+		end
+	if item_max_charge then
 		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_item_load(load1,10000)
+		load1=get_RE_item_load(load1,item_max_charge)
 		load_step=1000
-		if load1<10000 and charge>0 then 
+		if load1<item_max_charge and charge>0 then 
 		 if charge-load_step<0 then load_step=charge end
-		 if load1+load_step>10000 then load_step=10000-load1 end
+		 if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
 		load1=load1+load_step
 		charge=charge-load_step
 	
-		load1=set_RE_item_load(load1,10000)
+		load1=set_RE_item_load(load1,item_max_charge)
 		src_item["wear"]=tostring(load1)
 		inv:set_stack("src", 1, src_item)
-		end		
-		end
 		end
 		meta:set_float("battery_charge",charge)
-		
+	end	
+	end
 	
-		if inv:is_empty("src")==false  then 
-		srcstack = inv:get_stack("src", 1)
-		src_item=srcstack:to_table()
-		if src_item["name"]== "technic:laser_mk1" then
-		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_item_load(load1,40000)
-		load_step=1000
-		if load1<40000 and charge>0 then 
-		 if charge-load_step<0 then load_step=charge end
-		 if load1+load_step>40000 then load_step=40000-load1 end
-		load1=load1+load_step
-		charge=charge-load_step
-		load1=set_RE_item_load(load1,40000)
-		src_item["wear"]=tostring(load1)
-		inv:set_stack("src", 1, src_item)
-		end		
-		end
-		end
-		meta:set_float("battery_charge",charge)
-		
-		if inv:is_empty("src")==false  then 
-		srcstack = inv:get_stack("src", 1)
-		src_item=srcstack:to_table()
-		if src_item["name"]== "technic:mining_drill" then
-		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_item_load(load1,60000)
-		load_step=1000
-		if load1<60000 and charge>0 then 
-		 if charge-load_step<0 then load_step=charge end
-		 if load1+load_step>60000 then load_step=60000-load1 end
-		load1=load1+load_step
-		charge=charge-load_step
-		load1=set_RE_item_load(load1,60000)
-		src_item["wear"]=tostring(load1)
-		inv:set_stack("src", 1, src_item)
-		end		
-		end
-		end
-		meta:set_float("battery_charge",charge)
-
-
-
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
