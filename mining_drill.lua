@@ -9,11 +9,11 @@ minetest.register_tool("technic:mining_drill", {
 		item=itemstack:to_table()
 		local charge=tonumber((item["wear"])) 
 		if charge ==0 then charge =65535 end
-		charge=get_RE_item_load(charge,laser_mk1_max_charge)
+		charge=get_RE_item_load(charge,mining_drill_max_charge)
 		if charge-200>0 then
 		 drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user)
 		 charge =charge-200;	
-		charge=set_RE_item_load(charge,laser_mk1_max_charge)
+		charge=set_RE_item_load(charge,mining_drill_max_charge)
 		item["wear"]=tostring(charge)
 		itemstack:replace(item)
 		end
