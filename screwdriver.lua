@@ -8,8 +8,7 @@
 		    local node=minetest.env:get_node(pos)
 		    local node_name=node.name
 		    if node.param2==nil  then return end
-                    print (node_name)
-		    -- Get ready to set the param2
+         	    -- Get ready to set the param2
                     local n = node.param2
                     n = n+1
                     if n == 4 then n = 0 end
@@ -17,8 +16,7 @@
                     local meta = minetest.env:get_meta(pos)
                     local meta0 = meta:to_table()
                     node.param2 = n
-                    print(node_name)
-		    minetest.env:set_node(pos,node)
+           	    minetest.env:set_node(pos,node)
                     meta = minetest.env:get_meta(pos)
                     meta:from_table(meta0)
 		    local item=itemstack:to_table()
