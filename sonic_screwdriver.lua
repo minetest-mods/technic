@@ -15,7 +15,7 @@ sonic_screwdriver_max_charge=15000
 			if charge ==0 then charge =65535 end
 			charge=get_RE_item_load(charge,sonic_screwdriver_max_charge)
 			if charge-100>0 then
-			  	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 1.0, max_hear_distance = 10,})
+			  	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.5, max_hear_distance = 10,})
 			   local n = node.param2
 			   n = n+1
 	                   if n == 4 then n = 0 end
@@ -40,8 +40,8 @@ sonic_screwdriver_max_charge=15000
     minetest.register_craft({
             output = "technic:sonic_screwdriver",
             recipe = {
-		    {"technic:green_energy_crystal"},
-                    {"technic:stainless_steel_ingot"},
+		    {"technic:diamond"},
+                    {"technic:battery"},
                     {"technic:stainless_steel_ingot"}
             }
     })
