@@ -42,6 +42,6 @@ sonic_screwdriver_max_charge=15000
             recipe = {
 		    {"technic:green_energy_crystal"},
                     {"technic:stainless_steel_ingot"},
-                    {"default:stick"}
+                    {"technic:stainless_steel_ingot"}
             }
     })
