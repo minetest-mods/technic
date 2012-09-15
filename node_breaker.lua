@@ -46,7 +46,7 @@ function break_node (pos,n_param)
 	pos2.z=pos.z
 
 	--param2 3=x+ 1=x- 2=z+ 0=z-
-	if n_param==3 then print ("sru") pos2.x=pos2.x+1 pos1.x=pos1.x-1 end
+	if n_param==3 then pos2.x=pos2.x+1 pos1.x=pos1.x-1 end
 	if n_param==2 then pos2.z=pos2.z+1 pos1.z=pos1.z-1 end
 	if n_param==1 then pos2.x=pos2.x-1 pos1.x=pos1.x+1 end
 	if n_param==0 then pos2.z=pos2.z-1 pos1.x=pos1.z+1 end
