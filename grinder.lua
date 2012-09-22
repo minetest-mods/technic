@@ -20,6 +20,7 @@ register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2")
 register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
 register_grinder_recipe("moreores:gold_lump","technic:gold_dust 2") 
 register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2") 
+register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2") 
 
 
 minetest.register_craftitem( "technic:coal_dust", {
