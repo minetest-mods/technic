@@ -3,12 +3,12 @@
             inventory_image = "technic_tree_tap.png",
             on_use = function(itemstack,user,pointed_thing)
                     if pointed_thing.type~="node" then return end
-                    if user:get_inventory():room_for_item("main",ItemStack("technic:raw_rubber")) then
+                    if user:get_inventory():room_for_item("main",ItemStack("technic:caouthouc")) then
                             local pos=minetest.get_pointed_thing_position(pointed_thing,above)
                             local node=minetest.env:get_node(pos)
                             local node_name=node.name
                             if node_name == "farming:rubber_tree_full" then
-                                    user:get_inventory():add_item("main",ItemStack("technic:raw_rubber"))
+                                    user:get_inventory():add_item("main",ItemStack("technic:caouthouc"))
                                     minetest.env:set_node(pos,node)
                                     local item=itemstack:to_table()
                                     local item_wear=tonumber((item["wear"]))
@@ -32,15 +32,15 @@
             },
     })
      
-    minetest.register_craftitem("technic:raw_rubber", {
-            description = "Raw Rubber",
-            inventory_image = "technic_raw_rubber.png",
+    minetest.register_craftitem("technic:caouthouc", {
+            description = "Caouthouc",
+            inventory_image = "technic_caouthouc.png",
     })
      
     minetest.register_craft({
             type = "cooking",
             output = "technic:rubber",
-            recipe = "technic:raw_rubber",
+            recipe = "technic:caouthouc",
     })
      
     minetest.register_craftitem("technic:rubber", {
