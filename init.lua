@@ -42,6 +42,7 @@ dofile(minetest.get_modpath("technic").."/mining_drill.lua")
 dofile(minetest.get_modpath("technic").."/screwdriver.lua")
 dofile(minetest.get_modpath("technic").."/sonic_screwdriver.lua")
 dofile(minetest.get_modpath("technic").."/node_breaker.lua")
+dofile(minetest.get_modpath("technic").."/deployer.lua")
 dofile(minetest.get_modpath("technic").."/tree_tap.lua")
 
 

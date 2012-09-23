@@ -1,6 +1,16 @@
+minetest.register_craft({
+	output = 'technic:nodebreaker_off 1',
+	recipe = {
+		{'default:wood', 'default:pick_mese','default:wood'},
+		{'default:stone', 'mesecons:piston','default:stone'},
+		{'default:stone', 'mesecons:mesecon','default:stone'},
+
+	}
+})
+
 minetest.register_node("technic:nodebreaker_off", {
 	description = "Node Breaker",
-	tile_images = {"technic_nodebreaker_top.png","technic_nodebreaker_bottom.png","technic_nodebreaker_side2.png","technic_nodebreaker_side1.png",
+	tile_images = {"technic_nodebreaker_top_off.png","technic_nodebreaker_bottom_off.png","technic_nodebreaker_side2_off.png","technic_nodebreaker_side1_off.png",
 			"technic_nodebreaker_back.png","technic_nodebreaker_front_off.png"},
 	is_ground_content = true,
 	paramtype2 = "facedir",
@@ -14,12 +24,12 @@ minetest.register_node("technic:nodebreaker_off", {
 
 minetest.register_node("technic:nodebreaker_on", {
 	description = "Node Breaker",
-	tile_images = {"technic_nodebreaker_top.png","technic_nodebreaker_bottom.png","technic_nodebreaker_side2.png","technic_nodebreaker_side1.png",
+	tile_images = {"technic_nodebreaker_top_on.png","technic_nodebreaker_bottom_on.png","technic_nodebreaker_side2_on.png","technic_nodebreaker_side1_on.png",
 			"technic_nodebreaker_back.png","technic_nodebreaker_front_on.png"},
 	is_ground_content = true,
 	paramtype2 = "facedir",
 	tubelike=1,
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon_receptor_off = 1, mesecon_effector_off = 1, mesecon = 2,tubedevice=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon_receptor_off = 1, mesecon_effector_off = 1, mesecon = 2,tubedevice=1,not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
