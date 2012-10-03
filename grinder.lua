@@ -21,6 +21,7 @@ register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
 register_grinder_recipe("moreores:gold_lump","technic:gold_dust 2") 
 register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2") 
 register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2") 
+register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2") 
 
 
 minetest.register_craftitem( "technic:coal_dust", {
@@ -121,13 +122,23 @@ minetest.register_craft({
 minetest.register_craftitem( "technic:stainless_steel_dust", {
 	description = "Stainless Steel Dust",
 	inventory_image = "technic_stainless_steel_dust.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 	})
 
 minetest.register_craft({
     type = "cooking",
     output = "technic:stainless_steel_ingot",
     recipe = "technic:stainless_steel_dust",
+}) 
+
+minetest.register_craftitem( "technic:zinc_dust", {
+	description = "Zinc Dust",
+	inventory_image = "technic_zinc_dust.png",
+	})
+
+minetest.register_craft({
+    type = "cooking",
+    output = "technic:zinc_ingot",
+    recipe = "technic:zinc_dust",
 }) 
 
 minetest.register_alias("grinder", "technic:grinder")
