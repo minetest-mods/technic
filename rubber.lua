@@ -12,7 +12,7 @@ minetest.register_node("technic:rubber_sapling", {
 
 minetest.register_node("technic:rubber_tree_full", {
 	description = "Rubber Tree",
-	tiles = {"default_tree_top.png", "default_tree_top.png", "farming_rubber_tree_full.png"},
+	tiles = {"default_tree_top.png", "default_tree_top.png", "technic_rubber_tree_full.png"},
 	groups = {tree=1,snappy=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
 	drop = "default:tree",
 	sounds = default.node_sound_wood_defaults(),
@@ -30,7 +30,7 @@ minetest.register_node("technic:rubber_tree_full", {
 
 
 minetest.register_node("technic:rubber_tree_empty", {
-	tiles = {"default_tree_top.png", "default_tree_top.png", "farming_rubber_tree_empty.png"},
+	tiles = {"default_tree_top.png", "default_tree_top.png", "technic_rubber_tree_empty.png"},
 	groups = {tree=1,snappy=1,choppy=2,oddly_breakable_by_hand=1,flammable=2, not_in_creative_inventory=1},
 	drop = "default:tree",
 	sounds = default.node_sound_wood_defaults(),
