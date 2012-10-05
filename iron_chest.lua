@@ -32,6 +32,7 @@ minetest.register_node("technic:iron_chest", {
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
+	
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
