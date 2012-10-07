@@ -94,7 +94,7 @@ minetest.register_craft({
 	burntime = 10
 })
 
-function technic:generate_tree(pos, trunk, leaves, underground, replacements)
+function generate_tree(pos, trunk, leaves, underground, replacements)
 	pos.y = pos.y-1
 	local nodename = minetest.env:get_node(pos).name
 	local ret = true
