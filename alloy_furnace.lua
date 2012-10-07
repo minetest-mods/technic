@@ -25,7 +25,7 @@ register_alloy_recipe ("technic:copper_dust",3, "technic:tin_dust",1, "technic:b
 register_alloy_recipe ("moreores:copper_ingot",3, "moreores:tin_ingot",1, "moreores:bronze_ingot",4)
 register_alloy_recipe ("technic:iron_dust",3, "technic:chromium_dust",1, "technic:stainless_steel_dust",4)
 register_alloy_recipe ("default:sand",2, "technic:coal_dust",2, "technic:silicon_wafer",1)
-register_alloy_recipe ("technic:silicon_wafer",1, "technic:mithril_dust",3, "technic:doped_silicon_wafer",1)
+register_alloy_recipe ("technic:silicon_wafer",1, "technic:mithril_dust",2, "technic:doped_silicon_wafer",1)
 
 minetest.register_alias("alloy_furnace", "technic:alloy_furnace")
 

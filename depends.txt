@@ -1,6 +1,5 @@
 default
 moreores
-stairs
 flowers
 dye
 pipeworks
