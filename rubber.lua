@@ -71,7 +71,7 @@ minetest.register_abm({
 	interval = 60,
 	chance = 20,
 	action = function(pos, node)
-		technic:generate_tree(pos, "technic:rubber_tree_full", "technic:rubber_leaves", {"default:dirt", "default:dirt_with_grass"})
+		generate_tree(pos, "technic:rubber_tree_full", "technic:rubber_leaves", {"default:dirt", "default:dirt_with_grass"})
 	end
 })
 
@@ -82,7 +82,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
 	local pos = minetest.env:find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		technic:generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "technic:rubber_tree_full", "technic:rubber_leaves", {"default:dirt", "default:dirt_with_grass"})
+		generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "technic:rubber_tree_full", "technic:rubber_leaves", {"default:dirt", "default:dirt_with_grass"})
 	end
 end)
 
