@@ -24,7 +24,7 @@ dofile(minetest.get_modpath("technic").."/electric_furnace.lua")
 dofile(minetest.get_modpath("technic").."/battery_box.lua")
 dofile(minetest.get_modpath("technic").."/wires.lua")
 dofile(minetest.get_modpath("technic").."/wires_mv.lua")
-dofile(minetest.get_modpath("technic").."/dyes.lua")
+--dofile(minetest.get_modpath("technic").."/dyes.lua")
 dofile(minetest.get_modpath("technic").."/ores.lua")
 
 dofile(minetest.get_modpath("technic").."/tool_workshop.lua")
