@@ -7,7 +7,7 @@
                             local pos=minetest.get_pointed_thing_position(pointed_thing,above)
                             local node=minetest.env:get_node(pos)
                             local node_name=node.name
-                            if node_name == "farming:rubber_tree_full" then
+                            if node_name == "farming_plus:rubber_tree_full" then
                                     user:get_inventory():add_item("main",ItemStack("technic:caouthouc"))
                                     minetest.env:set_node(pos,node)
                                     local item=itemstack:to_table()
