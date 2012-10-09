@@ -19,6 +19,7 @@ minetest.register_node("technic:lv_cable", {
 	description = "Low Voltage Copper Cable",
 	tiles = {"technic_lv_cable.png"},
 	inventory_image = "technic_lv_cable_wield.png",
+	wield_image = "technic_lv_cable_wield.png",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:lv_cable",

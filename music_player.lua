@@ -89,7 +89,7 @@ minetest.register_abm({
 	
 	if charge>play_cost then 
 		if meta:get_float("music_playing")==1 then charge=charge-play_cost end
-		meta:set_float("internal_EU_buffer",charge)
+			meta:set_float("internal_EU_buffer",charge)
 		meta:set_float("music_player_on",1)
 	else 
 		meta:set_float("music_playing",0)

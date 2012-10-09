@@ -55,9 +55,9 @@ minetest.register_node( "technic:diamond_block", {
 minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:red'},
+		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_red'},
 		{'technic:battery', 'technic:diamond_block', 'technic:battery'},
-		{'dye:red', 'technic:battery', 'moreores:gold_ingot'},
+		{'group:dye,basecolor_red', 'technic:battery', 'moreores:gold_ingot'},
 	}
 })
 
@@ -70,9 +70,9 @@ minetest.register_craftitem( "technic:red_energy_crystal", {
 minetest.register_craft({
 	output = 'technic:green_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:green'},
+		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_green'},
 		{'technic:battery', 'technic:red_energy_crystal', 'technic:battery'},
-		{'dye:green', 'technic:battery', 'moreores:gold_ingot'},
+		{'group:dye,basecolor_green', 'technic:battery', 'moreores:gold_ingot'},
 	}
 })
 
@@ -85,9 +85,9 @@ minetest.register_craftitem( "technic:green_energy_crystal", {
 minetest.register_craft({
 	output = 'technic:blue_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:blue'},
+		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_blue'},
 		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
-		{'dye:blue', 'technic:battery', 'moreores:gold_ingot'},
+		{'group:dye,basecolor_green', 'technic:battery', 'moreores:gold_ingot'},
 	}
 })
 

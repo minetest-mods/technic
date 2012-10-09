@@ -55,10 +55,6 @@ minetest.register_craft({
 				recipe = "technic:chromium_lump"
 			})
 
-minetest.register_craftitem( "technic:stainless_steel_ingot", {
-	description = "Stainless Steel Ingot",
-	inventory_image = "technic_stainless_steel_ingot.png",
-})
 
 minetest.register_node( "technic:mineral_zinc", {
 	description = "Zinc Ore",
@@ -77,6 +73,16 @@ minetest.register_craftitem( "technic:zinc_lump", {
 minetest.register_craftitem( "technic:zinc_ingot", {
 	description = "Zinc Ingot",
 	inventory_image = "technic_zinc_ingot.png",
+})
+
+minetest.register_craftitem( "technic:stainless_steel_ingot", {
+	description = "Stainless Steel Ingot",
+	inventory_image = "technic_stainless_steel_ingot.png",
+})
+
+minetest.register_craftitem( "technic:brass_ingot", {
+	description = "Brass Ingot",
+	inventory_image = "technic_brass_ingot.png",
 })
 
 minetest.register_craft({

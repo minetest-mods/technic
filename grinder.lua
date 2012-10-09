@@ -119,6 +119,17 @@ minetest.register_craft({
     recipe = "technic:bronze_dust",
 }) 
 
+minetest.register_craftitem( "technic:brass_dust", {
+	description = "Brass Dust",
+	inventory_image = "technic_brass_dust.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+	})
+minetest.register_craft({
+    type = "cooking",
+    output = "technic:brass_ingot",
+    recipe = "technic:brass_dust",
+}) 
+
 minetest.register_craftitem( "technic:stainless_steel_dust", {
 	description = "Stainless Steel Dust",
 	inventory_image = "technic_stainless_steel_dust.png",
