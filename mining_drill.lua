@@ -53,6 +53,7 @@ function drill_dig_it (pos, player)
 			player:get_inventory():add_item("main", dropped_item)
 		end
 	end
+	minetest.sound_play("mining_drill", {pos = pos, gain = 1.0, max_hear_distance = 10,})
 	minetest.env:remove_node(pos)
 	end
 
