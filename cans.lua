@@ -91,7 +91,7 @@ minetest.register_tool("technic:lava_can", {
 			if load+1<9 then
 			minetest.env:add_node(pointed_thing.under, {name="air"})
 			 load=load+1;	
-			load=set_RE_item_load(load,water_can_max_load)
+			load=set_RE_item_load(load,lava_can_max_load)
 			item["wear"]=tostring(load)
 			itemstack:replace(item)
 			end
@@ -100,13 +100,13 @@ minetest.register_tool("technic:lava_can", {
 		item=itemstack:to_table()
 			load=tonumber((item["wear"])) 
 			if  load==0 then load =65535 end
-			load=get_RE_item_load(load,water_can_max_load)
+			load=get_RE_item_load(load,lava_can_max_load)
 			if load==0 then return end
 			
 		if n.name == "default:lava_flowing" then
 			minetest.env:add_node(pointed_thing.under, {name="default:lava_source"})
 			load=load-1;	
-			load=set_RE_item_load(load,water_can_max_load)
+			load=set_RE_item_load(load,lava_can_max_load)
 			item["wear"]=tostring(load)
 			itemstack:replace(item)
 			return itemstack
@@ -116,7 +116,7 @@ minetest.register_tool("technic:lava_can", {
 		if n.name == "air" then
 			minetest.env:add_node(pointed_thing.above, {name="default:lava_source"})
 			load=load-1;	
-			load=set_RE_item_load(load,water_can_max_load)
+			load=set_RE_item_load(load,lava_can_max_load)
 			item["wear"]=tostring(load)
 			itemstack:replace(item)
 			return itemstack
