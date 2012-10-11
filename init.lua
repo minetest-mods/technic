@@ -44,7 +44,7 @@ dofile(minetest.get_modpath("technic").."/sonic_screwdriver.lua")
 dofile(minetest.get_modpath("technic").."/node_breaker.lua")
 dofile(minetest.get_modpath("technic").."/deployer.lua")
 dofile(minetest.get_modpath("technic").."/tree_tap.lua")
-dofile(minetest.get_modpath("technic").."/torchlight.lua")
+dofile(minetest.get_modpath("technic").."/flashlight.lua")
 dofile(minetest.get_modpath("technic").."/water_can.lua")
 
 
