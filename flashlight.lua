@@ -29,7 +29,7 @@ end
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	table.insert(players, player_name)
-	last_wielded[player_name] = player:get_wielded_item():get_name()
+	last_wielded[player_name] = flashlight_weared(player)
 	local pos = player:getpos()
 	local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
 	local wielded_item = player:get_wielded_item():get_name()
@@ -71,7 +71,7 @@ minetest.register_globalstep(function(dtime)
 			-- Fackel ist in der Hand
 			local pos = player:getpos()
 			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-			if (last_wielded[player_name] ~= "technic:flashlight") or (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
+			if (last_wielded[player_name] ~= true) or (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
 				-- Fackel gerade in die Hand genommen oder zu neuem Node bewegt
 				local is_air  = minetest.env:get_node_or_nil(rounded_pos)
 				if is_air == nil or (is_air ~= nil and (is_air.name == "air" or is_air.name == "technic:light")) then
@@ -94,8 +94,8 @@ minetest.register_globalstep(function(dtime)
 				player_positions[player_name]["z"] = rounded_pos.z
 			end
 
-			last_wielded[player_name] = "technic:flashlight";
-		elseif last_wielded[player_name] == "technic:flashlight"  then
+			last_wielded[player_name] = true;
+		elseif last_wielded[player_name] == true  then
 			-- Fackel nicht in der Hand, aber beim letzten Durchgang war die Fackel noch in der Hand
 			local pos = player:getpos()
 			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
@@ -118,7 +118,7 @@ minetest.register_globalstep(function(dtime)
 					minetest.env:add_node(old_pos,{type="node",name="air"})
 				end
 			until minetest.env:get_node_or_nil(old_pos) ~= "technic:light"
-			last_wielded[player_name] = wielded_item
+			last_wielded[player_name] = true
 		end
 	end
 end)
