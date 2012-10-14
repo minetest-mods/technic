@@ -13,6 +13,7 @@ register_power_tool ("technic:mining_drill",60000)
 register_power_tool ("technic:laser_mk1",40000)
 register_power_tool ("technic:battery",10000)
 register_power_tool ("technic:sonic_screwdriver",15000)
+register_power_tool ("technic:flashlight",30000)
 
 minetest.register_alias("battery", "technic:battery")
 minetest.register_alias("battery_box", "technic:battery_box")

@@ -15,10 +15,11 @@ minetest.register_craftitem("technic:generator", {
 	stack_max = 99,
 }) 
 
-generatorr_formspec =
+generator_formspec =
 	"invsize[8,9;]"..
+	"image[0,0;5,5;technic_generator_menu.png]"..
 	"image[1,1;1,2;technic_power_meter_bg.png]"..
-	"label[0,0;Generator]"..
+--	"label[0,0;Generator]"..
 	"label[1,3;Power level]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"image[4,1;1,1;default_furnace_fire_bg.png]"..

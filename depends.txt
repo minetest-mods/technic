@@ -1,7 +1,5 @@
-default
 moreores
 flowers
-dye
 pipeworks
 mesecons
 farming
