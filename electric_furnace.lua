@@ -12,7 +12,6 @@ minetest.register_craft({
 
 electric_furnace_formspec =
 	"invsize[8,9;]"..
-	"image[0,0;8,5;technic_electric_furnace_menu.png]"..
 	"image[1,1;1,2;technic_power_meter_bg.png]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
