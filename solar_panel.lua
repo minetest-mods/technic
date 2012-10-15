@@ -1,5 +1,5 @@
 minetest.register_node("technic:solar_panel", {
-	tiles = {"technic_solar_panel_top.png", "technic_solar_panel_side.png", "technic_solar_panel_side.png",
+	tiles = {"technic_solar_panel_top.png", "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
 		"technic_solar_panel_side.png", "technic_solar_panel_side.png", "technic_solar_panel_side.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
@@ -54,7 +54,7 @@ minetest.register_abm(
 		local light = minetest.env:get_node_light(pos1, nil)
 		local meta = minetest.env:get_meta(pos)
 		if light == nil then light = 0 end
-		if light >= 12 then
+		if light >= 14 then
 			meta:set_string("infotext", "Solar Panel is active ")
 			meta:set_float("active",1)
 			local internal_EU_buffer=meta:get_float("internal_EU_buffer")

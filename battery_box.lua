@@ -64,11 +64,13 @@ battery_box_formspec =
 
 minetest.register_node("technic:battery_box", {
 	description = "Battery box",
-	tiles = {"technic_battery_box_top.png", "technic_battery_box_bottom.png", "technic_battery_box_side.png",
-		"technic_battery_box_side.png", "technic_battery_box_side.png", "technic_battery_box_side.png"},
+	tiles = {"technic_battery_box_top.png", "technic_battery_box_bottom.png", "technic_battery_box_side0.png",
+		"technic_battery_box_side0.png", "technic_battery_box_side0.png", "technic_battery_box_side0.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	technic_power_machine=1,
+	last_side_shown=0,
+	drop="technic:battery_box",
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("infotext", "Battery box")
@@ -79,6 +81,7 @@ minetest.register_node("technic:battery_box", {
 		inv:set_size("dst", 1)
 		battery_charge = 0
 		max_charge = 60000
+		last_side_shown=0
 		end,	
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
@@ -91,6 +94,42 @@ minetest.register_node("technic:battery_box", {
 		return true
 	end,
 })
+
+
+for i=1,8,1 do
+minetest.register_node("technic:battery_box"..i, {
+	description = "Battery box",
+	tiles = {"technic_battery_box_top.png", "technic_battery_box_bottom.png", "technic_battery_box_side"..i..".png",
+		"technic_battery_box_side"..i..".png", "technic_battery_box_side"..i..".png", "technic_battery_box_side"..i..".png"},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
+	sounds = default.node_sound_wood_defaults(),
+	technic_power_machine=1,
+	last_side_shown=0,
+	drop="technic:battery_box",
+	on_construct = function(pos)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("infotext", "Battery box")
+		meta:set_float("technic_power_machine", 1)
+		meta:set_string("formspec", battery_box_formspec)
+		local inv = meta:get_inventory()
+		inv:set_size("src", 1)
+		inv:set_size("dst", 1)
+		battery_charge = 0
+		max_charge = 60000
+		last_side_shown=0
+		end,	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos);
+		local inv = meta:get_inventory()
+		if not inv:is_empty("dst") then
+			return false
+		elseif not inv:is_empty("src") then
+			return false
+		end
+		return true
+	end,
+})
+end
 
 
 LV_nodes_visited = {}
@@ -110,14 +149,23 @@ return math.floor(temp)
 end
 
 minetest.register_abm({
-	nodenames = {"technic:battery_box"},
+	nodenames = {"technic:battery_box","technic:battery_box1","technic:battery_box2","technic:battery_box3","technic:battery_box4",
+		     "technic:battery_box5","technic:battery_box6","technic:battery_box7","technic:battery_box8"
+			},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 	local meta = minetest.env:get_meta(pos)
 	charge= meta:get_float("battery_charge")
 	max_charge= 60000
-
+	local i=math.ceil((charge/max_charge)*8)
+	if i>8 then i=8 end
+	j=meta:get_float("last_side_shown")
+	if i~=j then
+	if i>0 then hacky_swap_node(pos,"technic:battery_box"..i)  
+	elseif i==0 then hacky_swap_node(pos,"technic:battery_box") end 
+	meta:set_float("last_side_shown",i)
+	end
 	local inv = meta:get_inventory()
 	if inv:is_empty("src")==false  then 
 		srcstack = inv:get_stack("src", 1)
