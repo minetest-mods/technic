@@ -38,23 +38,13 @@ minetest.register_craft({
 
 function drill_dig_it (pos, player)		
 	local node=minetest.env:get_node(pos)
-	if node.name == "air" then return end
+	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
 	if node.name == "default:lava_flowing" then return end
 	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
 	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
-	if node.name == "ignore" then minetest.env:remove_node(pos) return end
 
-	if player then 
-	local drops = minetest.get_node_drops(node.name, "default:pick_mese")
-	if player:get_inventory() then
-		local _, dropped_item
-		for _, dropped_item in ipairs(drops) do
-			player:get_inventory():add_item("main", dropped_item)
-		end
-	end
 	minetest.sound_play("mining_drill", {pos = pos, gain = 1.0, max_hear_distance = 10,})
-	minetest.env:remove_node(pos)
-	end
+	minetest.node_dig(pos,node,player)
 
 end

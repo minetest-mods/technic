@@ -11,8 +11,8 @@ local laser_shoot = function(itemstack, player, pointed_thing)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
-				obj:setvelocity({x=dir.x*19, y=dir.y*19, z=dir.z*19})
-				obj:setacceleration({x=dir.x*-2, y=0, z=dir.z*-2})
+				obj:setvelocity({x=dir.x*12, y=dir.y*12, z=dir.z*12})
+				obj:setacceleration({x=0, y=0, z=0})
 				obj:setyaw(player:get_look_yaw()+math.pi)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
@@ -132,22 +132,13 @@ minetest.register_entity("technic:laser_beam_entity", LASER_BEAM_ENTITY)
 minetest.register_entity("technic:laser_beam_entityV", LASER_BEAM_ENTITYV)
 
 function lazer_it (pos, node, player,count)		
-	if node.name == "air" then return end
+	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
 	if node.name == "default:lava_flowing" then return end
 	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
 	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
-	if node.name == "ignore" then minetest.env:remove_node(pos) return end
-
 	if player then 
-	local drops = minetest.get_node_drops(node.name, "default:pick_mese")
-	if player:get_inventory() then
-		local _, dropped_item
-		for _, dropped_item in ipairs(drops) do
-			player:get_inventory():add_item("main", dropped_item)
-		end
-	end
-	minetest.env:remove_node(pos)
+		minetest.node_dig(pos,node,player)
 	end
 
 end
