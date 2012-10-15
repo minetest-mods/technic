@@ -137,8 +137,13 @@ function lazer_it (pos, node, player,count)
 	if node.name == "default:lava_flowing" then return end
 	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
 	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
+	pos1={}
+	pos1.x=math.floor(pos.x)
+	pos1.y=math.floor(pos.y)
+	pos1.z=math.floor(pos.z)
+	
 	if player then 
-		minetest.node_dig(pos,node,player)
+		minetest.node_dig(pos1,node,player)
 	end
 
 end
