@@ -23,12 +23,37 @@ minetest.register_craft({
 })
 
 minetest.register_node( "technic:granite", {
-	description = "Marble",
+	description = "Granite",
 	tiles = { "technic_granite.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 }) 
+
+stairsplus.register_stair_and_slab_and_panel_and_micro("marble", "technic:marble",
+		{cracky=3},
+		{"technic_marble.png"},
+		"Marble Stairs",
+		"Marble Slab",
+		"Marble Panel",
+		"Marble Microblock",
+		"marble")
+stairsplus.register_stair_and_slab_and_panel_and_micro("marble_bricks", "technic:marble_bricks",
+		{cracky=3},
+		{"technic_marble_bricks.png"},
+		"Marble Bricks Stairs",
+		"Marble Bricks Slab",
+		"Marble Bricks Panel",
+		"Marble Bricks Microblock",
+		"marble_bricks")
+stairsplus.register_stair_and_slab_and_panel_and_micro("granite", "technic:granite",
+		{cracky=3},
+		{"technic_granite.png"},
+		"Granite Stairs",
+		"Granite Slab",
+		"Granite Panel",
+		"Granite Microblock",
+		"granite")
 
 minetest.register_node( "technic:mineral_diamond", {
 	description = "Diamond Ore",
