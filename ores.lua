@@ -6,6 +6,29 @@ minetest.register_node( "technic:marble", {
 	sounds = default.node_sound_stone_defaults(),
 }) 
 
+minetest.register_node( "technic:marble_bricks", {
+	description = "Marble Bricks",
+	tiles = { "technic_marble_bricks.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+}) 
+
+minetest.register_craft({
+	output = 'technic:marble_bricks 4',
+	recipe = {
+		{'technic:marble','technic:marble'},
+		{'technic:marble','technic:marble'}
+	}
+})
+
+minetest.register_node( "technic:granite", {
+	description = "Marble",
+	tiles = { "technic_granite.png" },
+	is_ground_content = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_stone_defaults(),
+}) 
 
 minetest.register_node( "technic:mineral_diamond", {
 	description = "Diamond Ore",
@@ -149,4 +172,5 @@ generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+22,   
 generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+23,   1/10/10/10,    2, -31000,  -100)
 generate_ore("technic:mineral_zinc", "default:stone", minp, maxp, seed+24,   1/9/9/9,    5, -31000,  2)
 generate_ore("technic:marble", "default:stone", minp, maxp, seed+25,	1/128, 20, -100, -32)
+generate_ore("technic:granite", "default:stone", minp, maxp, seed+25,	1/128, 15, -190, -90)
 end)
