@@ -148,5 +148,5 @@ generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+21,   
 generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+22,   1/11/11/11,    1, -300,  -100)
 generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+23,   1/10/10/10,    2, -31000,  -100)
 generate_ore("technic:mineral_zinc", "default:stone", minp, maxp, seed+24,   1/9/9/9,    5, -31000,  2)
-generate_ore("technic:marble", "default:stone", minp, maxp, seed+25,	1/64, 20, -100, -32)
+generate_ore("technic:marble", "default:stone", minp, maxp, seed+25,	1/128, 30, -100, -32)
 end)
