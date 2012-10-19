@@ -7,7 +7,7 @@
                             local pos=minetest.get_pointed_thing_position(pointed_thing,above)
                             local node=minetest.env:get_node(pos)
                             local node_name=node.name
-                            if node_name == "farming:rubber_tree_full" then
+                            if node_name == "farming_plus:rubber_tree_full" then
                                     user:get_inventory():add_item("main",ItemStack("technic:caouthouc"))
                                     minetest.env:set_node(pos,node)
                                     local item=itemstack:to_table()
@@ -32,15 +32,15 @@
             },
     })
      
-    minetest.register_craftitem("technic:caouthouc", {
-            description = "Caouthouc",
-            inventory_image = "technic_caouthouc.png",
+    minetest.register_craftitem("technic:raw_latex", {
+            description = "Raw Latex",
+            inventory_image = "technic_raw_latex.png",
     })
      
     minetest.register_craft({
             type = "cooking",
             output = "technic:rubber",
-            recipe = "technic:caouthouc",
+            recipe = "technic:raw_latex",
     })
      
     minetest.register_craftitem("technic:rubber", {
