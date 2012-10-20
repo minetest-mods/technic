@@ -3,12 +3,12 @@
             inventory_image = "technic_tree_tap.png",
             on_use = function(itemstack,user,pointed_thing)
                     if pointed_thing.type~="node" then return end
-                    if user:get_inventory():room_for_item("main",ItemStack("technic:caouthouc")) then
+                    if user:get_inventory():room_for_item("main",ItemStack("technic:raw_latex")) then
                             local pos=minetest.get_pointed_thing_position(pointed_thing,above)
                             local node=minetest.env:get_node(pos)
                             local node_name=node.name
                             if node_name == "farming_plus:rubber_tree_full" then
-                                    user:get_inventory():add_item("main",ItemStack("technic:caouthouc"))
+                                    user:get_inventory():add_item("main",ItemStack("technic:raw_latex"))
                                     minetest.env:set_node(pos,node)
                                     local item=itemstack:to_table()
                                     local item_wear=tonumber((item["wear"]))
