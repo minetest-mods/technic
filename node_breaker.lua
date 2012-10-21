@@ -1,7 +1,7 @@
 minetest.register_craft({
 	output = 'technic:nodebreaker_off 1',
 	recipe = {
-		{'default:wood', 'default:pick_mese','default:wood'},
+		{'default:wood', 'default:mese_pick','default:wood'},
 		{'default:stone', 'mesecons:piston','default:stone'},
 		{'default:stone', 'mesecons:mesecon','default:stone'},
 

@@ -289,6 +289,7 @@ minetest.register_abm({
 		 grind_time=4
 		 meta:set_float("grind_time",grind_time)
 		 meta:set_float("src_time", 0)
+		 return 	
 		end
 		end
 		
