@@ -10,6 +10,7 @@ registered_power_tools_count=registered_power_tools_count+1
 end
 
 register_power_tool ("technic:mining_drill",60000)
+register_power_tool ("technic:chainsaw",40000)
 register_power_tool ("technic:laser_mk1",40000)
 register_power_tool ("technic:battery",10000)
 register_power_tool ("technic:sonic_screwdriver",15000)
@@ -156,7 +157,7 @@ minetest.register_abm({
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 	local meta = minetest.env:get_meta(pos)
-	charge= meta:get_float("battery_charge")
+	charge= meta:get_int("battery_charge")
 	max_charge= 60000
 	local i=math.ceil((charge/max_charge)*8)
 	if i>8 then i=8 end
@@ -191,7 +192,7 @@ minetest.register_abm({
 		src_item["wear"]=tostring(load1)
 		inv:set_stack("src", 1, src_item)
 		end
-		meta:set_float("battery_charge",charge)
+		meta:set_int("battery_charge",charge)
 	end	
 	end
 	
@@ -216,7 +217,7 @@ minetest.register_abm({
 		end
 		
 
-	meta:set_float("battery_charge",charge)
+	meta:set_int("battery_charge",charge)
 	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge);
 
 	local load = math.floor(charge/60000 * 100)
