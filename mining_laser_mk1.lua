@@ -11,13 +11,13 @@ local laser_shoot = function(itemstack, player, pointed_thing)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
-				obj:setvelocity({x=dir.x*12, y=dir.y*12, z=dir.z*12})
+				obj:setvelocity({x=dir.x*10, y=dir.y*10, z=dir.z*10})
 				obj:setacceleration({x=0, y=0, z=0})
 				obj:setyaw(player:get_look_yaw()+math.pi)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
-				obj:get_luaentity().node = player:get_inventory():get_stack("main", 1):get_name()
+				--obj:get_luaentity().node = player:get_inventory():get_stack("main", 1):get_name()
 				minetest.sound_play("technic_laser", {pos = playerpos, gain = 1.0, max_hear_distance = 10,})
 				return true
 end
@@ -88,7 +88,7 @@ LASER_BEAM_ENTITY={
 	visual_size = {x=0.2, y=0.2},
 	textures = {"technic:laser_beam_box"},
 	lastpos={},
-	max_range=15,
+	max_range=10,
 	count=0,
 --	digger=nil,
 	collisionbox = {0,0,0,0,0,0},
@@ -97,11 +97,15 @@ LASER_BEAM_ENTITY={
 LASER_BEAM_ENTITY.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local pos = self.object:getpos()
-	local node = minetest.env:get_node(pos)
-	if self.lastpos.x~=nil then lazer_it (pos, node, self.player) end
+	if self.player~=nil then if self.lastpos.x~=nil then lazer_it (pos, self.player) end end		
+	if self.lastpos.x ~=nil and self.lastpos.y ~=nil and self.lastpos.y ~=nil then 
+			temp1={x=math.floor(self.lastpos.x),y=math.floor(self.lastpos.y),z=math.floor(self.lastpos.z)}
+			temp2={x=math.floor(pos.x),y=math.floor(pos.y),z=math.floor(pos.z)}
+			if temp1.x==temp2.x and temp1.y==temp2.y and temp1.z==temp2.z then return end
+			end
 	self.lastpos={x=pos.x, y=pos.y, z=pos.z}	
 	self.count=self.count+1
-	if self.count>=self.max_range then self.object:remove() end
+	if self.count==self.max_range then self.object:remove() end
 end
 
 LASER_BEAM_ENTITYV={
@@ -119,9 +123,12 @@ LASER_BEAM_ENTITYV={
 LASER_BEAM_ENTITYV.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local pos = self.object:getpos()
-	local node = minetest.env:get_node(pos)
-	if self.lastpos.x~=nil then lazer_it (pos, node, self.player,self.count) end		
-
+	if self.player~=nil then if self.lastpos.x~=nil then lazer_it (pos, self.player) end end		
+	if self.lastpos.x ~=nil and self.lastpos.y ~=nil and self.lastpos.y ~=nil then 
+			temp1={x=math.floor(self.lastpos.x),y=math.floor(self.lastpos.y),z=math.floor(self.lastpos.z)}
+			temp2={x=math.floor(pos.x),y=math.floor(pos.y),z=math.floor(pos.z)}
+			if temp1.x==temp2.x and temp1.y==temp2.y and temp1.z==temp2.z then return end
+			end
 	self.lastpos={x=pos.x, y=pos.y, z=pos.z}	
 	self.count=self.count+1
 	if self.count==self.max_range then self.object:remove() end
@@ -131,19 +138,13 @@ end
 minetest.register_entity("technic:laser_beam_entity", LASER_BEAM_ENTITY)
 minetest.register_entity("technic:laser_beam_entityV", LASER_BEAM_ENTITYV)
 
-function lazer_it (pos, node, player,count)		
-	if node.name == "air" or node.name == "ignore" then return end
-	if node.name == "default:lava_source" then return end
-	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
-	pos1={}
-	pos1.x=math.floor(pos.x)
-	pos1.y=math.floor(pos.y)
-	pos1.z=math.floor(pos.z)
-	
-	if player then 
-		minetest.node_dig(pos1,node,player)
-	end
-
+function lazer_it (pos, player)	
+	local pos1={}
+--	pos1.x=math.floor(pos.x)
+--	pos1.y=math.floor(pos.y)
+--	pos1.z=math.floor(pos.z)
+	local node = minetest.env:get_node(pos)
+	if node.name == "air" or node.name == "ignore" or node.name == "default:lava_source" or node.name == "default:lava_flowing" then return end
+	if node.name == "default:water_source" or node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
+	if player then minetest.node_dig(pos,node,player) end
 end

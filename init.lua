@@ -47,6 +47,7 @@ dofile(minetest.get_modpath("technic").."/tree_tap.lua")
 dofile(minetest.get_modpath("technic").."/flashlight.lua")
 dofile(minetest.get_modpath("technic").."/cans.lua")
 dofile(minetest.get_modpath("technic").."/chainsaw.lua")
+dofile(minetest.get_modpath("technic").."/item_drop.lua")
 
 
 function has_locked_chest_privilege(meta, player)
