@@ -14,6 +14,10 @@ minetest.register_alias("gold_locked_chest", "technic:gold_locked_chest")
 minetest.register_alias("mithril_chest", "technic:mithril_chest")
 minetest.register_alias("mithril_locked_chest", "technic:mithril_locked_chest")
 
+--Read technic config file
+dofile(minetest.get_modpath("technic").."/config.lua")
+
+
 dofile(minetest.get_modpath("technic").."/concrete.lua")
 dofile(minetest.get_modpath("technic").."/iron_chest.lua")
 dofile(minetest.get_modpath("technic").."/copper_chest.lua")
@@ -47,7 +51,7 @@ dofile(minetest.get_modpath("technic").."/tree_tap.lua")
 dofile(minetest.get_modpath("technic").."/flashlight.lua")
 dofile(minetest.get_modpath("technic").."/cans.lua")
 dofile(minetest.get_modpath("technic").."/chainsaw.lua")
-dofile(minetest.get_modpath("technic").."/item_drop.lua")
+if enable_item_drop then dofile(minetest.get_modpath("technic").."/item_drop.lua") end
 
 
 function has_locked_chest_privilege(meta, player)
