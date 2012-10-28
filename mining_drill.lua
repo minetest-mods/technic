@@ -7,14 +7,13 @@ minetest.register_tool("technic:mining_drill", {
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type=="node" then 
 		item=itemstack:to_table()
-		local charge=tonumber((item["wear"])) 
-		if charge ==0 then charge =65535 end
-		charge=get_RE_item_load(charge,mining_drill_max_charge)
+		if item["metadata"]=="" or item["metadata"]=="0" then return end --tool not charged 
+		charge=tonumber(item["metadata"]) 
 		if charge-200>0 then
 		 drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user)
 		 charge =charge-200;	
-		charge=set_RE_item_load(charge,mining_drill_max_charge)
-		item["wear"]=tostring(charge)
+		item["metadata"]=tostring(charge)
+		set_RE_wear(item,charge,mining_drill_max_charge)
 		itemstack:replace(item)
 		end
 		return itemstack

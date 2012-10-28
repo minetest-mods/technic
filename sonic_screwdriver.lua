@@ -12,9 +12,8 @@ sonic_screwdriver_max_charge=15000
                         if minetest.registered_nodes[node_name].paramtype2 == "facedir" or minetest.registered_nodes[node_name].paramtype2 == "wallmounted" then
                     if node.param2==nil  then return end
                     item=itemstack:to_table()
-                        local charge=tonumber((item["wear"]))
-                        if charge ==0 then charge =65535 end
-                        charge=get_RE_item_load(charge,sonic_screwdriver_max_charge)
+                        if item["metadata"]=="" or item["metadata"]=="0" then  return end 
+			local charge=tonumber((item["metadata"])) 
                         if charge-100>0 then
                                 minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10,})
                            local n = node.param2
@@ -34,8 +33,8 @@ sonic_screwdriver_max_charge=15000
                             meta:from_table(meta0)
                  
                           charge =charge-100;  
-                          charge=set_RE_item_load(charge,sonic_screwdriver_max_charge)
-                          item["wear"]=tostring(charge)
+                          item["metadata"]=tostring(charge)
+			  set_RE_wear(item,charge,sonic_screwdriver_max_charge)
                           itemstack:replace(item)
                           end
                         return itemstack

@@ -29,15 +29,8 @@ end
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	table.insert(players, player_name)
-	last_wielded[player_name] = flashlight_weared(player)
 	local pos = player:getpos()
 	local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-	local wielded_item = player:get_wielded_item():get_name()
-	if flashlight_weared(player)==true then
-		-- Neuberechnung des Lichts erzwingen
-		minetest.env:add_node(rounded_pos,{type="node",name="technic:light_off"})
-		minetest.env:add_node(rounded_pos,{type="node",name="air"})
-	end
 	player_positions[player_name] = {}
 	player_positions[player_name]["x"] = rounded_pos.x;
 	player_positions[player_name]["y"] = rounded_pos.y;
@@ -67,59 +60,56 @@ end)
 minetest.register_globalstep(function(dtime)
 	for i,player_name in ipairs(players) do
 		local player = minetest.env:get_player_by_name(player_name)
-		if flashlight_weared(player)==true then
-			-- Fackel ist in der Hand
-			local pos = player:getpos()
-			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-			if (last_wielded[player_name] ~= true) or (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
-				-- Fackel gerade in die Hand genommen oder zu neuem Node bewegt
-				local is_air  = minetest.env:get_node_or_nil(rounded_pos)
-				if is_air == nil or (is_air ~= nil and (is_air.name == "air" or is_air.name == "technic:light")) then
-					-- wenn an aktueller Position "air" ist, Fackellicht setzen
-					minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
-				end
-				if (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
-					-- wenn Position geänder, dann altes Licht löschen
-					local old_pos = {x=player_positions[player_name]["x"], y=player_positions[player_name]["y"], z=player_positions[player_name]["z"]}
-					-- Neuberechnung des Lichts erzwingen
-					local is_light = minetest.env:get_node_or_nil(old_pos)
-					if is_light ~= nil and is_light.name == "technic:light" then
-						minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
-						minetest.env:add_node(old_pos,{type="node",name="air"})
-					end
-				end
-				-- gemerkte Position ist nun die gerundete neue Position
-				player_positions[player_name]["x"] = rounded_pos.x
-				player_positions[player_name]["y"] = rounded_pos.y
-				player_positions[player_name]["z"] = rounded_pos.z
+		flashlight_weared=check_for_flashlight(player)
+		local pos = player:getpos()
+		local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
+		local old_pos = {x=player_positions[player_name]["x"], y=player_positions[player_name]["y"], z=player_positions[player_name]["z"]}
+		
+		if last_wielded[player_name] and not flashlight_weared then --remove light, flashlight weared out or was removed from hotbar
+			local node=minetest.env:get_node_or_nil(old_pos)
+			if node then
+			if node.name=="technic:light" then 
+			  	minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
+				minetest.env:add_node(old_pos,{type="node",name="air"})		
+			  last_wielded[player_name]=false
+			  end
+			end
 			end
 
-			last_wielded[player_name] = true;
-		elseif last_wielded[player_name] == true  then
-			-- Fackel nicht in der Hand, aber beim letzten Durchgang war die Fackel noch in der Hand
-			local pos = player:getpos()
-			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-			repeat
-				local is_light  = minetest.env:get_node_or_nil(rounded_pos)
-				if is_light ~= nil and is_light.name == "technic:light" then
-					-- minetest.env:remove_node(rounded_pos)
-					-- Erzwinge Neuberechnung des Lichts
-					minetest.env:add_node(rounded_pos,{type="node",name="technic:light_off"})
-					minetest.env:add_node(rounded_pos,{type="node",name="air"})
-				end
-			until minetest.env:get_node_or_nil(rounded_pos) ~= "technic:light"
-			local old_pos = {x=player_positions[player_name]["x"], y=player_positions[player_name]["y"], z=player_positions[player_name]["z"]}
-			repeat
-				is_light  = minetest.env:get_node_or_nil(old_pos)
-				if is_light ~= nil and is_light.name == "technic:light" then
-					-- minetest.env:remove_node(old_pos)
-					-- Erzwinge Neuberechnung des Lichts
-					minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
-					minetest.env:add_node(old_pos,{type="node",name="air"})
-				end
-			until minetest.env:get_node_or_nil(old_pos) ~= "technic:light"
-			last_wielded[player_name] = true
-		end
+		player_moved=not(old_pos.x==rounded_pos.x and old_pos.y==rounded_pos.y and old_pos.z==rounded_pos.z)
+		if player_moved and last_wielded[player_name] and flashlight_weared  then
+			
+			local node=minetest.env:get_node_or_nil(rounded_pos)
+			if node then
+			if node.name=="air" then 
+			  	minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
+			  end
+			end
+			local node=minetest.env:get_node_or_nil(old_pos)
+			if node then
+			  if node.name=="technic:light" then 
+			  	minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
+				minetest.env:add_node(old_pos,{type="node",name="air"})		
+			  end
+			end
+			player_positions[player_name]["x"] = rounded_pos.x
+			player_positions[player_name]["y"] = rounded_pos.y
+			player_positions[player_name]["z"] = rounded_pos.z
+			
+		else if not last_wielded[player_name] and flashlight_weared then
+			local node=minetest.env:get_node_or_nil(rounded_pos)
+			if node then
+			if node.name=="air" then 
+			  	minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
+			  end
+			end
+			player_positions[player_name]["x"] = rounded_pos.x
+			player_positions[player_name]["y"] = rounded_pos.y
+			player_positions[player_name]["z"] = rounded_pos.z
+			last_wielded[player_name]=true
+			end			
+			
+	end
 	end
 end)
 
@@ -128,6 +118,7 @@ minetest.register_node("technic:light", {
 	tile_images = {"technic_light.png"},
 	paramtype = "light",
 	walkable = false,
+	buildable_to = true,
 	is_ground_content = true,
 	light_propagates = true,
 	sunlight_propagates = true,
@@ -142,6 +133,7 @@ minetest.register_node("technic:light_off", {
 	tile_images = {"technic_light.png"},
 	paramtype = "light",
 	walkable = false,
+	buildable_to = true,
 	is_ground_content = true,
 	light_propagates = true,
 	sunlight_propagates = true,
@@ -151,27 +143,24 @@ minetest.register_node("technic:light_off", {
     },
 })
 
-function flashlight_weared (player)
-flashlight_on=false
+function check_for_flashlight (player)
 local inv = player:get_inventory()
 local hotbar=inv:get_list("main")
 		for i=1,8,1 do
 			
 			if hotbar[i]:get_name() == "technic:flashlight" then
 			item=hotbar[i]:to_table()
-			local charge=tonumber((item["wear"])) 
-			if charge ==0 then charge =65535 end
-			charge=get_RE_item_load(charge,flashlight_max_charge)
+			if item["metadata"]=="" or item["metadata"]=="0" then return false end --flashlight not charghed
+			charge=tonumber(item["metadata"]) 
 			if charge-2>0 then
-			 flashlight_on=true	
 			 charge =charge-2;	
-			charge=set_RE_item_load(charge,flashlight_max_charge)
-			item["wear"]=tostring(charge)
+			set_RE_wear(item,charge,flashlight_max_charge)
+			item["metadata"]=tostring(charge)
 			hotbar[i]:replace(item)
 			inv:set_stack("main",i,hotbar[i])
+			return true
 			end
-			return flashlight_on
 			end
 		end
-return flashlight_on
+return false
 end	

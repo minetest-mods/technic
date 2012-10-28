@@ -1,17 +1,42 @@
 laser_mk1_max_charge=40000
-
 local laser_shoot = function(itemstack, player, pointed_thing)
+				local laser_straight_mode=0
 				local playerpos=player:getpos()
 				local dir=player:get_look_dir()
+				if pointed_thing.type=="node" then  
+					pos=minetest.get_pointed_thing_position(pointed_thing, above)
+					local node = minetest.env:get_node(pos)
+					if node.name~="ignore" then
+					minetest.node_dig(pos,node,player)
+					end
+					laser_straight_mode=1
+					end				
+				
 				direction_y=math.abs(math.floor(dir.y*100))
-				print (direction_y)
 				if direction_y>50 then entity_name="technic:laser_beam_entityV"
 					else entity_name="technic:laser_beam_entity" end
-				local obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.6,z=playerpos.z},entity_name)
+				
+				if laser_straight_mode==1  then
+					pos1=minetest.get_pointed_thing_position(pointed_thing, under)
+					pos1.x=math.floor(pos1.x) 
+					pos1.y=math.floor(pos1.y)
+					pos1.z=math.floor(pos1.z)
+					obj=minetest.env:add_entity(pos1,entity_name)
+				else
+				obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.6,z=playerpos.z},entity_name)
+				end
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
-				obj:setvelocity({x=dir.x*10, y=dir.y*10, z=dir.z*10})
+				if laser_straight_mode==1 and direction_y<50 then
+					obj:setvelocity({x=dir.x*8, y=0, z=dir.z*8})
+				else if laser_straight_mode==1 and direction_y>50 then
+					obj:setvelocity({x=0, y=dir.y*8, z=dir.z*8})
+					end
+				end
+				if laser_straight_mode==0 then
+					obj:setvelocity({x=dir.x*8, y=dir.y*8, z=dir.z*8})
+					end
 				obj:setacceleration({x=0, y=0, z=0})
 				obj:setyaw(player:get_look_yaw()+math.pi)
 				if obj:get_luaentity().player == nil then
@@ -29,14 +54,13 @@ minetest.register_tool("technic:laser_mk1", {
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 		item=itemstack:to_table()
-		local charge=tonumber((item["wear"])) 
-		if charge ==0 then charge =65535 end
-		charge=get_RE_item_load(charge,laser_mk1_max_charge)
+		if item["metadata"]=="" or item["metadata"]=="0" then  return end 
+		local charge=tonumber((item["metadata"])) 
 		if charge-400>0 then
 		 laser_shoot(item, user, pointed_thing)
 		 charge =charge-400;	
-		charge=set_RE_item_load(charge,laser_mk1_max_charge)
-		item["wear"]=tostring(charge)
+		item["metadata"]=tostring(charge)
+		charge=set_RE_wear(item,charge,laser_mk1_max_charge)
 		itemstack:replace(item)
 		end
 		return itemstack

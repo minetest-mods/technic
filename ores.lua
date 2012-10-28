@@ -192,10 +192,10 @@ local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, 
 end
 
 minetest.register_on_generated(function(minp, maxp, seed)
-generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+21,   1/11/11/11,    2, -31000,  -450)
-generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+22,   1/11/11/11,    1, -300,  -100)
+generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+21,   1/11/11/11,    4, -31000,  -450)
+generate_ore("technic:mineral_uranium", "default:stone", minp, maxp, seed+22,   1/10/10/10,    3, -300,  -80)
 generate_ore("technic:mineral_chromium", "default:stone", minp, maxp, seed+23,   1/10/10/10,    2, -31000,  -100)
-generate_ore("technic:mineral_zinc", "default:stone", minp, maxp, seed+24,   1/9/9/9,    5, -31000,  2)
+generate_ore("technic:mineral_zinc", "default:stone", minp, maxp, seed+24,   1/9/9/9,    4, -31000,  2)
 generate_ore("technic:marble", "default:stone", minp, maxp, seed+25,	1/128, 20, -100, -32)
 generate_ore("technic:granite", "default:stone", minp, maxp, seed+25,	1/128, 15, -190, -90)
 end)

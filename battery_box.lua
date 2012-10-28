@@ -10,11 +10,14 @@ registered_power_tools_count=registered_power_tools_count+1
 end
 
 register_power_tool ("technic:mining_drill",60000)
-register_power_tool ("technic:chainsaw",40000)
+register_power_tool ("technic:chainsaw",30000)
 register_power_tool ("technic:laser_mk1",40000)
 register_power_tool ("technic:battery",10000)
 register_power_tool ("technic:sonic_screwdriver",15000)
 register_power_tool ("technic:flashlight",30000)
+register_power_tool ("technic:red_energy_crystal",100000)
+register_power_tool ("technic:green_energy_crystal",250000)
+register_power_tool ("technic:blue_energy_crystal",500000)
 
 minetest.register_alias("battery", "technic:battery")
 minetest.register_alias("battery_box", "technic:battery_box")
@@ -41,8 +44,7 @@ minetest.register_craft({
 minetest.register_tool("technic:battery",
 {description = "RE Battery",
 inventory_image = "technic_battery.png",
-energy_charge = 0,
-tool_capabilities = {max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
+tool_capabilities = {load=0,max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
 
 minetest.register_craftitem("technic:battery_box", {
 	description = "Battery box",
@@ -149,6 +151,12 @@ temp=65536-temp
 return math.floor(temp)
 end
 
+function set_RE_wear (item_stack,load1,max_load)
+local temp=65536-math.floor(load1/max_load*65535)
+item_stack["wear"]=tostring(temp)
+return item_stack	
+end
+
 minetest.register_abm({
 	nodenames = {"technic:battery_box","technic:battery_box1","technic:battery_box2","technic:battery_box3","technic:battery_box4",
 		     "technic:battery_box5","technic:battery_box6","technic:battery_box7","technic:battery_box8"
@@ -167,10 +175,15 @@ minetest.register_abm({
 	elseif i==0 then hacky_swap_node(pos,"technic:battery_box") end 
 	meta:set_float("last_side_shown",i)
 	end
+
+--loading registered power tools	
 	local inv = meta:get_inventory()
 	if inv:is_empty("src")==false  then 
 		srcstack = inv:get_stack("src", 1)
 		src_item=srcstack:to_table()
+		item_meta=srcstack:get_metadata()
+		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before tool/item
+
 	local item_max_charge = nil
 	local counter=registered_power_tools_count-1
 	for i=1, counter,1 do
@@ -179,46 +192,49 @@ minetest.register_abm({
 		end
 		end
 	if item_max_charge then
-		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_item_load(load1,item_max_charge)
+		load1=tonumber((src_item["metadata"])) 
 		load_step=1000
 		if load1<item_max_charge and charge>0 then 
 		 if charge-load_step<0 then load_step=charge end
 		 if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
 		load1=load1+load_step
 		charge=charge-load_step
-	
-		load1=set_RE_item_load(load1,item_max_charge)
-		src_item["wear"]=tostring(load1)
+		set_RE_wear(src_item,load1,item_max_charge)
+		src_item["metadata"]=tostring(load1)
 		inv:set_stack("src", 1, src_item)
 		end
 		meta:set_int("battery_charge",charge)
 	end	
 	end
 	
+-- dischargin registered power tools
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
-		if src_item["name"]== "technic:battery" then
-		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_item_load(load1,10000)
+		local item_max_charge = nil
+		local counter=registered_power_tools_count-1
+		for i=1, counter,1 do
+		if power_tools[i].tool_name==src_item["name"] then
+		item_max_charge=power_tools[i].max_charge	
+		end
+		end
+		if item_max_charge then
+		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before battery/crystal
+		local load1=tonumber((src_item["metadata"])) 
 		load_step=1000
 		if load1>0 and charge<max_charge then 
 			 if charge+load_step>max_charge then load_step=max_charge-charge end
 		  	 if load1-load_step<0 then load_step=load1 end
 		load1=load1-load_step
 		charge=charge+load_step
-	
-		load1=set_RE_item_load(load1,10000)
-		src_item["wear"]=tostring(load1)
+		set_RE_wear(src_item,load1,item_max_charge)
+		src_item["metadata"]=tostring(load1)	
 		inv:set_stack("dst", 1, src_item)
 		end		
 		end
 		end
 		
-
 	meta:set_int("battery_charge",charge)
-	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge);
 
 	local load = math.floor(charge/60000 * 100)
 	meta:set_string("formspec",
@@ -310,10 +326,10 @@ i=1
 	
 	i=i+1
 	until false
-	
-	meta:set_float("battery_charge",charge)
-	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge);
-
+	charge=math.floor(charge)
+	charge_string=tostring(charge)
+	meta:set_string("infotext", "Battery box: "..charge_string.."/"..max_charge);
+	meta:set_int("battery_charge",charge)
 
 end
 })

@@ -53,33 +53,12 @@ minetest.register_node( "technic:diamond_block", {
 }) 
 
 minetest.register_craft({
-	output = 'technic:red_energy_crystal',
-	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_red'},
-		{'technic:battery', 'technic:diamond_block', 'technic:battery'},
-		{'group:dye,basecolor_red', 'technic:battery', 'moreores:gold_ingot'},
-	}
-})
-
-minetest.register_craftitem( "technic:red_energy_crystal", {
-	description = "Red Energy Crystal",
-	inventory_image = minetest.inventorycube("technic_diamond_block_red.png", "technic_diamond_block_red.png", "technic_diamond_block_red.png"),
-	on_place_on_ground = minetest.craftitem_place_item,
-})
-
-minetest.register_craft({
 	output = 'technic:green_energy_crystal',
 	recipe = {
 		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_green'},
 		{'technic:battery', 'technic:red_energy_crystal', 'technic:battery'},
 		{'group:dye,basecolor_green', 'technic:battery', 'moreores:gold_ingot'},
 	}
-})
-
-minetest.register_craftitem( "technic:green_energy_crystal", {
-	description = "Green Energy Crystal",
-	inventory_image = minetest.inventorycube("technic_diamond_block_green.png", "technic_diamond_block_green.png", "technic_diamond_block_green.png"),
-	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craft({
@@ -91,11 +70,30 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craftitem( "technic:blue_energy_crystal", {
-	description = "Blue Energy Crystal",
-	inventory_image = minetest.inventorycube("technic_diamond_block_blue.png", "technic_diamond_block_blue.png", "technic_diamond_block_blue.png"),
-	on_place_on_ground = minetest.craftitem_place_item,
+minetest.register_craft({
+	output = 'technic:red_energy_crystal',
+	recipe = {
+		{'moreores:gold_ingot', 'technic:battery', 'group:dye,basecolor_red'},
+		{'technic:battery', 'technic:diamond_block', 'technic:battery'},
+		{'group:dye,basecolor_red', 'technic:battery', 'moreores:gold_ingot'},
+	}
 })
+
+minetest.register_tool("technic:blue_energy_crystal",
+{description = "Blue Energy Crystal",
+inventory_image = minetest.inventorycube("technic_diamond_block_blue.png", "technic_diamond_block_blue.png", "technic_diamond_block_blue.png"),
+tool_capabilities = {load=0,max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
+
+minetest.register_tool("technic:green_energy_crystal",
+{description = "Green Energy Crystal",
+inventory_image = minetest.inventorycube("technic_diamond_block_green.png", "technic_diamond_block_green.png", "technic_diamond_block_green.png"),
+tool_capabilities = {load=0,max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
+
+minetest.register_tool("technic:red_energy_crystal",
+{description = "Red Energy Crystal",
+inventory_image = minetest.inventorycube("technic_diamond_block_red.png", "technic_diamond_block_red.png", "technic_diamond_block_red.png"),
+tool_capabilities = {load=0,max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
+
 
 
 
