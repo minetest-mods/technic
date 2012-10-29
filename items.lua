@@ -95,5 +95,48 @@ inventory_image = minetest.inventorycube("technic_diamond_block_red.png", "techn
 tool_capabilities = {load=0,max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
 
 
+minetest.register_craftitem( "technic:fine_copper_wire", {
+	description = "Fine Copper Wire",
+	inventory_image = "technic_fine_copper_wire.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
 
+minetest.register_craft({
+	output = 'technic:fine_copper_wire 2',
+	recipe = {
+		{'', 'moreores:copper_ingot', ''},
+		{'', 'moreores:copper_ingot', ''},
+		{'', 'moreores:copper_ingot', ''},
+	}
+})
+
+minetest.register_craftitem( "technic:copper_coil", {
+	description = "Copper Coil",
+	inventory_image = "technic_copper_coil.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:copper_coil 1',
+	recipe = {
+		{'technic:fine_copper_wire', 'default:steel_ingot', 'technic:fine_copper_wire'},
+		{'default:steel_ingot', '', 'default:steel_ingot'},
+		{'technic:fine_copper_wire', 'default:steel_ingot', 'technic:fine_copper_wire'},
+	}
+})
+
+minetest.register_craftitem( "technic:motor", {
+	description = "Electric Motor",
+	inventory_image = "technic_motor.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:motor',
+	recipe = {
+		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
+		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
+		{'default:steel_ingot', 'moreores:copper_ingot', 'default:steel_ingot'},
+	}
+})
 
