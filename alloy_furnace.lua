@@ -36,9 +36,9 @@ minetest.register_alias("alloy_furnace", "technic:alloy_furnace")
 minetest.register_craft({
 	output = 'technic:alloy_furnace',
 	recipe = {
-		{'default:stone', 'default:stone', 'default:stone'},
-		{'default:stone', '', 'default:stone'},
-		{'moreores:gold_ingot', 'moreores:copper_ingot', 'moreores:gold_ingot'},
+		{'default:brick', 'default:brick', 'default:brick'},
+		{'default:brick', '', 'default:brick'},
+		{'default:steel_ingot', 'moreores:copper_ingot', 'default:steel_ingot'},
 	}
 })
 
