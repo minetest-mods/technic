@@ -140,3 +140,18 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craftitem( "technic:mv_transformer", {
+	description = "Medium Voltage Transformer",
+	inventory_image = "technic_mv_transformer.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:mv_transformer',
+	recipe = {
+		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+		{'technic:copper_coil', 'default:steel_ingot', 'technic:copper_coil'},
+		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+	}
+})
+
