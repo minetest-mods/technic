@@ -144,7 +144,7 @@ minetest.register_node("technic:light_off", {
 })
 
 function check_for_flashlight (player)
-if player==nil then return false
+if player==nil then return false end
 local inv = player:get_inventory()
 local hotbar=inv:get_list("main")
 		for i=1,8,1 do
