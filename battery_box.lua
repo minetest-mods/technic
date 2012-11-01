@@ -102,8 +102,8 @@ minetest.register_node("technic:battery_box", {
 for i=1,8,1 do
 minetest.register_node("technic:battery_box"..i, {
 	description = "Battery box",
-	tiles = {"technic_battery_box_top.png", "technic_battery_box_bottom.png", "technic_battery_box_side"..i..".png",
-		"technic_battery_box_side"..i..".png", "technic_battery_box_side"..i..".png", "technic_battery_box_side"..i..".png"},
+	tiles = {"technic_battery_box_top.png", "technic_battery_box_bottom.png", "technic_battery_box_side0.png^technic_power_meter"..i..".png",
+		"technic_battery_box_side0.png^technic_power_meter"..i..".png", "technic_battery_box_side0.png^technic_power_meter"..i..".png", "technic_battery_box_side0.png^technic_power_meter"..i..".png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 	technic_power_machine=1,
