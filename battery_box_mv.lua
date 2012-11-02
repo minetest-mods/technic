@@ -22,7 +22,7 @@ mv_battery_box_formspec =
 	"list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:mv_battery_box", {
-	description = "Battery box",
+	description = "MV Battery Box",
 	tiles = {"technic_mv_battery_box_top.png", "technic_mv_battery_box_bottom.png", "technic_mv_battery_box_side0.png",
 		"technic_mv_battery_box_side0.png", "technic_mv_battery_box_side0.png", "technic_mv_battery_box_side0.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -57,7 +57,7 @@ minetest.register_node("technic:mv_battery_box", {
 
 for i=1,8,1 do
 minetest.register_node("technic:mv_battery_box"..i, {
-	description = "Battery box",
+	description = "MV Battery Box",
 	tiles = {"technic_mv_battery_box_top.png", "technic_mv_battery_box_bottom.png", "technic_mv_battery_box_side0.png^technic_power_meter"..i..".png",
 		"technic_mv_battery_box_side0.png^technic_power_meter"..i..".png", "technic_mv_battery_box_side0.png^technic_power_meter"..i..".png", "technic_mv_battery_box_side0.png^technic_power_meter"..i..".png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
