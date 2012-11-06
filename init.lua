@@ -52,6 +52,7 @@ dofile(modpath.."/tree_tap.lua")
 dofile(modpath.."/flashlight.lua")
 dofile(modpath.."/cans.lua")
 dofile(modpath.."/chainsaw.lua")
+dofile(modpath.."/nuclear_reactor.lua")
 
 if enable_item_drop	then dofile(modpath.."/item_drop.lua") end
 if enable_item_pickup   then dofile(modpath.."/item_pickup.lua") end
