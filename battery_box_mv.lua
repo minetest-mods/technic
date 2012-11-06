@@ -207,7 +207,6 @@ minetest.register_abm({
 		MV_nodes[1].z=pos1.z
 		MV_nodes[1].visited=false
 
-		print(dump(PR_nodes))
 table_index=1
 	repeat
 	check_MV_node (PR_nodes,RE_nodes,MV_nodes,table_index)
