@@ -1,5 +1,8 @@
+
+
+
 minetest.register_craft({
-	output = 'technic:reactor',
+	output = 'technic:generator',
 	recipe = {
 		{'default:stone', 'default:stone', 'default:stone'},
 		{'default:stone', 'default:stone', 'default:stone'},
@@ -60,14 +63,14 @@ minetest.register_node("technic:reactor", {
 })
 
 minetest.register_node("technic:reactor_active", {
-	description = "Nuclear Reactor Active",
+	description = "Nuclear Reactor",
 	tiles = {"technic_generator_top.png", "technic_machine_bottom.png", "technic_generator_side.png",
 		"technic_generator_side.png", "technic_generator_side.png", "technic_generator_front_active.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	drop="technic:reactor",
+	drop="technic:generator",
 	technic_power_machine=1,
 	internal_EU_buffer=0;
 	internal_EU_buffer_size=0;
@@ -122,7 +125,7 @@ minetest.register_abm({
 	end
 
 	local load = math.floor((charge/max_charge)*100)
-	local percent = math.floor((burn_time/16)*100)
+	local percent = math.floor((burn_time/10000)*100)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
