@@ -2,7 +2,7 @@
 
 
 minetest.register_craft({
-	output = 'technic:generator',
+	output = 'technic:reactor',
 	recipe = {
 		{'default:stone', 'default:stone', 'default:stone'},
 		{'default:stone', 'default:stone', 'default:stone'},
@@ -70,7 +70,7 @@ minetest.register_node("technic:reactor_active", {
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	drop="technic:generator",
+	drop="technic:reactor",
 	technic_power_machine=1,
 	internal_EU_buffer=0;
 	internal_EU_buffer_size=0;
