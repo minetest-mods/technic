@@ -95,7 +95,7 @@ minetest.register_abm({
 	local burn_time= meta:get_float("burn_time")
 	local charge= meta:get_float("internal_EU_buffer")
 	local max_charge= meta:get_float("internal_EU_buffer_size")
-	local burn_charge=200
+	local burn_charge=2000
 
 	if burn_time>0 then
 		if charge+burn_charge>max_charge then
