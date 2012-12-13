@@ -1,0 +1,46 @@
+Changelog
+---------
+
+2012-08-24: Added square-ish pneumatic tubes, with their own autoplace code 
+(they do not connect to the steel pipes or their related devices).
+
+2012-08-22: Added outlet grate, made it participate in autoplace algorithm.  
+Extended storage tank to show fill level in 10% steps (0% to 100%).  Added 
+"expansion tank" that appears if the user stacks tanks upwards.  (Downwards is 
+not checked).
+
+2012-08-21: Made storage tank participate in autoplace algorithm.  Tuned API a 
+little to allow for more flexible placement.  Re-organized code a bit to allow 
+for some upcoming rules changes.  Made storage tanks' upper/lower fittins and 
+intake grate participate in autoplace algorithm.
+
+2012-08-20: Added temporary nodes for storage tank and intake grating, but 
+without autoplace.
+
+2012-08-19: Pumps and valves now fully participate in the 
+auto-rotate/auto-place algorithm.
+
+2012-08-18: Total rewrite again.  All pipes are now nice and round-looking, and 
+they auto-connect!  Also added temporary nodes for pump and valve (each with an 
+on/off setting - punch to change).  No crafting recipes yet and the pipes still 
+don't do anything useful yet.  Soon.
+
+2012-08-06:  Moved this changelog off the forum post and into a separate file.
+
+2012-08-05 (multiple updates): Rewrote pipeworks to use loops and tables to 
+create the nodes. Requires far less code now. Added -X, +X, -Y, +Y, -Z, +Z 
+capped stubs and a short centered horizontal segment. Changed node definitions 
+so that the aforementioned "short centered" segment is given on dig/drop.  
+Renamed it to just "pipeworks:pipe" (and pipe_loaded). Added empty/loaded 
+indicator images to the capped ends, removed some redundant comments. Made the 
+empty/loaded indication at the capped end more prominent.
+
+2012-07-21: Added screenshot showing pipes as they look now that nodebox 
+texture rotation is fixed.
+
+2012-07-18: Changed the mod name and all internals to 'pipeworks' instead of 
+'pipes'... after a couple of mistakes :-)
+
+2012-07-12: moved project to github.
+
+2012-06-23: Initial release, followed by reworking the textures a bit.

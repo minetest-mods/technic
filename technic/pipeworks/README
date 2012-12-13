@@ -1,0 +1,34 @@
+This simple mod uses nodeboxes to supply a complete set of 3D flanged pipes, 
+along with "valve" and "pump" devices.
+
+Unlike the previous version of this mod, these pipes are rounded, and when 
+placed, they'll automatically join together as needed.  Pipes can go vertically 
+or horizontally, and there are enough nodes defined to allow for all possible 
+connections.  Valves and pumps can only be placed horizontally, and will 
+automatically rotate and join with neighboring pipes as objects are added, as 
+well as joining with each other under certain circumstances.
+
+Pipes come in two variants: one type bears one or more dark windows on each 
+pipe, suggesting they're empty, while the other type bears green-tinted 
+windows, as if full (the two colors should also be easy to select if you want 
+to change them in a paint program).  These windows only appear on straight 
+lengths and on certain junctions.
+
+There are no crafting recipes, yet, but you can use /giveme as usual, namely 
+"/giveme pipeworks:pipe 999" or so, and then place them as needed.  See 
+init.lua for more details.
+
+This mod is intended to be used as a basis or at least as sort of a model for 
+something else to build on (perhaps a nicer-looking oil mod?), and does not 
+provide any of the code necessary to cause anything to flow through them.  Like 
+the pipes, the valve and pump don't do anything useful yet, but you can punch 
+them to turn them "on" and "off".  Note that the valve and pump textures and 
+shapes are not yet complete (hence their boxy appearance).
+
+This mod is a work in progress.
+
+Please note that owing to the nature of this mod, I have opted to use 64px 
+textures.  Anything less just looks terrible.
+
+If you don't need the old node names from the previous version of this mod, 
+edit init.lua and comment-out the 'dofile' line at the top.
