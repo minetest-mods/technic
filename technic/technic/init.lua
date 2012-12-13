@@ -54,7 +54,7 @@ dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/battery_box_mv.lua")
 
 --Tools
-if enable_mining_dril==true then dofile(modpath.."/mining_drill.lua") end
+if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
 if enable_mining_laser==true then dofile(modpath.."/mining_laser_mk1.lua") end
 if enable_flashlight==true then dofile(modpath.."/flashlight.lua") end
 dofile(modpath.."/cans.lua")
