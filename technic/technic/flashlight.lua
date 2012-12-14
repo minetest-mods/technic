@@ -60,6 +60,7 @@ end)
 minetest.register_globalstep(function(dtime)
 	for i,player_name in ipairs(players) do
 		local player = minetest.env:get_player_by_name(player_name)
+		if player then
 		flashlight_weared=check_for_flashlight(player)
 		local pos = player:getpos()
 		local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
@@ -109,6 +110,7 @@ minetest.register_globalstep(function(dtime)
 			last_wielded[player_name]=true
 			end			
 			
+	end
 	end
 	end
 end)
