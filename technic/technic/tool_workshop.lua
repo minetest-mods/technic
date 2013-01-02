@@ -63,18 +63,22 @@ minetest.register_abm({
 	local load_cost=200
 		local inv = meta:get_inventory()
 		if inv:is_empty("src")==false  then 
-		srcstack = inv:get_stack("src", 1)
-		src_item=srcstack:to_table()
-		local load1=tonumber((src_item["wear"])) 
-		if charge>load_cost then
-		if load1>1 then 
-		if load1-load_step<0 then load_step=load1 load1=1
-		 else load1=load1-load_step end
-		charge=charge-load_cost
-		src_item["wear"]=tostring(load1)
-		inv:set_stack("src", 1, src_item)
-		end
-		end
+			srcstack = inv:get_stack("src", 1)
+			src_item=srcstack:to_table()
+			if (src_item["name"]=="technic:water_can" or src_item["name"]=="technic:lava_can") then
+				load_step=0
+				load_cost=0
+				end
+			local load1=tonumber((src_item["wear"])) 
+			if charge>load_cost then
+				if load1>1 then 
+					if load1-load_step<0 then load_step=load1 load1=1
+					else load1=load1-load_step end
+					charge=charge-load_cost
+					src_item["wear"]=tostring(load1)
+					inv:set_stack("src", 1, src_item)
+				end
+			end
 		end
 	
 	meta:set_float("internal_EU_buffer",charge)
