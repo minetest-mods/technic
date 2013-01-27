@@ -38,7 +38,7 @@ minetest.register_node( "technic:obsidian", {
 	sounds = default.node_sound_stone_defaults(),
 }) 
 
-stairsplus.register_stair_and_slab_and_panel_and_micro("marble", "technic:marble",
+stairsplus.register_stair_and_slab_and_panel_and_micro(":stairsplus", "marble", "technic:marble",
 		{cracky=3},
 		{"technic_marble.png"},
 		"Marble Stairs",
@@ -46,7 +46,7 @@ stairsplus.register_stair_and_slab_and_panel_and_micro("marble", "technic:marble
 		"Marble Panel",
 		"Marble Microblock",
 		"marble")
-stairsplus.register_stair_and_slab_and_panel_and_micro("marble_bricks", "technic:marble_bricks",
+stairsplus.register_stair_and_slab_and_panel_and_micro(":stairsplus", "marble_bricks", "technic:marble_bricks",
 		{cracky=3},
 		{"technic_marble_bricks.png"},
 		"Marble Bricks Stairs",
@@ -54,7 +54,7 @@ stairsplus.register_stair_and_slab_and_panel_and_micro("marble_bricks", "technic
 		"Marble Bricks Panel",
 		"Marble Bricks Microblock",
 		"marble_bricks")
-stairsplus.register_stair_and_slab_and_panel_and_micro("granite", "technic:granite",
+stairsplus.register_stair_and_slab_and_panel_and_micro(":stairsplus", "granite", "technic:granite",
 		{cracky=3},
 		{"technic_granite.png"},
 		"Granite Stairs",
@@ -62,7 +62,7 @@ stairsplus.register_stair_and_slab_and_panel_and_micro("granite", "technic:grani
 		"Granite Panel",
 		"Granite Microblock",
 		"granite")
-stairsplus.register_stair_and_slab_and_panel_and_micro("obsidian", "technic:obsidian",
+stairsplus.register_stair_and_slab_and_panel_and_micro(":stairsplus", "obsidian", "technic:obsidian",
 		{cracky=3},
 		{"technic_obsidian.png"},
 		"Obsidian Stairs",

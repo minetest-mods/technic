@@ -8,13 +8,29 @@ minetest.register_craft({
 	}
 })
 
+node_breaker_on = function(pos, node)
+	if node.name == "technic:nodebreaker_off" then
+		hacky_swap_node(pos,"technic:nodebreaker_on")
+		break_node (pos,node.param2)
+		nodeupdate(pos)
+	end
+end
+
+node_breaker_off = function(pos, node)
+	if node.name == "technic:nodebreaker_on" then
+		hacky_swap_node(pos,"technic:nodebreaker_off")
+		nodeupdate(pos)
+	end
+end
+
 minetest.register_node("technic:nodebreaker_off", {
 	description = "Node Breaker",
 	tile_images = {"technic_nodebreaker_top_off.png","technic_nodebreaker_bottom_off.png","technic_nodebreaker_side2_off.png","technic_nodebreaker_side1_off.png",
 			"technic_nodebreaker_back.png","technic_nodebreaker_front_off.png"},
 	is_ground_content = true,
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon_receptor_off = 1, mesecon_effector_off = 1, mesecon = 2,tubedevice=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon = 2,tubedevice=1},
+	mesecons= {effector={action_on=node_breaker_on, action_off=node_breaker_off}},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
 	local meta = minetest.env:get_meta(pos)
@@ -26,29 +42,13 @@ minetest.register_node("technic:nodebreaker_on", {
 	description = "Node Breaker",
 	tile_images = {"technic_nodebreaker_top_on.png","technic_nodebreaker_bottom_on.png","technic_nodebreaker_side2_on.png","technic_nodebreaker_side1_on.png",
 			"technic_nodebreaker_back.png","technic_nodebreaker_front_on.png"},
+	mesecons= {effector={action_on=node_breaker_on, action_off=node_breaker_off}},
 	is_ground_content = true,
 	paramtype2 = "facedir",
-	tubelike=1,
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon_receptor_off = 1, mesecon_effector_off = 1, mesecon = 2,tubedevice=1,not_in_creative_inventory=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon = 2,tubedevice=1,not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
-mesecon:register_on_signal_on(function(pos, node)
-	if node.name == "technic:nodebreaker_off" then
-		minetest.env:add_node(pos, {name="technic:nodebreaker_on", param2 = node.param2})
-		break_node (pos,node.param2)
-		nodeupdate(pos)
-	end
-end)
-
-mesecon:register_on_signal_off(function(pos, node)
-	if node.name == "technic:nodebreaker_on" then
-		minetest.env:add_node(pos, {name="technic:nodebreaker_off", param2 = node.param2})
-		nodeupdate(pos)
-	end
-end)
-
-mesecon:register_effector("technic:nodebreaker_on", "technic:nodebreaker_off")
 
 function break_node (pos,n_param)		
 	local pos1={}
@@ -70,9 +70,6 @@ function break_node (pos,n_param)
 	if n_param==0 then pos2.z=pos2.z-1 pos1.x=pos1.z+1 z_velocity=1 end
 
 	local node=minetest.env:get_node(pos2)
-	local meta = minetest.env:get_meta(pos1)
-	tubelike=meta:get_int("tubelike")
-	--if tubelike==1 then
 	if node.name == "air" then return nil end
 	if node.name == "default:lava_source" then return nil end
 	if node.name == "default:lava_flowing" then return nil end
@@ -86,9 +83,7 @@ function break_node (pos,n_param)
 			item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
 			item1:setvelocity({x=x_velocity, y=0, z=z_velocity})
 			item1:setacceleration({x=0, y=0, z=0})
---			minetest.item_drop(dropped_item, "", pos1)
 		end
 	minetest.env:remove_node(pos2)
-	--end
 end
 

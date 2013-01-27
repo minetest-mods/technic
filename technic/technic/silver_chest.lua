@@ -38,7 +38,18 @@ minetest.register_node("technic:silver_chest", {
 	tiles = {"technic_silver_chest_top.png", "technic_silver_chest_top.png", "technic_silver_chest_side.png",
 		"technic_silver_chest_side.png", "technic_silver_chest_side.png", "technic_silver_chest_front.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
@@ -106,8 +117,18 @@ minetest.register_node("technic:silver_locked_chest", {
 	tiles = {"technic_silver_chest_top.png", "technic_silver_chest_top.png", "technic_silver_chest_side.png",
 		"technic_silver_chest_side.png", "technic_silver_chest_side.png", "technic_silver_chest_locked.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-	legacy_facedir_simple = true,
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)

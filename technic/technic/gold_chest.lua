@@ -57,6 +57,17 @@ minetest.register_node("technic:gold_chest", {
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
@@ -117,7 +128,18 @@ minetest.register_node("technic:gold_chest".. state, {
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front"..state..".png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, not_in_creative_inventory=1,tubedevice=1,tubedevice_receiver=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:gold_chest",
@@ -189,6 +211,17 @@ minetest.register_node("technic:gold_locked_chest", {
 	paramtype2 = "facedir",
 	drop = "technic:gold_locked_chest",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
@@ -287,7 +320,18 @@ minetest.register_node("technic:gold_locked_chest".. state, {
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked"..state..".png"},
 	paramtype2 = "facedir",
 	drop = "technic:gold_locked_chest",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, not_in_creative_inventory=1,tubedevice=1,tubedevice_receiver=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("main",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("main",stack)
+		end,
+		input_inventory="main"},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)

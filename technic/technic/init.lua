@@ -1,20 +1,5 @@
 -- Minetest 0.4.4 : technic
 
-minetest.register_alias("rebar", "technic:rebar")
-minetest.register_alias("concrete", "technic:concrete")
-minetest.register_alias("concrete_post", "technic:concrete_post")
-minetest.register_alias("iron_chest", "technic:iron_chest")
-minetest.register_alias("iron_locked_chest", "technic:iron_locked_chest")
-minetest.register_alias("copper_chest", "technic:copper_chest")
-minetest.register_alias("copper_locked_chest", "technic:copper_locked_chest")
-minetest.register_alias("silver_chest", "technic:silver_chest")
-minetest.register_alias("silver_locked_chest", "technic:silver_locked_chest")
-minetest.register_alias("gold_chest", "technic:gold_chest")
-minetest.register_alias("gold_locked_chest", "technic:gold_locked_chest")
-minetest.register_alias("mithril_chest", "technic:mithril_chest")
-minetest.register_alias("mithril_locked_chest", "technic:mithril_locked_chest")
-
-
 modpath=minetest.get_modpath("technic")
 
 --Read technic config file
@@ -64,9 +49,9 @@ dofile(modpath.."/screwdriver.lua")
 dofile(modpath.."/sonic_screwdriver.lua")
 
 -- mesecons and tubes related
-dofile(modpath.."/injector.lua")
+--dofile(modpath.."/injector.lua")
 dofile(modpath.."/node_breaker.lua")
-dofile(modpath.."/deployer.lua")
+--dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
 
 if enable_item_drop	then dofile(modpath.."/item_drop.lua") end

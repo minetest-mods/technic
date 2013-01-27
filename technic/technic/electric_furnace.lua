@@ -107,7 +107,6 @@ minetest.register_abm({
 		local load = math.floor(internal_EU_buffer/2000 * 100)
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"background[-1,-1;10,11;technic_electric_furnace_GUI.png]"..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
 					(load)..":technic_power_meter_fg.png]"..
 				"list[current_name;src;3,1;1,1;]"..

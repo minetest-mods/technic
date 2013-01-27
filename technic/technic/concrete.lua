@@ -73,7 +73,7 @@ minetest.register_node("technic:concrete_post", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-stairsplus.register_stair_and_slab_and_panel_and_micro("concrete", "technic:concrete",
+stairsplus.register_stair_and_slab_and_panel_and_micro(":stairsplus", "concrete", "technic:concrete",
 		{cracky=3},
 		{"technic_concrete_block.png"},
 		"Concrete Stairs",
