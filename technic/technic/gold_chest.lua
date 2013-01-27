@@ -128,7 +128,7 @@ minetest.register_node("technic:gold_chest".. state, {
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front"..state..".png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1,not_in_creative_inventory=1},
 	tube={insert_object=function(pos,node,stack,direction)
 			local meta=minetest.env:get_meta(pos)
 			local inv=meta:get_inventory()
@@ -320,7 +320,7 @@ minetest.register_node("technic:gold_locked_chest".. state, {
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked"..state..".png"},
 	paramtype2 = "facedir",
 	drop = "technic:gold_locked_chest",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1,not_in_creative_inventory=1},
 	tube={insert_object=function(pos,node,stack,direction)
 			local meta=minetest.env:get_meta(pos)
 			local inv=meta:get_inventory()
