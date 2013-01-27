@@ -38,18 +38,8 @@ minetest.register_node("technic:silver_chest", {
 	tiles = {"technic_silver_chest_top.png", "technic_silver_chest_top.png", "technic_silver_chest_side.png",
 		"technic_silver_chest_side.png", "technic_silver_chest_side.png", "technic_silver_chest_front.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
-	tube={insert_object=function(pos,node,stack,direction)
-			local meta=minetest.env:get_meta(pos)
-			local inv=meta:get_inventory()
-			return inv:add_item("main",stack)
-		end,
-		can_insert=function(pos,node,stack,direction)
-			local meta=minetest.env:get_meta(pos)
-			local inv=meta:get_inventory()
-			return inv:room_for_item("main",stack)
-		end,
-		input_inventory="main"},
+	groups = chest_groups1,
+	tube = tubes_properties,
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
@@ -62,11 +52,7 @@ minetest.register_node("technic:silver_chest", {
 		local inv = meta:get_inventory()
 		inv:set_size("main", 11*4)
 	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		return inv:is_empty("main")
-	end,
+	can_dig = chest_can_dig,
 
 	on_punch = function (pos, node, puncher)
 	        local meta = minetest.env:get_meta(pos);
@@ -85,58 +71,27 @@ minetest.register_node("technic:silver_chest", {
 				"list[current_player;main;0,5;8,4;]")
 	end,
 
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff in chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
-	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff to chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
-	end,
-    on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" takes stuff from chest at "..minetest.pos_to_string(pos))
-	end,
-
+	on_metadata_inventory_move = def_on_metadata_inventory_move,
+	on_metadata_inventory_put = def_on_metadata_inventory_put,
+	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })
-
-local function has_locked_chest_privilege(meta, player)
-	if player:get_player_name() ~= meta:get_string("owner") then
-		return false
-	end
-	return true
-end
 
 minetest.register_node("technic:silver_locked_chest", {
 	description = "Silver Locked Chest",
 	tiles = {"technic_silver_chest_top.png", "technic_silver_chest_top.png", "technic_silver_chest_side.png",
 		"technic_silver_chest_side.png", "technic_silver_chest_side.png", "technic_silver_chest_locked.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
-	tube={insert_object=function(pos,node,stack,direction)
-			local meta=minetest.env:get_meta(pos)
-			local inv=meta:get_inventory()
-			return inv:add_item("main",stack)
-		end,
-		can_insert=function(pos,node,stack,direction)
-			local meta=minetest.env:get_meta(pos)
-			local inv=meta:get_inventory()
-			return inv:room_for_item("main",stack)
-		end,
-		input_inventory="main"},legacy_facedir_simple = true,
+	groups = chest_groups2,
+	tube = tubes_properties,
+	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
 		meta:set_string("infotext", "Silver Locked Chest (owned by "..
-				meta:get_string("owner")..")")
+			meta:get_string("owner")..")")
 	end,
-on_construct = function(pos)
+	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[11,9;]"..
@@ -147,11 +102,7 @@ on_construct = function(pos)
 		local inv = meta:get_inventory()
 		inv:set_size("main", 11*4)
 	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		return inv:is_empty("main")
-	end,
+	can_dig = chest_can_dig,
 
 	on_punch = function (pos, node, puncher)
 	        local meta = minetest.env:get_meta(pos);
@@ -170,49 +121,11 @@ on_construct = function(pos)
 				"list[current_player;main;0,5;8,4;]")
 	end,
 
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return count
-	end,
-    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return stack:get_count()
-	end,
-    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return stack:get_count()
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-	end,
+
+	allow_metadata_inventory_move = def_allow_metadata_inventory_move,
+	allow_metadata_inventory_put = def_allow_metadata_inventory_put,
+	allow_metadata_inventory_take = def_allow_metadata_inventory_take,
+	on_metadata_inventory_move = def_on_metadata_inventory_move,
+	on_metadata_inventory_put = def_on_metadata_inventory_put,
+	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })

@@ -10,6 +10,7 @@ dofile(modpath.."/ores.lua")
 if enable_rubber_tree_generation==true then dofile(modpath.."/rubber.lua") end
 
 -- chests
+dofile(modpath.."/chest_commons.lua")
 dofile(modpath.."/iron_chest.lua")
 dofile(modpath.."/copper_chest.lua")
 dofile(modpath.."/silver_chest.lua")
