@@ -38,6 +38,7 @@ dofile(modpath.."/grinder.lua")
 dofile(modpath.."/wires_mv.lua")
 dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/battery_box_mv.lua")
+dofile(modpath.."/electric_furnace_mv.lua")
 
 --Tools
 if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
@@ -52,7 +53,7 @@ dofile(modpath.."/sonic_screwdriver.lua")
 -- mesecons and tubes related
 --dofile(modpath.."/injector.lua")
 dofile(modpath.."/node_breaker.lua")
---dofile(modpath.."/deployer.lua")
+dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
 
 if enable_item_drop	then dofile(modpath.."/item_drop.lua") end
