@@ -114,16 +114,16 @@ unified_inventory.get_formspec = function(player,page)
 	unified_inventory.current_page[player_name]=page
 	
 	local formspec = "size[14,10]"
-	
+
 	-- player inventory
 	formspec = formspec .. "list[current_player;main;0,4.5;8,4;]"
-	formspec = formspec.."item_image[0,0;2,2;default:dirt]"
+
 	-- main buttons
 		formspec = formspec .. "button[0,9;1.8,.5;craft;Craft]"
 		formspec = formspec .. "button[1.6,9;1.8,.5;craftguide;Craft Guide]"
 		formspec = formspec .. "button[3.2,9;1.8,.5;bags;Bags]"
 		formspec = formspec .. "button[4.8,9;1.8,.5;misc;Misc.]"
-		
+
 	--controls to flip items pages
 		local start_x=9.2
 		formspec = formspec .. "button["..(start_x+.6*0)..",9;.8,.5;start_list;|<]"
@@ -133,10 +133,10 @@ unified_inventory.get_formspec = function(player,page)
 		formspec = formspec .. "button["..(start_x+.6*4)..",9;.8,.5;forward3;>>]"
 		formspec = formspec .. "button["..(start_x+.6*5)..",9;.8,.5;end_list;>|]"
 	
-	-- search box	
+	-- search box
 		formspec = formspec .. "field[9.195,8.325;3,1;searchbox;;]"
-	  	formspec = formspec .. "button[12,8;1.2,1;searchbutton;Search]"
-	  	
+		formspec = formspec .. "button[12,8;1.2,1;searchbutton;Search]"
+
 	-- craft page
 	if page=="craft" then
 		formspec = formspec.."label[0,0;Crafting]"
@@ -149,7 +149,7 @@ unified_inventory.get_formspec = function(player,page)
 				formspec = formspec.."list[detached:trash;main;7,3;1,1;]"
 			end
 		end
-		
+
 	-- craft guide page
 	if page=="craftguide" then
 		formspec = formspec.."label[0,0;Crafting Guide]"
@@ -164,7 +164,7 @@ unified_inventory.get_formspec = function(player,page)
 			local alternates = 0
 			local alternate = unified_inventory.alternate[player_name]
 			local crafts = crafts_table[item_name]
-			
+
 			if crafts ~= nil then
 				alternates = #crafts
 				local craft = crafts[alternate]
