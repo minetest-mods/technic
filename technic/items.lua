@@ -18,6 +18,12 @@ minetest.register_craft({
 		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
 	}
 })
+minetest.register_craft({
+	output = 'pipeworks:mese_tube_000000',
+	recipe = {
+		{'default:mese_crystal_fragment', 'pipeworks:tube_000000', 'default:mese_crystal_fragment'},
+		}
+})
 
 minetest.register_craftitem( "technic:diamond_drill_head", {
 	description = "Diamond Drill Head",
@@ -49,7 +55,6 @@ minetest.register_node( "technic:diamond_block", {
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
-	drop = 'craft "technic:diamond_block" 1',
 }) 
 
 minetest.register_craft({
@@ -155,3 +160,17 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craftitem( "technic:control_logic_unit", {
+	description = "Control Logic Unit",
+	inventory_image = "technic_control_logic_unit.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:control_logic_unit',
+	recipe = {
+		{'', 'moreores:gold_ingot', ''},
+		{'moreores:copper_ingot', 'technic:silicon_wafer', 'moreores:copper_ingot'},
+		{'', 'moreores:copper_ingot', ''},
+	}
+})
