@@ -34,8 +34,8 @@ deployer_signal_on = function(pos, node)
 				stack:take_item(1);
 				inv:set_stack("main", i, stack)
 				return
+				end
 			end
-		end
 	end
 	end
 end

@@ -1,5 +1,3 @@
-minetest.register_alias("electric_furnace", "technic:electric_furnace")
-
 minetest.register_craft({
 	output = 'technic:electric_furnace',
 	recipe = {
@@ -103,8 +101,8 @@ minetest.register_abm({
 
 		local meta = minetest.env:get_meta(pos)
 		internal_EU_buffer=meta:get_float("internal_EU_buffer")
-		internal_EU_buffer_size=meta:get_float("internal_EU_buffer")
-		local load = math.floor(internal_EU_buffer/2000 * 100)
+		internal_EU_buffer_size=meta:get_float("internal_EU_buffer_size")
+		local load = math.floor(internal_EU_buffer/internal_EU_buffer_size * 100)
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
@@ -159,7 +157,6 @@ minetest.register_abm({
 			hacky_swap_node(pos,"technic:electric_furnace_active")
 			meta:set_string("infotext","Furnace active")
 			meta:set_string("furnace_is_cookin",1)
-		--	meta:set_string("formspec", electric_furnace_formspec)
 			meta:set_string("src_time", 0)
 			return
 			end
@@ -169,7 +166,6 @@ minetest.register_abm({
 				hacky_swap_node(pos,"technic:electric_furnace")
 				meta:set_string("infotext","Furnace inactive")
 				meta:set_string("furnace_is_cookin",0)
-		--		meta:set_string("formspec", electric_furnace_formspec)
 				meta:set_string("src_time", 0)
 		
 	
