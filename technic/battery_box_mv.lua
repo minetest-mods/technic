@@ -316,6 +316,8 @@ end
 function check_MV_node_subp (PR_nodes,RE_nodes,MV_nodes,pos1)
 meta = minetest.env:get_meta(pos1)
 if meta:get_float("mv_cablelike")==1 then new_node_added=add_new_MVcable_node(MV_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:solar_panel_mv" then 	new_node_added=add_new_MVcable_node(PR_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:solar_panel_mv" 			then 	new_node_added=add_new_MVcable_node(PR_nodes,pos1) end
+if minetest.env:get_node(pos1).name == "technic:mv_electric_furnace" 		then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
+if minetest.env:get_node(pos1).name == "technic:mv_electric_furnace_active" then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
 end
-		
+
