@@ -3,6 +3,16 @@ minetest.register_craftitem("technic:injector", {
 	stack_max = 99,
 })
 
+minetest.register_craft({
+	output = 'technic:injector 1',
+	recipe = {
+		{'', 'technic:control_logic_unit',''},
+		{'', 'default:chest',''},
+		{'', 'pipeworks:tube_000000',''},
+
+	}
+})
+
 minetest.register_node("technic:injector", {
 	description = "Injector",
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
