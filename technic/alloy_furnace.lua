@@ -1,45 +1,11 @@
-alloy_recipes ={}
-
-registered_recipes_count=1
-
-function register_alloy_recipe (string1,count1, string2,count2, string3,count3)
-alloy_recipes[registered_recipes_count]={}
-alloy_recipes[registered_recipes_count].src1_name=string1
-alloy_recipes[registered_recipes_count].src1_count=count1
-alloy_recipes[registered_recipes_count].src2_name=string2
-alloy_recipes[registered_recipes_count].src2_count=count2
-alloy_recipes[registered_recipes_count].dst_name=string3
-alloy_recipes[registered_recipes_count].dst_count=count3
-registered_recipes_count=registered_recipes_count+1
-alloy_recipes[registered_recipes_count]={}
-alloy_recipes[registered_recipes_count].src1_name=string2
-alloy_recipes[registered_recipes_count].src1_count=count2
-alloy_recipes[registered_recipes_count].src2_name=string1
-alloy_recipes[registered_recipes_count].src2_count=count1
-alloy_recipes[registered_recipes_count].dst_name=string3
-alloy_recipes[registered_recipes_count].dst_count=count3
-registered_recipes_count=registered_recipes_count+1
-if UI_recipes_hook then
-	minetest.register_craft({
-	type = "alloy",
-	output = string3.." "..count3,
+minetest.register_craft({
+	output = 'technic:coal_alloy_furnace',
 	recipe = {
-		{string1.." "..count1},
-		{string2.." "..count2},
-			}
-	})
-	end
-end
-
-register_alloy_recipe ("technic:copper_dust",3, "technic:tin_dust",1, "technic:bronze_dust",4)
-register_alloy_recipe ("moreores:copper_ingot",3, "moreores:tin_ingot",1, "moreores:bronze_ingot",4)
-register_alloy_recipe ("technic:iron_dust",3, "technic:chromium_dust",1, "technic:stainless_steel_dust",4)
-register_alloy_recipe ("default:steel_ingot",3, "technic:chromium_ingot",1, "technic:stainless_steel_ingot",4)
-register_alloy_recipe ("technic:copper_dust",2, "technic:zinc_dust",1, "technic:brass_dust",3)
-register_alloy_recipe ("moreores:copper_ingot",2, "technic:zinc_ingot",1, "technic:brass_ingot",3)
-register_alloy_recipe ("default:sand",2, "technic:coal_dust",2, "technic:silicon_wafer",1)
-register_alloy_recipe ("technic:silicon_wafer",1, "technic:mithril_dust",1, "technic:doped_silicon_wafer",1)
-
+		{'default:brick', 'default:brick', 'default:brick'},
+		{'default:brick', '', 'default:brick'},
+		{'default:brick', 'default:brick', 'default:brick'},
+	}
+})
 
 minetest.register_craft({
 	output = 'technic:alloy_furnace',
@@ -50,6 +16,7 @@ minetest.register_craft({
 	}
 })
 
+-- LV alloy furnace
 
 alloy_furnace_formspec =
 	"invsize[8,9;]"..
@@ -86,8 +53,9 @@ minetest.register_node("technic:alloy_furnace", {
 		local cooked = nil
 		meta:set_float("internal_EU_buffer",0)
 		meta:set_float("internal_EU_buffer_size",2000)
-
+		meta:set_float("tube_time", 0)
 	end,
+
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
 		local inv = meta:get_inventory()
@@ -108,7 +76,7 @@ minetest.register_node("technic:alloy_furnace_active", {
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "technic:alloy_furnace",
-	groups = {cracky=2, not_in_creative_inventory=1},
+	groups = {cracky=2,not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_stone_defaults(),
 	internal_EU_buffer=0;
@@ -149,13 +117,12 @@ minetest.register_abm({
 				"label[1,3;Power level]")
 
 		local inv = meta:get_inventory()
-		
+
 		local furnace_is_cookin = meta:get_int("furnace_is_cookin")
-		
-		
+
 		local srclist = inv:get_list("src")
 		local srclist2 = inv:get_list("src2")
-		
+
 		srcstack = inv:get_stack("src", 1)
 		if srcstack then src_item1=srcstack:to_table() end
 		srcstack = inv:get_stack("src2", 1)
@@ -165,8 +132,8 @@ minetest.register_abm({
 		if src_item1 and src_item2 then 
 				dst_index=get_cook_result(src_item1,src_item2) 
 				end
-		
-		
+
+
 		if (furnace_is_cookin == 1) then
 			if internal_EU_buffer>=150 then
 			internal_EU_buffer=internal_EU_buffer-150;
@@ -198,12 +165,9 @@ minetest.register_abm({
 				end
 				meta:set_string("src_time", 0)
 			end
-			end		
+			end	
 		end
-		
-		
 
-		
 		if dst_index and meta:get_int("furnace_is_cookin")==0 then
 			hacky_swap_node(pos,"technic:alloy_furnace_active")
 			meta:set_string("infotext","Electric Alloy Furnace active")
@@ -212,7 +176,6 @@ minetest.register_abm({
 			return
 			end
 
-			
 		if meta:get_int("furnace_is_cookin")==0 or dst_index==nil then
 			hacky_swap_node(pos,"technic:alloy_furnace")
 			meta:set_string("infotext","Electric Alloy Furnace inactive")
@@ -235,18 +198,7 @@ end
 return nil
 end
 
-
 --coal driven alloy furnace:
-
-minetest.register_craft({
-	output = 'technic:coal_alloy_furnace',
-	recipe = {
-		{'default:brick', 'default:brick', 'default:brick'},
-		{'default:brick', '', 'default:brick'},
-		{'default:brick', 'default:brick', 'default:brick'},
-	}
-})
-
 
 coal_alloy_furnace_formspec =
 	"size[8,9]"..

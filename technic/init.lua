@@ -22,6 +22,7 @@ dofile(modpath.."/concrete.lua")
 dofile(modpath.."/items.lua")
 
 --LV machines
+dofile(modpath.."/alloy_furnaces_commons.lua")
 dofile(modpath.."/alloy_furnace.lua")
 dofile(modpath.."/solar_panel.lua")
 dofile(modpath.."/geothermal.lua")
@@ -39,6 +40,7 @@ dofile(modpath.."/wires_mv.lua")
 dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/battery_box_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
+dofile(modpath.."/alloy_furnace_mv.lua")
 
 --Tools
 if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
