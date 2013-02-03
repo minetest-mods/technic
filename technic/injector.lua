@@ -9,7 +9,6 @@ minetest.register_craft({
 		{'', 'technic:control_logic_unit',''},
 		{'', 'default:chest',''},
 		{'', 'pipeworks:tube_000000',''},
-
 	}
 })
 
@@ -25,16 +24,36 @@ minetest.register_node("technic:injector", {
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;Injector]"..
+				"button[0,1;.8,.8;mode;]"..
+				"label[.8,1;Mode: single items]"..
 				"list[current_name;main;0,2;8,2;]"..
 				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", "Injector")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
+		meta:set_string("mode","single items")
 	end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
+	end,
+	on_receive_fields = function(pos, formanme, fields, sender)
+	local meta = minetest.env:get_meta(pos)
+	local mode=meta:get_string("mode")
+	if fields.mode then 
+		if mode=="single items" then mode="whole stacks" 
+		 else mode="single items"
+		end
+	local mode=meta:set_string("mode",mode)
+	end
+	meta:set_string("formspec",
+				"invsize[8,9;]"..
+				"label[0,0;Injector]"..
+				"button[0,1;.8,.8;mode;]"..
+				"label[.8,1;Mode: "..mode.."]"..
+				"list[current_name;main;0,2;8,2;]"..
+				"list[current_player;main;0,5;8,4;]")
 	end,
 })
 
@@ -56,21 +75,43 @@ minetest.register_abm({
 function inject_items (pos)
 		local meta=minetest.env:get_meta(pos) 
 		local inv = meta:get_inventory()
-		local i=0
-		for _,stack in ipairs(inv:get_list("main")) do
-		i=i+1
-			if stack then
-			local item0=stack:to_table()
-			if item0 then 
-				item0["count"]="1"
-				local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
-				item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
-				item1:setvelocity({x=0, y=-1, z=0})
-				item1:setacceleration({x=0, y=0, z=0})
-				stack:take_item(1);
-				inv:set_stack("main", i, stack)
-				return
+		local mode=meta:get_string("mode")
+		if mode=="single items" then
+			local i=0
+			for _,stack in ipairs(inv:get_list("main")) do
+			i=i+1
+				if stack then
+				local item0=stack:to_table()
+				if item0 then 
+					item0["count"]="1"
+					local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
+					item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
+					item1:setvelocity({x=0, y=-1, z=0})
+					item1:setacceleration({x=0, y=0, z=0})
+					stack:take_item(1);
+					inv:set_stack("main", i, stack)
+					return
+					end
 				end
 			end
 		end
+		if mode=="whole stacks" then
+			local i=0
+			for _,stack in ipairs(inv:get_list("main")) do
+			i=i+1
+				if stack then
+				local item0=stack:to_table()
+				if item0 then 
+					local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
+					item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
+					item1:setvelocity({x=0, y=-1, z=0})
+					item1:setacceleration({x=0, y=0, z=0})
+					stack:clear()
+					inv:set_stack("main", i, stack)
+					return
+					end
+				end
+			end
+		end
+		
 end
