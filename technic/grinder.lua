@@ -190,7 +190,7 @@ grinder_formspec =
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
 	"list[current_player;main;0,5;8,4;]"
-	
+
 
 minetest.register_node("technic:grinder", {
 	description = "Grinder",
@@ -219,7 +219,7 @@ minetest.register_node("technic:grinder", {
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
 		
-		end,	
+		end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
 		local inv = meta:get_inventory()
@@ -257,18 +257,16 @@ minetest.register_abm({
 				"list[current_name;dst;5,1;2,2;]"..
 				"list[current_player;main;0,5;8,4;]"
 				)
-				
+
 		
 
 		local inv = meta:get_inventory()
 		
 --		local grinder_on = meta:get_float("grinder_on")
 		
-		
 		local srclist = inv:get_list("src")
 		if inv:is_empty("src") then meta:set_float("grinder_on",0) end 
-	
-		
+
 		if (meta:get_float("grinder_on") == 1) then
 			if charge>=grind_cost then
 			charge=charge-grind_cost;
@@ -285,17 +283,13 @@ minetest.register_abm({
 					srcstack:take_item()
 					inv:set_stack("src", 1, srcstack)
 					if inv:is_empty("src") then meta:set_float("grinder_on",0) end 
-
-
-
 				else
 					print("Grinder inventory full!")
 				end
 				meta:set_float("src_time", 0)
 			end
-			end		
+			end
 		end
-		
 		if (meta:get_float("grinder_on")==0) then
 		local grinded=nil 
 		if not inv:is_empty("src") then
@@ -304,11 +298,9 @@ minetest.register_abm({
 		 grind_time=4
 		 meta:set_float("grind_time",grind_time)
 		 meta:set_float("src_time", 0)
-		 return 	
+		 return
 		end
 		end
-		
-	
 	end
 }) 
 
@@ -319,8 +311,9 @@ item_name=src_item["name"]
 
 local counter=registered_grinder_recipes_count-1
 for i=1, counter,1 do
-if	grinder_recipes[i].src_name==item_name then return ItemStack(grinder_recipes[i].dst_name) end
+	if	grinder_recipes[i].src_name==item_name then return ItemStack(grinder_recipes[i].dst_name) end
 end
 return nil
-		
 end
+
+register_LV_machine ("technic:grinder","RE")

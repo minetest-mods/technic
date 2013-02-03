@@ -198,6 +198,9 @@ end
 return nil
 end
 
+register_LV_machine ("technic:alloy_furnace","RE")
+register_LV_machine ("technic:alloy_furnace_active","RE")
+
 --coal driven alloy furnace:
 
 coal_alloy_furnace_formspec =

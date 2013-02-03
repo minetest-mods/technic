@@ -145,12 +145,10 @@ minetest.register_abm({
 				end
 				meta:set_string("src_time", 0)
 			end
-			end		
+			end
 		end
-		
-		
 
-		
+
 		if srclist then
 			cooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 			if cooked.time>0 then 
@@ -162,12 +160,14 @@ minetest.register_abm({
 			end
 
 		end
-	
+
 				hacky_swap_node(pos,"technic:electric_furnace")
 				meta:set_string("infotext","Furnace inactive")
 				meta:set_string("furnace_is_cookin",0)
 				meta:set_string("src_time", 0)
-		
-	
-end,		
+
+end,
 })
+
+register_LV_machine ("technic:electric_furnace","RE")
+register_LV_machine ("technic:electric_furnace_active","RE")

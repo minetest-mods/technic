@@ -1,12 +1,21 @@
-power_tools ={}
+LV_machines = {}
+registered_LV_machines_count=0
 
-registered_power_tools_count=1
+function register_LV_machine (string1,string2)
+registered_LV_machines_count=registered_LV_machines_count+1
+LV_machines[registered_LV_machines_count]={}
+LV_machines[registered_LV_machines_count].machine_name=string1
+LV_machines[registered_LV_machines_count].machine_type=string2
+end
+
+power_tools ={}
+registered_power_tools_count=0
 
 function register_power_tool (string1,max_charge)
+registered_power_tools_count=registered_power_tools_count+1
 power_tools[registered_power_tools_count]={}
 power_tools[registered_power_tools_count].tool_name=string1
 power_tools[registered_power_tools_count].max_charge=max_charge
-registered_power_tools_count=registered_power_tools_count+1
 end
 
 register_power_tool ("technic:mining_drill",60000)
@@ -380,19 +389,14 @@ end
 function check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
 meta = minetest.env:get_meta(pos1)
 if meta:get_float("cablelike")==1 then new_node_added=add_new_cable_node(LV_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:solar_panel" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:generator" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:generator_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:geothermal" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:geothermal_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:water_mill" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:water_mill_active" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:electric_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:electric_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:alloy_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:alloy_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:tool_workshop" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:music_player" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
-if minetest.env:get_node(pos1).name == "technic:grinder" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
+for i in ipairs(LV_machines) do
+	if minetest.env:get_node(pos1).name == LV_machines[i].machine_name then 
+		if LV_machines[i].machine_type == "PR" then
+			new_node_added=add_new_cable_node(PR_nodes,pos1) 
+			end
+		if LV_machines[i].machine_type == "RE" then
+			new_node_added=add_new_cable_node(RE_nodes,pos1) 
+			end
+	end
 end
-		
+end

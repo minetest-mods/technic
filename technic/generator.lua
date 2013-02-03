@@ -137,12 +137,13 @@ minetest.register_abm({
 						(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0,5;8,4;]"
 				)
-				
+
 	if burn_time==0 then
 		hacky_swap_node (pos,"technic:generator")
 	end
-		
 
 	end
 }) 
 
+register_LV_machine ("technic:generator","PR")
+register_LV_machine ("technic:generator_active","PR")

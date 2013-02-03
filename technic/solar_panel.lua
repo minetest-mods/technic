@@ -74,3 +74,5 @@ minetest.register_abm(
 		end
 	end,
 }) 
+
+register_LV_machine ("technic:solar_panel","PR")

@@ -265,3 +265,6 @@ function send_cooked_alloys (pos,x_velocity,z_velocity)
 			end
 		end
 end
+
+register_MV_machine ("technic:mv_alloy_furnace","RE")
+register_MV_machine ("technic:mv_alloy_furnace_active","RE")

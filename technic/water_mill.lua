@@ -126,3 +126,6 @@ local node=minetest.env:get_node(pos)
 if node.name=="default:water_flowing"  then return 1 end
 return 0
 end
+
+register_LV_machine ("technic:watermill","PR")
+register_LV_machine ("technic:watermill_active","PR")

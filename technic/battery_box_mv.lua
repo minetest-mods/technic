@@ -1,3 +1,14 @@
+MV_machines = {}
+
+registered_MV_machines_count=0
+
+function register_MV_machine (string1,string2)
+registered_MV_machines_count=registered_MV_machines_count+1
+MV_machines[registered_MV_machines_count]={}
+MV_machines[registered_MV_machines_count].machine_name=string1
+MV_machines[registered_MV_machines_count].machine_type=string2
+end
+
 minetest.register_craft({
 	output = 'technic:mv_battery_box 1',
 	recipe = {
@@ -6,8 +17,6 @@ minetest.register_craft({
 		{'', 'technic:mv_cable', ''},
 	}
 }) 
-
-
 
 mv_battery_box_formspec =
 	"invsize[8,9;]"..
@@ -316,10 +325,15 @@ end
 function check_MV_node_subp (PR_nodes,RE_nodes,MV_nodes,pos1)
 meta = minetest.env:get_meta(pos1)
 if meta:get_float("mv_cablelike")==1 then new_node_added=add_new_MVcable_node(MV_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:solar_panel_mv" 			then 	new_node_added=add_new_MVcable_node(PR_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:mv_electric_furnace" 		then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:mv_electric_furnace_active" then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:mv_alloy_furnace" then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
-if minetest.env:get_node(pos1).name == "technic:mv_alloy_furnace_active" then 	new_node_added=add_new_MVcable_node(RE_nodes,pos1) end
+for i in ipairs(MV_machines) do
+	if minetest.env:get_node(pos1).name == MV_machines[i].machine_name then 
+		if MV_machines[i].machine_type == "PR" then
+			new_node_added=add_new_MVcable_node(PR_nodes,pos1) 
+			end
+		if MV_machines[i].machine_type == "RE" then
+			new_node_added=add_new_MVcable_node(RE_nodes,pos1) 
+			end
+	end
+end
 end
 

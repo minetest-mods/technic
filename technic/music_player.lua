@@ -115,12 +115,8 @@ minetest.register_abm({
 				"button[4,4;1,2;play;Play]"..
 				"button[6,4;1,2;stop;Stop]"..
 				"label[4,0;Current track "..tostring(music_player_current_track).."]"
-
 				)
-				
-	
-	
-	
 	end
 }) 
 
+register_LV_machine ("technic:music_player","RE")

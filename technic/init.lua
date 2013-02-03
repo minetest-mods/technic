@@ -22,14 +22,14 @@ dofile(modpath.."/concrete.lua")
 dofile(modpath.."/items.lua")
 
 --LV machines
+dofile(modpath.."/wires.lua")
+dofile(modpath.."/battery_box.lua")
 dofile(modpath.."/alloy_furnaces_commons.lua")
 dofile(modpath.."/alloy_furnace.lua")
 dofile(modpath.."/solar_panel.lua")
 dofile(modpath.."/geothermal.lua")
 dofile(modpath.."/water_mill.lua")
 dofile(modpath.."/electric_furnace.lua")
-dofile(modpath.."/battery_box.lua")
-dofile(modpath.."/wires.lua")
 dofile(modpath.."/tool_workshop.lua")
 dofile(modpath.."/music_player.lua")
 dofile(modpath.."/generator.lua")
@@ -37,8 +37,8 @@ dofile(modpath.."/grinder.lua")
 
 --MV machines
 dofile(modpath.."/wires_mv.lua")
-dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/battery_box_mv.lua")
+dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
 

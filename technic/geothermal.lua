@@ -133,3 +133,6 @@ if node.name=="default:water_source" or node.name=="default:water_flowing"  then
 if node.name=="default:lava_source" or node.name=="default:lava_flowing"  then return 2 end	
 return 0
 end
+
+register_LV_machine ("technic:geothermal","PR")
+register_LV_machine ("technic:geothermal_active","PR")

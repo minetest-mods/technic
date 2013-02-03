@@ -262,7 +262,6 @@ function send_cooked_items (pos,x_velocity,z_velocity)
 			if stack then
 			local item0=stack:to_table()
 			if item0 then 
-				print (dump(item0))
 				item0["count"]="1"
 				local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
 				item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
@@ -275,3 +274,6 @@ function send_cooked_items (pos,x_velocity,z_velocity)
 			end
 		end
 end
+
+register_MV_machine ("technic:mv_electric_furnace","RE")
+register_MV_machine ("technic:mv_electric_furnace_active","RE")

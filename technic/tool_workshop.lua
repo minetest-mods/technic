@@ -95,3 +95,6 @@ minetest.register_abm({
 				"list[current_player;main;0,5;8,4;]")
 	end
 }) 
+
+register_LV_machine ("technic:tool_workshop","RE")
+

@@ -5,8 +5,8 @@ minetest.register_craftitem("technic:injector", {
 
 minetest.register_node("technic:injector", {
 	description = "Injector",
-	tiles = {"technic_iron_chest_top.png", "technic_iron_chest_top.png", "technic_iron_chest_side.png",
-		"technic_iron_chest_side.png", "technic_iron_chest_side.png", "technic_iron_chest_front.png"},
+	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
+		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	legacy_facedir_simple = true,
@@ -32,7 +32,14 @@ minetest.register_node("technic:injector", {
 	for _,stack in ipairs(inv:get_list("main")) do
 		if stack:get_name() ~="" then 
 			inv:remove_item("main",stack)
-			item1=tube_item({x=pos.x+.5,y=pos.y,z=pos.z},stack)
+			pos1=pos
+			pos1.y=pos1.y
+			local x=pos1.x+1.5
+			local z=pos1.z
+			item1=tube_item({x=pos1.x,y=pos1.y,z=pos1.z},stack)
+			item1:get_luaentity().start_pos = {x=pos1.x,y=pos1.y,z=pos1.z}
+			item1:setvelocity({x=1, y=0, z=0})
+			item1:setacceleration({x=0, y=0, z=0})
 			return
 			end
 	end
@@ -41,33 +48,30 @@ end,
 
 
 function tube_item(pos, item)
+		local TUBE_nodes = {}
+		local CHEST_nodes = {}
+
+	 	TUBE_nodes[1]={}
+	 	TUBE_nodes[1].x=pos.x
+		TUBE_nodes[1].y=pos.y
+		TUBE_nodes[1].z=pos.z
+
+
+table_index=1
+	repeat
+	check_TUBE_node (TUBE_nodes,CHEST_nodes,table_index)
+	table_index=table_index+1
+	if TUBE_nodes[table_index]==nil then break end
+	until false
+found=table_index-1
+
+
+print("Found "..found.." tubes connected")
+print(dump(CHEST_nodes))
 	-- Take item in any format
 	local stack = ItemStack(item)
 	local obj = minetest.env:add_entity(pos, "technic:tubed_item")
 	obj:get_luaentity():set_item(stack:to_string())
-	obj:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
-	obj:setacceleration({x=0, y=0, z=0})
-	pos.x=pos.x+1
-	local meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=1, y=0, z=0}) return obj end
-	pos.x=pos.x-2
-	meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=-1, y=0, z=0}) return obj end
-	pos.x=pos.x+1
-	pos.z=pos.z+1
-	meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=0, y=0, z=1}) return obj end
-	pos.z=pos.z-2
-	meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=0, y=0, z=-1}) return obj end
-	pos.z=pos.z+1
-	pos.y=pos.y+1
-	meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=0, y=1, z=0}) return obj end
-	pos.y=pos.y-2
-	meta = minetest.env:get_meta(pos)
-	if meta:get_int("tubelike")==1 then obj:setvelocity({x=0, y=-2, z=0}) return obj end
-	pos.y=pos.y+1
 	return obj
 end
 
@@ -82,7 +86,8 @@ minetest.register_entity("technic:tubed_item", {
 		spritediv = {x=1, y=1},
 		initial_sprite_basepos = {x=0, y=0},
 		is_visible = false,
-		start_pos={}
+		start_pos={},
+		route={}
 	},
 	
 	itemstring = '',
@@ -129,6 +134,7 @@ minetest.register_entity("technic:tubed_item", {
 	end,
 
 	on_activate = function(self, staticdata)
+--		print (dump(staticdata))
 		if  staticdata=="" or staticdata==nil then return end
 		local item = minetest.deserialize(staticdata)
 		local stack = ItemStack(item.itemstring)
@@ -153,16 +159,23 @@ minetest.register_entity("technic:tubed_item", {
 	local node = minetest.env:get_node(pos)
 	local meta = minetest.env:get_meta(pos)
 	tubelike=meta:get_int("tubelike")
+	local stack = ItemStack(self.itemstring)
+	local drop_pos=nil
+		
 	local velocity=self.object:getvelocity()
 	
-	if not velocity then return end
+	if velocity==nil then print ("wypadl") return end
 
 	if math.abs(velocity.x)==1 then
 		local next_node=math.abs(pos.x-self.start_pos.x)
 		if next_node >= 1 then 
 			self.start_pos.x=self.start_pos.x+velocity.x
 			if check_pos_vector (self.start_pos, velocity)==0 then 
-			check_next_step (self.start_pos, velocity) 
+			if check_next_step (self.start_pos, velocity)==0 then
+				drop_pos=minetest.env:find_node_near({x=self.start_pos.x,y=self.start_pos.y,z=self.start_pos.z+velocity.x}, 1, "air")
+				if drop_pos then minetest.item_drop(stack, "", drop_pos) end
+				self.object:remove()
+				end
 			self.object:setpos(self.start_pos)
 			self.object:setvelocity(velocity)
 			return
@@ -175,10 +188,14 @@ minetest.register_entity("technic:tubed_item", {
 		if next_node >= 1 then 
 			self.start_pos.y=self.start_pos.y+velocity.y
 			if check_pos_vector (self.start_pos, velocity)==0 then
-			check_next_step (self.start_pos, velocity) 
+			if check_next_step (self.start_pos, velocity)==0 then
+				drop_pos=minetest.env:find_node_near({x=self.start_pos.x+velocity.x,y=self.start_pos.y+velocity.y,z=self.start_pos.z+velocity.z}, 1, "air")
+				if drop_pos then minetest.item_drop(stack, "", drop_pos) end
+				self.object:remove()
+				end
 			self.object:setpos(self.start_pos)
 			self.object:setvelocity(velocity)
-			return
+			return 
 			end
 			end
 		end
@@ -188,7 +205,11 @@ minetest.register_entity("technic:tubed_item", {
 		if next_node >= 1 then 
 			self.start_pos.z=self.start_pos.z+velocity.z
 			if check_pos_vector (self.start_pos, velocity)==0 then
-			check_next_step (self.start_pos, velocity) 
+			if check_next_step (self.start_pos, velocity)==0 then
+				drop_pos=minetest.env:find_node_near({x=self.start_pos.x+velocity.x,y=self.start_pos.y+velocity.y,z=self.start_pos.z+velocity.z}, 1, "air")
+				if drop_pos then minetest.item_drop(stack, "", drop_pos) end
+				self.object:remove()
+				end
 			self.object:setpos(self.start_pos)
 			self.object:setvelocity(velocity)
 			return
@@ -196,6 +217,7 @@ minetest.register_entity("technic:tubed_item", {
 			end
 		end
 	end
+
 end
 })
 
@@ -207,33 +229,32 @@ local tubelike
 if velocity.x==0 then
 meta = minetest.env:get_meta({x=pos.x-1,y=pos.y,z=pos.z})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=-1 velocity.y=0 velocity.z=0 return end
+if tubelike==1 then velocity.x=-1 velocity.y=0 velocity.z=0 return 1 end
 meta = minetest.env:get_meta({x=pos.x+1,y=pos.y,z=pos.z})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=1 velocity.y=0 velocity.z=0 return end
+if tubelike==1 then velocity.x=1 velocity.y=0 velocity.z=0 return 1 end
 end
 
 if velocity.z==0 then
 meta = minetest.env:get_meta({x=pos.x,y=pos.y,z=pos.z+1})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=0 velocity.y=0 velocity.z=1 return end
+if tubelike==1 then velocity.x=0 velocity.y=0 velocity.z=1 return 1 end
 meta = minetest.env:get_meta({x=pos.x,y=pos.y,z=pos.z-1})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=0 velocity.y=0 velocity.z=-1 return end
+if tubelike==1 then velocity.x=0 velocity.y=0 velocity.z=-1 return 1 end
 end
 
 if velocity.y==0 then
 meta = minetest.env:get_meta({x=pos.x,y=pos.y+1,z=pos.z})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=0 velocity.y=1 velocity.z=0 return end
+if tubelike==1 then velocity.x=0 velocity.y=1 velocity.z=0 return 1 end
 meta = minetest.env:get_meta({x=pos.x,y=pos.y-1,z=pos.z})
 tubelike=meta:get_int("tubelike")
-if tubelike==1 then velocity.x=0 velocity.y=-1 velocity.z=0 return end
+if tubelike==1 then velocity.x=0 velocity.y=-1 velocity.z=0 return 1 end
 end
 
---velocity.x=0
---velocity.y=0
---velocity.z=0
+print ("spadl")
+return 0
 end
 
 function check_pos_vector (pos,velocity)
@@ -246,3 +267,60 @@ local meta=minetest.env:get_meta(added)
 if meta:get_int("tubelike")==1 then return 1 end
 return 0
 end
+
+function add_new_TUBE_node (TUBE_nodes,pos1,parent)
+local i=1
+	repeat
+		if TUBE_nodes[i]==nil then break end
+		if pos1.x==TUBE_nodes[i].x and pos1.y==TUBE_nodes[i].y and pos1.z==TUBE_nodes[i].z then return false end
+		i=i+1
+	until false
+TUBE_nodes[i]={}
+TUBE_nodes[i].x=pos1.x
+TUBE_nodes[i].y=pos1.y
+TUBE_nodes[i].z=pos1.z
+TUBE_nodes[i].parent_x=parent.x
+TUBE_nodes[i].parent_y=parent.y
+TUBE_nodes[i].parent_z=parent.z
+
+return true
+end
+
+function check_TUBE_node (TUBE_nodes,CHEST_nodes,i)
+		local pos1={}
+		local parent={}
+		pos1.x=TUBE_nodes[i].x
+		pos1.y=TUBE_nodes[i].y
+		pos1.z=TUBE_nodes[i].z
+		parent.x=pos1.x
+		parent.y=pos1.y
+		parent.z=pos1.z
+		new_node_added=false
+	
+		pos1.x=pos1.x+1
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.x=pos1.x-2
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.x=pos1.x+1
+		
+		pos1.y=pos1.y+1
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.y=pos1.y-2
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.y=pos1.y+1
+
+		pos1.z=pos1.z+1
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.z=pos1.z-2
+		check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+		pos1.z=pos1.z+1
+return new_node_added
+end
+
+function check_TUBE_node_subp (TUBE_nodes,CHEST_nodes,pos1,parent)
+meta = minetest.env:get_meta(pos1)
+if meta:get_float("tubelike")==1 then add_new_TUBE_node(TUBE_nodes,pos1,parent) return end
+nctr = minetest.env:get_node(pos1)
+if minetest.get_item_group(nctr.name, "tubedevice_receiver") == 1 then add_new_TUBE_node(CHEST_nodes,pos1,parent) return end
+end
+
