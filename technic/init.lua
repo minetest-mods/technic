@@ -51,7 +51,7 @@ dofile(modpath.."/screwdriver.lua")
 dofile(modpath.."/sonic_screwdriver.lua")
 
 -- mesecons and tubes related
---dofile(modpath.."/injector.lua")
+dofile(modpath.."/injector.lua")
 dofile(modpath.."/node_breaker.lua")
 dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
