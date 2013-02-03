@@ -10,6 +10,8 @@ minetest.register_craftitem( "technic:doped_silicon_wafer", {
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
+-- tubes crafting recipes
+
 minetest.register_craft({
 	output = 'pipeworks:tube_000000 9',
 	recipe = {
@@ -23,6 +25,36 @@ minetest.register_craft({
 	recipe = {
 		{'default:mese_crystal_fragment', 'pipeworks:tube_000000', 'default:mese_crystal_fragment'},
 		}
+})
+
+minetest.register_craft({
+    output = 'pipeworks:accelerator_tube_000000',
+    recipe = {
+        {'technic:copper_coil', 'pipeworks:tube_000000', 'technic:copper_coil'},
+        }
+})
+
+minetest.register_craft({
+    output = 'pipeworks:detector_tube_off_000000',
+    recipe = {
+        {'mesecons:mesecon', 'pipeworks:tube_000000', 'mesecons:mesecon'},
+        }
+})
+
+minetest.register_craft({
+    output = 'pipeworks:sand_tube_000000',
+    recipe = {
+        {'default:sand', 'pipeworks:tube_000000', 'default:sand'},
+        }
+})
+
+minetest.register_craft({
+    output = 'pipeworks:teleport_tube_000000',
+    recipe = {
+        {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
+        {'pipeworks:tube_000000', 'technic:control_logic_unit', 'pipeworks:tube_000000'},
+        {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
+        }
 })
 
 minetest.register_craftitem( "technic:diamond_drill_head", {
