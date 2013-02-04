@@ -197,7 +197,7 @@ minetest.register_node("technic:grinder", {
 	tiles = {"technic_lv_grinder_top.png", "technic_lv_grinder_bottom.png", "technic_lv_grinder_side.png",
 		"technic_lv_grinder_side.png", "technic_lv_grinder_side.png", "technic_lv_grinder_front.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+	groups = {cracky=2},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	technic_power_machine=1,
@@ -214,11 +214,9 @@ minetest.register_node("technic:grinder", {
 		meta:set_float("internal_EU_buffer_size", 5000)
 		meta:set_string("formspec", grinder_formspec)
 		meta:set_float("grind_time", 0)
-		
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
-		
 		end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
@@ -229,14 +227,33 @@ minetest.register_node("technic:grinder", {
 		if not inv:is_empty("dst") then
 			return false
 		end
-
 		return true
 		end,
+})
 
+minetest.register_node("technic:grinder_active", {
+	description = "Grinder",
+	tiles = {"technic_lv_grinder_top.png", "technic_lv_grinder_bottom.png", "technic_lv_grinder_side.png",
+		"technic_lv_grinder_side.png", "technic_lv_grinder_side.png", "technic_lv_grinder_front_active.png"},
+	paramtype2 = "facedir",
+	groups = {cracky=2,not_in_creative_inventory=1},
+	legacy_facedir_simple = true,
+	sounds = default.node_sound_wood_defaults(),
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos);
+		local inv = meta:get_inventory()
+		if not inv:is_empty("src") then
+			return false
+		end
+		if not inv:is_empty("dst") then
+			return false
+		end
+		return true
+		end,
 })
 
 minetest.register_abm({
-	nodenames = {"technic:grinder"},
+	nodenames = {"technic:grinder","technic:grinder_active"},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
@@ -258,12 +275,7 @@ minetest.register_abm({
 				"list[current_player;main;0,5;8,4;]"
 				)
 
-		
-
 		local inv = meta:get_inventory()
-		
---		local grinder_on = meta:get_float("grinder_on")
-		
 		local srclist = inv:get_list("src")
 		if inv:is_empty("src") then meta:set_float("grinder_on",0) end 
 
@@ -293,12 +305,19 @@ minetest.register_abm({
 		if (meta:get_float("grinder_on")==0) then
 		local grinded=nil 
 		if not inv:is_empty("src") then
-		 grinded = get_grinded_item (inv:get_stack("src", 1))
-		 if grinded then meta:set_float("grinder_on",1) end
-		 grind_time=4
-		 meta:set_float("grind_time",grind_time)
-		 meta:set_float("src_time", 0)
-		 return
+			grinded = get_grinded_item (inv:get_stack("src", 1))
+			if grinded then 
+				meta:set_float("grinder_on",1)
+				hacky_swap_node(pos,"technic:grinder_active")
+				meta:set_string("infotext", "Grinder Active")
+				grind_time=4
+				meta:set_float("grind_time",grind_time)
+				meta:set_float("src_time", 0)
+				return
+			end
+			else 
+				hacky_swap_node(pos,"technic:grinder")
+				meta:set_string("infotext", "Grinder Inactive")
 		end
 		end
 	end
@@ -317,3 +336,4 @@ return nil
 end
 
 register_LV_machine ("technic:grinder","RE")
+register_LV_machine ("technic:grinder_active","RE")
