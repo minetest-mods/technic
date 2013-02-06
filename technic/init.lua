@@ -57,6 +57,8 @@ dofile(modpath.."/injector.lua")
 dofile(modpath.."/node_breaker.lua")
 dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
+dofile(modpath.."/frames.lua")
+
 
 if enable_item_drop	then dofile(modpath.."/item_drop.lua") end
 if enable_item_pickup   then dofile(modpath.."/item_pickup.lua") end
