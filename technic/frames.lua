@@ -1,31 +1,3 @@
-	minetest.register_node("technic:wall", {
-		description = description,
-		drawtype = "nodebox",
-		tiles = {"default_wood.png"},
-		paramtype = "light",
-		--paramtype2 = "facedir",
-		sunlight_propagates = true,
-		is_ground_content = true,
-		node_box = {
-			type = "fixed",
-			--fixed = {-0.5, -0.5, 0.25, 0.5, 0.5, 0.5},
-	fixed={
-	{-0.5, -0.5, -0.5, -0.4, 0.5, -0.4},
-	{-0.4, -0.5, 0.3, -0.3, 0.5, 0.4},
-	{0.3, -0.5, 0.3, 0.4, 0.5,0.4},
-	{0.3, -0.5, -0.3, 0.4, 0.5,-0.4},
-	{-0.3, -0.35, -0.3, 0.3, -0.2,-0.25},
-	{-0.3, 0.2, -0.3,	 0.3, 0.35,-0.25},
-	{-0.3, -0.35, 0.25, 0.3, -0.2,0.3},
-	{-0.3, 0.2, 0.25,	 0.3, 0.35,0.3},
-	{-0.3, -0.35, -0.25, -0.25, -0.2,0.25},
-	{-0.3, 0.2, -0.25,	 -0.25, 0.35,0.25},
-	{0.25, -0.35, -0.25, 0.3, -0.2,0.25},
-	{0.25, 0.2, -0.25,	0.3, 0.35,0.25},
-	},},
-		sounds = default.node_sound_stone_defaults(),
-	})
-
 function get_face(pos,ppos,pvect)
 	ppos={x=ppos.x-pos.x,y=ppos.y-pos.y+1.5,z=ppos.z-pos.z}
 	if pvect.x>0 then
@@ -371,11 +343,19 @@ minetest.register_node("technic:frame_motor6",{
 	end
 })
 
-
-
+function add_table(table,toadd)
+	local i=1
+	while true do
+		o=table[i]
+		if o==toadd then return end
+		if o==nil then break end
+		i=i+1
+	end
+	table[i]=toadd
+end
 
 function move_nodes_vect(poslist,vect)
-	for _,pos in ipairs(poslist) do
+		for _,pos in ipairs(poslist) do
 		local npos=addVect(pos,vect)
 		if minetest.env:get_node(npos).name~="air" and not(pos_in_list(poslist,npos)) then return end
 	end
@@ -385,6 +365,19 @@ function move_nodes_vect(poslist,vect)
 		local meta=minetest.env:get_meta(pos):to_table()
 		nodelist[#(nodelist)+1]={pos=pos,node=node,meta=meta}
 		minetest.env:remove_node(pos)
+	end
+	objects={}
+	for _,pos in ipairs(poslist) do
+		for _,object in ipairs(minetest.env:get_objects_inside_radius(pos, 1)) do
+			add_table(objects,object)
+		end
+	end
+	for _,obj in ipairs(objects) do
+		obj:setpos(addVect(obj:getpos(),vect))
+		if obj:get_luaentity().name == "pipeworks:tubed_item" then
+			le=obj:get_luaentity()
+			le.start_pos=addVect(le.start_pos,vect)
+		end
 	end
 	for _,n in ipairs(nodelist) do
 		local npos=addVect(n.pos,vect)
