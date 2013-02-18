@@ -53,7 +53,11 @@ local inv = minetest.create_detached_inventory(player:get_player_name().."craftr
 		return 0
 		end,
 		allow_take = function(inv, listname, index, stack, player)
-			return 0
+			if minetest.setting_getbool("creative_mode") then
+				return stack:get_count()
+			else
+				return 0
+			end
 		end,
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
 			return 0
