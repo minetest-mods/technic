@@ -131,7 +131,7 @@ minetest.register_abm({
 		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before tool/item
 
 	local item_max_charge = nil
-	local counter=registered_power_tools_count-1
+	local counter=registered_power_tools_count
 	for i=1, counter,1 do
 		if power_tools[i].tool_name==src_item["name"] then
 		item_max_charge=power_tools[i].max_charge	
