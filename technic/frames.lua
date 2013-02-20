@@ -298,7 +298,7 @@ minetest.register_node("technic:frame_motor3",{
 minetest.register_node("technic:frame_motor4",{
 	description = "Frame motor 4",
 	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png"},
+		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR180"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
 	mesecons={effector={action_on=frame_motor4_on}},
@@ -314,7 +314,7 @@ minetest.register_node("technic:frame_motor4",{
 minetest.register_node("technic:frame_motor5",{
 	description = "Frame motor 5",
 	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png"},
+		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR90"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
 	mesecons={effector={action_on=frame_motor5_on}},
@@ -330,7 +330,7 @@ minetest.register_node("technic:frame_motor5",{
 minetest.register_node("technic:frame_motor6",{
 	description = "Frame motor 6",
 	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png"},
+		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR270"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
 	mesecons={effector={action_on=frame_motor6_on}},
