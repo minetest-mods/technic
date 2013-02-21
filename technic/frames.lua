@@ -364,7 +364,6 @@ function move_nodes_vect(poslist,vect)
 		local node=minetest.env:get_node(pos)
 		local meta=minetest.env:get_meta(pos):to_table()
 		nodelist[#(nodelist)+1]={pos=pos,node=node,meta=meta}
-		minetest.env:remove_node(pos)
 	end
 	objects={}
 	for _,pos in ipairs(poslist) do
@@ -384,6 +383,15 @@ function move_nodes_vect(poslist,vect)
 		minetest.env:set_node(npos,n.node)
 		local meta=minetest.env:get_meta(npos)
 		meta:from_table(n.meta)
+		for __,pos in ipairs(poslist) do
+			if npos.x==pos.x and npos.y==pos.y and npos.z==pos.z then
+				table.remove(poslist, __)
+				break
+			end
+		end
+	end
+	for __,pos in ipairs(poslist) do
+		minetest.env:remove_node(pos)
 	end
 end
 
