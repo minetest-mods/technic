@@ -1,4 +1,5 @@
 chainsaw_max_charge=30000
+register_power_tool ("technic:chainsaw",chainsaw_max_charge)
 
 minetest.register_tool("technic:chainsaw", {
 	description = "Chainsaw",
@@ -7,14 +8,17 @@ minetest.register_tool("technic:chainsaw", {
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type=="node" then 
 		item=itemstack:to_table()
-		if item["metadata"]=="" or item["metadata"]=="0" then return end --tool not charged 
-		charge=tonumber(item["metadata"]) 
+		local meta=get_item_meta(item["metadata"])
+		if meta==nil then return false end --tool not charghed
+		if meta["charge"]==nil then return false end
+		charge=meta["charge"]
 		charge_to_take=600;
 		if charge-charge_to_take>0 then
 		 charge_to_take=chainsaw_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,charge_to_take)
 		 charge=charge-charge_to_take;	
 		set_RE_wear(item,charge,chainsaw_max_charge)
-		item["metadata"]=tostring(charge)	
+		meta["charge"]=charge
+		item["metadata"]=set_item_meta(meta)
 		itemstack:replace(item)
 		return itemstack
 		end

@@ -1,4 +1,6 @@
 laser_mk1_max_charge=40000
+register_power_tool ("technic:laser_mk1",laser_mk1_max_charge)
+
 local laser_shoot = function(itemstack, player, pointed_thing)
 				local laser_straight_mode=0
 				local playerpos=player:getpos()
@@ -10,7 +12,7 @@ local laser_shoot = function(itemstack, player, pointed_thing)
 					minetest.node_dig(pos,node,player)
 					end
 					laser_straight_mode=1
-					end				
+					end	
 				
 				direction_y=math.abs(math.floor(dir.y*100))
 				if direction_y>50 then entity_name="technic:laser_beam_entityV"
@@ -54,13 +56,16 @@ minetest.register_tool("technic:laser_mk1", {
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 		item=itemstack:to_table()
-		if item["metadata"]=="" or item["metadata"]=="0" then  return end 
-		local charge=tonumber((item["metadata"])) 
+		local meta=get_item_meta(item["metadata"])
+		if meta==nil then return false end --tool not charghed
+		if meta["charge"]==nil then return false end
+		charge=meta["charge"]
 		if charge-400>0 then
 		 laser_shoot(item, user, pointed_thing)
-		 charge =charge-400;	
-		item["metadata"]=tostring(charge)
-		charge=set_RE_wear(item,charge,laser_mk1_max_charge)
+		 charge =charge-400;
+		set_RE_wear(item,charge,laser_mk1_max_charge)
+		meta["charge"]=charge
+		item["metadata"]=set_item_meta(meta)
 		itemstack:replace(item)
 		end
 		return itemstack

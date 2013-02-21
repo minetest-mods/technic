@@ -1,23 +1,25 @@
 -- original code comes from walkin_light mod by Echo http://minetest.net/forum/viewtopic.php?id=2621
 
 flashlight_max_charge=30000
+register_power_tool ("technic:flashlight",flashlight_max_charge)
       
-       minetest.register_tool("technic:flashlight", {
-            description = "Flashlight",
-            inventory_image = "technic_flashlight.png",
+minetest.register_tool("technic:flashlight", {
+	description = "Flashlight",
+	inventory_image = "technic_flashlight.png",
 	stack_max = 1,
-            on_use = function(itemstack, user, pointed_thing)
-	end,	        
-    })
-     
-    minetest.register_craft({
-            output = "technic:flashlight",
-            recipe = {
-		    {"technic:rubber","glass","technic:rubber"},
-                    {"technic:stainless_steel_ingot","technic:battery","technic:stainless_steel_ingot"},
-                    {"","technic:battery",""}
-            }
-    })
+	on_use = function(itemstack, user, pointed_thing)
+	end,
+	})
+ 
+minetest.register_craft({
+output = "technic:flashlight",
+recipe = {
+	{"technic:rubber","glass","technic:rubber"},
+	{"technic:stainless_steel_ingot","technic:battery","technic:stainless_steel_ingot"},
+	{"","technic:battery",""}
+	}
+})
+
 local players = {}
 local player_positions = {}
 local last_wielded = {}
@@ -152,13 +154,16 @@ local hotbar=inv:get_list("main")
 		for i=1,8,1 do
 			
 			if hotbar[i]:get_name() == "technic:flashlight" then
-			item=hotbar[i]:to_table()
-			if item["metadata"]=="" or item["metadata"]=="0" then return false end --flashlight not charghed
-			charge=tonumber(item["metadata"]) 
+			local item=hotbar[i]:to_table()
+			local meta=get_item_meta(item["metadata"])
+			if meta==nil then return false end --flashlight not charghed
+			if meta["charge"]==nil then return false end
+			charge=meta["charge"]
 			if charge-2>0 then
 			 charge =charge-2;	
 			set_RE_wear(item,charge,flashlight_max_charge)
-			item["metadata"]=tostring(charge)
+			meta["charge"]=charge
+			item["metadata"]=set_item_meta(meta)
 			hotbar[i]:replace(item)
 			inv:set_stack("main",i,hotbar[i])
 			return true

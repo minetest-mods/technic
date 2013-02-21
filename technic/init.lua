@@ -1,9 +1,11 @@
--- Minetest 0.4.4 : technic
+-- Minetest 0.4.4d1 : technic
 
 modpath=minetest.get_modpath("technic")
 
 --Read technic config file
 dofile(modpath.."/config.lua")
+--helper functions
+dofile(modpath.."/helpers.lua")
 
 -- world gen
 dofile(modpath.."/ores.lua")

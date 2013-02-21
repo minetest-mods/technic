@@ -18,18 +18,11 @@ power_tools[registered_power_tools_count].tool_name=string1
 power_tools[registered_power_tools_count].max_charge=max_charge
 end
 
-register_power_tool ("technic:mining_drill",60000)
-register_power_tool ("technic:chainsaw",30000)
-register_power_tool ("technic:laser_mk1",40000)
+
 register_power_tool ("technic:battery",10000)
-register_power_tool ("technic:sonic_screwdriver",15000)
-register_power_tool ("technic:flashlight",30000)
 register_power_tool ("technic:red_energy_crystal",100000)
 register_power_tool ("technic:green_energy_crystal",250000)
 register_power_tool ("technic:blue_energy_crystal",500000)
-
-minetest.register_alias("battery", "technic:battery")
-minetest.register_alias("battery_box", "technic:battery_box")
 
 minetest.register_craft({
 	output = 'technic:battery 1',
@@ -143,7 +136,6 @@ minetest.register_node("technic:battery_box"..i, {
 })
 end
 
-
 LV_nodes_visited = {}
 
 function get_RE_item_load (load1,max_load)
@@ -163,13 +155,12 @@ end
 function set_RE_wear (item_stack,load1,max_load)
 local temp=65536-math.floor(load1/max_load*65535)
 item_stack["wear"]=tostring(temp)
-return item_stack	
+return item_stack
 end
 
 minetest.register_abm({
 	nodenames = {"technic:battery_box","technic:battery_box1","technic:battery_box2","technic:battery_box3","technic:battery_box4",
-		     "technic:battery_box5","technic:battery_box6","technic:battery_box7","technic:battery_box8"
-			},
+		"technic:battery_box5","technic:battery_box6","technic:battery_box7","technic:battery_box8"},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
@@ -185,51 +176,73 @@ minetest.register_abm({
 	meta:set_float("last_side_shown",i)
 	end
 
---loading registered power tools	
+--loading registered power tools
 	local inv = meta:get_inventory()
 	if inv:is_empty("src")==false  then 
-		srcstack = inv:get_stack("src", 1)
-		src_item=srcstack:to_table()
-		item_meta=srcstack:get_metadata()
-		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before tool/item
+		local srcstack = inv:get_stack("src", 1)
+		local src_item=srcstack:to_table()
+		local src_meta=get_item_meta(src_item["metadata"])
 
-	local item_max_charge = nil
-	local counter=registered_power_tools_count
-	for i=1, counter,1 do
-		if power_tools[i].tool_name==src_item["name"] then
-		item_max_charge=power_tools[i].max_charge	
+		local item_max_charge=nil
+		for i=1,registered_power_tools_count,1 do
+			if power_tools[i].tool_name==src_item["name"] then
+				src_meta=get_item_meta(src_item["metadata"])
+				if src_meta==nil then 
+					src_meta={}
+					src_meta["technic_power_tool"]=true
+					src_meta["charge"]=0
+				else 
+					if src_meta["technic_power_tool"]==nil then
+						src_meta["technic_power_tool"]=true
+						src_meta["charge"]=0
+					end
+				end
+				item_max_charge=power_tools[i].max_charge
+			end
 		end
-		end
-	if item_max_charge then
-		load1=tonumber((src_item["metadata"])) 
-		load_step=1000
-		if load1<item_max_charge and charge>0 then 
-		 if charge-load_step<0 then load_step=charge end
-		 if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
-		load1=load1+load_step
-		charge=charge-load_step
-		set_RE_wear(src_item,load1,item_max_charge)
-		src_item["metadata"]=tostring(load1)
-		inv:set_stack("src", 1, src_item)
-		end
-		meta:set_int("battery_charge",charge)
-	end	
+		
+		if item_max_charge then
+			load1=src_meta["charge"] 
+			load_step=1000
+			if load1<item_max_charge and charge>0 then 
+				if charge-load_step<0 then load_step=charge end
+				if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
+				load1=load1+load_step
+				charge=charge-load_step
+				set_RE_wear(src_item,load1,item_max_charge)
+				src_meta["charge"]=load1
+				src_item["metadata"]=set_item_meta(src_meta)
+				inv:set_stack("src", 1, src_item)
+			end
+			meta:set_int("battery_charge",charge)
+		end	
 	end
 	
 -- dischargin registered power tools
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
-		local item_max_charge = nil
-		local counter=registered_power_tools_count-1
-		for i=1, counter,1 do
-		if power_tools[i].tool_name==src_item["name"] then
-		item_max_charge=power_tools[i].max_charge	
+		local src_meta=get_item_meta(src_item["metadata"])
+		local item_max_charge=nil
+		for i=1,registered_power_tools_count,1 do
+			if power_tools[i].tool_name==src_item["name"] then
+				src_meta=get_item_meta(src_item["metadata"])
+				if src_meta==nil then 
+					src_meta={}
+					src_meta["technic_power_tool"]=true
+					src_meta["charge"]=0
+				else 
+					if src_meta["technic_power_tool"]==nil then
+						src_meta["technic_power_tool"]=true
+						src_meta["charge"]=0
+					end
+				end
+				item_max_charge=power_tools[i].max_charge
+			end
 		end
-		end
+
 		if item_max_charge then
-		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before battery/crystal
-		local load1=tonumber((src_item["metadata"])) 
+		local load1=src_meta["charge"] 
 		load_step=1000
 		if load1>0 and charge<max_charge then 
 			 if charge+load_step>max_charge then load_step=max_charge-charge end
@@ -237,7 +250,8 @@ minetest.register_abm({
 		load1=load1-load_step
 		charge=charge+load_step
 		set_RE_wear(src_item,load1,item_max_charge)
-		src_item["metadata"]=tostring(load1)	
+		src_meta["charge"]=load1
+		src_item["metadata"]=set_item_meta(src_meta)
 		inv:set_stack("dst", 1, src_item)
 		end		
 		end
@@ -247,18 +261,10 @@ minetest.register_abm({
 
 	local load = math.floor(charge/60000 * 100)
 	meta:set_string("formspec",
-				"invsize[8,9;]"..
+				battery_box_formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-						(load)..":technic_power_meter_fg.png]"..
-				"list[current_name;src;3,1;1,1;]"..
-				"image[4,1;1,1;technic_battery_reload.png]"..
-				"list[current_name;dst;5,1;1,1;]"..
-				"label[0,0;Battery box]"..
-				"label[3,0;Charge]"..
-				"label[5,0;Discharge]"..
-				"label[1,3;Power level]"..
-				"list[current_player;main;0,5;8,4;]")
-		
+						(load)..":technic_power_meter_fg.png]")
+
 	local pos1={}
 
 	pos1.y=pos.y-1
@@ -269,15 +275,15 @@ minetest.register_abm({
 	meta1 = minetest.env:get_meta(pos1)
 	if meta1:get_float("cablelike")~=1 then return end
 
-		local LV_nodes = {}
-		local PR_nodes = {}
-		local RE_nodes = {}
+	local LV_nodes = {}
+	local PR_nodes = {}
+	local RE_nodes = {}
 
-	 	LV_nodes[1]={}
-	 	LV_nodes[1].x=pos1.x
-		LV_nodes[1].y=pos1.y
-		LV_nodes[1].z=pos1.z
-		LV_nodes[1].visited=false
+	LV_nodes[1]={}
+	LV_nodes[1].x=pos1.x
+	LV_nodes[1].y=pos1.y
+	LV_nodes[1].z=pos1.z
+	LV_nodes[1].visited=false
 
 
 table_index=1
@@ -344,45 +350,45 @@ end
 })
 
 function add_new_cable_node (LV_nodes,pos1)
-local i=1
+	local i=1
 	repeat
 		if LV_nodes[i]==nil then break end
 		if pos1.x==LV_nodes[i].x and pos1.y==LV_nodes[i].y and pos1.z==LV_nodes[i].z then return false end
 		i=i+1
 	until false
-LV_nodes[i]={}
-LV_nodes[i].x=pos1.x
-LV_nodes[i].y=pos1.y
-LV_nodes[i].z=pos1.z
-LV_nodes[i].visited=false
-return true
+	LV_nodes[i]={}
+	LV_nodes[i].x=pos1.x
+	LV_nodes[i].y=pos1.y
+	LV_nodes[i].z=pos1.z
+	LV_nodes[i].visited=false
+	return true
 end
 
 function check_LV_node (PR_nodes,RE_nodes,LV_nodes,i)
-		local pos1={}
-		pos1.x=LV_nodes[i].x
-		pos1.y=LV_nodes[i].y
-		pos1.z=LV_nodes[i].z
-		LV_nodes[i].visited=true
-		new_node_added=false
-	
-		pos1.x=pos1.x+1
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.x=pos1.x-2
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.x=pos1.x+1
-		
-		pos1.y=pos1.y+1
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.y=pos1.y-2
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.y=pos1.y+1
+	local pos1={}
+	pos1.x=LV_nodes[i].x
+	pos1.y=LV_nodes[i].y
+	pos1.z=LV_nodes[i].z
+	LV_nodes[i].visited=true
+	new_node_added=false
 
-		pos1.z=pos1.z+1
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.z=pos1.z-2
-		check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
-		pos1.z=pos1.z+1
+	pos1.x=pos1.x+1
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.x=pos1.x-2
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.x=pos1.x+1
+
+	pos1.y=pos1.y+1
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.y=pos1.y-2
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.y=pos1.y+1
+
+	pos1.z=pos1.z+1
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.z=pos1.z-2
+	check_LV_node_subp (PR_nodes,RE_nodes,LV_nodes,pos1)
+	pos1.z=pos1.z+1
 return new_node_added
 end
 

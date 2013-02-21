@@ -85,7 +85,7 @@ minetest.register_node("technic:mv_battery_box"..i, {
 		battery_charge = 0
 		max_charge = 300000
 		last_side_shown=0
-		end,	
+		end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
 		local inv = meta:get_inventory()
@@ -122,51 +122,73 @@ minetest.register_abm({
 	meta:set_float("last_side_shown",i)
 	end
 
---loading registered power tools	
+--loading registered power tools
 	local inv = meta:get_inventory()
 	if inv:is_empty("src")==false  then 
-		srcstack = inv:get_stack("src", 1)
-		src_item=srcstack:to_table()
-		item_meta=srcstack:get_metadata()
-		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before tool/item
+		local srcstack = inv:get_stack("src", 1)
+		local src_item=srcstack:to_table()
+		local src_meta=get_item_meta(src_item["metadata"])
 
-	local item_max_charge = nil
-	local counter=registered_power_tools_count
-	for i=1, counter,1 do
-		if power_tools[i].tool_name==src_item["name"] then
-		item_max_charge=power_tools[i].max_charge	
+		local item_max_charge=nil
+		for i=1,registered_power_tools_count,1 do
+			if power_tools[i].tool_name==src_item["name"] then
+				src_meta=get_item_meta(src_item["metadata"])
+				if src_meta==nil then 
+					src_meta={}
+					src_meta["technic_power_tool"]=true
+					src_meta["charge"]=0
+				else 
+					if src_meta["technic_power_tool"]==nil then
+						src_meta["technic_power_tool"]=true
+						src_meta["charge"]=0
+					end
+				end
+				item_max_charge=power_tools[i].max_charge
+			end
 		end
-		end
-	if item_max_charge then
-		load1=tonumber((src_item["metadata"])) 
-		load_step=4000
-		if load1<item_max_charge and charge>0 then 
-		 if charge-load_step<0 then load_step=charge end
-		 if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
-		load1=load1+load_step
-		charge=charge-load_step
-		set_RE_wear(src_item,load1,item_max_charge)
-		src_item["metadata"]=tostring(load1)
-		inv:set_stack("src", 1, src_item)
-		end
-		meta:set_int("battery_charge",charge)
-	end	
+		
+		if item_max_charge then
+			load1=src_meta["charge"] 
+			load_step=4000
+			if load1<item_max_charge and charge>0 then 
+				if charge-load_step<0 then load_step=charge end
+				if load1+load_step>item_max_charge then load_step=item_max_charge-load1 end
+				load1=load1+load_step
+				charge=charge-load_step
+				set_RE_wear(src_item,load1,item_max_charge)
+				src_meta["charge"]=load1
+				src_item["metadata"]=set_item_meta(src_meta)
+				inv:set_stack("src", 1, src_item)
+			end
+			meta:set_int("battery_charge",charge)
+		end	
 	end
 	
 -- dischargin registered power tools
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
-		local item_max_charge = nil
-		local counter=registered_power_tools_count-1
-		for i=1, counter,1 do
-		if power_tools[i].tool_name==src_item["name"] then
-		item_max_charge=power_tools[i].max_charge	
+		local src_meta=get_item_meta(src_item["metadata"])
+		local item_max_charge=nil
+		for i=1,registered_power_tools_count,1 do
+			if power_tools[i].tool_name==src_item["name"] then
+				src_meta=get_item_meta(src_item["metadata"])
+				if src_meta==nil then 
+					src_meta={}
+					src_meta["technic_power_tool"]=true
+					src_meta["charge"]=0
+				else 
+					if src_meta["technic_power_tool"]==nil then
+						src_meta["technic_power_tool"]=true
+						src_meta["charge"]=0
+					end
+				end
+				item_max_charge=power_tools[i].max_charge
+			end
 		end
-		end
+
 		if item_max_charge then
-		if src_item["metadata"]=="" then src_item["metadata"]="0" end --create meta for not used before battery/crystal
-		local load1=tonumber((src_item["metadata"])) 
+		local load1=src_meta["charge"] 
 		load_step=4000
 		if load1>0 and charge<max_charge then 
 			 if charge+load_step>max_charge then load_step=max_charge-charge end
@@ -174,7 +196,8 @@ minetest.register_abm({
 		load1=load1-load_step
 		charge=charge+load_step
 		set_RE_wear(src_item,load1,item_max_charge)
-		src_item["metadata"]=tostring(load1)	
+		src_meta["charge"]=load1
+		src_item["metadata"]=set_item_meta(src_meta)
 		inv:set_stack("dst", 1, src_item)
 		end		
 		end
@@ -182,19 +205,12 @@ minetest.register_abm({
 		
 	meta:set_int("battery_charge",charge)
 
-	local load = math.floor(charge/300000 * 100)
+	local load = math.floor((charge/300000) * 100)
 	meta:set_string("formspec",
-				"invsize[8,9;]"..
+				mv_battery_box_formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-						(load)..":technic_power_meter_fg.png]"..
-				"list[current_name;src;3,1;1,1;]"..
-				"image[4,1;1,1;technic_battery_reload.png]"..
-				"list[current_name;dst;5,1;1,1;]"..
-				"label[0,0;MV Battery box]"..
-				"label[3,0;Charge]"..
-				"label[5,0;Discharge]"..
-				"label[1,3;Power level]"..
-				"list[current_player;main;0,5;8,4;]")
+						(load)..":technic_power_meter_fg.png]"
+				)
 		
 	local pos1={}
 
