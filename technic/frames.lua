@@ -373,8 +373,8 @@ function move_nodes_vect(poslist,vect)
 	end
 	for _,obj in ipairs(objects) do
 		obj:setpos(addVect(obj:getpos(),vect))
-		if obj:get_luaentity().name == "pipeworks:tubed_item" then
-			le=obj:get_luaentity()
+		le=obj:get_luaentity()
+		if le and le.name == "pipeworks:tubed_item" then
 			le.start_pos=addVect(le.start_pos,vect)
 		end
 	end
