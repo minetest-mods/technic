@@ -36,8 +36,8 @@ end)
 -- register_on_joinplayer
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
-	table.insert(unified_inventory.players, player_name)
-	unified_inventory.players["sound_volume"]=minetest.setting_get("sound_volume")*10
+	unified_inventory.players[player_name]={}
+	unified_inventory.players[player_name]["sound_volume"]=minetest.setting_get("sound_volume")*10
 	unified_inventory.current_index[player_name] = 1
 	unified_inventory.filtered_items_list[player_name] = {}
 	unified_inventory.filtered_items_list[player_name] = unified_inventory.items_list
@@ -235,9 +235,9 @@ unified_inventory.get_formspec = function(player,page)
 			formspec=formspec.."button[0,2;2,0.5;misc_set_day;Set Day]"
 			formspec=formspec.."button[2,2;2,0.5;misc_set_night;Set Night]"
 		end
-		formspec = formspec.."label[0,3;Sound volume: "..unified_inventory.players["sound_volume"].."]"
-		formspec=formspec.."button[2.5,3;1,0.5;misc_vol_down;-]"
-		formspec=formspec.."button[3.5,3;1,0.5;misc_vol_up;+]"
+		formspec = formspec.."label[0,3;Sound volume: "..unified_inventory.players[player_name]["sound_volume"].."]"
+		formspec=formspec.."button[2.5,3;.8,0.5;misc_vol_down;-]"
+		formspec=formspec.."button[3.2,3;.8,0.5;misc_vol_up;+]"
 	end
 
 	--Items list
@@ -325,19 +325,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end	
 	end
 	if fields.misc_vol_down then
-		local sound_volume=unified_inventory.players["sound_volume"]
+		local sound_volume=unified_inventory.players[player_name]["sound_volume"]
 		sound_volume=sound_volume-1
 		if sound_volume<0 then sound_volume=0 end
 		minetest.setting_set("sound_volume",sound_volume/10)
-		unified_inventory.players["sound_volume"]=sound_volume
+		unified_inventory.players[player_name]["sound_volume"]=sound_volume
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
 	end
 	if fields.misc_vol_up then
-		local sound_volume=unified_inventory.players["sound_volume"]
+		local sound_volume=unified_inventory.players[player_name]["sound_volume"]
 		sound_volume=sound_volume+1
 		if sound_volume>10 then sound_volume=10 end
 		minetest.setting_set("sound_volume",sound_volume/10)
-		unified_inventory.players["sound_volume"]=sound_volume
+		unified_inventory.players[player_name]["sound_volume"]=sound_volume
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
 	end
 	
