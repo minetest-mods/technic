@@ -37,6 +37,7 @@ end)
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	table.insert(unified_inventory.players, player_name)
+	unified_inventory.players["sound_volume"]=minetest.setting_get("sound_volume")*10
 	unified_inventory.current_index[player_name] = 1
 	unified_inventory.filtered_items_list[player_name] = {}
 	unified_inventory.filtered_items_list[player_name] = unified_inventory.items_list
@@ -197,10 +198,10 @@ unified_inventory.get_formspec = function(player,page)
 			end
 		end
 	end
-		
+
 	-- bags
 	if page=="bags" then
-	formspec = formspec.."label[0,0;Bags]"		
+	formspec = formspec.."label[0,0;Bags]"
 	formspec=formspec.."button[0,2;2,0.5;bag1;Bag 1]"
 	formspec=formspec.."button[2,2;2,0.5;bag2;Bag 2]"
 	formspec=formspec.."button[4,2;2,0.5;bag3;Bag 3]"
@@ -210,7 +211,7 @@ unified_inventory.get_formspec = function(player,page)
 	formspec=formspec.."list[detached:"..player_name.."_bags;bag3;4.5,1;1,1;]"
 	formspec=formspec.."list[detached:"..player_name.."_bags;bag4;6.5,1;1,1;]"
 		end
-	
+
 	for i=1,4 do
 		if page=="bag"..i then
 			local image = player:get_inventory():get_stack("bag"..i, 1):get_definition().inventory_image
@@ -218,7 +219,7 @@ unified_inventory.get_formspec = function(player,page)
 			formspec=formspec.."list[current_player;bag"..i.."contents;0,1;8,3;]"
 		end
 	end
-	
+
 	-- Miscellaneous
 	if page=="misc" then
 		formspec = formspec.."label[0,0;Miscellaneous]"
@@ -234,8 +235,11 @@ unified_inventory.get_formspec = function(player,page)
 			formspec=formspec.."button[0,2;2,0.5;misc_set_day;Set Day]"
 			formspec=formspec.."button[2,2;2,0.5;misc_set_night;Set Night]"
 		end
+		formspec = formspec.."label[0,3;Sound volume: "..unified_inventory.players["sound_volume"].."]"
+		formspec=formspec.."button[2.5,3;1,0.5;misc_vol_down;-]"
+		formspec=formspec.."button[3.5,3;1,0.5;misc_vol_up;+]"
 	end
-	
+
 	--Items list
 	local list_index=unified_inventory.current_index[player_name]
 	local page=math.floor(list_index / (80) + 1)
@@ -319,6 +323,22 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		else
 		minetest.chat_send_player(player_name, "You don't have settime priviledge!")	
 		end	
+	end
+	if fields.misc_vol_down then
+		local sound_volume=unified_inventory.players["sound_volume"]
+		sound_volume=sound_volume-1
+		if sound_volume<0 then sound_volume=0 end
+		minetest.setting_set("sound_volume",sound_volume/10)
+		unified_inventory.players["sound_volume"]=sound_volume
+		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
+	end
+	if fields.misc_vol_up then
+		local sound_volume=unified_inventory.players["sound_volume"]
+		sound_volume=sound_volume+1
+		if sound_volume>10 then sound_volume=10 end
+		minetest.setting_set("sound_volume",sound_volume/10)
+		unified_inventory.players["sound_volume"]=sound_volume
+		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
 	end
 	
 	-- Inventory page controls
