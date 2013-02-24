@@ -43,7 +43,7 @@ minetest.register_on_joinplayer(function(player)
 	unified_inventory.filtered_items_list[player_name] = unified_inventory.items_list
 	unified_inventory.filtered_items_list_size[player_name]=unified_inventory.items_list_size
 	unified_inventory.activefilter[player_name]=""
-	unified_inventory.apply_filter(player_name, "")
+	unified_inventory.apply_filter(player, "")
 	unified_inventory.alternate[player_name] = 1
 	unified_inventory.current_item[player_name] =nil
 	unified_inventory.set_inventory_formspec(player,unified_inventory.get_formspec(player, unified_inventory.default))
@@ -406,7 +406,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 	
 	if fields.searchbutton then
-		unified_inventory.apply_filter(player_name, fields.searchbox)
+		unified_inventory.apply_filter(player, fields.searchbox)
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,unified_inventory.current_page[player_name]))
 	end	
 	
@@ -476,7 +476,8 @@ unified_inventory.go_home = function(player)
 end
 
 --apply filter to the inventory list (create filtered copy of full one)
-unified_inventory.apply_filter = function(player_name,filter)
+unified_inventory.apply_filter = function(player,filter)
+	local player_name = player:get_player_name() 
 	local size=0
 	local str_temp1=string.lower(filter)
 	local str_temp2
