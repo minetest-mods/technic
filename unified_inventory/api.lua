@@ -123,6 +123,34 @@ unified_inventory.get_formspec = function(player,page)
 	-- player inventory
 	formspec = formspec .. "list[current_player;main;0,4.5;8,4;]"
 
+	-- backgrounds
+		formspec = formspec .. "background[-0.19,-0.2,;14.38,10.55;ui_form_bg.png]"
+	if page=="craft" then
+		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_crafting_form.png]"
+		end
+	if page=="craftguide" then
+		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_craftguide_form.png]"
+		end
+	if page=="misc" then
+		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_misc_form.png]"
+		end
+	if page=="bags" then
+		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_main_form.png]"
+		end
+
+	for i=1,4 do
+		if page=="bag"..i then
+			local slots = player:get_inventory():get_stack(page, 1):get_definition().groups.bagslots
+			if slots == 8 then
+				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_sm_form.png]"
+			elseif slots == 16 then
+				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_med_form.png]"
+			elseif slots == 24 then
+				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_lg_form.png]"
+			end
+		end
+	end
+
 	-- main buttons
 		formspec = formspec .. "button[0,9;1.8,.5;craft;Craft]"
 		formspec = formspec .. "button[1.6,9;1.8,.5;craftguide;Craft Guide]"
