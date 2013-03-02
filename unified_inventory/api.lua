@@ -78,6 +78,7 @@ unified_inventory.refill = minetest.create_detached_inventory(player_name.."refi
 	end,
 	on_put = function(inv, listname, index, stack, player)
 		inv:set_stack(listname, index, ItemStack(stack:get_name().." "..stack:get_stack_max()))
+		minetest.sound_play("electricity", {to_player=player_name, gain = 1.0})
 	end,
 })
 unified_inventory.refill:set_size("main", 1)
@@ -282,25 +283,26 @@ end
 -- register_on_player_receive_fields
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local player_name = player:get_player_name()
-	
+
 	-- main buttons
 	if fields.craft then
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craft"))
+		minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 		return
 	end
-	
+
 	if fields.craftguide then
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craftguide"))
+		minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 		return
 	end
-	
+
 	if fields.bags then
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"bags"))
+		minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 		return
 	end
 
-
-	
 	-- bags
 	for i=1,4 do
 		local page = "bag"..i
@@ -309,20 +311,23 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				page = "bags"
 			end
 			unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,page))
+			minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 			return
 		end
 	end
-	
+
 	-- Miscellaneous
 	if fields.home_gui_set then
 		unified_inventory.set_home(player, player:getpos())
 		local home = homepos[player_name]
 		if home ~= nil then
+			minetest.sound_play("dingdong", {to_player=player_name, gain = 1.0})
 			minetest.chat_send_player(player_name, "Home position set to: "..math.floor(home.x)..","..math.floor(home.y)..","..math.floor(home.z))
 		end
 	end
 	if fields.home_gui_go then
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craft"))
+		minetest.sound_play("teleport", {to_player=player_name, gain = 1.0})
 		unified_inventory.go_home(player)
 	end
 	if fields.misc_set_day then
@@ -357,27 +362,27 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local pagemax = math.floor((unified_inventory.filtered_items_list_size[player_name]-1) / (80) + 1)
 	
 	if fields.start_list then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = 1
 	end
 	if fields.rewind1 then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = start_i - 1
 	end
 	if fields.forward1 then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = start_i + 1
 	end
 	if fields.rewind3 then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = start_i - 3
 	end
 	if fields.forward3 then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = start_i + 3
 	end
 	if fields.end_list then
-		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+		minetest.sound_play("paperflip1", {to_player=player_name, gain = 1.0})
 		start_i = pagemax
 	end
 	if start_i < 1 then
@@ -397,7 +402,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	for i=0,80,1 do
 		local button="item_button"..list_index
 		if fields[button] then 
-			minetest.sound_play("click", {to_player=player_name, gain = 0.3})
+			minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 			if minetest.setting_getbool("creative_mode")==false then
 				unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craftguide"))
 				page="craftguide"
@@ -425,10 +430,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if fields.searchbutton then
 		unified_inventory.apply_filter(player, fields.searchbox)
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,unified_inventory.current_page[player_name]))
+		minetest.sound_play("paperflip2", {to_player=player_name, gain = 1.0})
 	end	
 	
 	-- alternate button
 	if fields.alternate then
+		minetest.sound_play("click", {to_player=player_name, gain = 0.1})
 		local item_name=unified_inventory.current_item[player_name]
 		if item_name then
 			local alternates = 0
