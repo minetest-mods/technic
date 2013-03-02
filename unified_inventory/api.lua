@@ -152,23 +152,30 @@ unified_inventory.get_formspec = function(player,page)
 	end
 
 	-- main buttons
-		formspec = formspec .. "button[0,9;1.8,.5;craft;Craft]"
-		formspec = formspec .. "button[1.6,9;1.8,.5;craftguide;Craft Guide]"
-		formspec = formspec .. "button[3.2,9;1.8,.5;bags;Bags]"
-		formspec = formspec .. "button[4.8,9;1.8,.5;misc;Misc.]"
-
+		local start_x=0
+		formspec = formspec .. "image_button["..(start_x+.65*0)..",9;.8,.8;ui_craft_icon.png;craft;]"
+		formspec = formspec .. "image_button["..(start_x+.65*1)..",9;.8,.8;ui_craftguide_icon.png;craftguide;]"
+		formspec = formspec .. "image_button["..(start_x+.65*2)..",9;.8,.8;ui_bags_icon.png;bags;]"
+		formspec = formspec .. "image_button["..(start_x+.65*3)..",9;.8,.8;ui_sethome_icon.png;home_gui_set;]"
+		formspec = formspec .. "image_button["..(start_x+.65*4)..",9;.8,.8;ui_gohome_icon.png;home_gui_go;]"
+		if minetest.setting_getbool("creative_mode") then
+		formspec = formspec .. "image_button["..(start_x+.65*5)..",9;.8,.8;ui_sun_icon.png;misc_set_day;]"
+		formspec = formspec .. "image_button["..(start_x+.65*6)..",9;.8,.8;ui_moon_icon.png;misc_set_night;]"
+		formspec = formspec .. "image_button["..(start_x+.65*7)..",9;.8,.8;ui_trash_icon.png;clear_inv;]"
+		end
+		
 	--controls to flip items pages
-		local start_x=9.2
-		formspec = formspec .. "button["..(start_x+.6*0)..",9;.8,.5;start_list;|<]"
-		formspec = formspec .. "button["..(start_x+.6*1)..",9;.8,.5;rewind3;<<]"
-		formspec = formspec .. "button["..(start_x+.6*2)..",9;.8,.5;rewind1;<]"
-		formspec = formspec .. "button["..(start_x+.6*3)..",9;.8,.5;forward1;>]"
-		formspec = formspec .. "button["..(start_x+.6*4)..",9;.8,.5;forward3;>>]"
-		formspec = formspec .. "button["..(start_x+.6*5)..",9;.8,.5;end_list;>|]"
-	
+		start_x=9.2
+		formspec = formspec .. "image_button["..(start_x+.6*0)..",9;.8,.8;ui_skip_backward_icon.png;start_list;]"
+		formspec = formspec .. "image_button["..(start_x+.6*1)..",9;.8,.8;ui_doubleleft_icon.png;rewind3;]"
+		formspec = formspec .. "image_button["..(start_x+.6*2)..",9;.8,.8;ui_left_icon.png;rewind1;]"
+		formspec = formspec .. "image_button["..(start_x+.6*3)..",9;.8,.8;ui_right_icon.png;forward1;]"
+		formspec = formspec .. "image_button["..(start_x+.6*4)..",9;.8,.8;ui_doubleright_icon.png;forward3;]"
+		formspec = formspec .. "image_button["..(start_x+.6*5)..",9;.8,.8;ui_skip_forward_icon.png;end_list;]"
+		
 	-- search box
-		formspec = formspec .. "field[9.195,8.325;3,1;searchbox;;]"
-		formspec = formspec .. "button[12,8;1.2,1;searchbutton;Search]"
+		formspec = formspec .. "field[9.5,8.325;3,1;searchbox;;]"
+		formspec = formspec .. "image_button[12.2,8.1;.8,.8;ui_search_icon.png;searchbutton;]"
 
 	-- craft page
 	if page=="craft" then
@@ -248,26 +255,6 @@ unified_inventory.get_formspec = function(player,page)
 		end
 	end
 
-	-- Miscellaneous
-	if page=="misc" then
-		formspec = formspec.."label[0,0;Miscellaneous]"
-		formspec=formspec.."button[0,1;2,0.5;home_gui_set;Set Home]"
-		formspec=formspec.."button_exit[2,1;2,0.5;home_gui_go;Go Home]"
-		local home = homepos[player_name]
-		if home ~= nil then
-		formspec = formspec
-			formspec=formspec.."label[4,.9;Home set to:]"
-			formspec=formspec.."label[5.7,.9;("..math.floor(home.x)..","..math.floor(home.y)..","..math.floor(home.z)..")]"
-		end	
-		if minetest.setting_getbool("creative_mode") then
-			formspec=formspec.."button[0,2;2,0.5;misc_set_day;Set Day]"
-			formspec=formspec.."button[2,2;2,0.5;misc_set_night;Set Night]"
-		end
-		formspec = formspec.."label[0,3;Sound volume: "..unified_inventory.players[player_name]["sound_volume"].."]"
-		formspec=formspec.."button[2.5,3;.8,0.5;misc_vol_down;-]"
-		formspec=formspec.."button[3.2,3;.8,0.5;misc_vol_up;+]"
-	end
-
 	--Items list
 	local list_index=unified_inventory.current_index[player_name]
 	local page=math.floor(list_index / (80) + 1)
@@ -309,11 +296,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"bags"))
 		return
 	end
-	
-	if fields.misc then
-		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
-		return
-	end
+
+
 	
 	-- bags
 	for i=1,4 do
@@ -329,8 +313,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	
 	-- Miscellaneous
 	if fields.home_gui_set then
-		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
 		unified_inventory.set_home(player, player:getpos())
+		local home = homepos[player_name]
+		if home ~= nil then
+			minetest.chat_send_player(player_name, "Home position set to: "..math.floor(home.x)..","..math.floor(home.y)..","..math.floor(home.z))
+		end
 	end
 	if fields.home_gui_go then
 		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craft"))
@@ -352,21 +339,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		minetest.chat_send_player(player_name, "You don't have settime priviledge!")	
 		end	
 	end
-	if fields.misc_vol_down then
-		local sound_volume=unified_inventory.players[player_name]["sound_volume"]
-		sound_volume=sound_volume-1
-		if sound_volume<0 then sound_volume=0 end
-		minetest.setting_set("sound_volume",sound_volume/10)
-		unified_inventory.players[player_name]["sound_volume"]=sound_volume
-		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
-	end
-	if fields.misc_vol_up then
-		local sound_volume=unified_inventory.players[player_name]["sound_volume"]
-		sound_volume=sound_volume+1
-		if sound_volume>10 then sound_volume=10 end
-		minetest.setting_set("sound_volume",sound_volume/10)
-		unified_inventory.players[player_name]["sound_volume"]=sound_volume
-		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"misc"))
+
+	if fields.clear_inv then
+		local inventory = {}
+		player:get_inventory():set_list("main", inventory)
+		minetest.chat_send_player(player_name, 'Inventory Cleared!')
 	end
 	
 	-- Inventory page controls
@@ -412,7 +389,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if minetest.setting_getbool("creative_mode")==false then
 				unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craftguide"))
 				page="craftguide"
-				end			
+				end
 			if page=="craftguide" then 
 				unified_inventory.current_item[player_name] = unified_inventory.filtered_items_list[player_name][list_index] 
 				unified_inventory.alternate[player_name] = 1
@@ -484,7 +461,8 @@ load_home() -- run it now
 
 -- set_home
 unified_inventory.set_home = function(player, pos)
-	homepos[player:get_player_name()] = pos
+	local player_name=player:get_player_name()
+	homepos[player_name] = pos
 	-- save the home data from the table to the file
 	local output = io.open(unified_inventory.home_filename..".home", "w")
 	for k, v in pairs(homepos) do
