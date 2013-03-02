@@ -94,6 +94,8 @@ unified_inventory.trash = minetest.create_detached_inventory("trash", {
 	end,
 	on_put = function(inv, listname, index, stack, player)
 		inv:set_stack(listname, index, nil)
+		local player_name=player:get_player_name()
+		minetest.sound_play("trash", {to_player=player_name, gain = 1.0})
 	end,
 })
 unified_inventory.trash:set_size("main", 1)
@@ -344,6 +346,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local inventory = {}
 		player:get_inventory():set_list("main", inventory)
 		minetest.chat_send_player(player_name, 'Inventory Cleared!')
+		minetest.sound_play("trash_all", {to_player=player_name, gain = 1.0})
 	end
 	
 	-- Inventory page controls
