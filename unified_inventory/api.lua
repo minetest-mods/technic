@@ -357,27 +357,27 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local pagemax = math.floor((unified_inventory.filtered_items_list_size[player_name]-1) / (80) + 1)
 	
 	if fields.start_list then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = 1
 	end
 	if fields.rewind1 then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = start_i - 1
 	end
 	if fields.forward1 then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = start_i + 1
 	end
 	if fields.rewind3 then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = start_i - 3
 	end
 	if fields.forward3 then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = start_i + 3
 	end
 	if fields.end_list then
-		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 		start_i = pagemax
 	end
 	if start_i < 1 then
@@ -397,7 +397,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	for i=0,80,1 do
 		local button="item_button"..list_index
 		if fields[button] then 
-			minetest.sound_play("click", {to_player=player_name, gain = 1.0})
+			minetest.sound_play("click", {to_player=player_name, gain = 0.3})
 			if minetest.setting_getbool("creative_mode")==false then
 				unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craftguide"))
 				page="craftguide"
