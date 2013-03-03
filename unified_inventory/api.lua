@@ -505,6 +505,13 @@ unified_inventory.apply_filter = function(player,filter)
 	local player_name = player:get_player_name() 
 	local size=0
 	local str_temp1=string.lower(filter)
+	if str_temp1 ~= "" then 
+		for i=1,str_temp1:len(),1 do
+			if string.byte(str_temp1,i) == 91 then 
+				str_temp1=""
+				end
+			end
+	end
 	local str_temp2
 	local str_temp3
 	unified_inventory.filtered_items_list[player_name]={}
