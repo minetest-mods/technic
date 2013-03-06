@@ -14,8 +14,8 @@ minetest.register_tool("technic:sonic_screwdriver", {
 					if node.param2==nil  then return end
 					item=itemstack:to_table()
 					local meta1=get_item_meta(item["metadata"])
-					if meta1==nil then return false end --tool not charghed
-					if meta1["charge"]==nil then return false end
+					if meta1==nil then return end --tool not charghed
+					if meta1["charge"]==nil then return end
 					charge=meta1["charge"]
 					if charge-100>0 then
 						minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10,})

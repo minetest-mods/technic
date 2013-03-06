@@ -57,8 +57,8 @@ minetest.register_tool("technic:laser_mk1", {
 	on_use = function(itemstack, user, pointed_thing)
 		item=itemstack:to_table()
 		local meta=get_item_meta(item["metadata"])
-		if meta==nil then return false end --tool not charghed
-		if meta["charge"]==nil then return false end
+		if meta==nil then return end --tool not charghed
+		if meta["charge"]==nil then return end
 		charge=meta["charge"]
 		if charge-400>0 then
 		 laser_shoot(item, user, pointed_thing)

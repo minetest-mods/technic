@@ -9,8 +9,8 @@ minetest.register_tool("technic:chainsaw", {
 		if pointed_thing.type=="node" then 
 		item=itemstack:to_table()
 		local meta=get_item_meta(item["metadata"])
-		if meta==nil then return false end --tool not charghed
-		if meta["charge"]==nil then return false end
+		if meta==nil then return end --tool not charghed
+		if meta["charge"]==nil then return end
 		charge=meta["charge"]
 		charge_to_take=600;
 		if charge-charge_to_take>0 then
