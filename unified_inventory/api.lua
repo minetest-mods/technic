@@ -129,27 +129,27 @@ unified_inventory.get_formspec = function(player,page)
 	-- backgrounds
 		formspec = formspec .. "background[-0.19,-0.2,;14.38,10.55;ui_form_bg.png]"
 	if page=="craft" then
-		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_crafting_form.png]"
+		formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_crafting_form.png]"
 		end
 	if page=="craftguide" then
-		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_craftguide_form.png]"
+		formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_craftguide_form.png]"
 		end
 	if page=="misc" then
-		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_misc_form.png]"
+		formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_misc_form.png]"
 		end
 	if page=="bags" then
-		formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_main_form.png]"
+		formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_bags_main_form.png]"
 		end
 
 	for i=1,4 do
 		if page=="bag"..i then
 			local slots = player:get_inventory():get_stack(page, 1):get_definition().groups.bagslots
 			if slots == 8 then
-				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_sm_form.png]"
+				formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_bags_sm_form.png]"
 			elseif slots == 16 then
-				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_med_form.png]"
+				formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_bags_med_form.png]"
 			elseif slots == 24 then
-				formspec = formspec .. "background[0.12,1.05,;7.8,7.4;ui_bags_lg_form.png]"
+				formspec = formspec .. "background[0.06,0.99,;7.92,7.52;ui_bags_lg_form.png]"
 			end
 		end
 	end
