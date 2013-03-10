@@ -38,6 +38,42 @@ minetest.register_node( "technic:obsidian", {
 	sounds = default.node_sound_stone_defaults(),
 }) 
 
+if type(register_stair_and_slab_and_panel_and_micro) == "function" then
+register_stair_and_slab_and_panel_and_micro(":stairsplus", "marble", "technic:marble",
+		{cracky=3},
+		{"technic_marble.png"},
+		"Marble Stairs",
+		"Marble Slab",
+		"Marble Panel",
+		"Marble Microblock",
+		"marble")
+register_stair_and_slab_and_panel_and_micro(":stairsplus", "marble_bricks", "technic:marble_bricks",
+		{cracky=3},
+		{"technic_marble_bricks.png"},
+		"Marble Bricks Stairs",
+		"Marble Bricks Slab",
+		"Marble Bricks Panel",
+		"Marble Bricks Microblock",
+		"marble_bricks")
+register_stair_and_slab_and_panel_and_micro(":stairsplus", "granite", "technic:granite",
+		{cracky=3},
+		{"technic_granite.png"},
+		"Granite Stairs",
+		"Granite Slab",
+		"Granite Panel",
+		"Granite Microblock",
+		"granite")
+register_stair_and_slab_and_panel_and_micro(":stairsplus", "obsidian", "technic:obsidian",
+		{cracky=3},
+		{"technic_obsidian.png"},
+		"Obsidian Stairs",
+		"Obsidian Slab",
+		"Obsidian Panel",
+		"Obsidian Microblock",
+		"obsidian")
+end
+
+if type(register_stair_slab_panel_micro) == "function" then
 register_stair_slab_panel_micro(":stairsplus", "marble", "technic:marble",
 		{cracky=3},
 		{"technic_marble.png"},
@@ -70,6 +106,7 @@ register_stair_slab_panel_micro(":stairsplus", "obsidian", "technic:obsidian",
 		"Obsidian Panel",
 		"Obsidian Microblock",
 		"obsidian")
+end
 
 minetest.register_node( "technic:mineral_diamond", {
 	description = "Diamond Ore",

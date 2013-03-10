@@ -72,7 +72,17 @@ minetest.register_node("technic:concrete_post", {
 	groups = {cracky=1},
 	sounds = default.node_sound_stone_defaults(),
 })
-
+if type(register_stair_and_slab_and_panel_and_micro) == "function" then
+register_stair_and_slab_and_panel_and_micro(":stairsplus", "concrete", "technic:concrete",
+		{cracky=3},
+		{"technic_concrete_block.png"},
+		"Concrete Stairs",
+		"Concrete Slab",
+		"Concrete Panel",
+		"Concrete Microblock",
+		"concrete")
+end
+if type(register_stair_slab_panel_micro) == "function" then
 register_stair_slab_panel_micro(":stairsplus", "concrete", "technic:concrete",
 		{cracky=3},
 		{"technic_concrete_block.png"},
@@ -81,3 +91,4 @@ register_stair_slab_panel_micro(":stairsplus", "concrete", "technic:concrete",
 		"Concrete Panel",
 		"Concrete Microblock",
 		"concrete")
+end
