@@ -6,7 +6,6 @@ function swap_gate_node(pos,name,dir)
 	node.param1=0
 	node.param2=dir
 	minetest.env:set_node(pos,node)
-	meta=minetest.env:get_meta(pos)
 	meta:from_table(meta0)
 end
 
@@ -143,12 +142,14 @@ function placeGate (player,pos)
 	meta:set_string("gateNodes",minetest.serialize(gateNodes))
 	meta:set_int("gateActive",0)
 	meta:set_string("owner",player_name)
+	meta:set_string("dont_destroy","false")
 	stargate.registerGate(player_name,gateNodes[1].pos)
 	return true
 end
 
 function removeGate (pos)
 	local meta = minetest.env:get_meta(pos)
+	if meta:get_string("dont_destroy") == "true" then return end
 	local player_name=meta:get_string("owner")
 	local gateNodes=minetest.deserialize(meta:get_string("gateNodes"))
 	for i=2,9,1 do
@@ -164,7 +165,8 @@ function activateGate (player,pos)
 	local gateNodes=minetest.deserialize(meta:get_string("gateNodes"))
 	meta:set_int("gateActive",1)
 	meta:set_string("infotext", "Stargate active")
-	minetest.sound_play("gate_activate", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
+	meta:set_string("dont_destroy","true")
+	minetest.sound_play("gateOpen", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
 	swap_gate_node(gateNodes[1].pos,"stargate:gatenode8",dir)
 	swap_gate_node(gateNodes[2].pos,"stargate:gatenode7",dir)
 	swap_gate_node(gateNodes[3].pos,"stargate:gatenode9",dir)
@@ -174,6 +176,7 @@ function activateGate (player,pos)
 	swap_gate_node(gateNodes[7].pos,"stargate:gatenode2",dir)
 	swap_gate_node(gateNodes[8].pos,"stargate:gatenode1",dir)
 	swap_gate_node(gateNodes[9].pos,"stargate:gatenode3",dir)
+	meta:set_string("dont_destroy","false")
 end
 
 function deactivateGate (player,pos)
@@ -182,7 +185,9 @@ function deactivateGate (player,pos)
 	local meta = minetest.env:get_meta(pos)
 	local gateNodes=minetest.deserialize(meta:get_string("gateNodes"))
 	meta:set_int("gateActive",0)
+	meta:set_string("dont_destroy","true")
 	meta:set_string("infotext", "Stargate inactive")
+	minetest.sound_play("gateClose", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
 	swap_gate_node(gateNodes[1].pos,"stargate:gatenode8_off",dir)
 	swap_gate_node(gateNodes[2].pos,"stargate:gatenode7_off",dir)
 	swap_gate_node(gateNodes[3].pos,"stargate:gatenode9_off",dir)
@@ -192,11 +197,13 @@ function deactivateGate (player,pos)
 	swap_gate_node(gateNodes[7].pos,"stargate:gatenode2_off",dir)
 	swap_gate_node(gateNodes[8].pos,"stargate:gatenode1_off",dir)
 	swap_gate_node(gateNodes[9].pos,"stargate:gatenode3_off",dir)
+	meta:set_string("dont_destroy","false")
 end
 
 gateCanDig = function(pos,player)
 	local player_name = player:get_player_name()
 	local meta = minetest.env:get_meta(pos)
+	if meta:get_string("dont_destroy") == "true" then return end
 	local owner=meta:get_string("owner")
 	if player_name==owner then return true
 	else return false end
@@ -330,6 +337,7 @@ minetest.register_node("stargate:gatenode8",{
 	on_destruct = function (pos)
 	removeGate(pos)
 	end,
+	on_rightclick=stargate.gateFormspecHandler,
 })
 
 minetest.register_node("stargate:gatenode9",{
