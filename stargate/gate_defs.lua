@@ -143,7 +143,7 @@ function placeGate (player,pos)
 	meta:set_int("gateActive",0)
 	meta:set_string("owner",player_name)
 	meta:set_string("dont_destroy","false")
-	stargate.registerGate(player_name,gateNodes[1].pos)
+	stargate.registerGate(player_name,gateNodes[1].pos,dir)
 	return true
 end
 
@@ -476,3 +476,37 @@ minetest.register_node("stargate:gatenode9_off",{
 	selection_box = sg_selection_box_empty,
 	node_box=sg_node_box,
 })
+
+minetest.register_abm({
+	nodenames = {"stargate:gatenode8"},
+	interval = 1,
+	chance = 1,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local meta = minetest.env:get_meta(pos)
+		for _,object in ipairs(minetest.env:get_objects_inside_radius(pos, 1)) do
+			if object:is_player() then 
+				local player_name = object:get_player_name()
+				local gate=stargate.getCurrentGate (player_name,pos)
+				local pos1={}
+				pos1.x=gate["destination"].x
+				pos1.y=gate["destination"].y
+				pos1.z=gate["destination"].z
+				local dir1=gate["destination_dir"]
+				local dir=minetest.dir_to_facedir(object:get_look_dir())
+				if dir1 == 0 then
+					pos1.z=pos1.z+2
+				elseif dir1 == 1 then
+					pos1.x=pos1.x+2
+				elseif dir1 == 2 then
+					pos1.z=pos1.z-2
+				elseif dir1 == 3 then
+					pos1.x=pos1.x-2
+				end
+				object:moveto(pos1,true)
+				print(dump(gate["dest"]))
+				minetest.sound_play("enterEventHorizon", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
+	
+			end
+		end
+	end
+}) 

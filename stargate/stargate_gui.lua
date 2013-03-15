@@ -65,7 +65,7 @@ minetest.register_on_joinplayer(function(player)
 	stargate_network["players"][player_name]["temp_gate"]={}
 end)
 
-stargate.registerGate = function(player_name,pos)
+stargate.registerGate = function(player_name,pos,dir)
 	if stargate_network[player_name]==nil then
 		stargate_network[player_name]={}
 	end
@@ -73,6 +73,7 @@ stargate.registerGate = function(player_name,pos)
 	new_gate["pos"]=pos
 	new_gate["type"]="private"
 	new_gate["description"]=""
+	new_gate["dir"]=dir
 	table.insert(stargate_network[player_name],new_gate)
 	if stargate.save_data(player_name)==nil then
 		print ("[stargate] Couldnt update network file!")
@@ -91,6 +92,15 @@ stargate.unregisterGate = function(player_name,pos)
 	end
 end
 
+stargate.getCurrentGate = function(player_name,pos)
+	for __,gates in ipairs(stargate_network[player_name]) do
+		if gates["pos"].x==pos.x and gates["pos"].y==pos.y and gates["pos"].z==pos.z then
+			return gates
+		end
+	end
+	return nil
+end
+
 --show formspec to player
 stargate.gateFormspecHandler = function(pos, node, clicker, itemstack)
 	local player_name = clicker:get_player_name()
@@ -101,7 +111,6 @@ stargate.gateFormspecHandler = function(pos, node, clicker, itemstack)
 	stargate_network["players"][player_name]["own_gates"]={}
 	stargate_network["players"][player_name]["public_gates"]={}
 	local own_gates_count=0
-	print(dump(stargate_network[player_name]))
 	for __,gates in ipairs(stargate_network[player_name]) do
 		if gates["pos"].x==pos.x and gates["pos"].y==pos.y and gates["pos"].z==pos.z then
 			current_gate=gates
@@ -124,6 +133,7 @@ stargate.gateFormspecHandler = function(pos, node, clicker, itemstack)
 	stargate_network["players"][player_name]["temp_gate"]["pos"].z=current_gate["pos"].z
 	if current_gate["destination"] then 
 		stargate_network["players"][player_name]["temp_gate"]["destination_description"]=current_gate["destination_description"]
+		stargate_network["players"][player_name]["temp_gate"]["destination_dir"]=current_gate["destination_dir"]
 		stargate_network["players"][player_name]["temp_gate"]["destination"]={}
 		stargate_network["players"][player_name]["temp_gate"]["destination"].x=current_gate["destination"].x
 		stargate_network["players"][player_name]["temp_gate"]["destination"].y=current_gate["destination"].y
@@ -186,7 +196,6 @@ stargate.get_formspec = function(player_name,page)
 			formspec = formspec.."label["..(x*4.5+.5)..","..(2.3+y*.87)..";("..gate_temp["pos"].x..","..gate_temp["pos"].y..","..gate_temp["pos"].z..") "..gate_temp["type"].."]"
 			formspec = formspec.."label["..(x*4.5+.5)..","..(2.7+y*.87)..";"..gate_temp["description"].."]"
 		end
-		print(dump(list_index))
 		list_index=list_index+1
 	end
 	end
@@ -289,12 +298,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		current_gate["pos"].x=temp_gate["pos"].x
 		current_gate["pos"].y=temp_gate["pos"].y
 		current_gate["pos"].z=temp_gate["pos"].z
+		current_gate["dest"]=temp_gate["dest"]
 		if temp_gate["destination"] then 
-			current_gate["destination_description"]=temp_gate["destination_description"]
 			current_gate["destination"]={}
 			current_gate["destination"].x=temp_gate["destination"].x
 			current_gate["destination"].y=temp_gate["destination"].y
 			current_gate["destination"].z=temp_gate["destination"].z
+			current_gate["destination_description"]=temp_gate["destination_description"]
+			current_gate["destination_dir"]=temp_gate["destination_dir"]
 		else
 			current_gate["destination"]=nil
 		end
@@ -317,7 +328,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	for i=0,23,1 do
 	local button="list_button"..i+list_index
 	if fields[button] then 
-		minetest.sound_play("gateSpin", {to_player=player_name, gain = 1.0})
+		minetest.sound_play("click", {to_player=player_name, gain = 1.0})
 		local gate=stargate_network["players"][player_name]["temp_gate"]
 		local dest_gate=stargate_network["players"][player_name]["own_gates"][list_index+i+1]
 		gate["destination"]={}
@@ -325,6 +336,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		gate["destination"].y=dest_gate["pos"].y
 		gate["destination"].z=dest_gate["pos"].z
 		gate["destination_description"]=dest_gate["description"]
+		gate["destination_dir"]=dest_gate["dir"]
 		formspec = stargate.get_formspec(player_name,"main")
 		stargate_network["players"][player_name]["formspec"] = formspec
 		minetest.show_formspec(player_name, "stargate_main", formspec)
