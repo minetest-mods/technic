@@ -364,7 +364,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		infotext=infotext.." Gate: "..current_gate["description"].."\n"
 		infotext=infotext.."Owned by "..player_name.."\n"
 		if current_gate["destination"] then 
-			infotext=infotext.."Destination: ("..current_gate["pos"].x..","..current_gate["pos"].y..","..current_gate["pos"].z..") "
+			infotext=infotext.."Destination: ("..current_gate["destination"].x..","..current_gate["destination"].y..","..current_gate["destination"].z..") "
 			infotext=infotext..current_gate["destination_description"]
 		end
 		meta:set_string("infotext",infotext)
