@@ -43,6 +43,7 @@ dofile(modpath.."/battery_box_mv.lua")
 dofile(modpath.."/solar_panel_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
+dofile(modpath.."/forcefield.lua")
 
 --Tools
 if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
