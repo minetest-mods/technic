@@ -74,7 +74,7 @@ minetest.register_node("technic:concrete_post", {
 })
 if type(register_stair_and_slab_and_panel_and_micro) == "function" then
 register_stair_and_slab_and_panel_and_micro(":stairsplus", "concrete", "technic:concrete",
-		{cracky=3, not_in_creative_inventory=1},
+		{cracky=3},
 		{"technic_concrete_block.png"},
 		"Concrete Stairs",
 		"Concrete Slab",
@@ -84,7 +84,7 @@ register_stair_and_slab_and_panel_and_micro(":stairsplus", "concrete", "technic:
 end
 if type(register_stair_slab_panel_micro) == "function" then
 register_stair_slab_panel_micro(":stairsplus", "concrete", "technic:concrete",
-		{cracky=3, not_in_creative_inventory=1},
+		{cracky=3},
 		{"technic_concrete_block.png"},
 		"Concrete Stairs",
 		"Concrete Slab",
