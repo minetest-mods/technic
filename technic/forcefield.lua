@@ -1,7 +1,7 @@
 --Forcefield mod by ShadowNinja
 
 local forcefield_emitter_buffer_size = 10000
-local forcefield_emitter_power_consumption = 1
+local forcefield_emitter_power_consumption = 0.8
 local forcefield_update_interval = 1
 
 minetest.register_craft({
@@ -16,7 +16,7 @@ minetest.register_craft({
 local function get_forcefield_count(range)
 	local count = 0
 	for x=-range,range do
-	for y=0,range do
+	for y=-range,range do
 	for z=-range,range do
 		if ((x*x+y*y+z*z) <= (range * range + range)) then
 			if (y == 0) or ((range-1) * (range-1) + (range-1) <= x*x+y*y+z*z) then
@@ -71,6 +71,13 @@ forcefield_receive_fields = function(pos, formname, fields, sender)
 	local range = meta:get_int("range")
 	if fields.add then range = range + 1 end
 	if fields.subtract then range = range - 1 end
+	if fields.toggle then
+		if meta:get_int("enabled") == 1 then
+			meta:set_int("enabled", 0)
+		else
+			meta:set_int("enabled", 1)
+		end
+	end
 	if range <= 20 and range >= 0 and meta:get_int("range") ~= range then
 		remove_forcefield(pos, meta:get_int("range"))
 		meta:set_int("range", range)
@@ -92,6 +99,7 @@ function get_forcefield_formspec(range, load)
 	"label[4,2;"..range.."]"..
 	"button[3,2;1,1;add;+]"..
 	"button[5,2;1,1;subtract;-]"..
+	"button[3,3;3,1;toggle;Enable/Disable]"..
 	"list[current_player;main;0,5;8,4;]"
 end
 
@@ -105,24 +113,31 @@ local function forcefield_check(pos)
 	meta:set_string("formspec", get_forcefield_formspec(meta:get_int("range"), load))
 
 	local power_requirement = get_forcefield_count(meta:get_int("range")) * forcefield_emitter_power_consumption
-	if meta:get_int("mesecons_powered") == 0 and internal_EU_buffer >= power_requirement then
+	if meta:get_int("enabled") == 1 and internal_EU_buffer >= power_requirement then
 		if node.name == "technic:forcefield_emitter_off" then
 			hacky_swap_node(pos, "technic:forcefield_emitter_on")
-			minetest.env:get_node_timer(pos):start(forcefield_update_interval)
 		end
 		internal_EU_buffer=internal_EU_buffer-power_requirement;
 		meta:set_float("internal_EU_buffer", internal_EU_buffer)
 		add_forcefield(pos, meta:get_int("range"))
 	else
-		remove_forcefield(pos, meta:get_int("range"))
 		if node.name == "technic:forcefield_emitter_on" then
+			remove_forcefield(pos, meta:get_int("range"))
 			hacky_swap_node(pos, "technic:forcefield_emitter_off")
-			minetest.env:get_node_timer(pos):start(forcefield_update_interval)
 		end
 	end
 	return true
 
 end
+
+local mesecons = {effector = {
+	action_on = function(pos, node)
+		minetest.env:get_meta(pos):set_int("enabled", 0)
+	end,
+	action_off = function(pos, node)
+		minetest.env:get_meta(pos):set_int("enabled", 1)
+	end
+}}
 
 minetest.register_node("technic:forcefield_emitter_off", {
 	description = "Forcefield emitter",
@@ -140,18 +155,11 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_float("internal_EU_buffer", 0)
 		meta:set_float("internal_EU_buffer_size", forcefield_emitter_buffer_size)
 		meta:set_int("range", 10)
-		meta:set_int("mesecons_powered", 0)
+		meta:set_int("enabled", 1)
 		meta:set_string("formspec", get_forcefield_formspec(meta:get_int("range", 0)))
 		meta:set_string("infotext", "Forcefield emitter");
 	end,
-	mesecons = {effector = {
-		action_on = function (pos, node)
-			minetest.env:get_meta(pos):set_int("mesecons_powered", 1)
-		end,
-		action_off = function(pos, node)
-			minetest.env:get_meta(pos):set_int("mesecons_powered", 0)
-		end
-	}}
+	mesecons = mesecons
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
@@ -169,7 +177,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		meta:set_float("internal_EU_buffer", 0)
 		meta:set_float("internal_EU_buffer_size", forcefield_emitter_buffer_size)
 		meta:set_int("range", 10)
-		meta:set_int("mesecons_powered", 0)
+		meta:set_int("enabled", 1)
 		meta:set_string("formspec", get_forcefield_formspec(meta:get_int("range"), 0))
 		meta:set_string("infotext", "Forcefield emitter");
 	end,
@@ -178,14 +186,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		return minetest.node_dig(pos, node, digger)
 	end,
 	technic_power_machine=1,
-	mesecons = {effector = {
-		action_on = function(pos, node)
-			minetest.env:get_meta(pos):set_int("mesecons_powered", 1)
-		end,
-		action_off = function(pos, node)
-			minetest.env:get_meta(pos):set_int("mesecons_powered", 0)
-		end
-	}}
+	mesecons = mesecons
 })
 
 minetest.register_node("technic:forcefield", {
