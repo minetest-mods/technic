@@ -69,18 +69,18 @@ minetest.register_alias("technic:obsidian", "default:obsidian")
 minetest.register_alias("moreblocks:obsidian", "default:obsidian")
 
 register_stair_slab_panel_micro(
-	"moreblocks",
+	":default",
 	"obsidian",
-	"moreblocks:obsidian",
+	"default:obsidian",
 	{cracky=3, not_in_creative_inventory=1},
 	{"default_obsidian.png"},
 	"Obsidian",
-	"moreblocks:obsidian",
+	"default:obsidian",
 	"none",
 	light
 )
 
-register_technic_stairs_alias("default", "obsidian", "moreblocks", "obsidian")
+register_technic_stairs_alias("moreblocks", "obsidian", "default", "obsidian")
 table.insert(circular_saw.known_stairs, "default:obsidian")
 
 -- other stairs/slabs
