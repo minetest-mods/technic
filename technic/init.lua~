@@ -52,6 +52,9 @@ if enable_flashlight==true then dofile(modpath.."/flashlight.lua") end
 dofile(modpath.."/cans.lua")
 dofile(modpath.."/chainsaw.lua")
 dofile(modpath.."/tree_tap.lua")
+
+minetest.register_alias("technic:screwdriver", "screwdriver:screwdriver")
+
 dofile(modpath.."/sonic_screwdriver.lua")
 
 -- mesecons and tubes related
