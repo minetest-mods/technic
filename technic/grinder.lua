@@ -172,7 +172,7 @@ minetest.register_craft({
 	output = 'technic:grinder',
 	recipe = {
 		{'default:desert_stone', 'default:desert_stone', 'default:desert_stone'},
-		{'default:desert_stone', 'technic:diamond', 'default:desert_stone'},
+		{'default:desert_stone', 'default:diamond', 'default:desert_stone'},
 		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
 	}
 })

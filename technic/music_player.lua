@@ -3,7 +3,7 @@ minetest.register_craft({
 	output = 'technic:music_player',
 	recipe = {
 		{'default:wood', 'default:wood', 'default:wood'},
-		{'technic:diamond', 'technic:diamond', 'technic:diamond'},
+		{'default:diamond', 'default:diamond', 'default:diamond'},
 		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
 	}
 })

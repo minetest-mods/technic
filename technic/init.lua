@@ -1,4 +1,4 @@
--- Minetest 0.4.4d1 : technic
+-- Minetest 0.4.6 : technic
 
 modpath=minetest.get_modpath("technic")
 
@@ -6,10 +6,6 @@ modpath=minetest.get_modpath("technic")
 dofile(modpath.."/config.lua")
 --helper functions
 dofile(modpath.."/helpers.lua")
-
--- world gen
-dofile(modpath.."/ores.lua")
-if enable_rubber_tree_generation==true then dofile(modpath.."/rubber.lua") end
 
 -- chests
 dofile(modpath.."/chest_commons.lua")

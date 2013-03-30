@@ -66,28 +66,11 @@ minetest.register_craftitem( "technic:diamond_drill_head", {
 minetest.register_craft({
 	output = 'technic:diamond_drill_head',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:diamond', 'technic:stainless_steel_ingot'},
-		{'technic:diamond', '', 'technic:diamond'},
-		{'technic:stainless_steel_ingot', 'technic:diamond', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'default:diamond', 'technic:stainless_steel_ingot'},
+		{'default:diamond', '', 'default:diamond'},
+		{'technic:stainless_steel_ingot', 'default:diamond', 'technic:stainless_steel_ingot'},
 	}
 })
-
-minetest.register_craft({
-	output = 'technic:diamond_block',
-	recipe = {
-		{'technic:diamond', 'technic:diamond', 'technic:diamond'},
-		{'technic:diamond', 'technic:diamond', 'technic:diamond'},
-		{'technic:diamond', 'technic:diamond', 'technic:diamond'},
-	}
-})
-
-minetest.register_node( "technic:diamond_block", {
-	description = "Diamond Block",
-	tiles = { "technic_diamond_block.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-}) 
 
 minetest.register_craft({
 	output = 'technic:green_energy_crystal',
@@ -111,7 +94,7 @@ minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
 		{'moreores:gold_ingot', 'technic:battery', 'dye:red'},
-		{'technic:battery', 'technic:diamond_block', 'technic:battery'},
+		{'technic:battery', 'default:diamondblock', 'technic:battery'},
 		{'dye:red', 'technic:battery', 'moreores:gold_ingot'},
 	}
 })
