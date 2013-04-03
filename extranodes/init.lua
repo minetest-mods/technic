@@ -75,3 +75,6 @@ function register_technic_stairs_alias(modname, origname, newmod, newname)
 end 
 
 register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
+register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
+register_technic_stairs_alias("stairsplus", "granite", "technic", "granite")
+register_technic_stairs_alias("stairsplus", "marble_bricks", "technic", "marble_bricks")
