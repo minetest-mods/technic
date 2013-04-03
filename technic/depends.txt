@@ -1,5 +1,6 @@
+default
 moreores
 pipeworks
 mesecons
-moreblocks
 technic_worldgen
+

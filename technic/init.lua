@@ -1,4 +1,6 @@
--- Minetest 0.4.6 : technic
+-- Minetest 0.4.6 mod: technic
+-- namespace: technic
+-- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
 modpath=minetest.get_modpath("technic")
 
@@ -16,7 +18,6 @@ dofile(modpath.."/gold_chest.lua")
 dofile(modpath.."/mithril_chest.lua")
 
 --items 
-dofile(modpath.."/concrete.lua")
 dofile(modpath.."/items.lua")
 
 --LV machines
@@ -56,7 +57,6 @@ dofile(modpath.."/node_breaker.lua")
 dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
 dofile(modpath.."/frames.lua")
-
 
 if enable_item_drop	then dofile(modpath.."/item_drop.lua") end
 if enable_item_pickup   then dofile(modpath.."/item_pickup.lua") end

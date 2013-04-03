@@ -1,16 +1,5 @@
 minetest.register_ore({
 	ore_type       = "scatter",
-	ore            = "technic:mineral_diamond",
-	wherein        = "default:stone",
-	clust_scarcity = 11*11*11,
-	clust_num_ores = 4,
-	clust_size     = 3,
-	height_min     = -31000,
-	height_max     = -450,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
 	ore            = "technic:mineral_uranium",
 	wherein        = "default:stone",
 	clust_scarcity = 10*10*10,
@@ -46,9 +35,9 @@ minetest.register_ore({
 	clust_scarcity = 1,
 	clust_num_ores = 1,
 	clust_size     = 3,
-	height_min     = -150,
+	height_min     = -31000,
 	height_max     = -50,
-	noise_threshhold = 0.5,
+	noise_threshhold = 0.4,
 	noise_params = {offset=0, scale=15, spread={x=150, y=150, z=150}, seed=23, octaves=3, persist=0.70}
 })
 minetest.register_ore({
@@ -58,9 +47,9 @@ minetest.register_ore({
 	clust_scarcity = 1,
 	clust_num_ores = 1,
 	clust_size     = 4,
-	height_min     = -100,
-	height_max     = -250,
-	noise_threshhold = 0.5,
+	height_min     = -31000,
+	height_max     = -150,
+	noise_threshhold = 0.4,
 	noise_params = {offset=0, scale=15, spread={x=130, y=130, z=130}, seed=24, octaves=3, persist=0.70}
 })
 

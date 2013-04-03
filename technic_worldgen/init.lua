@@ -4,5 +4,4 @@ modpath=minetest.get_modpath("technic_worldgen")
 
 dofile(modpath.."/nodes.lua")
 dofile(modpath.."/oregen.lua")
---dofile(modpath.."/stairslike.lua")
 dofile(modpath.."/crafts.lua")
