@@ -72,6 +72,6 @@ function register_technic_stairs_alias(modname, origname, newmod, newname)
 	minetest.register_alias(modname .. ":panel_" .. origname .. "_vertical", newmod..":panel_" .. newname .. "_vertical")
 	minetest.register_alias(modname .. ":micro_" .. origname .. "_bottom", newmod..":micro_" .. newname .. "_bottom")
 	minetest.register_alias(modname .. ":micro_" .. origname .. "_top", newmod..":micro_" .. newname .. "_top")
--end 
+end 
 
 register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
