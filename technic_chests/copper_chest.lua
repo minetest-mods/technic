@@ -24,16 +24,16 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craftitem("technic:copper_chest", {
+minetest.register_craftitem(":technic:copper_chest", {
 	description = "Copper Chest",
 	stack_max = 99,
 })
-minetest.register_craftitem("technic:copper_locked_chest", {
+minetest.register_craftitem(":technic:copper_locked_chest", {
 	description = "Copper Locked Chest",
 	stack_max = 99,
 })
 
-minetest.register_node("technic:copper_chest", {
+minetest.register_node(":technic:copper_chest", {
 	description = "Copper Chest",
 	tiles = {"technic_copper_chest_top.png", "technic_copper_chest_top.png", "technic_copper_chest_side.png",
 		"technic_copper_chest_side.png", "technic_copper_chest_side.png", "technic_copper_chest_front.png"},
@@ -58,7 +58,7 @@ minetest.register_node("technic:copper_chest", {
 	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })
   
-minetest.register_node("technic:copper_locked_chest", {
+minetest.register_node(":technic:copper_locked_chest", {
 	description = "Copper Locked Chest",
 	tiles = {"technic_copper_chest_top.png", "technic_copper_chest_top.png", "technic_copper_chest_side.png",
 		"technic_copper_chest_side.png", "technic_copper_chest_side.png", "technic_copper_chest_locked.png"},

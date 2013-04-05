@@ -42,11 +42,11 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craftitem("technic:gold_chest", {
+minetest.register_craftitem(":technic:gold_chest", {
 	description = "Gold Chest",
 	stack_max = 99,
 })
-minetest.register_craftitem("technic:gold_locked_chest", {
+minetest.register_craftitem(":technic:gold_locked_chest", {
 	description = "Gold Locked Chest",
 	stack_max = 99,
 })
@@ -57,7 +57,7 @@ gold_chest_formspec	=	"invsize[12,9;]"..
 
 gold_chest_inv_size = 12*4
 
-minetest.register_node("technic:gold_chest", {
+minetest.register_node(":technic:gold_chest", {
 	description = "Gold Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front.png"},
@@ -95,7 +95,7 @@ minetest.register_node("technic:gold_chest", {
 })
 
 for i, state in ipairs(chest_mark_colors) do
-minetest.register_node("technic:gold_chest".. state, {
+minetest.register_node(":technic:gold_chest".. state, {
 	description = "Gold Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front"..state..".png"},
@@ -133,7 +133,7 @@ minetest.register_node("technic:gold_chest".. state, {
 })
 end
 
-minetest.register_node("technic:gold_locked_chest", {
+minetest.register_node(":technic:gold_locked_chest", {
 	description = "Gold Locked Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked.png"},
@@ -184,7 +184,7 @@ minetest.register_node("technic:gold_locked_chest", {
 })
 
 for i, state in ipairs(chest_mark_colors) do
-minetest.register_node("technic:gold_locked_chest".. state, {
+minetest.register_node(":technic:gold_locked_chest".. state, {
 	description = "Gold Locked Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
 		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked"..state..".png"},

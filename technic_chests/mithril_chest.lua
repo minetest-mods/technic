@@ -24,7 +24,7 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_node("technic:mithril_chest", {
+minetest.register_node(":technic:mithril_chest", {
 	description = "Mithril Chest",
 	tiles = {"technic_mithril_chest_top.png", "technic_mithril_chest_top.png", "technic_mithril_chest_side.png",
 		"technic_mithril_chest_side.png", "technic_mithril_chest_side.png", "technic_mithril_chest_front.png"},
@@ -67,7 +67,7 @@ minetest.register_node("technic:mithril_chest", {
 	end,
 })
 
-minetest.register_node("technic:mithril_locked_chest", {
+minetest.register_node(":technic:mithril_locked_chest", {
 	description = "Mithril Locked Chest",
 	tiles = {"technic_mithril_chest_top.png", "technic_mithril_chest_top.png", "technic_mithril_chest_side.png",
 		"technic_mithril_chest_side.png", "technic_mithril_chest_side.png", "technic_mithril_chest_locked.png"},

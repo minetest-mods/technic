@@ -9,14 +9,6 @@ dofile(modpath.."/config.lua")
 --helper functions
 dofile(modpath.."/helpers.lua")
 
--- chests
-dofile(modpath.."/chest_commons.lua")
-dofile(modpath.."/iron_chest.lua")
-dofile(modpath.."/copper_chest.lua")
-dofile(modpath.."/silver_chest.lua")
-dofile(modpath.."/gold_chest.lua")
-dofile(modpath.."/mithril_chest.lua")
-
 --items 
 dofile(modpath.."/items.lua")
 

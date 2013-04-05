@@ -25,18 +25,16 @@ minetest.register_craft({
 })
 
 
-minetest.register_craftitem("technic:iron_chest", {
+minetest.register_craftitem(":technic:iron_chest", {
 	description = "Iron Chest",
 	stack_max = 99,
 })
-minetest.register_craftitem("technic:iron_locked_chest", {
+minetest.register_craftitem(":technic:iron_locked_chest", {
 	description = "Iron Locked Chest",
 	stack_max = 99,
 })
 
-minetest.register_alias("blabla", "technic:iron_chest")
-
-minetest.register_node("technic:iron_chest", {
+minetest.register_node(":technic:iron_chest", {
 	description = "Iron Chest",
 	tiles = {"technic_iron_chest_top.png", "technic_iron_chest_top.png", "technic_iron_chest_side.png",
 		"technic_iron_chest_side.png", "technic_iron_chest_side.png", "technic_iron_chest_front.png"},
@@ -61,7 +59,7 @@ minetest.register_node("technic:iron_chest", {
 	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })
 
-minetest.register_node("technic:iron_locked_chest", {
+minetest.register_node(":technic:iron_locked_chest", {
 	description = "Iron Locked Chest",
 	tiles = {"technic_iron_chest_top.png", "technic_iron_chest_top.png", "technic_iron_chest_side.png",
 		"technic_iron_chest_side.png", "technic_iron_chest_side.png", "technic_iron_chest_locked.png"},
