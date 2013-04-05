@@ -3,7 +3,7 @@ minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
 		{'default:wood', 'default:wood', 'default:wood'},
-		{'default:wood', 'technic:diamond', 'default:wood'},
+		{'default:wood', 'default:diamond', 'default:wood'},
 		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
 	}
 })
