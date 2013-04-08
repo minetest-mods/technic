@@ -4,7 +4,7 @@ minetest.register_craft({
 	output = 'technic:water_mill',
 	recipe = {
 		{'default:stone', 'default:stone', 'default:stone'},
-		{'default:wood', 'technic:diamond', 'default:wood'},
+		{'default:wood', 'default:diamond', 'default:wood'},
 		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
 	}
 })

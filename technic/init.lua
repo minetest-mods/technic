@@ -50,9 +50,6 @@ dofile(modpath.."/deployer.lua")
 dofile(modpath.."/constructor.lua")
 dofile(modpath.."/frames.lua")
 
-if enable_item_drop	then dofile(modpath.."/item_drop.lua") end
-if enable_item_pickup   then dofile(modpath.."/item_pickup.lua") end
-
 function has_locked_chest_privilege(meta, player)
 	if player:get_player_name() ~= meta:get_string("owner") then
 		return false
