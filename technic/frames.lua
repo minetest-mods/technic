@@ -97,6 +97,10 @@ local nodeboxes= {
 			type = "fixed",
 		fixed=nodeboxes,
 		},
+		selection_box = {
+			type="fixed",
+			fixed={-0.5,-0.5,-0.5,0.5,0.5,0.5}
+		},
 		paramtype = "light",
 		frame=1,
 		drop="technic:frame_111111",
