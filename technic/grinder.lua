@@ -7,11 +7,12 @@ grinder_recipes[registered_grinder_recipes_count]={}
 grinder_recipes[registered_grinder_recipes_count].src_name=string1
 grinder_recipes[registered_grinder_recipes_count].dst_name=string2
 registered_grinder_recipes_count=registered_grinder_recipes_count+1
-if UI_recipes_hook then
-	minetest.register_craft({
+if unified_inventory then
+	unified_inventory.register_craft({
 	type = "grinding",
 	output = string2,
-	recipe = string1,
+	items = {string1},
+	width = 0,
 	})
 	end
 end
@@ -22,11 +23,9 @@ register_grinder_recipe("default:gravel","default:dirt")
 register_grinder_recipe("default:desert_stone","default:desert_sand")
 register_grinder_recipe("default:iron_lump","technic:iron_dust 2") 
 register_grinder_recipe("default:coal_lump","technic:coal_dust 2") 
-register_grinder_recipe("moreores:copper_lump","technic:copper_dust 2")
 register_grinder_recipe("default:copper_lump","technic:copper_dust 2")
 register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2") 
 register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
-register_grinder_recipe("moreores:gold_lump","technic:gold_dust 2") 
 register_grinder_recipe("default:gold_lump","technic:gold_dust 2") 
 register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2") 
 register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2") 
