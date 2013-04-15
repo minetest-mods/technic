@@ -577,7 +577,7 @@ unified_inventory.update_recipe = function(player, stack_name, alternate)
 	for i=1,3,1 do
 		if craft.items[i] then
 			def=unified_inventory.find_item_def(craft.items[i])
-			if def then inv:set_stack("build", build_table[i], {name=def}) end
+			if def then inv:set_stack("build", build_table[i], def) end
 		end
 	end
 	end
@@ -586,7 +586,7 @@ unified_inventory.update_recipe = function(player, stack_name, alternate)
 	for i=1,3,1 do
 		if craft.items[i] then
 			def=unified_inventory.find_item_def(craft.items[i])
-			if def then inv:set_stack("build", build_table[i], {name=def}) end
+			if def then inv:set_stack("build", build_table[i], def) end
 		end
 	end
 	end
@@ -595,7 +595,7 @@ unified_inventory.update_recipe = function(player, stack_name, alternate)
 	for i=1,6,1 do
 		if craft.items[i] then
 			def=unified_inventory.find_item_def(craft.items[i])
-			if def then inv:set_stack("build", build_table[i], {name=def}) end
+			if def then inv:set_stack("build", build_table[i], def) end
 		end
 	end
 	end
@@ -603,7 +603,7 @@ unified_inventory.update_recipe = function(player, stack_name, alternate)
 		for i=1,9,1 do
 			if craft.items[i] then
 				def=unified_inventory.find_item_def(craft.items[i])
-				if def then inv:set_stack("build", i, {name=def}) end
+				if def then inv:set_stack("build", i, def) end
 			end
 		end
 	end
@@ -614,14 +614,39 @@ if type(def1)=="string" then
 	if string.find(def1, "group:") then
 		def1=string.gsub(def1, "group:", "")
 		def1=string.gsub(def1, '\"', "")
-		for name,def in pairs(minetest.registered_items) do
-				if def.groups[def1] == 1 and def.groups.not_in_creative_inventory ~= 1 then
-					return def
-				end
-		end
+		local items=unified_inventory.items_in_group(def1)
+		return items[1]
 	else
-	return def1
+		return def1
 	end
 end
 return nil
+end
+
+unified_inventory.items_in_group = function(group)
+	local items = {}
+	for name, item in pairs(minetest.registered_items) do
+		for _, g in ipairs(group:split(',')) do
+			if item.groups[g] then
+				table.insert(items,name)
+			end
+		end
+	end
+	return items
+end
+
+-- register_craft
+unified_inventory.register_craft = function(options)
+	if  options.output == nil then
+		return
+	end
+	local itemstack = ItemStack(options.output)
+	if itemstack:is_empty() then
+		return
+	end
+	if unified_inventory.crafts_table[itemstack:get_name()]==nil then
+		unified_inventory.crafts_table[itemstack:get_name()] = {}
+	end
+	table.insert(unified_inventory.crafts_table[itemstack:get_name()],options)
+	--crafts_table_count=crafts_table_count+1
 end
