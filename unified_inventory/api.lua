@@ -272,7 +272,42 @@ unified_inventory.get_formspec = function(player,page)
 		list_index=list_index+1
 		end
 	end
-	end	
+	end
+	--Mod separators
+	local function getmodpack(name)
+		local splitpoint = name:find(":") 
+		if splitpoint == nil then
+			return name --RATS!
+		end
+		local modname = name:sub(1,splitpoint-1)
+		splitpoint = modname:find("_")
+		if splitpoint == nil then
+			return modname --probably not a modpack
+		end
+		return modname:sub(1,splitpoint-1)
+	end
+	list_index=unified_inventory.current_index[player_name]
+	for y=0,10,1 do
+	for x=0,8,1 do
+		local name=unified_inventory.filtered_items_list[player_name][list_index]
+		if minetest.registered_items[name] then
+			local namemodpack = getmodpack(name)
+			for indexoffset = -8, -1, 7 do
+				if not (x == 8 and indexoffset == -8 or y == 10 and indexoffset == -1) then
+					local neighbor=unified_inventory.filtered_items_list[player_name][list_index+indexoffset]
+					if minetest.registered_items[neighbor] then
+						local neighbormodpack = getmodpack(neighbor)
+						if neighbormodpack ~= namemodpack then
+							formspec=formspec.."image["..(8.2+x*.7-0.11)..","..(1+y*.7-0.043)..";"..(indexoffset == -8 and 1.025 or 0.15)..","..(indexoffset == -8 and 0.06 or 0.87)..";ui_mod_separator.png]"
+						end
+					end
+				end
+			end
+		end
+		list_index=list_index+1
+	end
+	list_index=list_index-1
+	end
 	formspec=formspec.."label[8.2,0;Page:]"
 	formspec=formspec.."label[9,0;"..page.." of "..pagemax.."]"
 	formspec=formspec.."label[8.2,0.4;Filter:]"
