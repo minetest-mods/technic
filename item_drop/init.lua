@@ -13,7 +13,7 @@ minetest.register_globalstep(function(dtime)
 						if obj.timer > time_pick then
 							inv:add_item("main", ItemStack(obj.itemstring))
 							if obj.itemstring ~= "" then
-								minetest.sound_play("item_drop_pickup",gain = 1.0, max_hear_distance = 10) 
+								minetest.sound_play("item_drop_pickup",{pos, gain = 1.0, max_hear_distance = 10}) 
 							end
 							if object:get_luaentity() then 
 								object:get_luaentity().itemstring = ""
