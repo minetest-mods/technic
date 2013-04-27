@@ -34,6 +34,9 @@ dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
 dofile(modpath.."/forcefield.lua")
 
+--HV machines
+dofile(modpath.."/wires_hv.lua")
+
 --Tools
 if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
 if enable_mining_laser==true then dofile(modpath.."/mining_laser_mk1.lua") end
