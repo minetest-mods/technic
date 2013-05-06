@@ -212,7 +212,7 @@ end
 
 -- SLOPE EDGE UPSIDE DOWN
 -------------------------
-function technic_cnc_api.register_slope_upsdown_edge(recipeitem, groups, images, description)
+function technic_cnc_api.register_slope_edge_upsdown(recipeitem, groups, images, description)
 
 if recipeitem == "default:dirt" then
    return
@@ -223,7 +223,7 @@ local detail = technic_cnc_api.detail_level
 for i = 0, detail-1 do
         slopeupdwnboxedge[i+1]={(-1*(i/detail))+0.5-(1/detail), (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
 end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_upsdown_edge", {
+minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_edge_upsdown", {
         description = description,
         drawtype = "nodebox",
         tiles = images,
@@ -245,13 +245,13 @@ end
 
 -- SLOPE INNER EDGE UPSIDE DOWN
 -------------------------------
-function technic_cnc_api.register_slope_upsdown_inner_edge(recipeitem, groups, images, description)
+function technic_cnc_api.register_slope_inner_edge_upsdown(recipeitem, groups, images, description)
 
 if recipename == "default:dirt" then
 return
 end
 
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_upsdown_inner_edge", {
+minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_inner_edge_upsdown", {
         description = description,
         drawtype = "nodebox",
         tiles = images,
@@ -548,7 +548,7 @@ for i = 1, detail-1 do
         sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
         spherebox[i]={-sehne, (i/detail)-0.5, -sehne, sehne, (i/detail)+(1/detail)-0.5, sehne}
 end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_cylinder_sphere", {
+minetest.register_node(":" .. recipeitem .. "_technic_cnc_sphere", {
         description = description,
         drawtype = "nodebox",
         tiles = images,
@@ -939,8 +939,8 @@ function technic_cnc_api.register_slope_edge_etc(recipeitem, groups, images, des
          technic_cnc_api.register_slope_upsdown(recipeitem, groups, images, desc_slope_upsdown)
          technic_cnc_api.register_slope_edge(recipeitem, groups, images, desc_slope_edge)
          technic_cnc_api.register_slope_inner_edge(recipeitem, groups, images, desc_slope_inner_edge)
-         technic_cnc_api.register_slope_upsdown_edge(recipeitem, groups, images, desc_slope_upsdwn_edge)
-         technic_cnc_api.register_slope_upsdown_inner_edge(recipeitem, groups, images, desc_slope_upsdwn_inner_edge)
+         technic_cnc_api.register_slope_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_edge)
+         technic_cnc_api.register_slope_inner_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_inner_edge)
          technic_cnc_api.register_pyramid(recipeitem, groups, images, desc_pyramid)
          technic_cnc_api.register_spike(recipeitem, groups, images, desc_spike)
          technic_cnc_api.register_onecurvededge(recipeitem, groups, images, desc_onecurvededge)
