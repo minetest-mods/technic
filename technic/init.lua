@@ -2,6 +2,8 @@
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
+technic = {}
+
 modpath=minetest.get_modpath("technic")
 
 --Read technic config file
@@ -34,10 +36,13 @@ dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
 dofile(modpath.."/forcefield.lua")
 
+--HV machines
+dofile(modpath.."/wires_hv.lua")
+
 --Tools
-if enable_mining_drill==true then dofile(modpath.."/mining_drill.lua") end
-if enable_mining_laser==true then dofile(modpath.."/mining_laser_mk1.lua") end
-if enable_flashlight==true then dofile(modpath.."/flashlight.lua") end
+if technic.config:getBool("enable_mining_drill") then dofile(modpath.."/mining_drill.lua") end
+if technic.config:getBool("enable_mining_laser") then dofile(modpath.."/mining_laser_mk1.lua") end
+if technic.config:getBool("enable_flashlight") then dofile(modpath.."/flashlight.lua") end
 dofile(modpath.."/cans.lua")
 dofile(modpath.."/chainsaw.lua")
 dofile(modpath.."/tree_tap.lua")

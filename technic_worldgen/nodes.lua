@@ -56,3 +56,5 @@ minetest.register_craft({
 		{'technic:marble','technic:marble'}
 	}
 })
+
+minetest.register_alias("technic:diamond_block", "default:diamondblock")

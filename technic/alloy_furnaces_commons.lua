@@ -19,14 +19,12 @@ alloy_recipes[registered_recipes_count].src2_count=count1
 alloy_recipes[registered_recipes_count].dst_name=string3
 alloy_recipes[registered_recipes_count].dst_count=count3
 registered_recipes_count=registered_recipes_count+1
-if UI_recipes_hook then
-	minetest.register_craft({
+if unified_inventory then
+	unified_inventory.register_craft({
 	type = "alloy",
 	output = string3.." "..count3,
-	recipe = {
-		{string1.." "..count1},
-		{string2.." "..count2},
-			}
+	items = {string1.." "..count1,string2.." "..count2},
+	width = 2,
 	})
 	end
 end

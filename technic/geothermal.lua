@@ -4,8 +4,8 @@ minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
 		{'default:stone', 'default:stone', 'default:stone'},
-		{'moreores:copper_ingot', 'technic:diamond', 'moreores:copper_ingot'},
-		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
+		{'default:copper_ingot', 'default:diamond', 'default:copper_ingot'},
+		{'default:stone', 'default:copper_ingot', 'default:stone'},
 	}
 })
 

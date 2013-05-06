@@ -217,11 +217,11 @@ minetest.register_tool("technic:mining_drill", {
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type=="node" then 
-		item=itemstack:to_table()
+		local item=itemstack:to_table()
 		local meta=get_item_meta(item["metadata"])
 		if meta==nil then return end --tool not charghed
 		if meta["charge"]==nil then return end
-		charge=meta["charge"]
+		local charge=meta["charge"]
 		if charge-mining_drill_power_usage>0 then
 			charge_to_take=drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,1,1)
 			charge =charge-mining_drill_power_usage;
@@ -287,7 +287,7 @@ function mining_drill_mk2_handler (itemstack,user,pointed_thing)
 	local keys=user:get_player_control()
 	local player_name=user:get_player_name()
 	local item=itemstack:to_table()
-	meta=get_item_meta(item["metadata"])
+	local meta=get_item_meta(item["metadata"])
 	if meta==nil or keys["sneak"]==true then return mining_drill_mk2_setmode(user,itemstack) end
 	if meta["mode"]==nil then return mining_drill_mk2_setmode(user,itemstack) end
 	if pointed_thing.type~="node" then return end
@@ -309,14 +309,13 @@ function mining_drill_mk3_handler (itemstack,user,pointed_thing)
 	local keys=user:get_player_control()
 	local player_name=user:get_player_name()
 	local item=itemstack:to_table()
-	meta=get_item_meta(item["metadata"])
+	local meta=get_item_meta(item["metadata"])
 	if meta==nil or keys["sneak"]==true then return mining_drill_mk3_setmode(user,itemstack) end
 	if meta["mode"]==nil then return mining_drill_mk3_setmode(user,itemstack) end
 	if pointed_thing.type~="node" then return end
 	if meta["charge"]==nil then return end
-	charge=meta["charge"]
+	local charge=meta["charge"]
 	if charge-mining_drill_power_usage>0 then
-		print(dump(meta))
 		local charge_to_take=drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,3,meta["mode"])
 		charge=charge-charge_to_take;
 		if charge<0 then charge=0 end
