@@ -52,7 +52,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 minetest.register_craft({
 	output = "technic:sonic_screwdriver",
 	recipe = {
-		{"technic:diamond"},
+		{"default:diamond"},
 		{"technic:battery"},
 		{"technic:stainless_steel_ingot"}
 		}
