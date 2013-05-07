@@ -27,6 +27,9 @@ dofile(modpath.."/tool_workshop.lua")
 dofile(modpath.."/music_player.lua")
 dofile(modpath.."/generator.lua")
 dofile(modpath.."/grinder.lua")
+dofile(modpath.."/cnc.lua")
+dofile(modpath.."/cnc_api.lua")
+dofile(modpath.."/cnc_nodes.lua")
 
 --MV machines
 dofile(modpath.."/wires_mv.lua")
