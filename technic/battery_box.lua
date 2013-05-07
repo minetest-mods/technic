@@ -218,7 +218,7 @@ minetest.register_abm({
 		end	
 	end
 	
--- dischargin registered power tools
+-- discharging registered power tools
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
@@ -297,7 +297,7 @@ table_index=1
 local pos1={}
 i=1
 	repeat
-	if PR_nodes[i]==nil then break end -- gettin power from all connected producers
+	if PR_nodes[i]==nil then break end -- getting power from all connected producers
 		pos1.x=PR_nodes[i].x
 		pos1.y=PR_nodes[i].y
 		pos1.z=PR_nodes[i].z
