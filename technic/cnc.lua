@@ -1,5 +1,11 @@
 -- Technic CNC v1.0 by kpo
 -- Based on the NonCubic Blocks MOD v1.4 by yves_de_beck
+
+-- Idea:
+--   Somehw have a tabbed/paged panel if the number of shapes should expand
+--   beyond what is available in the panel today.
+--   I could imagine some form of API allowing modders to come with their own node
+--   box definitions and easily stuff it in the this machine for production.
 local shape = {}
 local onesize_products = {
    slope                    = 2,
@@ -89,61 +95,9 @@ local cnc_power_formspec=
 
 local size     = 1;
 
-minetest.register_node("technic:cnc", {
-	description = "CNC Milling Machine",
-        tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-		       "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
-        drawtype    = "nodebox",
-        paramtype   = "light",
-        paramtype2  = "facedir",
-        node_box    = {
-	   type  = "fixed",
-	   fixed = {
-	      {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-	      
-	   },
-        },
-        selection_box = {
-	   type = "fixed",
-	   fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        groups = {cracky=2},
-	legacy_facedir_simple = true,
-	technic_power_machine=1,
-	internal_EU_buffer=0;
-	internal_EU_buffer_size=5000;
-	cnc_time = 0;
-	src_time = 0; -- fixme
-	
-	on_construct = function(pos)
-			  local meta = minetest.env:get_meta(pos)
-			  meta:set_string("infotext", "CNC machine")
-			  meta:set_float("technic_power_machine", 1)
-			  meta:set_float("internal_EU_buffer", 0)
-			  meta:set_float("internal_EU_buffer_size", 5000)
-			  meta:set_string("formspec", cnc_formspec..cnc_power_formspec)
-			  meta:set_float("cnc_time", 0)
-
-			  local inv = meta:get_inventory()
-			  inv:set_size("src", 1)
-			  inv:set_size("dst", 4)
-
-			  meta:set_string("formspec", cnc_formspec)
-			  meta:set_string("infotext", "CNC Milling Machine")
-		       end,
-	
-	can_dig = function(pos,player)
-		     local meta = minetest.env:get_meta(pos);
-		     local inv = meta:get_inventory()
-		     if not inv:is_empty("src") or not inv:is_empty("dst") then
-			minetest.chat_send_player(player:get_player_name(), "CNC machine cannot be removed because it is not empty");
-			return false
-		     end
-		     return true
-		  end,
-
-
-	on_receive_fields = function(pos, formname, fields, sender)
+-- The form handler is declared here because we need it in both the inactive and active modes
+-- in order to be able to change programs wile it is running.
+local form_handler = function(pos, formname, fields, sender)
 			       -- REGISTER MILLING PROGRAMS AND OUTPUTS:
 			       ------------------------------------------
 			       -- Program for half/full size
@@ -178,22 +132,78 @@ minetest.register_node("technic:cnc", {
 
 				  if onesize_products[k] ~= nil or (twosize_products[k] ~= nil and size==2) then
 				     meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k)
+				     print(inputname .. "_technic_cnc_" .. k)
 				     break
 				  end
 
 				  if twosize_products[k] ~= nil and size==1 then
 				     meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k .. "_double")
+				     print(inputname .. "_technic_cnc_" .. k .. "_double")
 				     break
 				  end
 			       end
 			       return
-			    end, -- callback function
+			    end -- callback function
+
+-- The actual block inactive state
+minetest.register_node("technic:cnc", {
+	description = "CNC Milling Machine",
+        tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+		       "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
+        drawtype    = "nodebox",
+        paramtype   = "light",
+        paramtype2  = "facedir",
+        node_box    = {
+	   type  = "fixed",
+	   fixed = {
+	      {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+	      
+	   },
+        },
+        selection_box = {
+	   type = "fixed",
+	   fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        },
+        groups = {cracky=2},
+	legacy_facedir_simple = true,
+	technic_power_machine=1,
+	internal_EU_buffer=0;
+	internal_EU_buffer_size=5000;
+	cnc_time = 0;
+	src_time = 0; -- fixme
+	
+	on_construct = function(pos)
+			  local meta = minetest.env:get_meta(pos)
+			  meta:set_string("infotext", "CNC Machine Inactive")
+			  meta:set_float("technic_power_machine", 1)
+			  meta:set_float("internal_EU_buffer", 0)
+			  meta:set_float("internal_EU_buffer_size", 5000)
+			  meta:set_string("formspec", cnc_formspec..cnc_power_formspec)
+			  meta:set_float("cnc_time", 0)
+
+			  local inv = meta:get_inventory()
+			  inv:set_size("src", 1)
+			  inv:set_size("dst", 4)
+		       end,
+	
+	can_dig = function(pos,player)
+		     local meta = minetest.env:get_meta(pos);
+		     local inv = meta:get_inventory()
+		     if not inv:is_empty("src") or not inv:is_empty("dst") then
+			minetest.chat_send_player(player:get_player_name(), "CNC machine cannot be removed because it is not empty");
+			return false
+		     end
+		     return true
+		  end,
+
+	on_receive_fields = form_handler,
      })
 
+-- Active state block
 minetest.register_node("technic:cnc_active", {
 	description = "CNC Machine",
-        tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-		       "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front_active.png"},
+        tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+		       "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=2,not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
@@ -206,8 +216,10 @@ minetest.register_node("technic:cnc_active", {
 		     end
 		     return true
 		  end,
+	on_receive_fields = form_handler,
 })
 
+-- Action code performing the transformation
 minetest.register_abm(
    {
       nodenames = {"technic:cnc","technic:cnc_active"},

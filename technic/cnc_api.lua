@@ -6,928 +6,330 @@ technic_cnc_api = {}
 ----------------------------------------
 technic_cnc_api.detail_level = 16 -- 16; 1-32
 
--- HERE YOU CAN DE/ACTIVATE BACKGROUND FOR CNC MENU:
---------------------------------------------------------
-technic_cnc_api.allow_menu_background = false
-
 -- REGISTER NONCUBIC FORMS, CREATE MODELS AND RECIPES:
 ------------------------------------------------------
+local cnc_sphere =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      local sehne
+      for i = 1, detail-1 do
+	 sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	 nodebox[i]={-sehne, (i/detail)-0.5, -sehne, sehne, (i/detail)+(1/detail)-0.5, sehne}
+      end
+      return nodebox
+   end
 
--- SLOPE
---------
-function technic_cnc_api.register_slope(recipeitem, groups, images, description)
+local cnc_cylinder_horizontal =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      local sehne
+      for i = 1, detail-1 do
+	 sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	 nodebox[i]={-0.5, (i/detail)-0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, sehne}
+      end
+      return nodebox
+   end
 
-local slopebox = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        slopebox[i+1]={-0.5, (i/detail)-0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+local cnc_cylinder =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      local sehne
+      for i = 1, detail-1 do
+	 sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	 nodebox[i]={(i/detail)-0.5, -0.5, -sehne, (i/detail)+(1/detail)-0.5, 0.5, sehne}
+      end
+      return nodebox
+   end
+
+local cnc_twocurvededge =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level*2
+      local sehne
+      for i = (detail/2)-1, detail-1 do
+	 sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	 nodebox[i]={-sehne, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_onecurvededge =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level*2
+      local sehne
+      for i = (detail/2)-1, detail-1 do
+	 sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	 nodebox[i]={-0.5, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
+      end 
+     return nodebox
+   end
+
+local cnc_spike =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5, 0.5-(i/detail/2), (i/detail)-0.5+(1/detail), 0.5-(i/detail/2)}
+end
+      return nodebox
+   end
+
+local cnc_pyramid =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level/2
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5, 0.5-(i/detail/2), (i/detail/2)-0.5+(1/detail), 0.5-(i/detail/2)}
+      end
+      return nodebox
+   end
+
+local cnc_slope_inner_edge_upsdown =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={0.5-(i/detail)-(1/detail), (i/detail)-0.5, -0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+	 nodebox[i+detail+1]={-0.5, (i/detail)-0.5, 0.5-(i/detail)-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope_edge_upsdown =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(-1*(i/detail))+0.5-(1/detail), (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope_inner_edge =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(i/detail)-0.5, -0.5, -0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+	 nodebox[i+detail+1]={-0.5, -0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope_edge =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(i/detail)-0.5, -0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope_upsdown =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={-0.5, (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope_lying =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={(i/detail)-0.5, -0.5, (i/detail)-0.5, (i/detail)-0.5+(1/detail), 0.5 , 0.5}
+      end
+      return nodebox
+   end
+
+local cnc_slope =
+   function()
+      local nodebox = {}
+      local detail = technic_cnc_api.detail_level
+      for i = 0, detail-1 do
+	 nodebox[i+1]={-0.5, (i/detail)-0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
+      end
+      return nodebox
+   end
+
+-- Define slope boxes for the various nodes
+-------------------------------------------
+technic_cnc_api.cnc_programs = {
+   {suffix  = "technic_cnc_stick",
+    nodebox = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
+    desc    = "Stick"},
+
+   {suffix  = "technic_cnc_element_end_double",
+    nodebox = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
+    desc    = "Element End Double"},
+
+   {suffix  = "technic_cnc_element_cross_double",
+    nodebox = {
+       {0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
+       {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
+       {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
+    desc    = "Element Cross Double"},
+
+   {suffix  = "technic_cnc_element_t_double",
+    nodebox = {
+       {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
+       {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
+       {0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
+    desc    = "Element T Double"},
+
+   {suffix  = "technic_cnc_element_edge_double",
+    nodebox = {
+       {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
+       {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
+    desc    = "Element Edge Double"},
+
+   {suffix  = "technic_cnc_element_straight_double",
+    nodebox = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
+    desc    = "Element Straight Double"},
+
+   {suffix  = "technic_cnc_element_end",
+    nodebox = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
+    desc    = "Element End"},
+
+   {suffix  = "technic_cnc_element_cross",
+    nodebox = {
+       {0.3, -0.5, -0.3, 0.5, 0, 0.3},
+       {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
+       {-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
+    desc    = "Element Cross"},
+
+   {suffix  = "technic_cnc_element_t",
+    nodebox = {
+       {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
+       {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
+       {0.3, -0.5, -0.3, 0.5, 0, 0.3}},
+    desc    = "Element T"},
+
+   {suffix  = "technic_cnc_element_edge",
+    nodebox = {
+       {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
+       {-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
+    desc    = "Element Edge"},
+
+   {suffix  = "technic_cnc_element_straight",
+    nodebox = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
+    desc    = "Element Straight"},
+
+   {suffix  = "technic_cnc_sphere",
+    nodebox = cnc_sphere(),
+    desc    = "Sphere"},
+
+   {suffix  = "technic_cnc_cylinder_horizontal",
+    nodebox = cnc_cylinder_horizontal(),
+    desc    = "Cylinder Horizontal"},
+
+   {suffix  = "technic_cnc_cylinder",
+    nodebox = cnc_cylinder(),
+    desc    = ""},
+
+   {suffix  = "technic_cnc_twocurvededge",
+    nodebox = cnc_twocurvededge(),
+    desc    = "One Curved Edge Block"},
+
+   {suffix  = "technic_cnc_onecurvededge",
+    nodebox = cnc_onecurvededge(),
+    desc    = "Two Curved Edge Block"},
+
+   {suffix  = "technic_cnc_spike",
+    nodebox = cnc_spike(),
+    desc    = "Spike"},
+
+   {suffix  = "technic_cnc_pyramid",
+    nodebox = cnc_pyramid(),
+    desc    = "Pyramid"},
+
+   {suffix  = "technic_cnc_slope_inner_edge_upsdown",
+    nodebox = cnc_slope_inner_edge_upsdown(),
+    desc    = "Slope Upside Down Inner Edge"},
+
+   {suffix  = "technic_cnc_slope_edge_upsdown",
+    nodebox = cnc_slope_edge_upsdown(),
+    desc    = "Slope Upside Down Edge"},
+
+   {suffix  = "technic_cnc_slope_inner_edge",
+    nodebox = cnc_slope_inner_edge(),
+    desc    = "Slope Inner Edge"},
+
+   {suffix  = "technic_cnc_slope_edge",
+    nodebox = cnc_slope_edge(),
+    desc    = "Slope Edge"},
+
+   {suffix  = "technic_cnc_slope_upsdown",
+    nodebox = cnc_slope_upsdown(),
+    desc    = "Slope Upside Down"},
+
+   {suffix  = "technic_cnc_slope_lying",
+    nodebox = cnc_slope_lying(),
+    desc    = "Slope Lying"},
+
+   {suffix  = "technic_cnc_slope",
+    nodebox = cnc_slope(),
+    desc    = "Slope"},
+--   {suffix  = "",
+--    nodebox =},
+}
+
+-- Allow disabling certain programs for some node. Default is allowing all types for all nodes
+technic_cnc_api.cnc_programs_disable = {
+   -- ["default:brick"] = {"technic_cnc_stick"}, -- Example: Disallow the stick for brick
+   -- ...
+   ["default:dirt"] = {"technic_cnc_sphere", "technic_cnc_slope_upsdown", "technic_cnc_edge",
+		       "technic_cnc_inner_edge", "technic_cnc_slope_edge_upsdown", "technic_cnc_slope_inner_edge_upsdown",
+		       "technic_cnc_stick", "technic_cnc_cylinder_horizontal"}
+}
+
+-- Generic function for registering all the different node types
+function technic_cnc_api.register_cnc_program(recipeitem, suffix, nodebox, groups, images, description)
+   minetest.register_node(":" .. recipeitem .. "_" .. suffix, {
+			     description   = description,
+			     drawtype      = "nodebox",
+			     tiles         = images,
+			     paramtype     = "light",
+			     paramtype2    = "facedir",
+			     walkable      = true,
+			     selection_box = {
+				type  = "fixed",
+				fixed = nodebox
+			     },
+			     node_box      = {
+				type  = "fixed",
+				fixed = nodebox
+			     },
+			     groups        = groups,
+			  })
 end
 
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = slopebox,
-        },
-        groups = groups,
-        })
+-- function to iterate over all the programs the CNC machine knows
+function technic_cnc_api.register_all(recipeitem, groups, images, description)
+   for _, data in ipairs(technic_cnc_api.cnc_programs) do
+      -- Disable node creation for disabled node types for some material
+      local do_register = true
+      if technic_cnc_api.cnc_programs_disable[recipeitem] ~= nil then
+	 for __, disable in ipairs(technic_cnc_api.cnc_programs_disable[recipeitem]) do
+	    if disable == data.suffix then
+	       do_register = false
+	    end
+	 end
+      end
+      -- Create the node if it passes the test
+      if do_register then
+	 technic_cnc_api.register_cnc_program(recipeitem, data.suffix, data.nodebox, groups, images, description.." "..data.desc)
+      end
+   end
 end
-
-
--- SLOPE Lying
-----------------
-function technic_cnc_api.register_slope_lying(recipeitem, groups, images, description)
-
-local slopeboxlying = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        slopeboxlying[i+1]={(i/detail)-0.5, -0.5, (i/detail)-0.5, (i/detail)-0.5+(1/detail), 0.5 , 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_lying", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = slopeboxlying,
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_slope_lying 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_slope", ""},
-                        {"", "", ""},           
-                },
-        })
-
-end
-
-
--- SLOPE UPSIDE DOWN
---------------------
-function technic_cnc_api.register_slope_upsdown(recipeitem, groups, images, description)
-
-if subname == "dirt" then
-return
-end
-
-local slopeupdwnbox = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        slopeupdwnbox[i+1]={-0.5, (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_upsdown", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = slopeupdwnbox,
-        },
-        groups = groups,
-        })
-end
-
-
--- SLOPE EDGE
--------------
-function technic_cnc_api.register_slope_edge(recipeitem, groups, images, description)
-
-local slopeboxedge = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        slopeboxedge[i+1]={(i/detail)-0.5, -0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_edge", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = slopeboxedge,
-        },
-        groups = groups,
-        })
-end
-
-
--- SLOPE INNER EDGE
--------------------
-function technic_cnc_api.register_slope_inner_edge(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_inner_edge", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        -- PART 1
-                        {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
-                        {-0.45, -0.5, -0.5, 0.5, -0.4, 0.5},
-                        {-0.4, -0.5, -0.5, 0.5, -0.35, 0.5},
-                        {-0.35, -0.5, -0.5, 0.5, -0.3, 0.5},
-                        {-0.3, -0.5, -0.5, 0.5, -0.25, 0.5},
-                        {-0.25, -0.5, -0.5, 0.5, -0.2, 0.5},
-                        {-0.2, -0.5, -0.5, 0.5, -0.15, 0.5},
-                        {-0.15, -0.5, -0.5, 0.5, -0.1, 0.5},
-                        {-0.1, -0.5, -0.5, 0.5, -0.05, 0.5},
-                        {-0.05, -0.5, -0.5, 0.5, 0, 0.5},
-                        {0, -0.5, -0.5, 0.5, 0.05, 0.5},
-                        {0.05, -0.5, -0.5, 0.5, 0.1, 0.5},
-                        {0.1, -0.5, -0.5, 0.5, 0.15, 0.5},
-                        {0.15, -0.5, -0.5, 0.5, 0.2, 0.5},
-                        {0.2, -0.5, -0.5, 0.5, 0.25, 0.5},
-                        {0.25, -0.5, -0.5, 0.5, 0.3, 0.5},
-                        {0.3, -0.5, -0.5, 0.5, 0.35, 0.5},
-                        {0.35, -0.5, -0.5, 0.5, 0.4, 0.5},
-                        {0.4, -0.5, -0.5, 0.5, 0.45, 0.5},
-                        {0.45, -0.5, -0.5, 0.5, 0.5, 0.5},
-                        -- PART 2
-                        {-0.5, -0.5, -0.45, 0.5, -0.45, 0.5},
-                        {-0.5, -0.5, -0.4, 0.5, -0.4, 0.5},
-                        {-0.5, -0.5, -0.35, 0.5, -0.35, 0.5},
-                        {-0.5, -0.5, -0.3, 0.5, -0.3, 0.5},
-                        {-0.5, -0.5, -0.25, 0.5, -0.25, 0.5},
-                        {-0.5, -0.5, -0.2, 0.5, -0.2, 0.5},
-                        {-0.5, -0.5, -0.15, 0.5, -0.15, 0.5},
-                        {-0.5, -0.5, -0.1, 0.5, -0.1, 0.5},
-                        {-0.5, -0.5, -0.05, 0.5, -0.05, 0.5},
-                        {-0.5, -0.5, 0, 0.5, 0, 0.5},
-                        {-0.5, -0.5, 0.05, 0.5, 0.05, 0.5},
-                        {-0.5, -0.5, 0.1, 0.5, 0.1, 0.5},
-                        {-0.5, -0.5, 0.15, 0.5, 0.15, 0.5},
-                        {-0.5, -0.5, 0.2, 0.5, 0.2, 0.5},
-                        {-0.5, -0.5, .25, 0.5, 0.25, 0.5},
-                        {-0.5, -0.5, 0.3, 0.5, 0.3, 0.5},
-                        {-0.5, -0.5, 0.35, 0.5, 0.35, 0.5},
-                        {-0.5, -0.5, 0.4, 0.5, 0.4, 0.5},
-                        {-0.5, -0.5, 0.45, 0.5, 0.45, 0.5},
-                        {-0.5, -0.5, 0.5, 0.5, 0.5, 0.5},
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- SLOPE EDGE UPSIDE DOWN
--------------------------
-function technic_cnc_api.register_slope_edge_upsdown(recipeitem, groups, images, description)
-
-if recipeitem == "default:dirt" then
-   return
-end
-
-local slopeupdwnboxedge = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        slopeupdwnboxedge[i+1]={(-1*(i/detail))+0.5-(1/detail), (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_edge_upsdown", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = slopeupdwnboxedge,
-        },
-        groups = groups,
-        })
-end
-
-
--- SLOPE INNER EDGE UPSIDE DOWN
--------------------------------
-function technic_cnc_api.register_slope_inner_edge_upsdown(recipeitem, groups, images, description)
-
-if recipename == "default:dirt" then
-return
-end
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_slope_inner_edge_upsdown", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {0.45, -0.5, -0.5, 0.5, -0.45, 0.5},
-                        {0.4, -0.45, -0.5, 0.5, -0.4, 0.5},
-                        {0.35, -0.4, -0.5, 0.5, -0.35, 0.5},
-                        {0.3, -0.35, -0.5, 0.5, -0.3, 0.5},
-                        {0.25, -0.3, -0.5, 0.5, -0.25, 0.5},
-                        {0.2, -0.25, -0.5, 0.5, -0.2, 0.5},
-                        {0.15, -0.2, -0.5, 0.5, -0.15, 0.5},
-                        {0.1, -0.15, -0.5, 0.5, -0.1, 0.5},
-                        {0.05, -0.1, -0.5, 0.5, -0.05, 0.5},
-                        {0, -0.05, -0.5, 0.5, 0, 0.5},
-                        {-0.05, 0, -0.5, 0.5, 0.05, 0.5},
-                        {-0.1, 0.05, -0.5, 0.5, 0.1, 0.5},
-                        {-0.15, 0.1, -0.5, 0.5, 0.15, 0.5},
-                        {-0.2, 0.15, -0.5, 0.5, 0.2, 0.5},
-                        {-0.25, 0.2, -0.5, 0.5, 0.25, 0.5},
-                        {-0.3, 0.25, -0.5, 0.5, 0.3, 0.5},
-                        {-0.35, 0.3, -0.5, 0.5, 0.35, 0.5},
-                        {-0.4, 0.35, -0.5, 0.5, 0.4, 0.5},
-                        {-0.45, 0.4, -0.5, 0.5, 0.45, 0.5},
-                        {-0.5, 0.45, -0.5, 0.5, 0.5, 0.5},
-
-                        {-0.5, -0.5, 0.45, 0.5, -0.45, 0.5},
-                        {-0.5, -0.45, 0.4, 0.5, -0.4, 0.5},
-                        {-0.5, -0.4, 0.35, 0.5, -0.35, 0.5},
-                        {-0.5, -0.35, 0.3, 0.5, -0.3, 0.5},
-                        {-0.5, -0.3, 0.25, 0.5, -0.25, 0.5},
-                        {-0.5, -0.25, 0.2, 0.5, -0.2, 0.5},
-                        {-0.5, -0.2, 0.15, 0.5, -0.15, 0.5},
-                        {-0.5, -0.15, 0.1, 0.5, -0.1, 0.5},
-                        {-0.5, -0.1, 0.05, 0.5, -0.05, 0.5},
-                        {-0.5, -0.05, 0, 0.5, 0, 0.5},
-                        {-0.5, 0, -0.05, 0.5, 0.05, 0.5},
-                        {-0.5, 0.05, -0.1, 0.5, 0.1, 0.5},
-                        {-0.5, 0.1, -0.15, 0.5, 0.15, 0.5},
-                        {-0.5, 0.15, -0.2, 0.5, 0.2, 0.5},
-                        {-0.5, 0.2, -0.25, 0.5, 0.25, 0.5},
-                        {-0.5, 0.25, -0.3, 0.5, 0.3, 0.5},
-                        {-0.5, 0.3, -0.35, 0.5, 0.35, 0.5},
-                        {-0.5, 0.35, -0.4, 0.5, 0.4, 0.5},
-                        {-0.5, 0.4, -0.45, 0.5, 0.45, 0.5},
-                        {-0.5, 0.45, -0.5, 0.5, 0.5, 0.5},
-
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- PYRAMID
-----------
-function technic_cnc_api.register_pyramid(recipeitem, groups, images, description)
-
-local pyrabox = {}
-local detail = technic_cnc_api.detail_level/2
-for i = 0, detail-1 do
-        pyrabox[i+1]={(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5, 0.5-(i/detail/2), (i/detail/2)-0.5+(1/detail), 0.5-(i/detail/2)}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_pyramid", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = pyrabox,
-        },
-        groups = groups,
-        })
-end
-
-
--- SPIKE
---------
-function technic_cnc_api.register_spike(recipeitem, groups, images, description)
-
-if recipename == "default:dirt" then
-       return
-end
-
-local spikebox = {}
-local detail = technic_cnc_api.detail_level
-for i = 0, detail-1 do
-        spikebox[i+1]={(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5, 0.5-(i/detail/2), (i/detail)-0.5+(1/detail), 0.5-(i/detail/2)}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_spike", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = spikebox,
-        },
-        groups = groups,
-        })
-end
-
-
--- Block one curved edge 
-------------------------
-function technic_cnc_api.register_onecurvededge(recipeitem, groups, images, description)
-
-local quartercyclebox = {}
-local detail = technic_cnc_api.detail_level*2
-local sehne
-for i = (detail/2)-1, detail-1 do
-        sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-        quartercyclebox[i]={-0.5, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_onecurvededge", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = quartercyclebox,
-        },
-        groups = groups,
-        })
-end
-
-
--- Block two curved edges 
--------------------------
-function technic_cnc_api.register_twocurvededge(recipeitem, groups, images, description)
-
-local quartercyclebox2 = {}
-local detail = technic_cnc_api.detail_level*2
-local sehne
-for i = (detail/2)-1, detail-1 do
-        sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-        quartercyclebox2[i]={-sehne, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_twocurvededge", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = quartercyclebox2,
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_twocurvededge 3",
-                recipe = {
-                        {"", "", ""},
-                        {recipeitem .. "_technic_cnc_onecurvededge", "", ""},
-                        {recipeitem .. "_technic_cnc_onecurvededge", recipeitem .. "_technic_cnc_onecurvededge", ""},         
-                },
-        })
-
-end
-
--- Cylinder
------------
-function technic_cnc_api.register_cylinder(recipeitem, groups, images, description)
-
-if recipename == "default:dirt" then
-return
-end
-
-local cylbox = {}
-local detail = technic_cnc_api.detail_level
-local sehne
-for i = 1, detail-1 do
-        sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-        cylbox[i]={(i/detail)-0.5, -0.5, -sehne, (i/detail)+(1/detail)-0.5, 0.5, sehne}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_cylinder", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = cylbox,
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_cylinder 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_cylinder_horizontal", ""},
-                        {"", "", ""},           
-                },
-        })
-
-end
-
-
--- Cylinder Horizontal
-----------------------
-function technic_cnc_api.register_cylinder_horizontal(recipeitem, groups, images, description)
-
-if recipename == "default:dirt" then
-       return
-end
-
-local cylbox_horizontal = {}
-local detail = technic_cnc_api.detail_level
-local sehne
-for i = 1, detail-1 do
-        sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-        cylbox_horizontal[i]={-0.5, (i/detail)-0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, sehne}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_cylinder_horizontal", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = cylbox_horizontal,
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_cylinder_horizontal 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_cylinder", ""},
-                        {"", "", ""},           
-                },
-        })
-end
-
-
--- Sphere
----------
-function technic_cnc_api.register_sphere(recipeitem, groups, images, description)
-
-if recipename == "default:dirt" then
-       return
-end
-
-local spherebox = {}
-local detail = technic_cnc_api.detail_level
-local sehne
-for i = 1, detail-1 do
-        sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-        spherebox[i]={-sehne, (i/detail)-0.5, -sehne, sehne, (i/detail)+(1/detail)-0.5, sehne}
-end
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_sphere", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = spherebox,
-        },
-        groups = groups,
-        })
-end
-
-
--- Element straight
--------------------
-function technic_cnc_api.register_element_straight(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_straight", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- Element Edge
----------------
-function technic_cnc_api.register_element_edge(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_edge", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- Element T
-------------
-function technic_cnc_api.register_element_t(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_t", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        {0.3, -0.5, -0.3, 0.5, 0, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        {0.3, -0.5, -0.3, 0.5, 0, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- Element Cross
-----------------
-function technic_cnc_api.register_element_cross(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_cross", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {0.3, -0.5, -0.3, 0.5, 0, 0.3},
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {0.3, -0.5, -0.3, 0.5, 0, 0.3},
-                        {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-                        {-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-end
-
-
--- Element End
---------------
-function technic_cnc_api.register_element_end(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_end", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-        },
-        groups = groups,
-        })
-end
-
-
--- Element straight DOUBLE
---------------------------
-function technic_cnc_api.register_element_straight_double(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_straight_double", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-                        },
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_element_straight_double 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_element_straight", ""},
-                        {"", recipeitem .. "_technic_cnc_element_straight", ""},           
-                },
-        })
-end
-
-
--- Element Edge DOUBLE
-----------------------
-function technic_cnc_api.register_element_edge_double(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_edge_double", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_element_edge_double 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_element_edge", ""},
-                        {"", recipeitem .. "_technic_cnc_element_edge", ""},               
-                },
-        })
-end
-
-
--- Element T DOUBLE
--------------------
-function technic_cnc_api.register_element_t_double(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_t_double", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        {0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        {0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_element_t_double 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_element_t", ""},
-                        {"", recipeitem .. "_technic_cnc_element_t", ""},          
-                },
-        })
-end
-
-
--- Element Cross Double
------------------------
-function technic_cnc_api.register_element_cross_double(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_cross_double", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {
-                        {0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        },
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {
-                        {0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
-                        {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-                        {-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-                        },
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_element_cross_double 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_element_cross", ""},
-                        {"", recipeitem .. "_technic_cnc_element_cross", ""},              
-                        },
-        })
-
-end
-
-
--- Element End Double
----------------------
-function technic_cnc_api.register_element_end_double(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_element_end_double", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_element_end_double 1",
-                recipe = {
-                        {"", "", ""},
-                        {"", recipeitem .. "_technic_cnc_element_end", ""},
-                        {"", recipeitem .. "_technic_cnc_element_end", ""},                
-                        },
-        })
-end
-
-
--- STICK
---------
-function technic_cnc_api.register_stick(recipeitem, groups, images, description)
-
-minetest.register_node(":" .. recipeitem .. "_technic_cnc_stick", {
-        description = description,
-        drawtype = "nodebox",
-        tiles = images,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        walkable = true,
-        selection_box = {
-                type = "fixed",
-                fixed = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-        },
-        node_box = {
-                type = "fixed",
-                fixed = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-        },
-        groups = groups,
-        })
-        minetest.register_craft({
-                output = recipeitem .. "_technic_cnc_stick 8",
-                recipe = {
-                        {'default:stick', "", ""},
-                        {"", "", ""},
-                        {recipeitem, "", ""},           
-                },
-        })
-end
-
 
 
 -- REGISTER NEW TECHNIC_CNC_API's PART 2: technic_cnc_api.register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
