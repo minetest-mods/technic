@@ -41,6 +41,7 @@ dofile(modpath.."/forcefield.lua")
 
 --HV machines
 dofile(modpath.."/wires_hv.lua")
+dofile(modpath.."/battery_box_hv.lua")
 
 --Tools
 if technic.config:getBool("enable_mining_drill") then dofile(modpath.."/mining_drill.lua") end
