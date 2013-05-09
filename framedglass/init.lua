@@ -75,3 +75,33 @@ minetest.register_node("framedglass:steel_framed_obsidian_glass", {
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_glass_defaults(),
 })
+
+function add_coloured_framedglass(name, desc, dye, texture)
+minetest.register_node( "framedglass:steel_framed_obsidian_glass"..name, {
+	description = "Steel-framed "..desc.." Obsidian Glass",
+	tiles = {"framedglass_steel_frame.png",texture},
+	drawtype = "glasslike_framed",
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = true,
+	use_texture_alpha = true,
+	groups = {cracky=3},
+	sounds = default.node_sound_glass_defaults(),
+}) 
+end
+
+add_coloured_framedglass ("red","Red","","framedglass_redglass.png")
+add_coloured_framedglass ("green","Green","","framedglass_greenglass.png")
+add_coloured_framedglass ("blue","Blue","","framedglass_blueglass.png")
+add_coloured_framedglass ("cyan","Cyan","","framedglass_cyanglass.png")
+add_coloured_framedglass ("darkgreen","Dark Green","","framedglass_darkgreenglass.png")
+add_coloured_framedglass ("violet","Violet","","framedglass_violetglass.png")
+add_coloured_framedglass ("pink","Pink","","framedglass_pinkglass.png")
+add_coloured_framedglass ("yellow","Yellow","","framedglass_yellowglass.png")
+add_coloured_framedglass ("orange","Orange","","framedglass_orangeglass.png")
+add_coloured_framedglass ("brown","Brown","","framedglass_brownglass.png")
+add_coloured_framedglass ("white","White","","framedglass_whiteglass.png")
+add_coloured_framedglass ("grey","Grey","","framedglass_greyglass.png")
+add_coloured_framedglass ("darkgrey","Dark Grey","","framedglass_darkgreyglass.png")
+add_coloured_framedglass ("black","Black","","framedglass_blackglass.png")
+
