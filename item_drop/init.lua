@@ -4,6 +4,7 @@ time_pick = 3
 if technic.config:getBool("enable_item_pickup") then
 	minetest.register_globalstep(function(dtime)
 		for _,player in ipairs(minetest.get_connected_players()) do
+			if player and player:get_hp() > 0 then
 			local pos = player:getpos()
 			pos.y = pos.y+0.5
 			local inv = player:get_inventory()
@@ -25,6 +26,7 @@ if technic.config:getBool("enable_item_pickup") then
 						end
 					end
 				end
+			end
 			end
 		end
 	end)
