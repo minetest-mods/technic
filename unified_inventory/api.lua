@@ -58,7 +58,7 @@ minetest.register_on_joinplayer(function(player)
 	unified_inventory.alternate[player_name] = 1
 	unified_inventory.current_item[player_name] =nil
 	unified_inventory.set_inventory_formspec(player,unified_inventory.get_formspec(player, unified_inventory.default))
-
+	
 --crafting guide inventories
 local inv = minetest.create_detached_inventory(player:get_player_name().."craftrecipe",{
 	allow_put = function(inv, listname, index, stack, player)
@@ -75,8 +75,8 @@ local inv = minetest.create_detached_inventory(player:get_player_name().."craftr
 			return 0
 		end,
 	})
-	inv:set_size("output", 1)
-	inv:set_size("build", 3*3)
+inv:set_size("output", 1)
+inv:set_size("build", 3*3)
 
 -- refill slot
 unified_inventory.refill = minetest.create_detached_inventory(player_name.."refill", {
@@ -93,7 +93,6 @@ unified_inventory.refill = minetest.create_detached_inventory(player_name.."refi
 	end,
 })
 unified_inventory.refill:set_size("main", 1)
-end)
 
 -- trash slot
 unified_inventory.trash = minetest.create_detached_inventory("trash", {
@@ -111,24 +110,18 @@ unified_inventory.trash = minetest.create_detached_inventory("trash", {
 	end,
 })
 unified_inventory.trash:set_size("main", 1)
+end)
 
 -- set_inventory_formspec
 unified_inventory.set_inventory_formspec = function(player,formspec)
 	if player then
-		if minetest.setting_getbool("creative_mode") then
-			-- if creative mode is on then wait a bit
-			minetest.after(0.01,function()
-			player:set_inventory_formspec(formspec)
-			end)
-		else
 		player:set_inventory_formspec(formspec)
-		end
 	end
 end
 
 -- get_formspec
 unified_inventory.get_formspec = function(player,page)
-	if player==nil then	return "" end
+	if player==nil then return "" end
 	local player_name = player:get_player_name()
 	unified_inventory.current_page[player_name]=page
 	
