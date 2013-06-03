@@ -160,6 +160,21 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craftitem( "technic:lv_transformer", {
+	description = "Low Voltage Transformer",
+	inventory_image = "technic_lv_transformer.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:lv_transformer',
+	recipe = {
+		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
+		{'technic:copper_coil', 'default:iron_lump', 'technic:copper_coil'},
+		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
+	}
+})
+
 minetest.register_craftitem( "technic:mv_transformer", {
 	description = "Medium Voltage Transformer",
 	inventory_image = "technic_mv_transformer.png",
@@ -172,6 +187,21 @@ minetest.register_craft({
 		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
 		{'technic:copper_coil', 'default:steel_ingot', 'technic:copper_coil'},
 		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+	}
+})
+
+minetest.register_craftitem( "technic:hv_transformer", {
+	description = "High Voltage Transformer",
+	inventory_image = "technic_hv_transformer.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:hv_transformer',
+	recipe = {
+		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
+		{'technic:copper_coil',           'technic:stainless_steel_ingot', 'technic:copper_coil'},
+		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 	}
 })
 
