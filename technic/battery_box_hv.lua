@@ -13,7 +13,7 @@ minetest.register_craft({
 	output = 'technic:hv_battery_box 1',
 	recipe = {
 		{'technic:mv_battery_box', 'technic:mv_battery_box', 'mv_technic:battery_box'},
-		{'technic:mv_battery_box', 'technic:transformer', 'mv_technic:battery_box'},
+		{'technic:mv_battery_box', 'technic:hv_transformer', 'mv_technic:battery_box'},
 		{'', 'technic:hv_cable', ''},
 	}
 }) 
@@ -78,7 +78,7 @@ minetest.register_node("technic:hv_battery_box"..i, {
 	drop="technic:hv_battery_box",
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("infotext", "hv Battery box")
+		meta:set_string("infotext", "HV Battery box")
 		meta:set_float("technic_hv_power_machine", 1)
 		meta:set_string("formspec", battery_box_formspec)
 		local inv = meta:get_inventory()
@@ -342,7 +342,7 @@ end
 
 function check_HV_node_subp (PR_nodes,RE_nodes,HV_nodes,pos1)
 meta = minetest.env:get_meta(pos1)
-if meta:get_float("HV_cablelike")==1 then new_node_added=add_new_HVcable_node(HV_nodes,pos1) end
+if meta:get_float("hv_cablelike")==1 then new_node_added=add_new_HVcable_node(HV_nodes,pos1) end
 for i in ipairs(HV_machines) do
 	if minetest.env:get_node(pos1).name == HV_machines[i].machine_name then 
 		if HV_machines[i].machine_type == "PR" then
