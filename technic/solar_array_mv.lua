@@ -83,7 +83,8 @@ minetest.register_abm(
 			meta:set_float("active",1)
 			internal_EU_buffer=internal_EU_buffer+charge_to_give
 			meta:set_float("internal_EU_buffer",internal_EU_buffer)
-			
+			-- Idea: How about letting solar panels provide power without battery boxes?
+			-- This could provide an even distribution to all receivers.			
 		else
 			meta:set_string("infotext", "Solar Array is inactive");
 			meta:set_float("active",0)
