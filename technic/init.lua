@@ -36,6 +36,7 @@ dofile(modpath.."/cnc_nodes.lua")
 dofile(modpath.."/wires_mv.lua")
 dofile(modpath.."/battery_box_mv.lua")
 dofile(modpath.."/solar_array_mv.lua")
+dofile(modpath.."/down_converter_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
 dofile(modpath.."/forcefield.lua")
@@ -44,6 +45,7 @@ dofile(modpath.."/forcefield.lua")
 dofile(modpath.."/wires_hv.lua")
 dofile(modpath.."/battery_box_hv.lua")
 dofile(modpath.."/solar_array_hv.lua")
+dofile(modpath.."/down_converter_hv.lua")
 
 --Tools
 if technic.config:getBool("enable_mining_drill") then dofile(modpath.."/mining_drill.lua") end
