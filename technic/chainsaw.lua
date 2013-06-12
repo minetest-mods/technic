@@ -138,12 +138,22 @@ if( minetest.get_modpath("growing_cactus") ~= nil ) then
         timber_nodenames["growing_cactus:branch_xx"]                    = true
 end
 
+-- Support farming_plus if it is there
+if( minetest.get_modpath("farming_plus") ~= nil ) then
+   if chainsaw_leaves == true then
+      timber_nodenames["farming_plus:cocoa_leaves"] = true
+   end
+end
+
 -- Table for saving what was sawed down
 local produced
 
 -- Saw down trees entry point
 chainsaw_dig_it = function(pos, player,current_charge)
         local remaining_charge=current_charge
+
+        -- Save the currently installed dropping mechanism so we can restore it.
+	local original_handle_node_drops = minetest.handle_node_drops
 
         -- A bit of trickery here: use a different node drop callback
         -- and restore the original afterwards.
@@ -194,9 +204,6 @@ chainsaw_handle_node_drops = function(pos, drops, digger)
                 end
         end
 end
-
--- Save the currently installed dropping mechanism so we can restore it.
-local original_handle_node_drops = minetest.handle_node_drops
 
 -- This function does all the hard work. Recursively we dig the node at hand
 -- if it is in the table and then search the surroundings for more stuff to dig.
