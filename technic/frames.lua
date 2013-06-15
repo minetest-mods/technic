@@ -1,3 +1,5 @@
+frames={}
+
 function get_face(pos,ppos,pvect)
 	ppos={x=ppos.x-pos.x,y=ppos.y-pos.y+1.5,z=ppos.z-pos.z}
 	if pvect.x>0 then
@@ -360,8 +362,10 @@ end
 
 function move_nodes_vect(poslist,vect)
 		for _,pos in ipairs(poslist) do
-		local npos=addVect(pos,vect)
-		if minetest.env:get_node(npos).name~="air" and not(pos_in_list(poslist,npos)) then return end
+		local npos=frames.addVect(pos,vect)
+		local name = minetest.env:get_node(npos).name
+		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none") and not(pos_in_list(poslist,npos)) then
+ return end
 	end
 	nodelist={}
 	for _,pos in ipairs(poslist) do
@@ -376,14 +380,14 @@ function move_nodes_vect(poslist,vect)
 		end
 	end
 	for _,obj in ipairs(objects) do
-		obj:setpos(addVect(obj:getpos(),vect))
+		obj:setpos(frames.addVect(obj:getpos(),vect))
 		le=obj:get_luaentity()
 		if le and le.name == "pipeworks:tubed_item" then
-			le.start_pos=addVect(le.start_pos,vect)
+			le.start_pos=frames.addVect(le.start_pos,vect)
 		end
 	end
 	for _,n in ipairs(nodelist) do
-		local npos=addVect(n.pos,vect)
+		local npos=frames.addVect(n.pos,vect)
 		minetest.env:set_node(npos,n.node)
 		local meta=minetest.env:get_meta(npos)
 		meta:from_table(n.meta)
@@ -406,7 +410,7 @@ function get_connected_nodes(pos)
 	return c
 end
 
-function addVect(pos,vect)
+function frames.addVect(pos,vect)
 	return {x=pos.x+vect.x,y=pos.y+vect.y,z=pos.z+vect.z}
 end
 
@@ -419,7 +423,7 @@ end
 
 function connected(pos,c,adj)
 	for _,vect in ipairs(adj) do
-		local pos1=addVect(pos,vect)
+		local pos1=frames.addVect(pos,vect)
 		local nodename=minetest.env:get_node(pos1).name
 		if not(pos_in_list(c,pos1)) and nodename~="air" and
 		(minetest.registered_nodes[nodename].frames_can_connect==nil or
