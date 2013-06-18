@@ -40,6 +40,10 @@ dofile(modpath.."/down_converter_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
 dofile(modpath.."/forcefield.lua")
+-- These two are a concept study: Supplying appliances with inductive coupled power:
+-- lighting and associated textures is taken directly from VanessaE's homedecor and made electric.
+dofile(modpath.."/power_radiator.lua")
+dofile(modpath.."/lighting.lua")
 
 --HV machines
 dofile(modpath.."/wires_hv.lua")
