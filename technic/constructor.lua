@@ -273,26 +273,56 @@ minetest.register_node("technic:constructor_mk3_on", {
 
 
 deploy_node =function (inv, slot_name, pos1, node1, node)
-if node1.name == "air" then 
-			if not inv:is_empty(slot_name) then
+	if node1.name == "air" then 
+		if not inv:is_empty(slot_name) then
 			stack1=inv:get_list(slot_name)
-			node_to_be_placed={name=stack1[1]:get_name(), param1=0, param2=node.param2}
-			minetest.env:set_node(pos1,node_to_be_placed)
-			stack1[1]:take_item()
-			inv:set_stack(slot_name, 1, stack1[1])
-			return
+			local def = stack1[1]:get_definition()
+			if def.type == "node" then
+				node_to_be_placed={name=stack1[1]:get_name(), param1=0, param2=node.param2}
+				minetest.env:set_node(pos1,node_to_be_placed)
+				stack1[1]:take_item()
+				inv:set_stack(slot_name, 1, stack1[1])
+			elseif def.type == "craft" then
+				minetest.item_place_object(stack1[1], nil, {
+					-- Fake pointed_thing
+					type = "node",
+					above = pos1,
+					under = pos1,
+				})
+				inv:set_stack(slot_name, 1, nil)
 			end
-		return 
 		end
-		if node1.name == "ignore" or
-		   node1.name == "default:lava_source" or
-		   node1.name == "default:lava_flowing" or	
-		   node1.name == "default:water_source" or
-		   node1.name == "default:water_flowing" 
-		   then return end
-		if inv:room_for_item(slot_name,node1) then	
-			inv:add_item(slot_name,node1)
+		return 
+	end
+	if node1.name == "ignore" or
+	   node1.name == "default:lava_source" or
+	   node1.name == "default:lava_flowing" or
+	   node1.name == "default:water_source" or
+	   node1.name == "default:water_flowing" 
+	   then return end
+	if inv:room_for_item(slot_name,node1) then
+		local def = minetest.registered_nodes[node1.name]
+		if not def then return end
+		local drop = def.drop or node1.name
+		if type(drop) == "table" then
+			local pr = PseudoRandom(math.random())
+			local c = 0
+			local loop = 0 -- Prevent infinite loop
+			while (c < (drop.max_items or 1)) and (loop < 1000) do
+				local i = math.floor(pr:next(1, #drop.items))
+				if pr:next(1, drop.items[i].rarity or 1) == 1 then
+					for _,item in ipairs(drop.items[i].items) do
+						inv:add_item(slot_name,item)
+					end
+					c = c + 1
+				end
+				loop = loop + 1
+			end
+			minetest.env:remove_node(pos1)
+		elseif type(drop) == "string" then
+			inv:add_item(slot_name,drop)
 			minetest.env:remove_node(pos1)
 		end
+	end
 
 end
