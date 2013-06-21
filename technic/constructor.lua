@@ -283,6 +283,22 @@ deploy_node =function (inv, slot_name, pos1, node1, node)
 				stack1[1]:take_item()
 				inv:set_stack(slot_name, 1, stack1[1])
 			elseif def.type == "craft" then
+				if def.on_place then
+					-- print("deploy_node: item has on_place. trying...")
+					local ok, stk = pcall(def.on_place, stack1[1], nil, {
+						-- Fake pointed_thing
+						type = "node",
+						above = pos1,
+						under = { x=pos1.x, y=pos1.y-1, z=pos1.z },
+					})
+					if ok then
+						-- print("deploy_node: on_place succeeded!")
+						inv:set_stack(slot_name, 1, stk or stack1[1])
+						return
+					-- else
+						-- print("deploy_node: WARNING: error while running on_place: "..tostring(stk))
+					end
+				end
 				minetest.item_place_object(stack1[1], nil, {
 					-- Fake pointed_thing
 					type = "node",
