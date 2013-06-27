@@ -16,12 +16,6 @@ minetest.register_craftitem( ":technic:chromium_ingot", {
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
-minetest.register_craft({
-	type = 'cooking',
-	output = "technic:chromium_ingot",
-	recipe = "technic:chromium_lump"
-})
-
 minetest.register_craftitem( ":technic:zinc_lump", {
 	description = "Zinc Lump",
 	inventory_image = "technic_zinc_lump.png",
@@ -43,7 +37,73 @@ minetest.register_craftitem( ":technic:brass_ingot", {
 })
 
 minetest.register_craft({
+	output = "node technic:uranium_block",
+	recipe = {{"technic:uranium", "technic:uranium", "technic:uranium"},
+		  {"technic:uranium", "technic:uranium", "technic:uranium"},
+		  {"technic:uranium", "technic:uranium", "technic:uranium"}}
+})
+
+minetest.register_craft({
+	output = "craft technic:uranium 9",
+	recipe = {{"technic:uranium_block"}}
+})
+
+minetest.register_craft({
+	output = "node technic:chromium_block",
+	recipe = {{"technic:chromium_ingot", "technic:chromium_ingot", "technic:chromium_ingot"},
+		  {"technic:chromium_ingot", "technic:chromium_ingot", "technic:chromium_ingot"},
+		  {"technic:chromium_ingot", "technic:chromium_ingot", "technic:chromium_ingot"}}
+})
+
+minetest.register_craft({
+	output = "craft technic:chromium_ingot 9",
+	recipe = {{"technic:chromium_block"}}
+})
+
+minetest.register_craft({
+	output = "node technic:zinc_block",
+	recipe = {{"technic:zinc_ingot", "technic:zinc_ingot", "technic:zinc_ingot"},
+		  {"technic:zinc_ingot", "technic:zinc_ingot", "technic:zinc_ingot"},
+		  {"technic:zinc_ingot", "technic:zinc_ingot", "technic:zinc_ingot"}}
+})
+
+minetest.register_craft({
+	output = "craft technic:zinc_ingot 9",
+	recipe = {{"technic:zinc_block"}}
+})
+
+minetest.register_craft({
+	output = "node technic:stainless_steel_block",
+	recipe = {{"technic:stainless_steel_ingot", "technic:stainless_steel_ingot", "technic:stainless_steel_ingot"},
+		  {"technic:stainless_steel_ingot", "technic:stainless_steel_ingot", "technic:stainless_steel_ingot"},
+		  {"technic:stainless_steel_ingot", "technic:stainless_steel_ingot", "technic:stainless_steel_ingot"}}
+})
+
+minetest.register_craft({
+	output = "craft technic:stainless_steel_ingot 9",
+	recipe = {{"technic:stainless_steel_block"}}
+})
+
+minetest.register_craft({
+	output = "node technic:brass_block",
+	recipe = {{"technic:brass_ingot", "technic:brass_ingot", "technic:brass_ingot"},
+		  {"technic:brass_ingot", "technic:brass_ingot", "technic:brass_ingot"},
+		  {"technic:brass_ingot", "technic:brass_ingot", "technic:brass_ingot"}}
+})
+
+minetest.register_craft({
+	output = "craft technic:brass_ingot 9",
+	recipe = {{"technic:brass_block"}}
+})
+
+minetest.register_craft({
 	type = 'cooking',
 	output = "technic:zinc_ingot",
 	recipe = "technic:zinc_lump"
+})
+
+minetest.register_craft({
+	type = 'cooking',
+	output = "technic:chromium_ingot",
+	recipe = "technic:chromium_lump"
 })
