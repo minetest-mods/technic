@@ -88,14 +88,12 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_on_generated(function(minp, maxp, blockseed)
-	if math.random(1, 100) > 5 then
-		return
-	end
-	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
-	local pos = minetest.env:find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
-	if pos ~= nil then
-			rubber_tree={
+if technic.config:getBool("enable_rubber_tree_generation") then
+	minetest.register_on_generated(function(minp, maxp, blockseed)
+		if math.random(1, 100) > 5 then
+			return
+		end
+		local rubber_tree={
 			axiom="FFFFA",
 			rules_a="[&FFBFA]////[&BFFFA]////[&FBFFA]",
 			rules_b="[&FFA]////[&FFA]////[&FFA]",
@@ -107,10 +105,14 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 			thin_trunks=false;
 			fruit_tree=false,
 			fruit=""
-			}
-			minetest.env:spawn_tree({x=pos.x, y=pos.y+1, z=pos.z},rubber_tree)
-	end
-end)
+		}
+		local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
+		local pos = minetest.env:find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
+		if pos ~= nil then
+			minetest.env:spawn_tree({x=pos.x, y=pos.y+1, z=pos.z}, rubber_tree)
+		end
+	end)
+end
 
 
 -- ========= FUEL =========

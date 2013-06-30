@@ -10,6 +10,8 @@ unified_inventory.filtered_items_list = {}
 unified_inventory.activefilter = {}
 unified_inventory.alternate = {}
 unified_inventory.current_item = {}
+unified_inventory.crafts_table ={}
+unified_inventory.crafts_table_count=0
 
 -- default inventory page
 unified_inventory.default = "craft"
@@ -26,8 +28,18 @@ minetest.after(0.01, function()
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
 				and def.description and def.description ~= "" then
 			table.insert(unified_inventory.items_list, name)
+			local recipes=minetest.get_all_craft_recipes(name)
+			if unified_inventory.crafts_table[name]==nil then
+				unified_inventory.crafts_table[name] = {}
+			end
+			if recipes then 
+				for i=1,#recipes,1 do
+					table.insert(unified_inventory.crafts_table[name],recipes[i])
+				end
+			end
 		end
 	end
+	--print(dump(unified_inventory.crafts_table))
 	table.sort(unified_inventory.items_list)
 	unified_inventory.items_list_size = #unified_inventory.items_list
 	print ("Unified Inventory. inventory size: "..unified_inventory.items_list_size)
@@ -37,7 +49,6 @@ end)
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	unified_inventory.players[player_name]={}
-	unified_inventory.players[player_name]["sound_volume"]=minetest.setting_get("sound_volume")*10
 	unified_inventory.current_index[player_name] = 1
 	unified_inventory.filtered_items_list[player_name] = {}
 	unified_inventory.filtered_items_list[player_name] = unified_inventory.items_list
@@ -47,8 +58,8 @@ minetest.register_on_joinplayer(function(player)
 	unified_inventory.alternate[player_name] = 1
 	unified_inventory.current_item[player_name] =nil
 	unified_inventory.set_inventory_formspec(player,unified_inventory.get_formspec(player, unified_inventory.default))
-
---crafting guide inventories	
+	
+--crafting guide inventories
 local inv = minetest.create_detached_inventory(player:get_player_name().."craftrecipe",{
 	allow_put = function(inv, listname, index, stack, player)
 		return 0
@@ -64,8 +75,8 @@ local inv = minetest.create_detached_inventory(player:get_player_name().."craftr
 			return 0
 		end,
 	})
-	inv:set_size("output", 1)
-	inv:set_size("build", 3*3)
+inv:set_size("output", 1)
+inv:set_size("build", 3*3)
 
 -- refill slot
 unified_inventory.refill = minetest.create_detached_inventory(player_name.."refill", {
@@ -82,7 +93,6 @@ unified_inventory.refill = minetest.create_detached_inventory(player_name.."refi
 	end,
 })
 unified_inventory.refill:set_size("main", 1)
-end)
 
 -- trash slot
 unified_inventory.trash = minetest.create_detached_inventory("trash", {
@@ -100,24 +110,18 @@ unified_inventory.trash = minetest.create_detached_inventory("trash", {
 	end,
 })
 unified_inventory.trash:set_size("main", 1)
+end)
 
 -- set_inventory_formspec
 unified_inventory.set_inventory_formspec = function(player,formspec)
 	if player then
-		if minetest.setting_getbool("creative_mode") then
-			-- if creative mode is on then wait a bit
-			minetest.after(0.01,function()
-			player:set_inventory_formspec(formspec)
-			end)
-		else
 		player:set_inventory_formspec(formspec)
-		end
 	end
 end
 
 -- get_formspec
 unified_inventory.get_formspec = function(player,page)
-	if player==nil then	return "" end
+	if player==nil then return "" end
 	local player_name = player:get_player_name()
 	unified_inventory.current_page[player_name]=page
 	
@@ -206,9 +210,9 @@ unified_inventory.get_formspec = function(player,page)
 			formspec = formspec.."label[2,0;"..item_name.."]"	
 			local alternates = 0
 			local alternate = unified_inventory.alternate[player_name]
-			local crafts = crafts_table[item_name]
+			local crafts = unified_inventory.crafts_table[item_name]
 
-			if crafts ~= nil then
+			if crafts ~= nil and #crafts>0 then
 				alternates = #crafts
 				local craft = crafts[alternate]
 				local method = "Crafting"
@@ -440,7 +444,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if item_name then
 			local alternates = 0
 			local alternate=unified_inventory.alternate[player_name]
-			local crafts = crafts_table[item_name]
+			local crafts = unified_inventory.crafts_table[item_name]
 			if crafts ~= nil then
 				alternates = #crafts
 			end
@@ -537,134 +541,63 @@ end
 
 -- update_recipe
 unified_inventory.update_recipe = function(player, stack_name, alternate)
-	--print("Lookup:"..stack_name)
 	local inv = minetest.get_inventory({type="detached", name=player:get_player_name().."craftrecipe"})	
 	for i=0,inv:get_size("build"),1 do
 		inv:set_stack("build", i, nil)
 	end
-	inv:set_stack("cook", 1, nil)
-	inv:set_stack("fuel", 1, nil)
-
-	inv:set_stack("output", 1, stack_name)
-	local def
+	inv:set_stack("output", 1, nil)
 	alternate = tonumber(alternate) or 1
-	local crafts = crafts_table[stack_name]
-	if crafts == nil then
-		--minetest.chat_send_player(player:get_player_name(), "no recipe available for "..stack_name)
-		return
-	end
+	local crafts = unified_inventory.crafts_table[stack_name]
+	print(dump(crafts))
+	local next=next
+	if next(crafts) == nil then return end -- no craft recipes
 	if alternate < 1 or alternate > #crafts then
 		alternate = 1
 	end
 	local craft = crafts[alternate]
-	--print (dump(craft))
-	--minetest.chat_send_player(player:get_player_name(), "recipe for "..stack_name..": "..dump(craft))
-	
-	local itemstack = ItemStack(craft.output)
-	inv:set_stack("output", 1, itemstack)
-
+	inv:set_stack("output", 1, craft.output)
+	local items=craft.items
 	-- cook, fuel, grinding recipes
 	if craft.type == "cooking" or craft.type == "fuel" or craft.type == "grinding" then
-		def=unified_inventory.find_item_def(craft.recipe)
+		def=unified_inventory.find_item_def(craft["items"][1])
 		if def then
 			inv:set_stack("build", 1, def)
 		end
 		return 
 	end
-	
-	-- build (shaped or shapeless)
-	if craft.recipe[1] then
-		def=unified_inventory.find_item_def(craft.recipe[1])
-		if def then
-			inv:set_stack("build", 1, def)
-		else
-			def=unified_inventory.find_item_def(craft.recipe[1][1])
-			if def then
-				inv:set_stack("build", 1, def)
-			end
-			def=unified_inventory.find_item_def(craft.recipe[1][2])
-			if def then
-				inv:set_stack("build", 2, def)
-			end
-			def=unified_inventory.find_item_def(craft.recipe[1][3])
-			if def then
-				inv:set_stack("build", 3, def)
-			end
+	if craft.width==0 then
+	local build_table={1,2,3}
+	for i=1,3,1 do
+		if craft.items[i] then
+			def=unified_inventory.find_item_def(craft.items[i])
+			if def then inv:set_stack("build", build_table[i], def) end
 		end
 	end
-	if craft.recipe[2] then
-		def=unified_inventory.find_item_def(craft.recipe[2])
-		if def then
-			inv:set_stack("build", 2, def)
-		else
-			def=unified_inventory.find_item_def(craft.recipe[2][1])
-			if def then
-				inv:set_stack("build", 4, def)
+	end
+	if craft.width==1 then
+	local build_table={1,4,7}
+	for i=1,3,1 do
+		if craft.items[i] then
+			def=unified_inventory.find_item_def(craft.items[i])
+			if def then inv:set_stack("build", build_table[i], def) end
+		end
+	end
+	end
+	if craft.width==2 then
+	local build_table={1,2,4,5,7,8}
+	for i=1,6,1 do
+		if craft.items[i] then
+			def=unified_inventory.find_item_def(craft.items[i])
+			if def then inv:set_stack("build", build_table[i], def) end
+		end
+	end
+	end
+	if craft.width==3 then
+		for i=1,9,1 do
+			if craft.items[i] then
+				def=unified_inventory.find_item_def(craft.items[i])
+				if def then inv:set_stack("build", i, def) end
 			end
-			def=unified_inventory.find_item_def(craft.recipe[2][2])
-			if def then
-				inv:set_stack("build", 5, def)
-			end
-			def=unified_inventory.find_item_def(craft.recipe[2][3])
-			if def then
-				inv:set_stack("build", 6, def)
-			end
-		end
-	end
-	
-	if craft.recipe[3] then
-		def=unified_inventory.find_item_def(craft.recipe[3])
-		if def then
-			inv:set_stack("build", 3, def)
-		else
-			def=unified_inventory.find_item_def(craft.recipe[3][1])
-			if def then
-				inv:set_stack("build", 7, def)
-			end
-			def=unified_inventory.find_item_def(craft.recipe[3][2])
-			if def then
-				inv:set_stack("build", 8, def)
-			end
-			def=unified_inventory.find_item_def(craft.recipe[3][3])
-			if def then
-				inv:set_stack("build", 9, def)
-			end
-		end
-	end
-	if craft.recipe[4] then
-		def=unified_inventory.find_item_def(craft.recipe[4])
-		if def then
-			inv:set_stack("build", 4, def)
-		end
-	end
-	if craft.recipe[5] then
-		def=unified_inventory.find_item_def(craft.recipe[5])
-		if def then
-			inv:set_stack("build", 5, def)
-		end
-	end
-	if craft.recipe[6] then
-		def=unified_inventory.find_item_def(craft.recipe[6])
-		if def then
-			inv:set_stack("build", 6, def)
-		end
-	end
-	if craft.recipe[7] then
-		def=unified_inventory.find_item_def(craft.recipe[7])
-		if def then
-			inv:set_stack("build", 7, def)
-		end
-	end
-	if craft.recipe[8] then
-		def=unified_inventory.find_item_def(craft.recipe[8])
-		if def then
-			inv:set_stack("build", 8, def)
-		end
-	end
-	if craft.recipe[9] then
-		def=unified_inventory.find_item_def(craft.recipe[9])
-		if def then
-			inv:set_stack("build", 9, def)
 		end
 	end
 end
@@ -674,14 +607,39 @@ if type(def1)=="string" then
 	if string.find(def1, "group:") then
 		def1=string.gsub(def1, "group:", "")
 		def1=string.gsub(def1, '\"', "")
-		for name,def in pairs(minetest.registered_items) do
-				if def.groups[def1] == 1 and def.groups.not_in_creative_inventory ~= 1 then
-					return def
-				end
-		end
+		local items=unified_inventory.items_in_group(def1)
+		return items[1]
 	else
-	return def1
+		return def1
 	end
 end
 return nil
+end
+
+unified_inventory.items_in_group = function(group)
+	local items = {}
+	for name, item in pairs(minetest.registered_items) do
+		for _, g in ipairs(group:split(',')) do
+			if item.groups[g] then
+				table.insert(items,name)
+			end
+		end
+	end
+	return items
+end
+
+-- register_craft
+unified_inventory.register_craft = function(options)
+	if  options.output == nil then
+		return
+	end
+	local itemstack = ItemStack(options.output)
+	if itemstack:is_empty() then
+		return
+	end
+	if unified_inventory.crafts_table[itemstack:get_name()]==nil then
+		unified_inventory.crafts_table[itemstack:get_name()] = {}
+	end
+	table.insert(unified_inventory.crafts_table[itemstack:get_name()],options)
+	--crafts_table_count=crafts_table_count+1
 end

@@ -7,11 +7,12 @@ grinder_recipes[registered_grinder_recipes_count]={}
 grinder_recipes[registered_grinder_recipes_count].src_name=string1
 grinder_recipes[registered_grinder_recipes_count].dst_name=string2
 registered_grinder_recipes_count=registered_grinder_recipes_count+1
-if UI_recipes_hook then
-	minetest.register_craft({
+if unified_inventory then
+	unified_inventory.register_craft({
 	type = "grinding",
 	output = string2,
-	recipe = string1,
+	items = {string1},
+	width = 0,
 	})
 	end
 end
@@ -20,26 +21,36 @@ register_grinder_recipe("default:stone","default:sand")
 register_grinder_recipe("default:cobble","default:gravel")
 register_grinder_recipe("default:gravel","default:dirt")
 register_grinder_recipe("default:desert_stone","default:desert_sand")
-register_grinder_recipe("default:iron_lump","technic:iron_dust 2") 
-register_grinder_recipe("default:coal_lump","technic:coal_dust 2") 
-register_grinder_recipe("moreores:copper_lump","technic:copper_dust 2")
+register_grinder_recipe("default:iron_lump","technic:iron_dust 2")
+register_grinder_recipe("default:steel_ingot","technic:iron_dust 1")
+register_grinder_recipe("default:coal_lump","technic:coal_dust 2")
 register_grinder_recipe("default:copper_lump","technic:copper_dust 2")
-register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2") 
+register_grinder_recipe("default:copper_ingot","technic:copper_dust 1")
+register_grinder_recipe("default:gold_lump","technic:gold_dust 2")
+register_grinder_recipe("default:gold_ingot","technic:gold_dust 1")
+--register_grinder_recipe("default:bronze_ingot","technic:bronze_dust 1")  -- Dust does not exist yet
+--register_grinder_recipe("home_decor:brass_ingot","technic:brass_dust 1") -- needs check for the mod
+register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2")
+register_grinder_recipe("moreores:tin_ingot","technic:tin_dust 1")
 register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
-register_grinder_recipe("moreores:gold_lump","technic:gold_dust 2") 
-register_grinder_recipe("default:gold_lump","technic:gold_dust 2") 
-register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2") 
-register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2") 
-register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2") 
-register_grinder_recipe("technic:coal_dust","dye:black 2") 
-register_grinder_recipe("default:cactus","dye:green 2") 
-register_grinder_recipe("default:dry_shrub","dye:brown 2") 
-register_grinder_recipe("flowers:flower_geranium","dye:blue 2") 
-register_grinder_recipe("flowers:flower_dandelion_white","dye:white 2") 
-register_grinder_recipe("flowers:flower_dandelion_yellow","dye:yellow 2") 
-register_grinder_recipe("flowers:flower_tulip","dye:orange 2") 
-register_grinder_recipe("flowers:flower_rose","dye:red 2") 
-register_grinder_recipe("flowers:flower_viola","dye:violet 2") 
+register_grinder_recipe("moreores:silver_ingot","technic:silver_dust 1")
+register_grinder_recipe("moreores:mithril_lump","technic:mithril_dust 2")
+register_grinder_recipe("moreores:mithril_ingot","technic:mithril_dust 1")
+register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2")
+register_grinder_recipe("technic:chromium_ingot","technic:chromium_dust 1")
+register_grinder_recipe("technic:stainless_steel_ingot","stainless_steel_dust 1")
+register_grinder_recipe("technic:brass_ingot","technic:brass_dust 1")
+register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2")
+register_grinder_recipe("technic:zinc_ingot","technic:zinc_dust 1")
+register_grinder_recipe("technic:coal_dust","dye:black 2")
+register_grinder_recipe("default:cactus","dye:green 2")
+register_grinder_recipe("default:dry_shrub","dye:brown 2")
+register_grinder_recipe("flowers:flower_geranium","dye:blue 2")
+register_grinder_recipe("flowers:flower_dandelion_white","dye:white 2")
+register_grinder_recipe("flowers:flower_dandelion_yellow","dye:yellow 2")
+register_grinder_recipe("flowers:flower_tulip","dye:orange 2")
+register_grinder_recipe("flowers:flower_rose","dye:red 2")
+register_grinder_recipe("flowers:flower_viola","dye:violet 2")
 
 minetest.register_craftitem( "technic:coal_dust", {
 	description = "Coal Dust",
@@ -57,7 +68,7 @@ minetest.register_craft({
     type = "cooking",
     output = "default:steel_ingot",
     recipe = "technic:iron_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:copper_dust", {
 	description = "Copper Dust",
@@ -68,7 +79,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:copper_ingot",
     recipe = "technic:copper_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:tin_dust", {
 	description = "Tin Dust",
@@ -79,7 +90,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:tin_ingot",
     recipe = "technic:tin_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:silver_dust", {
 	description = "Silver Dust",
@@ -90,7 +101,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:silver_ingot",
     recipe = "technic:silver_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:gold_dust", {
 	description = "Gold Dust",
@@ -101,7 +112,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:gold_ingot",
     recipe = "technic:gold_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:mithril_dust", {
 	description = "Mithril Dust",
@@ -112,7 +123,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:mithril_ingot",
     recipe = "technic:mithril_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:chromium_dust", {
 	description = "Chromium Dust",
@@ -123,7 +134,7 @@ minetest.register_craft({
     type = "cooking",
     output = "technic:chromium_ingot",
     recipe = "technic:chromium_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:bronze_dust", {
 	description = "Bronze Dust",
@@ -134,7 +145,7 @@ minetest.register_craft({
     type = "cooking",
     output = "moreores:bronze_ingot",
     recipe = "technic:bronze_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:brass_dust", {
 	description = "Brass Dust",
@@ -145,7 +156,7 @@ minetest.register_craft({
     type = "cooking",
     output = "technic:brass_ingot",
     recipe = "technic:brass_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:stainless_steel_dust", {
 	description = "Stainless Steel Dust",
@@ -156,7 +167,7 @@ minetest.register_craft({
     type = "cooking",
     output = "technic:stainless_steel_ingot",
     recipe = "technic:stainless_steel_dust",
-}) 
+})
 
 minetest.register_craftitem( "technic:zinc_dust", {
 	description = "Zinc Dust",
@@ -167,7 +178,7 @@ minetest.register_craft({
     type = "cooking",
     output = "technic:zinc_ingot",
     recipe = "technic:zinc_dust",
-}) 
+})
 
 minetest.register_alias("grinder", "technic:grinder")
 minetest.register_craft({
@@ -182,7 +193,7 @@ minetest.register_craft({
 minetest.register_craftitem("technic:grinder", {
 	description = "Grinder",
 	stack_max = 99,
-}) 
+})
 
 grinder_formspec =
 	"invsize[8,9;]"..
@@ -279,7 +290,7 @@ minetest.register_abm({
 
 		local inv = meta:get_inventory()
 		local srclist = inv:get_list("src")
-		if inv:is_empty("src") then meta:set_float("grinder_on",0) end 
+		if inv:is_empty("src") then meta:set_float("grinder_on",0) end
 
 		if (meta:get_float("grinder_on") == 1) then
 			if charge>=grind_cost then
@@ -288,7 +299,7 @@ minetest.register_abm({
 			meta:set_float("src_time", meta:get_float("src_time") + 1)
 			if meta:get_float("src_time") >= meta:get_float("grind_time") then
 				-- check if there's room for output in "dst" list
-				grinded = get_grinded_item (inv:get_stack("src", 1))		
+				grinded = get_grinded_item (inv:get_stack("src", 1))
 				if inv:room_for_item("dst",grinded) then
 					-- Put result in "dst" list
 					inv:add_item("dst", grinded)
@@ -296,7 +307,7 @@ minetest.register_abm({
 					srcstack = inv:get_stack("src", 1)
 					srcstack:take_item()
 					inv:set_stack("src", 1, srcstack)
-					if inv:is_empty("src") then meta:set_float("grinder_on",0) end 
+					if inv:is_empty("src") then meta:set_float("grinder_on",0) end
 				else
 					print("Grinder inventory full!")
 				end
@@ -305,10 +316,10 @@ minetest.register_abm({
 			end
 		end
 		if (meta:get_float("grinder_on")==0) then
-		local grinded=nil 
+		local grinded=nil
 		if not inv:is_empty("src") then
 			grinded = get_grinded_item (inv:get_stack("src", 1))
-			if grinded then 
+			if grinded then
 				meta:set_float("grinder_on",1)
 				hacky_swap_node(pos,"technic:grinder_active")
 				meta:set_string("infotext", "Grinder Active")
@@ -317,13 +328,13 @@ minetest.register_abm({
 				meta:set_float("src_time", 0)
 				return
 			end
-			else 
+			else
 				hacky_swap_node(pos,"technic:grinder")
 				meta:set_string("infotext", "Grinder Inactive")
 		end
 		end
 	end
-}) 
+})
 
 function get_grinded_item (items)
 new_item =nil

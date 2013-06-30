@@ -7,7 +7,8 @@
                             local pos=minetest.get_pointed_thing_position(pointed_thing,above)
                             local node=minetest.env:get_node(pos)
                             local node_name=node.name
-                            if node_name == "farming_plus:rubber_tree_full" or node_name == "farming:rubber_tree_full" or node_name == "technic:rubber_tree_full" then
+                            if node_name == "moretrees:rubber_tree_trunk" then
+                                    node.name = "moretrees:rubber_tree_trunk_empty"
                                     user:get_inventory():add_item("main",ItemStack("technic:raw_latex"))
                                     minetest.env:set_node(pos,node)
                                     local item=itemstack:to_table()
@@ -47,3 +48,13 @@
             description = "Rubber Fiber",
             inventory_image = "technic_rubber.png",
     })
+
+minetest.register_abm({
+	nodenames = {"moretrees:rubber_tree_trunk_empty"},
+	interval = 60,
+	chance = 15,
+	action = function(pos, node)
+		node.name = "moretrees:rubber_tree_trunk"
+		minetest.env:set_node(pos, node)
+	end
+})
