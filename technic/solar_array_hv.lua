@@ -10,9 +10,6 @@ minetest.register_node("technic:solar_array_hv", {
 	sounds = default.node_sound_wood_defaults(),
     	description="HV Solar Array",
 	active = false,
-	technic_hv_power_machine=1,
-	internal_EU_buffer=0;
-	internal_EU_buffer_size=3000;
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,	
@@ -27,29 +24,25 @@ minetest.register_node("technic:solar_array_hv", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_hv_power_machine", 1)
-		meta:set_float("internal_EU_buffer", 0)
-		meta:set_float("internal_EU_buffer_size", 3000)
-
+		meta:set_int("HV_EU_supply", 0)
 		meta:set_string("infotext", "HV Solar Array")
-		meta:set_float("active", false)
 	end,
 })
 
-minetest.register_craft({
-	output = 'technic:solar_array_hv 1',
-	recipe = {
-		{'technic:solar_array_mv', 'technic:solar_array_mv','technic:solar_array_mv'},
-		{'technic:solar_array_mv', 'technic:hv_transformer','technic:solar_array_mv'},
-		{'default:steel_ingot',    'technic:hv_cable',      'default:steel_ingot'},
-
-	}
-})
+minetest.register_craft(
+   {output = 'technic:solar_array_hv 1',
+    recipe = {
+       {'technic:solar_array_mv', 'technic:solar_array_mv','technic:solar_array_mv'},
+       {'technic:solar_array_mv', 'technic:hv_transformer','technic:solar_array_mv'},
+       {'default:steel_ingot',    'technic:hv_cable',      'default:steel_ingot'},
+    }
+ })
 
 minetest.register_abm(
-	{nodenames = {"technic:solar_array_hv"},
-	interval   = 1,
-	chance     = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
+   {nodenames = {"technic:solar_array_hv"},
+    interval   = 1,
+    chance     = 1,
+    action = function(pos, node, active_object_count, active_object_count_wider)
 		-- The action here is to make the solar array produce power
 		-- Power is dependent on the light level and the height above ground
 		-- 130m and above is optimal as it would be above cloud level.
@@ -62,7 +55,7 @@ minetest.register_abm(
 		pos1.y=pos.y+1
 		pos1.x=pos.x
 		pos1.z=pos.z
-
+		
 		local light = minetest.env:get_node_light(pos1, nil)
 		local time_of_day = minetest.env:get_timeofday()
 		local meta = minetest.env:get_meta(pos)
@@ -70,24 +63,16 @@ minetest.register_abm(
 		-- turn on array only during day time and if sufficient light
                 -- I know this is counter intuitive when cheating by using other light sources.
 		if light >= 12 and time_of_day>=0.24 and time_of_day<=0.76 and pos.y > -10 then
-			local internal_EU_buffer      = meta:get_float("internal_EU_buffer")
-			local internal_EU_buffer_size = meta:get_float("internal_EU_buffer_size")
-			local charge_to_give          = math.floor(light*(light*9.6+pos1.y/130*48))
-			if charge_to_give<0   then charge_to_give=0 end
-			if charge_to_give>2880 then charge_to_give=2880 end
-			if internal_EU_buffer+charge_to_give>internal_EU_buffer_size then
-			   charge_to_give=internal_EU_buffer_size-internal_EU_buffer
-			end
-			meta:set_string("infotext", "Solar Array is active ("..charge_to_give.."EU)")
-			meta:set_float("active",1)
-			internal_EU_buffer=internal_EU_buffer+charge_to_give
-			meta:set_float("internal_EU_buffer",internal_EU_buffer)
-			
+		   local charge_to_give          = math.floor(light*(light*9.6+pos1.y/130*48))
+		   if charge_to_give<0   then charge_to_give=0 end
+		   if charge_to_give>160 then charge_to_give=160 end
+		   meta:set_string("infotext", "Solar Array is active ("..charge_to_give.."EU)")
+		   meta:set_int("HV_EU_supply", charge_to_give)
 		else
-			meta:set_string("infotext", "Solar Array is inactive");
-			meta:set_float("active",0)
+		   meta:set_string("infotext", "Solar Array is inactive");
+		   meta:set_int("HV_EU_supply", 0)
 		end
-	end,
-}) 
+	     end,
+ }) 
 
-register_HV_machine ("technic:solar_array_hv","PR")
+technic.register_HV_machine ("technic:solar_array_hv","PR")

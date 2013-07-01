@@ -1,8 +1,8 @@
--- Technic CNC v1.0 by kpo
+-- Technic CNC v1.0 by kpoppel
 -- Based on the NonCubic Blocks MOD v1.4 by yves_de_beck
 
 -- Idea:
---   Somehw have a tabbed/paged panel if the number of shapes should expand
+--   Somehow have a tabbed/paged panel if the number of shapes should expand
 --   beyond what is available in the panel today.
 --   I could imagine some form of API allowing modders to come with their own node
 --   box definitions and easily stuff it in the this machine for production.
@@ -31,24 +31,6 @@ local twosize_products = {
    element_t                = 1,
    element_edge             = 2,
 }
-
---cnc_recipes ={}
---registered_cnc_recipes_count=1
---
---function register_cnc_recipe (string1,string2)
---   cnc_recipes[registered_cnc_recipes_count]={}
---   cnc_recipes[registered_cnc_recipes_count].src_name=string1
---   cnc_recipes[registered_cnc_recipes_count].dst_name=string2
---   registered_cnc_recipes_count=registered_cnc_recipes_count+1
---   if unified_inventory then
---      unified_inventory.register_craft({
---					  type = "cnc milling",
---					  output = string2,
---					  items = {string1},
---					  width = 0,
---				       })
---   end
---end
 
 local cnc_formspec =
    "invsize[9,11;]"..
@@ -88,215 +70,212 @@ local cnc_formspec =
    
    "list[current_player;main;0,7;8,4;]"
 
-
-local cnc_power_formspec=
-   "label[0,3;Power]"..
-   "image[0,1;1,2;technic_power_meter_bg.png]"
-
 local size     = 1;
 
 -- The form handler is declared here because we need it in both the inactive and active modes
 -- in order to be able to change programs wile it is running.
 local form_handler = function(pos, formname, fields, sender)
-			       -- REGISTER MILLING PROGRAMS AND OUTPUTS:
-			       ------------------------------------------
-			       -- Program for half/full size
-			       if fields["full"] then
-				  size = 1
-				  return
-			       end
-			       
-			       if fields["half"] then
-				  size = 2
-				  return
-			       end
-			       
-			       -- Resolve the node name and the number of items to make
-			       local meta       = minetest.env:get_meta(pos)
-			       local inv        = meta:get_inventory()
-			       local inputstack = inv:get_stack("src", 1)
-			       local inputname  = inputstack:get_name()
-			       local multiplier = 0
-			       for k, _ in pairs(fields) do
-				  -- Set a multipier for the half/full size capable blocks
-				  if twosize_products[k] ~= nil then
-				     multiplier = size*twosize_products[k]
-				  else
-				     multiplier = onesize_products[k]
-				  end
-
-				  if onesize_products[k] ~= nil or twosize_products[k] ~= nil then
-				     meta:set_float( "cnc_multiplier", multiplier)
-				     meta:set_string("cnc_user", sender:get_player_name())
-				  end
-
-				  if onesize_products[k] ~= nil or (twosize_products[k] ~= nil and size==2) then
-				     meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k)
-				     print(inputname .. "_technic_cnc_" .. k)
-				     break
-				  end
-
-				  if twosize_products[k] ~= nil and size==1 then
-				     meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k .. "_double")
-				     print(inputname .. "_technic_cnc_" .. k .. "_double")
-				     break
-				  end
-			       end
-			       return
-			    end -- callback function
+			-- REGISTER MILLING PROGRAMS AND OUTPUTS:
+			------------------------------------------
+			-- Program for half/full size
+			if fields["full"] then
+			   size = 1
+			   return
+			end
+			
+			if fields["half"] then
+			   size = 2
+			   return
+			end
+			
+			-- Resolve the node name and the number of items to make
+			local meta       = minetest.env:get_meta(pos)
+			local inv        = meta:get_inventory()
+			local inputstack = inv:get_stack("src", 1)
+			local inputname  = inputstack:get_name()
+			local multiplier = 0
+			for k, _ in pairs(fields) do
+			   -- Set a multipier for the half/full size capable blocks
+			   if twosize_products[k] ~= nil then
+			      multiplier = size*twosize_products[k]
+			   else
+			      multiplier = onesize_products[k]
+			   end
+			   
+			   if onesize_products[k] ~= nil or twosize_products[k] ~= nil then
+			      meta:set_float( "cnc_multiplier", multiplier)
+			      meta:set_string("cnc_user", sender:get_player_name())
+			   end
+			   
+			   if onesize_products[k] ~= nil or (twosize_products[k] ~= nil and size==2) then
+			      meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k)
+			      --print(inputname .. "_technic_cnc_" .. k)
+			      break
+			   end
+			   
+			   if twosize_products[k] ~= nil and size==1 then
+			      meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k .. "_double")
+			      --print(inputname .. "_technic_cnc_" .. k .. "_double")
+			      break
+			   end
+			end
+			return
+		     end -- callback function
 
 -- The actual block inactive state
-minetest.register_node("technic:cnc", {
-	description = "CNC Milling Machine",
-        tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-		       "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
-        drawtype    = "nodebox",
-        paramtype   = "light",
-        paramtype2  = "facedir",
-        node_box    = {
-	   type  = "fixed",
-	   fixed = {
-	      {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-	      
-	   },
-        },
-        selection_box = {
-	   type = "fixed",
-	   fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-        },
-        groups = {cracky=2},
-	legacy_facedir_simple = true,
-	technic_power_machine=1,
-	internal_EU_buffer=0;
-	internal_EU_buffer_size=5000;
-	cnc_time = 0;
-	src_time = 0; -- fixme
-	
-	on_construct = function(pos)
-			  local meta = minetest.env:get_meta(pos)
-			  meta:set_string("infotext", "CNC Machine Inactive")
-			  meta:set_float("technic_power_machine", 1)
-			  meta:set_float("internal_EU_buffer", 0)
-			  meta:set_float("internal_EU_buffer_size", 5000)
-			  meta:set_string("formspec", cnc_formspec..cnc_power_formspec)
-			  meta:set_float("cnc_time", 0)
-
-			  local inv = meta:get_inventory()
-			  inv:set_size("src", 1)
-			  inv:set_size("dst", 4)
-		       end,
-	
-	can_dig = function(pos,player)
-		     local meta = minetest.env:get_meta(pos);
-		     local inv = meta:get_inventory()
-		     if not inv:is_empty("src") or not inv:is_empty("dst") then
-			minetest.chat_send_player(player:get_player_name(), "CNC machine cannot be removed because it is not empty");
-			return false
-		     end
-		     return true
-		  end,
-
-	on_receive_fields = form_handler,
-     })
+minetest.register_node(
+   "technic:cnc",
+   {
+      description = "CNC Milling Machine",
+      tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+		     "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
+      drawtype    = "nodebox",
+      paramtype   = "light",
+      paramtype2  = "facedir",
+      node_box    = {
+	 type  = "fixed",
+	 fixed = {
+	    {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+	    
+	 },
+      },
+      selection_box = {
+	 type = "fixed",
+	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+      },
+      groups = {cracky=2},
+      legacy_facedir_simple = true,
+      on_construct = function(pos)
+			local meta = minetest.env:get_meta(pos)
+			meta:set_string("infotext", "CNC Machine")
+			meta:set_float("technic_power_machine", 1)
+			meta:set_string("formspec", cnc_formspec)
+			local inv = meta:get_inventory()
+			inv:set_size("src", 1)
+			inv:set_size("dst", 4)
+		     end,
+      can_dig = function(pos,player)
+		   local meta = minetest.env:get_meta(pos);
+		   local inv = meta:get_inventory()
+		   if not inv:is_empty("src") or not inv:is_empty("dst") then
+		      minetest.chat_send_player(player:get_player_name(), "Machine cannot be removed because it is not empty");
+		      return false
+		   else
+		      return true
+		   end
+		end,
+      on_receive_fields = form_handler,
+   })
 
 -- Active state block
 minetest.register_node("technic:cnc_active", {
-	description = "CNC Machine",
-        tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-		       "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
-	paramtype2 = "facedir",
-	groups = {cracky=2,not_in_creative_inventory=1},
-	legacy_facedir_simple = true,
-	can_dig = function(pos,player)
-		     local meta = minetest.env:get_meta(pos);
-		     local inv = meta:get_inventory()
-		     if not inv:is_empty("src") or not inv:is_empty("dst") then
-			minetest.chat_send_player(player:get_player_name(), "CNC machine cannot be removed because it is not empty");
-			return false
-		     end
-		     return true
-		  end,
-	on_receive_fields = form_handler,
-})
+			  description = "CNC Machine",
+			  tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+					 "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
+			  paramtype2 = "facedir",
+			  groups = {cracky=2,not_in_creative_inventory=1},
+			  legacy_facedir_simple = true,
+			  can_dig = function(pos,player)
+				       local meta = minetest.env:get_meta(pos);
+				       local inv = meta:get_inventory()
+				       if not inv:is_empty("src") or not inv:is_empty("dst") then
+					  minetest.chat_send_player(player:get_player_name(), "CNC machine cannot be removed because it is not empty");
+					  return false
+				       end
+				       return true
+				    end,
+			  on_receive_fields = form_handler,
+		       })
 
 -- Action code performing the transformation
 minetest.register_abm(
-   {
-      nodenames = {"technic:cnc","technic:cnc_active"},
-      interval = 1,
-      chance = 1,
-      action = function(pos, node, active_object_count, active_object_count_wider)
-		  local meta = minetest.env:get_meta(pos)
-		  local charge= meta:get_float("internal_EU_buffer")
-		  local max_charge= meta:get_float("internal_EU_buffer_size")
-		  local cnc_cost=350
-		  
-		  local load = math.floor((charge/max_charge)*100)
-		  meta:set_string("formspec", cnc_formspec..
-				  "image[0,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-				  (load)..":technic_power_meter_fg.png]"
-			    )
-		  
-		  local inv = meta:get_inventory()
-		  local srclist = inv:get_list("src")
-		  if inv:is_empty("src") then
-		     meta:set_float("cnc_on",0)
-		     meta:set_string("cnc_product", "") -- Reset the program
-		  end 
-		  
-		  if (meta:get_float("cnc_on") == 1) then
-		     if charge>=cnc_cost then
-			charge=charge-cnc_cost;
-			meta:set_float("internal_EU_buffer",charge)
-			meta:set_float("src_time", meta:get_float("src_time") + 1)
-			if meta:get_float("src_time") >= meta:get_float("cnc_time") then
-			   local product = meta:get_string("cnc_product")
-			   if inv:room_for_item("dst",product) then
-			      -- CNC does the transformation
-			      ------------------------------
-			      if minetest.registered_nodes[product] ~= nil then
-				 inv:add_item("dst",product .. " " .. meta:get_float("cnc_multiplier"))
-				 srcstack = inv:get_stack("src", 1)
-				 srcstack:take_item()
-				 inv:set_stack("src",1,srcstack)
-				 if inv:is_empty("src") then
-				    meta:set_float("cnc_on",0)
-				    meta:set_string("cnc_product", "") -- Reset the program
---				    print("cnc product reset")
-				 end 
-			      else
-				 minetest.chat_send_player(meta:get_string("cnc_user"), "CNC machine does not know how to handle this material. Please remove it.");
-			      end
-			   else
-			      minetest.chat_send_player(meta:get_string("cnc_user"), "CNC inventory full!")
-			   end
-			   meta:set_float("src_time", 0)
-			end
-		     end
-		  end
+   { nodenames = {"technic:cnc","technic:cnc_active"},
+     interval = 1,
+     chance   = 1,
+     action = function(pos, node, active_object_count, active_object_count_wider)
+		 local meta         = minetest.env:get_meta(pos)
+		 local eu_input     = meta:get_int("LV_EU_input")
+		 local state        = meta:get_int("state")
+		 local next_state   = state
 
-		  if (meta:get_float("cnc_on")==0) then
-		     if not inv:is_empty("src") then
-			local product = meta:get_string("cnc_product")
-			if minetest.registered_nodes[product] ~= nil then 
-			   meta:set_float("cnc_on",1)
-			   hacky_swap_node(pos,"technic:cnc_active")
-			   meta:set_string("infotext", "CNC Machine Active")
-			   cnc_time=3
-			   meta:set_float("cnc_time",cnc_time)
-			   meta:set_float("src_time", 0)
-			   return
-			end
-		     else 
-			hacky_swap_node(pos,"technic:cnc")
-			meta:set_string("infotext", "CNC Machine Inactive")
-		     end
-		  end
-	       end
-   }) 
+		 -- Machine information
+		 local machine_name         = "CNC"
+		 local machine_node         = "technic:cnc"
+		 local machine_state_demand = { 50, 450 }
+			 
+		 -- Setup meta data if it does not exist. state is used as an indicator of this
+		 if state == 0 then
+		    meta:set_int("state", 1)
+		    meta:set_int("LV_EU_demand", machine_state_demand[1])
+		    meta:set_int("LV_EU_input", 0)
+		    return
+		 end
+			 
+		 -- Power off automatically if no longer connected to a switching station
+		 technic.switching_station_timeout_count(pos, "LV")
+			 
+		 -- State machine
+		 if eu_input == 0 then
+		    -- Unpowered - go idle
+		    hacky_swap_node(pos, machine_node)
+		    meta:set_string("infotext", machine_name.." Unpowered")
+		    next_state = 1
+		 elseif eu_input == machine_state_demand[state] then
+		    -- Powered - do the state specific actions
+			    
+		    local inv   = meta:get_inventory()
+		    local empty = inv:is_empty("src")
 
-register_LV_machine ("technic:cnc","RE")
-register_LV_machine ("technic:cnc_active","RE")
+		    if state == 1 then
+		       hacky_swap_node(pos, machine_node)
+		       meta:set_string("infotext", machine_name.." Idle")
+
+		       local result = meta:get_string("cnc_product")
+		       if not empty and minetest.registered_nodes[result] ~= nil and inv:room_for_item("dst",result) then
+			  next_state = 2
+		       else
+			  meta:set_string("cnc_product", "") -- Reset the program
+		       end
+		       --minetest.chat_send_player(meta:get_string("cnc_user"), "CNC machine does not know how to handle this material. Please remove it.");
+
+		    elseif state == 2 then
+		       hacky_swap_node(pos, machine_node.."_active")
+		       meta:set_string("infotext", machine_name.." Active")
+
+		       if empty then
+			  next_state = 1
+		       else
+			  meta:set_int("src_time", meta:get_int("src_time") + 1)
+			  if meta:get_int("src_time") >= 3 then -- 3 ticks per output
+			     local result = meta:get_string("cnc_product")
+			     -- check if there's room for output in "dst" list
+			     if inv:room_for_item("dst",result) then
+				-- CNC does the transformation
+				------------------------------
+				meta:set_int("src_time", 0)
+				-- take stuff from "src" list
+				srcstack = inv:get_stack("src", 1)
+				srcstack:take_item()
+				inv:set_stack("src", 1, srcstack)
+				-- Put result in "dst" list
+				inv:add_item("dst",result .. " " .. meta:get_int("cnc_multiplier"))
+			     else
+				next_state = 1
+			     end
+			  end
+		       end
+		    end
+		 end
+		 -- Change state?
+		 if next_state ~= state then
+		    meta:set_int("LV_EU_demand", machine_state_demand[next_state])
+		    meta:set_int("state", next_state)
+		 end
+	      end
+  }) 
+
+technic.register_LV_machine ("technic:cnc","RE")
+technic.register_LV_machine ("technic:cnc_active","RE")
 -------------------------
 
 -- CNC Machine Recipe

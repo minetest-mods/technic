@@ -1,5 +1,5 @@
-water_can_max_load = 16
-lava_can_max_load = 8
+local water_can_max_load = 16
+local lava_can_max_load = 8
 
 minetest.register_craft({
 	output = 'technic:water_can 1',
@@ -42,7 +42,7 @@ minetest.register_tool("technic:water_can", {
 			minetest.env:add_node(pointed_thing.under, {name="air"})
 			 load=load+1;	
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,water_can_max_load)
+			technic.set_RE_wear(item,load,water_can_max_load)
 			itemstack:replace(item)
 			end
 			return itemstack
@@ -54,7 +54,7 @@ minetest.register_tool("technic:water_can", {
 			minetest.env:add_node(pointed_thing.under, {name="default:water_source"})
 			load=load-1;	
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,water_can_max_load)
+			technic.set_RE_wear(item,load,water_can_max_load)
 			itemstack:replace(item)
 			return itemstack
 			end
@@ -64,7 +64,7 @@ minetest.register_tool("technic:water_can", {
 			minetest.env:add_node(pointed_thing.above, {name="default:water_source"})
 			load=load-1;	
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,water_can_max_load)
+			technic.set_RE_wear(item,load,water_can_max_load)
 			itemstack:replace(item)
 			return itemstack
 			end		
@@ -90,7 +90,7 @@ minetest.register_tool("technic:lava_can", {
 			minetest.env:add_node(pointed_thing.under, {name="air"})
 			 load=load+1;
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,lava_can_max_load)
+			technic.set_RE_wear(item,load,lava_can_max_load)
 			itemstack:replace(item)
 			end
 			return itemstack
@@ -102,7 +102,7 @@ minetest.register_tool("technic:lava_can", {
 			minetest.env:add_node(pointed_thing.under, {name="default:lava_source"})
 			load=load-1;	
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,lava_can_max_load)
+			technic.set_RE_wear(item,load,lava_can_max_load)
 			itemstack:replace(item)
 			return itemstack
 			end
@@ -112,7 +112,7 @@ minetest.register_tool("technic:lava_can", {
 			minetest.env:add_node(pointed_thing.above, {name="default:lava_source"})
 			load=load-1;	
 			item["metadata"]=tostring(load)
-			set_RE_wear(item,load,lava_can_max_load)
+			technic.set_RE_wear(item,load,lava_can_max_load)
 			itemstack:replace(item)
 			return itemstack
 			end	
