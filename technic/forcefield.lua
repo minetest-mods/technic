@@ -66,7 +66,7 @@ local function remove_forcefield(p, range)
 	end
 end
 
-forcefield_receive_fields = function(pos, formname, fields, sender)
+local forcefield_receive_fields = function(pos, formname, fields, sender)
 	local meta = minetest.env:get_meta(pos)
 	local range = meta:get_int("range")
 	if fields.add then range = range + 1 end
@@ -88,7 +88,7 @@ forcefield_receive_fields = function(pos, formname, fields, sender)
 	end
 end
 
-function get_forcefield_formspec(range, load)
+local get_forcefield_formspec = function(range, load)
 	if not load then load = 0 end
 	return "invsize[8,9;]"..
 	"label[0,0;Forcefield emitter]"..
@@ -103,7 +103,7 @@ function get_forcefield_formspec(range, load)
 	"list[current_player;main;0,5;8,4;]"
 end
 
-local function forcefield_check(pos)
+local forcefield_check = function(pos)
 	local meta = minetest.env:get_meta(pos)
 	local node = minetest.env:get_node(pos)
 	local internal_EU_buffer=meta:get_float("internal_EU_buffer")
@@ -145,7 +145,6 @@ minetest.register_node("technic:forcefield_emitter_off", {
 	tiles = {"technic_forcefield_emitter_off.png"},
 	is_ground_content = true,
 	groups = {cracky = 1},
-	technic_power_machine=1,
 	on_timer = forcefield_check,
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
@@ -206,9 +205,5 @@ minetest.register_node("technic:forcefield", {
 	},
 })
 
-register_MV_machine ("technic:forcefield_emitter_on","RE")
-register_MV_machine ("technic:forcefield_emitter_off","RE")
-
-
-
-
+technic.register_MV_machine("technic:forcefield_emitter_on","RE")
+technic.register_MV_machine("technic:forcefield_emitter_off","RE")

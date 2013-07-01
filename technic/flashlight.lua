@@ -1,7 +1,7 @@
 -- original code comes from walkin_light mod by Echo http://minetest.net/forum/viewtopic.php?id=2621
 
-flashlight_max_charge=30000
-register_power_tool ("technic:flashlight",flashlight_max_charge)
+local flashlight_max_charge=30000
+technic.register_LV_power_tool ("technic:flashlight",flashlight_max_charge)
       
 minetest.register_tool("technic:flashlight", {
 	description = "Flashlight",
