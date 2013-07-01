@@ -3,7 +3,7 @@ local chainsaw_max_charge      = 30000 -- 30000 - Maximum charge of the saw
 local chainsaw_charge_per_node = 12    -- 12    - Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_leaves          = true  -- true  - Cut down entire trees, leaves and all
 
-register_power_tool ("technic:chainsaw",chainsaw_max_charge)
+technic.register_LV_power_tool ("technic:chainsaw",chainsaw_max_charge)
 
 minetest.register_tool("technic:chainsaw", {
         description = "Chainsaw",
@@ -20,7 +20,7 @@ minetest.register_tool("technic:chainsaw", {
                         if charge < chainsaw_charge_per_node then return end -- only cut if charged
 
                         charge=chainsaw_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,charge)
-                        set_RE_wear(item,charge,chainsaw_max_charge)
+                        technic.set_RE_wear(item,charge,chainsaw_max_charge)
                         meta["charge"]=charge
                         item["metadata"]=set_item_meta(meta)
                         itemstack:replace(item)
