@@ -178,7 +178,7 @@ minetest.register_abm(
 		      elseif meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
 			 -- The appliance has power from this node. Spend power if it is on.
 			 used_charge = math.floor(used_charge+meta1:get_int("EU_charge")/eff_factor)
-			 print("My Lamp ("..pos.x..","..pos.y..","..pos.z..") Used:"..used_charge)
+			 --print("My Lamp ("..pos.x..","..pos.y..","..pos.z..") Used:"..used_charge)
 		      end
 		      meta:set_string("infotext", "Power Radiator is powered ("..math.floor(used_charge/max_charge*100).."% of maximum power)");
 		      if used_charge == 0 then
