@@ -161,7 +161,7 @@ local hotbar=inv:get_list("main")
 			charge=meta["charge"]
 			if charge-2>0 then
 			 charge =charge-2;	
-			set_RE_wear(item,charge,flashlight_max_charge)
+			technic.set_RE_wear(item,charge,flashlight_max_charge)
 			meta["charge"]=charge
 			item["metadata"]=set_item_meta(meta)
 			hotbar[i]:replace(item)
