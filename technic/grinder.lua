@@ -53,15 +53,6 @@ technic.register_grinder_recipe("technic:stainless_steel_ingot","stainless_steel
 technic.register_grinder_recipe("technic:brass_ingot","technic:brass_dust 1")
 technic.register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2")
 technic.register_grinder_recipe("technic:zinc_ingot","technic:zinc_dust 1")
-technic.register_grinder_recipe("technic:coal_dust","dye:black 2")
-technic.register_grinder_recipe("default:cactus","dye:green 2")
-technic.register_grinder_recipe("default:dry_shrub","dye:brown 2")
-technic.register_grinder_recipe("flowers:flower_geranium","dye:blue 2")
-technic.register_grinder_recipe("flowers:flower_dandelion_white","dye:white 2")
-technic.register_grinder_recipe("flowers:flower_dandelion_yellow","dye:yellow 2")
-technic.register_grinder_recipe("flowers:flower_tulip","dye:orange 2")
-technic.register_grinder_recipe("flowers:flower_rose","dye:red 2")
-technic.register_grinder_recipe("flowers:flower_viola","dye:violet 2")
 
 minetest.register_craftitem( "technic:coal_dust", {
 				description = "Coal Dust",
