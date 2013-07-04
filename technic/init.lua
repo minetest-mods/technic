@@ -51,7 +51,7 @@ dofile(modpath.."/battery_box_mv.lua")
 dofile(modpath.."/solar_array_mv.lua")
 dofile(modpath.."/electric_furnace_mv.lua")
 dofile(modpath.."/alloy_furnace_mv.lua")
---dofile(modpath.."/forcefield.lua")
+dofile(modpath.."/forcefield.lua")
 ---- The power radiator supplies appliances with inductive coupled power:
 ---- lighting and associated textures is taken directly from VanessaE's homedecor and made electric.
 dofile(modpath.."/power_radiator.lua")
