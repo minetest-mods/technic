@@ -4,6 +4,8 @@
 -- Forcefields are powerful barriers but they consume huge amounts of power.
 -- Forcefield Generator is a HV machine.
 
+-- How expensive is the generator? Leaves room for upgrades lowering the power drain?
+local forcefield_power_drain     = 10 -- default 10
 local forcefield_update_interval = 1
 
 minetest.register_craft({
@@ -107,7 +109,7 @@ local forcefield_check = function(pos)
 
 			    local power_requirement
 			    if enabled == 1 then
-			       power_requirement = math.floor(4*math.pi*math.pow(meta:get_int("range"), 2)) * 1
+			       power_requirement = math.floor(4*math.pi*math.pow(meta:get_int("range"), 2)) * forcefield_power_drain
 			    else
 			       power_requirement = eu_demand
 			    end
@@ -115,10 +117,10 @@ local forcefield_check = function(pos)
 			    if eu_input == 0 then
 			       meta:set_string("infotext", "Forcefield Generator Unpowered")
 			       meta:set_int("HV_EU_demand", 100)
+			       meta:set_int("enabled", 0)
 			       if node.name == "technic:forcefield_emitter_on" then
 				  remove_forcefield(pos, meta:get_int("range"))
 				  hacky_swap_node(pos, "technic:forcefield_emitter_off")
-				  meta:set_int("enabled", 0)
 			       end
 			    elseif eu_input == power_requirement then
 			       if meta:get_int("enabled") == 1 then
