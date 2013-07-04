@@ -43,8 +43,8 @@ minetest.register_craft(
 minetest.register_node(
    "technic:switching_station",
    {description = "Switching Station",
-    tiles  = {"technic_mv_down_converter_top.png", "technic_mv_down_converter_bottom.png", "technic_mv_down_converter_side.png",
-	      "technic_mv_down_converter_side.png", "technic_mv_down_converter_side.png", "technic_mv_down_converter_side.png"},
+    tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
+	      "technic_water_mill_top_active.png", "technic_water_mill_top_active.png", "technic_water_mill_top_active.png"},
     groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
     sounds = default.node_sound_wood_defaults(),
     drawtype = "nodebox",

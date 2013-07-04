@@ -14,8 +14,8 @@
 minetest.register_node(
    "technic:supply_converter", {
       description = "Supply Converter",
-      tiles  = {"technic_mv_down_converter_top.png", "technic_mv_down_converter_bottom.png", "technic_mv_down_converter_side.png",
-		"technic_mv_down_converter_side.png", "technic_mv_down_converter_side.png", "technic_mv_down_converter_side.png"},
+      tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png", "technic_supply_converter_side.png",
+		"technic_supply_converter_side.png", "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
       sounds = default.node_sound_wood_defaults(),
       drawtype = "nodebox",
@@ -58,7 +58,7 @@ minetest.register_abm(
 		 local mv_lv_factor  = 4 -- multiplication (higher is more efficient)
 		 local mv_hv_factor  = 5 -- division
 		 local hv_mv_factor  = 4 -- multiplication
-		 local max_lv_demand = 2000 -- The increment size pwer supply tier. Determines how many are needed
+		 local max_lv_demand = 2000 -- The increment size power supply tier. Determines how many are needed
 		 local max_mv_demand = 2000 -- -""-
 		 local max_hv_demand = 2000 -- -""-
 

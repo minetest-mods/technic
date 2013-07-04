@@ -87,8 +87,8 @@ local shutdown_inductive_appliances = function(pos)
 minetest.register_node(
    "technic:power_radiator", {
       description = "Power Radiator",
-      tiles  = {"technic_hv_down_converter_top.png", "technic_hv_down_converter_bottom.png", "technic_hv_down_converter_side.png",
-		"technic_hv_down_converter_side.png", "technic_hv_down_converter_side.png", "technic_hv_down_converter_side.png"},
+      tiles  = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
+		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
       sounds = default.node_sound_wood_defaults(),
       drawtype = "nodebox",
