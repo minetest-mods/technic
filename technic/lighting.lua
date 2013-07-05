@@ -488,7 +488,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_yellow_active', {
 	sounds = default.node_sound_wood_defaults(),
 
 	groups = { snappy = 3, not_in_creative_inventory=1},
-	drop="technic:homedecor_glowlight_cube_yellow",
+	drop="technic:homedecor_glowlight_small_cube_yellow",
 	on_place = function(itemstack, placer, pointed_thing)
 		technic_homedecor_rotate_and_place(itemstack, placer, pointed_thing)
 		return itemstack
@@ -569,7 +569,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_white_active', {
 	sounds = default.node_sound_wood_defaults(),
 
 	groups = { snappy = 3, not_in_creative_inventory=1},
-	drop="technic:homedecor_glowlight_cube_white",
+	drop="technic:homedecor_glowlight_small_cube_white",
 	on_place = function(itemstack, placer, pointed_thing)
 		technic_homedecor_rotate_and_place(itemstack, placer, pointed_thing)
 		return itemstack

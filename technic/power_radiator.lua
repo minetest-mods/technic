@@ -7,6 +7,10 @@
 -- sum(power rating of the attached appliances)/0.6
 -- Using inductive power transfer is very inefficient so this is
 -- set to the factor 0.6.
+--
+-- Punching the radiator will toggle the power state of all attached appliances.
+--
+local power_radius = 6
 
 ------------------------------------------------------------------
 -- API for inductive powered nodes:
@@ -29,7 +33,7 @@ technic.inductive_on_construct = function(pos, eu_demand, infotext)
 				    local meta = minetest.env:get_meta(pos)
 				    meta:set_string("infotext", infotext)
 				    meta:set_int("technic_inductive_power_machine", 1)
-				    meta:set_int("MV_EU_demand",eu_demand)     -- The power demand of this appliance
+				    meta:set_int("EU_demand",eu_demand)     -- The power demand of this appliance
 				    meta:set_int("EU_charge",0)       -- The actual power draw of this appliance
 				    meta:set_string("has_supply","") -- Register whether we are powered or not. For use with several radiators.
 				    meta:set_int("active", 0)    -- If the appliance can be turned on and off by using it use this.
@@ -63,11 +67,11 @@ technic.inductive_on_punch_on = function(pos, eu_charge, swapnode)
 
 local shutdown_inductive_appliances = function(pos)
 					 -- The supply radius
-					 local rad = 4
+					 local rad = power_radius
 					 -- If the radiator is removed. turn off all appliances in region
 					 -- If another radiator is near it will turn on the appliances again
 					 local positions = minetest.env:find_nodes_in_area({x=pos.x-rad,y=pos.y-rad,z=pos.z-rad},{x=pos.x+rad,y=pos.y+rad,z=pos.z+rad}, technic.inductive_nodes)
-					 for _,pos1 in ipairs(positions) do
+					 for _,pos1 in pairs(positions) do
 					    local meta1 = minetest.env:get_meta(pos1)
 					    -- If the appliance is belonging to this node
 					    if meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
@@ -83,6 +87,18 @@ local shutdown_inductive_appliances = function(pos)
 					end
 				     end
 
+local toggle_on_off_inductive_appliances = function(pos, node, puncher)
+					      if pos == nil then return end
+					      -- The supply radius
+					      local rad = power_radius
+					      local positions = minetest.env:find_nodes_in_area({x=pos.x-rad,y=pos.y-rad,z=pos.z-rad},{x=pos.x+rad,y=pos.y+rad,z=pos.z+rad}, technic.inductive_nodes)
+					      for _,pos1 in pairs(positions) do
+						 local meta1 = minetest.env:get_meta(pos1)
+						 if meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
+						    minetest.env:punch_node(pos1)
+						 end
+					      end
+					   end
 
 minetest.register_node(
    "technic:power_radiator", {
@@ -114,6 +130,9 @@ minetest.register_node(
 		  shutdown_inductive_appliances(pos)
 		  return minetest.node_dig(pos, node, digger)
 	       end,
+      on_punch = function(pos, node, puncher)
+		    toggle_on_off_inductive_appliances(pos, node, puncher)
+		 end
    })
 
 minetest.register_craft(
@@ -143,7 +162,7 @@ minetest.register_abm(
 		   meta:set_string("infotext", "Power Radiator is unpowered");
 --		      meta:set_int("active",1) -- used for setting textures someday maybe
 		   shutdown_inductive_appliances(pos)
-		   connected_EU_demand = 0
+		   meta:set_int("connected_EU_demand", 0)
 		elseif eu_input == eu_demand then
 		   -- Powered and ready
 
@@ -154,7 +173,7 @@ minetest.register_abm(
 		   -- Efficiency factor
 		   local eff_factor = 0.6
 		   -- The supply radius
-		   local rad = 6
+		   local rad = power_radius
 		   
 		   local meta1            = nil
 		   local pos1             = {}
@@ -162,23 +181,24 @@ minetest.register_abm(
 		   
 		   -- Index all nodes within supply range
 		   local positions = minetest.env:find_nodes_in_area({x=pos.x-rad,y=pos.y-rad,z=pos.z-rad},{x=pos.x+rad,y=pos.y+rad,z=pos.z+rad}, technic.inductive_nodes)
-		   for _,pos1 in ipairs(positions) do
+		   for _,pos1 in pairs(positions) do
 		      local meta1 = minetest.env:get_meta(pos1)
 		      -- If not supplied see if this node can handle it.
 		      if meta1:get_string("has_supply") == "" then
 			 -- if demand surpasses the capacity of this node, don't bother adding it.
-			 local app_eu_demand = meta1:get_int("EU_demand")/eff_factor
+			 local app_eu_demand = math.floor(meta1:get_int("EU_demand")/eff_factor)
 			 if connected_EU_demand + app_eu_demand <= max_charge then
+			    --print("I can supply this:"..connected_EU_demand.."|"..app_eu_demand.."<="..max_charge.."|act:"..meta1:get_int("EU_charge"))
 			    -- We can power the appliance. Register, and spend power if it is on.
 			    connected_EU_demand = connected_EU_demand + app_eu_demand
 
 			    meta1:set_string("has_supply", pos.x..pos.y..pos.z)
-			    used_charge = math.floor(used_charge+meta1:get_int("EU_charge")/eff_factor)
+			    --Always 0: used_charge = math.floor(used_charge+meta1:get_int("EU_charge")/eff_factor)
 			 end
 		      elseif meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
 			 -- The appliance has power from this node. Spend power if it is on.
-			 used_charge = math.floor(used_charge+meta1:get_int("EU_charge")/eff_factor)
-			 --print("My Lamp ("..pos.x..","..pos.y..","..pos.z..") Used:"..used_charge)
+			 used_charge = used_charge+math.floor(meta1:get_int("EU_charge")/eff_factor)
+			 --print("My Lamp ("..pos.x..","..pos.y..","..pos.z..") Used:"..used_charge.."Max:"..max_charge)
 		      end
 		      meta:set_string("infotext", "Power Radiator is powered ("..math.floor(used_charge/max_charge*100).."% of maximum power)");
 		      if used_charge == 0 then
