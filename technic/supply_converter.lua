@@ -97,6 +97,15 @@ minetest.register_abm(
 
 		 if convert_MV_LV == 0 and convert_LV_MV == 0 and convert_HV_MV == 0 and convert_MV_HV == 0 then
 		    meta:set_string("infotext", machine_name.." has bad cabling")
+		    meta:set_int("LV_EU_demand", 0)
+		    meta:set_int("LV_EU_supply", 0)
+		    meta:set_int("LV_EU_input",  0)
+		    meta:set_int("MV_EU_demand", 0)
+		    meta:set_int("MV_EU_supply", 0)
+		    meta:set_int("MV_EU_input",  0)
+		    meta:set_int("HV_EU_demand", 0)
+		    meta:set_int("HV_EU_supply", 0)
+		    meta:set_int("HV_EU_input",  0)
 		    return
 		 end
 
