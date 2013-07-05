@@ -39,8 +39,7 @@ register_grinder_recipe("moreores:mithril_ingot","technic:mithril_dust 1")
 register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2")
 register_grinder_recipe("technic:chromium_ingot","technic:chromium_dust 1")
 register_grinder_recipe("technic:stainless_steel_ingot","stainless_steel_dust 1")
-register_grinder_recipe("technic:brass_ingot","technic:brass_dust 1")
-register_grinder_recipe("homedecor:brass_ingot","technic:brass_dust 1")
+register_grinder_recipe("group:brass_ingot","technic:brass_dust 1")
 register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2")
 register_grinder_recipe("technic:zinc_ingot","technic:zinc_dust 1")
 register_grinder_recipe("technic:coal_dust","dye:black 2")
@@ -153,6 +152,7 @@ minetest.register_craftitem( "technic:brass_dust", {
 	inventory_image = "technic_brass_dust.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 	})
+
 minetest.register_craft({
     type = "cooking",
     output = "technic:brass_ingot",
