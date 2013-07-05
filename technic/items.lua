@@ -75,27 +75,27 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:green_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:green'},
+		{'default:gold_ingot', 'technic:battery', 'dye:green'},
 		{'technic:battery', 'technic:red_energy_crystal', 'technic:battery'},
-		{'dye:green', 'technic:battery', 'moreores:gold_ingot'},
+		{'dye:green', 'technic:battery', 'default:gold_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:blue_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:blue'},
+		{'default:gold_ingot', 'technic:battery', 'dye:blue'},
 		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
-		{'dye:blue', 'technic:battery', 'moreores:gold_ingot'},
+		{'dye:blue', 'technic:battery', 'default:gold_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
-		{'moreores:gold_ingot', 'technic:battery', 'dye:red'},
+		{'default:gold_ingot', 'technic:battery', 'dye:red'},
 		{'technic:battery', 'default:diamondblock', 'technic:battery'},
-		{'dye:red', 'technic:battery', 'moreores:gold_ingot'},
+		{'dye:red', 'technic:battery', 'default:gold_ingot'},
 	}
 })
 
@@ -124,9 +124,9 @@ minetest.register_craftitem( "technic:fine_copper_wire", {
 minetest.register_craft({
 	output = 'technic:fine_copper_wire 2',
 	recipe = {
-		{'', 'moreores:copper_ingot', ''},
-		{'', 'moreores:copper_ingot', ''},
-		{'', 'moreores:copper_ingot', ''},
+		{'', 'default:copper_ingot', ''},
+		{'', 'default:copper_ingot', ''},
+		{'', 'default:copper_ingot', ''},
 	}
 })
 
@@ -156,7 +156,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
-		{'default:steel_ingot', 'moreores:copper_ingot', 'default:steel_ingot'},
+		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
 	}
 })
 
@@ -214,8 +214,8 @@ minetest.register_craftitem( "technic:control_logic_unit", {
 minetest.register_craft({
 	output = 'technic:control_logic_unit',
 	recipe = {
-		{'', 'moreores:gold_ingot', ''},
-		{'moreores:copper_ingot', 'technic:silicon_wafer', 'moreores:copper_ingot'},
-		{'', 'moreores:copper_ingot', ''},
+		{'', 'default:gold_ingot', ''},
+		{'default:copper_ingot', 'technic:silicon_wafer', 'default:copper_ingot'},
+		{'', 'default:copper_ingot', ''},
 	}
 })

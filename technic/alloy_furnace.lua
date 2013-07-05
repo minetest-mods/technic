@@ -10,9 +10,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:alloy_furnace',
 	recipe = {
-		{'default:brick', 'default:brick', 'default:brick'},
-		{'default:brick', '', 'default:brick'},
-		{'default:steel_ingot', 'moreores:copper_ingot', 'default:steel_ingot'},
+		{'default:brick',       'default:brick',        'default:brick'},
+		{'default:brick',       '',                     'default:brick'},
+		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
 	}
 })
 

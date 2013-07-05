@@ -9,24 +9,24 @@ minetest.register_craft({
 	output = 'technic:mining_drill',
 	recipe = {
 		{'technic:stainless_steel_ingot', 'technic:diamond_drill_head', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot', 'technic:motor', 'technic:stainless_steel_ingot'},
-		{'', 'technic:red_energy_crystal', 'moreores:copper_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:motor',              'technic:stainless_steel_ingot'},
+		{'',                              'technic:red_energy_crystal', 'default:copper_ingot'},
 	}
 })
 minetest.register_craft({
 	output = 'technic:mining_drill_mk2',
 	recipe = {
-		{'technic:diamond_drill_head', 'technic:diamond_drill_head', 'technic:diamond_drill_head'},
-		{'technic:stainless_steel_ingot', 'technic:mining_drill', 'technic:stainless_steel_ingot'},
-		{'', 'technic:green_energy_crystal', ''},
+		{'technic:diamond_drill_head',    'technic:diamond_drill_head',   'technic:diamond_drill_head'},
+		{'technic:stainless_steel_ingot', 'technic:mining_drill',         'technic:stainless_steel_ingot'},
+		{'',                              'technic:green_energy_crystal', ''},
 	}
 })
 minetest.register_craft({
 	output = 'technic:mining_drill_mk3',
 	recipe = {
-		{'technic:diamond_drill_head', 'technic:diamond_drill_head', 'technic:diamond_drill_head'},
-		{'technic:stainless_steel_ingot', 'technic:mining_drill_mk2', 'technic:stainless_steel_ingot'},
-		{'', 'technic:blue_energy_crystal', ''},
+		{'technic:diamond_drill_head',    'technic:diamond_drill_head',  'technic:diamond_drill_head'},
+		{'technic:stainless_steel_ingot', 'technic:mining_drill_mk2',    'technic:stainless_steel_ingot'},
+		{'',                              'technic:blue_energy_crystal', ''},
 	}
 })
 

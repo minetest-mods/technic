@@ -22,9 +22,9 @@ register_power_tool ("technic:blue_energy_crystal",500000)
 minetest.register_craft({
 			   output = 'technic:battery 1',
 			   recipe = {
-			      {'default:wood', 'moreores:copper_ingot', 'default:wood'},
-			      {'default:wood', 'moreores:tin_ingot', 'default:wood'},
-			      {'default:wood', 'moreores:copper_ingot', 'default:wood'},
+			      {'default:wood', 'default:copper_ingot', 'default:wood'},
+			      {'default:wood', 'moreores:tin_ingot',   'default:wood'},
+			      {'default:wood', 'default:copper_ingot', 'default:wood'},
 			   }
 			})
 

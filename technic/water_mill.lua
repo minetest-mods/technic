@@ -3,9 +3,9 @@ minetest.register_alias("water_mill", "technic:water_mill")
 minetest.register_craft({
 	output = 'technic:water_mill',
 	recipe = {
-		{'default:stone', 'default:stone', 'default:stone'},
-		{'default:wood', 'default:diamond', 'default:wood'},
-		{'default:stone', 'moreores:copper_ingot', 'default:stone'},
+		{'default:stone', 'default:stone',        'default:stone'},
+		{'default:wood',  'default:diamond',      'default:wood'},
+		{'default:stone', 'default:copper_ingot', 'default:stone'},
 	}
 })
 

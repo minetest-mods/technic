@@ -6,7 +6,7 @@ minetest.register_alias("lv_cable", "technic:lv_cable")
 minetest.register_craft({
 	output = 'technic:lv_cable 6',
 	recipe = {
-		{'moreores:copper_ingot', 'moreores:copper_ingot', 'moreores:copper_ingot'},
+		{'default:copper_ingot', 'default:copper_ingot', 'default:copper_ingot'},
 	}
 }) 
 
