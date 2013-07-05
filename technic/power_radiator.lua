@@ -163,6 +163,7 @@ minetest.register_abm(
 --		      meta:set_int("active",1) -- used for setting textures someday maybe
 		   shutdown_inductive_appliances(pos)
 		   meta:set_int("connected_EU_demand", 0)
+		   meta:set_int("MV_EU_demand",1)
 		elseif eu_input == eu_demand then
 		   -- Powered and ready
 
