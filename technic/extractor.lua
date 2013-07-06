@@ -37,6 +37,7 @@ technic.register_extractor_recipe("flowers:viola", 1, "dye:violet", 2)
 technic.register_extractor_recipe("technic:raw_latex", 1, "technic:rubber", 3)
 technic.register_extractor_recipe("moretrees:rubber_tree_trunk_empty", 1, "technic:rubber", 1)
 technic.register_extractor_recipe("moretrees:rubber_tree_trunk", 1, "technic:rubber", 1)
+technic.register_extractor_recipe("technic:uranium", 5, "technic:enriched_uranium", 1)
 
 minetest.register_alias("extractor", "technic:extractor")
 minetest.register_craft({
