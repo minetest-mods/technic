@@ -22,7 +22,7 @@ minetest.register_craft({
 	output = 'technic:battery 1',
 	recipe = {
 		{'default:wood', 'default:copper_ingot', 'default:wood'},
-		{'default:wood', 'moreores:tin_ingot',   'default:wood'},
+		{'default:wood', 'moreores:tin_ingot', 'default:wood'},
 		{'default:wood', 'default:copper_ingot', 'default:wood'},
 	}
 }) 
@@ -30,17 +30,17 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:battery_box 1',
 	recipe = {
-		{'technic:battery',     'default:wood',         'technic:battery'},
-		{'technic:battery',     'default:copper_ingot', 'technic:battery'},
-		{'default:steel_ingot', 'default:steel_ingot',  'default:steel_ingot'},
+		{'technic:battery', 'default:wood', 'technic:battery'},
+		{'technic:battery', 'default:copper_ingot', 'technic:battery'},
+		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
 	}
 }) 
 
 minetest.register_craft({
 	output = 'technic:electric_furnace',
 	recipe = {
-		{'default:brick',       'default:brick',        'default:brick'},
-		{'default:brick',       '',                     'default:brick'},
+		{'default:brick', 'default:brick', 'default:brick'},
+		{'default:brick', '', 'default:brick'},
 		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
 	}
 })

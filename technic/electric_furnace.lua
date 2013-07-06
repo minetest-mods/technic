@@ -14,11 +14,14 @@ electric_furnace_formspec =
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
-	"label[0,0;Electric Furnace]"..
-	"label[1,3;Power level]"
+	"label[0,0;LV Electric Furnace]"..
+	"label[1,3;Power level]"..
+	"background[-0.19,-0.25;8.4,9.75;ui_form_bg.png]"..
+	"background[0,0;8,4;ui_lv_electric_furnace.png]"..
+	"background[0,5;8,4;ui_main_inventory.png]"
 	
 minetest.register_node("technic:electric_furnace", {
-	description = "Electric furnace",
+	description = "LV Electric Furnace",
 	tiles = {"technic_electric_furnace_top.png", "technic_electric_furnace_bottom.png", "technic_electric_furnace_side.png",
 		"technic_electric_furnace_side.png", "technic_electric_furnace_side.png", "technic_electric_furnace_front.png"},
 	paramtype2 = "facedir",
@@ -32,7 +35,7 @@ minetest.register_node("technic:electric_furnace", {
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", electric_furnace_formspec)
-		meta:set_string("infotext", "Electric furnace")
+		meta:set_string("infotext", "Electric Furnace")
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
@@ -56,7 +59,7 @@ minetest.register_node("technic:electric_furnace", {
 })
 
 minetest.register_node("technic:electric_furnace_active", {
-	description = "Electric Furnace",
+	description = "LV Electric Furnace",
 	tiles = {"technic_electric_furnace_top.png", "technic_electric_furnace_bottom.png", "technic_electric_furnace_side.png",
 		"technic_electric_furnace_side.png", "technic_electric_furnace_side.png", "technic_electric_furnace_front_active.png"},
 	paramtype2 = "facedir",
@@ -72,7 +75,7 @@ minetest.register_node("technic:electric_furnace_active", {
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", electric_furnace_formspec)
-		meta:set_string("infotext", "Electric furnace");
+		meta:set_string("infotext", "LV Electric Furnace");
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
@@ -104,14 +107,9 @@ minetest.register_abm({
 		internal_EU_buffer_size=meta:get_float("internal_EU_buffer_size")
 		local load = math.floor(internal_EU_buffer/internal_EU_buffer_size * 100)
 		meta:set_string("formspec",
-				"invsize[8,9;]"..
+				electric_furnace_formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-					(load)..":technic_power_meter_fg.png]"..
-				"list[current_name;src;3,1;1,1;]"..
-				"list[current_name;dst;5,1;2,2;]"..
-				"list[current_player;main;0,5;8,4;]"..
-				"label[0,0;Electric Furnace]"..
-				"label[1,3;Power level]")
+					(load)..":technic_power_meter_fg.png]")
 
 		local inv = meta:get_inventory()
 		

@@ -1,18 +1,18 @@
 minetest.register_craft({
 	output = 'technic:copper_chest 1',
 	recipe = {
-		{'default:copper_ingot', 'default:copper_ingot', 'default:copper_ingot'},
-		{'default:copper_ingot', 'technic:iron_chest',   'default:copper_ingot'},
-		{'default:copper_ingot', 'default:copper_ingot', 'default:copper_ingot'},
+		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
+		{'default:copper_ingot','technic:iron_chest','default:copper_ingot'},
+		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:copper_locked_chest 1',
 	recipe = {
-		{'default:copper_ingot', 'default:copper_ingot',      'default:copper_ingot'},
-		{'default:copper_ingot', 'technic:iron_locked_chest', 'default:copper_ingot'},
-		{'default:copper_ingot', 'default:copper_ingot',      'default:copper_ingot'},
+		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
+		{'default:copper_ingot','technic:iron_locked_chest','default:copper_ingot'},
+		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
 	}
 })
 
@@ -44,9 +44,13 @@ minetest.register_node(":technic:copper_chest", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
-				"invsize[10,9;]"..
-				"list[current_name;main;0,0;10,4;]"..
-				"list[current_player;main;0,5;8,4;]")
+				"invsize[10,10;]"..
+				"label[0,0;Copper Chest]"..
+				"list[current_name;main;0,1;10,4;]"..
+				"list[current_player;main;0,6;8,4;]"..
+				"background[-0.19,-0.25;10.4,10.75;ui_form_bg.png]"..
+				"background[0,1;10,4;ui_copper_chest_inventory.png]"..
+				"background[0,6;8,4;ui_main_inventory.png]")
 		meta:set_string("infotext", "Copper Chest")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 10*4)
@@ -76,9 +80,13 @@ minetest.register_node(":technic:copper_locked_chest", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
-				"invsize[10,9;]"..
-				"list[current_name;main;0,0;10,4;]"..
-				"list[current_player;main;0,5;8,4;]")
+				"invsize[10,10;]"..
+				"label[0,0;Copper Locked Chest]"..
+				"list[current_name;main;0,1;10,4;]"..
+				"list[current_player;main;0,6;8,4;]"..
+				"background[-0.19,-0.25;10.4,10.75;ui_form_bg.png]"..
+				"background[0,1;10,4;ui_copper_chest_inventory.png]"..
+				"background[0,6;8,4;ui_main_inventory.png]")
 		meta:set_string("infotext", "Copper Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()

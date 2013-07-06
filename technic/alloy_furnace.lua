@@ -10,8 +10,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:alloy_furnace',
 	recipe = {
-		{'default:brick',       'default:brick',        'default:brick'},
-		{'default:brick',       '',                     'default:brick'},
+		{'default:brick', 'default:brick', 'default:brick'},
+		{'default:brick', '', 'default:brick'},
 		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
 	}
 })
@@ -25,11 +25,14 @@ alloy_furnace_formspec =
 	"list[current_name;src2;3,2;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
-	"label[0,0;Electric Alloy Furnace]"..
-	"label[1,3;Power level]"
+	"label[0,0;LV Electric Alloy Furnace]"..
+	"label[1,3;Power level]"..
+	"background[-0.19,-0.25;8.4,9.75;ui_form_bg.png]"..
+	"background[0,0;8,4;ui_lv_alloy_furnace.png]"..
+	"background[0,5;8,4;ui_main_inventory.png]"
 	
 minetest.register_node("technic:alloy_furnace", {
-	description = "Electric alloy furnace",
+	description = "LV Electric alloy furnace",
 	tiles = {"technic_alloy_furnace_top.png", "technic_machine_bottom.png", "technic_alloy_furnace_side.png",
 		"technic_alloy_furnace_side.png", "technic_alloy_furnace_side.png", "technic_alloy_furnace_front.png"},
 	paramtype2 = "facedir",
@@ -106,15 +109,9 @@ minetest.register_abm({
 		internal_EU_buffer_size=meta:get_float("internal_EU_buffer")
 		local load = math.floor(internal_EU_buffer/2000 * 100)
 		meta:set_string("formspec",
-				"invsize[8,9;]"..
+				alloy_furnace_formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-						(load)..":technic_power_meter_fg.png]"..
-				"list[current_name;src;3,1;1,1;]"..
-				"list[current_name;src2;3,2;1,1;]"..
-				"list[current_name;dst;5,1;2,2;]"..
-				"list[current_player;main;0,5;8,4;]"..
-				"label[0,0;Electric Alloy Furnace]"..
-				"label[1,3;Power level]")
+						(load)..":technic_power_meter_fg.png]")
 
 		local inv = meta:get_inventory()
 

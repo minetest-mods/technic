@@ -35,9 +35,13 @@ minetest.register_node(":technic:mithril_chest", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
-				"invsize[13,9;]"..
-				"list[current_name;main;0,0;13,4;]"..
-				"list[current_player;main;0,5;8,4;]")
+				"invsize[13,10;]"..
+				"label[0,0;Mithril Chest]"..
+				"list[current_name;main;0,1;13,4;]"..
+				"list[current_player;main;0,6;8,4;]"..
+				"background[-0.19,-0.25;13.4,10.75;ui_form_bg.png]"..
+				"background[0,1;13,4;ui_mithril_chest_inventory.png]"..
+				"background[0,6;8,4;ui_main_inventory.png]")
 		meta:set_string("infotext", "Mithril Chest")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 13*4)
@@ -84,9 +88,13 @@ minetest.register_node(":technic:mithril_locked_chest", {
 on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
-				"invsize[13,9;]"..
-				"list[current_name;main;0,0;13,4;]"..
-				"list[current_player;main;0,5;8,4;]")
+				"invsize[13,10;]"..
+				"label[0,0;Mithril Locked Chest]"..
+				"list[current_name;main;0,1;13,4;]"..
+				"list[current_player;main;0,6;8,4;]"..
+				"background[-0.19,-0.25;13.4,10.75;ui_form_bg.png]"..
+				"background[0,1;13,4;ui_mithril_chest_inventory.png]"..
+				"background[0,6;8,4;ui_main_inventory.png]")
 		meta:set_string("infotext", "Mithril Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()

@@ -29,7 +29,6 @@ register_grinder_recipe("default:copper_ingot","technic:copper_dust 1")
 register_grinder_recipe("default:gold_lump","technic:gold_dust 2")
 register_grinder_recipe("default:gold_ingot","technic:gold_dust 1")
 --register_grinder_recipe("default:bronze_ingot","technic:bronze_dust 1")  -- Dust does not exist yet
---register_grinder_recipe("home_decor:brass_ingot","technic:brass_dust 1") -- needs check for the mod
 register_grinder_recipe("moreores:tin_lump","technic:tin_dust 2")
 register_grinder_recipe("moreores:tin_ingot","technic:tin_dust 1")
 register_grinder_recipe("moreores:silver_lump","technic:silver_dust 2")
@@ -40,7 +39,7 @@ register_grinder_recipe("technic:chromium_lump","technic:chromium_dust 2")
 register_grinder_recipe("technic:chromium_ingot","technic:chromium_dust 1")
 register_grinder_recipe("technic:stainless_steel_ingot","stainless_steel_dust 1")
 register_grinder_recipe("technic:brass_ingot","technic:brass_dust 1")
-register_grinder_recipe("homedecor:brass_ingot","technic:brass_dust 1")
+register_grinder_recipe("homedecor:brass_ingot","technic:brass_dust 1") 
 register_grinder_recipe("technic:zinc_lump","technic:zinc_dust 2")
 register_grinder_recipe("technic:zinc_ingot","technic:zinc_dust 1")
 register_grinder_recipe("technic:coal_dust","dye:black 2")
@@ -186,8 +185,8 @@ minetest.register_craft({
 	output = 'technic:grinder',
 	recipe = {
 		{'default:desert_stone', 'default:desert_stone', 'default:desert_stone'},
-		{'default:desert_stone', 'default:diamond',      'default:desert_stone'},
-		{'default:stone',        'default:copper_ingot', 'default:stone'},
+		{'default:desert_stone', 'default:diamond', 'default:desert_stone'},
+		{'default:stone', 'default:copper_ingot', 'default:stone'},
 	}
 })
 
@@ -199,15 +198,18 @@ minetest.register_craftitem("technic:grinder", {
 grinder_formspec =
 	"invsize[8,9;]"..
 	"image[1,1;1,2;technic_power_meter_bg.png]"..
-	"label[0,0;Grinder]"..
+	"label[0,0;LV Grinder]"..
 	"label[1,3;Power level]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
-	"list[current_player;main;0,5;8,4;]"
+	"list[current_player;main;0,5;8,4;]"..
+	"background[-0.19,-0.25;8.4,9.75;ui_form_bg.png]"..
+	"background[0,0;8,4;ui_lv_grinder.png]"..
+	"background[0,5;8,4;ui_main_inventory.png]"
 
 
 minetest.register_node("technic:grinder", {
-	description = "Grinder",
+	description = "LV Grinder",
 	tiles = {"technic_lv_grinder_top.png", "technic_lv_grinder_bottom.png", "technic_lv_grinder_side.png",
 		"technic_lv_grinder_side.png", "technic_lv_grinder_side.png", "technic_lv_grinder_front.png"},
 	paramtype2 = "facedir",
@@ -279,15 +281,9 @@ minetest.register_abm({
 
 	local load = math.floor((charge/max_charge)*100)
 	meta:set_string("formspec",
-				"invsize[8,9;]"..
+				grinder_formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
-						(load)..":technic_power_meter_fg.png]"..
-				"label[0,0;Grinder]"..
-				"label[1,3;Power level]"..
-				"list[current_name;src;3,1;1,1;]"..
-				"list[current_name;dst;5,1;2,2;]"..
-				"list[current_player;main;0,5;8,4;]"
-				)
+						(load)..":technic_power_meter_fg.png]")
 
 		local inv = meta:get_inventory()
 		local srclist = inv:get_list("src")

@@ -23,7 +23,7 @@ minetest.register_craft({
 			   output = 'technic:battery 1',
 			   recipe = {
 			      {'default:wood', 'default:copper_ingot', 'default:wood'},
-			      {'default:wood', 'moreores:tin_ingot',   'default:wood'},
+			      {'default:wood', 'moreores:tin_ingot', 'default:wood'},
 			      {'default:wood', 'default:copper_ingot', 'default:wood'},
 			   }
 			})
@@ -51,16 +51,18 @@ minetest.register_craftitem("technic:battery_box", {
 
 
 battery_box_formspec =
-   "invsize[8,9;]"..
-   "image[1,1;1,2;technic_power_meter_bg.png]"..
-   "list[current_name;src;3,1;1,1;]"..
-   "image[4,1;1,1;technic_battery_reload.png]"..
-   "list[current_name;dst;5,1;1,1;]"..
-   "label[0,0;Battery box]"..
-   "label[3,0;Charge]"..
-   "label[5,0;Discharge]"..
-   "label[1,3;Power level]"..
-   "list[current_player;main;0,5;8,4;]"
+	"invsize[8,9;]"..
+	"image[1,1;1,2;technic_power_meter_bg.png]"..
+	"list[current_name;src;3,1;1,1;]"..
+	"list[current_name;dst;5,1;1,1;]"..
+	"label[0,0;LV Battery Box]"..
+	"label[3,0;Charge]"..
+	"label[5,0;Discharge]"..
+	"label[1,3;Power level]"..
+	"list[current_player;main;0,5;8,4;]"..
+	"background[-0.19,-0.25;8.4,9.75;ui_form_bg.png]"..
+	"background[0,0;8,4;ui_lv_battery_box.png]"..
+	"background[0,5;8,4;ui_main_inventory.png]"
 
 minetest.register_node(
    "technic:battery_box", {

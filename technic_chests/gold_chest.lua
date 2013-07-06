@@ -1,41 +1,42 @@
 local chest_mark_colors = {
-    '_black',
-    '_blue', 
-    '_brown',
-    '_cyan',
-    '_dark_green',
-    '_dark_grey',
-    '_green',
-    '_grey',
-    '_magenta',
-    '_orange',
-    '_pink',
-    '_red',
-    '_violet',
-    '_white',
-    '_yellow',
+    {'_black','Black'},
+    {'_blue','Blue'}, 
+    {'_brown','Brown'},
+    {'_cyan','Cyan'},
+    {'_dark_green','Dark Green'},
+    {'_dark_grey','Dark Grey'},
+    {'_green','Green'},
+    {'_grey','Grey'},
+    {'_magenta','Magenta'},
+    {'_orange','Orange'},
+    {'_pink','Pink'},
+    {'_red','Red'},
+    {'_violet','Violet'},
+    {'_white','White'},
+    {'_yellow','Yellow'},
+    {'','None'}
 }
 
 minetest.register_craft({
-	output = 'technic:gold_chest 1',
+	output = 'technic:gold_chest',
 	recipe = {
-		{'default:gold_ingot', 'default:gold_ingot',   'default:gold_ingot'},
-		{'default:gold_ingot', 'technic:silver_chest', 'default:gold_ingot'},
-		{'default:gold_ingot', 'default:gold_ingot',   'default:gold_ingot'},
+		{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+		{'default:gold_ingot','technic:silver_chest','default:gold_ingot'},
+		{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:gold_locked_chest 1',
+	output = 'technic:gold_locked_chest',
 	recipe = {
-		{'default:gold_ingot', 'default:gold_ingot',          'default:gold_ingot'},
-		{'default:gold_ingot', 'technic:silver_locked_chest', 'default:gold_ingot'},
-		{'default:gold_ingot', 'default:gold_ingot',          'default:gold_ingot'},
+		{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+		{'default:gold_ingot','technic:silver_locked_chest','default:gold_ingot'},
+		{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:gold_locked_chest 1',
+	output = 'technic:gold_locked_chest',
 	recipe = {
 		{'default:steel_ingot'},
 		{'technic:gold_chest'},
@@ -51,9 +52,24 @@ minetest.register_craftitem(":technic:gold_locked_chest", {
 	stack_max = 99,
 })
 
-gold_chest_formspec	=	"invsize[12,9;]"..
-						"list[current_name;main;0,0;12,4;]"..
-						"list[current_player;main;0,5;8,4;]"
+function get_pallette_buttons ()
+local buttons_string=""
+	for y=0,3,1 do
+		for x=0,3,1 do
+			local file_name="ui_colorbutton"..(y*4+x)..".png"
+			buttons_string=buttons_string.."image_button["..(9.2+x*.7)..","..(6+y*.7)..";.81,.81;"..file_name..";color_button"..(y*4+x)..";]"
+		end
+	end	
+return buttons_string
+end
+
+gold_chest_formspec	=	"invsize[12,10;]"..
+						"list[current_name;main;0,1;12,4;]"..
+						"list[current_player;main;0,6;8,4;]"..
+						"background[-0.19,-0.25;12.4,10.75;ui_form_bg.png]"..
+						"background[0,1;12,4;ui_gold_chest_inventory.png]"..
+						"background[0,6;8,4;ui_main_inventory.png]"..
+						get_pallette_buttons ()
 
 gold_chest_inv_size = 12*4
 
@@ -69,7 +85,10 @@ minetest.register_node(":technic:gold_chest", {
 
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",gold_chest_formspec)
+		meta:set_string("formspec",gold_chest_formspec..
+			"label[0,0;Gold Chest]"..
+			"image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"..		
+			"label[9.2,9;Color Filter: None")
 		meta:set_string("infotext", "Gold Chest")
 		local inv = meta:get_inventory()
 		inv:set_size("main", gold_chest_inv_size)
@@ -77,16 +96,26 @@ minetest.register_node(":technic:gold_chest", {
 
 	can_dig = chest_can_dig,
 
-	on_punch = function (pos, node, puncher)
-	chest_punched (pos,node,puncher);
-	end,
-
 	on_receive_fields = function(pos, formname, fields, sender)
-	local meta = minetest.env:get_meta(pos);
-	fields.text = fields.text or ""
-	meta:set_string("text", fields.text)
-	meta:set_string("infotext", '"'..fields.text..'"')
-	meta:set_string("formspec",gold_chest_formspec)
+        local meta = minetest.env:get_meta(pos)
+      	local page="main"
+      	if fields.edit_infotext then 
+			page="edit_infotext"
+      	end
+      	if fields.save_infotext then 
+			meta:set_string("infotext",fields.infotext_box)
+      	end
+		local formspec = gold_chest_formspec.."label[0,0;Gold Chest]"
+		if page=="main" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"
+			formspec = formspec.."label[4,0;"..meta:get_string("infotext").."]"
+		end
+		if page=="edit_infotext" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;ok_icon.png;save_infotext;]"
+			formspec = formspec.."field[4.3,.2;6,1;infotext_box;Edit chest description:;"..meta:get_string("infotext").."]"
+		end			
+		formspec = formspec .. "label[9.2,9;Color Filter: "..chest_mark_colors[check_color_buttons (pos,"technic:gold_chest",fields)][2].."]"		
+		meta:set_string("formspec",formspec)
 	end,
 
 	on_metadata_inventory_move = def_on_metadata_inventory_move,
@@ -94,37 +123,39 @@ minetest.register_node(":technic:gold_chest", {
 	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })
 
-for i, state in ipairs(chest_mark_colors) do
-minetest.register_node(":technic:gold_chest".. state, {
+for i=1,15,1 do
+minetest.register_node(":technic:gold_chest".. chest_mark_colors[i][1], {
 	description = "Gold Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
-		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front"..state..".png"},
+		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_front"..chest_mark_colors[i][1]..".png"},
 	paramtype2 = "facedir",
 	groups = chest_groups2,
 	tube = tubes_properties,
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:gold_chest",
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",gold_chest_formspec)
-		meta:set_string("infotext", "Gold Chest")
-		local inv = meta:get_inventory()
-		inv:set_size("main", gold_chest_inv_size)
-	end,
-
 	can_dig =chest_can_dig,
-
-	on_punch = function (pos, node, puncher)
-	chest_punched (pos,node,puncher);
-	end,
 	
 	on_receive_fields = function(pos, formname, fields, sender)
-        local meta = minetest.env:get_meta(pos);
-      		fields.text = fields.text or ""
-		meta:set_string("text", fields.text)
-		meta:set_string("infotext", '"'..fields.text..'"')
-		meta:set_string("formspec",gold_chest_formspec)
+        local meta = minetest.env:get_meta(pos)
+        local page="main"
+      	if fields.edit_infotext then 
+			page="edit_infotext"
+      	end
+      	if fields.save_infotext then 
+			meta:set_string("infotext",fields.infotext_box)
+      	end
+		local formspec = gold_chest_formspec.."label[0,0;Gold Chest]"
+		if page=="main" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"
+			formspec = formspec.."label[4,0;"..meta:get_string("infotext").."]"
+		end
+		if page=="edit_infotext" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;ok_icon.png;save_infotext;]"
+			formspec = formspec.."field[4.3,.2;6,1;infotext_box;Edit chest description:;"..meta:get_string("infotext").."]"
+		end			
+		formspec = formspec .. "label[9.2,9;Color Filter: "..chest_mark_colors[check_color_buttons (pos,"technic:gold_chest",fields)][2].."]"		
+		meta:set_string("formspec",formspec)
 	end,
 
 	on_metadata_inventory_move = def_on_metadata_inventory_move,
@@ -151,8 +182,11 @@ minetest.register_node(":technic:gold_locked_chest", {
 	end,
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",gold_chest_formspec)
-		meta:set_string("infotext", "Gold Locked Chest")
+		meta:set_string("formspec",
+				gold_chest_formspec..
+				"label[0,0;Gold Locked Chest]"..
+				"image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"..
+				"label[9.2,9;Color Filter: None")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("main", gold_chest_inv_size)
@@ -160,19 +194,27 @@ minetest.register_node(":technic:gold_locked_chest", {
 
 	can_dig =chest_can_dig,
 
-	on_punch = function (pos, node, puncher)
-		local meta = minetest.env:get_meta(pos);
-		if (has_locked_chest_privilege(meta, puncher)) then
-			locked_chest_punched (pos,node,puncher);
-		end
-	end,
-	
 	on_receive_fields = function(pos, formname, fields, sender)
-		local meta = minetest.env:get_meta(pos);
-		fields.text = fields.text or ""
-		meta:set_string("text", fields.text)
-		meta:set_string("infotext", '"'..fields.text..'"')
-		meta:set_string("formspec",gold_chest_formspec)
+        local meta = minetest.env:get_meta(pos)
+      	local formspec = gold_chest_formspec..
+			"label[0,0;Gold Locked Chest]"
+		local page="main"
+      	if fields.edit_infotext then 
+			page="edit_infotext"
+      	end
+      	if fields.save_infotext then 
+			meta:set_string("infotext",fields.infotext_box)
+      	end
+		if page=="main" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"
+			formspec = formspec.."label[4,0;"..meta:get_string("infotext").."]"
+		end
+		if page=="edit_infotext" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;ok_icon.png;save_infotext;]"
+			formspec = formspec.."field[4.3,.2;6,1;infotext_box;Edit chest description:;"..meta:get_string("infotext").."]"
+		end	
+		formspec = formspec .. "label[9.2,9;Color Filter: "..chest_mark_colors[check_color_buttons (pos,"technic:gold_locked_chest",fields)][2].."]"		
+		meta:set_string("formspec",formspec)
 	end,
 
 	allow_metadata_inventory_move = def_allow_metadata_inventory_move,
@@ -183,47 +225,40 @@ minetest.register_node(":technic:gold_locked_chest", {
 	on_metadata_inventory_take = def_on_metadata_inventory_take 
 })
 
-for i, state in ipairs(chest_mark_colors) do
-minetest.register_node(":technic:gold_locked_chest".. state, {
+for i=1,15,1 do
+minetest.register_node(":technic:gold_locked_chest".. chest_mark_colors[i][1], {
 	description = "Gold Locked Chest",
 	tiles = {"technic_gold_chest_top.png", "technic_gold_chest_top.png", "technic_gold_chest_side.png",
-		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked"..state..".png"},
+		"technic_gold_chest_side.png", "technic_gold_chest_side.png", "technic_gold_chest_locked"..chest_mark_colors[i][1]..".png"},
 	paramtype2 = "facedir",
 	drop = "technic:gold_locked_chest",
 	groups = chest_groups2,
 	tube = tubes_properties,
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	after_place_node = function(pos, placer)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Gold Locked Chest (owned by "..
-				meta:get_string("owner")..")")
-	end,
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",gold_chest_formspec)
-		meta:set_string("infotext", "Gold Locked Chest")
-		meta:set_string("owner", "")
-		local inv = meta:get_inventory()
-		inv:set_size("main", gold_chest_inv_size)
-	end,
-
 	can_dig = chest_can_dig,
 
-	on_punch = function (pos, node, puncher)
-	        local meta = minetest.env:get_meta(pos);
-		if (has_locked_chest_privilege(meta, puncher)) then
-		locked_chest_punched (pos,node,puncher);
-		end
-	end,
-
 	on_receive_fields = function(pos, formname, fields, sender)
-		local meta = minetest.env:get_meta(pos);
-		fields.text = fields.text or ""
-		meta:set_string("text", fields.text)
-		meta:set_string("infotext", '"'..fields.text..'"')
-		meta:set_string("formspec",gold_chest_formspec)
+        local meta = minetest.env:get_meta(pos)
+      	local formspec = gold_chest_formspec..
+				"label[0,0;Gold Locked Chest]"
+      	local page="main"
+      	if fields.edit_infotext then 
+			page="edit_infotext"
+      	end
+      	if fields.save_infotext then 
+			meta:set_string("infotext",fields.infotext_box)
+      	end
+		if page=="main" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;pencil_icon.png;edit_infotext;]"
+			formspec = formspec.."label[4,0;"..meta:get_string("infotext").."]"
+		end
+		if page=="edit_infotext" then
+			formspec = formspec.."image_button[3.5,.1;.6,.6;ok_icon.png;save_infotext;]"
+			formspec = formspec.."field[4.3,.2;6,1;infotext_box;Edit chest description:;"..meta:get_string("infotext").."]"
+		end			
+		formspec = formspec .. "label[9.2,9;Color Filter: "..chest_mark_colors[check_color_buttons (pos,"technic:gold_locked_chest",fields)][2].."]"		
+		meta:set_string("formspec",formspec)
 	end,
 
 	allow_metadata_inventory_move = def_allow_metadata_inventory_move,
@@ -235,232 +270,18 @@ minetest.register_node(":technic:gold_locked_chest".. state, {
 })
 end
 
-function chest_punched (pos,node,puncher)
-	
-	local player_tool = puncher:get_wielded_item();
-	local item=player_tool:get_name();
-	if item == "dye:black" then
-		if (hacky_swap_node(pos,"technic:gold_chest_black")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:blue" then
-		if (hacky_swap_node(pos,"technic:gold_chest_blue")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:brown" then
-		if (hacky_swap_node(pos,"technic:gold_chest_brown")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:cyan" then
-		if (hacky_swap_node(pos,"technic:gold_chest_cyan")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:dark_green" then
-		if (hacky_swap_node(pos,"technic:gold_chest_dark_green")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:dark_grey" then
-		if (hacky_swap_node(pos,"technic:gold_chest_dark_grey")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:green" then
-		if (hacky_swap_node(pos,"technic:gold_chest_green")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:grey" then
-		if (hacky_swap_node(pos,"technic:gold_chest_grey")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:magenta" then
-		if (hacky_swap_node(pos,"technic:gold_chest_magenta")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:orange" then
-		if (hacky_swap_node(pos,"technic:gold_chest_orange")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:pink" then
-		if (hacky_swap_node(pos,"technic:gold_chest_pink")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:red" then
-		if (hacky_swap_node(pos,"technic:gold_chest_red")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:violet" then
-		if (hacky_swap_node(pos,"technic:gold_chest_violet")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:white" then
-		if (hacky_swap_node(pos,"technic:gold_chest_white")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:yellow" then
-		if (hacky_swap_node(pos,"technic:gold_chest_yellow")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-
-		local meta = minetest.env:get_meta(pos);
-                meta:set_string("formspec", "hack:sign_text_input")
+function check_color_buttons (pos,chest_name,fields)
+	if fields.color_button15 then
+		hacky_swap_node(pos,chest_name)
+		return 16
 	end
-
-
-function locked_chest_punched (pos,node,puncher)
-	
-	local player_tool = puncher:get_wielded_item();
-	local item=player_tool:get_name();
-	if item == "dye:black" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_black")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
+	for i=0,14,1 do
+		local button="color_button"..i
+		if fields[button] then
+			hacky_swap_node(pos,chest_name..chest_mark_colors[i+1][1])
+			return i+1
 		end
-	if item == "dye:blue" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_blue")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:brown" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_brown")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:cyan" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_cyan")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:dark_green" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_dark_green")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:dark_grey" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_dark_grey")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:green" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_green")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:grey" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_grey")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:magenta" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_magenta")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:orange" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_orange")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:pink" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_pink")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:red" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_red")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:violet" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_violet")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:white" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_white")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-	if item == "dye:yellow" then
-		if (hacky_swap_node(pos,"technic:gold_locked_chest_yellow")) then
-			player_tool:take_item(1);
-			puncher:set_wielded_item(player_tool);
-			return
-		   end
-		end
-
-		local meta = minetest.env:get_meta(pos);
-                meta:set_string("formspec", "hack:sign_text_input")
 	end
+	return 16
+end	
 	
