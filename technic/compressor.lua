@@ -25,6 +25,9 @@ end
 technic.register_compressor_recipe("default:snowblock",		1,	"default:ice",		1)
 technic.register_compressor_recipe("default:sand",		1,	"default:sandstone",	1)
 technic.register_compressor_recipe("default:desert_sand",	1,	"default:desert_stone",	1)
+technic.register_compressor_recipe("technic:mixed_metal_ingot",	1,	"technic:composite_plate",	1)
+technic.register_compressor_recipe("default:copper_ingot",	5,	"technic:copper_plate",	1)
+
 
 minetest.register_alias("compressor", "technic:compressor")
 minetest.register_craft({
