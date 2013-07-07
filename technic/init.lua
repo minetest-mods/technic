@@ -45,6 +45,7 @@ dofile(modpath.."/cnc.lua")
 dofile(modpath.."/cnc_api.lua")
 dofile(modpath.."/cnc_nodes.lua")
 dofile(modpath.."/extractor.lua")
+dofile(modpath.."/compressor.lua")
 
 --MV machines
 dofile(modpath.."/wires_mv.lua")
