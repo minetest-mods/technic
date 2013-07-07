@@ -1,7 +1,7 @@
 -- Th coal driven EU generator.
 -- A simple device to get started on the electric machines.
 -- Inefficient and expensive in coal (200EU 16 ticks)
--- Also only allows for LV machinery to run.
+-- Also only allows for MV machinery to run.
 minetest.register_alias("generator_mv", "technic:generator_mv")
 minetest.register_alias("generator_mv", "technic:generator_mv_active")
 
@@ -45,8 +45,8 @@ minetest.register_node(
 			local meta = minetest.env:get_meta(pos)
 			meta:set_string("infotext", "Coal Electric Generator")
 			meta:set_float("technic_power_machine", 1)
-			meta:set_int("LV_EU_supply", 0)
-			meta:set_int("LV_EU_from_fuel", 1) -- Signal to the switching station that this device burns some sort of fuel and needs special handling
+			meta:set_int("MV_EU_supply", 0)
+			meta:set_int("MV_EU_from_fuel", 1) -- Signal to the switching station that this device burns some sort of fuel and needs special handling
 			meta:set_int("burn_time", 0)
 			meta:set_string("formspec", generator_formspec)
 			local inv = meta:get_inventory()
@@ -98,9 +98,9 @@ minetest.register_abm(
 
 		  -- If more to burn and the energy produced was used: produce some more
 		  if burn_time>0 then
-		     if meta:get_int("LV_EU_supply") == 0 then
+		     if meta:get_int("MV_EU_supply") == 0 then
 			-- We did not use the power
-			meta:set_int("LV_EU_supply", 200) -- Give 200EUs
+			meta:set_int("MV_EU_supply", 200) -- Give 200EUs
 		     else
 			burn_time = burn_time - 1
 			meta:set_int("burn_time",burn_time)
@@ -119,7 +119,7 @@ minetest.register_abm(
 			   burn_time=8
 			   meta:set_int("burn_time",burn_time)
 			   hacky_swap_node (pos,"technic:generator_mv_active") 
-			   meta:set_int("LV_EU_supply", 200) -- Give 200EUs
+			   meta:set_int("MV_EU_supply", 200) -- Give 200EUs
 			end
 		     end
 		  end
