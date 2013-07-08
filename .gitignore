@@ -161,3 +161,9 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+#gedit backup files
+*~
+
+#delphin directory config
+.directory
