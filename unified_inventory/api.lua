@@ -230,7 +230,10 @@ unified_inventory.get_formspec = function(player,page)
 				end	
 				if craft.type == "alloy" then
 				method="Alloy cooking"
-				end	
+				end
+				if craft.type == "extracting" then
+				method="Extracting"
+				end		
 				formspec = formspec.."label[6,3;"..method.."]"
 			end
 			
@@ -557,8 +560,12 @@ unified_inventory.update_recipe = function(player, stack_name, alternate)
 	local craft = crafts[alternate]
 	inv:set_stack("output", 1, craft.output)
 	local items=craft.items
-	-- cook, fuel, grinding recipes
-	if craft.type == "cooking" or craft.type == "fuel" or craft.type == "grinding" then
+
+	-- cooking, fuel, grinding, and extracting recipes
+	if craft.type == "cooking" or
+	   craft.type == "fuel" or
+	   craft.type == "grinding" or
+	   craft.type == "extracting" then
 		def=unified_inventory.find_item_def(craft["items"][1])
 		if def then
 			inv:set_stack("build", 1, def)

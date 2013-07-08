@@ -28,6 +28,7 @@ minetest.register_ore({
 	height_min     = -31000,
 	height_max     = 2,
 })
+if technic.config:getBool("enable_marble_generation") then
 minetest.register_ore({
 	ore_type       = "sheet",
 	ore            = "technic:marble",
@@ -40,6 +41,8 @@ minetest.register_ore({
 	noise_threshhold = 0.4,
 	noise_params = {offset=0, scale=15, spread={x=150, y=150, z=150}, seed=23, octaves=3, persist=0.70}
 })
+end
+if technic.config:getBool("enable_granite_generation") then
 minetest.register_ore({
 	ore_type       = "sheet",
 	ore            = "technic:granite",
@@ -52,4 +55,5 @@ minetest.register_ore({
 	noise_threshhold = 0.4,
 	noise_params = {offset=0, scale=15, spread={x=130, y=130, z=130}, seed=24, octaves=3, persist=0.70}
 })
+end
 

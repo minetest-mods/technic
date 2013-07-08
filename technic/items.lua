@@ -10,6 +10,12 @@ minetest.register_craftitem( "technic:doped_silicon_wafer", {
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
+minetest.register_craftitem( "technic:enriched_uranium", {
+	description = "Enriched Uranium",
+	inventory_image = "technic_enriched_uranium.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
 -- tubes crafting recipes
 
 minetest.register_craft({
@@ -157,6 +163,21 @@ minetest.register_craft({
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
 		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
+	}
+})
+
+minetest.register_craftitem( "technic:lv_transformer", {
+	description = "Low Voltage Transformer",
+	inventory_image = "technic_lv_transformer.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:lv_transformer',
+	recipe = {
+		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
+		{'technic:copper_coil', 'default:iron_lump', 'technic:copper_coil'},
+		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
 	}
 })
 

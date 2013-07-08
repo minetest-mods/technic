@@ -1,5 +1,5 @@
-laser_mk1_max_charge=40000
-register_power_tool ("technic:laser_mk1",laser_mk1_max_charge)
+local laser_mk1_max_charge=40000
+technic.register_LV_power_tool ("technic:laser_mk1",laser_mk1_max_charge)
 
 local laser_shoot = function(itemstack, player, pointed_thing)
 				local laser_straight_mode=0
@@ -62,8 +62,8 @@ minetest.register_tool("technic:laser_mk1", {
 		charge=meta["charge"]
 		if charge-400>0 then
 		 laser_shoot(item, user, pointed_thing)
-		 charge =charge-400;
-		set_RE_wear(item,charge,laser_mk1_max_charge)
+		 charge = charge-400;
+		technic.set_RE_wear(item,charge,laser_mk1_max_charge)
 		meta["charge"]=charge
 		item["metadata"]=set_item_meta(meta)
 		itemstack:replace(item)

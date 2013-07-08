@@ -1,9 +1,9 @@
-mining_drill_max_charge=60000
-mining_drill_mk2_max_charge=240000
-mining_drill_mk3_max_charge=960000
-mining_drill_power_usage=200
-mining_drill_mk2_power_usage=600
-mining_drill_mk3_power_usage=1800
+local mining_drill_max_charge=60000
+local mining_drill_mk2_max_charge=240000
+local mining_drill_mk3_max_charge=960000
+local mining_drill_power_usage=200
+local mining_drill_mk2_power_usage=600
+local mining_drill_mk3_power_usage=1800
 
 minetest.register_craft({
 	output = 'technic:mining_drill',
@@ -210,7 +210,7 @@ function drill_dig_it4 (pos,player)
 	drill_dig_it0 (pos,player)
 end
 
-register_power_tool ("technic:mining_drill",mining_drill_max_charge)
+technic.register_MV_power_tool ("technic:mining_drill",mining_drill_max_charge)
 minetest.register_tool("technic:mining_drill", {
 	description = "Mining Drill Mk1",
 	inventory_image = "technic_mining_drill.png",
@@ -227,7 +227,7 @@ minetest.register_tool("technic:mining_drill", {
 			charge =charge-mining_drill_power_usage;
 			meta["charge"]=charge
 			item["metadata"]=set_item_meta(meta)
-			set_RE_wear(item,charge,mining_drill_max_charge)
+			technic.set_RE_wear(item,charge,mining_drill_max_charge)
 			itemstack:replace(item)
 			end
 		return itemstack
@@ -243,10 +243,10 @@ minetest.register_tool("technic:mining_drill_mk2", {
 	return itemstack
 	end,
 })
-register_power_tool ("technic:mining_drill_mk2",mining_drill_mk2_max_charge)
+technic.register_HV_power_tool ("technic:mining_drill_mk2",mining_drill_mk2_max_charge)
 
 for i=1,4,1 do
-register_power_tool ("technic:mining_drill_mk2_"..i,mining_drill_mk2_max_charge)
+technic.register_HV_power_tool ("technic:mining_drill_mk2_"..i,mining_drill_mk2_max_charge)
 minetest.register_tool("technic:mining_drill_mk2_"..i, {
 	description = "Mining Drill Mk2 in Mode "..i,
 	inventory_image = "technic_mining_drill_mk2.png^technic_tool_mode"..i..".png",
@@ -267,10 +267,10 @@ minetest.register_tool("technic:mining_drill_mk3", {
 	return itemstack
 	end,
 })
-register_power_tool ("technic:mining_drill_mk3",mining_drill_mk3_max_charge)
+technic.register_HV_power_tool ("technic:mining_drill_mk3",mining_drill_mk3_max_charge)
 
 for i=1,5,1 do
-register_power_tool ("technic:mining_drill_mk3_"..i,mining_drill_mk3_max_charge)
+technic.register_HV_power_tool ("technic:mining_drill_mk3_"..i,mining_drill_mk3_max_charge)
 minetest.register_tool("technic:mining_drill_mk3_"..i, {
 	description = "Mining Drill Mk3 in Mode "..i,
 	inventory_image = "technic_mining_drill_mk3.png^technic_tool_mode"..i..".png",
@@ -299,7 +299,7 @@ function mining_drill_mk2_handler (itemstack,user,pointed_thing)
 		if charge<0 then charge=0 end
 		meta["charge"]=charge
 		item["metadata"]=set_item_meta(meta)
-		set_RE_wear(item,charge,mining_drill_mk2_max_charge)
+		technic.set_RE_wear(item,charge,mining_drill_mk2_max_charge)
 		itemstack:replace(item)
 	end
 	return itemstack
@@ -321,7 +321,7 @@ function mining_drill_mk3_handler (itemstack,user,pointed_thing)
 		if charge<0 then charge=0 end
 		meta["charge"]=charge
 		item["metadata"]=set_item_meta(meta)
-		set_RE_wear(item,charge,mining_drill_mk3_max_charge)
+		technic.set_RE_wear(item,charge,mining_drill_mk3_max_charge)
 		itemstack:replace(item)
 	end
 	return itemstack

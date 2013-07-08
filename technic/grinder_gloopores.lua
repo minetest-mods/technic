@@ -1,8 +1,8 @@
-register_grinder_recipe("gloopores:alatro_lump","technic:alatro_dust 2")
-register_grinder_recipe("gloopores:kalite_lump","technic:kalite_dust 2")
-register_grinder_recipe("gloopores:arol_lump","technic:arol_dust 2")
-register_grinder_recipe("gloopores:talinite_lump","technic:talinite_dust 2")
-register_grinder_recipe("gloopores:akalin_lump","technic:akalin_dust 2")
+technic.register_grinder_recipe("gloopores:alatro_lump","technic:alatro_dust 2")
+technic.register_grinder_recipe("gloopores:kalite_lump","technic:kalite_dust 2")
+technic.register_grinder_recipe("gloopores:arol_lump","technic:arol_dust 2")
+technic.register_grinder_recipe("gloopores:talinite_lump","technic:talinite_dust 2")
+technic.register_grinder_recipe("gloopores:akalin_lump","technic:akalin_dust 2")
  
 minetest.register_craftitem("technic:alatro_dust", {
         description = "Alatro Dust",

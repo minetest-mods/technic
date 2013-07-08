@@ -8,9 +8,6 @@ minetest.register_node("technic:solar_panel", {
 	sounds = default.node_sound_wood_defaults(),
     	description="Solar Panel",
 	active = false,
-	technic_power_machine=1,
-	internal_EU_buffer=0;
-	internal_EU_buffer_size=160;
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,	
@@ -24,12 +21,9 @@ minetest.register_node("technic:solar_panel", {
 		},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_float("technic_power_machine", 1)
-		meta:set_float("internal_EU_buffer", 0)
-		meta:set_float("internal_EU_buffer_size", 160)
-
-		meta:set_string("infotext", "Solar Panel")
-		meta:set_float("active", false)
+		meta:set_int("technic_power_machine", 1)
+		meta:set_int("LV_EU_supply", 0)
+		meta:set_string("infotext", "LV Solar Panel")
 	end,
 })
 
@@ -68,24 +62,17 @@ minetest.register_abm(
 		-- turn on panel only during day time and if sufficient light
                 -- I know this is counter intuitive when cheating by using other light sources underground.
 		if light >= 12 and time_of_day>=0.24 and time_of_day<=0.76 and pos.y > -10 then
-			local internal_EU_buffer=meta:get_float("internal_EU_buffer")
-			local internal_EU_buffer_size=meta:get_float("internal_EU_buffer_size")
 			local charge_to_give=math.floor(light*(light*0.0867+pos1.y/130*0.4333))
 			if charge_to_give<0 then charge_to_give=0 end
 			if charge_to_give>26 then charge_to_give=26 end
-			if internal_EU_buffer+charge_to_give>internal_EU_buffer_size then
-			   charge_to_give=internal_EU_buffer_size-internal_EU_buffer
-			end
 			meta:set_string("infotext", "Solar Panel is active ("..charge_to_give.."EU)")
-			meta:set_float("active",1)
-			internal_EU_buffer=internal_EU_buffer+charge_to_give
-			meta:set_float("internal_EU_buffer",internal_EU_buffer)
-			
+			meta:set_int("LV_EU_supply", charge_to_give)
 		else
 			meta:set_string("infotext", "Solar Panel is inactive");
-			meta:set_float("active",0)
+			meta:set_int("LV_EU_supply", 0)
 		end
 	end,
 }) 
 
-register_LV_machine ("technic:solar_panel","PR")
+technic.register_LV_machine ("technic:solar_panel","PR")
+

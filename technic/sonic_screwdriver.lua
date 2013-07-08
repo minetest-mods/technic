@@ -1,5 +1,5 @@
-sonic_screwdriver_max_charge=15000
-register_power_tool ("technic:sonic_screwdriver",sonic_screwdriver_max_charge)
+local sonic_screwdriver_max_charge=15000
+technic.register_HV_power_tool ("technic:sonic_screwdriver",sonic_screwdriver_max_charge)
 
 minetest.register_tool("technic:sonic_screwdriver", {
 			description = "Sonic Screwdriver",
@@ -38,7 +38,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 						charge=charge-100;  
 						meta1["charge"]=charge
 						item["metadata"]=set_item_meta(meta1)
-						set_RE_wear(item,charge,sonic_screwdriver_max_charge)
+						technic.set_RE_wear(item,charge,sonic_screwdriver_max_charge)
 						itemstack:replace(item)
 						end
 						return itemstack
