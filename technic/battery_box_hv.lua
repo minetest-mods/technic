@@ -1,12 +1,18 @@
--- HV battery box
-minetest.register_craft(
-   {output = 'technic:hv_battery_box 1',
-    recipe = {
-       {'technic:mv_battery_box', 'technic:mv_battery_box', 'technic:mv_battery_box'},
-       {'technic:mv_battery_box', 'technic:hv_transformer', 'technic:mv_battery_box'},
-       {'', 'technic:hv_cable', ''},
-    }
- })
+-- register MV machines here
+technic.HV_machines = {}
+local HV_machines = technic.HV_machines
+function register_HV_machine(string1,string2)
+   technic.HV_machines[string1] = string2
+end
+
+minetest.register_craft({
+			   output = 'technic:hv_battery_box 1',
+			   recipe = {
+			      {'technic:mv_battery_box', 'technic:mv_battery_box', 'technic:mv_battery_box'},
+			      {'technic:mv_battery_box', 'technic:hv_transformer', 'technic:mv_battery_box'},
+			      {'', 'technic:hv_cable', ''},
+			   }
+			})
 
 local battery_box_formspec =
    "invsize[8,9;]"..
