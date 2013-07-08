@@ -252,3 +252,28 @@ minetest.register_craftitem("technic:copper_plate", {
 	inventory_image = "technic_copper_plate.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 })
+
+minetest.register_craftitem("technic:carbon_plate", {
+	description = "Carbon Plate",
+	inventory_image = "technic_carbon_plate.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:graphite", {
+	description = "Graphite",
+	inventory_image = "technic_graphite.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:carbon_cloth", {
+	description = "Carbon Cloth",
+	inventory_image = "technic_carbon_cloth.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:carbon_cloth',
+	recipe = {
+		{'technic:graphite', 'technic:graphite', 'technic:graphite'}
+	}
+})
