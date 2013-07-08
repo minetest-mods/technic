@@ -1,13 +1,12 @@
 -- MV Battery box
 minetest.register_craft(
-   {
-      output = 'technic:mv_battery_box 1',
-      recipe = {
-	 {'technic:battery_box', 'technic:battery_box', 'technic:battery_box'},
-	 {'technic:battery_box', 'technic:mv_transformer', 'technic:battery_box'},
-	 {'', 'technic:mv_cable', ''},
-      }
-   })
+   {output = 'technic:mv_battery_box 1',
+    recipe = {
+       {'technic:battery_box', 'technic:battery_box', 'technic:battery_box'},
+       {'technic:battery_box', 'technic:mv_transformer', 'technic:battery_box'},
+       {'', 'technic:mv_cable', ''},
+    }
+ })
 
 local battery_box_formspec =
    "invsize[8,9;]"..
