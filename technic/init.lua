@@ -62,7 +62,7 @@ dofile(modpath.."/lighting.lua")
 dofile(modpath.."/wires_hv.lua")
 dofile(modpath.."/battery_box_hv.lua")
 dofile(modpath.."/solar_array_hv.lua")
-
+dofile(modpath.."/nuclear_reactor_hv.lua")
 --Tools
 if technic.config:getBool("enable_mining_drill") then dofile(modpath.."/mining_drill.lua") end
 if technic.config:getBool("enable_mining_laser") then dofile(modpath.."/mining_laser_mk1.lua") end
