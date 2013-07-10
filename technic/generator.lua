@@ -1,4 +1,4 @@
--- Th coal driven EU generator.
+-- The coal driven EU generator.
 -- A simple device to get started on the electric machines.
 -- Inefficient and expensive in coal (200EU 16 ticks)
 -- Also only allows for LV machinery to run.
@@ -103,6 +103,7 @@ minetest.register_abm(
 		     else
 			burn_time = burn_time - 1
 			meta:set_int("burn_time",burn_time)
+			meta:set_string("infotext", "Coal Electric Generator ("..math.floor(burn_time/16*100).."%)")
 		     end
 		  end
 
@@ -119,6 +120,8 @@ minetest.register_abm(
 			   meta:set_int("burn_time",burn_time)
 			   hacky_swap_node (pos,"technic:generator_active") 
 			   meta:set_int("LV_EU_supply", 200) -- Give 200EUs
+			else
+			   meta:set_int("LV_EU_supply", 0)
 			end
 		     end
 		  end
