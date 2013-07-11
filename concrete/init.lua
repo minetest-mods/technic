@@ -2,7 +2,7 @@
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
 minetest.register_craft({
-	output = ':technic:rebar 6',
+	output = 'technic:rebar 6',
 	recipe = {
 		{'','', 'default:steel_ingot'},
 		{'','default:steel_ingot',''},
@@ -11,7 +11,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete 5',
+	output = 'technic:concrete 5',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'technic:rebar','default:stone','technic:rebar'},
@@ -20,19 +20,28 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post_platform 6',
+	output = 'technic:concrete_post_platform 6',
 	recipe = {
 		{'technic:concrete','technic:concrete_post','technic:concrete'},
 	}
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post 12',
+	output = 'technic:concrete_post 12',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'default:stone','technic:rebar','default:stone'},
 		{'default:stone','technic:rebar','default:stone'},
 }
+})
+
+minetest.register_craft({
+	output = 'technic:blast_resistant_concrete 5',
+	recipe = {
+		{'technic:concrete','technic:composite_plate','technic:concrete'},
+		{'technic:composite_plate','technic:concrete','technic:composite_plate'},
+		{'technic:concrete','technic:composite_plate','technic:concrete'},
+	}
 })
 
 platform_box = {-0.5 , 0.3 , -0.5 , 0.5 ,  0.5 , 0.5  }
@@ -45,6 +54,12 @@ post_str_z2={ -0.1 , -0.3 , 0, 0.1 ,  0.3 , -0.5 } -- z-
 minetest.register_craftitem(":technic:rebar", {
 	description = "Rebar",
 	inventory_image = "technic_rebar.png",
+	stack_max = 99,
+})
+
+minetest.register_craftitem(":technic:blast_resistant_concrete", {
+	description = "Blast-resistant Concrete Block",
+	inventory_image = "technic_blast_resistant_concrete_block.png",
 	stack_max = 99,
 })
 
@@ -69,6 +84,25 @@ minetest.register_node(":technic:concrete", {
 	tile_images = {"technic_concrete_block.png",},
 	is_ground_content = true,
 	groups={cracky=1,level=2},
+	sounds = default.node_sound_stone_defaults(),
+	paramtype = "light",
+	light_source = 0,
+	sunlight_propagates = true,
+	on_construct = function(pos)
+		meta=minetest.env:get_meta(pos)
+		meta:set_float("postlike",1)
+		check_post_connections (pos,1)
+	end,
+	after_dig_node = function (pos, oldnode, oldmetadata, digger)
+		check_post_connections  (pos,0)
+	end,
+})
+
+minetest.register_node(":technic:blast_resistant_concrete", {
+	description = "Blast-resistant Concrete Block",
+	tile_images = {"technic_blast_resistant_concrete_block.png",},
+	is_ground_content = true,
+	groups={cracky=1,level=3},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
 	light_source = 0,
@@ -494,7 +528,7 @@ end
 
 function hacky_swap_posts(pos,name)
 	local node = minetest.env:get_node(pos)
-		if node.name == "technic:concrete" then
+		if node.name == "technic:concrete" or node.name == "technic:blast_resistant_concrete" then
 		return nil
 	end
 	local meta = minetest.env:get_meta(pos)

@@ -225,3 +225,55 @@ minetest.register_craft({
 		{'', 'moreores:copper_ingot', ''},
 	}
 })
+
+minetest.register_craftitem("technic:mixed_metal_ingot", {
+	description = "Mixed Metal Ingot",
+	inventory_image = "technic_mixed_metal_ingot.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:mixed_metal_ingot 2',
+	recipe = {
+		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
+		{'default:bronze_ingot', 'default:bronze_ingot', 'default:bronze_ingot'},
+		{'moreores:tin_ingot', 'moreores:tin_ingot', 'moreores:tin_ingot'},
+	}
+})
+
+minetest.register_craftitem("technic:composite_plate", {
+	description = "Composite Plate",
+	inventory_image = "technic_composite_plate.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:copper_plate", {
+	description = "Copper Plate",
+	inventory_image = "technic_copper_plate.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:carbon_plate", {
+	description = "Carbon Plate",
+	inventory_image = "technic_carbon_plate.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:graphite", {
+	description = "Graphite",
+	inventory_image = "technic_graphite.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craftitem("technic:carbon_cloth", {
+	description = "Carbon Cloth",
+	inventory_image = "technic_carbon_cloth.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+})
+
+minetest.register_craft({
+	output = 'technic:carbon_cloth',
+	recipe = {
+		{'technic:graphite', 'technic:graphite', 'technic:graphite'}
+	}
+})
