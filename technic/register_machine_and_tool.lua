@@ -1,5 +1,5 @@
 -- This file includes the functions and data structures for registering machines and tools for LV, MV, HV types.
--- We use the technioc namespace for these functions and data to avoid eventual conflict.
+-- We use the technic namespace for these functions and data to avoid eventual conflict.
 
 -- register LV machines here
 technic.LV_machines    = {}
