@@ -28,6 +28,9 @@ dofile(modpath.."/register_machine_and_tool.lua")
 -- Machines
 dofile(modpath.."/machines/init.lua")
 
+-- Tools
+dofile(modpath.."/tools/init.lua")
+
 function has_locked_chest_privilege(meta, player)
    if player:get_player_name() ~= meta:get_string("owner") then
       return false
