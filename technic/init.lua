@@ -58,17 +58,13 @@ dofile(modpath.."/forcefield.lua")
 ---- lighting and associated textures is taken directly from VanessaE's homedecor and made electric.
 dofile(modpath.."/power_radiator.lua")
 dofile(modpath.."/lighting.lua")
---
-----HV machines
-dofile(modpath.."/wires_hv.lua")
-dofile(modpath.."/battery_box_hv.lua")
-dofile(modpath.."/solar_array_hv.lua")
 
 --HV machines
 dofile(modpath.."/wires_hv.lua")
 dofile(modpath.."/battery_box_hv.lua")
 dofile(modpath.."/solar_array_hv.lua")
 --dofile(modpath.."/down_converter_hv.lua")
+dofile(modpath.."/nuclear_reactor_hv.lua")
 
 --Tools
 if technic.config:getBool("enable_mining_drill") then dofile(modpath.."/mining_drill.lua") end
@@ -78,7 +74,7 @@ dofile(modpath.."/cans.lua")
 dofile(modpath.."/chainsaw.lua")
 dofile(modpath.."/tree_tap.lua")
 dofile(modpath.."/sonic_screwdriver.lua")
---
+
 ---- mesecons and tubes related
 dofile(modpath.."/injector.lua")
 dofile(modpath.."/node_breaker.lua")
