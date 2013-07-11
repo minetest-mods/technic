@@ -13,9 +13,9 @@ local fuel_type    = "technic:enriched_uranium" -- This reactor burns this stuff
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
 	recipe = {
-		{'default:stainless_steel_ingot', 'default:stainless_steel_ingot', 'default:stainless_steel_ingot'},
-		{'default:stainless_steel_ingot', '', 'default:stainless_steel_ingot'},
-		{'default:stainless_steel_ingot', 'technic:hv_cable', 'default:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', '', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:hv_cable', 'technic:stainless_steel_ingot'},
 	}
 })
 
