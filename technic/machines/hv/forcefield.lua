@@ -6,7 +6,7 @@
 
 -- How expensive is the generator? Leaves room for upgrades lowering the power drain?
 local forcefield_power_drain     = 10
-local forcefield_update_interval = 1
+local forcefield_step_interval = 1
 
 minetest.register_craft({
 	output = 'technic:forcefield_emitter_off',
@@ -25,40 +25,39 @@ minetest.register_craft({
 --  |          |
 --   \___/\___/
 
+local function update_forcefield(pos, range, active)
+	local vm = VoxelManip()
+	local p1 = {x = pos.x-range, y = pos.y-range, z = pos.z-range}
+	local p2 = {x = pos.x+range, y = pos.y+range, z = pos.z+range}
+	local MinEdge, MaxEdge = vm:read_from_map(p1, p2)
+	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
+	local data = vm:get_data()
 
-local function add_forcefield(pos, range)
-	for x=-range,range do
-	for y=-range,range do
-	for z=-range,range do
-		if (x*x+y*y+z*z) <= (range * range + range) and
-		   (range-1) * (range-1) + (range-1) <= x*x+y*y+z*z then
-			local node_pos = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
-			local name = minetest.env:get_node(node_pos).name
-			if (name == "air") then
-				minetest.env:add_node(node_pos, {name = "technic:forcefield"})
+	local c_air   = minetest.get_content_id("air")
+	local c_field = minetest.get_content_id("technic:forcefield")
+
+	for z=-range, range do
+	for y=-range, range do
+	local vi = area:index(pos.x+(-range), pos.y+y, pos.z+z)
+	for x=-range, range do
+		if x*x+y*y+z*z <= range     *  range    +  range    and
+		   x*x+y*y+z*z >= (range-1) * (range-1) + (range-1) and
+		   ((active and data[vi] == c_air) or ((not active) and data[vi] == c_field)) then
+		   	if active then
+				data[vi] = c_field
+			else
+				data[vi] = c_air
 			end
 		end
+		vi = vi + 1
 	end
 	end
 	end
-	return true
-end
 
-local function remove_forcefield(pos, range)
-	for x=-range,range do
-	for y=-range,range do
-	for z=-range,range do
-		if (x*x+y*y+z*z) <= (range * range + range) and
-		   (range-1) * (range-1) + (range-1) <= x*x+y*y+z*z then
-			local node_pos = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
-			local name = minetest.env:get_node(node_pos).name
-			if (name == "technic:forcefield") then
-				minetest.env:remove_node(node_pos)
-			end
-		end
-	end
-	end
-	end
+	vm:set_data(data)
+	vm:update_liquids()
+	vm:write_to_map()
+	vm:update_map()
 end
 
 local get_forcefield_formspec = function(range)
@@ -91,13 +90,13 @@ local forcefield_receive_fields = function(pos, formname, fields, sender)
 	if range > 20 then range = 20 end
 
 	if range <= 20 and range >= 5 and meta:get_int("range") ~= range then
-		remove_forcefield(pos, meta:get_int("range"))
+		update_forcefield(pos, meta:get_int("range"), false)
 		meta:set_int("range", range)
 		meta:set_string("formspec", get_forcefield_formspec(range))
 	end
 end
 
-local forcefield_check = function(pos)
+local function forcefield_step(pos)
 	local meta = minetest.env:get_meta(pos)
 	local node = minetest.env:get_node(pos)
 	local eu_input   = meta:get_int("HV_EU_input")
@@ -118,7 +117,7 @@ local forcefield_check = function(pos)
 
 	if meta:get_int("enabled") == 0 then
 		if node.name == "technic:forcefield_emitter_on" then
-			remove_forcefield(pos, meta:get_int("range"))
+			update_forcefield(pos, meta:get_int("range"), false)
 			hacky_swap_node(pos, "technic:forcefield_emitter_off")
 			meta:set_int("HV_EU_demand", 100)
 			meta:set_string("infotext", "Forcefield Generator Disabled")
@@ -126,7 +125,7 @@ local forcefield_check = function(pos)
 	elseif eu_input < power_requirement then
 		meta:set_string("infotext", "Forcefield Generator Unpowered")
 		if node.name == "technic:forcefield_emitter_on" then
-			remove_forcefield(pos, meta:get_int("range"))
+			update_forcefield(pos, meta:get_int("range"), false)
 			hacky_swap_node(pos, "technic:forcefield_emitter_off")
 		end
 	elseif eu_input >= power_requirement then
@@ -134,7 +133,7 @@ local forcefield_check = function(pos)
 			hacky_swap_node(pos, "technic:forcefield_emitter_on")
 			meta:set_string("infotext", "Forcefield Generator Active")
 		end
-		add_forcefield(pos, meta:get_int("range"))
+		update_forcefield(pos, meta:get_int("range"), true)
 	end
 	meta:set_int("HV_EU_demand", power_requirement)
 	return true
@@ -157,10 +156,10 @@ minetest.register_node("technic:forcefield_emitter_off", {
 	tiles = {"technic_forcefield_emitter_off.png"},
 	is_ground_content = true,
 	groups = {cracky = 1},
-	on_timer = forcefield_check,
+	on_timer = forcefield_step,
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
-		minetest.env:get_node_timer(pos):start(forcefield_update_interval)
+		minetest.env:get_node_timer(pos):start(forcefield_step_interval)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_hv_power_machine", 1)
 		meta:set_int("HV_EU_input", 0)
@@ -179,10 +178,10 @@ minetest.register_node("technic:forcefield_emitter_on", {
 	is_ground_content = true,
 	groups = {cracky = 1, not_in_creative_inventory=1},
 	drop='"technic:forcefield_emitter_off" 1',
-	on_timer = forcefield_check,
+	on_timer = forcefield_step,
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos) 
-		minetest.env:get_node_timer(pos):start(forcefield_update_interval)
+		minetest.env:get_node_timer(pos):start(forcefield_step_interval)
 		local meta = minetest.env:get_meta(pos)
 --		meta:set_float("technic_hv_power_machine", 1)
 --		meta:set_float("HV_EU_input", 0)
@@ -192,8 +191,8 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		meta:set_string("formspec", get_forcefield_formspec(meta:get_int("range")))
 --		meta:set_string("infotext", "Forcefield emitter");
 	end,
-	on_dig = function(pos, node, digger)	
-		remove_forcefield(pos, minetest.env:get_meta(pos):get_int("range"))
+	on_dig = function(pos, node, digger)
+		update_forcefield(pos, minetest.env:get_meta(pos):get_int("range"), false)
 		return minetest.node_dig(pos, node, digger)
 	end,
 	mesecons = mesecons
