@@ -5,7 +5,7 @@
 -- Forcefield Generator is a HV machine.
 
 -- How expensive is the generator? Leaves room for upgrades lowering the power drain?
-local forcefield_power_drain     = 10 -- default 10
+local forcefield_power_drain     = 10
 local forcefield_update_interval = 1
 
 minetest.register_craft({
@@ -17,24 +17,25 @@ minetest.register_craft({
 	}
 })
 
+
 -- Idea: Let forcefields have different colors by upgrade slot.
 -- Idea: Let forcefields add up by detecting if one hits another.
 --    ___   __
 --   /   \/   \
 --  |          |
 --   \___/\___/
---
+
+
 local function add_forcefield(pos, range)
 	for x=-range,range do
 	for y=-range,range do
 	for z=-range,range do
-		if ((x*x+y*y+z*z) <= (range * range + range)) then
-			if ((range-1) * (range-1) + (range-1) <= x*x+y*y+z*z) then
-				local np={x=pos.x+x,y=pos.y+y,z=pos.z+z}
-				local n = minetest.env:get_node(np).name
-				if (n == "air") then
-					minetest.env:add_node(np, {name = "technic:forcefield"})
-				end
+		if (x*x+y*y+z*z) <= (range * range + range) and
+		   (range-1) * (range-1) + (range-1) <= x*x+y*y+z*z then
+			local node_pos = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
+			local name = minetest.env:get_node(node_pos).name
+			if (name == "air") then
+				minetest.env:add_node(node_pos, {name = "technic:forcefield"})
 			end
 		end
 	end
@@ -43,17 +44,16 @@ local function add_forcefield(pos, range)
 	return true
 end
 
-local function remove_forcefield(p, range)
+local function remove_forcefield(pos, range)
 	for x=-range,range do
 	for y=-range,range do
 	for z=-range,range do
-		if ((x*x+y*y+z*z) <= (range * range + range)) then
-			if ((range-1) * (range-1) + (range-1) <= x*x+y*y+z*z) then
-				local np={x=p.x+x,y=p.y+y,z=p.z+z}
-				local n = minetest.env:get_node(np).name
-				if (n == "technic:forcefield") then
-					minetest.env:remove_node(np)
-				end
+		if (x*x+y*y+z*z) <= (range * range + range) and
+		   (range-1) * (range-1) + (range-1) <= x*x+y*y+z*z then
+			local node_pos = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
+			local name = minetest.env:get_node(node_pos).name
+			if (name == "technic:forcefield") then
+				minetest.env:remove_node(node_pos)
 			end
 		end
 	end
@@ -62,98 +62,94 @@ local function remove_forcefield(p, range)
 end
 
 local get_forcefield_formspec = function(range)
-   --	return "invsize[8,9;]"..  (if upgrades added later - colors for instance)
 	return "invsize[3,4;]"..
-	"label[0,0;Forcefield emitter]"..
-	"label[1,1;Range]"..
-	"label[1,2;"..range.."]"..
-	"button[0,2;1,1;subtract;-]"..
-	"button[2,2;1,1;add;+]"..
-	"button[0,3;3,1;toggle;Enable/Disable]" -- ..
---	"list[current_player;main;0,5;8,4;]"
+		"label[0,0;Forcefield emitter]"..
+		"label[1,1;Range]"..
+		"label[1,2;"..range.."]"..
+		"button[0,2;1,1;subtract;-]"..
+		"button[2,2;1,1;add;+]"..
+		"button[0,3;3,1;toggle;Enable/Disable]"
 end
 
 local forcefield_receive_fields = function(pos, formname, fields, sender)
-				     local meta = minetest.env:get_meta(pos)
-				     local range = meta:get_int("range")
-				     if fields.add then range = range + 1 end
-				     if fields.subtract then range = range - 1 end
-				     if fields.toggle then
-					if meta:get_int("enabled") == 1 then
-					   meta:set_int("enabled", 0)
-					else
-					   meta:set_int("enabled", 1)
-					end
-				     end
-				     -- Smallest field is 5. Anything less is asking for trouble.
-				     -- Largest is 20. It is a matter of pratical node handling.
-				     if range < 5  then range = 5 end
-				     if range > 20 then range = 20 end
+	local meta = minetest.env:get_meta(pos)
+	local range = meta:get_int("range")
 
-				     if range <= 20 and range >= 5 and meta:get_int("range") ~= range then
-					remove_forcefield(pos, meta:get_int("range"))
-					meta:set_int("range", range)
-					meta:set_string("formspec", get_forcefield_formspec(range))
-				     end
-				  end
+	if fields.add then range = range + 1 end
+	if fields.subtract then range = range - 1 end
+	if fields.toggle then
+		if meta:get_int("enabled") == 1 then
+		   meta:set_int("enabled", 0)
+		else
+		   meta:set_int("enabled", 1)
+		end
+	end
+
+	-- Smallest field is 5. Anything less is asking for trouble.
+	-- Largest is 20. It is a matter of pratical node handling.
+	if range < 5  then range = 5 end
+	if range > 20 then range = 20 end
+
+	if range <= 20 and range >= 5 and meta:get_int("range") ~= range then
+		remove_forcefield(pos, meta:get_int("range"))
+		meta:set_int("range", range)
+		meta:set_string("formspec", get_forcefield_formspec(range))
+	end
+end
 
 local forcefield_check = function(pos)
-			    local meta = minetest.env:get_meta(pos)
-			    local node = minetest.env:get_node(pos)
-			    local eu_input   = meta:get_int("HV_EU_input")
-			    local eu_demand  = meta:get_int("HV_EU_demand")
-			    local enabled    = meta:get_int("enabled")
-			    
-			    -- Power off automatically if no longer connected to a switching station
-			    technic.switching_station_timeout_count(pos, "HV")
+	local meta = minetest.env:get_meta(pos)
+	local node = minetest.env:get_node(pos)
+	local eu_input   = meta:get_int("HV_EU_input")
+	local eu_demand  = meta:get_int("HV_EU_demand")
+	local enabled    = meta:get_int("enabled")
 
-			    local power_requirement
-			    if enabled == 1 then
-			       power_requirement = math.floor(4*math.pi*math.pow(meta:get_int("range"), 2)) * forcefield_power_drain
-			    else
-			       power_requirement = eu_demand
-			    end
+	-- Power off automatically if no longer connected to a switching station
+	technic.switching_station_timeout_count(pos, "HV")
 
-			    if eu_input == 0 then
-			       meta:set_string("infotext", "Forcefield Generator Unpowered")
-			       meta:set_int("HV_EU_demand", 100)
-			       meta:set_int("enabled", 0)
-			       if node.name == "technic:forcefield_emitter_on" then
-				  remove_forcefield(pos, meta:get_int("range"))
-				  hacky_swap_node(pos, "technic:forcefield_emitter_off")
-			       end
-			    elseif eu_input == power_requirement then
-			       if meta:get_int("enabled") == 1 then
-				  if node.name == "technic:forcefield_emitter_off" then
-				     hacky_swap_node(pos, "technic:forcefield_emitter_on")
-				     meta:set_string("infotext", "Forcefield Generator Active")
-				     add_forcefield(pos, meta:get_int("range"))
-				  else
-				     -- Range updated. Move the forcefield.
-				     add_forcefield(pos, meta:get_int("range"))
-				  end
-			       else
-				  if node.name == "technic:forcefield_emitter_on" then
-				     remove_forcefield(pos, meta:get_int("range"))
-				     hacky_swap_node(pos, "technic:forcefield_emitter_off")
-				     meta:set_int("HV_EU_demand", 100)
-				     meta:set_string("infotext", "Forcefield Generator Idle")
-				  end
-			       end
-			    else
-			       meta:set_int("HV_EU_demand", power_requirement)
-			    end
-			    return true
-			 end
-
-local mesecons = {effector = {
-	action_on = function(pos, node)
-		minetest.env:get_meta(pos):set_int("enabled", 0)
-	end,
-	action_off = function(pos, node)
-		minetest.env:get_meta(pos):set_int("enabled", 1)
+	local power_requirement = 0
+	if enabled == 1 then
+		power_requirement = math.floor(
+				4 * math.pi * math.pow(meta:get_int("range"), 2)
+			) * forcefield_power_drain
+	else
+		power_requirement = eu_demand
 	end
-}}
+
+	if meta:get_int("enabled") == 0 then
+		if node.name == "technic:forcefield_emitter_on" then
+			remove_forcefield(pos, meta:get_int("range"))
+			hacky_swap_node(pos, "technic:forcefield_emitter_off")
+			meta:set_int("HV_EU_demand", 100)
+			meta:set_string("infotext", "Forcefield Generator Disabled")
+		end
+	elseif eu_input < power_requirement then
+		meta:set_string("infotext", "Forcefield Generator Unpowered")
+		if node.name == "technic:forcefield_emitter_on" then
+			remove_forcefield(pos, meta:get_int("range"))
+			hacky_swap_node(pos, "technic:forcefield_emitter_off")
+		end
+	elseif eu_input >= power_requirement then
+		if node.name == "technic:forcefield_emitter_off" then
+			hacky_swap_node(pos, "technic:forcefield_emitter_on")
+			meta:set_string("infotext", "Forcefield Generator Active")
+		end
+		add_forcefield(pos, meta:get_int("range"))
+	end
+	meta:set_int("HV_EU_demand", power_requirement)
+	return true
+end
+
+local mesecons = {
+	effector = {
+		action_on = function(pos, node)
+			minetest.env:get_meta(pos):set_int("enabled", 0)
+		end,
+		action_off = function(pos, node)
+			minetest.env:get_meta(pos):set_int("enabled", 1)
+		end
+	}
+}
 
 minetest.register_node("technic:forcefield_emitter_off", {
 	description = "Forcefield emitter",
@@ -208,9 +204,17 @@ minetest.register_node("technic:forcefield", {
 	sunlight_propagates = true,
 	drop = '',
         light_source = 8,
-	tiles = {{name="technic_forcefield_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0}}},
+	tiles = {{
+		name = "technic_forcefield_animated.png",
+		animation = {
+			type = "vertical_frames",
+			aspect_w=16,
+			aspect_h=16,
+			length=2.0,
+		},
+	}},
 	is_ground_content = true,
-	groups = {not_in_creative_inventory=1, unbreakable=1},
+	groups = { not_in_creative_inventory=1, unbreakable=1 },
 	paramtype = "light",
 	drawtype = "nodebox",
 	node_box = {  --hacky way to get the field blue and not see through the ground
@@ -221,5 +225,5 @@ minetest.register_node("technic:forcefield", {
 	},
 })
 
-technic.register_HV_machine("technic:forcefield_emitter_on","RE")
-technic.register_HV_machine("technic:forcefield_emitter_off","RE")
+technic.register_HV_machine("technic:forcefield_emitter_on", "RE")
+technic.register_HV_machine("technic:forcefield_emitter_off", "RE")
