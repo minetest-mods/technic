@@ -2,7 +2,7 @@
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
 minetest.register_craft({
-	output = ':technic:rebar 6',
+	output = 'technic:rebar 6',
 	recipe = {
 		{'','', 'default:steel_ingot'},
 		{'','default:steel_ingot',''},
@@ -11,7 +11,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete 5',
+	output = 'technic:concrete 5',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'technic:rebar','default:stone','technic:rebar'},
@@ -20,14 +20,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post_platform 6',
+	output = 'technic:concrete_post_platform 6',
 	recipe = {
 		{'technic:concrete','technic:concrete_post','technic:concrete'},
 	}
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post 12',
+	output = 'technic:concrete_post 12',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'default:stone','technic:rebar','default:stone'},
