@@ -92,7 +92,7 @@ if z2==1 then 	temp_z2=str_z2  end
 
 
 minetest.register_node("technic:hv_cable"..count, {
-	description = "Gigh Voltage Copper Cable",
+	description = "High Voltage Copper Cable",
 	tiles = {"technic_hv_cable.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
