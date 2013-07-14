@@ -35,6 +35,15 @@ minetest.register_craft({
 }
 })
 
+minetest.register_craft({
+	output = 'technic:blast_resistant_concrete 5',
+	recipe = {
+		{'technic:concrete','technic:composite_plate','technic:concrete'},
+		{'technic:composite_plate','technic:concrete','technic:composite_plate'},
+		{'technic:concrete','technic:composite_plate','technic:concrete'},
+	}
+})
+
 platform_box = {-0.5 , 0.3 , -0.5 , 0.5 ,  0.5 , 0.5  }
 post_str_y={ -0.15 , -0.5 , -0.15 , 0.15 ,  0.5 , 0.15  }
 post_str_x1={ 0 , -0.3 , -0.1, 0.5 ,  0.3 , 0.1 }  -- x+
@@ -45,6 +54,12 @@ post_str_z2={ -0.1 , -0.3 , 0, 0.1 ,  0.3 , -0.5 } -- z-
 minetest.register_craftitem(":technic:rebar", {
 	description = "Rebar",
 	inventory_image = "technic_rebar.png",
+	stack_max = 99,
+})
+
+minetest.register_craftitem(":technic:blast_resistant_concrete", {
+	description = "Blast-resistant Concrete Block",
+	inventory_image = "technic_blast_resistant_concrete_block.png",
 	stack_max = 99,
 })
 
@@ -69,6 +84,25 @@ minetest.register_node(":technic:concrete", {
 	tile_images = {"technic_concrete_block.png",},
 	is_ground_content = true,
 	groups={cracky=1,level=2},
+	sounds = default.node_sound_stone_defaults(),
+	paramtype = "light",
+	light_source = 0,
+	sunlight_propagates = true,
+	on_construct = function(pos)
+		meta=minetest.env:get_meta(pos)
+		meta:set_float("postlike",1)
+		check_post_connections (pos,1)
+	end,
+	after_dig_node = function (pos, oldnode, oldmetadata, digger)
+		check_post_connections  (pos,0)
+	end,
+})
+
+minetest.register_node(":technic:blast_resistant_concrete", {
+	description = "Blast-resistant Concrete Block",
+	tile_images = {"technic_blast_resistant_concrete_block.png",},
+	is_ground_content = true,
+	groups={cracky=1,level=3},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
 	light_source = 0,
@@ -482,20 +516,20 @@ function make_post_rule_number (x1,x2,y1,y2,z1,z2,platform)
 	local tempz=z1+z2
 	if platform==0 then 
 		if tempy==0 and tempx==0 and tempz==0 then return 0 end
-			if x1==1 and x2==1 and tempz==0 and tempy==0 then return 32 end
-				if z1==1 and z2==1 and tempx==0 and tempy==0 then return 33 end
-					return z2+z1*2+x2*4+x1*8
+		if x1==1 and x2==1 and tempz==0 and tempy==0 then return 32 end
+		if z1==1 and z2==1 and tempx==0 and tempy==0 then return 33 end
+		return z2+z1*2+x2*4+x1*8
 	else
 		if tempy==0 and tempx==0 and tempz==0 then return 16 end
-			if x1==1 and x2==1 and tempz==0 and tempy==0 then return 34 end
-				if z1==1 and z2==1 and tempx==0 and tempy==0 then return 35 end
-					return z2+z1*2+x2*4+x1*8+16
+		if x1==1 and x2==1 and tempz==0 and tempy==0 then return 34 end
+		if z1==1 and z2==1 and tempx==0 and tempy==0 then return 35 end
+		return z2+z1*2+x2*4+x1*8+16
 	end
 end
 
 function hacky_swap_posts(pos,name)
 	local node = minetest.env:get_node(pos)
-		if node.name == "technic:concrete" then
+		if node.name == "technic:concrete" or node.name == "technic:blast_resistant_concrete" then
 		return nil
 	end
 	local meta = minetest.env:get_meta(pos)
