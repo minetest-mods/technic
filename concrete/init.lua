@@ -1,8 +1,8 @@
---Minetest 0.4.6 mod: concrete 
+--Minetest 0.4.7 mod: concrete 
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
 minetest.register_craft({
-	output = ':technic:rebar 6',
+	output = 'technic:rebar 6',
 	recipe = {
 		{'','', 'default:steel_ingot'},
 		{'','default:steel_ingot',''},
@@ -11,7 +11,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete 5',
+	output = 'technic:concrete 5',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'technic:rebar','default:stone','technic:rebar'},
@@ -20,14 +20,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post_platform 6',
+	output = 'technic:concrete_post_platform 6',
 	recipe = {
 		{'technic:concrete','technic:concrete_post','technic:concrete'},
 	}
 })
 
 minetest.register_craft({
-	output = ':technic:concrete_post 12',
+	output = 'technic:concrete_post 12',
 	recipe = {
 		{'default:stone','technic:rebar','default:stone'},
 		{'default:stone','technic:rebar','default:stone'},
@@ -165,16 +165,16 @@ local x1,x2,y1,z1,z2
 local count=0
 
 for x1 = 0, 1, 1 do	--x-
-for x2 = 0, 1, 1 do	--x+
-for z1 = 0, 1, 1 do	--z-
-for z2 = 0, 1, 1 do	--z+
+	for x2 = 0, 1, 1 do	--x+
+		for z1 = 0, 1, 1 do	--z-
+			for z2 = 0, 1, 1 do	--z+
      
-temp_x1={} temp_x2={} temp_z1={} temp_z2={}
+				temp_x1={} temp_x2={} temp_z1={} temp_z2={}
 
-if x1==1 then 	temp_x1=post_str_x1  end 
-if x2==1 then 	temp_x2=post_str_x2  end 
-if z1==1 then 	temp_z1=post_str_z1  end 
-if z2==1 then 	temp_z2=post_str_z2  end 
+					if x1==1 then 	temp_x1=post_str_x1  end 
+					if x2==1 then 	temp_x2=post_str_x2  end 
+					if z1==1 then 	temp_z1=post_str_z1  end 
+					if z2==1 then 	temp_z2=post_str_z2  end 
 
 
 minetest.register_node(":technic:concrete_post"..count, {
@@ -280,7 +280,7 @@ minetest.register_node(":technic:concrete_post33", {
 		}},
 
 	after_dig_node = function (pos, oldnode, oldmetadata, digger)
-	check_post_connections  (pos,0)
+		check_post_connections  (pos,0)
 	end,
 })
 
@@ -344,7 +344,7 @@ dig_post_with_platform = function (pos,oldnode,oldmetadata)
 	print(dump(x1))
 	oldmetadata.fields["platform"]="0"
 	local rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,0)
-	print(dump(rule))
+	--print(dump(rule))
 	oldnode.name="technic:concrete_post"..rule
 	minetest.env:set_node(pos,oldnode)
 	meta = minetest.env:get_meta(pos)
@@ -365,103 +365,104 @@ check_post_connections = function(pos,mode)
 		
 		pos1.x=pos1.x+1
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		x2=mode
-		x1=minetest.env:get_meta(pos1):get_int("x1")
-		y1=minetest.env:get_meta(pos1):get_int("y1")
-		y2=minetest.env:get_meta(pos1):get_int("y2")
-		z1=minetest.env:get_meta(pos1):get_int("z1")
-		z2=minetest.env:get_meta(pos1):get_int("z2")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("x2",x2)
-		tempx1=mode
+			x2=mode
+			x1=minetest.env:get_meta(pos1):get_int("x1")
+			y1=minetest.env:get_meta(pos1):get_int("y1")
+			y2=minetest.env:get_meta(pos1):get_int("y2")
+			z1=minetest.env:get_meta(pos1):get_int("z1")
+			z2=minetest.env:get_meta(pos1):get_int("z2")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("x2",x2)
+			tempx1=mode
 		end
 
 		pos1.x=pos1.x-2
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		x1=mode
-		x2=minetest.env:get_meta(pos1):get_int("x2")
-		y1=minetest.env:get_meta(pos1):get_int("y1")
-		y2=minetest.env:get_meta(pos1):get_int("y2")
-		z1=minetest.env:get_meta(pos1):get_int("z1")
-		z2=minetest.env:get_meta(pos1):get_int("z2")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("x1",x1)
-		tempx2=mode
+			x1=mode
+			x2=minetest.env:get_meta(pos1):get_int("x2")
+			y1=minetest.env:get_meta(pos1):get_int("y1")
+			y2=minetest.env:get_meta(pos1):get_int("y2")
+			z1=minetest.env:get_meta(pos1):get_int("z1")
+			z2=minetest.env:get_meta(pos1):get_int("z2")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("x1",x1)
+			tempx2=mode
 		end
 
 		pos1.x=pos1.x+1
 		
 		pos1.y=pos1.y+1
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		y2=mode
-		x1=minetest.env:get_meta(pos1):get_int("x1")
-		x2=minetest.env:get_meta(pos1):get_int("x2")
-		y1=minetest.env:get_meta(pos1):get_int("y1")
-		z1=minetest.env:get_meta(pos1):get_int("z1")
-		z2=minetest.env:get_meta(pos1):get_int("z2")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("y2",y2)
-		tempy1=mode
+			y2=mode
+			x1=minetest.env:get_meta(pos1):get_int("x1")
+			x2=minetest.env:get_meta(pos1):get_int("x2")
+			y1=minetest.env:get_meta(pos1):get_int("y1")
+			z1=minetest.env:get_meta(pos1):get_int("z1")
+			z2=minetest.env:get_meta(pos1):get_int("z2")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("y2",y2)
+			tempy1=mode
 		end
 
 		pos1.y=pos1.y-2
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		y1=mode
-		x1=minetest.env:get_meta(pos1):get_int("x1")
-		x2=minetest.env:get_meta(pos1):get_int("x2")
-		y2=minetest.env:get_meta(pos1):get_int("y2")
-		z1=minetest.env:get_meta(pos1):get_int("z1")
-		z2=minetest.env:get_meta(pos1):get_int("z2")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("y1",y1)
-		tempy2=mode
+			y1=mode
+			x1=minetest.env:get_meta(pos1):get_int("x1")
+			x2=minetest.env:get_meta(pos1):get_int("x2")
+			y2=minetest.env:get_meta(pos1):get_int("y2")
+			z1=minetest.env:get_meta(pos1):get_int("z1")
+			z2=minetest.env:get_meta(pos1):get_int("z2")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("y1",y1)
+			tempy2=mode
 		end
 		pos1.y=pos1.y+1
 
 		pos1.z=pos1.z+1
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		z2=mode
-		x1=minetest.env:get_meta(pos1):get_int("x1")
-		x2=minetest.env:get_meta(pos1):get_int("x2")
-		y1=minetest.env:get_meta(pos1):get_int("y1")
-		y2=minetest.env:get_meta(pos1):get_int("y2")
-		z1=minetest.env:get_meta(pos1):get_int("z1")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("z2",z2)
-		tempz1=mode
+			z2=mode
+			x1=minetest.env:get_meta(pos1):get_int("x1")
+			x2=minetest.env:get_meta(pos1):get_int("x2")
+			y1=minetest.env:get_meta(pos1):get_int("y1")
+			y2=minetest.env:get_meta(pos1):get_int("y2")
+			z1=minetest.env:get_meta(pos1):get_int("z1")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("z2",z2)
+			tempz1=mode
 		end
 		pos1.z=pos1.z-2
 		
 		if minetest.env:get_meta(pos1):get_int("postlike")==1 then
-		z1=mode
-		x1=minetest.env:get_meta(pos1):get_int("x1")
-		x2=minetest.env:get_meta(pos1):get_int("x2")
-		y1=minetest.env:get_meta(pos1):get_int("y1")
-		y2=minetest.env:get_meta(pos1):get_int("y2")
-		z2=minetest.env:get_meta(pos1):get_int("z2")
-		platform=minetest.env:get_meta(pos1):get_int("platform")
-		rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
-		hacky_swap_posts(pos1,"technic:concrete_post"..rule)
-		meta=minetest.env:get_meta(pos1)
-		meta:set_int("z1",z1)
-		tempz2=mode
+			z1=mode
+			x1=minetest.env:get_meta(pos1):get_int("x1")
+			x2=minetest.env:get_meta(pos1):get_int("x2")
+			y1=minetest.env:get_meta(pos1):get_int("y1")
+			y2=minetest.env:get_meta(pos1):get_int("y2")
+			z2=minetest.env:get_meta(pos1):get_int("z2")
+			platform=minetest.env:get_meta(pos1):get_int("platform")
+			rule=make_post_rule_number(x1,x2,y1,y2,z1,z2,platform)
+			hacky_swap_posts(pos1,"technic:concrete_post"..rule)
+			meta=minetest.env:get_meta(pos1)
+			meta:set_int("z1",z1)
+			tempz2=mode
 		end
 		pos1.z=pos1.z+1
+		
 		if mode==1 then 
 			meta=minetest.env:get_meta(pos)
 			meta:set_int("x1",tempx1)
@@ -476,20 +477,20 @@ check_post_connections = function(pos,mode)
 end	
 
 function make_post_rule_number (x1,x2,y1,y2,z1,z2,platform)
-local tempy=y1+y2
-local tempx=x1+x2
-local tempz=z1+z2
-if platform==0 then 
-	if tempy==0 and tempx==0 and tempz==0 then return 0 end
-	if x1==1 and x2==1 and tempz==0 and tempy==0 then return 32 end
-	if z1==1 and z2==1 and tempx==0 and tempy==0 then return 33 end
-	return z2+z1*2+x2*4+x1*8
-else
-	if tempy==0 and tempx==0 and tempz==0 then return 16 end
-	if x1==1 and x2==1 and tempz==0 and tempy==0 then return 34 end
-	if z1==1 and z2==1 and tempx==0 and tempy==0 then return 35 end
-	return z2+z1*2+x2*4+x1*8+16
-end
+	local tempy=y1+y2
+	local tempx=x1+x2
+	local tempz=z1+z2
+	if platform==0 then 
+		if tempy==0 and tempx==0 and tempz==0 then return 0 end
+			if x1==1 and x2==1 and tempz==0 and tempy==0 then return 32 end
+				if z1==1 and z2==1 and tempx==0 and tempy==0 then return 33 end
+					return z2+z1*2+x2*4+x1*8
+	else
+		if tempy==0 and tempx==0 and tempz==0 then return 16 end
+			if x1==1 and x2==1 and tempz==0 and tempy==0 then return 34 end
+				if z1==1 and z2==1 and tempx==0 and tempy==0 then return 35 end
+					return z2+z1*2+x2*4+x1*8+16
+	end
 end
 
 function hacky_swap_posts(pos,name)
