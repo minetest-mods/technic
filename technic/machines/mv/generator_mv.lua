@@ -124,6 +124,8 @@ minetest.register_abm(
 			else
 			   meta:set_int("MV_EU_supply", 0)
 			end
+		     else
+			   meta:set_int("LV_EU_supply", 0)
 		     end
 		  end
 

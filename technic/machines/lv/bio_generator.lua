@@ -61,20 +61,6 @@ minetest.register_node(
 		      return true
 		   end
 		end,
-      allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if listname == "src" then
-			if minetest.get_craft_result({method="fuel",width=1,items={stack}}).time ~= 0 then
-				if inv:is_empty("src") then
-					meta:set_string("infotext","Furnace is empty")
-				end
-				return stack:get_count()
-			else
-				return 0
-			end
-		end
-	end,
    })
 
 minetest.register_node(
@@ -99,18 +85,18 @@ minetest.register_node(
 		   end
 		end,
    })
-fuel= {
-  tree={
-    time=18,
-    EU=90,
+fuel = {
+  tree = {
+    time = 20,
+    EU = 90,
   },
-  wood={
-    time=15,
-    EU=100,
+  wood = {
+    time = 15,
+    EU = 100,
   },
   leaves={
-    time=20,
-    EU=50,
+    time = 5,
+    EU = 50,
   },
 }
     local current_EU=50
@@ -138,13 +124,21 @@ minetest.register_abm(
 
 		  -- Burn another piece of fuel
 		  if burn_time==0 then
-		    
 		     local inv = meta:get_inventory()
 		     if inv:is_empty("src") == false  then 
 			local srcstack = inv:get_stack("src", 1)
 			src_item=srcstack:to_table()
-			local type=src_item['group']
-			if fuel[type].time~=0 then
+			local type = ''
+			if minetest.get_item_group(src_item['name'], "tree") > 0 then 
+			  type = 'tree'
+			end
+			if minetest.get_item_group(src_item['name'], "wood") > 0 then 
+			  type = 'wood'
+			end
+			if minetest.get_item_group(src_item['name'], "leaves") > 0 then 
+			  type = 'leaves'
+			end
+			if type ~= '' then
 			   srcstack:take_item()
 			   inv:set_stack("src", 1, srcstack)
 			   current_time=fuel[type].time
@@ -152,10 +146,12 @@ minetest.register_abm(
 			   burn_time=current_time
 			   meta:set_int("burn_time",burn_time)
 			   hacky_swap_node (pos,"technic:bio_generator_active") 
-			   meta:set_int("LV_EU_supply", current_EU) -- Give 200EUs
+			   meta:set_int("LV_EU_supply", current_EU) -- Give EUs
 			else
 			   meta:set_int("LV_EU_supply", 0)
 			end
+		     else
+			   meta:set_int("LV_EU_supply", 0)
 		     end
 		  end
 
@@ -179,5 +175,5 @@ minetest.register_abm(
 	       end
    })
 
-technic.register_LV_machine ("technic:generator","PR")
-technic.register_LV_machine ("technic:generator_active","PR")
+technic.register_LV_machine ("technic:bio_generator","PR")
+technic.register_LV_machine ("technic:bio_generator_active","PR")
