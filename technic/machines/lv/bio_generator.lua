@@ -1,21 +1,21 @@
--- The coal driven EU generator.
+-- The bio driven EU generator.
 -- A simple device to get started on the electric machines.
--- Inefficient and expensive in coal (200EU 16 ticks)
+-- Inefficient and expensive burn wood or leaf
 -- Also only allows for LV machinery to run.
-minetest.register_alias("generator", "technic:generator")
-minetest.register_alias("generator", "technic:generator_active")
+minetest.register_alias("bio_generator", "technic:bio_generator")
+minetest.register_alias("bio_generator", "technic:bio_generator_active")
 
 minetest.register_craft({
-	output = 'technic:generator',
+	output = 'technic:bio_generator',
 	recipe = {
-		{'default:stone', 'default:stone', 'default:stone'},
-		{'default:stone', '', 'default:stone'},
-		{'default:stone', 'default:copper_ingot', 'default:stone'},
+		{'technic:rubber', 'technic:rubber', 'technic:rubber'},
+		{'technic:stainless_steel_ingot', '', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 	}
 })
-
-minetest.register_craftitem("technic:generator", {
-	description = "Coal Driven Generator",
+local des="Bio Generator"
+minetest.register_craftitem("technic:bio_generator", {
+	description = des ,
 	stack_max = 99,
 }) 
 
@@ -29,20 +29,20 @@ local generator_formspec =
 	"image[4,1;1,1;default_furnace_fire_bg.png]"..
 	"list[current_player;main;0,5;8,4;]"
 	
-
+-- @todo add a nodebox , a semi-sphere over a square.
 minetest.register_node(
-   "technic:generator",
+   "technic:bio_generator",
    {
-      description = "Coal Driven Generator",
-      tiles = {"technic_generator_top.png", "technic_machine_bottom.png", "technic_generator_side.png",
-	       "technic_generator_side.png", "technic_generator_side.png", "technic_generator_front.png"},
+      description = des,
+      tiles = {"technic_bio_generator_top.png", "technic_bio_generator_bottom.png", "technic_bio_generator_side.png",
+	       "technic_bio_generator_side.png", "technic_bio_generator_side.png", "technic_bio_generator_side.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
       legacy_facedir_simple = true,
       sounds = default.node_sound_wood_defaults(),
       on_construct = function(pos)
 			local meta = minetest.env:get_meta(pos)
-			meta:set_string("infotext", "Coal Electric Generator")
+			meta:set_string("infotext", des)
 			meta:set_float("technic_power_machine", 1)
 			meta:set_int("LV_EU_supply", 0)
 			meta:set_int("LV_EU_from_fuel", 1) -- Signal to the switching station that this device burns some sort of fuel and needs special handling
@@ -64,16 +64,16 @@ minetest.register_node(
    })
 
 minetest.register_node(
-   "technic:generator_active",
+   "technic:bio_generator_active",
    {
-      description = "Coal Driven Generator",
-      tiles = {"technic_generator_top.png", "technic_machine_bottom.png", "technic_generator_side.png",
-	       "technic_generator_side.png", "technic_generator_side.png", "technic_generator_front_active.png"},
+      description = des,
+      tiles = {"technic_bio_generator_top.png", "technic_bio_generator_bottom.png", "technic_bio_generator_active_side.png",
+	       "technic_bio_generator_active_side.png", "technic_bio_generator_active_side.png", "technic_bio_generator_active_side.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
       legacy_facedir_simple = true,
       sounds = default.node_sound_wood_defaults(),
-      drop="technic:generator",
+      drop="technic:bio_generator",
       can_dig = function(pos,player)
 		   local meta = minetest.env:get_meta(pos);
 		   local inv = meta:get_inventory()
@@ -85,10 +85,25 @@ minetest.register_node(
 		   end
 		end,
    })
-
+fuel = {
+  tree = {
+    time = 20,
+    EU = 90,
+  },
+  wood = {
+    time = 15,
+    EU = 100,
+  },
+  leaves={
+    time = 5,
+    EU = 50,
+  },
+}
+    local current_EU=50
+    local current_time=20
 minetest.register_abm(
    {
-      nodenames = {"technic:generator","technic:generator_active"},
+      nodenames = {"technic:bio_generator","technic:bio_generator_active"},
       interval = 1,
       chance   = 1,
       action = function(pos, node, active_object_count, active_object_count_wider)
@@ -99,27 +114,39 @@ minetest.register_abm(
 		  if burn_time>0 then
 		     if meta:get_int("LV_EU_supply") == 0 then
 			-- We did not use the power
-			meta:set_int("LV_EU_supply", 200) -- Give 200EUs
+			meta:set_int("LV_EU_supply", current_EU) -- Give EUs
 		     else
 			burn_time = burn_time - 1
 			meta:set_int("burn_time",burn_time)
-			meta:set_string("infotext", "Coal Electric Generator ("..math.floor(burn_time/16*100).."%)")
+			meta:set_string("infotext", des.." ("..math.floor(burn_time/current_time*100).."%)")
 		     end
 		  end
 
-		  -- Burn another piece of coal
+		  -- Burn another piece of fuel
 		  if burn_time==0 then
 		     local inv = meta:get_inventory()
 		     if inv:is_empty("src") == false  then 
 			local srcstack = inv:get_stack("src", 1)
 			src_item=srcstack:to_table()
-			if src_item["name"] == "default:coal_lump" then
+			local type = ''
+			if minetest.get_item_group(src_item['name'], "tree") > 0 then 
+			  type = 'tree'
+			end
+			if minetest.get_item_group(src_item['name'], "wood") > 0 then 
+			  type = 'wood'
+			end
+			if minetest.get_item_group(src_item['name'], "leaves") > 0 then 
+			  type = 'leaves'
+			end
+			if type ~= '' then
 			   srcstack:take_item()
 			   inv:set_stack("src", 1, srcstack)
-			   burn_time=16
+			   current_time=fuel[type].time
+			   current_EU=fuel[type].EU;
+			   burn_time=current_time
 			   meta:set_int("burn_time",burn_time)
-			   hacky_swap_node (pos,"technic:generator_active") 
-			   meta:set_int("LV_EU_supply", 200) -- Give 200EUs
+			   hacky_swap_node (pos,"technic:bio_generator_active") 
+			   meta:set_int("LV_EU_supply", current_EU) -- Give EUs
 			else
 			   meta:set_int("LV_EU_supply", 0)
 			end
@@ -129,7 +156,7 @@ minetest.register_abm(
 		  end
 
 		  local load = 8 -- math.floor((charge/max_charge)*100)
-		  local percent = math.floor((burn_time/16)*100)
+		  local percent = math.floor((burn_time/current_time)*100)
 		  meta:set_string("formspec",
 				  "invsize[8,9;]"..
 				     "image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
@@ -143,10 +170,10 @@ minetest.register_abm(
 			 )
 
 		  if burn_time==0 then
-		     hacky_swap_node (pos,"technic:generator")
+		     hacky_swap_node (pos,"technic:bio_generator")
 		  end
 	       end
    })
 
-technic.register_LV_machine ("technic:generator","PR")
-technic.register_LV_machine ("technic:generator_active","PR")
+technic.register_LV_machine ("technic:bio_generator","PR")
+technic.register_LV_machine ("technic:bio_generator_active","PR")
