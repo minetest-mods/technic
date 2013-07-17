@@ -500,16 +500,23 @@ minetest.register_abm({
 				end
 				if player_name~=owner and gate["type"]=="private" then return end
 				local dir1=gate["destination_dir"]
+				local dest_angle
 				if dir1 == 0 then
-					pos1.z=pos1.z+2
+					pos1.z = pos1.z-2
+					dest_angle = 180
 				elseif dir1 == 1 then
-					pos1.x=pos1.x+2
+					pos1.x = pos1.x-2
+					dest_angle = 90
 				elseif dir1 == 2 then
-					pos1.z=pos1.z-2
+					pos1.z=pos1.z+2
+					dest_angle = 0
 				elseif dir1 == 3 then
-					pos1.x=pos1.x-2
+					pos1.x = pos1.x+2
+					dest_angle = -90
 				end
+				print(dump(dir1))
 				object:moveto(pos1,false)
+				object:set_look_yaw(math.rad(dest_angle))
 				minetest.sound_play("enterEventHorizon", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
 			end
 		end

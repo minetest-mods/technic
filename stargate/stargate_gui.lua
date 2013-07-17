@@ -181,7 +181,7 @@ stargate.get_formspec = function(player_name,page)
 	local temp_gate=stargate_network["players"][player_name]["temp_gate"]
 	local formspec = "size[14,10]"
 	--background
-	formspec = formspec .."background[-0.19,-0.2,;14.38,10.55;ui_form_bg.png]"
+	formspec = formspec .."background[-0.19,-0.2;14.38,10.55;ui_form_bg.png]"
 	formspec = formspec.."label[0,0.0;Stargate DHD]"
 	formspec = formspec.."label[0,.5;Position: ("..temp_gate["pos"].x..","..temp_gate["pos"].y..","..temp_gate["pos"].z..")]"
 	formspec = formspec.."image_button[3.5,.6;.6,.6;toggle_icon.png;toggle_type;]"
