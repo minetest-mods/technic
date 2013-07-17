@@ -1,8 +1,8 @@
 -- LV Battery box and some other nodes...
-technic.register_LV_power_tool("technic:battery",10000)
-technic.register_MV_power_tool("technic:red_energy_crystal",100000)
-technic.register_HV_power_tool("technic:green_energy_crystal",250000)
-technic.register_HV_power_tool("technic:blue_energy_crystal",500000)
+technic.register_power_tool("technic:battery",10000)
+technic.register_power_tool("technic:red_energy_crystal",100000)
+technic.register_power_tool("technic:green_energy_crystal",250000)
+technic.register_power_tool("technic:blue_energy_crystal",500000)
 
 minetest.register_craft({
 	output = 'technic:battery 1',
@@ -47,7 +47,7 @@ local battery_box_formspec =
 	"image[1,1;1,2;technic_power_meter_bg.png]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;1,1;]"..
-	"label[0,0;Battery box]"..
+	"label[0,0;LV Battery Box]"..
 	"label[3,0;Charge]"..
 	"label[5,0;Discharge]"..
 	"label[1,3;Power level]"..
@@ -116,89 +116,6 @@ for i=1,8,1 do
       })
 end
 
-local power_tools = technic.LV_power_tools
-
-local charge_LV_tools = function(meta, charge)
-		     --charge registered power tools
-		     local inv = meta:get_inventory()
-		     if inv:is_empty("src")==false  then
-			local srcstack = inv:get_stack("src", 1)
-			local src_item=srcstack:to_table()
-			local src_meta=get_item_meta(src_item["metadata"])
-			
-			local toolname = src_item["name"]
-			if power_tools[toolname] ~= nil then
-			   -- Set meta data for the tool if it didn't do it itself :-(
-			   src_meta=get_item_meta(src_item["metadata"])
-			   if src_meta==nil then
-			      src_meta={}
-			      src_meta["technic_power_tool"]=true
-			      src_meta["charge"]=0
-			   else
-			      if src_meta["technic_power_tool"]==nil then
-				 src_meta["technic_power_tool"]=true
-				 src_meta["charge"]=0
-			      end
-			   end
-			   -- Do the charging
-			   local item_max_charge = power_tools[toolname]
-			   local load            = src_meta["charge"]
-			   local load_step       = 1000 -- how much to charge per tick
-			   if load<item_max_charge and charge>0 then
-			      if charge-load_step<0 then load_step=charge end
-			      if load+load_step>item_max_charge then load_step=item_max_charge-load end
-			      load=load+load_step
-			      charge=charge-load_step
-			      technic.set_RE_wear(src_item,load,item_max_charge)
-			      src_meta["charge"]   = load
-			      src_item["metadata"] = set_item_meta(src_meta)
-			      inv:set_stack("src", 1, src_item)
-			   end
-			end
-		     end
-		     return charge -- return the remaining charge in the battery
-		  end
-
-local discharge_LV_tools = function(meta, charge, max_charge)
-			-- discharging registered power tools
-			local inv = meta:get_inventory()
-			if inv:is_empty("dst") == false then
-			   srcstack = inv:get_stack("dst", 1)
-			   src_item=srcstack:to_table()
-			   local src_meta=get_item_meta(src_item["metadata"])
-			   local toolname = src_item["name"]
-			   if power_tools[toolname] ~= nil then
-			      -- Set meta data for the tool if it didn't do it itself :-(
-			      src_meta=get_item_meta(src_item["metadata"])
-			      if src_meta==nil then
-				 src_meta={}
-				 src_meta["technic_power_tool"]=true
-				 src_meta["charge"]=0
-			      else
-				 if src_meta["technic_power_tool"]==nil then
-				    src_meta["technic_power_tool"]=true
-				    src_meta["charge"]=0
-				 end
-			      end
-			      -- Do the discharging
-			      local item_max_charge = power_tools[toolname]
-			      local load            = src_meta["charge"]
-			      local load_step       = 4000 -- how much to discharge per tick
-			      if load>0 and charge<max_charge then
-				 if charge+load_step>max_charge then load_step=max_charge-charge end
-				 if load-load_step<0 then load_step=load end
-				 load=load-load_step
-				 charge=charge+load_step
-				 technic.set_RE_wear(src_item,load,item_max_charge)
-				 src_meta["charge"]=load
-				 src_item["metadata"]=set_item_meta(src_meta)
-				 inv:set_stack("dst", 1, src_item)
-			      end
-			   end
-			end
-			return charge -- return the remaining charge in the battery
-		     end
-
 minetest.register_abm(
    {nodenames = {"technic:battery_box","technic:battery_box1","technic:battery_box2","technic:battery_box3","technic:battery_box4",
 		 "technic:battery_box5","technic:battery_box6","technic:battery_box7","technic:battery_box8"},
@@ -223,8 +140,8 @@ minetest.register_abm(
 		end
 
 		-- Charging/discharging tools here
-		current_charge = charge_LV_tools(meta, current_charge)
-		current_charge = discharge_LV_tools(meta, current_charge, max_charge)
+		current_charge = charge_tools(meta, current_charge, 1000)
+		current_charge = discharge_tools(meta, current_charge, max_charge, 1000)
 
 		-- Set a demand (we allow batteries to charge on less than the demand though)
 		meta:set_int("LV_EU_demand", math.min(max_charge_rate, max_charge-current_charge))

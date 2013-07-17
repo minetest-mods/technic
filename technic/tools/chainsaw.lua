@@ -3,7 +3,7 @@ local chainsaw_max_charge      = 30000 -- 30000 - Maximum charge of the saw
 local chainsaw_charge_per_node = 12    -- 12    - Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_leaves          = true  -- true  - Cut down entire trees, leaves and all
 
-technic.register_LV_power_tool ("technic:chainsaw",chainsaw_max_charge)
+technic.register_power_tool ("technic:chainsaw",chainsaw_max_charge)
 
 minetest.register_tool("technic:chainsaw", {
         description = "Chainsaw",

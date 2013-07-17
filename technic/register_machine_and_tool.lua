@@ -1,9 +1,15 @@
 -- This file includes the functions and data structures for registering machines and tools for LV, MV, HV types.
 -- We use the technic namespace for these functions and data to avoid eventual conflict.
 
+-- register power tools here
+technic.power_tools = {}
+technic.register_power_tool = function(craftitem,max_charge)
+				    technic.power_tools[craftitem] = max_charge
+				 end
+
 -- register LV machines here
 technic.LV_machines    = {}
-technic.LV_power_tools = {}
+
 technic.register_LV_machine = function(nodename,type)
 				 technic.LV_machines[nodename] = type
 			      end
@@ -11,10 +17,6 @@ technic.register_LV_machine = function(nodename,type)
 technic.unregister_LV_machine = function(nodename,type)
 				   technic.LV_machines[nodename] = nil
 				end
-
-technic.register_LV_power_tool = function(craftitem,max_charge)
-				    technic.LV_power_tools[craftitem] = max_charge
-				 end
 
 -- register MV machines here
 technic.MV_machines    = {}
@@ -27,10 +29,6 @@ technic.unregister_MV_machine = function(nodename)
 				   technic.MV_machines[nodename] = nil
 				end
 
-technic.register_MV_power_tool = function(craftitem,max_charge)
-				    technic.MV_power_tools[craftitem] = max_charge
-				 end
-
 -- register HV machines here
 technic.HV_machines    = {}
 technic.HV_power_tools = {}
@@ -41,11 +39,6 @@ technic.register_HV_machine = function(nodename,type)
 technic.unregister_HV_machine = function(nodename)
 				   technic.HV_machines[nodename] = nil
 				end
-
-technic.register_HV_power_tool = function(craftitem,max_charge)
-				    technic.HV_power_tools[craftitem] = max_charge
-				 end
-
 
 -- Utility functions. Not sure exactly what they do.. water.lua uses the two first.
 function technic.get_RE_item_load (load1,max_load)

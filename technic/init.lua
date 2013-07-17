@@ -1,4 +1,4 @@
--- Minetest 0.4.6 mod: technic
+-- Minetest 0.4.7 mod: technic
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 

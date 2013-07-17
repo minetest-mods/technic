@@ -1,5 +1,5 @@
 local sonic_screwdriver_max_charge=15000
-technic.register_HV_power_tool ("technic:sonic_screwdriver",sonic_screwdriver_max_charge)
+technic.register_power_tool ("technic:sonic_screwdriver",sonic_screwdriver_max_charge)
 
 minetest.register_tool("technic:sonic_screwdriver", {
 			description = "Sonic Screwdriver",

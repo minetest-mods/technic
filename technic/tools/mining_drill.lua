@@ -210,7 +210,7 @@ function drill_dig_it4 (pos,player)
 	drill_dig_it0 (pos,player)
 end
 
-technic.register_MV_power_tool ("technic:mining_drill",mining_drill_max_charge)
+technic.register_power_tool ("technic:mining_drill",mining_drill_max_charge)
 minetest.register_tool("technic:mining_drill", {
 	description = "Mining Drill Mk1",
 	inventory_image = "technic_mining_drill.png",
@@ -243,10 +243,10 @@ minetest.register_tool("technic:mining_drill_mk2", {
 	return itemstack
 	end,
 })
-technic.register_HV_power_tool ("technic:mining_drill_mk2",mining_drill_mk2_max_charge)
+technic.register_power_tool ("technic:mining_drill_mk2",mining_drill_mk2_max_charge)
 
 for i=1,4,1 do
-technic.register_HV_power_tool ("technic:mining_drill_mk2_"..i,mining_drill_mk2_max_charge)
+technic.register_power_tool ("technic:mining_drill_mk2_"..i,mining_drill_mk2_max_charge)
 minetest.register_tool("technic:mining_drill_mk2_"..i, {
 	description = "Mining Drill Mk2 in Mode "..i,
 	inventory_image = "technic_mining_drill_mk2.png^technic_tool_mode"..i..".png",
@@ -267,10 +267,10 @@ minetest.register_tool("technic:mining_drill_mk3", {
 	return itemstack
 	end,
 })
-technic.register_HV_power_tool ("technic:mining_drill_mk3",mining_drill_mk3_max_charge)
+technic.register_power_tool ("technic:mining_drill_mk3",mining_drill_mk3_max_charge)
 
 for i=1,5,1 do
-technic.register_HV_power_tool ("technic:mining_drill_mk3_"..i,mining_drill_mk3_max_charge)
+technic.register_power_tool ("technic:mining_drill_mk3_"..i,mining_drill_mk3_max_charge)
 minetest.register_tool("technic:mining_drill_mk3_"..i, {
 	description = "Mining Drill Mk3 in Mode "..i,
 	inventory_image = "technic_mining_drill_mk3.png^technic_tool_mode"..i..".png",
