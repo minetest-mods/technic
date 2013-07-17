@@ -22,15 +22,7 @@ local homepos = {}
 unified_inventory.home_filename = minetest.get_worldpath()..'/unified_inventory_home'
 
 -- Create detached creative inventory after loading all mods
--- Also 2nd attempt to disable default creative mod
 minetest.after(0.01, function()
-	
-	if creative_inventory then 
-		creative_inventory.set_creative_formspec = function(player, start_i, pagenum)
-		return
-		end
-	end
-
 	unified_inventory.items_list = {}
 	for name,def in pairs(minetest.registered_items) do
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)

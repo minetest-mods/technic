@@ -1,7 +1,7 @@
 -- original code comes from walkin_light mod by Echo http://minetest.net/forum/viewtopic.php?id=2621
 
-local flashlight_max_charge=30000
-technic.register_power_tool ("technic:flashlight",flashlight_max_charge)
+local flashlight_max_charge = 30000
+technic.register_power_tool("technic:flashlight", flashlight_max_charge)
       
 minetest.register_tool("technic:flashlight", {
 	description = "Flashlight",
@@ -14,9 +14,9 @@ minetest.register_tool("technic:flashlight", {
 minetest.register_craft({
 output = "technic:flashlight",
 recipe = {
-	{"technic:rubber","glass","technic:rubber"},
-	{"technic:stainless_steel_ingot","technic:battery","technic:stainless_steel_ingot"},
-	{"","technic:battery",""}
+		{"technic:rubber",                "glass",           "technic:rubber"},
+		{"technic:stainless_steel_ingot", "technic:battery", "technic:stainless_steel_ingot"},
+		{"",                              "technic:battery", ""}
 	}
 })
 
@@ -33,87 +33,80 @@ minetest.register_on_joinplayer(function(player)
 	table.insert(players, player_name)
 	local pos = player:getpos()
 	local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-	player_positions[player_name] = {}
-	player_positions[player_name]["x"] = rounded_pos.x;
-	player_positions[player_name]["y"] = rounded_pos.y;
-	player_positions[player_name]["z"] = rounded_pos.z;
+	player_positions[player_name] = rounded_pos
 end)
 
 minetest.register_on_leaveplayer(function(player)
 	local player_name = player:get_player_name()
-	for i,v in ipairs(players) do
+	for i, v in ipairs(players) do
 		if v == player_name then 
 			table.remove(players, i)
 			last_wielded[player_name] = nil
 			-- Neuberechnung des Lichts erzwingen
 			local pos = player:getpos()
 			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-			minetest.env:add_node(rounded_pos,{type="node",name="technic:light_off"})
-			minetest.env:add_node(rounded_pos,{type="node",name="air"})
-			player_positions[player_name]["x"] = nil
-			player_positions[player_name]["y"] = nil
-			player_positions[player_name]["z"] = nil
-			player_positions[player_name]["m"] = nil
-			player_positions[player_name] = nil
+			local nodename = minetest.get_node(rounded_pos).name
+			if nodename == "technic:light_off" or nodename == "technic:light" then
+				minetest.remove_node(rounded_pos)
+			end
+			if player_positions[player_name] then
+				player_positions[player_name] = nil
+			end
 		end
 	end
 end)
 
 minetest.register_globalstep(function(dtime)
-	for i,player_name in ipairs(players) do
-		local player = minetest.env:get_player_by_name(player_name)
+	for i, player_name in ipairs(players) do
+		local player = minetest.get_player_by_name(player_name)
 		if player then
-		flashlight_weared=check_for_flashlight(player)
-		local pos = player:getpos()
-		local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
-		local old_pos = {x=player_positions[player_name]["x"], y=player_positions[player_name]["y"], z=player_positions[player_name]["z"]}
-		
-		if last_wielded[player_name] and not flashlight_weared then --remove light, flashlight weared out or was removed from hotbar
-			local node=minetest.env:get_node_or_nil(old_pos)
-			if node then
-			if node.name=="technic:light" then 
-			  	minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
-				minetest.env:add_node(old_pos,{type="node",name="air"})		
-			  last_wielded[player_name]=false
-			  end
-			end
-			end
+			flashlight_weared = check_for_flashlight(player)
+			local pos = player:getpos()
+			local rounded_pos = {x=round(pos.x), y=round(pos.y)+1, z=round(pos.z)}
+			local old_pos = vector.new(player_positions[player_name])
+			
+			if last_wielded[player_name] and not flashlight_weared then --remove light, flashlight weared out or was removed from hotbar
+				local node = minetest.get_node_or_nil(old_pos)
+				if node and node.name == "technic:light" then 
+					minetest.add_node(old_pos,{name="air"})		
+					last_wielded[player_name] = false
+				end
 
-		player_moved=not(old_pos.x==rounded_pos.x and old_pos.y==rounded_pos.y and old_pos.z==rounded_pos.z)
-		if player_moved and last_wielded[player_name] and flashlight_weared  then
-			
-			local node=minetest.env:get_node_or_nil(rounded_pos)
-			if node then
-			if node.name=="air" then 
-			  	minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
-			  end
+				player_moved = not(old_pos.x == rounded_pos.x and old_pos.y == rounded_pos.y and old_pos.z == rounded_pos.z)
+				if player_moved and last_wielded[player_name] and flashlight_weared  then
+					
+					local node=minetest.env:get_node_or_nil(rounded_pos)
+					if node then
+						if node.name=="air" then 
+							minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
+						end
+					end
+					local node=minetest.env:get_node_or_nil(old_pos)
+					if node then
+						if node.name=="technic:light" then 
+							minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
+							minetest.env:add_node(old_pos,{type="node",name="air"})		
+						end
+					end
+					player_positions[player_name]["x"] = rounded_pos.x
+					player_positions[player_name]["y"] = rounded_pos.y
+					player_positions[player_name]["z"] = rounded_pos.z
+					
+				elseif not last_wielded[player_name] and flashlight_weared then
+					local node=minetest.env:get_node_or_nil(rounded_pos)
+					if node then
+						if node.name=="air" then 
+							minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
+						end
+					end
+					player_positions[player_name]["x"] = rounded_pos.x
+					player_positions[player_name]["y"] = rounded_pos.y
+					player_positions[player_name]["z"] = rounded_pos.z
+					last_wielded[player_name]=true
+				end			
+					
 			end
-			local node=minetest.env:get_node_or_nil(old_pos)
-			if node then
-			  if node.name=="technic:light" then 
-			  	minetest.env:add_node(old_pos,{type="node",name="technic:light_off"})
-				minetest.env:add_node(old_pos,{type="node",name="air"})		
-			  end
-			end
-			player_positions[player_name]["x"] = rounded_pos.x
-			player_positions[player_name]["y"] = rounded_pos.y
-			player_positions[player_name]["z"] = rounded_pos.z
-			
-		else if not last_wielded[player_name] and flashlight_weared then
-			local node=minetest.env:get_node_or_nil(rounded_pos)
-			if node then
-			if node.name=="air" then 
-			  	minetest.env:add_node(rounded_pos,{type="node",name="technic:light"})
-			  end
-			end
-			player_positions[player_name]["x"] = rounded_pos.x
-			player_positions[player_name]["y"] = rounded_pos.y
-			player_positions[player_name]["z"] = rounded_pos.z
-			last_wielded[player_name]=true
-			end			
-			
-	end
-	end
+		end
 	end
 end)
 
@@ -160,7 +153,7 @@ local hotbar=inv:get_list("main")
 			if meta["charge"]==nil then return false end
 			charge=meta["charge"]
 			if charge-2>0 then
-			 charge =charge-2;	
+			 charge =charge-2;
 			technic.set_RE_wear(item,charge,flashlight_max_charge)
 			meta["charge"]=charge
 			item["metadata"]=set_item_meta(meta)

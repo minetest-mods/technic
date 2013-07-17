@@ -1,38 +1,39 @@
 dofile(minetest.get_modpath("item_drop").."/item_entity.lua")
 time_pick = 3
 
-if technic.config:getBool("enable_item_pickup") then
+if technic.config:get_bool("enable_item_pickup") then
 	minetest.register_globalstep(function(dtime)
 		for _,player in ipairs(minetest.get_connected_players()) do
 			if player and player:get_hp() > 0 then
-			local pos = player:getpos()
-			pos.y = pos.y+0.5
-			local inv = player:get_inventory()
-			for _,object in ipairs(minetest.env:get_objects_inside_radius(pos, 2)) do
-				if not object:is_player() and object:get_luaentity() then
-					local obj=object:get_luaentity()
-					if obj.name == "__builtin:item" then
-						if inv:room_for_item("main", ItemStack(obj.itemstring)) then
-							if obj.timer > time_pick then
-								inv:add_item("main", ItemStack(obj.itemstring))
-								if obj.itemstring ~= "" then
-									minetest.sound_play("item_drop_pickup",{pos = pos, gain = 1.0, max_hear_distance = 10}) 
-								end
-								if object:get_luaentity() then
-									object:get_luaentity().itemstring = ""
-									object:remove()
+				local pos = player:getpos()
+				pos.y = pos.y + 0.5
+				local inv = player:get_inventory()
+				for _, object in ipairs(minetest.get_objects_inside_radius(pos, 2)) do
+					if not object:is_player() and object:get_luaentity() then
+						local obj = object:get_luaentity()
+						if obj.name == "__builtin:item" then
+							if inv and inv:room_for_item("main", ItemStack(obj.itemstring)) then
+								if obj.timer > time_pick then
+									inv:add_item("main", ItemStack(obj.itemstring))
+									if obj.itemstring ~= "" then
+										minetest.sound_play("item_drop_pickup",
+											{pos = pos, gain = 1.0, max_hear_distance = 10}) 
+									end
+									if object:get_luaentity() then
+										object:get_luaentity().itemstring = ""
+										object:remove()
+									end
 								end
 							end
 						end
 					end
 				end
 			end
-			end
 		end
 	end)
 end
 
-if technic.config:getBool("enable_item_drop") then
+if technic.config:get_bool("enable_item_drop") then
 	function minetest.handle_node_drops(pos, drops, digger)
 		for _,item in ipairs(drops) do
 			local count, name

@@ -1,5 +1,5 @@
-local laser_mk1_max_charge=40000
-technic.register_power_tool ("technic:laser_mk1",laser_mk1_max_charge)
+local laser_mk1_max_charge = 40000
+technic.register_power_tool("technic:laser_mk1", laser_mk1_max_charge)
 
 local laser_shoot = function(itemstack, player, pointed_thing)
 				local laser_straight_mode=0

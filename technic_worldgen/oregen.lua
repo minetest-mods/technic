@@ -8,6 +8,7 @@ minetest.register_ore({
 	height_min     = -300,
 	height_max     = -80,
 })
+
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "technic:mineral_chromium",
@@ -18,6 +19,7 @@ minetest.register_ore({
 	height_min     = -31000,
 	height_max     = -100,
 })
+
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "technic:mineral_zinc",
@@ -28,7 +30,8 @@ minetest.register_ore({
 	height_min     = -31000,
 	height_max     = 2,
 })
-if technic.config:getBool("enable_marble_generation") then
+
+if technic.config:get_bool("enable_marble_generation") then
 minetest.register_ore({
 	ore_type       = "sheet",
 	ore            = "technic:marble",
@@ -42,7 +45,8 @@ minetest.register_ore({
 	noise_params = {offset=0, scale=15, spread={x=150, y=150, z=150}, seed=23, octaves=3, persist=0.70}
 })
 end
-if technic.config:getBool("enable_granite_generation") then
+
+if technic.config:get_bool("enable_granite_generation") then
 minetest.register_ore({
 	ore_type       = "sheet",
 	ore            = "technic:granite",

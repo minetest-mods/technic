@@ -20,7 +20,7 @@ minetest.register_craft({
 })
 
 mk1_on = function(pos, node)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local pos1={}
 	pos1.x=pos.x
@@ -34,7 +34,7 @@ mk1_on = function(pos, node)
 	if node.name == "technic:constructor_mk1_off" then
 		hacky_swap_node(pos,"technic:constructor_mk1_on")
 		nodeupdate(pos)
-		local node1=minetest.env:get_node(pos1)
+		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
 	end
 end
@@ -57,7 +57,7 @@ minetest.register_node("technic:constructor_mk1_off", {
 	mesecons= {effector={action_on=mk1_on}},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;Constructor MK1]"..
@@ -70,7 +70,7 @@ minetest.register_node("technic:constructor_mk1_off", {
 	end,
 
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		return inv:is_empty("slot1")
 	end,	
@@ -91,7 +91,7 @@ minetest.register_node("technic:constructor_mk1_on", {
 --Constructor MK2
 
 mk2_on = function(pos, node)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local pos1={}
 	local pos2={}
@@ -109,9 +109,9 @@ mk2_on = function(pos, node)
 	if node.name == "technic:constructor_mk2_off" then
 		hacky_swap_node(pos,"technic:constructor_mk2_on")
 		nodeupdate(pos)
-		local node1=minetest.env:get_node(pos1)
+		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
-		local node1=minetest.env:get_node(pos2)	
+		local node1=minetest.get_node(pos2)	
 		deploy_node (inv,"slot2",pos2,node1,node)
 	end
 end
@@ -133,7 +133,7 @@ minetest.register_node("technic:constructor_mk2_off", {
 	mesecons= {effector={action_on=mk2_on}},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;Constructor MK2]"..
@@ -149,7 +149,7 @@ minetest.register_node("technic:constructor_mk2_off", {
 	end,
 
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("slot1")==false or inv:is_empty("slot2")==false then return false end
 		return true
@@ -170,7 +170,7 @@ minetest.register_node("technic:constructor_mk2_on", {
 
 -- Constructor MK3
 mk3_on = function(pos, node)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	
 	local pos1={}
@@ -202,13 +202,13 @@ mk3_on = function(pos, node)
 	if node.name == "technic:constructor_mk3_off" then
 		hacky_swap_node(pos,"technic:constructor_mk3_on")
 		nodeupdate(pos)
-		local node1=minetest.env:get_node(pos1)
+		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
-		local node1=minetest.env:get_node(pos2)	
+		local node1=minetest.get_node(pos2)	
 		deploy_node (inv,"slot2",pos2,node1,node)
-		local node1=minetest.env:get_node(pos3)	
+		local node1=minetest.get_node(pos3)	
 		deploy_node (inv,"slot3",pos3,node1,node)
-		local node1=minetest.env:get_node(pos4)	
+		local node1=minetest.get_node(pos4)	
 		deploy_node (inv,"slot4",pos4,node1,node)
 	end
 end
@@ -230,7 +230,7 @@ minetest.register_node("technic:constructor_mk3_off", {
 	mesecons= {effector={action_on=mk3_on}},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;Constructor MK2]"..
@@ -253,7 +253,7 @@ minetest.register_node("technic:constructor_mk3_off", {
 	end,
 
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("slot1")==false or inv:is_empty("slot2")==false or inv:is_empty("slot3")==false or inv:is_empty("slot4")==false then return false end
 		return true
@@ -279,7 +279,7 @@ deploy_node =function (inv, slot_name, pos1, node1, node)
 			local def = stack1[1]:get_definition()
 			if def.type == "node" then
 				node_to_be_placed={name=stack1[1]:get_name(), param1=0, param2=node.param2}
-				minetest.env:set_node(pos1,node_to_be_placed)
+				minetest.set_node(pos1,node_to_be_placed)
 				stack1[1]:take_item()
 				inv:set_stack(slot_name, 1, stack1[1])
 			elseif def.type == "craft" then
@@ -334,10 +334,10 @@ deploy_node =function (inv, slot_name, pos1, node1, node)
 				end
 				loop = loop + 1
 			end
-			minetest.env:remove_node(pos1)
+			minetest.remove_node(pos1)
 		elseif type(drop) == "string" then
 			inv:add_item(slot_name,drop)
-			minetest.env:remove_node(pos1)
+			minetest.remove_node(pos1)
 		end
 	end
 
