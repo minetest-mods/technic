@@ -514,7 +514,6 @@ minetest.register_abm({
 					pos1.x = pos1.x+2
 					dest_angle = -90
 				end
-				print(dump(dir1))
 				object:moveto(pos1,false)
 				object:set_look_yaw(math.rad(dest_angle))
 				minetest.sound_play("enterEventHorizon", {pos = pos, gain = 1.0,loop = false, max_hear_distance = 72,})
