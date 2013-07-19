@@ -55,6 +55,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+    output = 'pipeworks:mese_sand_tube_000000',
+    recipe = {
+        {'default:mese_crystal_fragment', 'pipeworks:sand_tube_000000', 'default:mese_crystal_fragment'},
+        }
+})
+
+minetest.register_craft({
     output = 'pipeworks:teleport_tube_000000',
     recipe = {
         {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
