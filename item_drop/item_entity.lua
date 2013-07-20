@@ -88,7 +88,7 @@ minetest.register_entity(":__builtin:item", {
 	end,
 	
 	on_step = function(self, dtime)
-		local time = minetest.setting_get("remove_items")
+		local time = tonumber(minetest.setting_get("remove_items"))
 		if not time then
 			time = 300
 		end
