@@ -11,8 +11,10 @@ tubes_properties = {insert_object=function(pos,node,stack,direction)
 					local inv=meta:get_inventory()
 					return inv:room_for_item("main",stack)
 				end,
-				input_inventory="main"}
-				
+				input_inventory="main",
+				connect_sides = {left=1, right=1, front=1, back=1, top=1, bottom=1},
+}
+
 chest_can_dig = function(pos,player)
 local meta = minetest.env:get_meta(pos);
 local inv = meta:get_inventory()
