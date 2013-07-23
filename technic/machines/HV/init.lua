@@ -9,4 +9,5 @@ dofile(path.."/forcefield.lua")
 dofile(path.."/battery_box.lua")
 dofile(path.."/solar_array.lua")
 dofile(path.."/nuclear_reactor.lua")
+dofile(path.."/generator_hv.lua")
 
