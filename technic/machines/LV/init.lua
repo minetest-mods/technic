@@ -20,4 +20,3 @@ dofile(path.."/cnc_api.lua")
 dofile(path.."/cnc_nodes.lua")
 dofile(path.."/extractor.lua")
 dofile(path.."/compressor.lua")
-
