@@ -36,6 +36,7 @@ minetest.register_node(
 			local inv=meta:get_inventory()
 			return inv:room_for_item("src",stack)
 		     end,
+		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
        },
     legacy_facedir_simple = true,
     sounds = default.node_sound_stone_defaults(),
@@ -82,6 +83,7 @@ minetest.register_node(
 			local inv=meta:get_inventory()
 			return inv:room_for_item("src",stack)
 		     end,
+		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
        },
     legacy_facedir_simple = true,
     sounds = default.node_sound_stone_defaults(),
