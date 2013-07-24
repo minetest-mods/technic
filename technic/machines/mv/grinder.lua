@@ -239,8 +239,7 @@ minetest.register_abm(
 
 			-- The machine shuts down if we have nothing to grind and no tube is connected
 			-- or if we have nothing to send with a tube connected.
-			if    (not output_tube_connected and inv:is_empty("src"))
-			or (    output_tube_connected and inv:is_empty("dst")) then
+			if inv:is_empty("src") and (not output_tube_connected or inv:is_empty("dst")) then
 				next_state = 1
 			end
 
