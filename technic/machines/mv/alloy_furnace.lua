@@ -262,7 +262,7 @@ minetest.register_abm(
 
 		   -- The machine shuts down if we have nothing to smelt and no tube is connected
 		   -- or if we have nothing to send with a tube connected.
-		   if inv:is_empty("src") and (not output_tube_connected or inv:is_empty("dst")) then
+		   if inv:is_empty("src") and (not output_tube_connected or (inv:is_empty("dst") and output_tube_connected)) then
 		      next_state = 1
 		   end
 		   ----------------------
