@@ -73,5 +73,5 @@ def_on_metadata_inventory_take = function(pos, listname, index, stack, player)
 end
 
 function has_locked_chest_privilege(meta, player)
-	return not player:get_player_name() ~= meta:get_string("owner")
+	return player:get_player_name() == meta:get_string("owner")
 end
