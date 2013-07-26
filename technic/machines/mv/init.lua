@@ -3,6 +3,7 @@ local path = technic.modpath.."/machines/mv"
 dofile(path.."/wires.lua")
 dofile(path.."/battery_box.lua")
 dofile(path.."/solar_array.lua")
+dofile(path.."/common.lua")
 dofile(path.."/electric_furnace.lua")
 dofile(path.."/alloy_furnace.lua")
 dofile(path.."/grinder.lua")
