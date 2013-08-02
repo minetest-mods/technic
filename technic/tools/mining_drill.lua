@@ -29,6 +29,16 @@ minetest.register_craft({
 		{'', 								'technic:blue_energy_crystal', 	''},
 	}
 })
+for i=1,4,1 do
+minetest.register_craft({
+	output = 'technic:mining_drill_mk3',
+	recipe = {
+		{'technic:diamond_drill_head' ,		'technic:diamond_drill_head' ,	'technic:diamond_drill_head' },
+		{'technic:stainless_steel_ingot',	'technic:mining_drill_mk2_'..i, 'technic:stainless_steel_ingot' },
+		{'',					'technic:blue_energy_crystal', 	''},
+	}
+})
+end
 
 function drill_dig_it (pos, player,drill_type,mode)
 	
