@@ -292,10 +292,10 @@ for name,info in pairs(supported_nodes) do
 		newdef.after_place_node = function(pos, placer, itemstack)
 			minetest.set_node(pos, {name = convert_to_original_name(itemstack:get_name()),
 												param2 = minetest.get_node(pos).param2})
-			minetest.after(0.5, function(pos, placer, itemstack)
 				local meta = minetest.get_meta(pos)
 				local inv = meta:get_inventory()
-				local data = minetest.deserialize(itemstack:get_metadata())
+				local item_meta =itemstack:to_table()
+				local data = minetest.deserialize(item_meta["metadata"])
 				local lists = data.lists
 				for listname,list in pairs(lists) do
 					inv:set_list(listname, list)
@@ -314,7 +314,6 @@ for name,info in pairs(supported_nodes) do
 						meta:set_float(temp.float, temp.value)
 					end
 				end
-			end, pos, placer, itemstack)
 		end
 		minetest.register_node(info.name, newdef)
 	end
