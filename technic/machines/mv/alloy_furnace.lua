@@ -313,7 +313,7 @@ minetest.register_abm(
 			    srcstack:take_item(recipe.src1_count)
 			    inv:set_stack("src", 1, srcstack)
 			    src2stack:take_item(recipe.src2_count)
-			    inv:set_stack("src2", 1, src2stack)
+			    inv:set_stack("src", 2, src2stack)
 			    -- Put result in "dst" list
 			    inv:add_item("dst",result)
 			 else
