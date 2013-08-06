@@ -27,8 +27,8 @@ minetest.register_node(
 "technic:mv_grinder",
 {
 	description = "MV Grinder",
-	tiles = {"technic_mv_grinder_top.png", "technic_mv_grinder_bottom.png", "technic_mv_grinder_side.png",
-			"technic_mv_grinder_side.png", "technic_mv_grinder_side.png", "technic_mv_grinder_front.png"},
+	tiles = {"technic_mv_grinder_top.png", "technic_mv_grinder_bottom.png", "technic_mv_grinder_side_tube.png",
+			"technic_mv_grinder_side_tube.png", "technic_mv_grinder_side.png", "technic_mv_grinder_front.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=2, tubedevice=1,tubedevice_receiver=1,},
 	tube={insert_object=function(pos,node,stack,direction)
@@ -73,8 +73,8 @@ minetest.register_node(
 	"technic:mv_grinder_active",
 	{
 		description = "Grinder",
-		tiles = {"technic_mv_grinder_top.png", "technic_mv_grinder_bottom.png", "technic_mv_grinder_side.png",
-			"technic_mv_grinder_side.png", "technic_mv_grinder_side.png", "technic_mv_grinder_front_active.png"},
+		tiles = {"technic_mv_grinder_top.png", "technic_mv_grinder_bottom.png", "technic_mv_grinder_side_tube.png",
+			"technic_mv_grinder_side_tube.png", "technic_mv_grinder_side.png", "technic_mv_grinder_front_active.png"},
 		paramtype2 = "facedir",
 		groups = {cracky=2,tubedevice=1,tubedevice_receiver=1,not_in_creative_inventory=1},
 		tube={	insert_object=function(pos,node,stack,direction)
@@ -260,7 +260,7 @@ minetest.register_abm(
 				if empty then
 					next_state = 1
 				else
-					meta:set_int("src_time", meta:get_int("src_time") + 1)
+					meta:set_int("src_time", meta:get_int("src_time") + 2) -- 2x faster
 					if meta:get_int("src_time") == 4 then -- 4 ticks per output
 						-- check if there's room for output in "dst" list
 						local result = technic.get_grinder_recipe(inv:get_stack("src", 1))
