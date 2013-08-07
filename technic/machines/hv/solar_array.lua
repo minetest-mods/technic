@@ -64,7 +64,7 @@ minetest.register_abm(
 		if light >= 12 and time_of_day>=0.24 and time_of_day<=0.76 and pos.y > -10 then
 		   local charge_to_give          = math.floor(light*(light*9.6+pos1.y/130*48))
 		   if charge_to_give<0   then charge_to_give=0 end
-		   if charge_to_give>160 then charge_to_give=160 end
+		   if charge_to_give>2880 then charge_to_give=2880 end
 		   meta:set_string("infotext", "Solar Array is active ("..charge_to_give.."EU)")
 		   meta:set_int("HV_EU_supply", charge_to_give)
 		else
