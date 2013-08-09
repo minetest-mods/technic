@@ -14,7 +14,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:brick', 'default:brick', 'default:brick'},
 		{'default:brick', '', 'default:brick'},
-		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
+		{'default:steel_ingot', 'technic:lv_cable', 'default:steel_ingot'},
 	}
 })
 

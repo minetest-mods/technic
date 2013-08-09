@@ -287,7 +287,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
 		{'technic:control_logic_unit', 'technic:motor',              'default:steel_ingot'},
-		{'default:steel_ingot',        'default:copper_ingot',       'default:steel_ingot'},         
+		{'default:steel_ingot',        'technic:lv_cable',       'default:steel_ingot'},         
 	},
 })
 
