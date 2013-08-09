@@ -139,9 +139,9 @@ minetest.register_craft(
    {
       output = 'technic:power_radiator 1',
       recipe = {
-	 {'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
+	 {'technic:stainless_steel_ingot', 'technic:copper_coil', 'technic:stainless_steel_ingot'},
 	 {'technic:copper_coil',           'technic:mv_transformer',        'technic:copper_coil'},
-	 {'technic:rubber',                'technic:mv_cable',              'technic:rubber'},
+	 {'technic:stainless_steel_ingot', 'technic:mv_cable',              'technic:stainless_steel_ingot'},
       }
    })
 
