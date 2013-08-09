@@ -5,14 +5,14 @@ minetest.register_craft({
 	output = 'technic:hv_cable 3',
 	recipe ={
 		{'technic:rubber','technic:rubber','technic:rubber'},
-		{'technic:mv_cable','technic:mv_cable','technic:mv_cable'},
+		{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
 		{'technic:rubber','technic:rubber','technic:rubber'},
 		}
 }) 
 
 
 minetest.register_craftitem("technic:hv_cable", {
-	description = "Gigh Voltage Copper Cable",
+	description = "High Voltage Copper Cable",
 	stack_max = 99,
 }) 
 
