@@ -169,7 +169,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
 		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
-		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
+		{'default:steel_ingot', 'technic:lv_cable', 'default:steel_ingot'},
 	}
 })
 
