@@ -3,7 +3,13 @@ stargate.default_page = "main"
 stargate_network["players"]={}
 stargate.current_page={}
 
+local function table_empty(tab)
+	for key in pairs(tab) do return false end
+	return true
+end
+
 stargate.save_data = function(table_pointer)
+	if table_empty(stargate_network[table_pointer]) then return end
 	local data = minetest.serialize( stargate_network[table_pointer] )
 	local path = minetest.get_worldpath().."/stargate_"..table_pointer..".data"
 	local file = io.open( path, "w" )
@@ -22,6 +28,7 @@ stargate.restore_data = function(table_pointer)
 		local data = file:read("*all")
 		stargate_network[table_pointer] = minetest.deserialize( data )
 		file:close()
+		if table_empty(stargate_network[table_pointer]) then os.remove(path) end
 	return true
 	else return nil
 	end
@@ -31,7 +38,8 @@ end
 if stargate.restore_data("registered_players") ~= nil then
 	for __,tab in ipairs(stargate_network["registered_players"]) do
 		if stargate.restore_data(tab["player_name"]) == nil  then
-			print ("[stargate] Error loading data!")
+			--print ("[stargate] Error loading data!")
+			stargate_network[tab["player_name"]] = {}
 		end
 	end
 else
