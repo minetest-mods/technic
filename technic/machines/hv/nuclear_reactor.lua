@@ -158,7 +158,7 @@ local check_reactor_structure = function(pos)
 	local steel_shield_nodes = minetest.find_nodes_in_area(
 		{x=pos.x-3, y=pos.y-3, z=pos.z-3},
 		{x=pos.x+3, y=pos.y+3, z=pos.z+3},
-		"default:steelblock")
+		"technic:stainless_steel_block")
 	if not (#steel_shield_nodes >= 216) then
 		return false
 	end
