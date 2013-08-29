@@ -136,7 +136,7 @@ local touch_nodes = function(list, tier)
 end
 
 local get_network = function(pos1, tier)
-	local cached = technic.networks[pos1]
+	local cached = technic.networks[minetest.hash_node_position(pos1)]
 	if cached and cached.tier == tier then
 		touch_nodes(cached.PR_nodes, tier)
 		touch_nodes(cached.BA_nodes, tier)
@@ -153,7 +153,7 @@ local get_network = function(pos1, tier)
 				i, technic.machines[tier], tier)
 		i = i + 1
 	until all_nodes[i] == nil
-	technic.networks[pos1] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
+	technic.networks[minetest.hash_node_position(pos1)] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
 

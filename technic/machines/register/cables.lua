@@ -35,6 +35,12 @@ function technic.register_cable(tier, size)
 				type = "fixed",
 				fixed = technic.gen_cable_nodebox(x1, y1, z1, x2, y2, z2, size)
 			},
+			on_construct = function()
+				technic.networks = {}
+			end,
+			on_destruct = function()
+				technic.networks = {}
+			end,
 			after_place_node = function(pos)
 				local node = minetest.get_node(pos)
 				technic.update_cables(pos, technic.get_cable_tier(node.name))
