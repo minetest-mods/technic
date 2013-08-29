@@ -7,6 +7,8 @@ technic.battery  = "BA"
 
 technic.machines    = {}
 technic.power_tools = {}
+technic.networks = {}
+
 
 function technic.register_tier(tier, description)
 	technic.machines[tier]    = {}

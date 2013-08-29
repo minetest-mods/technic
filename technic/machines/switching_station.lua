@@ -128,6 +128,35 @@ local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, all_nodes, i, ma
 	end
 end
 
+local touch_nodes = function(list, tier)
+	for _, pos in ipairs(list) do
+		local meta = minetest.get_meta(pos)
+		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+	end
+end
+
+local get_network = function(pos1, tier)
+	local cached = technic.networks[pos1]
+	if cached and cached.tier == tier then
+		touch_nodes(cached.PR_nodes, tier)
+		touch_nodes(cached.BA_nodes, tier)
+		touch_nodes(cached.RE_nodes, tier)
+		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
+	end
+	local i = 1
+	local PR_nodes = {}
+	local BA_nodes = {}
+	local RE_nodes = {}
+	local all_nodes = {pos1}
+	repeat
+		traverse_network(PR_nodes, RE_nodes, BA_nodes, all_nodes,
+				i, technic.machines[tier], tier)
+		i = i + 1
+	until all_nodes[i] == nil
+	technic.networks[pos1] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
+	return PR_nodes, BA_nodes, RE_nodes
+end
+
 -----------------------------------------------
 -- The action code for the switching station --
 -----------------------------------------------
@@ -145,24 +174,17 @@ minetest.register_abm({
 		local RE_EU            = 0 -- EUs to RE nodes
 
 		local tier      = ""
-		local all_nodes = {}
-		local PR_nodes  = {}
-		local BA_nodes  = {} 
-		local RE_nodes  = {}
+		local PR_nodes
+		local BA_nodes
+		local RE_nodes
 
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
-		all_nodes[1] = pos1
 
 		local name = minetest.get_node(pos1).name
 		local tier = technic.get_cable_tier(name)
 		if tier then
-			local i = 1
-			repeat
-				traverse_network(PR_nodes, RE_nodes, BA_nodes, all_nodes,
-						i, technic.machines[tier], tier)
-				i = i + 1
-			until all_nodes[i] == nil
+			PR_nodes, RE_nodes, BA_nodes = get_network(pos1, tier)
 		else
 			--dprint("Not connected to a network")
 			meta:set_string("infotext", "Switching Station - no network")
