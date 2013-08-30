@@ -10,5 +10,5 @@ Nore/Novatux
 kpoppel
 And many others for ideas/inspiring 
 
-Licences:
-TO-DO
+License:
+LGPLv2+
