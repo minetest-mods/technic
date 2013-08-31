@@ -141,211 +141,28 @@ end
 end
 end
 
-
-function frame_motor1_on(pos,node)
-	local npos={x=pos.x,y=pos.y+1,z=pos.z}
-	local nnode=minetest.env:get_node(npos)
-	if node.param2==0 then
-		dir={x=1,y=0,z=0}
-	elseif node.param2==1 then
-		dir={x=0,y=0,z=-1}
-	elseif node.param2==2 then
-		dir={x=-1,y=0,z=0}
-	else
-		dir={x=0,y=0,z=1}
-	end
+function frame_motor_on(pos, node)
+	local dirs = {{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}}
+	local nnodepos = frames.addVect(pos, dirs[math.floor(node.param2/4)+1])
+	local dir = minetest.facedir_to_dir(node.param2)
+	local nnode=minetest.get_node(nnodepos)
 	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
+		local connected_nodes=get_connected_nodes(nnodepos)
+		move_nodes_vect(connected_nodes,dir,pos)
 	end
 end
 
-function frame_motor2_on(pos,node)
-	local npos={x=pos.x,y=pos.y-1,z=pos.z}
-	local nnode=minetest.env:get_node(npos)
-	if node.param2==0 then
-		dir={x=1,y=0,z=0}
-	elseif node.param2==1 then
-		dir={x=0,y=0,z=-1}
-	elseif node.param2==2 then
-		dir={x=-1,y=0,z=0}
-	else
-		dir={x=0,y=0,z=1}
-	end
-	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
-	end
-end
-
-function frame_motor3_on(pos,node)
-	local npos={x=pos.x,y=pos.y,z=pos.z}
-	if node.param2==0 then
-		dir={x=1,y=0,z=0}
-		npos.z=npos.z-1
-	elseif node.param2==1 then
-		dir={x=0,y=0,z=-1}
-		npos.x=npos.x-1
-	elseif node.param2==2 then
-		dir={x=-1,y=0,z=0}
-		npos.z=npos.z+1
-	else
-		dir={x=0,y=0,z=1}
-		npos.x=npos.x+1
-	end
-	local nnode=minetest.env:get_node(npos)
-	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
-	end
-end
-
-function frame_motor4_on(pos,node)
-	local npos={x=pos.x,y=pos.y,z=pos.z}
-	if node.param2==0 then
-		dir={x=-1,y=0,z=0}
-		npos.z=npos.z-1
-	elseif node.param2==1 then
-		dir={x=0,y=0,z=1}
-		npos.x=npos.x-1
-	elseif node.param2==2 then
-		dir={x=1,y=0,z=0}
-		npos.z=npos.z+1
-	else
-		dir={x=0,y=0,z=-1}
-		npos.x=npos.x+1
-	end
-	local nnode=minetest.env:get_node(npos)
-	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
-	end
-end
-
-function frame_motor5_on(pos,node)
-	local npos={x=pos.x,y=pos.y,z=pos.z}
-	if node.param2==0 then
-		npos.z=npos.z-1
-	elseif node.param2==1 then
-		npos.x=npos.x-1
-	elseif node.param2==2 then
-		npos.z=npos.z+1
-	else
-		npos.x=npos.x+1
-	end
-	dir={x=0,y=1,z=0}
-	local nnode=minetest.env:get_node(npos)
-	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
-	end
-end
-
-function frame_motor6_on(pos,node)
-	local npos={x=pos.x,y=pos.y,z=pos.z}
-	if node.param2==0 then
-		npos.z=npos.z-1
-	elseif node.param2==1 then
-		npos.x=npos.x-1
-	elseif node.param2==2 then
-		npos.z=npos.z+1
-	else
-		npos.x=npos.x+1
-	end
-	dir={x=0,y=-1,z=0}
-	local nnode=minetest.env:get_node(npos)
-	if minetest.registered_nodes[nnode.name].frame==1 then
-		local connected_nodes=get_connected_nodes(npos)
-		move_nodes_vect(connected_nodes,dir)
-	end
-end
-
-
-minetest.register_node("technic:frame_motor1",{
-	description = "Frame motor 1",
-	tiles = {"pipeworks_filter_top.png", "technic_lv_cable.png", "technic_lv_cable.png",
+minetest.register_node("technic:frame_motor",{
+	description = "Frame motor",
+	tiles = {"pipeworks_filter_top.png^[transformR90", "technic_lv_cable.png", "technic_lv_cable.png",
 		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor1_on}},
+	mesecons={effector={action_on=frame_motor_on}},
 	frames_can_connect=function(pos,dir)
-		return dir.y~=-1
-	end
-})
-
-minetest.register_node("technic:frame_motor2",{
-	description = "Frame motor 2",
-	tiles = {"technic_lv_cable.png", "pipeworks_filter_top.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
-	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor2_on}},
-	frames_can_connect=function(pos,dir)
-		return dir.y~=1
-	end
-})
-
-minetest.register_node("technic:frame_motor3",{
-	description = "Frame motor 3",
-	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
-	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor3_on}},
-	frames_can_connect=function(pos,dir)
-		local node=minetest.env:get_node(pos)
-		if node.param2==0 then return dir.z~=1
-		elseif node.param2==1 then return dir.x~=1
-		elseif node.param2==2 then return dir.z~=-1
-		else return dir.x~=-1 end
-	end
-})
-
-minetest.register_node("technic:frame_motor4",{
-	description = "Frame motor 4",
-	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR180"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
-	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor4_on}},
-	frames_can_connect=function(pos,dir)
-		local node=minetest.env:get_node(pos)
-		if node.param2==0 then return dir.z~=1
-		elseif node.param2==1 then return dir.x~=1
-		elseif node.param2==2 then return dir.z~=-1
-		else return dir.x~=-1 end
-	end
-})
-
-minetest.register_node("technic:frame_motor5",{
-	description = "Frame motor 5",
-	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR90"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
-	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor5_on}},
-	frames_can_connect=function(pos,dir)
-		local node=minetest.env:get_node(pos)
-		if node.param2==0 then return dir.z~=1
-		elseif node.param2==1 then return dir.x~=1
-		elseif node.param2==2 then return dir.z~=-1
-		else return dir.x~=-1 end
-	end
-})
-
-minetest.register_node("technic:frame_motor6",{
-	description = "Frame motor 6",
-	tiles = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-		"technic_lv_cable.png", "technic_lv_cable.png", "pipeworks_filter_top.png^[transformR270"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
-	paramtype2 = "facedir",
-	mesecons={effector={action_on=frame_motor6_on}},
-	frames_can_connect=function(pos,dir)
-		local node=minetest.env:get_node(pos)
-		if node.param2==0 then return dir.z~=1
-		elseif node.param2==1 then return dir.x~=1
-		elseif node.param2==2 then return dir.z~=-1
-		else return dir.x~=-1 end
+		local node = minetest.get_node(pos)
+		local dir2 = ({{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}})[math.floor(node.param2/4)+1]
+		return dir2.x~=-dir.x or dir2.y~=-dir.y or dir2.z~=-dir.z
 	end
 })
 
@@ -360,12 +177,16 @@ function add_table(table,toadd)
 	table[i]=toadd
 end
 
-function move_nodes_vect(poslist,vect)
-		for _,pos in ipairs(poslist) do
+function move_nodes_vect(poslist,vect,must_not_move)
+	for _,pos in ipairs(poslist) do
 		local npos=frames.addVect(pos,vect)
 		local name = minetest.env:get_node(npos).name
 		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none") and not(pos_in_list(poslist,npos)) then
- return end
+			return
+		end
+		if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
+			return
+		end 
 	end
 	nodelist={}
 	for _,pos in ipairs(poslist) do
