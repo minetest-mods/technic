@@ -7,9 +7,9 @@ minetest.register_alias("geothermal", "technic:geothermal")
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
-		{'default:stone', 'default:stone', 'default:stone'},
-		{'default:copper_ingot', 'default:diamond', 'default:copper_ingot'},
-		{'default:stone', 'default:copper_ingot', 'default:stone'},
+		{'default:steel_ingot', 'technic:copper_plate', 'default:steel_ingot'},
+		{'technic:copper_plate', 'default:diamond', 'technic:copper_plate'},
+		{'default:steel_ingot', 'technic:lv_cable', 'default:steel_ingot'},
 	}
 })
 

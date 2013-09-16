@@ -188,7 +188,7 @@ minetest.register_craft({
 			   recipe = {
 			      {'default:desert_stone', 'default:desert_stone', 'default:desert_stone'},
 			      {'default:desert_stone', 'default:diamond', 'default:desert_stone'},
-			      {'default:stone', 'moreores:copper_ingot', 'default:stone'},
+			      {'default:steel_ingot', 'technic:lv_cable', 'default:steel_ingot'},
 			   }
 			})
 

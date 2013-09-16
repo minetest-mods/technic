@@ -4,9 +4,9 @@ minetest.register_alias("tool_workshop", "technic:tool_workshop")
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
-		{'default:wood', 'default:wood', 'default:wood'},
+		{'default:wood', 'technic:control_logic_unit', 'default:wood'},
 		{'default:wood', 'default:diamond', 'default:wood'},
-		{'default:stone', 'default:copper_ingot', 'default:stone'},
+		{'default:steel_ingot', 'technic:lv_cable', 'default:steel_ingot'},
 	}
 })
 

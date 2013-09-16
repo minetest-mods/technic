@@ -11,9 +11,9 @@ local forcefield_step_interval = 1
 minetest.register_craft({
 	output = 'technic:forcefield_emitter_off',
 	recipe = {
-			{'default:mese',         'technic:deployer_off', 'default:mese'        },
-			{'technic:deployer_off', 'technic:motor',        'technic:deployer_off'},
-			{'default:mese',         'technic:deployer_off', 'default:mese'        },
+			{'default:mese',         'pipeworks:deployer_off', 'default:mese'        },
+			{'pipeworks:deployer_off', 'technic:motor',        'pipeworks:deployer_off'},
+			{'default:mese',         'technic:hv_cable', 'default:mese'        },
 	}
 })
 

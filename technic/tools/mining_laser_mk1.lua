@@ -75,9 +75,9 @@ minetest.register_tool("technic:laser_mk1", {
 minetest.register_craft({
 	output = 'technic:laser_mk1',
 	recipe = {
-		{'default:diamond', 'default:steel_ingot', 'technic:battery'},
-		{'', 'default:steel_ingot', 'technic:battery'},
-		{'', '', 'default:copper_ingot'},
+		{'default:diamond', 'default:diamond', 'technic:red_energy_crystal'},
+		{'', 'technic:carbon_plate', 'technic:control_logic_unit'},
+		{'', '', 'technic:carbon_plate'},
 	}
 })
 

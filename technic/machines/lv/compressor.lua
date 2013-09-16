@@ -35,9 +35,9 @@ minetest.register_alias("compressor", "technic:compressor")
 minetest.register_craft({
 	output = 'technic:compressor',
 	recipe = {
-		{'default:stone',	'default:stone',	'default:stone'},
+		{'default:steel_ingot',	'mesecons:piston',	'default:steel_ingot'},
 		{'mesecons:piston',	'technic:motor',	'mesecons:piston'},
-		{'default:stone',	'technic:lv_cable',	'default:stone'},
+		{'default:steel_ingot',	'technic:lv_cable',	'default:steel_ingot'},
 	}
 })
 

@@ -9,7 +9,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:mv_battery_box', 'technic:mv_battery_box', 'technic:mv_battery_box'},
 		{'technic:mv_battery_box', 'technic:hv_transformer', 'technic:mv_battery_box'},
-		{'',                       'technic:hv_cable',       ''},
+		{'technic:composite_plate','technic:hv_cable',       'technic:composite_plate'},
 	}
 })
 
