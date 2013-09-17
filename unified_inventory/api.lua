@@ -19,7 +19,10 @@ unified_inventory.default = "craft"
 -- homepos stuff
 local home_gui = {}
 local homepos = {}
+local minepos = {}
+local mine_gui = {}
 unified_inventory.home_filename = minetest.get_worldpath()..'/unified_inventory_home'
+unified_inventory.mine_filename = minetest.get_worldpath()..'/unified_inventory_mine'
 
 -- Create detached creative inventory after loading all mods
 minetest.after(0.01, function()
@@ -165,10 +168,12 @@ unified_inventory.get_formspec = function(player,page)
 		formspec = formspec .. "image_button["..(start_x+.65*2)..",9;.8,.8;ui_bags_icon.png;bags;]"
 		formspec = formspec .. "image_button["..(start_x+.65*3)..",9;.8,.8;ui_sethome_icon.png;home_gui_set;]"
 		formspec = formspec .. "image_button["..(start_x+.65*4)..",9;.8,.8;ui_gohome_icon.png;home_gui_go;]"
+		formspec = formspec .. "image_button["..(start_x+.65*5)..",9;.8,.8;ui_setmine.png;mine_gui_set;]"
+		formspec = formspec .. "image_button["..(start_x+.65*6)..",9;.8,.8;ui_gomine.png;mine_gui_go;]"
 		if minetest.setting_getbool("creative_mode") then
-		formspec = formspec .. "image_button["..(start_x+.65*5)..",9;.8,.8;ui_sun_icon.png;misc_set_day;]"
-		formspec = formspec .. "image_button["..(start_x+.65*6)..",9;.8,.8;ui_moon_icon.png;misc_set_night;]"
-		formspec = formspec .. "image_button["..(start_x+.65*7)..",9;.8,.8;ui_trash_icon.png;clear_inv;]"
+		formspec = formspec .. "image_button["..(start_x+.65*7)..",9;.8,.8;ui_sun_icon.png;misc_set_day;]"
+		formspec = formspec .. "image_button["..(start_x+.65*8)..",9;.8,.8;ui_moon_icon.png;misc_set_night;]"
+		formspec = formspec .. "image_button["..(start_x+.65*9)..",9;.8,.8;ui_trash_icon.png;clear_inv;]"
 		end
 		
 	--controls to flip items pages
@@ -340,6 +345,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		minetest.sound_play("teleport", {to_player=player_name, gain = 1.0})
 		unified_inventory.go_home(player)
 	end
+	if fields.mine_gui_set then
+		unified_inventory.set_mine(player, player:getpos())
+		local mine = minepos[player_name]
+		if mine ~= nil then
+			minetest.sound_play("dingdong", {to_player=player_name, gain = 1.0})
+			minetest.chat_send_player(player_name, "Mine position set to: "..math.floor(mine.x)..","..math.floor(mine.y)..","..math.floor(mine.z))
+		end
+	end
+	if fields.mine_gui_go then
+		unified_inventory.set_inventory_formspec(player, unified_inventory.get_formspec(player,"craft"))
+		minetest.sound_play("teleport", {to_player=player_name, gain = 1.0})
+		unified_inventory.go_mine(player)
+	end
 	if fields.misc_set_day then
 		if minetest.get_player_privs(player_name).settime==true then 
 		minetest.sound_play("birds", {to_player=player_name, gain = 1.0})
@@ -488,6 +506,27 @@ local load_home = function()
 end
 load_home() -- run it now
 
+-- load_mine
+local load_mine = function()
+    local input = io.open(unified_inventory.mine_filename..".mine", "r")
+    if input then
+        while true do
+            local x = input:read("*n")
+            if x == nil then
+                break
+            end
+            local y = input:read("*n")
+            local z = input:read("*n")
+            local name = input:read("*l")
+            minepos[name:sub(2)] = {x = x, y = y, z = z}
+        end
+        io.close(input)
+    else
+        minepos = {}
+    end
+end
+load_mine() -- run it now
+
 -- set_home
 unified_inventory.set_home = function(player, pos)
 	local player_name=player:get_player_name()
@@ -505,6 +544,28 @@ end
 -- go_home 
 unified_inventory.go_home = function(player)
 	local pos = homepos[player:get_player_name()]
+	if pos~=nil then
+		player:setpos(pos)
+	end
+end
+
+-- set_mine
+unified_inventory.set_mine = function(player, pos)
+	local player_name=player:get_player_name()
+	minepos[player_name] = pos
+	-- save the mine data from the table to the file
+	local output = io.open(unified_inventory.mine_filename..".mine", "w")
+	for k, v in pairs(minepos) do
+		if v ~= nil then
+			output:write(math.floor(v.x).." "..math.floor(v.y).." "..math.floor(v.z).." "..k.."\n")
+		end
+	end
+	io.close(output)
+end
+
+-- go_mine
+unified_inventory.go_mine = function(player)
+	local pos = minepos[player:get_player_name()]
 	if pos~=nil then
 		player:setpos(pos)
 	end
