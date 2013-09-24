@@ -240,7 +240,8 @@ function technic.register_alloy_furnace(data)
 				srcstack = src2stack
 				src2stack = temp
 			end
-			if not result then
+			if not result or
+			   not inv:room_for_item("dst", result) then
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", machine_name.." Idle")
 				meta:set_int(data.tier.."_EU_demand", 0)
@@ -251,7 +252,6 @@ function technic.register_alloy_furnace(data)
 				-- Unpowered - go idle
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", machine_name.." Unpowered")
-				next_state = 1
 			elseif eu_input >= machine_demand[EU_upgrade+1] then
 				-- Powered
 				hacky_swap_node(pos, machine_node.."_active")

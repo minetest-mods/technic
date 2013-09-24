@@ -70,7 +70,7 @@ function technic.smelt_item(meta, result, speed)
 	if result and result.item then
 		meta:set_int("cook_time", 0)
 		-- check if there's room for output in "dst" list
-		if inv:room_for_item("dst", result) then
+		if inv:room_for_item("dst", result.item) then
 			srcstack = inv:get_stack("src", 1)
 			srcstack:take_item()
 			inv:set_stack("src", 1, srcstack)

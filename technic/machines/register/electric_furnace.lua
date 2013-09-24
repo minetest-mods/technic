@@ -152,12 +152,6 @@ function technic.register_electric_furnace(data)
 			local machine_node   = "technic:"..string.lower(data.tier).."_electric_furnace"
 			local machine_demand = data.demand
 
-			-- Setup meta data if it does not exist. state is used as an indicator of this
-			if not eu_input then
-				meta:set_int(data.tier.."_EU_demand", machine_demand[1])
-				meta:set_int(data.tier.."_EU_input", 0)
-			end
-
 			-- Power off automatically if no longer connected to a switching station
 			technic.switching_station_timeout_count(pos, data.tier)
 
@@ -174,7 +168,8 @@ function technic.register_electric_furnace(data)
 					method = "cooking",
 					width = 1,
 					items = inv:get_list("src")})
-			if not result or result.time == 0 then
+			if not result or result.time == 0 or
+			   not inv:room_for_item("dst", result.item) then
 				meta:set_int(data.tier.."_EU_demand", 0)
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", machine_name.." Idle")
