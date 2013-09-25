@@ -99,7 +99,15 @@ unified_inventory.register_button("clear_inv", {
 	type = "image",
 	image = "ui_trash_icon.png",
 	action = function(player)
-	local player_name = player:get_player_name()
+		local player_name = player:get_player_name()
+		if not unified_inventory.is_creative(player_name) then
+			minetest.chat_send_player(player_name,
+					"This button has been disabled outside"
+					.." of creative mode to prevent"
+					.." accidental inventory trashing."
+					.." Use the trash slot instead.")
+			return
+		end
 		player:get_inventory():set_list("main", {})
 		minetest.chat_send_player(player_name, 'Inventory Cleared!')
 		minetest.sound_play("trash_all",
