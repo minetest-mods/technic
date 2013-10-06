@@ -146,9 +146,12 @@ function frame_motor_on(pos, node)
 	local nnodepos = frames.addVect(pos, dirs[math.floor(node.param2/4)+1])
 	local dir = minetest.facedir_to_dir(node.param2)
 	local nnode=minetest.get_node(nnodepos)
+	local meta = minetest.get_meta(pos)
+	local owner = meta:get_string("owner")
+	print(node.param2)
 	if minetest.registered_nodes[nnode.name].frame==1 then
 		local connected_nodes=get_connected_nodes(nnodepos)
-		move_nodes_vect(connected_nodes,dir,pos)
+		move_nodes_vect(connected_nodes,dir,pos,owner)
 	end
 end
 
@@ -159,6 +162,10 @@ minetest.register_node("technic:frame_motor",{
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
 	mesecons={effector={action_on=frame_motor_on}},
+	after_place_node = function(pos, placer, itemstack)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name())
+	end,
 	frames_can_connect=function(pos,dir)
 		local node = minetest.get_node(pos)
 		local dir2 = ({{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}})[math.floor(node.param2/4)+1]
@@ -177,7 +184,15 @@ function add_table(table,toadd)
 	table[i]=toadd
 end
 
-function move_nodes_vect(poslist,vect,must_not_move)
+function move_nodes_vect(poslist,vect,must_not_move,owner)
+	if minetest.is_protected then
+		for _,pos in ipairs(poslist) do
+			local npos=frames.addVect(pos,vect)
+			if minetest.is_protected(pos, owner) or minetest.is_protected(npos, owner) then
+				return
+			end
+		end
+	end
 	for _,pos in ipairs(poslist) do
 		local npos=frames.addVect(pos,vect)
 		local name = minetest.env:get_node(npos).name
