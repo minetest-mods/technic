@@ -106,8 +106,9 @@ local function quarry_dig(pos, center, size)
 		end
 		dig_y = digpos.y
 		local node = minetest.get_node(digpos)
-		drops = minetest.get_node_drops(node.name, "")
-		minetest.dig_node(digpos)
+		technic.override_node_drops(node.name,"", function (drops)
+			minetest.dig_node(digpos)
+		end)
 		if minetest.get_node(digpos).name == node.name then
 			-- We tried to dig something undigable like a
 			-- filled chest. Notice that we check for a node
