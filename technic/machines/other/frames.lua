@@ -58,7 +58,15 @@ local function add_table(table,toadd)
 	table[i]=toadd
 end
 
-local function move_nodes_vect(poslist,vect,must_not_move)
+local function move_nodes_vect(poslist,vect,must_not_move,owner)
+	if minetest.is_protected then
+		for _,pos in ipairs(poslist) do
+			local npos=frames.addVect(pos,vect)
+			if minetest.is_protected(pos, owner) or minetest.is_protected(npos, owner) then
+				return
+			end
+		end
+	end
 	for _,pos in ipairs(poslist) do
 		local npos=vector.add(pos,vect)
 		local name = minetest.env:get_node(npos).name
@@ -245,7 +253,6 @@ local function frame_motor_on(pos, node)
 	local nnode=minetest.get_node(nnodepos)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
-	print(node.param2)
 	if minetest.registered_nodes[nnode.name].frame==1 then
 		local connected_nodes=get_connected_nodes(nnodepos)
 		move_nodes_vect(connected_nodes,dir,pos,owner)
@@ -446,10 +453,11 @@ local function template_motor_on(pos, node)
 	local nnodepos = vector.add(pos, dirs[math.floor(node.param2/4)+1])
 	local dir = minetest.facedir_to_dir(node.param2)
 	local nnode=minetest.get_node(nnodepos)
-	--if minetest.registered_nodes[nnode.name].template==1 then
+	local meta = minetest.get_meta(pos)
+	local owner = meta:get_string("owner")
 	if nnode.name == "technic:template" then
 		local connected_nodes=get_template_nodes(nnodepos)
-		move_nodes_vect(connected_nodes,dir,pos)
+		move_nodes_vect(connected_nodes,dir,pos,owner)
 	end
 end
 
@@ -460,4 +468,8 @@ minetest.register_node("technic:template_motor",{
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
 	paramtype2 = "facedir",
 	mesecons={effector={action_on=template_motor_on}},
+	after_place_node = function(pos, placer, itemstack)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name())
+	end,
 })
