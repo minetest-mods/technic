@@ -343,9 +343,29 @@ local function expand_template(pos)
 	end
 end
 
+local function template_drops(pos, node, oldmeta, digger)
+	local c = oldmeta.fields.connected
+	local drops
+	if c == "" or c == nil then
+		drops = {"technic:template 1"}
+	else
+		local stack_max = 99
+		local num = #(minetest.deserialize(c))
+		drops = {}
+		while num > stack_max do
+			drops[#drops+1] = "technic:template "..stack_max
+			num = num - stack_max
+		end
+		drops[#drops+1] = "technic:template "..num
+	end
+	print(dump(drops))
+	minetest.handle_node_drops(pos, drops, digger)
+end
+
 minetest.register_node("technic:template",{
 	description = "Template",
 	tiles = {"technic_mv_cable.png"},
+	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	on_destruct = function(pos, node)
 		local meta = minetest.get_meta(pos)
@@ -355,6 +375,7 @@ minetest.register_node("technic:template",{
 			minetest.after(0, restore_node, pos, nnode)
 		end
 	end,
+	after_dig_node = template_drops,
 	on_punch = function(pos,node,puncher)
 		hacky_swap_node(pos, "technic:template_disabled")
 	end
@@ -363,6 +384,7 @@ minetest.register_node("technic:template",{
 minetest.register_node("technic:template_disabled",{
 	description = "Template",
 	tiles = {"technic_hv_cable.png"},
+	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	on_destruct = function(pos, node)
 		local meta = minetest.get_meta(pos)
@@ -372,6 +394,7 @@ minetest.register_node("technic:template_disabled",{
 			minetest.after(0, restore_node, pos, nnode)
 		end
 	end,
+	after_dig_node = template_drops,
 	on_punch = function(pos,node,puncher)
 		hacky_swap_node(pos, "technic:template")
 	end
