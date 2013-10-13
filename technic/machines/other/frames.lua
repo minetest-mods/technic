@@ -73,9 +73,9 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none") and not(pos_in_list(poslist,npos)) then
 			return
 		end
-		if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
+		--[[if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
 			return
-		end 
+		end]]
 	end
 	nodelist={}
 	for _,pos in ipairs(poslist) do
@@ -285,8 +285,11 @@ local function template_connected(pos,c)
 		local pos1=vector.add(pos,vect)
 		local nodename=minetest.get_node(pos1).name
 		if not(pos_in_list(c,pos1)) and nodename=="technic:template" then
-			c[#(c)+1]=pos1
-			template_connected(pos1,c)
+			local meta = minetest.get_meta(pos1)
+			if meta:get_string("connected") == "" then
+				c[#(c)+1]=pos1
+				template_connected(pos1,c)
+			end
 		end
 	end
 end
@@ -426,7 +429,7 @@ minetest.register_tool("technic:template_tool",{
 	inventory_image = "technic_template_tool.png",
 	on_use = function(itemstack, puncher, pointed_thing)
 		local pos = pointed_thing.under
-		if minetest.is_protected and minetest.is_protected(pos, placer:get_player_name()) then
+		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, placer:get_player_name())) then
 			return nil
 		end
 		local node = minetest.get_node(pos)
