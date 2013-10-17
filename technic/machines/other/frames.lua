@@ -61,7 +61,7 @@ end
 local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	if minetest.is_protected then
 		for _,pos in ipairs(poslist) do
-			local npos=frames.addVect(pos,vect)
+			local npos=vector.add(pos,vect)
 			if minetest.is_protected(pos, owner) or minetest.is_protected(npos, owner) then
 				return
 			end
