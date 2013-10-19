@@ -40,11 +40,37 @@ local function get_face(pos,ppos,pvect)
 	end
 end
 
+function lines(str)
+	local t = {}
+	local function helper(line) table.insert(t, line) return "" end
+	helper((str:gsub("(.-)\r?\n", helper)))
+	return t
+end
+
+local function pos_to_string(pos)
+	if pos.x == 0 then pos.x = 0 end -- Fix for signed 0
+	if pos.y == 0 then pos.y = 0 end -- Fix for signed 0
+	if pos.z == 0 then pos.z = 0 end -- Fix for signed 0
+	return tostring(pos.x).."\n"..tostring(pos.y).."\n"..tostring(pos.z)
+end
+
+local function pos_from_string(str)
+	local l = lines(str)
+	return {x = tonumber(l[1]), y = tonumber(l[2]), z = tonumber(l[3])}
+end
+
 local function pos_in_list(l,pos)
 	for _,p in ipairs(l) do
 		if p.x==pos.x and p.y==pos.y and p.z==pos.z then return true end
 	end
 	return false
+end
+
+local function table_empty(table)
+	for _, __ in pairs(table) do
+		return false
+	end
+	return true
 end
 
 local function add_table(table,toadd)
@@ -280,29 +306,56 @@ minetest.register_node("technic:frame_motor",{
 
 
 -- Templates
-local function template_connected(pos,c)
+local function template_connected(pos,c,connectors)
 	for _,vect in ipairs({{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}}) do
 		local pos1=vector.add(pos,vect)
 		local nodename=minetest.get_node(pos1).name
-		if not(pos_in_list(c,pos1)) and nodename=="technic:template" then
+		if not(pos_in_list(c,pos1)) and (nodename=="technic:template" or nodename == "technic:template_connector")then
 			local meta = minetest.get_meta(pos1)
 			if meta:get_string("connected") == "" then
 				c[#(c)+1]=pos1
-				template_connected(pos1,c)
+				template_connected(pos1,c,connectors)
+				if nodename == "technic:template_connector" then
+					connectors[#connectors+1] = pos1
+				end
 			end
 		end
 	end
 end
 
 local function get_templates(pos)
-	c={pos}
-	template_connected(pos,c)
-	return c
+	local c = {pos}
+	local connectors
+	if minetest.get_node(pos).name == "technic:template_connector" then
+		connectors = {pos}
+	else
+		connectors = {}
+	end
+	template_connected(pos,c,connectors)
+	return c, connectors
+end
+
+local function swap_template(pos, new)
+	local meta = minetest.get_meta(pos)
+	local saved_node = meta:get_string("saved_node")
+	meta:set_string("saved_node", "")
+	hacky_swap_node(pos, new)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("saved_node", saved_node)
 end
 
 local function save_node(pos)
 	local node = minetest.get_node(pos)
-	if node.name == "air" or node.name == "technic:template" then return end
+	if node.name == "air" then
+		minetest.set_node(pos, {name="technic:template"})
+		return
+	end
+	if node.name == "technic:template" then
+		swap_template(pos, "technic:template_connector")
+		local meta = minetest.get_meta(pos)
+		meta:set_string("connected", "")
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	local meta0 = meta:to_table()
 	for _, list in pairs(meta0.inventory) do
@@ -311,6 +364,7 @@ local function save_node(pos)
 		end
 	end
 	node.meta = meta0
+	minetest.set_node(pos, {name="technic:template"})
 	return node
 end
 
@@ -329,40 +383,97 @@ local function expand_template(pos)
 	local meta = minetest.get_meta(pos)
 	local c = meta:get_string("connected")
 	if c == "" then return end
-	meta:set_string("connected", "")
 	c = minetest.deserialize(c)
 	for _, vect in ipairs(c) do
-		if vect.x ~= 0 or vect.y ~= 0 or vect.z ~= 0 then
-			local pos1 = vector.add(pos, vect)
-			local saved_node = save_node(pos1)
-			minetest.set_node(pos1, {name="technic:template"})
-			local meta1 = minetest.get_meta(pos1)
-			if saved_node ~= nil then
-				meta1:set_string("saved_node", minetest.serialize(saved_node))
-			else
-				meta1:set_string("saved_node", "")
+		local pos1 = vector.add(pos, vect)
+		local saved_node = save_node(pos1)
+		local meta1 = minetest.get_meta(pos1)
+		if saved_node ~= nil then
+			meta1:set_string("saved_node", minetest.serialize(saved_node))
+		else
+			--meta1:set_string("saved_node", "")
+		end
+	end
+end
+
+local function compress_templates(pos)
+	local templates, connectors = get_templates(pos)
+	if #connectors == 0 then
+		connectors = {pos}
+	end
+	for _, cn in ipairs(connectors) do
+		local meta = minetest.get_meta(cn)
+		local c = {}
+		for _,p in ipairs(templates) do
+			local np = vector.subtract(p, cn)
+			if not pos_in_list(c,np) then
+				c[#c+1] = np
 			end
+		end
+		local cc = {}
+		for _,p in ipairs(connectors) do
+			local np = vector.subtract(p, cn)
+			if (np.x ~= 0 or np.y ~= 0 or np.z ~= 0) then
+				cc[pos_to_string(np)] = true
+			end
+		end
+		swap_template(cn, "technic:template")
+		meta:set_string("connected", minetest.serialize(c))
+		meta:set_string("connectors_connected", minetest.serialize(cc))
+	end
+	
+	for _,p in ipairs(templates) do
+		if not pos_in_list(connectors, p) then
+			minetest.set_node(p, {name = "air"})
 		end
 	end
 end
 
 local function template_drops(pos, node, oldmeta, digger)
 	local c = oldmeta.fields.connected
+	local cc = oldmeta.fields.connectors_connected
 	local drops
 	if c == "" or c == nil then
 		drops = {"technic:template 1"}
 	else
-		local stack_max = 99
-		local num = #(minetest.deserialize(c))
-		drops = {}
-		while num > stack_max do
-			drops[#drops+1] = "technic:template "..stack_max
-			num = num - stack_max
+		if cc == "" or cc == nil then
+			drops = {"technic:template 1"}
+		else
+			local dcc = minetest.deserialize(cc)
+			if not table_empty(dcc) then
+				drops = {}
+				for sp, _ in pairs(dcc) do
+					local ssp = pos_from_string(sp)
+					local p = vector.add(ssp, pos)
+					local meta = minetest.get_meta(p)
+					local d = minetest.deserialize(meta:get_string("connectors_connected"))
+					if d ~= nil then
+						d[pos_to_string({x=-ssp.x, y=-ssp.y, z=-ssp.z})] = nil
+						meta:set_string("connectors_connected", minetest.serialize(d))
+					end
+				end
+			else
+				local stack_max = 99
+				local num = #(minetest.deserialize(c))
+				drops = {}
+				while num > stack_max do
+					drops[#drops+1] = "technic:template "..stack_max
+					num = num - stack_max
+				end
+				drops[#drops+1] = "technic:template "..num
+			end
 		end
-		drops[#drops+1] = "technic:template "..num
 	end
-	print(dump(drops))
 	minetest.handle_node_drops(pos, drops, digger)
+end
+
+local function template_on_destruct(pos, node)
+	local meta = minetest.get_meta(pos)
+	local saved_node = meta:get_string("saved_node")
+	if saved_node ~= "" then
+		local nnode = minetest.deserialize(saved_node)
+		minetest.after(0, restore_node, pos, nnode)
+	end
 end
 
 minetest.register_node("technic:template",{
@@ -370,17 +481,10 @@ minetest.register_node("technic:template",{
 	tiles = {"technic_mv_cable.png"},
 	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-	on_destruct = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		local saved_node = meta:get_string("saved_node")
-		if saved_node ~= "" then
-			local nnode = minetest.deserialize(saved_node)
-			minetest.after(0, restore_node, pos, nnode)
-		end
-	end,
+	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos,node,puncher)
-		hacky_swap_node(pos, "technic:template_disabled")
+		swap_template(pos, "technic:template_disabled")
 	end
 })
 
@@ -388,18 +492,24 @@ minetest.register_node("technic:template_disabled",{
 	description = "Template",
 	tiles = {"technic_hv_cable.png"},
 	drop = "",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-	on_destruct = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		local saved_node = meta:get_string("saved_node")
-		if saved_node ~= "" then
-			local nnode = minetest.deserialize(saved_node)
-			minetest.after(0, restore_node, pos, nnode)
-		end
-	end,
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
+	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos,node,puncher)
-		hacky_swap_node(pos, "technic:template")
+	local meta = minetest.get_meta(pos)
+		swap_template(pos, "technic:template_connector")
+	end
+})
+
+minetest.register_node("technic:template_connector",{
+	description = "Template",
+	tiles = {"technic_lv_cable.png"},
+	drop = "",
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
+	on_destruct = template_on_destruct,
+	after_dig_node = template_drops,
+	on_punch = function(pos,node,puncher)
+		swap_template(pos, "technic:template")
 	end
 })
 
@@ -414,7 +524,6 @@ minetest.register_craftitem("technic:template_replacer",{
 		local node = minetest.get_node(p)
 		if node.name == "technic:template" then return end
 		local saved_node = save_node(p)
-		minetest.set_node(p, {name="technic:template"})
 		itemstack:take_item()
 		if saved_node ~= nil then
 			local meta = minetest.get_meta(p)
@@ -433,25 +542,15 @@ minetest.register_tool("technic:template_tool",{
 			return nil
 		end
 		local node = minetest.get_node(pos)
-		if node.name ~= "technic:template" then return end
+		if node.name ~= "technic:template" and node.name ~= "technic:template_connector" then return end
 		local meta = minetest.get_meta(pos)
 		local c2 = meta:get_string("connected")
 		if c2 ~= "" then
 			expand_template(pos)
-			return
+		else
+			compress_templates(pos)
 		end
-		local templates = get_templates(pos)
-		local c = {}
-		for _,p in ipairs(templates) do
-			local np = {x=p.x-pos.x, y=p.y-pos.y, z=p.z-pos.z}
-			if not pos_in_list(c,np) then
-				c[#c+1] = np
-			end
-			if p.x ~= pos.x or p.y ~= pos.y or p.z ~= pos.z then
-				minetest.set_node(p, {name = "air"})
-			end
-		end
-		meta:set_string("connected", minetest.serialize(c))
+		
 	end
 })
 
