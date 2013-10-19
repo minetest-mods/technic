@@ -140,28 +140,26 @@ minetest.register_node("technic:light_off", {
     },
 })
 
-function check_for_flashlight (player)
-if player==nil then return false end
-local inv = player:get_inventory()
-local hotbar=inv:get_list("main")
-		for i=1,8,1 do
-			
-			if hotbar[i]:get_name() == "technic:flashlight" then
-			local item=hotbar[i]:to_table()
-			local meta=get_item_meta(item["metadata"])
-			if meta==nil then return false end --flashlight not charghed
-			if meta["charge"]==nil then return false end
-			charge=meta["charge"]
-			if charge-2>0 then
-			 charge =charge-2;
-			technic.set_RE_wear(item,charge,flashlight_max_charge)
-			meta["charge"]=charge
-			item["metadata"]=set_item_meta(meta)
-			hotbar[i]:replace(item)
-			inv:set_stack("main",i,hotbar[i])
-			return true
+function check_for_flashlight(player)
+	if player == nil then
+		return false
+	end
+	local inv = player:get_inventory()
+	local hotbar = inv:get_list("main")
+	for i = 1, 8 do
+		if hotbar[i]:get_name() == "technic:flashlight" then
+			local meta = get_item_meta(hotbar[i]:get_metadata())
+			if not meta or not meta.charge then
+				return false
 			end
+			if meta.charge - 2 > 0 then
+				meta.charge = meta.charge - 2;
+				technic.set_RE_wear(hotbar[i], meta.charge, flashlight_max_charge)
+				hotbar[i]:set_metadata(set_item_meta(meta))
+				inv:set_stack("main", i, hotbar[i])
+				return true
 			end
 		end
-return false
+	end
+	return false
 end	

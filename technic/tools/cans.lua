@@ -26,48 +26,46 @@ minetest.register_tool("technic:water_can", {
 	stack_max = 1,
 	liquids_pointable = true,
 	on_use = function(itemstack, user, pointed_thing)
-		
 		if pointed_thing.type ~= "node" then
-					return end
-		n = minetest.env:get_node(pointed_thing.under)
-		
-		item=itemstack:to_table()
-		local load=nil
-		if item["metadata"]=="" then load=0 
-		else load=tonumber(item["metadata"]) 
+			return
 		end
-		
-		if n.name == "default:water_source" then
-			if load+1<17 then
-			minetest.env:add_node(pointed_thing.under, {name="air"})
-			 load=load+1;	
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,water_can_max_load)
-			itemstack:replace(item)
-			end
-			return itemstack
-		end
-		item=itemstack:to_table()
-		if load==0 then return end
-			
-		if n.name == "default:water_flowing" then
-			minetest.env:add_node(pointed_thing.under, {name="default:water_source"})
-			load=load-1;	
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,water_can_max_load)
-			itemstack:replace(item)
-			return itemstack
-			end
+		node = minetest.get_node(pointed_thing.under)
 
-		n = minetest.env:get_node(pointed_thing.above)
-		if n.name == "air" then
-			minetest.env:add_node(pointed_thing.above, {name="default:water_source"})
-			load=load-1;	
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,water_can_max_load)
-			itemstack:replace(item)
+		local charge = nil
+		if itemstack:get_metadata() == "" then
+			charge = 0
+		else
+			charge = tonumber(itemstack:get_metadata())
+		end
+		if node.name == "default:water_source" then
+			if charge + 1 < 17 then
+				minetest.remove_node(pointed_thing.under)
+				charge = charge + 1
+				itemstack:set_metadata(tostring(charge))
+				technic.set_RE_wear(itemstack, charge, water_can_max_load)
+			end
 			return itemstack
-			end		
+		end
+		if charge == 0 then
+			return
+		end
+
+		if node.name == "default:water_flowing" then
+			minetest.set_node(pointed_thing.under, {name="default:water_source"})
+			charge = charge - 1
+			itemstack:set_metadata(tostring(charge))
+			technic.set_RE_wear(itemstack, charge, water_can_max_load)
+			return itemstack
+		end
+
+		node = minetest.get_node(pointed_thing.above)
+		if node.name == "air" then
+			minetest.set_node(pointed_thing.above, {name="default:water_source"})
+			charge = charge - 1;
+			itemstack:set_metadata(tostring(charge))
+			technic.set_RE_wear(itemstack, charge, water_can_max_load)
+			return itemstack
+		end		
 	end,
 })
 
@@ -77,44 +75,45 @@ minetest.register_tool("technic:lava_can", {
 	stack_max = 1,
 	liquids_pointable = true,
 	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type ~= "node" then return end
-		n = minetest.env:get_node(pointed_thing.under)
-		item=itemstack:to_table()
-		local load=nil
-		if item["metadata"]=="" then load=0 
-		else load=tonumber(item["metadata"]) 
+		if pointed_thing.type ~= "node" then
+			return
 		end
-		
-		if n.name == "default:lava_source" then
-			if load+1<17 then
-			minetest.env:add_node(pointed_thing.under, {name="air"})
-			 load=load+1;
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,lava_can_max_load)
-			itemstack:replace(item)
-			end
-			return itemstack
+		node = minetest.get_node(pointed_thing.under)
+		local charge = 0
+		if itemstack:get_metadata() == "" then
+			charge = 0
+		else
+			charge = tonumber(itemstack:get_metadata())
 		end
-		item=itemstack:to_table()
-		if load==0 then return end
-			
-		if n.name == "default:lava_flowing" then
-			minetest.env:add_node(pointed_thing.under, {name="default:lava_source"})
-			load=load-1;	
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,lava_can_max_load)
-			itemstack:replace(item)
-			return itemstack
-			end
 
-		n = minetest.env:get_node(pointed_thing.above)
-		if n.name == "air" then
-			minetest.env:add_node(pointed_thing.above, {name="default:lava_source"})
-			load=load-1;	
-			item["metadata"]=tostring(load)
-			technic.set_RE_wear(item,load,lava_can_max_load)
-			itemstack:replace(item)
+		if node.name == "default:lava_source" then
+			if charge + 1 < 17 then
+				minetest.remove_node(pointed_thing.under)
+				charge = charge + 1
+				itemstack:set_metadata(tostring(charge))
+				technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+			end
 			return itemstack
-			end	
+		end
+		if charge == 0 then
+			return
+		end
+
+		if node.name == "default:lava_flowing" then
+			minetest.set_node(pointed_thing.under, {name="default:lava_source"})
+			charge = charge - 1	
+			itemstack:set_metadata(tostring(charge))
+			technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+			return itemstack
+		end
+
+		node = minetest.get_node(pointed_thing.above)
+		if node.name == "air" then
+			minetest.set_node(pointed_thing.above, {name="default:lava_source"})
+			charge = charge - 1
+			itemstack:set_metadata(tostring(charge))
+			technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+			return itemstack
+		end
 	end,
 })

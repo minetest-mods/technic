@@ -6,27 +6,28 @@ local chainsaw_leaves          = true  -- true  - Cut down entire trees, leaves 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
 
 minetest.register_tool("technic:chainsaw", {
-        description = "Chainsaw",
-        inventory_image = "technic_chainsaw.png",
-        stack_max = 1,
-        on_use = function(itemstack, user, pointed_thing)
-                if pointed_thing.type=="node" then
-                        item=itemstack:to_table()
-                        local meta=get_item_meta(item["metadata"])
-                        if meta==nil then return end --tool not charged
-                        if meta["charge"]==nil then return end
-                        -- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
-                        local charge=meta["charge"]
-                        if charge < chainsaw_charge_per_node then return end -- only cut if charged
+	description = "Chainsaw",
+	inventory_image = "technic_chainsaw.png",
+	stack_max = 1,
+	on_use = function(itemstack, user, pointed_thing)
+		if pointed_thing.type == "node" then
+			return itemstack
+		end
+		local meta = get_item_meta(itemstack:get_metadata())
+		if not meta or not meta.charge then
+			return
+		end
+		-- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
+		if mata.charge < chainsaw_charge_per_node then
+			return
+		end
 
-                        charge=chainsaw_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,charge)
-                        technic.set_RE_wear(item,charge,chainsaw_max_charge)
-                        meta["charge"]=charge
-                        item["metadata"]=set_item_meta(meta)
-                        itemstack:replace(item)
-                        return itemstack
-                end
-        end,
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		meta.charge = chainsaw_dig_it(pos, user, mata.charge)
+		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
+		itemstack:set_metadata(set_item_meta(meta))
+		return itemstack
+	end,
 })
 
 minetest.register_craft({

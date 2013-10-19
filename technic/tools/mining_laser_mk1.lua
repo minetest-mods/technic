@@ -1,52 +1,52 @@
 local laser_mk1_max_charge = 40000
 technic.register_power_tool("technic:laser_mk1", laser_mk1_max_charge)
 
-local laser_shoot = function(itemstack, player, pointed_thing)
-				local laser_straight_mode=0
-				local playerpos=player:getpos()
-				local dir=player:get_look_dir()
-				if pointed_thing.type=="node" then  
-					pos=minetest.get_pointed_thing_position(pointed_thing, above)
-					local node = minetest.env:get_node(pos)
-					if node.name~="ignore" then
-					minetest.node_dig(pos,node,player)
-					end
-					laser_straight_mode=1
-					end	
-				
-				direction_y=math.abs(math.floor(dir.y*100))
-				if direction_y>50 then entity_name="technic:laser_beam_entityV"
-					else entity_name="technic:laser_beam_entity" end
-				
-				if laser_straight_mode==1  then
-					pos1=minetest.get_pointed_thing_position(pointed_thing, under)
-					pos1.x=math.floor(pos1.x) 
-					pos1.y=math.floor(pos1.y)
-					pos1.z=math.floor(pos1.z)
-					obj=minetest.env:add_entity(pos1,entity_name)
-				else
-				obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.6,z=playerpos.z},entity_name)
-				end
-				if obj:get_luaentity().player == nil then
-					obj:get_luaentity().player = player
-				end
-				if laser_straight_mode==1 and direction_y<50 then
-					obj:setvelocity({x=dir.x*8, y=0, z=dir.z*8})
-				else if laser_straight_mode==1 and direction_y>50 then
-					obj:setvelocity({x=0, y=dir.y*8, z=dir.z*8})
-					end
-				end
-				if laser_straight_mode==0 then
-					obj:setvelocity({x=dir.x*8, y=dir.y*8, z=dir.z*8})
-					end
-				obj:setacceleration({x=0, y=0, z=0})
-				obj:setyaw(player:get_look_yaw()+math.pi)
-				if obj:get_luaentity().player == nil then
-					obj:get_luaentity().player = player
-				end
-				--obj:get_luaentity().node = player:get_inventory():get_stack("main", 1):get_name()
-				minetest.sound_play("technic_laser", {pos = playerpos, gain = 1.0, max_hear_distance = 10,})
-				return true
+local laser_shoot = function(player, pointed_thing)
+	local laser_straight_mode=0
+	local playerpos=player:getpos()
+	local dir=player:get_look_dir()
+	if pointed_thing.type=="node" then  
+		pos=minetest.get_pointed_thing_position(pointed_thing, above)
+		local node = minetest.env:get_node(pos)
+		if node.name~="ignore" then
+			minetest.node_dig(pos,node,player)
+		end
+		laser_straight_mode=1
+	end
+	
+	direction_y=math.abs(math.floor(dir.y*100))
+	if direction_y>50 then entity_name="technic:laser_beam_entityV"
+		else entity_name="technic:laser_beam_entity" end
+	
+	if laser_straight_mode==1  then
+		pos1=minetest.get_pointed_thing_position(pointed_thing, under)
+		pos1.x=math.floor(pos1.x) 
+		pos1.y=math.floor(pos1.y)
+		pos1.z=math.floor(pos1.z)
+		obj=minetest.env:add_entity(pos1,entity_name)
+	else
+	obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.6,z=playerpos.z},entity_name)
+	end
+	if obj:get_luaentity().player == nil then
+		obj:get_luaentity().player = player
+	end
+	if laser_straight_mode==1 and direction_y<50 then
+		obj:setvelocity({x=dir.x*8, y=0, z=dir.z*8})
+	else if laser_straight_mode==1 and direction_y>50 then
+		obj:setvelocity({x=0, y=dir.y*8, z=dir.z*8})
+		end
+	end
+	if laser_straight_mode==0 then
+		obj:setvelocity({x=dir.x*8, y=dir.y*8, z=dir.z*8})
+		end
+	obj:setacceleration({x=0, y=0, z=0})
+	obj:setyaw(player:get_look_yaw()+math.pi)
+	if obj:get_luaentity().player == nil then
+		obj:get_luaentity().player = player
+	end
+	--obj:get_luaentity().node = player:get_inventory():get_stack("main", 1):get_name()
+	minetest.sound_play("technic_laser", {pos = playerpos, gain = 1.0, max_hear_distance = 10,})
+	return true
 end
 
 
@@ -55,18 +55,15 @@ minetest.register_tool("technic:laser_mk1", {
 	inventory_image = "technic_mining_laser_mk1.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
-		item=itemstack:to_table()
-		local meta=get_item_meta(item["metadata"])
-		if meta==nil then return end --tool not charghed
-		if meta["charge"]==nil then return end
-		charge=meta["charge"]
-		if charge-400>0 then
-		 laser_shoot(item, user, pointed_thing)
-		 charge = charge-400;
-		technic.set_RE_wear(item,charge,laser_mk1_max_charge)
-		meta["charge"]=charge
-		item["metadata"]=set_item_meta(meta)
-		itemstack:replace(item)
+		local meta = get_item_meta(itemstack:get_metadata())
+		if not meta or not meta.charge then
+			return
+		end
+		if meta.charge - 400 > 0 then
+			laser_shoot(user, pointed_thing)
+			meta.charge = meta.charge - 400
+			technic.set_RE_wear(itemstack, meta.charge, laser_mk1_max_charge)
+			itemstack:set_metadata(set_item_meta(meta))
 		end
 		return itemstack
 	end,

@@ -137,80 +137,73 @@ function technic.register_battery_box(data)
 end -- End registration
 
 
-function technic.charge_tools(meta, charge, charge_step)
-	--charge registered power tools
+function technic.charge_tools(meta, batt_charge, charge_step)
 	local inv = meta:get_inventory()
-	if not inv:is_empty("src") then
-		local srcstack = inv:get_stack("src", 1)
-		local src_item = srcstack:to_table()
-		local src_meta = get_item_meta(src_item["metadata"])
-
-		local toolname = src_item["name"]
-		if technic.power_tools[toolname] ~= nil then
-			-- Set meta data for the tool if it didn't do it itself :-(
-			src_meta = get_item_meta(src_item["metadata"])
-			src_meta = src_meta or {}
-			if src_meta["charge"] == nil then
-				src_meta["charge"] = 0
-			end
-			-- Do the charging
-			local item_max_charge = technic.power_tools[toolname]
-			local tool_charge     = src_meta["charge"]
-			if tool_charge < item_max_charge and charge > 0 then
-				if charge - charge_step < 0 then
-					charge_step = charge
-				end
-				if tool_charge + charge_step > item_max_charge then
-					charge_step = item_max_charge - tool_charge
-				end
-				tool_charge = tool_charge + charge_step
-				charge = charge - charge_step
-				technic.set_RE_wear(src_item, tool_charge, item_max_charge)
-				src_meta["charge"]   = tool_charge
-				src_item["metadata"] = set_item_meta(src_meta)
-				inv:set_stack("src", 1, src_item)
-			end
-		end
+	if inv:is_empty("src") then
+		return batt_charge
 	end
-	return charge -- return the remaining charge in the battery
+	local srcstack = inv:get_stack("src", 1)
+	local src_meta = get_item_meta(srcstack:get_metadata())
+
+	local toolname = srcstack:get_name()
+	if not technic.power_tools[toolname] then
+		return batt_charge
+	end
+	-- Set meta data for the tool if it didn't do it itself
+	src_meta = get_item_meta(srcstack:get_metadata())
+	src_meta = src_meta or {}
+	if not src_meta.charge then
+		src_meta.charge = 0
+	end
+	-- Do the charging
+	local item_max_charge = technic.power_tools[toolname]
+	local tool_charge     = src_meta.charge
+	if tool_charge >= item_max_charge or batt_charge <= 0 then
+		return batt_charge
+	end
+	charge_step = math.min(charge_step, batt_charge)
+	charge_step = math.min(charge_step, item_max_charge - tool_charge)
+	tool_charge = tool_charge + charge_step
+	batt_charge = batt_charge - charge_step
+	technic.set_RE_wear(srcstack, tool_charge, item_max_charge)
+	src_meta.charge = tool_charge
+	srcstack:set_metadata(set_item_meta(src_meta))
+	inv:set_stack("src", 1, srcstack)
+	return batt_charge
 end
 
 
-function technic.discharge_tools(meta, charge, charge_step, max_charge)
-	-- discharging registered power tools
+function technic.discharge_tools(meta, batt_charge, charge_step, max_charge)
 	local inv = meta:get_inventory()
-	if not inv:is_empty("dst") then
-		srcstack = inv:get_stack("dst", 1)
-		src_item = srcstack:to_table()
-		local src_meta = get_item_meta(src_item["metadata"])
-		local toolname = src_item["name"]
-		if technic.power_tools[toolname] ~= nil then
-			-- Set meta data for the tool if it didn't do it itself :-(
-			src_meta = get_item_meta(src_item["metadata"])
-			src_meta = src_meta or {}
-			if src_meta["charge"] == nil then
-				src_meta["charge"] = 0
-			end
-
-			-- Do the discharging
-			local item_max_charge = technic.power_tools[toolname]
-			local tool_charge     = src_meta["charge"]
-			if tool_charge > 0 and charge < max_charge then
-				if charge + charge_step > max_charge then
-					charge_step = max_charge - charge
-				end
-				if tool_charge - charge_step < 0 then
-					charge_step = charge
-				end
-				tool_charge = tool_charge - charge_step
-				charge = charge + charge_step
-				technic.set_RE_wear(src_item, tool_charge, item_max_charge)
-				src_meta["charge"] = tool_charge
-				src_item["metadata"] = set_item_meta(src_meta)
-				inv:set_stack("dst", 1, src_item)
-			end
-		end
+	if inv:is_empty("dst") then
+		return batt_charge
 	end
-	return charge -- return the remaining charge in the battery
+	srcstack = inv:get_stack("dst", 1)
+	local toolname = srcstack:get_name()
+	if technic.power_tools[toolname] == nil then
+		return batt_charge
+	end
+	-- Set meta data for the tool if it didn't do it itself :-(
+	local src_meta = get_item_meta(srcstack:get_metadata())
+	src_meta = src_meta or {}
+	if not src_meta.charge then
+		src_meta.charge = 0
+	end
+
+	-- Do the discharging
+	local item_max_charge = technic.power_tools[toolname]
+	local tool_charge     = src_meta.charge
+	if tool_charge <= 0 or batt_charge >= max_charge then
+		return batt_charge
+	end
+	charge_step = math.min(charge_step, max_charge - batt_charge)
+	charge_step = math.min(charge_step, tool_charge)
+	tool_charge = tool_charge - charge_step
+	batt_charge = batt_charge + charge_step
+	technic.set_RE_wear(srcstack, tool_charge, item_max_charge)
+	src_meta.charge = tool_charge
+	srcstack:set_metadata(set_item_meta(src_meta))
+	inv:set_stack("dst", 1, srcstack)
+	return batt_charge
 end
 

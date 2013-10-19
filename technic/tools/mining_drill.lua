@@ -8,28 +8,28 @@ local mining_drill_mk3_power_usage = 1800
 minetest.register_craft({
 	output = 'technic:mining_drill',
 	recipe = {
-		{'technic:stainless_steel_ingot', 	'technic:diamond_drill_head', 	'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot', 	'technic:motor', 				'technic:stainless_steel_ingot'},
-		{'',								'technic:red_energy_crystal', 	'moreores:copper_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:diamond_drill_head', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:motor',              'technic:stainless_steel_ingot'},
+		{'',                              'technic:red_energy_crystal', 'moreores:copper_ingot'},
 	}
 })
 minetest.register_craft({
 	output = 'technic:mining_drill_mk2',
 	recipe = {
-		{'technic:diamond_drill_head', 		'technic:diamond_drill_head', 	'technic:diamond_drill_head'},
-		{'technic:stainless_steel_ingot', 	'technic:mining_drill', 		'technic:stainless_steel_ingot'},
-		{'', 								'technic:green_energy_crystal', ''},
+		{'technic:diamond_drill_head',    'technic:diamond_drill_head',   'technic:diamond_drill_head'},
+		{'technic:stainless_steel_ingot', 'technic:mining_drill',         'technic:stainless_steel_ingot'},
+		{'',                              'technic:green_energy_crystal', ''},
 	}
 })
 minetest.register_craft({
 	output = 'technic:mining_drill_mk3',
 	recipe = {
-		{'technic:diamond_drill_head', 		'technic:diamond_drill_head', 	'technic:diamond_drill_head'},
-		{'technic:stainless_steel_ingot', 	'technic:mining_drill_mk2', 	'technic:stainless_steel_ingot'},
-		{'', 								'technic:blue_energy_crystal', 	''},
+		{'technic:diamond_drill_head',    'technic:diamond_drill_head',  'technic:diamond_drill_head'},
+		{'technic:stainless_steel_ingot', 'technic:mining_drill_mk2',    'technic:stainless_steel_ingot'},
+		{'',                              'technic:blue_energy_crystal', ''},
 	}
 })
-for i=1,4,1 do
+for i = 1, 4 do
 	minetest.register_craft({
 		output = 'technic:mining_drill_mk3',
 		recipe = {
@@ -40,25 +40,23 @@ for i=1,4,1 do
 	})
 end
 
-function drill_dig_it (pos, player,drill_type,mode)
-	
+function drill_dig_it(pos, player, drill_type, mode)
 	local charge
-
-	if mode==1 then
-		drill_dig_it0 (pos,player)
+	if mode == 1 then
+		drill_dig_it0(pos, player)
 	end
 	
-	if mode==2 then -- 3 deep
-		dir=drill_dig_it1(player)
-		if dir==0 then -- x+
-			drill_dig_it0 (pos,player)
-			pos.x=pos.x+1
-			drill_dig_it0 (pos,player)
-			pos.x=pos.x+1
-			drill_dig_it0 (pos,player)
+	if mode == 2 then -- 3 deep
+		dir = drill_dig_it1(player)
+		if dir == 0 then -- x+
+			drill_dig_it0(pos, player)
+			pos.x = pos.x + 1
+			drill_dig_it0(pos, player)
+			pos.x = pos.x + 1
+			drill_dig_it0(pos, player)
 		end
-		if dir==1 then  -- x-
-			drill_dig_it0 (pos,player)
+		if dir == 1 then  -- x-
+			drill_dig_it0(pos, player)
 			pos.x=pos.x-1
 			drill_dig_it0 (pos,player)
 			pos.x=pos.x-1
@@ -226,22 +224,21 @@ minetest.register_tool("technic:mining_drill", {
 	inventory_image = "technic_mining_drill.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type=="node" then 
-		local item=itemstack:to_table()
-		local meta=get_item_meta(item["metadata"])
-		if meta==nil then return end --tool not charghed
-		if meta["charge"]==nil then return end
-		local charge=meta["charge"]
-		if charge-mining_drill_power_usage>0 then
-			charge_to_take=drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,1,1)
-			charge =charge-mining_drill_power_usage;
-			meta["charge"]=charge
-			item["metadata"]=set_item_meta(meta)
-			technic.set_RE_wear(item,charge,mining_drill_max_charge)
-			itemstack:replace(item)
-			end
-		return itemstack
+		if pointed_thing.type ~= "node" then
+			return itemstack
 		end
+		local meta = get_item_meta(itemstack:get_metadata())
+		if not meta or not meta.charge then
+			return
+		end
+		if meta.charge - mining_drill_power_usage > 0 then
+			local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+			charge_to_take = drill_dig_it(pos, user, 1, 1)
+			meta.charge = meta.charge - mining_drill_power_usage
+			itemstack:set_metadata(set_item_meta(meta))
+			technic.set_RE_wear(itemstack, meta.charge, mining_drill_max_charge)
+		end
+		return itemstack
 	end,
 })
 
@@ -249,14 +246,14 @@ minetest.register_tool("technic:mining_drill_mk2", {
 	description = "Mining Drill Mk2",
 	inventory_image = "technic_mining_drill_mk2.png",
 	on_use = function(itemstack, user, pointed_thing)
-	mining_drill_mk2_handler(itemstack,user,pointed_thing)
-	return itemstack
+		mining_drill_mk2_handler(itemstack, user, pointed_thing)
+		return itemstack
 	end,
 })
 
 technic.register_power_tool("technic:mining_drill_mk2", mining_drill_mk2_max_charge)
 
-for i=1,4,1 do
+for i = 1, 4 do
 	technic.register_power_tool("technic:mining_drill_mk2_"..i, mining_drill_mk2_max_charge)
 	minetest.register_tool("technic:mining_drill_mk2_"..i, {
 		description = "Mining Drill Mk2 in Mode "..i,
@@ -295,56 +292,54 @@ for i=1,5,1 do
 	})
 end
 
-function mining_drill_mk2_handler (itemstack,user,pointed_thing)
-	local keys=user:get_player_control()
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=get_item_meta(item["metadata"])
-	if meta==nil or keys["sneak"]==true then return mining_drill_mk2_setmode(user,itemstack) end
-	if meta["mode"]==nil then return mining_drill_mk2_setmode(user,itemstack) end
-	if pointed_thing.type~="node" then return end
-	if meta["charge"]==nil then return end
-	charge=meta["charge"]
-	if charge-mining_drill_power_usage>0 then
-		local charge_to_take=drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,2,meta["mode"])
-		charge=charge-charge_to_take;
-		if charge<0 then charge=0 end
-		meta["charge"]=charge
-		item["metadata"]=set_item_meta(meta)
-		technic.set_RE_wear(item,charge,mining_drill_mk2_max_charge)
-		itemstack:replace(item)
+function mining_drill_mk2_handler(itemstack, user, pointed_thing)
+	local keys = user:get_player_control()
+	local player_name = user:get_player_name()
+	local meta = get_item_meta(itemstack:get_metadata())
+	if not meta or not meta.mode or keys.sneak then
+		return mining_drill_mk2_setmode(user, itemstack)
+	end
+	if pointed_thing.type ~= "node" or not meta.charge then
+		return
+	end
+	if meta.charge - mining_drill_power_usage > 0 then
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local charge_to_take = drill_dig_it(pos, user, 2, meta.mode)
+		meta.charge = meta.charge - charge_to_take
+		meta.charge = math.max(meta.charge, 0)
+		itemstack:set_metadata(set_item_meta(meta))
+		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk2_max_charge)
 	end
 	return itemstack
 end
 
-function mining_drill_mk3_handler (itemstack,user,pointed_thing)
-	local keys=user:get_player_control()
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=get_item_meta(item["metadata"])
-	if meta==nil or keys["sneak"]==true then return mining_drill_mk3_setmode(user,itemstack) end
-	if meta["mode"]==nil then return mining_drill_mk3_setmode(user,itemstack) end
-	if pointed_thing.type~="node" then return end
-	if meta["charge"]==nil then return end
-	local charge=meta["charge"]
-	if charge-mining_drill_power_usage>0 then
-		local charge_to_take=drill_dig_it(minetest.get_pointed_thing_position(pointed_thing, above),user,3,meta["mode"])
-		charge=charge-charge_to_take;
-		if charge<0 then charge=0 end
-		meta["charge"]=charge
-		item["metadata"]=set_item_meta(meta)
-		technic.set_RE_wear(item,charge,mining_drill_mk3_max_charge)
-		itemstack:replace(item)
+function mining_drill_mk3_handler(itemstack, user, pointed_thing)
+	local keys = user:get_player_control()
+	local player_name = user:get_player_name()
+	local meta = get_item_meta(itemstack:get_metadata())
+	if not meta or not meta.mode or keys.sneak then
+		return mining_drill_mk3_setmode(user, itemstack)
+	end
+	if pointed_thing.type ~= "node" or not meta.charge then
+		return
+	end
+	if meta.charge - mining_drill_power_usage > 0 then
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local charge_to_take = drill_dig_it(pos, user, 3, meta.mode)
+		meta.charge = meta.charge - charge_to_take
+		meta.charge = math.max(meta.charge, 0)
+		itemstack:set_metadata(set_item_meta(meta))
+		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk3_max_charge)
 	end
 	return itemstack
 end
 
-mining_drill_mode_text={
-{"Single node."},
-{"3 nodes deep."},
-{"3 modes wide."},
-{"3 modes tall."},
-{"3x3 nodes."},
+mining_drill_mode_text = {
+	{"Single node."},
+	{"3 nodes deep."},
+	{"3 modes wide."},
+	{"3 modes tall."},
+	{"3x3 nodes."},
 }
 
 function mining_drill_mk2_setmode(user,itemstack)
