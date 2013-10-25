@@ -18,7 +18,7 @@ minetest.register_tool("technic:chainsaw", {
 			return
 		end
 		-- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
-		if mata.charge < chainsaw_charge_per_node then
+		if meta.charge < chainsaw_charge_per_node then
 			return
 		end
 
