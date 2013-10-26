@@ -93,4 +93,8 @@ register_dust("Stainless Steel", "technic:stainless_steel_ingot")
 register_dust("Talinite",        "glooptest:talinite_ingot")
 register_dust("Tin",             "moreores:tin_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
-
+minetest.register_craft({
+	type = "fuel",
+	recipe = "technic:coal_dust",
+	burntime = 50,
+})
