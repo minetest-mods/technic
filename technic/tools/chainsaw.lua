@@ -23,7 +23,7 @@ minetest.register_tool("technic:chainsaw", {
 		end
 
 		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-		meta.charge = chainsaw_dig_it(pos, user, mata.charge)
+		meta.charge = chainsaw_dig_it(pos, user, meta.charge)
 		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
 		itemstack:set_metadata(set_item_meta(meta))
 		return itemstack
