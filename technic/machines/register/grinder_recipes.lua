@@ -46,7 +46,9 @@ local recipes = {
 	{"moreores:tin_lump",       "technic:tin_dust 2"},
 	{"technic:chromium_ingot",  "technic:chromium_dust 1"},
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
+	{"technic:zinc_ingot",      "technic:zinc_dust 1"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
+	{"technic:brass_ingot",     "technic:brass_dust 1"},
 }
 
 if minetest.get_modpath("homedecor") then
