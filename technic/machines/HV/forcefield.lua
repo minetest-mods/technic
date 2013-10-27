@@ -68,7 +68,7 @@ end
 
 local forcefield_receive_fields = function(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
-	local range = fields.range
+	local range = tonumber(fields.range) or 0
 
 	if fields.toggle then
 		if meta:get_int("enabled") == 1 then
