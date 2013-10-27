@@ -151,11 +151,11 @@ Flashlight = Linterna
 3 nodes tall. = 3 nodos de alto.
 3 nodes wide. = 3 nodos de ancho.
 3x3 nodes. = 3x3 nodos.
-Hold shift and use to change Mining Drill Mk%d modes. = Manten pulsado Mayus y Usar para cambiar el modo del Taladro de Mineria MK%d.
+Hold shift and use to change Mining Drill Mk%d modes. = Manten pulsado Mayus y Usar para cambiar el modo del Taladro de Mineria Mk%d.
 Mining Drill Mk%d Mode %d = Taladro de Mineria Mk%d Modo %d
-Mining Drill Mk1 = Taladro de Mineria Mk1
-Mining Drill Mk2 = Taladro de Mineria Mk2
-Mining Drill Mk3 = Taladro de Mineria Mk3
+Mining Drill Mk%d = Taladro de Mineria Mk%d
+Mining Laser Mk%d = Laser de Mineria Mk%d
 Single node. = Nodo simple.
 Sonic Screwdriver = Destonillador Sonico
 Tree Tap = Grifo de Arbol
+

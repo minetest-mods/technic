@@ -222,7 +222,7 @@ end
 
 technic.register_power_tool("technic:mining_drill", mining_drill_max_charge)
 minetest.register_tool("technic:mining_drill", {
-	description = S("Mining Drill Mk1"),
+	description = S("Mining Drill Mk%d"):format(1),
 	inventory_image = "technic_mining_drill.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
@@ -245,7 +245,7 @@ minetest.register_tool("technic:mining_drill", {
 })
 
 minetest.register_tool("technic:mining_drill_mk2", {
-	description = S("Mining Drill Mk2"),
+	description = S("Mining Drill Mk%d"):format(2),
 	inventory_image = "technic_mining_drill_mk2.png",
 	on_use = function(itemstack, user, pointed_thing)
 		mining_drill_mk2_handler(itemstack, user, pointed_thing)
@@ -270,7 +270,7 @@ for i = 1, 4 do
 end
 
 minetest.register_tool("technic:mining_drill_mk3", {
-	description = S("Mining Drill Mk3"),
+	description = S("Mining Drill Mk%d"):format(3),
 	inventory_image = "technic_mining_drill_mk3.png",
 	on_use = function(itemstack, user, pointed_thing)
 	mining_drill_mk3_handler(itemstack,user,pointed_thing)
