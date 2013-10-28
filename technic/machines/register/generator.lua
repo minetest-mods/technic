@@ -11,7 +11,7 @@ function technic.register_generator(data)
 		"list[current_player;main;0,5;8,4;]"
 	
 	local desc = tier.." Generator"
-	minetest.register_node("technic:generator_"..ltier, {
+	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
 		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_side.png",
