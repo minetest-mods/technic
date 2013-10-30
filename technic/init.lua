@@ -8,7 +8,7 @@ local load_start = os.clock()
 local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
--- Boilerplate to support intllib + S("%s", "foo") syntax
+-- Boilerplate to support intllib
 if intllib then
 	technic.getter = intllib.Getter()
 else
