@@ -14,6 +14,16 @@ local f_2 = 0.5 + r_corr
 
 local S = technic.getter
 
+minetest.register_craft({
+	output = 'technic:laser_mk1',
+	recipe = {
+		{'default:diamond', 'default:steel_ingot', 'technic:battery'},
+		{'',                'default:steel_ingot', 'technic:battery'},
+		{'',                '',                    'default:copper_ingot'},
+	}
+})
+
+
 local function get_used_dir(dir)
 	local abs_dir = {x = math.abs(dir.x),
 			y = math.abs(dir.y),
