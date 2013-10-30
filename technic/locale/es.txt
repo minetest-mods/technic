@@ -1,0 +1,161 @@
+# es.txt
+# Spanish Translation for Technic Mod
+# Traduccion al Español del Mod Technic
+# Autor: Diego Martínez <kaeza>
+
+## Misc
+[Technic] Loaded in %f seconds = [Technic] Cargado en %f segundos
+
+## Items
+Silicon Wafer = Oblea de Silicio
+Doped Silicon Wafer = Oblea de Silicio Dopada
+Enriched Uranium = Uranio Enriquecido
+Uranium Fuel = Combustible de Uranio
+Diamond Drill Head = Mecha de Taladro de Diamante
+Blue Energy Crystal = Cristal de Energia Azul
+Green Energy Crystal = Cristal de Energia Verde
+Red Energy Crystal = Cristal de Energia Rojo
+Fine Copper Wire = Cable Fino de Cobre
+Copper Coil = Resorte de Cobre
+Electric Motor = Motor Electrico
+Low Voltage Transformer = Transformador de Bajo Voltaje
+Medium Voltage Transformer = Transformador de Voltaje Medio
+High Voltage Transformer = Transformador de Alto Voltaje
+Control Logic Unit = Unidad Logica de Control
+Mixed Metal Ingot = Lingote de Metal Mezclado
+Composite Plate = Placa de Compuestos
+Copper Plate = Placa de Cobre
+Carbon Plate = Placa de Carbon
+Graphite = Grafito
+Carbon Cloth = Tela de Carbon
+Raw Latex = Latex Crudo
+Rubber Fiber = Fibra de Hule
+
+## Machine misc
+Machine cannot be removed because it is not empty = La maquina no puede removerse porque no esta vacia
+# $1: Machine name (Includes tier)
+%s Active = %s Activo
+%s Idle = %s Quieto
+%s Unpowered = %s Sin Energia
+%s Out Of Fuel = %s Sin Combustible
+%s Has Bad Cabling = %s Tiene Mal Cableado
+%s Has No Network = %s No Tiene Una Red
+%s Finished = %s Terminado
+%s Disabled = %s Deshabilitado
+%s Improperly Placed = %s No Colocado Apropiadamente
+Range = Alcance
+Enable/Disable = Habilitar/Deshabilitar
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = Horno de Aleacion %s
+%s Battery Box = Caja de Bateria %s
+%s Cable = Cable %s
+%s Electric Furnace = Horno Electrico %s
+%s Grinder = Amoladora %s
+%s Generator = Generador %s
+%s Solar Array = Panel Solar %s
+Supply Converter = Convertidor de Alimentacion
+Switching Station = Estacion de Conmutacion
+Battery Box = Caja de Baterias
+Quarry = Cantera
+CNC Machine = Maquina CNC
+Music Player = Reproductor de Musica
+Extractor = Extractor
+Coal Alloy Furnace = Horno de Aleacion a Carbon
+Tool WorkShop = Taller de Herramientas
+Forcefield = Campo de Fuerza
+Forcefield Emitter = Emisor de Campo de Fuerza
+Compressor = Compresor
+Geothermal Generator = Generador Geotermico
+Water Mill = Molino de Agua
+Nuclear Reactor Rod Compartment = Compartimiento para Vara de Reactor Nuclear
+Nuclear Reactor Core = Nucleo de Reactor Nuclear
+Wind Mill = Molino de Viento
+Wind Mill Frame = Armazon de Molino de Viento
+Solar Panel = Panel Solar
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Cargar
+Discharge = Descargar
+Power level = Nivel de Poder
+# $1: Tier $2: current_charge $3: max_charge 
+%s Battery Box: %d/%d = Caja de Bateria %s: %d/%d
+# $1: Machine name $2: Supply $3: Demand
+%s. Supply: %d Demand: %d = %s. Alimentacion: %d Demanda: %d
+# $1: Production percent
+Production at %d%% = Produccion en %d%%
+
+## CNC Machine
+Element Edge = Elemento Borde
+Tree = Arbol
+Element Cross Double = Elemento Cruz Doble
+Spike = Pica
+Element Edge Double = Elemento Borde Doble
+Two Curved Edge Block = Dos Bloques de Borde Curvados
+Pyramid = Piramide
+Slope Upside Down Inner Edge = Borde Interno de Rampa Al Reves
+Slope Upside Down Edge = Borde de Rampa Al Reves
+Element Straight Double = Elemento Doble Recto
+Sphere = Esfera
+Element End Double = Doble Fin de Elemento
+Element Straight = Recta de Elemento
+Horizontal Cylinder = Cilindro Horizontal
+Slope Inner Edge = Borde Interno de Rampa
+One Curved Edge Block = Un Bloque de Borde Curvado
+Element Cross = Cruce de Elementos
+Stick = Varita
+Element End = Fin de Elemento
+Slope Lying = Rampa en Reposo
+Slope Upside Down = Rampa Al Reves
+Slope Edge = Borde de Rampa
+Slope = Rampa
+Element T = Elemento T
+Cylinder = Cilindro
+Steel = Acero
+Cobble = Adoquines
+Stone = Piedra
+Brick = Ladrillo
+Dirt = Tierra
+Sandstone = Arenisca
+Wooden = Madera
+Leaves = Hojas
+
+## Grinder Recipes
+# $1: Name
+%s Dust = Polvo de %s
+Akalin = Akalina
+Alatro = Alatro
+Arol = Arol
+Brass = Laton
+Bronze = Bronce
+Chromium = Cromo
+Coal = Carbon
+Copper = Cobre
+Gold = Oro
+Iron = Hierro
+Mithril = Mitrilo
+Silver = Plata
+Stainless Steel = Acero Inoxidable
+Talinite = Talinita
+Tin = Estanio
+Zinc = Zinc
+
+## Tools
+Water Can = Bidon de Agua
+Lava Can = Bidon de Lava
+Chainsaw = Motosierra
+Flashlight = Linterna
+3 nodes deep. = 3 nodos de profundo.
+3 nodes tall. = 3 nodos de alto.
+3 nodes wide. = 3 nodos de ancho.
+3x3 nodes. = 3x3 nodos.
+Hold shift and use to change Mining Drill Mk%d modes. = Manten pulsado Mayus y Usar para cambiar el modo del Taladro de Mineria MK%d.
+Mining Drill Mk%d Mode %d = Taladro de Mineria Mk%d Modo %d
+Mining Drill Mk1 = Taladro de Mineria Mk1
+Mining Drill Mk2 = Taladro de Mineria Mk2
+Mining Drill Mk3 = Taladro de Mineria Mk3
+Single node. = Nodo simple.
+Sonic Screwdriver = Destonillador Sonico
+Tree Tap = Grifo de Arbol
