@@ -1,10 +1,12 @@
-technic.compressor_recipes ={}
+
+technic.compressor_recipes = {}
+
+local S = technic.getter
 
 technic.register_compressor_recipe = function(src, src_count, dst, dst_count)
 	technic.compressor_recipes[src] = {src_count = src_count, dst_name = dst, dst_count = dst_count}
 	if unified_inventory then
-		unified_inventory.register_craft(
-		{
+		unified_inventory.register_craft({
 			type = "compressing",
 			output = dst.." "..dst_count,
 			items = {src.." "..src_count},
@@ -44,13 +46,13 @@ minetest.register_craft({
 
 local compressor_formspec =
 	"invsize[8,9;]"..
-	"label[0,0;Compressor]"..
+	"label[0,0;"..S("Compressor").."]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
 	"list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:compressor", {
-	description = "Compressor",
+	description = S("Compressor"),
 	tiles = {"technic_compressor_top.png",  "technic_compressor_bottom.png",
 	         "technic_compressor_side.png", "technic_compressor_side.png",
 	         "technic_compressor_back.png", "technic_compressor_front.png"},
@@ -60,8 +62,7 @@ minetest.register_node("technic:compressor", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Compressor")
-		meta:set_float("technic_power_machine", 1)
+		meta:set_string("infotext", S("Compressor"))
 		meta:set_string("formspec", compressor_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -72,7 +73,7 @@ minetest.register_node("technic:compressor", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty")
+					S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -81,7 +82,7 @@ minetest.register_node("technic:compressor", {
 })
 
 minetest.register_node("technic:compressor_active", {
-	description = "Compressor",
+	description = S("Compressor"),
 	tiles = {"technic_compressor_top.png",  "technic_compressor_bottom.png",
 	         "technic_compressor_side.png", "technic_compressor_side.png",
 	         "technic_compressor_back.png", "technic_compressor_front_active.png"},
@@ -94,7 +95,7 @@ minetest.register_node("technic:compressor_active", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty");
+					S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -109,7 +110,7 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta         = minetest.get_meta(pos)
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = "Compressor"
+		local machine_name = S("Compressor")
 		local machine_node = "technic:compressor"
 		local demand       = 300
  
@@ -139,7 +140,7 @@ minetest.register_abm({
 		if empty or (not result) or
 		   (not inv:room_for_item("dst", result)) then
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Idle")
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_demand", 0)
 			meta:set_int("src_time", 0)
 			return
@@ -147,10 +148,10 @@ minetest.register_abm({
 
 		if eu_input < demand then
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
 			hacky_swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", machine_name.." Active")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
 
 			meta:set_int("src_time", meta:get_int("src_time") + 1)
 			if meta:get_int("src_time") >= 4 then 

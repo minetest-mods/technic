@@ -1,8 +1,11 @@
 local sonic_screwdriver_max_charge = 15000
+
+local S = technic.getter
+
 technic.register_power_tool("technic:sonic_screwdriver", sonic_screwdriver_max_charge)
 
 minetest.register_tool("technic:sonic_screwdriver", {
-	description = "Sonic Screwdriver",
+	description = S("Sonic Screwdriver"),
 	inventory_image = "technic_sonic_screwdriver.png",
 	on_use = function(itemstack, user, pointed_thing)
 		-- Must be pointing to facedir applicable node

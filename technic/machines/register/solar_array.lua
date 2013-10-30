@@ -1,14 +1,17 @@
 
+local S = technic.getter
+
 function technic.register_solar_array(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
+
 	minetest.register_node("technic:solar_array_"..ltier, {
 		tiles = {"technic_"..ltier.."_solar_array_top.png",  "technic_"..ltier.."_solar_array_bottom.png",
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png",
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png"},
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
 		sounds = default.node_sound_wood_defaults(),
-		description = tier.." Solar Array",
+		description = S("%s Solar Array"):format(tier),
 		active = false,
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -39,6 +42,8 @@ function technic.register_solar_array(data)
 			-- To take care of some of it solar panels do not work outside daylight hours or if
 			-- built below -10m
 			local pos1 = {}
+			local data = minetest.registered_nodes[node.name].technic
+			local machine_name = S("%s Solar Array"):format(data.tier)
 			pos1.y = pos.y + 1
 			pos1.x = pos.x
 			pos1.z = pos.z
@@ -46,7 +51,6 @@ function technic.register_solar_array(data)
 			local time_of_day = minetest.get_timeofday()
 			local meta = minetest.get_meta(pos)
 			light = light or 0
-			local data = minetest.registered_nodes[node.name].technic
 
 
 			-- turn on array only during day time and if sufficient light
@@ -55,10 +59,10 @@ function technic.register_solar_array(data)
 				local charge_to_give = math.floor((light + pos.y) * data.power)
 				charge_to_give = math.max(charge_to_give, 0)
 				charge_to_give = math.min(charge_to_give, data.power * 50)
-				meta:set_string("infotext", "Solar Array is active ("..charge_to_give.."EU)")
+				meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..charge_to_give.."EU)")
 				meta:set_int(data.tier.."_EU_supply", charge_to_give)
 			else
-				meta:set_string("infotext", "Solar Array is inactive");
+				meta:set_string("infotext", S("%s Idle"):format(machine_name))
 				meta:set_int(data.tier.."_EU_supply", 0)
 			end
 		end,

@@ -1,16 +1,19 @@
 -- original code comes from walkin_light mod by Echo http://minetest.net/forum/viewtopic.php?id=2621
 
 local flashlight_max_charge = 30000
+
+local S = technic.getter
+
 technic.register_power_tool("technic:flashlight", flashlight_max_charge)
       
 minetest.register_tool("technic:flashlight", {
-	description = "Flashlight",
+	description = S("Flashlight"),
 	inventory_image = "technic_flashlight.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 	end,
-	})
- 
+})
+
 minetest.register_craft({
 output = "technic:flashlight",
 recipe = {
@@ -162,4 +165,5 @@ function check_for_flashlight(player)
 		end
 	end
 	return false
-end	
+end
+

@@ -1,19 +1,21 @@
 
-technic.battery_box_formspec =
-	"invsize[8,9;]"..
-	"image[1,1;1,2;technic_power_meter_bg.png]"..
-	"list[current_name;src;3,1;1,1;]"..
-	"image[4,1;1,1;technic_battery_reload.png]"..
-	"list[current_name;dst;5,1;1,1;]"..
-	"label[0,0;Battery Box]"..
-	"label[3,0;Charge]"..
-	"label[5,0;Discharge]"..
-	"label[1,3;Power level]"..
-	"list[current_player;main;0,5;8,4;]"
+local S = technic.getter
 
 function technic.register_battery_box(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
+
+	data.formspec =
+		"invsize[8,9;]"..
+		"image[1,1;1,2;technic_power_meter_bg.png]"..
+		"list[current_name;src;3,1;1,1;]"..
+		"image[4,1;1,1;technic_battery_reload.png]"..
+		"list[current_name;dst;5,1;1,1;]"..
+		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+		"label[3,0;"..S("Charge").."]"..
+		"label[5,0;"..S("Discharge").."]"..
+		"label[1,3;"..S("Power level").."]"..
+		"list[current_player;main;0,5;8,4;]"
 
 	for i = 0, 8 do
 		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2}
@@ -21,7 +23,7 @@ function technic.register_battery_box(data)
 			groups.not_in_creative_inventory = 1
 		end
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
-			description = tier.." Battery Box",
+			description = S("%s Battery Box"):format(tier),
 			tiles = {"technic_"..ltier.."_battery_box_top.png",
 			         "technic_"..ltier.."_battery_box_bottom.png",
 				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
@@ -38,8 +40,8 @@ function technic.register_battery_box(data)
 				local node = minetest.get_node(pos)
 				local data = minetest.registered_nodes[node.name].technic
 
-				meta:set_string("infotext", data.tier.." Battery Box")
-				meta:set_string("formspec", battery_box_formspec)
+				meta:set_string("infotext", S("%s Battery Box"):format(data.tier))
+				meta:set_string("formspec", data.formspec)
 				meta:set_int(data.tier.."_EU_demand", 0)
 				meta:set_int(data.tier.."_EU_supply", 0)
 				meta:set_int(data.tier.."_EU_input",  0)
@@ -47,12 +49,12 @@ function technic.register_battery_box(data)
 				inv:set_size("src", 1)
 				inv:set_size("dst", 1)
 			end,
-			can_dig = function(pos,player)
+			can_dig = function(pos, player)
 				local meta = minetest.get_meta(pos);
 				local inv = meta:get_inventory()
 				if not inv:is_empty("src") or not inv:is_empty("dst") then
 					minetest.chat_send_player(player:get_player_name(),
-						"Machine cannot be removed because it is not empty");
+						S("Machine cannot be removed because it is not empty"))
 					return false
 				else
 					return true
@@ -115,14 +117,14 @@ function technic.register_battery_box(data)
 
 			local charge_percent = math.floor(current_charge / max_charge * 100)
 			meta:set_string("formspec",
-				technic.battery_box_formspec..
-				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"
-				..charge_percent..":technic_power_meter_fg.png]")
+				data.formspec..
+				"image[1,1;1,2;technic_power_meter_bg.png"
+				.."^[lowpart:"..charge_percent
+				..":technic_power_meter_fg.png]")
 
-			local infotext = data.tier.." battery box: "
-					..current_charge.."/"..max_charge
+			local infotext = S("%s Battery Box: %d/%d"):format(data.tier, current_charge, max_charge)
 			if eu_input == 0 then
-				infotext = infotext.." (idle)"
+				infotext = S("%s Idle"):format(infotext)
 			end
 			meta:set_string("infotext", infotext)
 		end

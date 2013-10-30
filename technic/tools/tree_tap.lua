@@ -1,5 +1,8 @@
+
+local S = technic.getter
+
 minetest.register_tool("technic:treetap", {
-	description = "Tree Tap",
+	description = S("Tree Tap"),
 	inventory_image = "technic_tree_tap.png",
 	on_use = function(itemstack,user,pointed_thing)
 		if pointed_thing.type ~= "node" then
@@ -41,7 +44,7 @@ minetest.register_craft({
 })
      
 minetest.register_craftitem("technic:raw_latex", {
-	description = "Raw Latex",
+	description = S("Raw Latex"),
 	inventory_image = "technic_raw_latex.png",
 })
      
@@ -52,7 +55,7 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("technic:rubber", {
-	description = "Rubber Fiber",
+	description = S("Rubber Fiber"),
 	inventory_image = "technic_rubber.png",
 })
 

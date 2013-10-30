@@ -1,6 +1,9 @@
 -- A water mill produces LV EUs by exploiting flowing water across it
 -- It is a LV EU supplyer and fairly low yield (max 120EUs)
 -- It is a little under half as good as the thermal generator.
+
+local S = technic.getter
+
 minetest.register_alias("water_mill", "technic:water_mill")
 
 minetest.register_craft({
@@ -13,7 +16,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:water_mill", {
-	description = "Water Mill",
+	description = S("Water Mill"),
 	tiles = {"technic_water_mill_top.png",  "technic_machine_bottom.png",
 	         "technic_water_mill_side.png", "technic_water_mill_side.png",
 	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
@@ -23,13 +26,13 @@ minetest.register_node("technic:water_mill", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Water Mill")
+		meta:set_string("infotext", S("Water Mill"))
 		meta:set_int("LV_EU_supply", 0)
 	end,	
 })
 
 minetest.register_node("technic:water_mill_active", {
-	description = "Water Mill",
+	description = S("Water Mill"),
 	tiles = {"technic_water_mill_top_active.png", "technic_machine_bottom.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png"},
@@ -82,7 +85,7 @@ minetest.register_abm({
 		end
 
 		meta:set_string("infotext",
-			"Water Mill ("..production_level.."%)")
+			S("Water Mill").." ("..production_level.."%)")
 
 		if production_level > 0 and
 		   minetest.get_node(pos).name == "technic:water_mill" then

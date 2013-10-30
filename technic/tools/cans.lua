@@ -1,6 +1,8 @@
 local water_can_max_load = 16
 local lava_can_max_load = 8
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:water_can 1',
 	recipe = {
@@ -21,7 +23,7 @@ minetest.register_craft({
 
 
 minetest.register_tool("technic:water_can", {
-	description = "Water Can",
+	description = S("Water Can"),
 	inventory_image = "technic_water_can.png",
 	stack_max = 1,
 	liquids_pointable = true,
@@ -70,7 +72,7 @@ minetest.register_tool("technic:water_can", {
 })
 
 minetest.register_tool("technic:lava_can", {
-	description = "Lava Can",
+	description = S("Lava Can"),
 	inventory_image = "technic_lava_can.png",
 	stack_max = 1,
 	liquids_pointable = true,
@@ -117,3 +119,4 @@ minetest.register_tool("technic:lava_can", {
 		end
 	end,
 })
+

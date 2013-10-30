@@ -7,6 +7,7 @@
 --   I could imagine some form of API allowing modders to come with their own node
 --   box definitions and easily stuff it in the this machine for production.
 
+local S = technic.getter
 
 local shape = {}
 local onesize_products = {
@@ -126,7 +127,7 @@ end
 
 -- The actual block inactive state
 minetest.register_node("technic:cnc", {
-	description = "CNC Milling Machine",
+	description = S("CNC Machine"),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
 	drawtype    = "nodebox",
@@ -142,7 +143,7 @@ minetest.register_node("technic:cnc", {
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "CNC Machine")
+		meta:set_string("infotext", S("CNC Machine"))
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", cnc_formspec)
 		local inv = meta:get_inventory()
@@ -154,7 +155,7 @@ minetest.register_node("technic:cnc", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-				"Machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -165,7 +166,7 @@ minetest.register_node("technic:cnc", {
 
 -- Active state block
 minetest.register_node("technic:cnc_active", {
-	description = "CNC Machine",
+	description = S("CNC Machine"),
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	paramtype2 = "facedir",
@@ -176,7 +177,7 @@ minetest.register_node("technic:cnc_active", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-				"CNC machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		end
 		return true
@@ -193,7 +194,7 @@ minetest.register_abm({
 		local meta         = minetest.get_meta(pos)
 		local inv          = meta:get_inventory()
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = "CNC"
+		local machine_name = S("CNC Machine")
 		local machine_node = "technic:cnc"
 		local demand       = 450
 
@@ -213,17 +214,17 @@ minetest.register_abm({
 		   (not minetest.registered_nodes[result]) or
 		   (not inv:room_for_item("dst", result)) then
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Idle")
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_string("cnc_product", "")
 			return
 		end
 
 		if eu_input < demand then
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
 			hacky_swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", machine_name.." Active")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
 			meta:set_int("src_time", meta:get_int("src_time") + 1)
 			if meta:get_int("src_time") >= 3 then -- 3 ticks per output
 				meta:set_int("src_time", 0)

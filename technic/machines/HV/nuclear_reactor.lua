@@ -10,6 +10,7 @@ local burn_ticks   = 7 * 24 * 60 * 60       -- (seconds).
 local power_supply = 100000                 -- EUs
 local fuel_type    = "technic:uranium_fuel" -- The reactor burns this stuff
 
+local S = technic.getter
 
 -- FIXME: recipe must make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
@@ -23,7 +24,7 @@ minetest.register_craft({
 
 local generator_formspec =
 	"invsize[8,9;]"..
-	"label[0,0;Nuclear Reactor Rod Compartment]"..
+	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"
 
@@ -48,7 +49,7 @@ local nodebox = {
 }
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = "Nuclear Reactor",
+	description = S("Nuclear Reactor Core"),
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
@@ -64,7 +65,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Nuclear Reactor Core")
+		meta:set_string("infotext", S("Nuclear Reactor Core"))
 		meta:set_int("HV_EU_supply", 0)
 		-- Signal to the switching station that this device burns some
 		-- sort of fuel and needs special handling
@@ -74,12 +75,12 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
 	end,	
-	can_dig = function(pos,player)
+	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") then
 			minetest.chat_send_player(player:get_player_name(),
-				"Machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -88,7 +89,6 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 })
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
-	description = "HV Uranium Reactor",
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
@@ -103,12 +103,12 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		type = "fixed",
 		fixed = nodebox
 	},
-	can_dig = function(pos,player)
+	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") then
 			minetest.chat_send_player(player:get_player_name(),
-				"Machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -208,6 +208,7 @@ minetest.register_abm({
 	chance   = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
+		local machine_name = S("Nuclear Reactor Core")
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then
@@ -238,7 +239,7 @@ minetest.register_abm({
 			end
 			meta:set_int("HV_EU_supply", 0)
 			meta:set_int("burn_time", 0)
-			meta:set_string("infotext", "Nuclear Reactor Core (idle)")
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			hacky_swap_node(pos, "technic:hv_nuclear_reactor_core")
 		elseif burn_time > 0 then
 			damage_nearby_players(pos)
@@ -248,7 +249,7 @@ minetest.register_abm({
 			burn_time = burn_time + 1
 			meta:set_int("burn_time", burn_time)
 			local percent = math.floor(burn_time / burn_ticks * 100)
-			meta:set_string("infotext", "Nuclear Reactor Core ("..percent.."%)")
+			meta:set_string("infotext", machine_name.." ("..percent.."%)")
 			meta:set_int("HV_EU_supply", power_supply)
 		end
 	end

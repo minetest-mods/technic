@@ -1,16 +1,18 @@
 
+local S = technic.getter
+
 function technic.register_generator(data) 
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
 	local generator_formspec =
 		"invsize[8,9;]"..
-		"label[0,0;Generator]"..
+		"label[0,0;"..S("%s Generator"):format(tier).."]"..
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"
 	
-	local desc = tier.." Generator"
+	local desc = S("%s Generator"):format(tier)
 	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
@@ -34,7 +36,7 @@ function technic.register_generator(data)
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") then
 				minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty")
+					S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -57,7 +59,7 @@ function technic.register_generator(data)
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") then
 				minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty")
+					S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -85,7 +87,7 @@ function technic.register_generator(data)
 					local fuellist = inv:get_list("src")
 					fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 					if not fuel or fuel.time == 0 then
-						meta:set_string("infotext", "Generator out of fuel")
+						meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
 						hacky_swap_node(pos, "technic:"..ltier.."_generator")
 						return
 					end
@@ -116,3 +118,4 @@ function technic.register_generator(data)
 	technic.register_machine(data.tier, "technic:"..ltier.."_generator", technic.producer)
 	technic.register_machine(data.tier, "technic:"..ltier.."_generator", technic.producer)
 end
+

@@ -1,7 +1,9 @@
 -- API for the technic CNC machine
 -- Again code is adapted from the NonCubic Blocks MOD v1.4 by yves_de_beck
-technic.cnc = {}
 
+local S = technic.getter
+
+technic.cnc = {}
 
 technic.cnc.detail_level = 16
 
@@ -151,119 +153,119 @@ end
 technic.cnc.programs = {
 	{suffix  = "technic_cnc_stick",
 	nodebox = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-	desc    = "Stick"},
+	desc    = S("Stick")},
 
 	{suffix  = "technic_cnc_element_end_double",
 	nodebox = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-	desc    = "Element End Double"},
+	desc    = S("Element End Double")},
 
 	{suffix  = "technic_cnc_element_cross_double",
 	nodebox = {
 		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-	desc    = "Element Cross Double"},
+	desc    = S("Element Cross Double")},
 
 	{suffix  = "technic_cnc_element_t_double",
 	nodebox = {
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
 		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
-	desc    = "Element T Double"},
+	desc    = S("Element T Double")},
 
 	{suffix  = "technic_cnc_element_edge_double",
 	nodebox = {
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-	desc    = "Element Edge Double"},
+	desc    = S("Element Edge Double")},
 
 	{suffix  = "technic_cnc_element_straight_double",
 	nodebox = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-	desc    = "Element Straight Double"},
+	desc    = S("Element Straight Double")},
 
 	{suffix  = "technic_cnc_element_end",
 	nodebox = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-	desc    = "Element End"},
+	desc    = S("Element End")},
 
 	{suffix  = "technic_cnc_element_cross",
 	nodebox = {
 		{0.3, -0.5, -0.3, 0.5, 0, 0.3},
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-	desc    = "Element Cross"},
+	desc    = S("Element Cross")},
 
 	{suffix  = "technic_cnc_element_t",
 	nodebox = {
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
 		{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
-	desc    = "Element T"},
+	desc    = S("Element T")},
 
 	{suffix  = "technic_cnc_element_edge",
 	nodebox = {
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-	desc    = "Element Edge"},
+	desc    = S("Element Edge")},
 
 	{suffix  = "technic_cnc_element_straight",
 	nodebox = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-	desc    = "Element Straight"},
+	desc    = S("Element Straight")},
 
 	{suffix  = "technic_cnc_sphere",
 	nodebox = cnc_sphere(),
-	desc    = "Sphere"},
+	desc    = S("Sphere")},
 
 	{suffix  = "technic_cnc_cylinder_horizontal",
 	nodebox = cnc_cylinder_horizontal(),
-	desc    = "Cylinder Horizontal"},
+	desc    = S("Horizontal Cylinder")},
 
 	{suffix  = "technic_cnc_cylinder",
 	nodebox = cnc_cylinder(),
-	desc    = ""},
+	desc    = S("Cylinder")},
 
 	{suffix  = "technic_cnc_twocurvededge",
 	nodebox = cnc_twocurvededge(),
-	desc    = "One Curved Edge Block"},
+	desc    = S("Two Curved Edge Block")},
 
 	{suffix  = "technic_cnc_onecurvededge",
 	nodebox = cnc_onecurvededge(),
-	desc    = "Two Curved Edge Block"},
+	desc    = S("One Curved Edge Block")},
 
 	{suffix  = "technic_cnc_spike",
 	nodebox = cnc_spike(),
-	desc    = "Spike"},
+	desc    = S("Spike")},
 
 	{suffix  = "technic_cnc_pyramid",
 	nodebox = cnc_pyramid(),
-	desc    = "Pyramid"},
+	desc    = S("Pyramid")},
 
 	{suffix  = "technic_cnc_slope_inner_edge_upsdown",
 	nodebox = cnc_slope_inner_edge_upsdown(),
-	desc    = "Slope Upside Down Inner Edge"},
+	desc    = S("Slope Upside Down Inner Edge")},
 
 	{suffix  = "technic_cnc_slope_edge_upsdown",
 	nodebox = cnc_slope_edge_upsdown(),
-	desc    = "Slope Upside Down Edge"},
+	desc    = S("Slope Upside Down Edge")},
 
 	{suffix  = "technic_cnc_slope_inner_edge",
 	nodebox = cnc_slope_inner_edge(),
-	desc    = "Slope Inner Edge"},
+	desc    = S("Slope Inner Edge")},
 
 	{suffix  = "technic_cnc_slope_edge",
 	nodebox = cnc_slope_edge(),
-	desc    = "Slope Edge"},
+	desc    = S("Slope Edge")},
 
 	{suffix  = "technic_cnc_slope_upsdown",
 	nodebox = cnc_slope_upsdown(),
-	desc    = "Slope Upside Down"},
+	desc    = S("Slope Upside Down")},
 
 	{suffix  = "technic_cnc_slope_lying",
 	nodebox = cnc_slope_lying(),
-	desc    = "Slope Lying"},
+	desc    = S("Slope Lying")},
 
 	{suffix  = "technic_cnc_slope",
 	nodebox = cnc_slope(),
-	desc    = "Slope"},
+	desc    = S("Slope")},
 }
 
 -- Allow disabling certain programs for some node. Default is allowing all types for all nodes

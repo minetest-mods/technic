@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:wind_mill_frame 5',
 	recipe = {
@@ -18,7 +20,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:wind_mill_frame", {
-	description = "Wind Mill Frame",
+	description = S("Wind Mill Frame"),
 	drawtype = "glasslike_framed",
 	tiles = {"default_steel_block.png", "default_glass.png"},
 	sunlight_propagates = true,
@@ -28,7 +30,7 @@ minetest.register_node("technic:wind_mill_frame", {
 })
 
 minetest.register_node("technic:wind_mill", {
-	description = "Wind Mill",
+	description = S("Wind Mill"),
 	tiles = {"default_steel_block.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=1},
@@ -46,7 +48,7 @@ minetest.register_node("technic:wind_mill", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Wind Mill")
+		meta:set_string("infotext", S("Wind Mill"))
 		meta:set_int("MV_EU_supply", 0)
 	end,	
 })
@@ -70,17 +72,18 @@ minetest.register_abm({
 	chance   = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
+		local machine_name = S("Wind Mill")
 		local power = math.min(pos.y * 100, 5000)
 
 		if not check_wind_mill(pos) then
 			meta:set_int("MV_EU_supply", 0)
-			meta:set_string("infotext", "Wind Mill Inproperly Placed")
+			meta:set_string("infotext", S("%s Improperly Placed"):format(machine_name))
 			return
 		else
 			meta:set_int("MV_EU_supply", power)
 		end
 
-		meta:set_string("infotext", "Wind Mill ("..power.."EU)")
+		meta:set_string("infotext", machine_name.." ("..power.."EU)")
 	end
 })
 

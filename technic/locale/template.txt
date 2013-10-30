@@ -1,0 +1,163 @@
+# template.txt
+# Template for translations of Technic
+
+
+## Misc
+[Technic] Loaded in %f seconds =
+
+## Items
+Silicon Wafer =
+Doped Silicon Wafer =
+Enriched Uranium =
+Uranium Fuel =
+Diamond Drill Head =
+Blue Energy Crystal =
+Green Energy Crystal =
+Red Energy Crystal =
+Fine Copper Wire =
+Copper Coil =
+Electric Motor =
+Low Voltage Transformer =
+Medium Voltage Transformer =
+High Voltage Transformer =
+Control Logic Unit =
+Mixed Metal Ingot =
+Composite Plate =
+Copper Plate =
+Carbon Plate =
+Graphite =
+Carbon Cloth =
+Raw Latex =
+Rubber Fiber =
+
+## Machine misc
+Machine cannot be removed because it is not empty =
+# $1: Machine name (Includes tier)
+%s Active =
+%s Disabled =
+%s Idle =
+%s Improperly Placed =
+%s Unpowered =
+%s Out Of Fuel =
+%s Has Bad Cabling =
+%s Has No Network =
+%s Finished =
+Enable/Disable =
+Range =
+
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace =
+%s Battery Box = 
+%s Cable =
+%s Electric Furnace =
+%s Grinder =
+%s Generator =
+%s Solar Array =
+Battery Box =
+Supply Converter =
+Switching Station =
+CNC Machine =
+Coal Alloy Furnace =
+Extractor =
+Compressor =
+Solar Panel =
+Geothermal Generator =
+Music Player =
+Water Mill =
+Tool WorkShop =
+Wind Mill =
+Wind Mill Frame =
+Forcefield Emitter =
+Forcefield =
+Nuclear Reactor Core =
+Nuclear Reactor Rod Compartment =
+Quarry =
+
+## Machine-specific
+# $1: Pruduced EU
+Charge =
+Discharge =
+Power level =
+# $1: Tier $2: current_charge $3: max_charge 
+%s Battery Box: %d/%d =
+# $1: Machine name $2: Supply $3: Demand
+%s. Supply: %d Demand: %d =
+Production at %d%% =
+
+## CNC
+Cylinder =
+Element Cross =
+Element Cross Double =
+Element Edge =
+Element Edge Double =
+Element End =
+Element End Double =
+Element Straight =
+Element Straight Double =
+Element T =
+Element T Double =
+Horizontal Cylinder =
+One Curved Edge Block =
+Pyramid =
+Slope =
+Slope Edge =
+Slope Inner Edge =
+Slope Lying =
+Slope Upside Down =
+Slope Upside Down Edge =
+Slope Upside Down Inner Edge =
+Sphere =
+Spike =
+Stick =
+Two Curved Edge Block =
+Brick =
+Cobble =
+Dirt =
+Leaves =
+Sandstone =
+Steel =
+Stone =
+Tree =
+Wooden =
+
+## Grinder Recipes
+# $1: Name
+%s Dust =
+Akalin =
+Alatro =
+Arol =
+Brass =
+Bronze =
+Chromium =
+Coal =
+Copper =
+Gold =
+Iron =
+Mithril =
+Silver =
+Stainless Steel =
+Talinite =
+Tin =
+Zinc =
+
+## Tools
+Water Can =
+Lava Can =
+Chainsaw =
+Flashlight =
+3 nodes deep. =
+3 nodes tall. =
+3 nodes wide. =
+3x3 nodes. =
+Hold shift and use to change Mining Drill Mk%d modes. =
+Mining Drill Mk%d Mode %d =
+Mining Drill Mk1 =
+Mining Drill Mk2 =
+Mining Drill Mk3 =
+Single node. =
+Sonic Screwdriver =
+Tree Tap =
+
+

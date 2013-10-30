@@ -5,6 +5,8 @@ local mining_drill_power_usage     = 200
 local mining_drill_mk2_power_usage = 600
 local mining_drill_mk3_power_usage = 1800
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:mining_drill',
 	recipe = {
@@ -220,7 +222,7 @@ end
 
 technic.register_power_tool("technic:mining_drill", mining_drill_max_charge)
 minetest.register_tool("technic:mining_drill", {
-	description = "Mining Drill Mk1",
+	description = S("Mining Drill Mk1"),
 	inventory_image = "technic_mining_drill.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
@@ -243,7 +245,7 @@ minetest.register_tool("technic:mining_drill", {
 })
 
 minetest.register_tool("technic:mining_drill_mk2", {
-	description = "Mining Drill Mk2",
+	description = S("Mining Drill Mk2"),
 	inventory_image = "technic_mining_drill_mk2.png",
 	on_use = function(itemstack, user, pointed_thing)
 		mining_drill_mk2_handler(itemstack, user, pointed_thing)
@@ -256,7 +258,7 @@ technic.register_power_tool("technic:mining_drill_mk2", mining_drill_mk2_max_cha
 for i = 1, 4 do
 	technic.register_power_tool("technic:mining_drill_mk2_"..i, mining_drill_mk2_max_charge)
 	minetest.register_tool("technic:mining_drill_mk2_"..i, {
-		description = "Mining Drill Mk2 in Mode "..i,
+		description = S("Mining Drill Mk%d Mode %d"):format(2, i),
 		inventory_image = "technic_mining_drill_mk2.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk2.png",
 		groups = {not_in_creative_inventory=1},
@@ -268,7 +270,7 @@ for i = 1, 4 do
 end
 
 minetest.register_tool("technic:mining_drill_mk3", {
-	description = "Mining Drill Mk3",
+	description = S("Mining Drill Mk3"),
 	inventory_image = "technic_mining_drill_mk3.png",
 	on_use = function(itemstack, user, pointed_thing)
 	mining_drill_mk3_handler(itemstack,user,pointed_thing)
@@ -281,7 +283,7 @@ technic.register_power_tool("technic:mining_drill_mk3", mining_drill_mk3_max_cha
 for i=1,5,1 do
 	technic.register_power_tool("technic:mining_drill_mk3_"..i, mining_drill_mk3_max_charge)
 	minetest.register_tool("technic:mining_drill_mk3_"..i, {
-		description = "Mining Drill Mk3 in Mode "..i,
+		description = S("Mining Drill Mk%d Mode %d"):format(3, i),
 		inventory_image = "technic_mining_drill_mk3.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk3.png",
 		groups = {not_in_creative_inventory=1},
@@ -335,11 +337,11 @@ function mining_drill_mk3_handler(itemstack, user, pointed_thing)
 end
 
 mining_drill_mode_text = {
-	{"Single node."},
-	{"3 nodes deep."},
-	{"3 modes wide."},
-	{"3 modes tall."},
-	{"3x3 nodes."},
+	{S("Single node.")},
+	{S("3 nodes deep.")},
+	{S("3 nodes wide.")},
+	{S("3 nodes tall.")},
+	{S("3x3 nodes.")},
 }
 
 function mining_drill_mk2_setmode(user,itemstack)
@@ -351,14 +353,14 @@ function mining_drill_mk2_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name,"Hold shift and use to change Mining Drill Mk2 modes.")
+		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(2))
 		meta["mode"]=0
 		mode=0
 	end
 	mode=(meta["mode"])
 	mode=mode+1
 	if mode>=5 then mode=1 end
-	minetest.chat_send_player(player_name, "Mining Drill Mk2 mode : "..mode.." - "..mining_drill_mode_text[mode][1] )
+	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
 	item["name"]="technic:mining_drill_mk2_"..mode
 	meta["mode"]=mode
 	item["metadata"]=set_item_meta(meta)
@@ -375,14 +377,14 @@ function mining_drill_mk3_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name,"Hold shift and use to change Mining Drill Mk3 modes.")
+		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(3))
 		meta["mode"]=0
 		mode=0
 	end
 	mode=(meta["mode"])
 	mode=mode+1
 	if mode>=6 then mode=1 end
-	minetest.chat_send_player(player_name, "Mining Drill Mk3 mode : "..mode.." - "..mining_drill_mode_text[mode][1] )
+	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
 	item["name"]="technic:mining_drill_mk3_"..mode
 	meta["mode"]=mode
 	item["metadata"]=set_item_meta(meta)

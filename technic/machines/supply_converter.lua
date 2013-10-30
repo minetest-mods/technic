@@ -7,8 +7,10 @@
 --   Once the receiver side is powered it will deliver power to the other side.
 --   Unused power is wasted just like any other producer!
 
+local S = technic.getter
+
 minetest.register_node("technic:supply_converter", {
-	description = "Supply Converter",
+	description = S("Supply Converter"),
 	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
@@ -22,7 +24,7 @@ minetest.register_node("technic:supply_converter", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("infotext", "Supply Converter")
+		meta:set_string("infotext", S("Supply Converter"))
 		meta:set_float("active", false)
 	end,
 })
@@ -44,7 +46,7 @@ minetest.register_abm({
 		local demand = 10000
 		local remain = 0.9
 		-- Machine information
-		local machine_name  = "Supply Converter"
+		local machine_name  = S("Supply Converter")
 		local meta          = minetest.get_meta(pos)
 
 		local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
@@ -66,7 +68,7 @@ minetest.register_abm({
 				.." ("..input.." "..from.." -> "
 				..input * remain.." "..to..")")
 		else
-			meta:set_string("infotext", machine_name.." has bad cabling")
+			meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 			return
 		end
 

@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 function technic.register_electric_furnace(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
@@ -25,7 +27,7 @@ function technic.register_electric_furnace(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,6;8,4;]"..
-		"label[0,0;"..tier.." Electric Furnace]"
+		"label[0,0;"..S("%s Electric Furnace"):format(tier).."]"
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
@@ -36,7 +38,7 @@ function technic.register_electric_furnace(data)
 	data.formspec = formspec
 
 	minetest.register_node("technic:"..ltier.."_electric_furnace", {
-		description = tier.." Electric furnace",
+		description = S("%s Electric furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
 		         "technic_"..ltier.."_electric_furnace_bottom.png",
 		         tube_side_texture,
@@ -53,7 +55,7 @@ function technic.register_electric_furnace(data)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
 			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", data.tier.." Electric furnace")
+			meta:set_string("infotext", S("%s Electric furnace"):format(data.tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", data.formspec)
 			local inv = meta:get_inventory()
@@ -62,13 +64,13 @@ function technic.register_electric_furnace(data)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
 		end,
-		can_dig = function(pos,player)
+		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") or not inv:is_empty("dst") or
 			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
 				minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty");
+					S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -95,7 +97,7 @@ function technic.register_electric_furnace(data)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
 			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", data.tier.." Electric furnace")
+			meta:set_string("infotext", S("%s Electric furnace", data.tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", data.formspec)
 			local inv = meta:get_inventory()
@@ -104,13 +106,13 @@ function technic.register_electric_furnace(data)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
 		end,
-		can_dig = function(pos,player)
+		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") or not inv:is_empty("dst") or
 			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
 				minetest.chat_send_player(player:get_player_name(),
-					"Machine cannot be removed because it is not empty");
+					S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -148,7 +150,7 @@ function technic.register_electric_furnace(data)
 			local eu_input = meta:get_int(data.tier.."_EU_input")
 
 			-- Machine information
-			local machine_name   = data.tier.." Electric Furnace"
+			local machine_name   = S("%s Electric Furnace"):format(data.tier)
 			local machine_node   = "technic:"..string.lower(data.tier).."_electric_furnace"
 			local machine_demand = data.demand
 
@@ -172,18 +174,18 @@ function technic.register_electric_furnace(data)
 			   not inv:room_for_item("dst", result.item) then
 				meta:set_int(data.tier.."_EU_demand", 0)
 				hacky_swap_node(pos, machine_node)
-				meta:set_string("infotext", machine_name.." Idle")
+				meta:set_string("infotext", S("%s Idle"):format(machine_name))
 				return
 			end
 
 			if eu_input < machine_demand[EU_upgrade+1] then
 				-- Unpowered - go idle
 				hacky_swap_node(pos, machine_node)
-				meta:set_string("infotext", machine_name.." Unpowered")
+				meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			elseif eu_input >= machine_demand[EU_upgrade+1] then
 				-- Powered
 				hacky_swap_node(pos, machine_node.."_active")
-				meta:set_string("infotext", machine_name.." Active")
+				meta:set_string("infotext", S("%s Active"):format(machine_name))
 				technic.smelt_item(meta, result, data.speed)
 
 			end

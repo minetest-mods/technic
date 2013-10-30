@@ -27,10 +27,10 @@
 --
 --  The reason the LV|MV|HV type is prepended toe meta data is because some machine could require several supplies to work.
 --  This way the supplies are separated per network.
-technic.DBG = 1
-local dprint = technic.dprint
 
 technic.networks = {}
+
+local S = technic.getter
 
 minetest.register_craft({
 	output = "technic:switching_station",
@@ -42,7 +42,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:switching_station",{
-	description = "Switching Station",
+	description = S("Switching Station"),
 	tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
                   "technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
 	          "technic_water_mill_top_active.png", "technic_water_mill_top_active.png"},
@@ -56,7 +56,7 @@ minetest.register_node("technic:switching_station",{
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Switching Station")
+		meta:set_string("infotext", S("Switching Station"))
 	end,
 })
 
@@ -179,6 +179,7 @@ minetest.register_abm({
 		local PR_nodes
 		local BA_nodes
 		local RE_nodes
+		local machine_name = S("Switching Station")
 
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -189,7 +190,7 @@ minetest.register_abm({
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos1, tier)
 		else
 			--dprint("Not connected to a network")
-			meta:set_string("infotext", "Switching Station - no network")
+			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
 			return
 		end
 		--dprint("nodes="..table.getn(all_nodes)
@@ -235,8 +236,8 @@ minetest.register_abm({
 		--dprint("Total BA demand:"..BA_eu_demand)
 
 		meta:set_string("infotext",
-				"Switching Station. Supply: "..PR_eu_supply
-				.." Demand: "..RE_eu_demand)
+				S("%s. Supply: %d Demand: %d"):format(
+				machine_name, PR_eu_supply, RE_eu_demand))
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then

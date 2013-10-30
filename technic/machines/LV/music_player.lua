@@ -1,6 +1,8 @@
 -- LV Music player.
 -- The player can play music. But it is high ampage!
 
+local S = technic.getter
+
 minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
 	output = 'technic:music_player',
@@ -13,7 +15,7 @@ minetest.register_craft({
 
 local music_player_formspec =
 	"invsize[8,9;]"..
-	"label[0,0;Music Player]"..
+	"label[0,0;"..S("Music Player").."]"..
 	"button[4,1;1,1;track1;1]"..
 	"button[5,1;1,1;track2;2]"..
 	"button[6,1;1,1;track3;3]"..
@@ -28,14 +30,14 @@ local music_player_formspec =
 	"label[4,0;Current track --]"
 
 minetest.register_node("technic:music_player", {
-	description = "Music Player",
+	description = S("Music Player"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Music Player")
+		meta:set_string("infotext", S("Music Player"))
 		meta:set_int("active", 0)
 		meta:set_int("current_track", 1)
 		meta:set_string("formspec", music_player_formspec)
@@ -56,7 +58,7 @@ minetest.register_node("technic:music_player", {
 		meta:set_int("current_track", current_track)
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Music Player]"..
+				"label[0,0;"..S("Music Player").."]"..
 				"button[4,1;1,1;track1;1]"..
 				"button[5,1;1,1;track2;2]"..
 				"button[6,1;1,1;track3;3]"..
@@ -93,7 +95,7 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta         = minetest.get_meta(pos)
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = "Music Player"
+		local machine_name = S("Music Player")
 		local machine_node = "technic:music_player"
 		local demand       = 150
 
@@ -111,7 +113,7 @@ minetest.register_abm({
 		technic.switching_station_timeout_count(pos, "LV")
 
 		if meta:get_int("active") == 0 then
-			meta:set_string("infotext", machine_name.." Idle")
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_demand", 0)
 			if music_handle then
 				minetest.sound_stop(music_handle)
@@ -120,12 +122,12 @@ minetest.register_abm({
 		end
 
 		if eu_input < demand then
-			meta:set_string("infotext", machine_name.." Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			if music_handle then
 				minetest.sound_stop(music_handle)
 			end
 		elseif eu_input >= demand then
-			meta:set_string("infotext", machine_name.." Active")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
 			music_handle = minetest.sound_play("technic_track"..current_track,
 					{pos = pos, gain = 1.0, loop = true, max_hear_distance = 72,})
 			meta:set_int("music_handle", music_handle)

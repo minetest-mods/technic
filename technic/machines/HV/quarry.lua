@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 minetest.register_craft({
 	recipe = {
 		{"default:steelblock", "pipeworks:filter",           "default:steelblock"},
@@ -13,7 +15,7 @@ local quarry_max_depth       = 100
 local function get_quarry_formspec(size)
 	return "size[3,1.5]"..
 		"field[1,0.5;2,1;size;Radius;"..size.."]"..
-		"button[0,1;3,1;toggle;Enable/Disable]"
+		"button[0,1;3,1;toggle;"..S("Enable/Disable").."]"
 end
 
 local function quarry_receive_fields(pos, formname, fields, sender)
@@ -134,7 +136,7 @@ local function send_items(items, pos, node)
 end
 
 minetest.register_node("technic:quarry", {
-	description = "Quarry",
+	description = S("Quarry"),
 	tiles = {"default_steel_block.png", "default_steel_block.png",
 	         "default_steel_block.png", "default_steel_block.png",
 	         "default_steel_block.png^default_tool_mesepick.png", "default_steel_block.png"},
@@ -146,7 +148,7 @@ minetest.register_node("technic:quarry", {
 	on_construct = function(pos)
 		local size = 4
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Quarry")
+		meta:set_string("infotext", S("Quarry"))
 		meta:set_string("formspec", get_quarry_formspec(4))
 		meta:set_int("size", size)
 		meta:set_int("dig_y", pos.y)
@@ -171,25 +173,26 @@ minetest.register_abm({
 		local demand = 10000
 		local center = get_quarry_center(pos, size)
 		local dig_y = meta:get_int("dig_y")
+		local machine_name = S("Quarry")
 
 		technic.switching_station_timeout_count(pos, "HV")
 
 		if meta:get_int("enabled") == 0 then
-			meta:set_string("infotext", "Quarry Disabled")
+			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
 			meta:set_int("HV_EU_demand", 0)
 			return
 		end
 
 		if eu_input < demand then
-			meta:set_string("infotext", "Quarry Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
-			meta:set_string("infotext", "Quarry Active")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
 
 			local items = quarry_dig(pos, center, size)
 			send_items(items, pos, node)
 
 			if dig_y < pos.y - quarry_max_depth then
-				meta:set_string("infotext", "Quarry Finished")
+				meta:set_string("infotext", S("%s Finished"):format(machine_name))
 			end
 		end
 		meta:set_int("HV_EU_demand", demand)

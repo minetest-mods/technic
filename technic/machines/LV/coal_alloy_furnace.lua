@@ -1,6 +1,7 @@
 
 -- Coal driven alloy furnace. This uses no EUs:
 
+local S = technic.getter
 
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',
@@ -12,7 +13,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:coal_alloy_furnace", {
-	description = "Alloy Furnace",
+	description = S("Coal Alloy Furnace"),
 	tiles = {"technic_coal_alloy_furnace_top.png", "technic_coal_alloy_furnace_bottom.png", "technic_coal_alloy_furnace_side.png",
 		"technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
 	paramtype2 = "facedir",
@@ -22,7 +23,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", coal_alloy_furnace_formspec)
-		meta:set_string("infotext", "Alloy Furnace")
+		meta:set_string("infotext", S("Coal Alloy Furnace"))
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 1)
@@ -68,9 +69,10 @@ minetest.register_abm({
 		local meta = minetest.get_meta(pos)
 		local inv    = meta:get_inventory()
 		local recipe = nil
+		local machine_name = S("Coal Alloy Furnace")
 		local formspec =
 			"size[8,9]"..
-			"label[0,0;Alloy Furnace]"..
+			"label[0,0;"..machine_name.."]"..
 			"image[2,2;1,1;default_furnace_fire_bg.png]"..
 			"list[current_name;fuel;2,3;1,1;]"..
 			"list[current_name;src;2,1;1,1;]"..
@@ -125,13 +127,13 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext","Furnace active: "..percent.."%")
+			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
 			hacky_swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 					"size[8,9]"..
-					"label[0,0;Electric Alloy Furnace]"..
+					"label[0,0;"..machine_name.."]"..
 					"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
-					(100-percent)..":default_furnace_fire_fg.png]"..
+					(100 - percent)..":default_furnace_fire_fg.png]"..
 					"list[current_name;fuel;2,3;1,1;]"..
 					"list[current_name;src;2,1;1,1;]"..
 					"list[current_name;src2;3,1;1,1;]"..
@@ -164,7 +166,7 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext", "Furnace out of fuel")
+			meta:set_string("infotext", S("%s Out Of Fuel"):format(machine_name))
 			hacky_swap_node(pos, "technic:coal_alloy_furnace")
 			meta:set_string("formspec", formspec)
 			return

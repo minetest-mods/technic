@@ -5,6 +5,8 @@
 
 minetest.register_alias("geothermal", "technic:geothermal")
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
@@ -15,18 +17,17 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("technic:geothermal", {
-	description = "Geothermal Generator",
-	stack_max = 99,
+	description = S("Geothermal Generator"),
 }) 
 
 local geothermal_formspec =
 	"invsize[8,4;]"..
-	"label[0,0;Geothermal Generator]"..
+	"label[0,0;"..S("Geothermal Generator").."]"..
 	"list[current_player;main;0,5;8,4;]"
 	
 
 minetest.register_node("technic:geothermal", {
-	description = "Geothermal Generator",
+	description = S("Geothermal Generator"),
 	tiles = {"technic_geothermal_top.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	paramtype2 = "facedir",
@@ -35,15 +36,14 @@ minetest.register_node("technic:geothermal", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Geothermal Generator")
-		meta:set_float("technic_power_machine", 1)
+		meta:set_string("infotext", S("Geothermal Generator"))
 		meta:set_int("LV_EU_supply", 0)
 		meta:set_string("formspec", geothermal_formspec)	
 	end,	
 })
 
 minetest.register_node("technic:geothermal_active", {
-	description = "Geothermal Generator",
+	description = S("Geothermal Generator"),
 	tiles = {"technic_geothermal_top_active.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	paramtype2 = "facedir",
@@ -104,8 +104,8 @@ minetest.register_abm({
 
 		meta:set_string("formspec",
 			"invsize[8,4;]"..
-			"label[0,0;Geothermal Generator]"..
-			"label[4,0;Production at "..tostring(production_level).."%]")
+			"label[0,0;"..S("Geothermal Generator").."]"..
+			"label[4,0;"..S("Production at %d%%"):format(production_level).."]")
 
 		if production_level > 0 and minetest.get_node(pos).name == "technic:geothermal" then
 			hacky_swap_node (pos, "technic:geothermal_active")

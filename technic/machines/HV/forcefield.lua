@@ -9,6 +9,8 @@
 local forcefield_power_drain   = 10
 local forcefield_step_interval = 1
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:forcefield_emitter_off',
 	recipe = {
@@ -62,8 +64,8 @@ end
 
 local get_forcefield_formspec = function(range)
 	return "size[3,1.5]"..
-		"field[1,0.5;2,1;range;Range;"..range.."]"..
-		"button[0,1;3,1;toggle;Enable/Disable]"
+		"field[1,0.5;2,1;range;"..S("Range")..";"..range.."]"..
+		"button[0,1;3,1;toggle;"..S("Enable/Disable").."]"
 end
 
 local forcefield_receive_fields = function(pos, formname, fields, sender)
@@ -103,7 +105,7 @@ local mesecons = {
 }
 
 minetest.register_node("technic:forcefield_emitter_off", {
-	description = "Forcefield emitter",
+	description = S("Forcefield Emitter"),
 	tiles = {"technic_forcefield_emitter_off.png"},
 	groups = {cracky = 1},
 	on_receive_fields = forcefield_receive_fields,
@@ -114,13 +116,13 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_int("range", 10)
 		meta:set_int("enabled", 0)
 		meta:set_string("formspec", get_forcefield_formspec(10))
-		meta:set_string("infotext", "Forcefield emitter");
+		meta:set_string("infotext", S("Forcefield Emitter"))
 	end,
 	mesecons = mesecons
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
-	description = "Forcefield emitter on (you hacker you)",
+	description = S("Forcefield Emitter"),
 	tiles = {"technic_forcefield_emitter_on.png"},
 	groups = {cracky = 1, not_in_creative_inventory=1},
 	drop = "technic:forcefield_emitter_off",
@@ -138,7 +140,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 })
 
 minetest.register_node("technic:forcefield", {
-	description = "Forcefield (you hacker you)",
+	description = S("Forcefield"),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1, unbreakable=1},
@@ -164,6 +166,7 @@ minetest.register_abm({
 		local eu_input   = meta:get_int("HV_EU_input")
 		local eu_demand  = meta:get_int("HV_EU_demand")
 		local enabled    = meta:get_int("enabled")
+		local machine_name = S("Forcefield Emitter")
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "HV")
 
@@ -176,11 +179,11 @@ minetest.register_abm({
 				meta:set_int("HV_EU_demand", 0)
 				update_forcefield(pos, meta:get_int("range"), false)
 				hacky_swap_node(pos, "technic:forcefield_emitter_off")
-				meta:set_string("infotext", "Forcefield Generator Disabled")
+				meta:set_string("infotext", S("%s Disabled"):format(machine_name))
 				return
 			end
 		elseif eu_input < power_requirement then
-			meta:set_string("infotext", "Forcefield Generator Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			if node.name == "technic:forcefield_emitter_on" then
 				update_forcefield(pos, meta:get_int("range"), false)
 				hacky_swap_node(pos, "technic:forcefield_emitter_off")
@@ -188,7 +191,7 @@ minetest.register_abm({
 		elseif eu_input >= power_requirement then
 			if node.name == "technic:forcefield_emitter_off" then
 				hacky_swap_node(pos, "technic:forcefield_emitter_on")
-				meta:set_string("infotext", "Forcefield Generator Active")
+				meta:set_string("infotext", S("%s Active"):format(machine_name))
 			end
 			update_forcefield(pos, meta:get_int("range"), true)
 		end

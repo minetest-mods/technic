@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 function technic.register_grinder(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
@@ -31,7 +33,7 @@ function technic.register_grinder(data)
 	data.formspec = formspec
 
 	minetest.register_node("technic:"..ltier.."_grinder", {
-		description = tier.." Grinder",
+		description = S("%s Grinder"):format(tier),
 		tiles = {"technic_"..ltier.."_grinder_top.png",  "technic_"..ltier.."_grinder_bottom.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_side.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front.png"},
@@ -45,7 +47,7 @@ function technic.register_grinder(data)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
 			local data = minetest.registered_nodes[node.name].technic
-			meta:set_string("infotext", data.tier.." Grinder")
+			meta:set_string("infotext", S("%s Grinder"):format(data.tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", data.formspec)
 			local inv = meta:get_inventory()
@@ -55,12 +57,12 @@ function technic.register_grinder(data)
 			inv:set_size("upgrade2", 1)
 		end,
 		can_dig = function(pos,player)
-			local meta = minetest.get_meta(pos);
+			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") or not inv:is_empty("dst") or 
 			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
 				minetest.chat_send_player(player:get_player_name(),
-						"Machine cannot be removed because it is not empty");
+						S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -69,7 +71,7 @@ function technic.register_grinder(data)
 	})
 
 	minetest.register_node("technic:"..ltier.."_grinder_active",{
-		description = tier.." Grinder",
+		description = S("%s Grinder"):format(tier),
 		tiles = {"technic_"..ltier.."_grinder_top.png",  "technic_"..ltier.."_grinder_bottom.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_side.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front_active.png"},
@@ -85,7 +87,7 @@ function technic.register_grinder(data)
 			if not inv:is_empty("src") or not inv:is_empty("dst") or
 			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
 				minetest.chat_send_player(player:get_player_name(),
-						"Machine cannot be removed because it is not empty");
+						S("Machine cannot be removed because it is not empty"))
 				return false
 			else
 				return true
@@ -116,12 +118,12 @@ function technic.register_grinder(data)
 		interval = 1,
 		chance   = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local data         = minetest.registered_nodes[node.name].technic
-			local meta         = minetest.get_meta(pos)
-			local inv    = meta:get_inventory()
-			local eu_input     = meta:get_int(data.tier.."_EU_input")
+			local data     = minetest.registered_nodes[node.name].technic
+			local meta     = minetest.get_meta(pos)
+			local inv      = meta:get_inventory()
+			local eu_input = meta:get_int(data.tier.."_EU_input")
 
-			local machine_name   = data.tier.." Grinder"
+			local machine_name   = S("%s Grinder"):format(data.tier)
 			local machine_node   = "technic:"..string.lower(data.tier).."_grinder"
 			local machine_demand = data.demand
 
@@ -147,7 +149,7 @@ function technic.register_grinder(data)
 
 			if not result then
 				hacky_swap_node(pos, machine_node)
-				meta:set_string("infotext", machine_name.." Idle")
+				meta:set_string("infotext", S("%s Idle"):format(machine_name))
 				meta:set_int(data.tier.."_EU_demand", 0)
 				return
 			end
@@ -155,11 +157,11 @@ function technic.register_grinder(data)
 			if eu_input < machine_demand[EU_upgrade+1] then
 				-- Unpowered - go idle
 				hacky_swap_node(pos, machine_node)
-				meta:set_string("infotext", machine_name.." Unpowered")
+				meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			elseif eu_input >= machine_demand[EU_upgrade+1] then
 				-- Powered	
 				hacky_swap_node(pos, machine_node.."_active")
-				meta:set_string("infotext", machine_name.." Active")
+				meta:set_string("infotext", S("%s Active"):format(machine_name))
 
 				meta:set_int("src_time", meta:get_int("src_time") + 1)
 				if meta:get_int("src_time") >= result.time / data.speed then

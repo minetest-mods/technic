@@ -1,4 +1,7 @@
+
 technic.extractor_recipes ={}
+
+local S = technic.getter
 
 technic.register_extractor_recipe = function(src, src_count, dst, dst_count)
 	technic.extractor_recipes[src] = {src_count = src_count, dst_name = dst, dst_count = dst_count}
@@ -50,13 +53,13 @@ minetest.register_craft({
 
 local extractor_formspec =
    "invsize[8,9;]"..
-   "label[0,0;Extractor]"..
+   "label[0,0;"..S("Extractor").."]"..
    "list[current_name;src;3,1;1,1;]"..
    "list[current_name;dst;5,1;2,2;]"..
    "list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:extractor", {
-	description = "Extractor",
+	description = S("Extractor"),
 	tiles = {"technic_lv_grinder_top.png",  "technic_lv_grinder_bottom.png", "technic_lv_grinder_side.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_side.png",   "technic_lv_grinder_front.png"},
 	paramtype2 = "facedir",
@@ -65,7 +68,7 @@ minetest.register_node("technic:extractor", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Extractor")
+		meta:set_string("infotext", S("Extractor"))
 		meta:set_string("formspec", extractor_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -76,7 +79,7 @@ minetest.register_node("technic:extractor", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-				"Machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -85,7 +88,7 @@ minetest.register_node("technic:extractor", {
 })
 
 minetest.register_node("technic:extractor_active", {
-	description = "Extractor",
+	description = S("Extractor"),
 	tiles = {"technic_lv_grinder_top.png",  "technic_lv_grinder_bottom.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_side.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_front_active.png"},
@@ -98,7 +101,7 @@ minetest.register_node("technic:extractor_active", {
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") or not inv:is_empty("dst") then
 			minetest.chat_send_player(player:get_player_name(),
-				"Machine cannot be removed because it is not empty");
+				S("Machine cannot be removed because it is not empty"))
 			return false
 		else
 			return true
@@ -118,7 +121,7 @@ minetest.register_abm({
 		local eu_input = meta:get_int("LV_EU_input")
 
 		-- Machine information
-		local machine_name = "Extractor"
+		local machine_name = S("Extractor")
 		local machine_node = "technic:extractor"
 		local demand       = 300
 
@@ -144,7 +147,7 @@ minetest.register_abm({
 		if inv:is_empty("src") or (not recipe) or (not result) or
 		   (not inv:room_for_item("dst", result)) then
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Idle")
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_demand", 0)
 			return
 		end
@@ -152,11 +155,11 @@ minetest.register_abm({
 		if eu_input < demand then
 			-- unpowered - go idle
 			hacky_swap_node(pos, machine_node)
-			meta:set_string("infotext", machine_name.." Unpowered")
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
 			-- Powered
 			hacky_swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", machine_name.." Active")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
 
 			meta:set_int("src_time", meta:get_int("src_time") + 1)
 			if meta:get_int("src_time") >= 4 then -- 4 ticks per output

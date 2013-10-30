@@ -1,6 +1,7 @@
 
-technic.cables = {}
+local S = technic.getter
 
+technic.cables = {}
 
 function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
@@ -21,7 +22,7 @@ function technic.register_cable(tier, size)
 		end
 
 		minetest.register_node("technic:"..ltier.."_cable"..id, {
-			description = tier.." Cable",
+			description = S("%s Cable"):format(tier),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			inventory_image = "technic_"..ltier.."_cable_wield.png",
 			wield_image = "technic_"..ltier.."_cable_wield.png",

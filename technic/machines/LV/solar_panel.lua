@@ -2,12 +2,14 @@
 -- They can however also be used separately but with reduced efficiency due to the missing transformer.
 -- Individual panels are less efficient than when the panels are combined into full arrays.
 
+local S = technic.getter
+
 minetest.register_node("technic:solar_panel", {
 	tiles = {"technic_solar_panel_top.png",  "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
 	         "technic_solar_panel_side.png", "technic_solar_panel_side.png",   "technic_solar_panel_side.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
-    	description="Solar Panel",
+    	description = S("Solar Panel"),
 	active = false,
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -19,7 +21,7 @@ minetest.register_node("technic:solar_panel", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("LV_EU_supply", 0)
-		meta:set_string("infotext", "LV Solar Panel")
+		meta:set_string("infotext", S("Solar Panel"))
 	end,
 })
 
@@ -46,6 +48,7 @@ minetest.register_abm({
 		-- To take care of some of it solar panels do not work outside daylight hours or if
 		-- built below -10m
 		local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
+		local machine_name = S("Solar Panel")
 
 		local light = minetest.get_node_light(pos1, nil)
 		local time_of_day = minetest.get_timeofday()
@@ -57,10 +60,10 @@ minetest.register_abm({
 			local charge_to_give = math.floor((light + pos1.y) * 3)
 			charge_to_give = math.max(charge_to_give, 0)
 			charge_to_give = math.min(charge_to_give, 200)
-			meta:set_string("infotext", "Solar Panel is active ("..charge_to_give.."EU)")
+			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..charge_to_give.."EU)")
 			meta:set_int("LV_EU_supply", charge_to_give)
 		else
-			meta:set_string("infotext", "Solar Panel is inactive");
+			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_supply", 0)
 		end
 	end,
