@@ -167,3 +167,24 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craftitem("technic:nothing", {
+	description = "",
+	inventory_image = "blank.png",
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "technic:nothing",
+	recipe = {
+		{"default:copper_ingot", "default:steel_ingot"}
+	}
+})
+
+if minetest.register_craft_predict then
+	minetest.register_craft_predict(function(itemstack, player, old_craft_grid, craft_inv)
+		if itemstack:get_name() == "technic:nothing" then
+			return ItemStack("")
+		end
+	end)
+end
+
