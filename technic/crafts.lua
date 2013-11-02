@@ -175,9 +175,7 @@ minetest.register_craftitem("technic:nothing", {
 minetest.register_craft({
 	type = "shapeless",
 	output = "technic:nothing",
-	recipe = {
-		{"default:copper_ingot", "default:steel_ingot"}
-	}
+	recipe = {"default:copper_ingot", "default:steel_ingot"}
 })
 
 if minetest.register_craft_predict then
