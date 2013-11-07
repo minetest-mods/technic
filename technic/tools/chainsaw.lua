@@ -12,7 +12,7 @@ minetest.register_tool("technic:chainsaw", {
 	inventory_image = "technic_chainsaw.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type == "node" then
+		if pointed_thing.type ~= "node" then
 			return itemstack
 		end
 		local meta = get_item_meta(itemstack:get_metadata())
