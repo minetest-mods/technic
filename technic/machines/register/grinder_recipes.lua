@@ -65,7 +65,7 @@ local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	minetest.register_craftitem("technic:"..lname.."_dust", {
-		description = S("%s Dust"):format(name),
+		description = S("%s Dust"):format(S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",
 		on_place_on_ground = minetest.craftitem_place_item,
 	})
@@ -79,22 +79,22 @@ local function register_dust(name, ingot)
 end
 
 -- Sorted alphibeticaly
-register_dust(S("Akalin"),          "glooptest:akalin_ingot")
-register_dust(S("Alatro"),          "glooptest:alatro_ingot")
-register_dust(S("Arol"),            "glooptest:arol_ingot")
-register_dust(S("Brass"),           "technic:brass_ingot")
-register_dust(S("Bronze"),          "default:bronze_ingot")
-register_dust(S("Chromium"),        "technic:chromium_ingot")
-register_dust(S("Coal"),            nil)
-register_dust(S("Copper"),          "default:copper_ingot")
-register_dust(S("Gold"),            "default:gold_ingot")
-register_dust(S("Iron"),            "default:steel_ingot")
-register_dust(S("Mithril"),         "moreores:mithril_ingot")
-register_dust(S("Silver"),          "moreores:silver_ingot")
-register_dust(S("Stainless Steel"), "technic:stainless_steel_ingot")
-register_dust(S("Talinite"),        "glooptest:talinite_ingot")
-register_dust(S("Tin"),             "moreores:tin_ingot")
-register_dust(S("Zinc"),            "technic:zinc_ingot")
+register_dust("Akalin",          "glooptest:akalin_ingot")
+register_dust("Alatro",          "glooptest:alatro_ingot")
+register_dust("Arol",            "glooptest:arol_ingot")
+register_dust("Brass",           "technic:brass_ingot")
+register_dust("Bronze",          "default:bronze_ingot")
+register_dust("Chromium",        "technic:chromium_ingot")
+register_dust("Coal",            nil)
+register_dust("Copper",          "default:copper_ingot")
+register_dust("Gold",            "default:gold_ingot")
+register_dust("Iron",            "default:steel_ingot")
+register_dust("Mithril",         "moreores:mithril_ingot")
+register_dust("Silver",          "moreores:silver_ingot")
+register_dust("Stainless Steel", "technic:stainless_steel_ingot")
+register_dust("Talinite",        "glooptest:talinite_ingot")
+register_dust("Tin",             "moreores:tin_ingot")
+register_dust("Zinc",            "technic:zinc_ingot")
 
 minetest.register_craft({
 	type = "fuel",
