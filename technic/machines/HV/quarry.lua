@@ -20,7 +20,7 @@ end
 
 local function quarry_receive_fields(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
-	local size = tonumber(fields.size)
+	local size = tonumber(fields.size) or 0
 
 	if fields.toggle then
 		if meta:get_int("enabled") == 0 then
@@ -30,8 +30,7 @@ local function quarry_receive_fields(pos, formname, fields, sender)
 		end
 	end
 
-	-- Smallest size is 2. Anything less is asking for trouble.
-	-- Largest is 8. It is a matter of pratical node handling.
+	-- Smallest size is 2. Largest is 8.
 	size = math.max(size, 2)
 	size = math.min(size, 8)
 
