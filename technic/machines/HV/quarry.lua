@@ -103,7 +103,7 @@ local function quarry_dig(pos, center, size)
 		end
 		if minetest.is_protected and minetest.is_protected(digpos, owner) then
 			meta:set_int("enabled", 0)
-			return
+			return {}
 		end
 		dig_y = digpos.y
 		local node = minetest.get_node(digpos)
