@@ -44,8 +44,6 @@ function technic.register_electric_furnace(data)
 			"label[1,5;Upgrade Slots]"
 	end
 
-	data.formspec = formspec
-
 	minetest.register_node("technic:"..ltier.."_electric_furnace", {
 		description = S("%s Electric furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
@@ -59,14 +57,12 @@ function technic.register_electric_furnace(data)
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
 		tube = data.tube and tube or nil,
-		technic = data,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", S("%s Electric furnace"):format(data.tier))
+			meta:set_string("infotext", S("%s Electric furnace"):format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", data.formspec)
+			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
@@ -101,14 +97,13 @@ function technic.register_electric_furnace(data)
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
 		tube = data.tube and tube or nil,
-		technic = data,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
 			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", S("%s Electric furnace", data.tier))
+			meta:set_string("infotext", S("%s Electric furnace"):format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", data.formspec)
+			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
@@ -153,18 +148,17 @@ function technic.register_electric_furnace(data)
 		interval = 1,
 		chance   = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local data     = minetest.registered_nodes[node.name].technic
 			local meta     = minetest.get_meta(pos)
 			local inv      = meta:get_inventory()
-			local eu_input = meta:get_int(data.tier.."_EU_input")
+			local eu_input = meta:get_int(tier.."_EU_input")
 
 			-- Machine information
-			local machine_name   = S("%s Electric Furnace"):format(data.tier)
-			local machine_node   = "technic:"..string.lower(data.tier).."_electric_furnace"
+			local machine_name   = S("%s Electric Furnace"):format(tier)
+			local machine_node   = "technic:"..ltier.."_electric_furnace"
 			local machine_demand = data.demand
 
 			-- Power off automatically if no longer connected to a switching station
-			technic.switching_station_timeout_count(pos, data.tier)
+			technic.switching_station_timeout_count(pos, tier)
 
 			-- Check upgrade slots
 			local EU_upgrade, tube_upgrade = 0, 0
@@ -181,7 +175,7 @@ function technic.register_electric_furnace(data)
 					items = inv:get_list("src")})
 			if not result or result.time == 0 or
 			   not inv:room_for_item("dst", result.item) then
-				meta:set_int(data.tier.."_EU_demand", 0)
+				meta:set_int(tier.."_EU_demand", 0)
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_name))
 				return
@@ -198,7 +192,7 @@ function technic.register_electric_furnace(data)
 				technic.smelt_item(meta, result, data.speed)
 
 			end
-			meta:set_int(data.tier.."_EU_demand", machine_demand[EU_upgrade+1])
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 		end,
 	})
 

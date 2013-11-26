@@ -19,11 +19,9 @@ function technic.register_solar_array(data)
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
 		},
-		technic = data,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			local tier = minetest.registered_nodes[name].technic.tier
 			meta:set_int(tier.."_EU_supply", 0)
 		end,
 	})
@@ -42,8 +40,7 @@ function technic.register_solar_array(data)
 			-- To take care of some of it solar panels do not work outside daylight hours or if
 			-- built below -10m
 			local pos1 = {}
-			local data = minetest.registered_nodes[node.name].technic
-			local machine_name = S("%s Solar Array"):format(data.tier)
+			local machine_name = S("%s Solar Array"):format(tier)
 			pos1.y = pos.y + 1
 			pos1.x = pos.x
 			pos1.z = pos.z
@@ -60,10 +57,10 @@ function technic.register_solar_array(data)
 				charge_to_give = math.max(charge_to_give, 0)
 				charge_to_give = math.min(charge_to_give, data.power * 50)
 				meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..charge_to_give.."EU)")
-				meta:set_int(data.tier.."_EU_supply", charge_to_give)
+				meta:set_int(tier.."_EU_supply", charge_to_give)
 			else
 				meta:set_string("infotext", S("%s Idle"):format(machine_name))
-				meta:set_int(data.tier.."_EU_supply", 0)
+				meta:set_int(tier.."_EU_supply", 0)
 			end
 		end,
 	})

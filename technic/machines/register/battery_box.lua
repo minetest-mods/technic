@@ -5,7 +5,7 @@ function technic.register_battery_box(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	data.formspec =
+	local formspec =
 		"invsize[8,9;]"..
 		"image[1,1;1,2;technic_power_meter_bg.png]"..
 		"list[current_name;src;3,1;1,1;]"..
@@ -33,18 +33,16 @@ function technic.register_battery_box(data)
 			groups = groups,
 			sounds = default.node_sound_wood_defaults(),
 			drop = "technic:"..ltier.."_battery_box0",
-			technic = data,
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
 				local inv = meta:get_inventory()
 				local node = minetest.get_node(pos)
-				local data = minetest.registered_nodes[node.name].technic
 
-				meta:set_string("infotext", S("%s Battery Box"):format(data.tier))
-				meta:set_string("formspec", data.formspec)
-				meta:set_int(data.tier.."_EU_demand", 0)
-				meta:set_int(data.tier.."_EU_supply", 0)
-				meta:set_int(data.tier.."_EU_input",  0)
+				meta:set_string("infotext", S("%s Battery Box"):format(tier))
+				meta:set_string("formspec", formspec)
+				meta:set_int(tier.."_EU_demand", 0)
+				meta:set_int(tier.."_EU_supply", 0)
+				meta:set_int(tier.."_EU_input",  0)
 				meta:set_float("internal_EU_charge", 0)
 				inv:set_size("src", 1)
 				inv:set_size("dst", 1)
@@ -73,20 +71,16 @@ function technic.register_battery_box(data)
 		interval = 1,
 		chance   = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local data           = minetest.registered_nodes[node.name].technic
 			local meta           = minetest.get_meta(pos)
-			local eu_input       = meta:get_int(data.tier.."_EU_input")
+			local eu_input       = meta:get_int(tier.."_EU_input")
 			local current_charge = meta:get_int("internal_EU_charge")
-			local max_charge     = data.max_charge
-			local charge_rate    = data.charge_rate
-			local discharge_rate = data.discharge_rate
 
 			-- Power off automatically if no longer connected to a switching station
-			technic.switching_station_timeout_count(pos, data.tier)
+			technic.switching_station_timeout_count(pos, tier)
 
 			-- Charge/discharge the battery with the input EUs
 			if eu_input >= 0 then
-				current_charge = math.min(current_charge + eu_input, max_charge)
+				current_charge = math.min(current_charge + eu_input, data.max_charge)
 			else
 				current_charge = math.max(current_charge + eu_input, 0)
 			end
@@ -95,34 +89,36 @@ function technic.register_battery_box(data)
 			current_charge = technic.charge_tools(meta,
 					current_charge, data.charge_step)
 			current_charge = technic.discharge_tools(meta,
-					current_charge, data.discharge_step, max_charge)
+					current_charge, data.discharge_step,
+					data.max_charge)
 
 			-- We allow batteries to charge on less than the demand
-			meta:set_int(data.tier.."_EU_demand",
-					math.min(charge_rate, max_charge - current_charge))
-			meta:set_int(data.tier.."_EU_supply",
-					math.min(discharge_rate, current_charge))
+			meta:set_int(tier.."_EU_demand",
+					math.min(data.charge_rate, data.max_charge - current_charge))
+			meta:set_int(tier.."_EU_supply",
+					math.min(data.discharge_rate, current_charge))
 
 			meta:set_int("internal_EU_charge", current_charge)
 
 			-- Select node textures
-			local charge_count = math.ceil((current_charge / max_charge) * 8)
+			local charge_count = math.ceil((current_charge / data.max_charge) * 8)
 			charge_count = math.min(charge_count, 8)
 			charge_count = math.max(charge_count, 0)
 			local last_count = meta:get_float("last_side_shown")
 			if charge_count ~= last_count then
-				hacky_swap_node(pos,"technic:"..string.lower(data.tier).."_battery_box"..charge_count)
+				hacky_swap_node(pos,"technic:"..ltier.."_battery_box"..charge_count)
 				meta:set_float("last_side_shown", charge_count)
 			end
 
-			local charge_percent = math.floor(current_charge / max_charge * 100)
+			local charge_percent = math.floor(current_charge / data.max_charge * 100)
 			meta:set_string("formspec",
-				data.formspec..
+				formspec..
 				"image[1,1;1,2;technic_power_meter_bg.png"
 				.."^[lowpart:"..charge_percent
 				..":technic_power_meter_fg.png]")
 
-			local infotext = S("%s Battery Box: %d/%d"):format(data.tier, current_charge, max_charge)
+			local infotext = S("%s Battery Box: %d/%d"):format(tier,
+					current_charge, data.max_charge)
 			if eu_input == 0 then
 				infotext = S("%s Idle"):format(infotext)
 			end

@@ -41,7 +41,6 @@ function technic.register_grinder(data)
 			"list[current_name;upgrade2;2,4;1,1;]"..
 			"label[1,5;Upgrade Slots]"
 	end
-	data.formspec = formspec
 
 	minetest.register_node("technic:"..ltier.."_grinder", {
 		description = S("%s Grinder"):format(tier),
@@ -50,17 +49,15 @@ function technic.register_grinder(data)
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front.png"},
 		paramtype2 = "facedir",
 		groups = groups,
-		technic = data,
 		tube = data.tube and tube or nil,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
-			local data = minetest.registered_nodes[node.name].technic
-			meta:set_string("infotext", S("%s Grinder"):format(data.tier))
+			meta:set_string("infotext", S("%s Grinder"):format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", data.formspec)
+			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
@@ -90,9 +87,8 @@ function technic.register_grinder(data)
 		groups = active_groups,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
-		technic = data,
 		tube = data.tube and tube or nil,
-		can_dig = function(pos,player)
+		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") or not inv:is_empty("dst") or
@@ -129,24 +125,23 @@ function technic.register_grinder(data)
 		interval = 1,
 		chance   = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local data     = minetest.registered_nodes[node.name].technic
 			local meta     = minetest.get_meta(pos)
 			local inv      = meta:get_inventory()
-			local eu_input = meta:get_int(data.tier.."_EU_input")
+			local eu_input = meta:get_int(tier.."_EU_input")
 
-			local machine_name   = S("%s Grinder"):format(data.tier)
-			local machine_node   = "technic:"..string.lower(data.tier).."_grinder"
+			local machine_name   = S("%s Grinder"):format(tier)
+			local machine_node   = "technic:"..ltier.."_grinder"
 			local machine_demand = data.demand
 
 			-- Setup meta data if it does not exist.
 			if not eu_input then
-				meta:set_int(data.tier.."_EU_demand", machine_demand[1])
-				meta:set_int(data.tier.."_EU_input", 0)
+				meta:set_int(tier.."_EU_demand", machine_demand[1])
+				meta:set_int(tier.."_EU_input", 0)
 				return
 			end
 		
 			-- Power off automatically if no longer connected to a switching station
-			technic.switching_station_timeout_count(pos, data.tier)
+			technic.switching_station_timeout_count(pos, tier)
 
 			local EU_upgrade, tube_upgrade = 0, 0
 			if data.upgrade then
@@ -161,7 +156,7 @@ function technic.register_grinder(data)
 			if not result then
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_name))
-				meta:set_int(data.tier.."_EU_demand", 0)
+				meta:set_int(tier.."_EU_demand", 0)
 				return
 			end
 		
@@ -186,7 +181,7 @@ function technic.register_grinder(data)
 					end
 				end
 			end
-			meta:set_int(data.tier.."_EU_demand", machine_demand[EU_upgrade+1])
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 		end
 	})
 

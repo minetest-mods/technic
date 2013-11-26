@@ -108,8 +108,6 @@ function technic.register_alloy_furnace(data)
 			"label[1,5;Upgrade Slots]"
 	end
 
-	data.formspec = formspec
-
 	minetest.register_node("technic:"..ltier.."_alloy_furnace", {
 		description = S("%s Alloy Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_alloy_furnace_top.png",
@@ -121,17 +119,14 @@ function technic.register_alloy_furnace(data)
 		paramtype2 = "facedir",
 		groups = groups,
 		tube = data.tube and tube or nil,
-		technic = data,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			local data = minetest.registered_nodes[name].technic
 
-
-			meta:set_string("infotext", S("%s Alloy Furnace"):format(data.tier))
-			meta:set_string("formspec", data.formspec)
+			meta:set_string("infotext", S("%s Alloy Furnace"):format(tier))
+			meta:set_string("formspec", formspec)
 			meta:set_int("tube_time",  0)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 2)
@@ -166,7 +161,6 @@ function technic.register_alloy_furnace(data)
 		drop = "technic:"..ltier.."_alloy_furnace",
 		groups = active_groups,
 		tube = data.tube and tube or nil,
-		technic = data,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
 		can_dig = function(pos, player)
@@ -206,24 +200,23 @@ function technic.register_alloy_furnace(data)
 		interval = 1,
 		chance = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local data         = minetest.registered_nodes[node.name].technic
 			local meta         = minetest.get_meta(pos)
 			local inv          = meta:get_inventory()
-			local eu_input     = meta:get_int(data.tier.."_EU_input")
+			local eu_input     = meta:get_int(tier.."_EU_input")
 
 			-- Machine information
-			local machine_name   = S("%s Alloy Furnace"):format(data.tier)
-			local machine_node   = "technic:"..string.lower(data.tier).."_alloy_furnace"
+			local machine_name   = S("%s Alloy Furnace"):format(tier)
+			local machine_node   = "technic:"..ltier.."_alloy_furnace"
 			local machine_demand = data.demand
 
 			-- Setup meta data if it does not exist.
 			if not eu_input then
-				meta:set_int(data.tier.."_EU_demand", machine_demand[1])
-				meta:set_int(data.tier.."_EU_input", 0)
+				meta:set_int(tier.."_EU_demand", machine_demand[1])
+				meta:set_int(tier.."_EU_input", 0)
 			end
 
 			-- Power off automatically if no longer connected to a switching station
-			technic.switching_station_timeout_count(pos, data.tier)
+			technic.switching_station_timeout_count(pos, tier)
 
 			local EU_upgrade, tube_upgrade = 0, 0
 			if data.upgrade then
@@ -248,7 +241,7 @@ function technic.register_alloy_furnace(data)
 			   not inv:room_for_item("dst", result) then
 				hacky_swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_name))
-				meta:set_int(data.tier.."_EU_demand", 0)
+				meta:set_int(tier.."_EU_demand", 0)
 				return
 			end
 
@@ -277,7 +270,7 @@ function technic.register_alloy_furnace(data)
 				end
 			
 			end
-			meta:set_int(data.tier.."_EU_demand", machine_demand[EU_upgrade+1])
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 		end,
 	})
 
