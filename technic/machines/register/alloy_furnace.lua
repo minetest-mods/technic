@@ -64,6 +64,20 @@ technic.register_alloy_recipe("default:copper_ingot",  2, "technic:zinc_ingot", 
 technic.register_alloy_recipe("default:sand",          2, "technic:coal_dust",      2, "technic:silicon_wafer",         1)
 technic.register_alloy_recipe("technic:silicon_wafer", 1, "technic:gold_dust",      1, "technic:doped_silicon_wafer",   1)
 
+local tube = {
+	insert_object = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:add_item("src", stack)
+	end,
+	can_insert = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:room_for_item("src", stack)
+	end,
+	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
+}
+
 
 function technic.register_alloy_furnace(data)
 	local tier = data.tier
@@ -71,6 +85,7 @@ function technic.register_alloy_furnace(data)
 
 	local tube_side_texture = data.tube and "technic_"..ltier.."_alloy_furnace_side_tube.png"
 			or "technic_"..ltier.."_alloy_furnace_side.png"
+
 	local groups = {cracky=2}
 	local active_groups = {cracky=2, not_in_creative_inventory=1}
 	if data.tube then
@@ -95,20 +110,6 @@ function technic.register_alloy_furnace(data)
 
 	data.formspec = formspec
 
-	local tube = {
-		insert_object = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:add_item("src", stack)
-		end,
-		can_insert = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:room_for_item("src", stack)
-		end,
-		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
-	}
-
 	minetest.register_node("technic:"..ltier.."_alloy_furnace", {
 		description = S("%s Alloy Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_alloy_furnace_top.png",
@@ -119,7 +120,7 @@ function technic.register_alloy_furnace(data)
 		         "technic_"..ltier.."_alloy_furnace_front.png"},
 		paramtype2 = "facedir",
 		groups = groups,
-		tube = tube,
+		tube = data.tube and tube or nil,
 		technic = data,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
@@ -164,7 +165,7 @@ function technic.register_alloy_furnace(data)
 		light_source = 8,
 		drop = "technic:"..ltier.."_alloy_furnace",
 		groups = active_groups,
-		tube = tube,
+		tube = data.tube and tube or nil,
 		technic = data,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),

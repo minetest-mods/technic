@@ -1,22 +1,33 @@
 
 local S = technic.getter
 
+local tube = {
+	insert_object = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:add_item("src", stack)
+	end,
+	can_insert = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:room_for_item("src", stack)
+	end,
+	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
+}
+
 function technic.register_grinder(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
-	local tube = {
-		insert_object = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:add_item("src", stack)
-		end,
-		can_insert = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:room_for_item("src", stack)
-		end,
-		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
-	}
+
+	local groups = {cracky=2}
+	local active_groups = {cracky=2, not_in_creative_inventory=1}
+	if data.tube then
+		groups.tubedevice = 1
+		groups.tubedevice_receiver = 1
+		active_groups.tubedevice = 1
+		active_groups.tubedevice_receiver = 1
+	end
+
 
 	local formspec =
 		"invsize[8,10;]"..
@@ -38,9 +49,9 @@ function technic.register_grinder(data)
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_side.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front.png"},
 		paramtype2 = "facedir",
-		groups = {cracky=2, tubedevice=1, tubedevice_receiver=1},
+		groups = groups,
 		technic = data,
-		tube = tube,
+		tube = data.tube and tube or nil,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
@@ -76,11 +87,11 @@ function technic.register_grinder(data)
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_side.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front_active.png"},
 		paramtype2 = "facedir",
-		groups = {cracky=2, tubedevice=1, tubedevice_receiver=1, not_in_creative_inventory=1},
+		groups = active_groups,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		technic = data,
-		tube = tube,
+		tube = data.tube and tube or nil,
 		can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
