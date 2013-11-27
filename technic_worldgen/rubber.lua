@@ -24,17 +24,21 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 		"technic_rubber_tree_full.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 		flammable=2},
-	drop = "default:tree",
+	drop = "moretrees:rubber_tree_trunk_empty",
 	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
+	description = "Rubber Tree",
 	tiles = {"default_tree_top.png", "default_tree_top.png",
 		"technic_rubber_tree_empty.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 			flammable=2, not_in_creative_inventory=1},
-	drop = "default:tree",
 	sounds = default.node_sound_wood_defaults(),
+	after_place_node = function(pos, placer, itemstack)
+		local meta = minetest.get_meta(pos)
+		meta:set_int("placed", 1)
+	end,
 })
 
 minetest.register_abm({
@@ -42,13 +46,16 @@ minetest.register_abm({
 	interval = 60,
 	chance = 15,
 	action = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		if meta:get_int("placed") ~= 0 then
+			return
+		end
 		minetest.set_node(pos, {name="moretrees:rubber_tree_trunk"})
 	end
 })
 
 minetest.register_node(":moretrees:rubber_tree_leaves", {
 	drawtype = "allfaces_optional",
-	visual_scale = 1.3,
 	tiles = {"technic_rubber_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
