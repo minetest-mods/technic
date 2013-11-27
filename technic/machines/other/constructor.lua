@@ -74,17 +74,22 @@ minetest.register_node("technic:constructor_mk1_off", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("slot1")
 	end,	
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_node("technic:constructor_mk1_on", {
 	description = "Constructor MK1",
 	tile_images = {"technic_constructor_mk1_top_on.png","technic_constructor_mk1_bottom_on.png","technic_constructor_mk1_side2_on.png","technic_constructor_mk1_side1_on.png",
 			"technic_constructor_back.png","technic_constructor_front_on.png"},
-	is_ground_content = true,
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon = 2,not_in_creative_inventory=1},
 	mesecons= {effector={action_off=mk1_off}},
 	sounds = default.node_sound_stone_defaults(),
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 
@@ -147,13 +152,15 @@ minetest.register_node("technic:constructor_mk2_off", {
 		inv:set_size("slot1", 1)
 		inv:set_size("slot2", 1)
 	end,
-
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("slot1")==false or inv:is_empty("slot2")==false then return false end
 		return true
-	end,	
+	end,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_node("technic:constructor_mk2_on", {
@@ -163,8 +170,11 @@ minetest.register_node("technic:constructor_mk2_on", {
 	is_ground_content = true,
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon = 2, not_in_creative_inventory=1},
-	mesecons= {effector={action_off=mk2_off}},
+	mesecons = {effector={action_off=mk2_off}},
 	sounds = default.node_sound_stone_defaults(),
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 
@@ -224,10 +234,9 @@ minetest.register_node("technic:constructor_mk3_off", {
 	description = "Constructor MK3",
 	tile_images = {"technic_constructor_mk3_top_off.png","technic_constructor_mk3_bottom_off.png","technic_constructor_mk3_side2_off.png","technic_constructor_mk3_side1_off.png",
 			"technic_constructor_back.png","technic_constructor_front_off.png"},
-	is_ground_content = true,
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon = 2},
-	mesecons= {effector={action_on=mk3_on}},
+	mesecons = {effector={action_on=mk3_on}},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
@@ -258,6 +267,9 @@ minetest.register_node("technic:constructor_mk3_off", {
 		if inv:is_empty("slot1")==false or inv:is_empty("slot2")==false or inv:is_empty("slot3")==false or inv:is_empty("slot4")==false then return false end
 		return true
 	end,	
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_node("technic:constructor_mk3_on", {
@@ -267,8 +279,11 @@ minetest.register_node("technic:constructor_mk3_on", {
 	is_ground_content = true,
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2, mesecon = 2,not_in_creative_inventory=1},
-	mesecons= {effector={action_off=mk3_off}},
+	mesecons = {effector={action_off=mk3_off}},
 	sounds = default.node_sound_stone_defaults(),
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 

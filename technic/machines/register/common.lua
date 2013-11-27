@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 function technic.handle_machine_upgrades(meta)
 	-- Get the names of the upgrades
 	local inv = meta:get_inventory()
@@ -107,5 +109,41 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade)
 		end
 	end
 	meta:set_int("tube_time", tube_time)
+end
+
+
+function technic.machine_can_dig(pos, player)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	if not inv:is_empty("src") or not inv:is_empty("dst") or
+	   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
+		minetest.chat_send_player(player:get_player_name(),
+			S("Machine cannot be removed because it is not empty"))
+		return false
+	else
+		return true
+	end
+end
+
+local function inv_change(pos, player, count)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		minetest.chat_send_player(player:get_player_name(),
+			S("Inventory move disallowed due to protection"))
+		return 0
+	end
+	return count
+end
+
+function technic.machine_inventory_put(pos, listname, index, stack, player)
+	return inv_change(pos, player, stack:get_count())
+end
+
+function technic.machine_inventory_take(pos, listname, index, stack, player)
+	return inv_change(pos, player, stack:get_count())
+end
+
+function technic.machine_inventory_move(pos, from_list, from_index,
+		to_list, to_index, count, player)
+	return inv_change(pos, player, count)
 end
 

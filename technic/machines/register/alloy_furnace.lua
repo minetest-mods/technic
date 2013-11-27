@@ -134,18 +134,10 @@ function technic.register_alloy_furnace(data)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
 		end,
-		can_dig = function(pos, player)
-			local meta = minetest.get_meta(pos);
-			local inv = meta:get_inventory()
-			if not inv:is_empty("src") or not inv:is_empty("dst") or
-			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
-				minetest.chat_send_player(player:get_player_name(),
-					S("Machine cannot be removed because it is not empty"))
-				return false
-			else
-				return true
-			end
-		end,
+		can_dig = technic.machine_can_dig,
+		allow_metadata_inventory_put = technic.machine_inventory_put,
+		allow_metadata_inventory_take = technic.machine_inventory_take,
+		allow_metadata_inventory_move = technic.machine_inventory_move,
 	})
 
 	minetest.register_node("technic:"..ltier.."_alloy_furnace_active",{
@@ -163,36 +155,10 @@ function technic.register_alloy_furnace(data)
 		tube = data.tube and tube or nil,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_stone_defaults(),
-		can_dig = function(pos, player)
-			local meta = minetest.get_meta(pos);
-			local inv = meta:get_inventory()
-			if not inv:is_empty("src") or not inv:is_empty("dst") or
-			   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
-				minetest.chat_send_player(player:get_player_name(),
-					S("Machine cannot be removed because it is not empty"))
-				return false
-			else
-				return true
-			end
-		end,
-		-- These three makes sure upgrades are not moved in or out while the furnace is active.
-		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-			if listname == "src" or listname == "dst" then
-				return stack:get_count()
-			else
-				return 0 -- Disallow the move
-			end
-		end,
-		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-			if listname == "src" or listname == "dst" then
-				return stack:get_count()
-			else
-				return 0 -- Disallow the move
-			end
-		end,
-		allow_metadata_inventory_move = function(pos, from_list, to_list, to_list, to_index, count, player)
-			return 0
-		end,
+		can_dig = technic.machine_can_dig,
+		allow_metadata_inventory_put = technic.machine_inventory_put,
+		allow_metadata_inventory_take = technic.machine_inventory_take,
+		allow_metadata_inventory_move = technic.machine_inventory_move,
 	})
 
 	minetest.register_abm({

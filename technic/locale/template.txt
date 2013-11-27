@@ -32,6 +32,7 @@ Rubber Fiber =
 
 ## Machine misc
 Machine cannot be removed because it is not empty =
+Inventory move disallowed due to protection =
 # $1: Machine name (Includes tier)
 %s Active =
 %s Disabled =
@@ -158,5 +159,4 @@ Mining Laser Mk%d =
 Single node. =
 Sonic Screwdriver =
 Tree Tap =
-
 

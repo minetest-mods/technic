@@ -1,7 +1,3 @@
-minetest.register_craftitem("technic:injector", {
-	description = "Injector",
-	stack_max = 99,
-})
 
 minetest.register_craft({
 	output = 'technic:injector 1',
@@ -39,15 +35,17 @@ minetest.register_node("technic:injector", {
 		return inv:is_empty("main")
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
-	local meta = minetest.env:get_meta(pos)
-	local mode=meta:get_string("mode")
-	if fields.mode then 
-		if mode=="single items" then mode="whole stacks" 
-		 else mode="single items"
+		local meta = minetest.env:get_meta(pos)
+		local mode=meta:get_string("mode")
+		if fields.mode then 
+			if mode == "single items" then
+				mode = "whole stacks" 
+			else
+				mode = "single items"
+			end
+			meta:set_string("mode", mode)
 		end
-	local mode=meta:set_string("mode",mode)
-	end
-	meta:set_string("formspec",
+		meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;Injector]"..
 				"button[0,1;.8,.8;mode;]"..
@@ -55,13 +53,15 @@ minetest.register_node("technic:injector", {
 				"list[current_name;main;0,2;8,2;]"..
 				"list[current_player;main;0,5;8,4;]")
 	end,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_abm({
 	nodenames = {"technic:injector"},
 	interval = 1,
 	chance = 1,
-
 	action = function(pos, node, active_object_count, active_object_count_wider)
 	local pos1={}
 	pos1.x = pos.x

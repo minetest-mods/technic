@@ -75,17 +75,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
 	end,	
-	can_dig = function(pos, player)
-		local meta = minetest.get_meta(pos);
-		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then
-			minetest.chat_send_player(player:get_player_name(),
-				S("Machine cannot be removed because it is not empty"))
-			return false
-		else
-			return true
-		end
-	end,
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
@@ -103,17 +96,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		type = "fixed",
 		fixed = nodebox
 	},
-	can_dig = function(pos, player)
-		local meta = minetest.get_meta(pos);
-		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then
-			minetest.chat_send_player(player:get_player_name(),
-				S("Machine cannot be removed because it is not empty"))
-			return false
-		else
-			return true
-		end
-	end,
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 local check_reactor_structure = function(pos)

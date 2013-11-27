@@ -14,8 +14,9 @@ minetest.register_craft({
 
 minetest.register_node("technic:coal_alloy_furnace", {
 	description = S("Coal Alloy Furnace"),
-	tiles = {"technic_coal_alloy_furnace_top.png", "technic_coal_alloy_furnace_bottom.png", "technic_coal_alloy_furnace_side.png",
-		"technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
+	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
+	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
+	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=2},
 	legacy_facedir_simple = true,
@@ -30,35 +31,27 @@ minetest.register_node("technic:coal_alloy_furnace", {
 		inv:set_size("src2", 1)
 		inv:set_size("dst", 4)
 	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		if not (inv:is_empty("fuel") or inv:is_empty("dst") or inv:is_empty("src") or inv:is_empty("src2") )then
-			return false
-			end
-		return true
-	end,
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
 	description = "Alloy Furnace",
-	tiles = {"technic_coal_alloy_furnace_top.png", "technic_coal_alloy_furnace_bottom.png", "technic_coal_alloy_furnace_side.png",
-	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front_active.png"},
+	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
+	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
+	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front_active.png"},
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "technic:coal_alloy_furnace",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_stone_defaults(),
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		if not (inv:is_empty("fuel") or inv:is_empty("dst") or
-			inv:is_empty("src") or inv:is_empty("src2")) then
-			return false
-		end
-		return true
-	end,
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
 })
 
 minetest.register_abm({

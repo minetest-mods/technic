@@ -47,17 +47,10 @@ function technic.register_battery_box(data)
 				inv:set_size("src", 1)
 				inv:set_size("dst", 1)
 			end,
-			can_dig = function(pos, player)
-				local meta = minetest.get_meta(pos);
-				local inv = meta:get_inventory()
-				if not inv:is_empty("src") or not inv:is_empty("dst") then
-					minetest.chat_send_player(player:get_player_name(),
-						S("Machine cannot be removed because it is not empty"))
-					return false
-				else
-					return true
-				end
-			end,
+			can_dig = technic.machine_can_dig,
+			allow_metadata_inventory_put = technic.machine_inventory_put,
+			allow_metadata_inventory_take = technic.machine_inventory_take,
+			allow_metadata_inventory_move = technic.machine_inventory_move,
 		})
 	end
 

@@ -29,6 +29,7 @@ Rubber Fiber = Fibra di gomma
 
 ## Machine misc
 Machine cannot be removed because it is not empty = La macchina non può essere rimossa perchè non è vuota
+Inventory move disallowed due to protection =
 # $1: Machine name (Includes tier)
 %s Active = %s Attivo
 %s Disabled = %s Disabilitato
