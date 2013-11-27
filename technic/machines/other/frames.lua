@@ -1,3 +1,6 @@
+
+local S = technic.getter
+
 frames = {}
 
 -- Helpers
@@ -195,7 +198,7 @@ local nodeboxes= {
 	
 
 	minetest.register_node("technic:frame_"..nameext,{
-		description = "Frame",
+		description = S("Frame"),
 		tiles = {"technic_frame.png"},
 		groups=groups,
 		drawtype = "nodebox",
@@ -286,7 +289,7 @@ local function frame_motor_on(pos, node)
 end
 
 minetest.register_node("technic:frame_motor",{
-	description = "Frame motor",
+	description = S("Frame Motor"),
 	tiles = {"pipeworks_filter_top.png^[transformR90", "technic_lv_cable.png", "technic_lv_cable.png",
 		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},
@@ -477,7 +480,7 @@ local function template_on_destruct(pos, node)
 end
 
 minetest.register_node("technic:template",{
-	description = "Template",
+	description = S("Template"),
 	tiles = {"technic_mv_cable.png"},
 	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -489,7 +492,7 @@ minetest.register_node("technic:template",{
 })
 
 minetest.register_node("technic:template_disabled",{
-	description = "Template",
+	description = S("Template"),
 	tiles = {"technic_hv_cable.png"},
 	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
@@ -502,7 +505,7 @@ minetest.register_node("technic:template_disabled",{
 })
 
 minetest.register_node("technic:template_connector",{
-	description = "Template",
+	description = S("Template"),
 	tiles = {"technic_lv_cable.png"},
 	drop = "",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
@@ -514,7 +517,7 @@ minetest.register_node("technic:template_connector",{
 })
 
 minetest.register_craftitem("technic:template_replacer",{
-	description = "Template (replacing)",
+	description = S("Template (replacing)"),
 	inventory_image = "technic_template_replacer.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local p = pointed_thing.under
@@ -534,7 +537,7 @@ minetest.register_craftitem("technic:template_replacer",{
 })
 
 minetest.register_tool("technic:template_tool",{
-	description = "Template tool",
+	description = S("Template tool"),
 	inventory_image = "technic_template_tool.png",
 	on_use = function(itemstack, puncher, pointed_thing)
 		local pos = pointed_thing.under
@@ -587,7 +590,7 @@ local function template_motor_on(pos, node)
 end
 
 minetest.register_node("technic:template_motor",{
-	description = "Template motor",
+	description = S("Template motor"),
 	tiles = {"pipeworks_filter_top.png^[transformR90", "technic_lv_cable.png", "technic_lv_cable.png",
 		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,mesecon=2},

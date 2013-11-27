@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
@@ -9,7 +11,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:injector", {
-	description = "Injector",
+	description = S("Injector"),
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
 		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
 	groups = chest_groups1,
@@ -19,12 +21,12 @@ minetest.register_node("technic:injector", {
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Injector]"..
+				"label[0,0;"..S("Injector").."]"..
 				"button[0,1;.8,.8;mode;]"..
 				"label[.8,1;Mode: single items]"..
 				"list[current_name;main;0,2;8,2;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Injector")
+		meta:set_string("infotext", S("Injector"))
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
 		meta:set_string("mode","single items")
@@ -47,7 +49,7 @@ minetest.register_node("technic:injector", {
 		end
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Injector]"..
+				"label[0,0;"..S("Injector").."]"..
 				"button[0,1;.8,.8;mode;]"..
 				"label[.8,1;Mode: "..mode.."]"..
 				"list[current_name;main;0,2;8,2;]"..

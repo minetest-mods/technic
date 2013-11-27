@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 minetest.register_craft({
 	type = "shapeless",
 	output = 'technic:constructor_mk1_off 1',
@@ -48,7 +50,7 @@ end
 
 
 minetest.register_node("technic:constructor_mk1_off", {
-	description = "Constructor MK1",
+	description = S("Constructor Mk%d"):format(1),
 	tile_images = {"technic_constructor_mk1_top_off.png","technic_constructor_mk1_bottom_off.png","technic_constructor_mk1_side2_off.png","technic_constructor_mk1_side1_off.png",
 			"technic_constructor_back.png","technic_constructor_front_off.png"},
 	is_ground_content = true,
@@ -60,11 +62,11 @@ minetest.register_node("technic:constructor_mk1_off", {
 	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Constructor MK1]"..
+				"label[0,0;"..S("Constructor Mk%d"):format(1).."]"..
 				"label[5,0;Slot 1]"..
 				"list[current_name;slot1;6,0;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Constructor MK1")
+		meta:set_string("infotext", S("Constructor Mk%d"):format(1))
 		local inv = meta:get_inventory()
 		inv:set_size("slot1", 1)
 	end,
@@ -80,7 +82,7 @@ minetest.register_node("technic:constructor_mk1_off", {
 })
 
 minetest.register_node("technic:constructor_mk1_on", {
-	description = "Constructor MK1",
+	description = S("Constructor Mk%d"):format(3),
 	tile_images = {"technic_constructor_mk1_top_on.png","technic_constructor_mk1_bottom_on.png","technic_constructor_mk1_side2_on.png","technic_constructor_mk1_side1_on.png",
 			"technic_constructor_back.png","technic_constructor_front_on.png"},
 	paramtype2 = "facedir",
@@ -93,7 +95,7 @@ minetest.register_node("technic:constructor_mk1_on", {
 })
 
 
---Constructor MK2
+--Constructor Mk2
 
 mk2_on = function(pos, node)
 	local meta = minetest.get_meta(pos)
@@ -129,7 +131,7 @@ mk2_off = function(pos, node)
 end
 
 minetest.register_node("technic:constructor_mk2_off", {
-	description = "Constructor MK2",
+	description = S("Constructor Mk%d"):format(2),
 	tile_images = {"technic_constructor_mk2_top_off.png","technic_constructor_mk2_bottom_off.png","technic_constructor_mk2_side2_off.png","technic_constructor_mk2_side1_off.png",
 			"technic_constructor_back.png","technic_constructor_front_off.png"},
 	is_ground_content = true,
@@ -141,13 +143,13 @@ minetest.register_node("technic:constructor_mk2_off", {
 	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Constructor MK2]"..
+				"label[0,0;"..S("Constructor Mk%d"):format(2).."]"..
 				"label[5,0;Slot 1]"..
 				"list[current_name;slot1;6,0;1,1;]"..
 				"label[5,1;Slot 2]"..
 				"list[current_name;slot2;6,1;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Constructor MK2")
+		meta:set_string("infotext", S("Constructor Mk%d"):format(2))
 		local inv = meta:get_inventory()
 		inv:set_size("slot1", 1)
 		inv:set_size("slot2", 1)
@@ -164,7 +166,7 @@ minetest.register_node("technic:constructor_mk2_off", {
 })
 
 minetest.register_node("technic:constructor_mk2_on", {
-	description = "Constructor MK2",
+	description = S("Constructor Mk%d"):format(2),
 	tile_images = {"technic_constructor_mk2_top_on.png","technic_constructor_mk2_bottom_on.png","technic_constructor_mk2_side2_on.png","technic_constructor_mk2_side1_on.png",
 			"technic_constructor_back.png","technic_constructor_front_on.png"},
 	is_ground_content = true,
@@ -178,7 +180,7 @@ minetest.register_node("technic:constructor_mk2_on", {
 })
 
 
--- Constructor MK3
+-- Constructor Mk3
 mk3_on = function(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -231,7 +233,7 @@ mk3_off = function(pos, node)
 end
 
 minetest.register_node("technic:constructor_mk3_off", {
-	description = "Constructor MK3",
+	description = S("Constructor Mk%d"):format(3),
 	tile_images = {"technic_constructor_mk3_top_off.png","technic_constructor_mk3_bottom_off.png","technic_constructor_mk3_side2_off.png","technic_constructor_mk3_side1_off.png",
 			"technic_constructor_back.png","technic_constructor_front_off.png"},
 	paramtype2 = "facedir",
@@ -242,7 +244,7 @@ minetest.register_node("technic:constructor_mk3_off", {
 	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;Constructor MK2]"..
+				"label[0,0;"..S("Constructor Mk%d"):format(3).."]"..
 				"label[5,0;Slot 1]"..
 				"list[current_name;slot1;6,0;1,1;]"..
 				"label[5,1;Slot 2]"..
@@ -252,7 +254,7 @@ minetest.register_node("technic:constructor_mk3_off", {
 				"label[5,3;Slot 4]"..
 				"list[current_name;slot4;6,3;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Constructor MK3")
+		meta:set_string("infotext", S("Constructor Mk%d"):format(3))
 		local inv = meta:get_inventory()
 		inv:set_size("slot1", 1)
 		inv:set_size("slot2", 1)
@@ -273,7 +275,7 @@ minetest.register_node("technic:constructor_mk3_off", {
 })
 
 minetest.register_node("technic:constructor_mk3_on", {
-	description = "Constructor MK3",
+	description = S("Constructor Mk%d"):format(3),
 	tile_images = {"technic_constructor_mk3_top_on.png","technic_constructor_mk3_bottom_on.png","technic_constructor_mk3_side2_on.png","technic_constructor_mk3_side1_on.png",
 			"technic_constructor_back.png","technic_constructor_front_on.png"},
 	is_ground_content = true,

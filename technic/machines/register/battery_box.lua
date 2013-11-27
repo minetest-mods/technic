@@ -1,6 +1,33 @@
 
 local S = technic.getter
 
+technic.register_power_tool("technic:battery", 10000)
+technic.register_power_tool("technic:red_energy_crystal", 100000)
+technic.register_power_tool("technic:green_energy_crystal", 250000)
+technic.register_power_tool("technic:blue_energy_crystal", 500000)
+
+minetest.register_craft({
+	output = 'technic:battery',
+	recipe = {
+		{'group:wood', 'default:copper_ingot', 'group:wood'},
+		{'group:wood', 'moreores:tin_ingot',   'group:wood'},
+		{'group:wood', 'default:copper_ingot', 'group:wood'},
+	}
+})
+
+minetest.register_tool("technic:battery", {
+	description = S("RE Battery"),
+	inventory_image = "technic_battery.png",
+	tool_capabilities = {
+		charge = 0,
+		max_drop_level = 0,
+		groupcaps = {
+			fleshy = {times={}, uses=10000, maxlevel=0}
+		}
+	}
+})
+
+
 function technic.register_battery_box(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
