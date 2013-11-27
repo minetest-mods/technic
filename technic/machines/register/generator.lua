@@ -63,7 +63,7 @@ function technic.register_generator(data)
 			local burn_totaltime = meta:get_int("burn_totaltime")
 			-- If more to burn and the energy produced was used: produce some more
 			if burn_time > 0 then
-				meta:set_int(data.tier.."_EU_supply", data.supply)
+				meta:set_int(tier.."_EU_supply", data.supply)
 				burn_time = burn_time - 1
 				meta:set_int("burn_time", burn_time)
 			end
@@ -84,10 +84,10 @@ function technic.register_generator(data)
 					stack:take_item()
 					inv:set_stack("src", 1, stack)
 					hacky_swap_node(pos, "technic:"..ltier.."_generator_active")
-					meta:set_int(data.tier.."_EU_supply", data.supply)
+					meta:set_int(tier.."_EU_supply", data.supply)
 				else
 					hacky_swap_node(pos, "technic:"..ltier.."_generator")
-					meta:set_int(data.tier.."_EU_supply", 0)
+					meta:set_int(tier.."_EU_supply", 0)
 				end
 			end
 			if burn_totaltime == 0 then burn_totaltime = 1 end
@@ -102,7 +102,7 @@ function technic.register_generator(data)
 					"list[current_player;main;0, 5;8, 4;]")
 		end
 	})
-	technic.register_machine(data.tier, "technic:"..ltier.."_generator", technic.producer)
-	technic.register_machine(data.tier, "technic:"..ltier.."_generator", technic.producer)
+	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)
+	technic.register_machine(tier, "technic:"..ltier.."_generator_active", technic.producer)
 end
 
