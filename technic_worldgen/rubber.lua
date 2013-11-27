@@ -24,8 +24,11 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 		"technic_rubber_tree_full.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 		flammable=2},
-	drop = "moretrees:rubber_tree_trunk_empty",
 	sounds = default.node_sound_wood_defaults(),
+	after_place_node = function(pos, placer, itemstack)
+		local meta = minetest.get_meta(pos)
+		meta:set_int("placed", 1)
+	end,
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
