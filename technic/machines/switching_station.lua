@@ -1,7 +1,10 @@
 -- SWITCHING STATION
 -- The switching station is the center of all power distribution on an electric network.
--- The station will collect all produced power from producers (PR) and batteries (BA)
--- and distribute it to receivers (RE) and depleted batteries (BA).
+--
+-- The station collects power from sources (PR), distributes it to sinks (RE),
+-- and uses the excess/shortfall to charge and discharge batteries (BA).
+--
+-- For now, all supply and demand values are expressed in kW.
 --
 -- It works like this:
 --  All PR,BA,RE nodes are indexed and tagged with the switching station.
@@ -236,6 +239,30 @@ minetest.register_abm({
 		local eu_demand_str    = tier.."_EU_demand"
 		local eu_input_str     = tier.."_EU_input"
 		local eu_supply_str    = tier.."_EU_supply"
+
+		-- Distribute charge equally across multiple batteries.
+		local charge_total = 0
+		local battery_count = 0
+
+		for n, pos1 in pairs(BA_nodes) do
+			meta1 = minetest.get_meta(pos1)
+			local charge = meta1:get_int("internal_EU_charge")
+
+			if (meta1:get_int(eu_demand_str) ~= 0) then
+				charge_total = charge_total + charge
+				battery_count = battery_count + 1
+			end
+		end
+
+		local charge_distributed = math.floor(charge_total / battery_count)
+
+		for n, pos1 in pairs(BA_nodes) do
+			meta1 = minetest.get_meta(pos1)
+
+			if (meta1:get_int(eu_demand_str) ~= 0) then
+				meta1:set_int("internal_EU_charge", charge_distributed)
+			end
+		end
 
 		-- Get all the power from the PR nodes
 		local PR_eu_supply = 0 -- Total power
