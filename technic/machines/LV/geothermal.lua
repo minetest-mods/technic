@@ -20,12 +20,6 @@ minetest.register_craftitem("technic:geothermal", {
 	description = S("Geothermal Generator"),
 }) 
 
-local geothermal_formspec =
-	"invsize[8,4;]"..
-	"label[0,0;"..S("Geothermal Generator").."]"..
-	"list[current_player;main;0,5;8,4;]"
-	
-
 minetest.register_node("technic:geothermal", {
 	description = S("Geothermal Generator"),
 	tiles = {"technic_geothermal_top.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
@@ -38,7 +32,6 @@ minetest.register_node("technic:geothermal", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Geothermal Generator"))
 		meta:set_int("LV_EU_supply", 0)
-		meta:set_string("formspec", geothermal_formspec)	
 	end,	
 })
 
@@ -102,10 +95,8 @@ minetest.register_abm({
 			meta:set_int("LV_EU_supply", eu_supply)
 		end
 
-		meta:set_string("formspec",
-			"invsize[8,4;]"..
-			"label[0,0;"..S("Geothermal Generator").."]"..
-			"label[4,0;"..S("Production at %d%%"):format(production_level).."]")
+		meta:set_string("infotext",
+			S("Geothermal Generator").." ("..production_level.."%)")
 
 		if production_level > 0 and minetest.get_node(pos).name == "technic:geothermal" then
 			hacky_swap_node (pos, "technic:geothermal_active")
