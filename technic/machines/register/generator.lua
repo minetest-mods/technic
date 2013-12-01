@@ -91,7 +91,7 @@ function technic.register_generator(data)
 				burn_time = burn_time - 1
 				meta:set_int("burn_time", burn_time)
 			end
-			local tube_upgrade = 1, 1
+			local tube_upgrade = 0, 0
 			if data.tube then
 				technic.handle_machine_pipeworks(pos, tube_upgrade)
 			end
