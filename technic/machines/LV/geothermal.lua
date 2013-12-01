@@ -102,6 +102,9 @@ minetest.register_abm({
 			meta:set_int("LV_EU_supply", eu_supply)
 		end
 
+		meta:set_string("infotext",
+			S("Geothermal Generator").." ("..production_level.."%)")
+
 		meta:set_string("formspec",
 			"invsize[8,4;]"..
 			"label[0,0;"..S("Geothermal Generator").."]"..
