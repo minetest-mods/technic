@@ -1,4 +1,3 @@
-
 minetest.register_alias("generator_mv", "technic:generator_mv")
 
 minetest.register_craft({
@@ -10,5 +9,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_generator({tier="MV", supply=600})
+technic.register_generator({tier="MV", tube=1, supply=600})
 
