@@ -40,7 +40,7 @@ minetest.register_tool("technic:water_can", {
 			charge = tonumber(itemstack:get_metadata())
 		end
 		if node.name == "default:water_source" then
-			if charge + 1 < 17 then
+			if charge < water_can_max_load then
 				minetest.remove_node(pointed_thing.under)
 				charge = charge + 1
 				itemstack:set_metadata(tostring(charge))
@@ -89,7 +89,7 @@ minetest.register_tool("technic:lava_can", {
 		end
 
 		if node.name == "default:lava_source" then
-			if charge + 1 < 17 then
+			if charge < lava_can_max_load then
 				minetest.remove_node(pointed_thing.under)
 				charge = charge + 1
 				itemstack:set_metadata(tostring(charge))
