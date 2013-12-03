@@ -48,7 +48,7 @@ minetest.register_tool("technic:water_can", {
 			end
 			return itemstack
 		end
-		if charge == 0 then
+		if charge <= 0 then
 			return
 		end
 
@@ -97,7 +97,7 @@ minetest.register_tool("technic:lava_can", {
 			end
 			return itemstack
 		end
-		if charge == 0 then
+		if charge <= 0 then
 			return
 		end
 
@@ -119,4 +119,3 @@ minetest.register_tool("technic:lava_can", {
 		end
 	end,
 })
-
