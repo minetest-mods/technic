@@ -10,7 +10,7 @@ minetest.register_craft({
 
 technic.register_battery_box({
 	tier           = "LV",
-	max_charge     = 50000,
+	max_charge     = 40000,
 	charge_rate    = 1000,
 	discharge_rate = 4000,
 	charge_step    = 500,
