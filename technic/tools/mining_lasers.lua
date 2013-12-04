@@ -182,7 +182,7 @@ for _, m in pairs(mining_lasers_list) do
 			-- If there's enough charge left, fire the laser
 			if meta.charge >= m[4] then
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				meta.charge = meta.charge - m[4] 
+				meta.charge = meta.charge - m[4]
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
 				itemstack:set_metadata(set_item_meta(meta))
 			end
