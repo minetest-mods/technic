@@ -41,17 +41,20 @@ minetest.register_tool("technic:sonic_screwdriver", {
 					p = 0
 				end
 			end
-			-- hacky_swap_node, unforunatly.
-			local meta = minetest.get_meta(pos)
-			local meta0 = meta:to_table()
-			node.param2 = p
-			minetest.set_node(pos, node)
-			meta = minetest.get_meta(pos)
-			meta:from_table(meta0)
+			if minetest.is_protected(pos, user:get_player_name()) then
+				minetest.record_protection_violation(pos, user:get_player_name())
+			else
+				local meta = minetest.get_meta(pos)
+				local meta0 = meta:to_table()
+				node.param2 = p
+				minetest.set_node(pos, node)
+				meta = minetest.get_meta(pos)
+				meta:from_table(meta0)
 
-			meta1.charge = meta1.charge - 100  
-			itemstack:set_metadata(set_item_meta(meta1))
-			technic.set_RE_wear(itemstack, meta1.charge, sonic_screwdriver_max_charge)
+				meta1.charge = meta1.charge - 100
+				itemstack:set_metadata(set_item_meta(meta1))
+				technic.set_RE_wear(itemstack, meta1.charge, sonic_screwdriver_max_charge)
+			end
 		end
 		return itemstack
 	end, 
