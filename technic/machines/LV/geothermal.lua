@@ -99,11 +99,11 @@ minetest.register_abm({
 			S("Geothermal Generator").." ("..production_level.."%)")
 
 		if production_level > 0 and minetest.get_node(pos).name == "technic:geothermal" then
-			hacky_swap_node (pos, "technic:geothermal_active")
+			technic.swap_node (pos, "technic:geothermal_active")
 			return
 		end
 		if production_level == 0 then
-			hacky_swap_node(pos, "technic:geothermal")
+			technic.swap_node(pos, "technic:geothermal")
 			meta:set_int("LV_EU_supply", 0)
 		end
 	end

@@ -142,18 +142,18 @@ function technic.register_electric_furnace(data)
 			if not result or result.time == 0 or
 			   not inv:room_for_item("dst", result.item) then
 				meta:set_int(tier.."_EU_demand", 0)
-				hacky_swap_node(pos, machine_node)
+				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_name))
 				return
 			end
 
 			if eu_input < machine_demand[EU_upgrade+1] then
 				-- Unpowered - go idle
-				hacky_swap_node(pos, machine_node)
+				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			elseif eu_input >= machine_demand[EU_upgrade+1] then
 				-- Powered
-				hacky_swap_node(pos, machine_node.."_active")
+				technic.swap_node(pos, machine_node.."_active")
 				meta:set_string("infotext", S("%s Active"):format(machine_name))
 				technic.smelt_item(meta, result, data.speed)
 

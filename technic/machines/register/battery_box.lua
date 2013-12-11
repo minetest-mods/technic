@@ -126,7 +126,7 @@ function technic.register_battery_box(data)
 			charge_count = math.max(charge_count, 0)
 			local last_count = meta:get_float("last_side_shown")
 			if charge_count ~= last_count then
-				hacky_swap_node(pos,"technic:"..ltier.."_battery_box"..charge_count)
+				technic.swap_node(pos,"technic:"..ltier.."_battery_box"..charge_count)
 				meta:set_float("last_side_shown", charge_count)
 			end
 

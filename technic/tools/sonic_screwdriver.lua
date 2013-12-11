@@ -44,12 +44,8 @@ minetest.register_tool("technic:sonic_screwdriver", {
 			if minetest.is_protected(pos, user:get_player_name()) then
 				minetest.record_protection_violation(pos, user:get_player_name())
 			else
-				local meta = minetest.get_meta(pos)
-				local meta0 = meta:to_table()
 				node.param2 = p
-				minetest.set_node(pos, node)
-				meta = minetest.get_meta(pos)
-				meta:from_table(meta0)
+				minetest.swap_node(pos, node)
 
 				meta1.charge = meta1.charge - 100
 				itemstack:set_metadata(set_item_meta(meta1))
@@ -66,5 +62,6 @@ minetest.register_craft({
 		{"default:diamond"},
 		{"technic:battery"},
 		{"technic:stainless_steel_ingot"}
-		}
+	}
 })
+

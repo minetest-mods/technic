@@ -125,7 +125,7 @@ minetest.register_abm({
 		end 
 		if empty or (not result) or
 		   (not inv:room_for_item("dst", result)) then
-			hacky_swap_node(pos, machine_node)
+			technic.swap_node(pos, machine_node)
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_demand", 0)
 			meta:set_int("src_time", 0)
@@ -133,10 +133,10 @@ minetest.register_abm({
 		end
 
 		if eu_input < demand then
-			hacky_swap_node(pos, machine_node)
+			technic.swap_node(pos, machine_node)
 			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
-			hacky_swap_node(pos, machine_node.."_active")
+			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
 
 			meta:set_int("src_time", meta:get_int("src_time") + 1)

@@ -200,17 +200,17 @@ minetest.register_abm({
 		if inv:is_empty("src") or 
 		   (not minetest.registered_nodes[result]) or
 		   (not inv:room_for_item("dst", result)) then
-			hacky_swap_node(pos, machine_node)
+			technic.swap_node(pos, machine_node)
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_string("cnc_product", "")
 			return
 		end
 
 		if eu_input < demand then
-			hacky_swap_node(pos, machine_node)
+			technic.swap_node(pos, machine_node)
 			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		elseif eu_input >= demand then
-			hacky_swap_node(pos, machine_node.."_active")
+			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
 			meta:set_int("src_time", meta:get_int("src_time") + 1)
 			if meta:get_int("src_time") >= 3 then -- 3 ticks per output

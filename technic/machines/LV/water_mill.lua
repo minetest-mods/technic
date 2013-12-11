@@ -89,12 +89,12 @@ minetest.register_abm({
 
 		if production_level > 0 and
 		   minetest.get_node(pos).name == "technic:water_mill" then
-			hacky_swap_node (pos, "technic:water_mill_active")
+			technic.swap_node (pos, "technic:water_mill_active")
 			meta:set_int("LV_EU_supply", 0)
 			return
 		end
 		if production_level == 0 then
-			hacky_swap_node(pos, "technic:water_mill")
+			technic.swap_node(pos, "technic:water_mill")
 		end
 	end
 }) 

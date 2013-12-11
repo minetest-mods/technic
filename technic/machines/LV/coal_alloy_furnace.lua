@@ -121,7 +121,7 @@ minetest.register_abm({
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
 			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
-			hacky_swap_node(pos, "technic:coal_alloy_furnace_active")
+			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 					"size[8,9]"..
 					"label[0,0;"..machine_name.."]"..
@@ -144,7 +144,7 @@ minetest.register_abm({
 		if recipe then
 			if was_active then
 				meta:set_string("infotext", "Furnace is empty")
-				hacky_swap_node(pos, "technic:coal_alloy_furnace")
+				technic.swap_node(pos, "technic:coal_alloy_furnace")
 				meta:set_string("formspec", formspec)
 			end
 			return
@@ -160,7 +160,7 @@ minetest.register_abm({
 
 		if fuel.time <= 0 then
 			meta:set_string("infotext", S("%s Out Of Fuel"):format(machine_name))
-			hacky_swap_node(pos, "technic:coal_alloy_furnace")
+			technic.swap_node(pos, "technic:coal_alloy_furnace")
 			meta:set_string("formspec", formspec)
 			return
 		end

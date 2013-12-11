@@ -43,7 +43,7 @@ end
 technic.inductive_on_punch_off = function(pos, eu_charge, swapnode)
 	local meta = minetest.get_meta(pos)
 	if meta:get_string("has_supply") ~= "" then
-		hacky_swap_node(pos, swapnode)
+		technic.swap_node(pos, swapnode)
 		meta:set_int("active", 1)
 		meta:set_int("EU_charge",eu_charge)
 		--print("-----------")
@@ -56,7 +56,7 @@ end
 
 technic.inductive_on_punch_on = function(pos, eu_charge, swapnode)
 	local meta = minetest.get_meta(pos)
-	hacky_swap_node(pos, swapnode)
+	technic.swap_node(pos, swapnode)
 	meta:set_int("active", 0)
 	meta:set_int("EU_charge",eu_charge)
 	--print("-----------")
@@ -82,7 +82,7 @@ local shutdown_inductive_appliances = function(pos)
 			local nodename = minetest.get_node(pos1).name
 			-- Swap the node and make sure it is off and unpowered
 			if string.sub(nodename, -7) == "_active" then
-				hacky_swap_node(pos1, string.sub(nodename, 1, -8))
+				technic.swap_node(pos1, string.sub(nodename, 1, -8))
 				meta1:set_int("active", 0)
 				meta1:set_int("EU_charge", 0)
 			end

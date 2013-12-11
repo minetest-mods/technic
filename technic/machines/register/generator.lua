@@ -99,7 +99,7 @@ function technic.register_generator(data)
 					fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 					if not fuel or fuel.time == 0 then
 						meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
-						hacky_swap_node(pos, "technic:"..ltier.."_generator")
+						technic.swap_node(pos, "technic:"..ltier.."_generator")
 						return
 					end
 					meta:set_int("burn_time", fuel.time)
@@ -107,10 +107,10 @@ function technic.register_generator(data)
 					local stack = inv:get_stack("src", 1)
 					stack:take_item()
 					inv:set_stack("src", 1, stack)
-					hacky_swap_node(pos, "technic:"..ltier.."_generator_active")
+					technic.swap_node(pos, "technic:"..ltier.."_generator_active")
 					meta:set_int(tier.."_EU_supply", data.supply)
 				else
-					hacky_swap_node(pos, "technic:"..ltier.."_generator")
+					technic.swap_node(pos, "technic:"..ltier.."_generator")
 					meta:set_int(tier.."_EU_supply", 0)
 				end
 			end

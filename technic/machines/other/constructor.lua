@@ -34,7 +34,7 @@ mk1_on = function(pos, node)
 	if node.param2==0 then pos1.z=pos1.z-1 end
 
 	if node.name == "technic:constructor_mk1_off" then
-		hacky_swap_node(pos,"technic:constructor_mk1_on")
+		technic.swap_node(pos,"technic:constructor_mk1_on")
 		nodeupdate(pos)
 		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
@@ -43,7 +43,7 @@ end
 
 mk1_off = function(pos, node)
 	if node.name == "technic:constructor_mk1_on" then
-		hacky_swap_node(pos,"technic:constructor_mk1_off")
+		technic.swap_node(pos,"technic:constructor_mk1_off")
 		nodeupdate(pos)
 	end
 end
@@ -114,7 +114,7 @@ mk2_on = function(pos, node)
 	if node.param2==0 then pos1.z=pos1.z-1 pos2.z=pos2.z-2 end
 
 	if node.name == "technic:constructor_mk2_off" then
-		hacky_swap_node(pos,"technic:constructor_mk2_on")
+		technic.swap_node(pos,"technic:constructor_mk2_on")
 		nodeupdate(pos)
 		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
@@ -125,7 +125,7 @@ end
 
 mk2_off = function(pos, node)
 	if node.name == "technic:constructor_mk2_on" then
-		hacky_swap_node(pos,"technic:constructor_mk2_off")
+		technic.swap_node(pos,"technic:constructor_mk2_off")
 		nodeupdate(pos)
 	end
 end
@@ -212,7 +212,7 @@ mk3_on = function(pos, node)
 	if node.param2==0 then pos1.z=pos1.z-1 pos2.z=pos2.z-2 pos3.z=pos3.z-3 pos4.z=pos4.z-4 end
 
 	if node.name == "technic:constructor_mk3_off" then
-		hacky_swap_node(pos,"technic:constructor_mk3_on")
+		technic.swap_node(pos,"technic:constructor_mk3_on")
 		nodeupdate(pos)
 		local node1=minetest.get_node(pos1)
 		deploy_node (inv,"slot1",pos1,node1,node)
@@ -227,7 +227,7 @@ end
 
 mk3_off = function(pos, node)
 	if node.name == "technic:constructor_mk3_on" then
-		hacky_swap_node(pos,"technic:constructor_mk3_off")
+		technic.swap_node(pos,"technic:constructor_mk3_off")
 		nodeupdate(pos)
 	end
 end

@@ -342,7 +342,7 @@ local function swap_template(pos, new)
 	local meta = minetest.get_meta(pos)
 	local saved_node = meta:get_string("saved_node")
 	meta:set_string("saved_node", "")
-	hacky_swap_node(pos, new)
+	technic.swap_node(pos, new)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("saved_node", saved_node)
 end

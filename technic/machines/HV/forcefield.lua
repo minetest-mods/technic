@@ -178,7 +178,7 @@ minetest.register_abm({
 			if node.name == "technic:forcefield_emitter_on" then
 				meta:set_int("HV_EU_demand", 0)
 				update_forcefield(pos, meta:get_int("range"), false)
-				hacky_swap_node(pos, "technic:forcefield_emitter_off")
+				technic.swap_node(pos, "technic:forcefield_emitter_off")
 				meta:set_string("infotext", S("%s Disabled"):format(machine_name))
 				return
 			end
@@ -186,11 +186,11 @@ minetest.register_abm({
 			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			if node.name == "technic:forcefield_emitter_on" then
 				update_forcefield(pos, meta:get_int("range"), false)
-				hacky_swap_node(pos, "technic:forcefield_emitter_off")
+				technic.swap_node(pos, "technic:forcefield_emitter_off")
 			end
 		elseif eu_input >= power_requirement then
 			if node.name == "technic:forcefield_emitter_off" then
-				hacky_swap_node(pos, "technic:forcefield_emitter_on")
+				technic.swap_node(pos, "technic:forcefield_emitter_on")
 				meta:set_string("infotext", S("%s Active"):format(machine_name))
 			end
 			update_forcefield(pos, meta:get_int("range"), true)

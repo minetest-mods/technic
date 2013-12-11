@@ -214,7 +214,7 @@ minetest.register_abm({
 				if correct_fuel_count == 6 and
 				   check_reactor_structure(pos) then
 					meta:set_int("burn_time", 1)
-					hacky_swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+					technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
 					meta:set_int("HV_EU_supply", power_supply)
 					for idx, srcstack in pairs(srclist) do
 						srcstack:take_item()
@@ -226,7 +226,7 @@ minetest.register_abm({
 			meta:set_int("HV_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
-			hacky_swap_node(pos, "technic:hv_nuclear_reactor_core")
+			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		elseif burn_time > 0 then
 			damage_nearby_players(pos)
 			if not check_reactor_structure(pos) then

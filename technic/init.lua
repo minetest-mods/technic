@@ -40,27 +40,6 @@ dofile(modpath.."/tools/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
-function has_locked_chest_privilege(meta, player)
-	if player:get_player_name() ~= meta:get_string("owner") then
-		return false
-	end
-	return true
-end
-
--- Swap nodes out. Return the node name.
-function hacky_swap_node(pos, name)
-	local node = minetest.get_node(pos)
-	if node.name ~= name then
-		local meta = minetest.get_meta(pos)
-		local meta_table = meta:to_table()
-		node.name = name
-		minetest.set_node(pos, node)
-		meta = minetest.get_meta(pos)
-		meta:from_table(meta_table)
-	end
-	return node.name
-end
-
 if minetest.setting_get("log_mod") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
