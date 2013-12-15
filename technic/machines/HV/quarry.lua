@@ -127,7 +127,7 @@ end
 
 local function send_items(items, pos, node)
 	for _, item in pairs(items) do
-		local tube_item = tube_item(vector.new(pos), item)
+		local tube_item = pipeworks.tube_item(vector.new(pos), item)
 		tube_item:get_luaentity().start_pos = vector.new(pos)
 		tube_item:setvelocity(vector.new(0, 1, 0))
 		tube_item:setacceleration({x=0, y=0, z=0})

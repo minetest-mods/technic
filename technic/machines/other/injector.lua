@@ -86,7 +86,7 @@ function inject_items (pos)
 				local item0=stack:to_table()
 				if item0 then 
 					item0["count"]="1"
-					local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
+					local item1=pipeworks.tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
 					item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
 					item1:setvelocity({x=0, y=-1, z=0})
 					item1:setacceleration({x=0, y=0, z=0})
@@ -104,7 +104,7 @@ function inject_items (pos)
 				if stack then
 				local item0=stack:to_table()
 				if item0 then 
-					local item1=tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
+					local item1=pipeworks.tube_item({x=pos.x,y=pos.y,z=pos.z},item0)
 					item1:get_luaentity().start_pos = {x=pos.x,y=pos.y,z=pos.z}
 					item1:setvelocity({x=0, y=-1, z=0})
 					item1:setacceleration({x=0, y=0, z=0})
