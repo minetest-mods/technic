@@ -155,9 +155,9 @@ minetest.register_node("technic:quarry", {
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("owner", placer:get_player_name())
-		tube_scanforobjects(pos)
+		pipeworks.scan_for_tube_objects(pos)
 	end,
-	after_dig_node = tube_scanforobjects,
+	after_dig_node = pipeworks.scan_for_tube_objects,
 	on_receive_fields = quarry_receive_fields,
 })
 
