@@ -13,6 +13,8 @@ minetest.register_craft({
 	}
 })
 
+local music_handles = {}
+
 local music_player_formspec =
 	"invsize[8,9;]"..
 	"label[0,0;"..S("Music Player").."]"..
@@ -29,6 +31,11 @@ local music_player_formspec =
 	"button[6,4;1,2;stop;Stop]"..
 	"label[4,0;Current track --]"
 
+local function play_track(pos, track)
+	return minetest.sound_play("technic_track"..track,
+			{pos = pos, gain = 1.0, loop = true, max_hear_distance = 72,})
+end
+
 minetest.register_node("technic:music_player", {
 	description = S("Music Player"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
@@ -44,7 +51,8 @@ minetest.register_node("technic:music_player", {
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
 		local meta          = minetest.get_meta(pos)
-		local music_handle  = meta:get_int("music_handle")
+		local pos_hash      = minetest.hash_node_position(pos)
+		local music_handle  = music_handles[pos_hash]
 		local current_track = meta:get_int("current_track")
 		if fields.track1 then current_track = 1 end
 		if fields.track2 then current_track = 2 end
@@ -76,6 +84,7 @@ minetest.register_node("technic:music_player", {
 			if music_handle then
 				minetest.sound_stop(music_handle)
 			end
+			music_handle = play_track(pos, current_track)
 			meta:set_int("active", 1)
 		end
 		if fields.stop then
@@ -84,7 +93,7 @@ minetest.register_node("technic:music_player", {
 				minetest.sound_stop(music_handle)
 			end
 		end
-		meta:set_int("music_handle", music_handle)
+		music_handles[pos_hash] = music_handle
 	end,
 })
 
@@ -99,8 +108,9 @@ minetest.register_abm({
 		local machine_node = "technic:music_player"
 		local demand       = 150
 
-		local music_handle = meta:get_int("music_handle")
 		local current_track = meta:get_int("current_track")
+		local pos_hash      = minetest.hash_node_position(pos)
+		local music_handle  = music_handles[pos_hash]
 
 		-- Setup meta data if it does not exist.
 		if not eu_input then
@@ -115,9 +125,6 @@ minetest.register_abm({
 		if meta:get_int("active") == 0 then
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("LV_EU_demand", 0)
-			if music_handle then
-				minetest.sound_stop(music_handle)
-			end
 			return
 		end
 
@@ -125,13 +132,15 @@ minetest.register_abm({
 			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 			if music_handle then
 				minetest.sound_stop(music_handle)
+				music_handle = nil
 			end
 		elseif eu_input >= demand then
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
-			music_handle = minetest.sound_play("technic_track"..current_track,
-					{pos = pos, gain = 1.0, loop = true, max_hear_distance = 72,})
-			meta:set_int("music_handle", music_handle)
+			if not music_handle then
+				music_handle = play_track(pos, current_track)
+			end
 		end
+		music_handles[pos_hash] = music_handle
 		meta:set_int("LV_EU_demand", demand)
 	end
 })
