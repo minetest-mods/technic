@@ -102,7 +102,7 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade)
 	end
 	tube_time = meta:get_int("tube_time")
 	tube_time = tube_time + tube_upgrade
-	if tube_time > 3 then
+	if tube_time >= 2 then
 		tube_time = 0
 		if output_tube_connected then
 			technic.send_items(pos, x_velocity, z_velocity)
