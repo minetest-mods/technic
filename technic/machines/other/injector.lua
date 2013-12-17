@@ -74,7 +74,7 @@ minetest.register_abm({
 	end,
 })
 
-function inject_items (pos)
+local function inject_items (pos)
 		local meta=minetest.env:get_meta(pos) 
 		local inv = meta:get_inventory()
 		local mode=meta:get_string("mode")

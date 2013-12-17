@@ -21,7 +21,7 @@ minetest.register_craft({
 
 })
 
-mk1_on = function(pos, node)
+local function mk1_on(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local pos1={}
@@ -41,7 +41,7 @@ mk1_on = function(pos, node)
 	end
 end
 
-mk1_off = function(pos, node)
+local function mk1_off(pos, node)
 	if node.name == "technic:constructor_mk1_on" then
 		technic.swap_node(pos,"technic:constructor_mk1_off")
 		nodeupdate(pos)
@@ -97,7 +97,7 @@ minetest.register_node("technic:constructor_mk1_on", {
 
 --Constructor Mk2
 
-mk2_on = function(pos, node)
+local function mk2_on(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local pos1={}
@@ -123,7 +123,7 @@ mk2_on = function(pos, node)
 	end
 end
 
-mk2_off = function(pos, node)
+local function mk2_off(pos, node)
 	if node.name == "technic:constructor_mk2_on" then
 		technic.swap_node(pos,"technic:constructor_mk2_off")
 		nodeupdate(pos)
@@ -181,7 +181,7 @@ minetest.register_node("technic:constructor_mk2_on", {
 
 
 -- Constructor Mk3
-mk3_on = function(pos, node)
+local function mk3_on(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	
@@ -225,7 +225,7 @@ mk3_on = function(pos, node)
 	end
 end
 
-mk3_off = function(pos, node)
+local function mk3_off(pos, node)
 	if node.name == "technic:constructor_mk3_on" then
 		technic.swap_node(pos,"technic:constructor_mk3_off")
 		nodeupdate(pos)
@@ -289,7 +289,7 @@ minetest.register_node("technic:constructor_mk3_on", {
 })
 
 
-deploy_node =function (inv, slot_name, pos1, node1, node)
+local function deploy_node(inv, slot_name, pos1, node1, node)
 	if node1.name == "air" then 
 		if not inv:is_empty(slot_name) then
 			stack1=inv:get_list(slot_name)

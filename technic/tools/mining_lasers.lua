@@ -150,7 +150,7 @@ for _, m in pairs(mining_lasers_list) do
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		stack_max = 1,
 		on_use = function(itemstack, user)
-			local meta = get_item_meta(itemstack:get_metadata())
+			local meta = minetest.deserialize(itemstack:get_metadata())
 			if not meta or not meta.charge then
 				return
 			end
@@ -158,7 +158,7 @@ for _, m in pairs(mining_lasers_list) do
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
 				meta.charge = meta.charge - 400
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
-				itemstack:set_metadata(set_item_meta(meta))
+				itemstack:set_metadata(minetest.serialize(meta))
 			end
 			return itemstack
 		end,

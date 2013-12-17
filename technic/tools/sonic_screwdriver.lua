@@ -22,7 +22,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 		if node.param2 == nil then
 			return
 		end
-		local meta1 = get_item_meta(itemstack:get_metadata())
+		local meta1 = minetest.deserialize(itemstack:get_metadata())
 		if not meta1 or not meta1.charge then
 			return
 		end
@@ -48,7 +48,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 				minetest.swap_node(pos, node)
 
 				meta1.charge = meta1.charge - 100
-				itemstack:set_metadata(set_item_meta(meta1))
+				itemstack:set_metadata(minetest.serialize(meta1))
 				technic.set_RE_wear(itemstack, meta1.charge, sonic_screwdriver_max_charge)
 			end
 		end

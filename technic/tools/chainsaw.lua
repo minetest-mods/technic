@@ -3,44 +3,6 @@ local chainsaw_max_charge      = 30000 -- 30000 - Maximum charge of the saw
 local chainsaw_charge_per_node = 12    -- 12    - Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_leaves          = true  -- true  - Cut down entire trees, leaves and all
 
-local S = technic.getter
-
-technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
-
-minetest.register_tool("technic:chainsaw", {
-	description = S("Chainsaw"),
-	inventory_image = "technic_chainsaw.png",
-	stack_max = 1,
-	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type ~= "node" then
-			return itemstack
-		end
-		local meta = get_item_meta(itemstack:get_metadata())
-		if not meta or not meta.charge then
-			return
-		end
-		-- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
-		if meta.charge < chainsaw_charge_per_node then
-			return
-		end
-
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-		meta.charge = chainsaw_dig_it(pos, user, meta.charge)
-		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
-		itemstack:set_metadata(set_item_meta(meta))
-		return itemstack
-	end,
-})
-
-minetest.register_craft({
-        output = 'technic:chainsaw',
-        recipe = {
-                {'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:battery'},
-                {'technic:stainless_steel_ingot', 'technic:motor',                 'technic:battery'},
-                {'',                               '',                             'default:copper_ingot'},
-        }
-})
-
 -- The default stuff
 local timber_nodenames={["default:jungletree"] = true,
                         ["default:papyrus"]    = true,
@@ -155,55 +117,17 @@ if( minetest.get_modpath("farming_plus") ~= nil ) then
    end
 end
 
+
+local S = technic.getter
+
+technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
+
 -- Table for saving what was sawed down
-local produced
-
--- Saw down trees entry point
-chainsaw_dig_it = function(pos, player,current_charge)
-        local remaining_charge=current_charge
-
-        -- Save the currently installed dropping mechanism so we can restore it.
-	local original_handle_node_drops = minetest.handle_node_drops
-
-        -- A bit of trickery here: use a different node drop callback
-        -- and restore the original afterwards.
-        minetest.handle_node_drops = chainsaw_handle_node_drops
-
-        -- clear result and start sawing things down
-        produced = {}
-        remaining_charge = recursive_dig(pos, remaining_charge, player)
-        minetest.sound_play("chainsaw", {pos = pos, gain = 1.0, max_hear_distance = 10,})
-
-        -- Restore the original noder drop handler
-        minetest.handle_node_drops = original_handle_node_drops
-
-        -- Now drop items for the player
-        local number, produced_item, p
-        for produced_item,number in pairs(produced) do
-                --print("ADDING ITEM: " .. produced_item .. " " .. number)
-                -- Drop stacks of 99 or less
-                p = {
-                        x = pos.x + math.random()*4,
-                        y = pos.y,
-                        z = pos.z + math.random()*4
-                }
-                while number > 99 do
-                        minetest.env:add_item(p, produced_item .. " 99")
-                        p = {
-                                x = pos.x + math.random()*4,
-                                y = pos.y,
-                                z = pos.z + math.random()*4
-                        }
-                        number = number - 99
-                end
-                minetest.env:add_item(p, produced_item .. " " .. number)
-        end
-        return remaining_charge
-end
+local produced = nil
 
 -- Override the default handling routine to be able to count up the
 -- items sawed down so that we can drop them i an nice single stack
-chainsaw_handle_node_drops = function(pos, drops, digger)
+local function chainsaw_handle_node_drops(pos, drops, digger)
         -- Add dropped items to list of collected nodes
         local _, dropped_item
         for _, dropped_item in ipairs(drops) do
@@ -217,7 +141,7 @@ end
 
 -- This function does all the hard work. Recursively we dig the node at hand
 -- if it is in the table and then search the surroundings for more stuff to dig.
-recursive_dig = function(pos, remaining_charge, player)
+local function recursive_dig(pos, remaining_charge, player)
         local node=minetest.env:get_node(pos)
         local i=1
         -- Lookup node name in timber table:
@@ -276,4 +200,82 @@ recursive_dig = function(pos, remaining_charge, player)
         -- Nothing sawed down
         return remaining_charge
 end
+
+-- Saw down trees entry point
+local function chainsaw_dig_it(pos, player,current_charge)
+        local remaining_charge=current_charge
+
+        -- Save the currently installed dropping mechanism so we can restore it.
+	local original_handle_node_drops = minetest.handle_node_drops
+
+        -- A bit of trickery here: use a different node drop callback
+        -- and restore the original afterwards.
+        minetest.handle_node_drops = chainsaw_handle_node_drops
+
+        -- clear result and start sawing things down
+        produced = {}
+        remaining_charge = recursive_dig(pos, remaining_charge, player)
+        minetest.sound_play("chainsaw", {pos = pos, gain = 1.0, max_hear_distance = 10,})
+
+        -- Restore the original noder drop handler
+        minetest.handle_node_drops = original_handle_node_drops
+
+        -- Now drop items for the player
+        local number, produced_item, p
+        for produced_item,number in pairs(produced) do
+                --print("ADDING ITEM: " .. produced_item .. " " .. number)
+                -- Drop stacks of 99 or less
+                p = {
+                        x = pos.x + math.random()*4,
+                        y = pos.y,
+                        z = pos.z + math.random()*4
+                }
+                while number > 99 do
+                        minetest.env:add_item(p, produced_item .. " 99")
+                        p = {
+                                x = pos.x + math.random()*4,
+                                y = pos.y,
+                                z = pos.z + math.random()*4
+                        }
+                        number = number - 99
+                end
+                minetest.env:add_item(p, produced_item .. " " .. number)
+        end
+        return remaining_charge
+end
+
+
+minetest.register_tool("technic:chainsaw", {
+	description = S("Chainsaw"),
+	inventory_image = "technic_chainsaw.png",
+	stack_max = 1,
+	on_use = function(itemstack, user, pointed_thing)
+		if pointed_thing.type ~= "node" then
+			return itemstack
+		end
+		local meta = minetest.deserialize(itemstack:get_metadata())
+		if not meta or not meta.charge then
+			return
+		end
+		-- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
+		if meta.charge < chainsaw_charge_per_node then
+			return
+		end
+
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		meta.charge = chainsaw_dig_it(pos, user, meta.charge)
+		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
+		itemstack:set_metadata(minetest.serialize(meta))
+		return itemstack
+	end,
+})
+
+minetest.register_craft({
+        output = 'technic:chainsaw',
+        recipe = {
+                {'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:battery'},
+                {'technic:stainless_steel_ingot', 'technic:motor',                 'technic:battery'},
+                {'',                               '',                             'default:copper_ingot'},
+        }
+})
 

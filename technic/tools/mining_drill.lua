@@ -42,7 +42,102 @@ for i = 1, 4 do
 	})
 end
 
-function drill_dig_it(pos, player, drill_type, mode)
+local mining_drill_mode_text = {
+	{S("Single node.")},
+	{S("3 nodes deep.")},
+	{S("3 nodes wide.")},
+	{S("3 nodes tall.")},
+	{S("3x3 nodes.")},
+}
+
+local function drill_dig_it0 (pos,player)
+	local node=minetest.env:get_node(pos)
+	if node.name == "air" or node.name == "ignore" then return end
+	if node.name == "default:lava_source" then return end
+	if node.name == "default:lava_flowing" then return end
+	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
+	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
+	minetest.node_dig(pos,node,player)
+end
+
+local function drill_dig_it1 (player)
+	local dir=player:get_look_dir()
+	if math.abs(dir.x)>math.abs(dir.z) then 
+		if dir.x>0 then return 0 end
+		return 1
+	end
+	if dir.z>0 then return 2 end
+	return 3
+end
+
+local function drill_dig_it2 (pos,player)
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	pos.y=pos.y+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	pos.y=pos.y-2
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+end
+
+local function drill_dig_it3 (pos,player)
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.y=pos.y+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.y=pos.y-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+end
+
+local function drill_dig_it4 (pos,player)
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+end
+
+
+local function drill_dig_it(pos, player, drill_type, mode)
 	local charge
 	if mode == 1 then
 		drill_dig_it0(pos, player)
@@ -100,9 +195,9 @@ function drill_dig_it(pos, player, drill_type, mode)
 	
 	if mode==4 then -- 3 tall, selected in the middle
 		drill_dig_it0 (pos,player)
-		pos.y=pos.y+1
+		pos.y=pos.y-1
 		drill_dig_it0 (pos,player)
-		pos.y=pos.y-2
+		pos.y=pos.y-1
 		drill_dig_it0 (pos,player)
 	end
 
@@ -135,92 +230,99 @@ function drill_dig_it(pos, player, drill_type, mode)
 	return charge
 end
 
-function drill_dig_it0 (pos,player)
-	local node=minetest.env:get_node(pos)
-	if node.name == "air" or node.name == "ignore" then return end
-	if node.name == "default:lava_source" then return end
-	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
-	minetest.node_dig(pos,node,player)
-end
-
-function drill_dig_it1 (player)
-	local dir=player:get_look_dir()
-	if math.abs(dir.x)>math.abs(dir.z) then 
-		if dir.x>0 then return 0 end
-		return 1
+local function mining_drill_mk2_setmode(user,itemstack)
+	local player_name=user:get_player_name()
+	local item=itemstack:to_table()
+	local meta=minetest.deserialize(item["metadata"])
+	if meta==nil then
+		meta={}
+		mode=0
 	end
-	if dir.z>0 then return 2 end
-	return 3
+	if meta["mode"]==nil then
+		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(2))
+		meta["mode"]=0
+		mode=0
+	end
+	mode=(meta["mode"])
+	mode=mode+1
+	if mode>=5 then mode=1 end
+	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
+	item["name"]="technic:mining_drill_mk2_"..mode
+	meta["mode"]=mode
+	item["metadata"]=minetest.serialize(meta)
+	itemstack:replace(item)
+	return itemstack
 end
 
-function drill_dig_it2 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	pos.y=pos.y+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	pos.y=pos.y-2
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-end
-function drill_dig_it3 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	pos.y=pos.y+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	pos.y=pos.y-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
+local function mining_drill_mk3_setmode(user,itemstack)
+	local player_name=user:get_player_name()
+	local item=itemstack:to_table()
+	local meta=minetest.deserialize(item["metadata"])
+	if meta==nil then
+		meta={}
+		mode=0
+	end
+	if meta["mode"]==nil then
+		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(3))
+		meta["mode"]=0
+		mode=0
+	end
+	mode=(meta["mode"])
+	mode=mode+1
+	if mode>=6 then mode=1 end
+	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
+	item["name"]="technic:mining_drill_mk3_"..mode
+	meta["mode"]=mode
+	item["metadata"]=minetest.serialize(meta)
+	itemstack:replace(item)
+	return itemstack
 end
 
-function drill_dig_it4 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
+
+local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
+	local keys = user:get_player_control()
+	local player_name = user:get_player_name()
+	local meta = minetest.deserialize(itemstack:get_metadata())
+	if not meta or not meta.mode or keys.sneak then
+		return mining_drill_mk2_setmode(user, itemstack)
+	end
+	if pointed_thing.type ~= "node" or not meta.charge then
+		return
+	end
+	if meta.charge - mining_drill_power_usage > 0 then
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local charge_to_take = drill_dig_it(pos, user, 2, meta.mode)
+		meta.charge = meta.charge - charge_to_take
+		meta.charge = math.max(meta.charge, 0)
+		itemstack:set_metadata(minetest.serialize(meta))
+		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk2_max_charge)
+	end
+	return itemstack
+end
+
+local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
+	local keys = user:get_player_control()
+	local player_name = user:get_player_name()
+	local meta = minetest.deserialize(itemstack:get_metadata())
+	if not meta or not meta.mode or keys.sneak then
+		return mining_drill_mk3_setmode(user, itemstack)
+	end
+	if pointed_thing.type ~= "node" or not meta.charge then
+		return
+	end
+	if meta.charge - mining_drill_power_usage > 0 then
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local charge_to_take = drill_dig_it(pos, user, 3, meta.mode)
+		meta.charge = meta.charge - charge_to_take
+		meta.charge = math.max(meta.charge, 0)
+		itemstack:set_metadata(minetest.serialize(meta))
+		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk3_max_charge)
+	end
+	return itemstack
 end
 
 technic.register_power_tool("technic:mining_drill", mining_drill_max_charge)
+
 minetest.register_tool("technic:mining_drill", {
 	description = S("Mining Drill Mk%d"):format(1),
 	inventory_image = "technic_mining_drill.png",
@@ -229,7 +331,7 @@ minetest.register_tool("technic:mining_drill", {
 		if pointed_thing.type ~= "node" then
 			return itemstack
 		end
-		local meta = get_item_meta(itemstack:get_metadata())
+		local meta = minetest.deserialize(itemstack:get_metadata())
 		if not meta or not meta.charge then
 			return
 		end
@@ -237,7 +339,7 @@ minetest.register_tool("technic:mining_drill", {
 			local pos = minetest.get_pointed_thing_position(pointed_thing, above)
 			charge_to_take = drill_dig_it(pos, user, 1, 1)
 			meta.charge = meta.charge - mining_drill_power_usage
-			itemstack:set_metadata(set_item_meta(meta))
+			itemstack:set_metadata(minetest.serialize(meta))
 			technic.set_RE_wear(itemstack, meta.charge, mining_drill_max_charge)
 		end
 		return itemstack
@@ -293,102 +395,3 @@ for i=1,5,1 do
 		end,
 	})
 end
-
-function mining_drill_mk2_handler(itemstack, user, pointed_thing)
-	local keys = user:get_player_control()
-	local player_name = user:get_player_name()
-	local meta = get_item_meta(itemstack:get_metadata())
-	if not meta or not meta.mode or keys.sneak then
-		return mining_drill_mk2_setmode(user, itemstack)
-	end
-	if pointed_thing.type ~= "node" or not meta.charge then
-		return
-	end
-	if meta.charge - mining_drill_power_usage > 0 then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-		local charge_to_take = drill_dig_it(pos, user, 2, meta.mode)
-		meta.charge = meta.charge - charge_to_take
-		meta.charge = math.max(meta.charge, 0)
-		itemstack:set_metadata(set_item_meta(meta))
-		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk2_max_charge)
-	end
-	return itemstack
-end
-
-function mining_drill_mk3_handler(itemstack, user, pointed_thing)
-	local keys = user:get_player_control()
-	local player_name = user:get_player_name()
-	local meta = get_item_meta(itemstack:get_metadata())
-	if not meta or not meta.mode or keys.sneak then
-		return mining_drill_mk3_setmode(user, itemstack)
-	end
-	if pointed_thing.type ~= "node" or not meta.charge then
-		return
-	end
-	if meta.charge - mining_drill_power_usage > 0 then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-		local charge_to_take = drill_dig_it(pos, user, 3, meta.mode)
-		meta.charge = meta.charge - charge_to_take
-		meta.charge = math.max(meta.charge, 0)
-		itemstack:set_metadata(set_item_meta(meta))
-		technic.set_RE_wear(itemstack, meta.charge, mining_drill_mk3_max_charge)
-	end
-	return itemstack
-end
-
-mining_drill_mode_text = {
-	{S("Single node.")},
-	{S("3 nodes deep.")},
-	{S("3 nodes wide.")},
-	{S("3 nodes tall.")},
-	{S("3x3 nodes.")},
-}
-
-function mining_drill_mk2_setmode(user,itemstack)
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=get_item_meta(item["metadata"])
-	if meta==nil then
-		meta={}
-		mode=0
-	end
-	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(2))
-		meta["mode"]=0
-		mode=0
-	end
-	mode=(meta["mode"])
-	mode=mode+1
-	if mode>=5 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk2_"..mode
-	meta["mode"]=mode
-	item["metadata"]=set_item_meta(meta)
-	itemstack:replace(item)
-	return itemstack
-end
-
-function mining_drill_mk3_setmode(user,itemstack)
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=get_item_meta(item["metadata"])
-	if meta==nil then
-		meta={}
-		mode=0
-	end
-	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(3))
-		meta["mode"]=0
-		mode=0
-	end
-	mode=(meta["mode"])
-	mode=mode+1
-	if mode>=6 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk3_"..mode
-	meta["mode"]=mode
-	item["metadata"]=set_item_meta(meta)
-	itemstack:replace(item)
-	return itemstack
-end
-

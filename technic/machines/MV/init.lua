@@ -17,6 +17,7 @@ dofile(path.."/generator.lua")
 
 -- The power radiator supplies appliances with inductive coupled power:
 -- Lighting and associated textures is taken directly from VanessaE's homedecor and made electric.
-dofile(path.."/power_radiator.lua")
-dofile(path.."/lighting.lua")
+-- This is currently useless, slow, and mostly copied
+--dofile(path.."/power_radiator.lua")
+--dofile(path.."/lighting.lua")
 

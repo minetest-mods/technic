@@ -6,11 +6,11 @@ technic.alloy_recipes = {}
 
 -- Register recipe in a table
 technic.register_alloy_recipe = function(metal1, count1, metal2, count2, result, count3)
-	in1 = {
+	local in1 = {
 		name  = metal1,
 		count = count1,
 	}
-	in2 = {
+	local in2 = {
 		name  = metal2,
 		count = count2,
 	}

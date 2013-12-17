@@ -151,14 +151,14 @@ function check_for_flashlight(player)
 	local hotbar = inv:get_list("main")
 	for i = 1, 8 do
 		if hotbar[i]:get_name() == "technic:flashlight" then
-			local meta = get_item_meta(hotbar[i]:get_metadata())
+			local meta = minetest.deserialize(hotbar[i]:get_metadata())
 			if not meta or not meta.charge then
 				return false
 			end
 			if meta.charge - 2 > 0 then
 				meta.charge = meta.charge - 2;
 				technic.set_RE_wear(hotbar[i], meta.charge, flashlight_max_charge)
-				hotbar[i]:set_metadata(set_item_meta(meta))
+				hotbar[i]:set_metadata(minetest.serialize(meta))
 				inv:set_stack("main", i, hotbar[i])
 				return true
 			end

@@ -43,7 +43,7 @@ local function get_face(pos,ppos,pvect)
 	end
 end
 
-function lines(str)
+local function lines(str)
 	local t = {}
 	local function helper(line) table.insert(t, line) return "" end
 	helper((str:gsub("(.-)\r?\n", helper)))
