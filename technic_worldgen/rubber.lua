@@ -44,19 +44,6 @@ minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
 	end,
 })
 
-minetest.register_abm({
-	nodenames = {"moretrees:rubber_tree_trunk_empty"},
-	interval = 60,
-	chance = 15,
-	action = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		if meta:get_int("placed") ~= 0 then
-			return
-		end
-		minetest.set_node(pos, {name="moretrees:rubber_tree_trunk"})
-	end
-})
-
 minetest.register_node(":moretrees:rubber_tree_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"technic_rubber_leaves.png"},

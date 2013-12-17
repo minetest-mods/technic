@@ -65,8 +65,11 @@ minetest.register_abm({
 	interval = 60,
 	chance = 15,
 	action = function(pos, node)
-		node.name = "moretrees:rubber_tree_trunk"
-		minetest.set_node(pos, node)
+		local meta = minetest.get_meta(pos)
+		if meta:get_int("placed") ~= 0 then
+			return
+		end
+		minetest.set_node(pos, {name="moretrees:rubber_tree_trunk"})
 	end
 })
 
