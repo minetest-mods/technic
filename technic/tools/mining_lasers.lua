@@ -60,6 +60,10 @@ local function node_tab(z, d)
 end
 
 local function laser_node(pos, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		minetest.record_protection_violation(pos, player:get_player_name())
+		return
+	end
 	local node = minetest.get_node(pos)
 	if node.name == "air"
 	or node.name == "ignore"

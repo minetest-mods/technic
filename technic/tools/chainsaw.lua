@@ -203,6 +203,10 @@ end
 
 -- Saw down trees entry point
 local function chainsaw_dig_it(pos, player,current_charge)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		minetest.record_protection_violation(pos, player:get_player_name())
+		return current_charge
+	end
         local remaining_charge=current_charge
 
         -- Save the currently installed dropping mechanism so we can restore it.

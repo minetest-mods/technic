@@ -12,12 +12,16 @@ minetest.register_tool("technic:sonic_screwdriver", {
 		if pointed_thing.type ~= "node" then
 			return
 		end
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local pos = pointed_thing.under
+		if minetest.is_protected(pos, user:get_player_name()) then
+			minetest.record_protection_violation(pos, user:get_player_name())
+			return
+		end
 		local node = minetest.get_node(pos)
 		local node_name = node.name
 		if minetest.registered_nodes[node_name].paramtype2 ~= "facedir" and
 		   minetest.registered_nodes[node_name].paramtype2 ~= "wallmounted" then
-			return itemstack
+			return
 		end
 		if node.param2 == nil then
 			return

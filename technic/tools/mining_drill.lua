@@ -51,6 +51,10 @@ local mining_drill_mode_text = {
 }
 
 local function drill_dig_it0 (pos,player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		minetest.record_protection_violation(pos, player:get_player_name())
+		return
+	end
 	local node=minetest.env:get_node(pos)
 	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
