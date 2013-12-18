@@ -121,6 +121,7 @@ minetest.register_abm({
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "LV")
 
+		local src_item = nil
 		if srcstack then
 			src_item = srcstack:to_table()
 		end

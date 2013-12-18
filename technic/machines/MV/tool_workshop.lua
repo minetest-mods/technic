@@ -60,7 +60,7 @@ minetest.register_abm({
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "MV")
 
-		srcstack = inv:get_stack("src", 1)
+		local srcstack = inv:get_stack("src", 1)
 		if inv:is_empty("src") or
 		   srcstack:get_wear() == 0 or
 		   srcstack:get_name() == "technic:water_can" or

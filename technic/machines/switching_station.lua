@@ -67,7 +67,7 @@ minetest.register_node("technic:switching_station",{
 -- A node must be touched by the station continuously in order to function
 function technic.switching_station_timeout_count(pos, tier)
 	local meta = minetest.get_meta(pos)
-	timeout = meta:get_int(tier.."_EU_timeout")
+	local timeout = meta:get_int(tier.."_EU_timeout")
 	if timeout == 0 then
 		meta:set_int(tier.."_EU_input", 0)
 	else
