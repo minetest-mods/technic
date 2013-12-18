@@ -41,10 +41,10 @@ function technic.chests.inv_move(pos, from_list, from_index, to_list, to_index, 
 	return inv_change(pos, count, player)
 end
 function technic.chests.inv_put(pos, listname, index, stack, player)
-	return inv_change(pos, count, player)
+	return inv_change(pos, stack:get_count(), player)
 end
 function technic.chests.inv_take(pos, listname, index, stack, player)
-	return inv_change(pos, count, player)
+	return inv_change(pos, stack:get_count(), player)
 end
 
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
