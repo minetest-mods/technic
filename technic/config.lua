@@ -21,6 +21,3 @@ for k, v in pairs(defaults) do
 	end
 end
 
--- Create the config file if it doesn't exist
-technic.config:write()
-
