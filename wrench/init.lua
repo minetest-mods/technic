@@ -384,17 +384,17 @@ minetest.register_tool("wrench:wrench", {
 		end
 		metadata_str.metas = meta_str
 		
-		inv = placer:get_inventory()
+		local player_inv = placer:get_inventory()
 		local stack = {name = name}
-		if inv:room_for_item("main", stack) then
+		if player_inv:room_for_item("main", stack) then
 			minetest.remove_node(pos)
 			itemstack:add_wear(65535/20)
 			if empty and #lists > 0 and support.store_meta_always == nil then
-				inv:add_item("main", stack)
+				player_inv:add_item("main", stack)
 			else
 				stack.name = supported_nodes[name].name
 				stack.metadata = minetest.serialize(metadata_str)
-				inv:add_item("main", stack)
+				player_inv:add_item("main", stack)
 			end
 		end
 		return itemstack
