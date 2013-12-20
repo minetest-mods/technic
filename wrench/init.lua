@@ -1,286 +1,60 @@
 --[[
-	Wrench mod
-		Adds a wrench that allows the player to pickup nodes that contain an inventory with items or metadata that needs perserving.
-		The wrench has the same tool capability as the normal hand.
-		To pickup a node simply right click on it. If the node contains a formspec, you will need to shift+right click instead.
-	supported_nodes
-		This table stores all nodes that are compatible with the wrench mod.
-		Syntax:
-			[<node name>] = {
-				name = "wrench:<temporary node name>",
-				lists = {"<inventory list name>"},
-				metas = {{string="<meta name>"},{int="<meta name>"},{float="<meta name>"}},
-				owner_protection[optional] = 1,
-				store_meta_always[optional] = 1,
-			}
-			<temporary node name> - can be anything as long as it is unique
-			[optional] - parameters do not have to be included
-			owner_protection - nodes that are protected by owner requirements (Ex. locked chests)
-			store_meta_always - when nodes are broken this ensures metadata and inventory is always stored (Ex. active state for machines)
+Wrench mod
+
+Adds a wrench that allows the player to pickup nodes that contain an inventory
+with items or metadata that needs perserving.
+The wrench has the same tool capability as the normal hand.
+To pickup a node simply right click on it. If the node contains a formspec,
+you will need to shift+right click instead.
 --]]
-local supported_nodes = {
-["default:chest"] = {
-	name="wrench:default_chest",
-	lists={"main"},
-	metas={},
-},
-["default:chest_locked"] = {
-	name="wrench:default_chest_locked",
-	lists={"main"},
-	metas={{string="owner"},{string="infotext"}},
-	owner_protection=1,
-},
-["default:furnace"] = {
-	name="wrench:default_furnace",
-	lists={"fuel", "src", "dst"},
-	metas={{string="infotext"},{float="fuel_totaltime"},{float="fuel_time"},{float="src_totaltime"},{float="src_time"}},
-},
-["default:furnace_active"] = {
-	name="wrench:default_furnace",
-	lists={"fuel", "src", "dst"},
-	metas={{string="infotext"},{float="fuel_totaltime"},{float="fuel_time"},{float="src_totaltime"},{float="src_time"}},
-	store_meta_always=1,
-},
-["default:sign_wall"] = {
-	name="wrench:default_sing_wall",
-	lists={},
-	metas={{string="infotext"},{string="text"}},
-},
-["technic:iron_chest"] = {
-	name="wrench:technic_iron_chest",
-	lists={"main"},
-	metas={},
-},
-["technic:iron_locked_chest"] = {
-	name="wrench:technic_iron_locked_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="owner"}},
-	owner_protection=1,
-},
-["technic:copper_chest"] = {
-	name="wrench:technic_copper_chest",
-	lists={"main"},
-	metas={},
-},
-["technic:copper_locked_chest"] = {
-	name="wrench:technic_copper_locked_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="owner"}},
-	owner_protection=1,
-},
-["technic:silver_chest"] = {
-	name="wrench:technic_silver_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="formspec"}},
-},
-["technic:silver_locked_chest"] = {
-	name="wrench:technic_silver_locked_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="owner"},{string="formspec"}},
-	owner_protection=1,
-	},
-["technic:gold_chest"] = {
-	name="wrench:technic_gold_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="formspec"}},
-},
-["technic:gold_locked_chest"] = {
-	name="wrench:technic_gold_locked_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="owner"},{string="formspec"}},
-	owner_protection=1,
-},
-["technic:mithril_chest"] = {
-	name="wrench:technic_mithril_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="formspec"}},
-},
-["technic:mithril_locked_chest"] = {
-	name="wrench:technic_mithril_locked_chest",
-	lists={"main"},
-	metas={{string="infotext"},{string="owner"},{string="formspec"}},
-	owner_protection=1,
-},
-["technic:electric_furnace"] = {
-	name="wrench:technic_electric_furnace",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-},
-["technic:electric_furnace_active"] = {
-	name="wrench:technic_electric_furnace_active",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:mv_electric_furnace"] = {
-	name="wrench:technic_mv_electric_furnace",
-	lists={"src", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-},
-["technic:mv_electric_furnace_active"] = {
-	name="wrench:technic_mv_electric_furnace_active",
-	lists={"src", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:coal_alloy_furnace"] = {
-	name="wrench:technic_coal_alloy_furnace",
-	lists={"fuel", "src", "src2", "dst"},
-	metas={{string="infotext"},{float="fuel_totaltime"},{float="fuel_time"},{float="src_totaltime"},{float="src_time"}},
-},
-["technic:coal_alloy_furnace_active"] = {
-	name="wrench:technic_coal_alloy_furnace_active",
-	lists={"fuel", "src", "src2", "dst"},
-	metas={{string="infotext"},{float="fuel_totaltime"},{float="fuel_time"},{float="src_totaltime"},{float="src_time"}},
-	store_meta_always=1,
-},
-["technic:alloy_furnace"] = {
-	name="wrench:technic_alloy_furnace",
-	lists={"src", "src2", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="tube_time"},{int="src_time"}},
-},
-["technic:alloy_furnace_active"] = {
-	name="wrench:technic_alloy_furnace_active",
-	lists={"src", "src2", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="tube_time"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:mv_alloy_furnace"] = {
-	name="wrench:technic_mv_alloy_furnace",
-	lists={"src", "src2", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-},
-["technic:mv_alloy_furnace_active"] = {
-	name="wrench:technic_mv_alloy_furnace_active",
-	lists={"src", "src2", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:tool_workshop"] = {
-	name="wrench:technic_tool_workshop",
-	lists={"src"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"}},
-},
-["technic:grinder"] = {
-	name="wrench:technic_grinder",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-},
-["technic:grinder_active"] = {
-	name="wrench:technic_grinder_active",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:mv_grinder"] = {
-	name="wrench:technic_mv_grinder",
-	lists={"src", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-},
-["technic:mv_grinder_active"] = {
-	name="wrench:technic_mv_grinder_active",
-	lists={"src", "dst", "upgrade1", "upgrade2"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="MV_EU_demand"},{int="MV_EU_input"},{int="tube_time"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:extractor"] = {
-	name="wrench:technic_extractor",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-},
-["technic:extractor_active"] = {
-	name="wrench:technic_extractor_active",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:compressor"] = {
-	name="wrench:technic_compressor",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-},
-["technic:compressor_active"] = {
-	name="wrench:technic_compressor_active",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"}},
-	store_meta_always=1,
-},
-["technic:cnc"] = {
-	name="wrench:technic_cnc",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"},{string="cnc_product"}},
-},
-["technic:cnc_active"] = {
-	name="wrench:technic_cnc_active",
-	lists={"src", "dst"},
-	metas={{string="infotext"},{string="formspec"},{int="state"},{int="LV_EU_demand"},{int="LV_EU_input"},{int="src_time"},{string="cnc_product"}},
-	store_meta_always=1,
-},
-}
-local chest_mark_colors = {
-    {'_black','Black'},
-    {'_blue','Blue'}, 
-    {'_brown','Brown'},
-    {'_cyan','Cyan'},
-    {'_dark_green','Dark Green'},
-    {'_dark_grey','Dark Grey'},
-    {'_green','Green'},
-    {'_grey','Grey'},
-    {'_magenta','Magenta'},
-    {'_orange','Orange'},
-    {'_pink','Pink'},
-    {'_red','Red'},
-    {'_violet','Violet'},
-    {'_white','White'},
-    {'_yellow','Yellow'},
-    {'','None'}
-}
-for i=1,15,1 do
-	supported_nodes["technic:gold_chest"..chest_mark_colors[i][1]] = {
-		name="wrench:technic_gold_chest"..chest_mark_colors[i][1],
-		lists={"main"},
-		metas={{string="infotext"},{string="formspec"}},
-	}
-	supported_nodes["technic:gold_locked_chest"..chest_mark_colors[i][1]] = {
-		name="wrench:technic_gold_locked_chest"..chest_mark_colors[i][1],
-		lists={"main"},
-		metas={{string="infotext"},{string="owner"},{string="formspec"}},
-		owner_protection=1,
-	}
-end
-for i=0,8,1 do
-	if i==0 then i="" end
-	supported_nodes["technic:battery_box"..i] = {
-		name="wrench:technic_battery_box"..i,
-		lists={"src", "dst"},
-		metas={{string="infotext"},{string="formspec"},{int="LV_EU_demand"},{int="LV_EU_supply"},{int="LV_EU_input"},{int="internal_EU_charge"},{float="last_side_shown"}},
-		store_meta_always=1,
-	}
-	supported_nodes["technic:mv_battery_box"..i] = {
-		name="wrench:technic_mv_battery_box"..i,
-		lists={"src", "dst"},
-		metas={{string="infotext"},{string="formspec"},{int="MV_EU_demand"},{int="MV_EU_supply"},{int="MV_EU_input"},{int="internal_EU_charge"},{float="last_side_shown"}},
-		store_meta_always=1,
-	}
-	supported_nodes["technic:hv_battery_box"..i] = {
-		name="wrench:technic_hv_battery_box"..i,
-		lists={"src", "dst"},
-		metas={{string="infotext"},{string="formspec"},{int="HV_EU_demand"},{int="HV_EU_supply"},{int="HV_EU_input"},{int="internal_EU_charge"},{float="last_side_shown"}},
-		store_meta_always=1,
-	}
-end
 
-local function convert_to_original_name(name)
-	for key,value in pairs(supported_nodes) do
-		if name == value.name then return key end
+wrench = {}
+
+local modpath = minetest.get_modpath(minetest.get_current_modname())
+dofile(modpath.."/support.lua")
+dofile(modpath.."/technic.lua")
+
+local function get_meta_type(name, metaname)
+	local def = wrench.registered_nodes[name]
+	if not def or not def.metas or not def.metas[metaname] then
+		return nil
 	end
+	return def.metas[metaname]
 end
 
-for name,info in pairs(supported_nodes) do
+local function get_pickup_name(name)
+	return "wrench:picked_up_"..(name:gsub(":", "_"))
+end
+
+local function restore(pos, placer, itemstack)
+	local name = itemstack:get_name()
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	local data = minetest.deserialize(itemstack:get_metadata())
+	minetest.set_node(pos, {name = data.name})
+	local lists = data.lists
+	for listname, list in pairs(lists) do
+		inv:set_list(listname, list)
+	end
+	for name, value in pairs(data.metas) do
+		local meta_type = get_meta_type(data.name, name)
+		if meta_type == wrench.META_TYPE_INT then
+			meta:set_int(name, value)
+		elseif meta_type == wrench.META_TYPE_FLOAT then
+			meta:set_float(name, value)
+		elseif meta_type == wrench.META_TYPE_STRING then
+			meta:set_string(name, value)
+		end
+	end
+	itemstack:take_item()
+	return itemstack
+end
+
+for name, info in pairs(wrench.registered_nodes) do
 	local olddef = minetest.registered_nodes[name]
-	if olddef ~= nil then
+	if olddef then
 		local newdef = {}
-		for key,value in pairs(olddef) do
+		for key, value in pairs(olddef) do
 			newdef[key] = value
 		end
 		newdef.stack_max = 1
@@ -289,33 +63,8 @@ for name,info in pairs(supported_nodes) do
 		newdef.groups.not_in_creative_inventory = 1
 		newdef.on_construct = nil
 		newdef.on_destruct = nil
-		newdef.after_place_node = function(pos, placer, itemstack)
-			minetest.set_node(pos, {name = convert_to_original_name(itemstack:get_name()),
-												param2 = minetest.get_node(pos).param2})
-				local meta = minetest.get_meta(pos)
-				local inv = meta:get_inventory()
-				local item_meta =itemstack:to_table()
-				local data = minetest.deserialize(item_meta["metadata"])
-				local lists = data.lists
-				for listname,list in pairs(lists) do
-					inv:set_list(listname, list)
-				end
-				local metas = data.metas
-				local temp = nil
-				for i=1,#metas,1 do
-					temp = metas[i]
-					if temp.string ~= nil then
-						meta:set_string(temp.string, temp.value)
-					end
-					if temp.int ~= nil then
-						meta:set_int(temp.int, temp.value)
-					end
-					if temp.float ~= nil then
-						meta:set_float(temp.float, temp.value)
-					end
-				end
-		end
-		minetest.register_node(info.name, newdef)
+		newdef.after_place_node = restore
+		minetest.register_node(":"..get_pickup_name(name), newdef)
 	end
 end
 
@@ -328,75 +77,76 @@ minetest.register_tool("wrench:wrench", {
 		groupcaps = {
 			crumbly = {times={[2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
 			snappy = {times={[3]=0.40}, uses=0, maxlevel=1},
-			oddly_breakable_by_hand = {times={[1]=7.00,[2]=4.00,[3]=1.40}, uses=0, maxlevel=3}
+			oddly_breakable_by_hand = {times={[1]=7.00,[2]=4.00,[3]=1.40},
+						uses=0, maxlevel=3}
 		},
 		damage_groups = {fleshy=1},
 	},
 	on_place = function(itemstack, placer, pointed_thing)
-		if not placer:is_player() then return end
 		local pos = pointed_thing.under
-		if pos == nil then return end
+		if not placer or not pos then
+			return
+		end
+		if minetest.is_protected(pos, placer:get_player_name()) then
+			minetest.record_protection_violation(pos, placer:get_player_name())
+			return
+		end
 		local name = minetest.get_node(pos).name
-		local support = supported_nodes[name]
-		if support == nil then return end
+		local def = wrench.registered_nodes[name]
+		if not def then
+			return
+		end
+
+		local stack = ItemStack(get_pickup_name(name))
+		local player_inv = placer:get_inventory()
+		if not player_inv:room_for_item("main", stack) then
+			return
+		end
 		local meta = minetest.get_meta(pos)
-		if support.owner_protection ~= nil then
+		if def.owned then
 			local owner = meta:get_string("owner")
-			if owner ~= nil then
-				if owner ~= placer:get_player_name() then
-					minetest.log("action", placer:get_player_name()..
-					" tried to destroy a locked chest belonging to "..
+			if owner and owner ~= placer:get_player_name() then
+				minetest.log("action", placer:get_player_name()..
+					" tried to pick up a owned node belonging to "..
 					owner.." at "..
 					minetest.pos_to_string(pos))
-					return
-				end
+				return
 			end
 		end
+
+		local metadata = {}
+		metadata.name = name
 		
-		local lists = support.lists
 		local inv = meta:get_inventory()
-		local empty = true
-		local metadata_str = {}
-		local list_str = {}
-		for i=1,#lists,1 do
-			if not inv:is_empty(lists[i]) then empty = false end
-			local list = inv:get_list(lists[i])
-			for j=1,#list,1 do
-				list[j] = list[j]:to_string()
+		local lists = {}
+		for _, listname in pairs(def.lists or {}) do
+			if not inv:is_empty(listname) then
+				empty = false
 			end
-			list_str[lists[i]] = list
+			local list = inv:get_list(listname)
+			for i, stack in pairs(list) do
+				list[i] = stack:to_string()
+			end
+			lists[listname] = list
 		end
-		metadata_str.lists = list_str
+		metadata.lists = lists
 		
-		local metas = support.metas
-		local meta_str = {}
-		for i=1,#metas,1 do
-			local temp = metas[i]
-			if temp.string ~= nil then
-				meta_str[i] = {string = temp.string, value = meta:get_string(temp.string)}
-			end
-			if temp.int ~= nil then
-				meta_str[i] = {int = temp.int, value = meta:get_int(temp.int)}
-			end
-			if temp.float ~= nil then
-				meta_str[i] = {float = temp.float, value = meta:get_float(temp.float)}
+		local metas = {}
+		for name, meta_type in pairs(def.metas or {}) do
+			if meta_type == wrench.META_TYPE_INT then
+				metas[name] = meta:get_int(name)
+			elseif meta_type == wrench.META_TYPE_FLOAT then
+				metas[name] = meta:get_float(name)
+			elseif meta_type == wrench.META_TYPE_STRING then
+				metas[name] = meta:get_string(name)
 			end
 		end
-		metadata_str.metas = meta_str
+		metadata.metas = metas
 		
-		local player_inv = placer:get_inventory()
-		local stack = {name = name}
-		if player_inv:room_for_item("main", stack) then
-			minetest.remove_node(pos)
-			itemstack:add_wear(65535/20)
-			if empty and #lists > 0 and support.store_meta_always == nil then
-				player_inv:add_item("main", stack)
-			else
-				stack.name = supported_nodes[name].name
-				stack.metadata = minetest.serialize(metadata_str)
-				player_inv:add_item("main", stack)
-			end
-		end
+		stack:set_metadata(minetest.serialize(metadata))
+		minetest.remove_node(pos)
+		itemstack:add_wear(65535 / 20)
+		player_inv:add_item("main", stack)
 		return itemstack
 	end,
 })
@@ -404,8 +154,8 @@ minetest.register_tool("wrench:wrench", {
 minetest.register_craft({
 	output = "wrench:wrench",
 	recipe = {
-	{"default:steel_ingot","","default:steel_ingot"},
-	{"","default:steel_ingot",""},
-	{"","default:steel_ingot",""},
+		{"default:steel_ingot", "",                    "default:steel_ingot"},
+		{"",                    "default:steel_ingot", ""},
+		{"",                    "default:steel_ingot", ""},
 	},
 })
