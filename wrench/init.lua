@@ -8,6 +8,8 @@ To pickup a node simply right click on it. If the node contains a formspec,
 you will need to shift+right click instead.
 --]]
 
+local LATEST_SERIALIZATION_VERSION = 1
+
 wrench = {}
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
@@ -116,7 +118,8 @@ minetest.register_tool("wrench:wrench", {
 
 		local metadata = {}
 		metadata.name = name
-		
+		metadata.version = LATEST_SERIALIZATION_VERSION
+
 		local inv = meta:get_inventory()
 		local lists = {}
 		for _, listname in pairs(def.lists or {}) do
