@@ -172,9 +172,9 @@ local function drill_dig_it(pos, player, drill_type, mode)
 		end
 		if dir==3 then  -- z-
 			drill_dig_it0 (pos,player)
-			pos.z=pos.z+1
+			pos.z=pos.z-1
 			drill_dig_it0 (pos,player)
-			pos.z=pos.z+1
+			pos.z=pos.z-1
 			drill_dig_it0 (pos,player)
 		end
 	end
