@@ -96,7 +96,9 @@ function technic.register_generator(data)
 				local inv = meta:get_inventory()
 				if not inv:is_empty("src") then 
 					local fuellist = inv:get_list("src")
-					fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
+					local fuel = minetest.get_craft_result(
+							{method = "fuel", width = 1,
+							items = fuellist})
 					if not fuel or fuel.time == 0 then
 						meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
 						technic.swap_node(pos, "technic:"..ltier.."_generator")
