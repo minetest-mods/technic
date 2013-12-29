@@ -79,7 +79,7 @@ local function quarry_dig(pos, center, size)
 	local meta = minetest.get_meta(pos)
 	local drops = {}
 	local dig_y = meta:get_int("dig_y")
-	local owner = meta:get_int("owner")
+	local owner = meta:get_string("owner")
 
 	local vm = VoxelManip()
 	local p1 = vector.new(
