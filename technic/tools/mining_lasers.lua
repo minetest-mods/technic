@@ -3,10 +3,10 @@ local r_corr = 0.25 -- Remove a bit more nodes (if shooting diagonal) to let it 
 local mk1_charge = 40000
 
 local mining_lasers_list = {
---	{<num>, <range of the laser shots>, <max_charge>},
-	{"1",  7, mk1_charge},
-	{"2", 11, mk1_charge * 4},
-	{"3", 30, mk1_charge * 16},
+--	{<num>, <range of the laser shots>, <max_charge>, <expiration_time>},
+	{"1",  7, mk1_charge, 0.52},
+	{"2", 11, mk1_charge * 4, 0.66},
+	{"3", 30, mk1_charge * 16, 1.08},
 }
 
 local f_1 = 0.5 - r_corr
@@ -135,13 +135,13 @@ local function laser_nodes(pos, dir, player, range)
 	end
 end
 
-local function laser_shoot(player, range, particle_texture, sound)
+local function laser_shoot(player, range, particle_texture, particle_time, sound)
 	local playerpos = player:getpos()
 	local dir = player:get_look_dir()
 
 	local startpos = {x = playerpos.x, y = playerpos.y + 1.6, z = playerpos.z}
 	local mult_dir = vector.multiply(dir, 50)
-	minetest.add_particle(startpos, dir, mult_dir, range / 11, 1, false, particle_texture)
+	minetest.add_particle(startpos, dir, mult_dir, particle_time, 1, false, particle_texture)
 	laser_nodes(vector.round(startpos), dir, player, range)
 	minetest.sound_play(sound, {pos = playerpos, gain = 1.0, max_hear_distance = range})
 end
@@ -159,7 +159,7 @@ for _, m in pairs(mining_lasers_list) do
 				return
 			end
 			if meta.charge - 400 > 0 then
-				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
+				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", m[4], "technic_laser_mk"..m[1])
 				meta.charge = meta.charge - 400
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
 				itemstack:set_metadata(minetest.serialize(meta))
