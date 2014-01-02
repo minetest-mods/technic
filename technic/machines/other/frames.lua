@@ -100,8 +100,8 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	end
 	for _,pos in ipairs(poslist) do
 		local npos=vector.add(pos,vect)
-		local name = minetest.env:get_node(npos).name
-		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none" and frames_pos[pos_to_string(npos)]) and not(pos_in_list(poslist,npos)) then
+		local name = minetest.get_node(npos).name
+		if ((name~="air" and minetest.registered_nodes[name].liquidtype=="none") or frames_pos[pos_to_string(npos)]) and not(pos_in_list(poslist,npos)) then
 			return
 		end
 		--[[if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
@@ -111,8 +111,8 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	nodelist={}
 	frameslist = {}
 	for _,pos in ipairs(poslist) do
-		local node=minetest.env:get_node(pos)
-		local meta=minetest.env:get_meta(pos):to_table()
+		local node=minetest.get_node(pos)
+		local meta=minetest.get_meta(pos):to_table()
 		nodelist[#(nodelist)+1]={pos=pos,node=node,meta=meta}
 		if frames_pos[pos_to_string(pos)] then
 			frameslist[#frameslist+1] = {pos=pos, name=frames_pos[pos_to_string(pos)]}
@@ -121,7 +121,7 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	end
 	objects={}
 	for _,pos in ipairs(poslist) do
-		for _,object in ipairs(minetest.env:get_objects_inside_radius(pos, 1)) do
+		for _,object in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 			add_table(objects,object)
 		end
 	end
@@ -138,8 +138,8 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	end
 	for _,n in ipairs(nodelist) do
 		local npos=vector.add(n.pos,vect)
-		minetest.env:set_node(npos,n.node)
-		local meta=minetest.env:get_meta(npos)
+		minetest.set_node(npos,n.node)
+		local meta=minetest.get_meta(npos)
 		meta:from_table(n.meta)
 		for __,pos in ipairs(poslist) do
 			if npos.x==pos.x and npos.y==pos.y and npos.z==pos.z then
@@ -149,7 +149,7 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 		end
 	end
 	for __,pos in ipairs(poslist) do
-		minetest.env:remove_node(pos)
+		minetest.remove_node(pos)
 	end
 end
 
@@ -250,7 +250,7 @@ local nodeboxes= {
 				nodename=string.sub(nodename,1,-2)..newstate
 			end
 			node.name=nodename
-			minetest.env:set_node(pos,node)
+			minetest.set_node(pos,node)
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
@@ -429,7 +429,7 @@ end
 
 local function get_connected_nodes(pos)
 	c={pos}
-	local nodename=minetest.env:get_node(pos).name
+	local nodename=minetest.get_node(pos).name
 	if frames_pos[pos_to_string(pos)] then
 		nodename = frames_pos[pos_to_string(pos)]
 	end
@@ -733,7 +733,7 @@ local function get_template_nodes(pos)
 	local c = {}
 	for _,vect in ipairs(adj) do
 		local pos1=vector.add(pos,vect)
-		local nodename=minetest.env:get_node(pos1).name
+		local nodename=minetest.get_node(pos1).name
 		if not(pos_in_list(c,pos1)) and nodename~="air" then
 			c[#(c)+1]=pos1
 		end
