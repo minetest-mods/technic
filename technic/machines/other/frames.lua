@@ -3,6 +3,8 @@ local S = technic.getter
 
 frames = {}
 
+local frames_pos = {}
+
 -- Helpers
 
 local function get_face(pos,ppos,pvect)
@@ -99,7 +101,7 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	for _,pos in ipairs(poslist) do
 		local npos=vector.add(pos,vect)
 		local name = minetest.env:get_node(npos).name
-		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none") and not(pos_in_list(poslist,npos)) then
+		if (name~="air" and minetest.registered_nodes[name].liquidtype=="none" and frames_pos[pos_to_string(npos)]) and not(pos_in_list(poslist,npos)) then
 			return
 		end
 		--[[if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
@@ -107,10 +109,15 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 		end]]
 	end
 	nodelist={}
+	frameslist = {}
 	for _,pos in ipairs(poslist) do
 		local node=minetest.env:get_node(pos)
 		local meta=minetest.env:get_meta(pos):to_table()
 		nodelist[#(nodelist)+1]={pos=pos,node=node,meta=meta}
+		if frames_pos[pos_to_string(pos)] then
+			frameslist[#frameslist+1] = {pos=pos, name=frames_pos[pos_to_string(pos)]}
+			frames_pos[pos_to_string(pos)] = nil
+		end
 	end
 	objects={}
 	for _,pos in ipairs(poslist) do
@@ -124,6 +131,10 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 		if le and le.name == "pipeworks:tubed_item" then
 			le.start_pos=vector.add(le.start_pos,vect)
 		end
+	end
+	for _, n in ipairs(frameslist) do
+		local npos=vector.add(n.pos,vect)
+		frames_pos[pos_to_string(npos)] = n.name
 	end
 	for _,n in ipairs(nodelist) do
 		local npos=vector.add(n.pos,vect)
@@ -142,6 +153,9 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	end
 end
 
+local function is_supported_node(name)
+	return ((string.find(name, "tube") ~= nil) and (string.find(name, "pipeworks") ~= nil))
+end
 
 
 -- Frames
@@ -213,8 +227,7 @@ local nodeboxes= {
 		paramtype = "light",
 		frame=1,
 		drop="technic:frame_111111",
-		frame_connect_all=function(pos)
-			local nodename=minetest.env:get_node(pos).name
+		frame_connect_all=function(nodename)
 			l2={}
 			l1={{x=-1,y=0,z=0},{x=1,y=0,z=0},{x=0,y=-1,z=0},{x=0,y=1,z=0},{x=0,y=0,z=-1},{x=0,y=0,z=1}}
 			for i,dir in ipairs(l1) do
@@ -244,8 +257,10 @@ local nodeboxes= {
 			if pos == nil then return end
 			local node = minetest.get_node(pos)
 			if node.name ~= "air" then
-				obj = minetest.add_entity(pos, "technic:frame_entity")
-				obj:get_luaentity():set_node({name=itemstack:get_name()})
+				if is_supported_node(node.name) then
+					obj = minetest.add_entity(pos, "technic:frame_entity")
+					obj:get_luaentity():set_node({name=itemstack:get_name()})
+				end
 			else
 				minetest.set_node(pos, {name = itemstack:get_name()})
 			end
@@ -273,6 +288,9 @@ minetest.register_entity("technic:frame_entity", {
 
 	set_node = function(self, node)
 		self.node = node
+		local pos = self.object:getpos()
+		pos = {x = math.floor(pos.x+0.5), y = math.floor(pos.y+0.5), z = math.floor(pos.z+0.5)}
+		frames_pos[pos_to_string(pos)] = node.name
 		local stack = ItemStack(node.name)
 		local itemtable = stack:to_table()
 		local itemname = nil
@@ -303,6 +321,9 @@ minetest.register_entity("technic:frame_entity", {
 	
 	dig = function(self)
 		minetest.handle_node_drops(self.object:getpos(), {ItemStack("technic:frame_111111")}, self.last_puncher)
+		local pos = self.object:getpos()
+		pos = {x = math.floor(pos.x+0.5), y = math.floor(pos.y+0.5), z = math.floor(pos.z+0.5)}
+		frames_pos[pos_to_string(pos)] = nil
 		self.object:remove()
 	end,
 	
@@ -390,13 +411,16 @@ minetest.register_entity("technic:damage_entity", {
 local function connected(pos,c,adj)
 	for _,vect in ipairs(adj) do
 		local pos1=vector.add(pos,vect)
-		local nodename=minetest.env:get_node(pos1).name
+		local nodename=minetest.get_node(pos1).name
+		if frames_pos[pos_to_string(pos1)] then
+			nodename = frames_pos[pos_to_string(pos1)]
+		end
 		if not(pos_in_list(c,pos1)) and nodename~="air" and
 		(minetest.registered_nodes[nodename].frames_can_connect==nil or
 		minetest.registered_nodes[nodename].frames_can_connect(pos1,vect)) then
 			c[#(c)+1]=pos1
 			if minetest.registered_nodes[nodename].frame==1 then
-				local adj=minetest.registered_nodes[nodename].frame_connect_all(pos1)
+				local adj=minetest.registered_nodes[nodename].frame_connect_all(nodename)
 				connected(pos1,c,adj)
 			end
 		end
@@ -406,7 +430,10 @@ end
 local function get_connected_nodes(pos)
 	c={pos}
 	local nodename=minetest.env:get_node(pos).name
-	connected(pos,c,minetest.registered_nodes[nodename].frame_connect_all(pos))
+	if frames_pos[pos_to_string(pos)] then
+		nodename = frames_pos[pos_to_string(pos)]
+	end
+	connected(pos,c,minetest.registered_nodes[nodename].frame_connect_all(nodename))
 	return c
 end
 
@@ -415,6 +442,9 @@ local function frame_motor_on(pos, node)
 	local nnodepos = vector.add(pos, dirs[math.floor(node.param2/4)+1])
 	local dir = minetest.facedir_to_dir(node.param2)
 	local nnode=minetest.get_node(nnodepos)
+	if frames_pos[pos_to_string(nnodepos)] then
+		nnode.name = frames_pos[pos_to_string(nnodepos)]
+	end
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
 	if minetest.registered_nodes[nnode.name].frame==1 then
