@@ -9,34 +9,34 @@ local function get_face(pos,ppos,pvect)
 		local t=(-0.5-ppos.x)/pvect.x
 		local y_int=ppos.y+t*pvect.y
 		local z_int=ppos.z+t*pvect.z
-		if y_int>-0.4 and y_int<0.4 and z_int>-0.4 and z_int<0.4 then return 1 end 
+		if y_int>-0.45 and y_int<0.45 and z_int>-0.45 and z_int<0.45 then return 1 end 
 	elseif pvect.x<0 then
 		local t=(0.5-ppos.x)/pvect.x
 		local y_int=ppos.y+t*pvect.y
 		local z_int=ppos.z+t*pvect.z
-		if y_int>-0.4 and y_int<0.4 and z_int>-0.4 and z_int<0.4 then return 2 end 
+		if y_int>-0.45 and y_int<0.45 and z_int>-0.45 and z_int<0.45 then return 2 end 
 	end
 	if pvect.y>0 then
 		local t=(-0.5-ppos.y)/pvect.y
 		local x_int=ppos.x+t*pvect.x
 		local z_int=ppos.z+t*pvect.z
-		if x_int>-0.4 and x_int<0.4 and z_int>-0.4 and z_int<0.4 then return 3 end 
+		if x_int>-0.45 and x_int<0.45 and z_int>-0.45 and z_int<0.45 then return 3 end 
 	elseif pvect.y<0 then
 		local t=(0.5-ppos.y)/pvect.y
 		local x_int=ppos.x+t*pvect.x
 		local z_int=ppos.z+t*pvect.z
-		if x_int>-0.4 and x_int<0.4 and z_int>-0.4 and z_int<0.4 then return 4 end 
+		if x_int>-0.45 and x_int<0.45 and z_int>-0.45 and z_int<0.45 then return 4 end 
 	end
 	if pvect.z>0 then
 		local t=(-0.5-ppos.z)/pvect.z
 		local x_int=ppos.x+t*pvect.x
 		local y_int=ppos.y+t*pvect.y
-		if x_int>-0.4 and x_int<0.4 and y_int>-0.4 and y_int<0.4 then return 5 end 
+		if x_int>-0.45 and x_int<0.45 and y_int>-0.45 and y_int<0.45 then return 5 end 
 	elseif pvect.z<0 then
 		local t=(0.5-ppos.z)/pvect.z
 		local x_int=ppos.x+t*pvect.x
 		local y_int=ppos.y+t*pvect.y
-		if x_int>-0.4 and x_int<0.4 and y_int>-0.4 and y_int<0.4 then return 6 end 
+		if x_int>-0.45 and x_int<0.45 and y_int>-0.45 and y_int<0.45 then return 6 end 
 	end
 end
 
@@ -235,7 +235,18 @@ local nodeboxes= {
 			end
 			node.name=nodename
 			minetest.env:set_node(pos,node)
-		end
+		end,
+		on_place = function(itemstack, placer, pointed_thing)
+			local pos = pointed_thing.above
+			if pos == nil then return end
+			local node = minetest.get_node(pos)
+			if node.name ~= "air" then
+				obj = minetest.add_entity(pos, "technic:frame_entity")
+				obj:get_luaentity():set_node({name=itemstack:get_name()})
+			else
+				minetest.set_node(pos, {name = itemstack:get_name()})
+			end
+		end,
 	})
 
 end
@@ -245,8 +256,132 @@ end
 end
 end
 
+minetest.register_entity("technic:frame_entity", {
+	initial_properties = {
+		physical = true,
+		collide_with_objects = false,
+		collisionbox = {-0.5,-0.5,-0.5, 0.5,0.5,0.5},
+		visual = "wielditem",
+		textures = {},
+		visual_size = {x=0.667, y=0.667},
+	},
 
+	node = {},
 
+	set_node = function(self, node)
+		self.node = node
+		local stack = ItemStack(node.name)
+		local itemtable = stack:to_table()
+		local itemname = nil
+		if itemtable then
+			itemname = stack:to_table().name
+		end
+		local item_texture = nil
+		local item_type = ""
+		if minetest.registered_items[itemname] then
+			item_texture = minetest.registered_items[itemname].inventory_image
+			item_type = minetest.registered_items[itemname].type
+		end
+		prop = {
+			is_visible = true,
+			textures = {node.name},
+		}
+		self.object:set_properties(prop)
+	end,
+
+	get_staticdata = function(self)
+		return self.node.name
+	end,
+
+	on_activate = function(self, staticdata)
+		self.object:set_armor_groups({immortal=1})
+		self:set_node({name=staticdata})
+	end,
+	
+	dig = function(self)
+		minetest.handle_node_drops(self.object:getpos(), {ItemStack("technic:frame_111111")}, self.last_puncher)
+		self.object:remove()
+	end,
+	
+	on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir)
+		local pos = self.object:getpos()
+		if self.damage_object == nil then
+			self.damage_object = minetest.add_entity(pos, "technic:damage_entity")
+			self.damage_object:get_luaentity().remaining_time = 0.25
+			self.damage_object:get_luaentity().frame_object = self
+			self.damage_object:get_luaentity().texture_index = 0
+			self.damage_object:get_luaentity().texture_change_time = 0.15
+		else
+			self.damage_object:get_luaentity().remaining_time = 0.25
+		end
+		self.last_puncher = puncher
+		local ppos = puncher:getpos()
+		local pvect = puncher:get_look_dir()
+		local pface = get_face(pos,ppos,pvect)
+		if pface == nil then return end
+		local nodename = self.node.name
+		local newstate = tostring(1-tonumber(string.sub(nodename, -7+pface, -7+pface)))
+		if pface <= 5 then
+			nodename = string.sub(nodename, 1, -7+pface-1)..newstate..string.sub(nodename, -7+pface+1)
+		else
+			nodename = string.sub(nodename, 1, -2)..newstate
+		end
+		self.node.name = nodename
+		self:set_node(self.node)
+	end,
+	
+	on_rightclick = function(self, clicker)
+		local pos = self.object:getpos()
+		local ppos = clicker:getpos()
+		local pvect = clicker:get_look_dir()
+		local pface = get_face(pos, ppos, pvect)
+		if pface == nil then return end
+		local pos_under = {x = math.floor(pos.x+0.5), y = math.floor(pos.y+0.5), z = math.floor(pos.z+0.5)}
+		local pos_above = {x = pos_under.x, y = pos_under.y, z = pos_under.z}
+		local index = ({"x", "y", "z"})[math.floor((pface+1)/2)]
+		pos_above[index] = pos_above[index] + 2*((pface+1)%2) - 1
+		local pointed_thing = {type = "node", under = pos_under, above = pos_above}
+		local itemstack = clicker:get_wielded_item()
+		local itemdef = minetest.registered_items[itemstack:get_name()]
+		if itemdef ~= nil then
+			itemdef.on_place(itemstack, clicker, pointed_thing)
+		end
+	end,
+})
+
+local crack = "crack_anylength.png^[verticalframe:5:0"
+minetest.register_entity("technic:damage_entity", {
+	initial_properties = {
+		visual = "cube",
+		visual_size = {x=1.01, y=1.01},
+		textures = {crack, crack, crack, crack, crack, crack},
+		collisionbox = {0, 0, 0, 0, 0, 0},
+		physical = false,
+	},
+	on_step = function(self, dtime)
+		if self.remaining_time == nil then
+			self.object:remove()
+			self.frame_object.damage_object = nil
+		end
+		self.remaining_time = self.remaining_time - dtime
+		if self.remaining_time < 0 then
+			self.object:remove()
+			self.frame_object.damage_object = nil
+		end
+		self.texture_change_time = self.texture_change_time - dtime
+		if self.texture_change_time < 0 then
+			self.texture_change_time = self.texture_change_time + 0.15
+			self.texture_index = self.texture_index + 1
+			if self.texture_index == 5 then
+				self.object:remove()
+				self.frame_object.damage_object = nil
+				self.frame_object:dig()
+			end
+			local ct = "crack_anylength.png^[verticalframe:5:"..self.texture_index
+			self.object:set_properties({textures = {ct, ct, ct, ct, ct, ct}})
+		end
+	end,
+})
 
 -- Frame motor
 local function connected(pos,c,adj)
