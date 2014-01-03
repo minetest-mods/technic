@@ -251,6 +251,14 @@ local nodeboxes= {
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
+			if minetest.is_protected(pos, placer:get_player_name()) then
+				minetest.log("action", placer:get_player_name()
+					.. " tried to place " .. itemstack:get_name()
+					.. " at protected position "
+					.. minetest.pos_to_string(pos))
+				minetest.record_protection_violation(pos, placer:get_player_name())
+				return itemstack
+			end
 			if pos == nil then return end
 			local node = minetest.get_node(pos)
 			if node.name ~= "air" then
@@ -260,6 +268,54 @@ local nodeboxes= {
 				end
 			else
 				minetest.set_node(pos, {name = itemstack:get_name()})
+			end
+			itemstack:take_item()
+			return itemstack
+		end,
+		on_rightclick = function(pos, node, placer, itemstack)
+			if is_supported_node(itemstack:get_name()) then
+				if minetest.is_protected(pos, placer:get_player_name()) then
+					minetest.log("action", placer:get_player_name()
+						.. " tried to place " .. itemstack:get_name()
+						.. " at protected position "
+						.. minetest.pos_to_string(pos))
+					minetest.record_protection_violation(pos, placer:get_player_name())
+					return itemstack
+				end
+				
+				minetest.set_node(pos, {name = itemstack:get_name()})
+				
+				local take_item = true
+				local def = minetest.registered_items[itemstack:get_name()]
+				-- Run callback
+				if def.after_place_node then
+					-- Copy place_to because callback can modify it
+					local pos_copy = {x=pos.x, y=pos.y, z=pos.z}
+					if def.after_place_node(pos_copy, placer, itemstack) then
+						take_item = false
+					end
+				end
+
+				-- Run script hook
+				local _, callback
+				for _, callback in ipairs(minetest.registered_on_placenodes) do
+					-- Copy pos and node because callback can modify them
+					local pos_copy = {x=pos.x, y=pos.y, z=pos.z}
+					local newnode_copy = {name=def.name, param1=0, param2=0}
+					local oldnode_copy = {name="air", param1=0, param2=0}
+					if callback(pos_copy, newnode_copy, placer, oldnode_copy, itemstack) then
+						take_item = false
+					end
+				end
+
+				if take_item then
+					itemstack:take_item()
+				end
+				
+				obj = minetest.add_entity(pos, "technic:frame_entity")
+				obj:get_luaentity():set_node({name=node.name})
+				
+				return itemstack
 			end
 		end,
 	})
@@ -274,7 +330,6 @@ end
 minetest.register_entity("technic:frame_entity", {
 	initial_properties = {
 		physical = true,
-		collide_with_objects = false,
 		collisionbox = {-0.5,-0.5,-0.5, 0.5,0.5,0.5},
 		visual = "wielditem",
 		textures = {},
@@ -403,6 +458,44 @@ minetest.register_entity("technic:damage_entity", {
 		end
 	end,
 })
+
+mesecon:register_mvps_unmov("technic:frame_entity")
+mesecon:register_mvps_unmov("technic:damage_entity")
+mesecon:register_on_mvps_move(function(moved_nodes)
+	local to_move = {}
+	for _, n in ipairs(moved_nodes) do
+		if frames_pos[pos_to_string(n.oldpos)] ~= nil then
+			to_move[#to_move+1] = {pos = n.pos, oldpos = n.oldpos, name = frames_pos[pos_to_string(n.oldpos)]}
+			frames_pos[pos_to_string(n.oldpos)] = nil
+		end
+	end
+	if #to_move > 0 then
+		for _, t in ipairs(to_move) do
+			frames_pos[pos_to_string(t.pos)] = t.name
+			local objects = minetest.get_objects_inside_radius(t.oldpos, 0.1)
+			for _, obj in ipairs(objects) do
+				local entity = obj:get_luaentity()
+				if entity and (entity.name == "technic:frame_entity" or entity.name == "technic:damage_entity") then
+					obj:setpos(t.pos)
+				end
+			end
+		end
+	end
+end)
+
+minetest.register_on_dignode(function(pos, node)
+	if frames_pos[pos_to_string(pos)] ~= nil then
+		minetest.set_node(pos, {name = frames_pos[pos_to_string(pos)]})
+		frames_pos[pos_to_string(pos)] = nil
+		local objects = minetest.get_objects_inside_radius(pos, 0.1)
+		for _, obj in ipairs(objects) do
+			local entity = obj:get_luaentity()
+			if entity and (entity.name == "technic:frame_entity" or entity.name == "technic:damage_entity") then
+				obj:remove()
+			end
+		end
+	end
+end)
 
 -- Frame motor
 local function connected(pos,c,adj)
