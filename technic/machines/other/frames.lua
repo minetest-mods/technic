@@ -79,14 +79,14 @@ local function table_empty(table)
 end
 
 local function add_table(table,toadd)
-	local i=1
+	local i = 1
 	while true do
-		o=table[i]
-		if o==toadd then return end
-		if o==nil then break end
-		i=i+1
+		o = table[i]
+		if o == toadd then return end
+		if o == nil then break end
+		i = i+1
 	end
-	table[i]=toadd
+	table[i] = toadd
 end
 
 local function move_nodes_vect(poslist,vect,must_not_move,owner)
@@ -108,48 +108,41 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 			return
 		end]]
 	end
-	nodelist={}
-	frameslist = {}
-	for _,pos in ipairs(poslist) do
-		local node=minetest.get_node(pos)
-		local meta=minetest.get_meta(pos):to_table()
-		nodelist[#(nodelist)+1]={pos=pos,node=node,meta=meta}
-		if frames_pos[pos_to_string(pos)] then
-			frameslist[#frameslist+1] = {pos=pos, name=frames_pos[pos_to_string(pos)]}
-			frames_pos[pos_to_string(pos)] = nil
-		end
+	local nodelist = {}
+	for _, pos in ipairs(poslist) do
+		local node = minetest.get_node(pos)
+		local meta = minetest.get_meta(pos):to_table()
+		nodelist[#(nodelist)+1] = {oldpos = pos, pos = vector.add(pos, vect), node = node, meta = meta}
 	end
-	objects={}
-	for _,pos in ipairs(poslist) do
+	local objects = {}
+	for _, pos in ipairs(poslist) do
 		for _,object in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
-			add_table(objects,object)
+			local entity = object:get_luaentity()
+			if not entity or not mesecon:is_mvps_unmov(entity.name) then
+				add_table(objects, object)
+			end
 		end
 	end
-	for _,obj in ipairs(objects) do
-		obj:setpos(vector.add(obj:getpos(),vect))
-		le=obj:get_luaentity()
-		if le and le.name == "pipeworks:tubed_item" then
-			le.start_pos=vector.add(le.start_pos,vect)
-		end
-	end
-	for _, n in ipairs(frameslist) do
-		local npos=vector.add(n.pos,vect)
-		frames_pos[pos_to_string(npos)] = n.name
+	for _, obj in ipairs(objects) do
+		obj:setpos(vector.add(obj:getpos(), vect))
 	end
 	for _,n in ipairs(nodelist) do
-		local npos=vector.add(n.pos,vect)
-		minetest.set_node(npos,n.node)
-		local meta=minetest.get_meta(npos)
+		local npos = n.pos
+		minetest.set_node(npos, n.node)
+		local meta = minetest.get_meta(npos)
 		meta:from_table(n.meta)
 		for __,pos in ipairs(poslist) do
-			if npos.x==pos.x and npos.y==pos.y and npos.z==pos.z then
+			if npos.x == pos.x and npos.y == pos.y and npos.z == pos.z then
 				table.remove(poslist, __)
 				break
 			end
 		end
 	end
-	for __,pos in ipairs(poslist) do
+	for __, pos in ipairs(poslist) do
 		minetest.remove_node(pos)
+	end
+	for _, callback in ipairs(mesecon.on_mvps_move) do
+		callback(nodelist)
 	end
 end
 
