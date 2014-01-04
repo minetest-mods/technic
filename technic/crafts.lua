@@ -16,35 +16,35 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-    output = 'pipeworks:accelerator_tube_000000',
+    output = 'pipeworks:accelerator_tube_1',
     recipe = {
         {'technic:copper_coil', 'pipeworks:tube_1', 'technic:copper_coil'},
         }
 })
 
 minetest.register_craft({
-    output = 'pipeworks:detector_tube_off_000000',
+    output = 'pipeworks:detector_tube_off_1',
     recipe = {
         {'mesecons:mesecon', 'pipeworks:tube_1', 'mesecons:mesecon'},
         }
 })
 
 minetest.register_craft({
-    output = 'pipeworks:sand_tube_000000',
+    output = 'pipeworks:sand_tube_1',
     recipe = {
         {'default:sand', 'pipeworks:tube_1', 'default:sand'},
         }
 })
 
 minetest.register_craft({
-    output = 'pipeworks:mese_sand_tube_000000',
+    output = 'pipeworks:mese_sand_tube_1',
     recipe = {
-        {'default:mese_crystal_fragment', 'pipeworks:sand_tube_000000', 'default:mese_crystal_fragment'},
+        {'default:mese_crystal_fragment', 'pipeworks:sand_tube_1', 'default:mese_crystal_fragment'},
         }
 })
 
 minetest.register_craft({
-    output = 'pipeworks:teleport_tube_000000',
+    output = 'pipeworks:teleport_tube_1',
     recipe = {
         {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
         {'pipeworks:tube_1', 'technic:control_logic_unit', 'pipeworks:tube_1'},
