@@ -32,7 +32,7 @@ local music_player_formspec =
 	"label[4,0;Current track --]"
 
 local function play_track(pos, track)
-	return minetest.sound_play("technic_track"..track,
+	return minetest.sound_play("technic_track"..tostring(track),
 			{pos = pos, gain = 1.0, loop = true, max_hear_distance = 72,})
 end
 
