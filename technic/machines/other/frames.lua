@@ -1,5 +1,7 @@
 frames = {}
 
+local infinite_stacks = minetest.setting_getbool("creative_mode") and minetest.get_modpath("unified_inventory") == nil
+
 local frames_pos = {}
 
 -- Helpers
@@ -217,6 +219,7 @@ local nodeboxes= {
 		paramtype = "light",
 		frame=1,
 		drop="technic:frame_111111",
+		sunlight_propagates = true,
 		frame_connect_all=function(nodename)
 			l2={}
 			l1={{x=-1,y=0,z=0},{x=1,y=0,z=0},{x=0,y=-1,z=0},{x=0,y=1,z=0},{x=0,y=0,z=-1},{x=0,y=0,z=1}}
@@ -262,10 +265,12 @@ local nodeboxes= {
 			else
 				minetest.set_node(pos, {name = itemstack:get_name()})
 			end
-			itemstack:take_item()
+			if not infinite_stacks then
+				itemstack:take_item()
+			end
 			return itemstack
 		end,
-		on_rightclick = function(pos, node, placer, itemstack)
+		on_rightclick = function(pos, node, placer, itemstack, pointed_thing)
 			if is_supported_node(itemstack:get_name()) then
 				if minetest.is_protected(pos, placer:get_player_name()) then
 					minetest.log("action", placer:get_player_name()
@@ -309,6 +314,11 @@ local nodeboxes= {
 				obj:get_luaentity():set_node({name=node.name})
 				
 				return itemstack
+			else
+				--local pointed_thing = {type = "node", under = pos}
+				if pointed_thing then
+					minetest.item_place_node(itemstack, placer, pointed_thing)
+				end
 			end
 		end,
 	})
