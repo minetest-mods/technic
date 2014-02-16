@@ -54,12 +54,27 @@ minetest.register_craft({
 	}
 })
 
+local tube = {
+	insert_object = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:add_item("main", stack)
+	end,
+	can_insert = function(pos, node, stack, direction)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return inv:room_for_item("main", stack)
+	end,
+	input_inventory="main",
+	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
+}
+
 minetest.register_node("technic:injector", {
 	description = S("Injector"),
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
 		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
-	groups = chest_groups1,
-	tube = tubes_properties,
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
+	tube = tube,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
