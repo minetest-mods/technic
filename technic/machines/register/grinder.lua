@@ -34,7 +34,9 @@ function technic.register_grinder(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,6;8,4;]"..
-		"label[0,0;"..tier.." Grinder]"
+		"label[0,0;"..tier.." Grinder]"..
+		"button[3,0;.8,.8;protected;]"..
+		"label[3.8,0; %s]"
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
@@ -57,12 +59,29 @@ function technic.register_grinder(data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", S("%s Grinder"):format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", formspec)
+			meta:set_int("protected",  0)
+			meta:set_string("formspec", string.format(formspec,"Not Protected"))
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
+		end,
+		on_receive_fields = function(pos, formname, fields, sender)
+			if ( fields.protected ) then
+				local meta = minetest.get_meta(pos)
+				local protected = meta:get_int("protected");
+				local label = nil
+				if ( protected == nil or protected == 0 ) then
+					protected = 1
+					label = "Protected"
+				else
+					protected = 0
+					label = "Not Protected"
+				end	
+				meta:set_string("formspec", string.format(formspec,label))
+				meta:set_int("protected",protected)
+			end
 		end,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,

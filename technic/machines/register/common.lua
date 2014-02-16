@@ -126,10 +126,13 @@ function technic.machine_can_dig(pos, player)
 end
 
 local function inv_change(pos, player, count)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		minetest.chat_send_player(player:get_player_name(),
-			S("Inventory move disallowed due to protection"))
-		return 0
+	local meta = minetest.get_meta(pos)
+	if ( meta:get_int("protected") == 1 ) then
+		if minetest.is_protected(pos, player:get_player_name()) then
+			minetest.chat_send_player(player:get_player_name(),
+				S("Inventory move disallowed due to protection"))
+			return 0
+		end
 	end
 	return count
 end
