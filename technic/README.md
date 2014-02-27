@@ -2,7 +2,7 @@ Technic
 =======
 
 License
-=======
+-------
 
 Copyright (C) 2012-2014 Maciej Kasatkin (RealBadAngel)
 
