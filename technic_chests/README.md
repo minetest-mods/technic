@@ -1,0 +1,21 @@
+Technic chests
+==============
+
+License
+=======
+
+Copyright (C) 2012-2014 Maciej Kasatkin (RealBadAngel)
+
+Technic chests code is licensed under the GNU LGPLv2+.
+
+Texture licenses:
+
+VanessaE: (WTFPL)
+  * technic\_pencil\_icon.png
+  * technic\_checkmark\_icon.png
+  * technic\_chest\_overlay\_*.png
+  * technic\_*\_chest\_lock\_overlay.png
+
+RealBadAngel: (WTFPL)
+  * Everything else.
+

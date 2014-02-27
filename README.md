@@ -1,14 +1,22 @@
-technic 0.4.7
+Technic
+=======
 
-Technic mod for Minetest 0.4.7
+Credits for contributing to the project (in alphabetical order):
+  * kpoppel
+  * Nekogloop
+  * Nore/Novatux
+  * ShadowNinja
+  * VanessaE
+  * And many others...
 
-Credits for contributing to the project:
-Nekogloop
-ShadowNinja
-VanessaE
-Nore/Novatux
-kpoppel
-And many others for ideas/inspiring 
+FAQ
+===
 
-License:
-LGPLv2+
+1. My technic circuit doesn't work.  No power is distrubuted.
+  * A: Make sure you have a switching station connected.
+
+License
+=======
+
+See mod folders for their licences
+
