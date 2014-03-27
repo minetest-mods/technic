@@ -185,17 +185,9 @@ minetest.register_abm({
 		local machine_node = "technic:cnc"
 		local demand       = 450
 
-		-- Setup meta data if it does not exist. state is used as an indicator of this
-		if not eu_input then
-			meta:set_int("LV_EU_demand", demand)
-			meta:set_int("LV_EU_input", 0)
-			return
-		end
-
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "LV")
 
-		
 		local result = meta:get_string("cnc_product")
 		if inv:is_empty("src") or 
 		   (not minetest.registered_nodes[result]) or
@@ -203,6 +195,7 @@ minetest.register_abm({
 			technic.swap_node(pos, machine_node)
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_string("cnc_product", "")
+			meta:set_int("LV_EU_demand", 0)
 			return
 		end
 
