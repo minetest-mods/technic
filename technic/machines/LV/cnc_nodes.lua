@@ -67,7 +67,7 @@ technic.cnc.register_all("default:tree",
                 S("Tree"))
 -- STEEL
 --------
-technic.cnc.register_all("default:steel",
+technic.cnc.register_all("default:steelblock",
                 {snappy=1, bendy=2, cracky=1, melty=2, level=2, not_in_creative_inventory=1},
                 {"default_steel_block.png"},
                 S("Steel"))
