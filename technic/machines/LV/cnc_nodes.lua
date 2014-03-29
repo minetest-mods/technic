@@ -14,13 +14,6 @@ technic.cnc.programs_disable["default:dirt"] = {"technic_cnc_sphere", "technic_c
 		"technic_cnc_slope_edge_upsdown", "technic_cnc_slope_inner_edge_upsdown",
 		"technic_cnc_stick", "technic_cnc_cylinder_horizontal"}
 
--- TREE
--------
-technic.cnc.register_all("default:tree",
-                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
-                {"default_tree.png"},
-                S("Wooden"))
-
 -- WOOD
 -------
 technic.cnc.register_all("default:wood",
