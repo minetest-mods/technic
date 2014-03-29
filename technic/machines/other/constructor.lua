@@ -153,7 +153,7 @@ minetest.register_node("technic:constructor_mk1_off", {
 })
 
 minetest.register_node("technic:constructor_mk1_on", {
-	description = S("Constructor Mk%d"):format(3),
+	description = S("Constructor Mk%d"):format(1),
 	tile_images = {"technic_constructor_mk1_top_on.png","technic_constructor_mk1_bottom_on.png","technic_constructor_mk1_side2_on.png","technic_constructor_mk1_side1_on.png",
 			"technic_constructor_back.png","technic_constructor_front_on.png"},
 	paramtype2 = "facedir",
