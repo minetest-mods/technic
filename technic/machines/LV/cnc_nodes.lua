@@ -65,3 +65,31 @@ technic.cnc.register_all("default:steelblock",
                 {"default_steel_block.png"},
                 S("Steel"))
 
+-- Bronze
+--------
+technic.cnc.register_all("default:bronzeblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"default_bronze_block.png"},
+                S("Bronze"))
+
+-- Stainless Steel
+--------
+technic.cnc.register_all("technic:stainless_steel_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_stainless_steel_block.png"},
+                S("Stainless Steel"))
+
+-- Marble
+------------
+technic.cnc.register_all("technic:marble",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_marble.png"},
+                S("Marble"))
+
+-- Granite
+------------
+technic.cnc.register_all("technic:granite",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_granite.png"},
+                S("Granite"))
+
