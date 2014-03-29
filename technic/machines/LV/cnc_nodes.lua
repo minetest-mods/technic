@@ -65,3 +65,17 @@ technic.cnc.register_all("default:steelblock",
                 {"default_steel_block.png"},
                 S("Steel"))
 
+-- Marble
+------------
+technic.cnc.register_all("technic:marble",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_marble.png"},
+                S("Marble"))
+
+-- Granite
+------------
+technic.cnc.register_all("technic:granite",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_granite.png"},
+                S("Granite"))
+
