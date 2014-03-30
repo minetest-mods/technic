@@ -1,20 +1,3 @@
-local chest_mark_colors = {
-	'Black',
-	'Blue',
-	'Brown',
-	'Cyan',
-	'Dark Green',
-	'Dark Grey',
-	'Green',
-	'Grey',
-	'Magenta',
-	'Orange',
-	'Pink',
-	'Red',
-	'Violet',
-	'White',
-	'Yellow',
-}
 
 minetest.register_craft({
 	output = 'technic:gold_chest',
