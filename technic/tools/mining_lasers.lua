@@ -1,12 +1,20 @@
 
 local r_corr = 0.25 -- Remove a bit more nodes (if shooting diagonal) to let it look like a hole (sth like antialiasing)
-local mk1_charge = 40000
+local mk1_charge = 50000
+local mk1_range  = 7
+local mk1_cost   = 1000
+local mk2_charge = 200000
+local mk2_range  = 14
+local mk2_cost   = 2000
+local mk3_charge = 650000
+local mk3_range  = 21
+local mk3_cost   = 3000
 
 local mining_lasers_list = {
---	{<num>, <range of the laser shots>, <max_charge>},
-	{"1",  7, mk1_charge},
-	{"2", 11, mk1_charge * 4},
-	{"3", 30, mk1_charge * 16},
+--	{<num>, <range of the laser shots>, <max_charge>, <charge_per_shot>},
+	{"1", mk1_range, mk1_charge, mk1_cost},
+	{"2", mk2_range, mk2_charge, mk2_cost},
+	{"3", mk3_range, mk3_charge, mk3_cost},
 }
 
 local f_1 = 0.5 - r_corr
@@ -17,8 +25,24 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:laser_mk1',
 	recipe = {
-		{'default:diamond', 'default:steel_ingot', 'technic:battery'},
-		{'',                'default:steel_ingot', 'technic:battery'},
+		{'default:diamond', 'default:steel_ingot', 'technic:red_energy_crystal'},
+		{'',                'default:steel_ingot', 'technic:steel_ingot'},
+		{'',                '',                    'default:copper_ingot'},
+	}
+})
+minetest.register_craft({
+	output = 'technic:laser_mk2',
+	recipe = {
+		{'default:diamond', 'default:steel_ingot', 'technic:laser_mk1'},
+		{'',                'default:steel_ingot', 'technic:green_energy_crystal'},
+		{'',                '',                    'default:copper_ingot'},
+	}
+})
+minetest.register_craft({
+	output = 'technic:laser_mk3',
+	recipe = {
+		{'default:diamond', 'default:steel_ingot', 'technic:laser_mk2'},
+		{'',                'default:steel_ingot', 'technic:blue_energy_crystal'},
 		{'',                '',                    'default:copper_ingot'},
 	}
 })
@@ -158,9 +182,11 @@ for _, m in pairs(mining_lasers_list) do
 			if not meta or not meta.charge then
 				return
 			end
-			if meta.charge - 400 > 0 then
+
+			-- If there's enough charge left, fire the laser
+			if meta.charge >= m[4] then
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				meta.charge = meta.charge - 400
+				meta.charge = meta.charge - m[4]
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
 				itemstack:set_metadata(minetest.serialize(meta))
 			end

@@ -2,9 +2,9 @@
 local S = technic.getter
 
 technic.register_power_tool("technic:battery", 10000)
-technic.register_power_tool("technic:red_energy_crystal", 100000)
-technic.register_power_tool("technic:green_energy_crystal", 250000)
-technic.register_power_tool("technic:blue_energy_crystal", 500000)
+technic.register_power_tool("technic:red_energy_crystal", 50000)
+technic.register_power_tool("technic:green_energy_crystal", 150000)
+technic.register_power_tool("technic:blue_energy_crystal", 450000)
 
 minetest.register_craft({
 	output = 'technic:battery',
