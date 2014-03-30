@@ -98,6 +98,8 @@ function technic.register_alloy_furnace(data)
 	local formspec =
 		"invsize[8,10;]"..
 		"label[0,0;"..S("%s Alloy Furnace"):format(tier).."]"..
+		"button[3,0;.8,.8;protected;]"..
+		"label[3.8,0; %s]"..
 		"list[current_name;src;3,1;1,2;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,6;8,4;]"
@@ -126,13 +128,30 @@ function technic.register_alloy_furnace(data)
 			local name = minetest.get_node(pos).name
 
 			meta:set_string("infotext", S("%s Alloy Furnace"):format(tier))
-			meta:set_string("formspec", formspec)
+			meta:set_string("formspec", string.format(formspec,"Not Protected"))
 			meta:set_int("tube_time",  0)
+			meta:set_int("protected",  0)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 2)
 			inv:set_size("dst", 4)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
+		end,
+		on_receive_fields = function(pos, formname, fields, sender)
+			if ( fields.protected and not minetest.is_protected(pos, sender:get_player_name()) ) then
+				local meta = minetest.get_meta(pos)
+				local protected = meta:get_int("protected");
+				local label = nil
+				if ( protected == nil or protected == 0 ) then
+					protected = 1
+					label = "Protected"					
+				else
+					protected = 0
+					label = "Not Protected"					
+				end				
+				meta:set_string("formspec", string.format(formspec,label))
+				meta:set_int("protected",protected)
+			end
 		end,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,

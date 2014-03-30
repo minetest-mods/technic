@@ -32,7 +32,9 @@ function technic.register_generator(data)
 		"label[0,0;"..S("%s Generator"):format(tier).."]"..
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
-		"list[current_player;main;0,5;8,4;]"
+		"list[current_player;main;0,5;8,4;]"..
+		"button[3,0;.8,.8;protected;]"..
+		"label[3.8,0; %s]"
 	
 	local desc = S("%s Generator"):format(tier)
 	minetest.register_node("technic:"..ltier.."_generator", {
@@ -51,9 +53,26 @@ function technic.register_generator(data)
 			meta:set_int(data.tier.."_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", generator_formspec)
+			meta:set_int("protected",  0)
+			meta:set_string("formspec", string.format(generator_formspec,"Not Protected"))
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
+		end,
+		on_receive_fields = function(pos, formname, fields, sender)
+			if ( fields.protected ) then
+				local meta = minetest.get_meta(pos)
+				local protected = meta:get_int("protected");
+				local label = nil
+				if ( protected == nil or protected == 0 ) then
+					protected = 1
+					label = "Protected"
+				else
+					protected = 0
+					label = "Not Protected"
+				end	
+				meta:set_string("formspec", string.format(formspec,label))
+				meta:set_int("protected",protected)
+			end
 		end,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
