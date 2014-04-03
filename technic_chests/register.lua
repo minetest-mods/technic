@@ -1,25 +1,33 @@
 
+
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 local chest_mark_colors = {
-	'Black',
-	'Blue',
-	'Brown',
-	'Cyan',
-	'Dark Green',
-	'Dark Grey',
-	'Green',
-	'Grey',
-	'Magenta',
-	'Orange',
-	'Pink',
-	'Red',
-	'Violet',
-	'White',
-	'Yellow',
+	{"black", S("Black")},
+	{"blue", S("Blue")},
+	{"brown", S("Brown")},
+	{"cyan", S("Byan")},
+	{"dark_green", S("Dark Green")},
+	{"dark_grey", S("Dark Grey")},
+	{"green", S("Green")},
+	{"grey", S("Grey")},
+	{"magenta", S("Magenta")},
+	{"orange", S("Orange")},
+	{"pink", S("Pink")},
+	{"red", S("Red")},
+	{"violet", S("Violet")},
+	{"white", S("White")},
+	{"yellow", S("Yellow")},
 }
 
 
 local function colorid_to_postfix(id)
-	return (chest_mark_colors[id] and "_"..chest_mark_colors[id] or ""):lower():gsub(" ", "_")
+	return chest_mark_colors[id] and "_"..chest_mark_colors[id][1] or ""
 end
 
 
@@ -42,7 +50,7 @@ local function check_color_buttons(pos, meta, chest_name, fields)
 	for i = 1, 16 do
 		if fields["color_button"..i] then
 			technic.swap_node(pos, chest_name..colorid_to_postfix(i))
-			meta:set_string("color", chest_mark_colors[i])
+			meta:set_string("color", i)
 			return
 		end
 	end
@@ -75,15 +83,21 @@ local function get_receive_fields(name, data)
 			formspec = formspec.."image_button[2.1,0.1;0.8,0.8;"
 					.."technic_checkmark_icon.png;save_infotext;]"
 					.."field[3.3,0.2;4.8,1;"
-					.."infotext_box;Edit chest description:;"
+					.."infotext_box;"..S("Edit chest description:")..";"
 					..formspec_infotext.."]"
 		end
 		if data.color then
 			-- This sets the node
 			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
-			local color = meta:get_string("color")
-			formspec = formspec.."label[8.2,9;Color Filter: "..color.."]"
+			local colorID = meta:get_int("color")
+			local colorName
+			if chest_mark_colors[colorID] then
+				colorName = chest_mark_colors[colorID][2]
+			else
+				colorName = S("None")
+			end
+			formspec = formspec.."label[8.2,9;"..S("Color Filter: %s"):format(colorName).."]"
 		end
 		meta:set_string("formspec", formspec)
 	end
@@ -92,6 +106,7 @@ end
 
 function technic.chests:register(name, data)
 	local lname = name:lower()
+	name = S(name)
 
 	local width = math.max(data.color and 11 or 8, data.width)
 
@@ -112,14 +127,22 @@ function technic.chests:register(name, data)
 		locked_after_place = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
-			meta:set_string("infotext", name.." Locked Chest (owned by "..
-					meta:get_string("owner")..")")
+			meta:set_string("infotext",
+					S("%s Locked Chest (owned by %s)")
+					:format(name, meta:get_string("owner")))
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
 	end
 
+	local desc
+	if data.locked then
+		desc = S("%s Locked Chest"):format(name)
+	else
+		desc = S("%s Chest"):format(name)
+	end
+
 	local def = {
-		description = name..(data.locked and " Locked" or "").." Chest",
+		description = desc,
 		tiles = {"technic_"..lname.."_chest_top.png", "technic_"..lname.."_chest_top.png",
 			"technic_"..lname.."_chest_side.png", "technic_"..lname.."_chest_side.png",
 			"technic_"..lname.."_chest_side.png", table.concat(front, "^")},
@@ -135,7 +158,7 @@ function technic.chests:register(name, data)
 				..(data.color and "label[8.2,9;Color Filter: None" or "")
 				..(data.infotext and "image_button[2.1,0.1;0.8,0.8;"
 					.."technic_pencil_icon.png;edit_infotext;]" or ""))
-			meta:set_string("infotext", name.." Chest")
+			meta:set_string("infotext", S("%s Chest"):format(name))
 			local inv = meta:get_inventory()
 			inv:set_size("main", data.width * 4)
 		end,

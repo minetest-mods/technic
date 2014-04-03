@@ -14,13 +14,6 @@ technic.cnc.programs_disable["default:dirt"] = {"technic_cnc_sphere", "technic_c
 		"technic_cnc_slope_edge_upsdown", "technic_cnc_slope_inner_edge_upsdown",
 		"technic_cnc_stick", "technic_cnc_cylinder_horizontal"}
 
--- TREE
--------
-technic.cnc.register_all("default:tree",
-                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
-                {"default_tree.png"},
-                S("Wooden"))
-
 -- WOOD
 -------
 technic.cnc.register_all("default:wood",
@@ -67,8 +60,36 @@ technic.cnc.register_all("default:tree",
                 S("Tree"))
 -- STEEL
 --------
-technic.cnc.register_all("default:steel",
-                {snappy=1, bendy=2, cracky=1, melty=2, level=2, not_in_creative_inventory=1},
+technic.cnc.register_all("default:steelblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
                 {"default_steel_block.png"},
                 S("Steel"))
+
+-- Bronze
+--------
+technic.cnc.register_all("default:bronzeblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"default_bronze_block.png"},
+                S("Bronze"))
+
+-- Stainless Steel
+--------
+technic.cnc.register_all("technic:stainless_steel_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_stainless_steel_block.png"},
+                S("Stainless Steel"))
+
+-- Marble
+------------
+technic.cnc.register_all("technic:marble",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_marble.png"},
+                S("Marble"))
+
+-- Granite
+------------
+technic.cnc.register_all("technic:granite",
+                {cracky=3, not_in_creative_inventory=1},
+                {"technic_granite.png"},
+                S("Granite"))
 

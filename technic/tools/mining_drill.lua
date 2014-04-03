@@ -1,9 +1,9 @@
-local mining_drill_max_charge      = 60000
-local mining_drill_mk2_max_charge  = 240000
-local mining_drill_mk3_max_charge  = 960000
+local mining_drill_max_charge      = 50000
+local mining_drill_mk2_max_charge  = 200000
+local mining_drill_mk3_max_charge  = 650000
 local mining_drill_power_usage     = 200
-local mining_drill_mk2_power_usage = 600
-local mining_drill_mk3_power_usage = 1800
+local mining_drill_mk2_power_usage = 500
+local mining_drill_mk3_power_usage = 800
 
 local S = technic.getter
 
@@ -226,9 +226,9 @@ local function drill_dig_it(pos, player, drill_type, mode)
 		if (mode==2 or mode==3 or mode==4) then charge=mining_drill_mk2_power_usage*3 end
 	end
 	if drill_type==3 then 
-		if  mode==1 then charge=mining_drill_power_usage end
-		if (mode==2 or mode==3 or mode==4) then charge=mining_drill_mk2_power_usage*6 end
-		if mode==5 then charge=mining_drill_mk2_power_usage*9 end
+		if  mode==1 then charge=mining_drill_mk3_power_usage end
+		if (mode==2 or mode==3 or mode==4) then charge=mining_drill_mk3_power_usage*6 end
+		if mode==5 then charge=mining_drill_mk3_power_usage*9 end
 	end
 	minetest.sound_play("mining_drill", {pos = pos, gain = 1.0, max_hear_distance = 10,})
 	return charge

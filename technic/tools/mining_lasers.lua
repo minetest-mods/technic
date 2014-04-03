@@ -1,12 +1,11 @@
 
 local r_corr = 0.25 -- Remove a bit more nodes (if shooting diagonal) to let it look like a hole (sth like antialiasing)
-local mk1_charge = 40000
 
 local mining_lasers_list = {
---	{<num>, <range of the laser shots>, <max_charge>},
-	{"1",  7, mk1_charge},
-	{"2", 11, mk1_charge * 4},
-	{"3", 30, mk1_charge * 16},
+--	{<num>, <range of the laser shots>, <max_charge>, <charge_per_shot>},
+	{"1", 7, 50000, 1000},
+	{"2", 14, 200000, 2000},
+	{"3", 21, 650000, 3000},
 }
 
 local f_1 = 0.5 - r_corr
@@ -17,8 +16,24 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:laser_mk1',
 	recipe = {
-		{'default:diamond', 'default:steel_ingot', 'technic:battery'},
-		{'',                'default:steel_ingot', 'technic:battery'},
+		{'default:diamond', 'default:steel_ingot', 'technic:red_energy_crystal'},
+		{'',                'default:steel_ingot', 'default:steel_ingot'},
+		{'',                '',                    'default:copper_ingot'},
+	}
+})
+minetest.register_craft({
+	output = 'technic:laser_mk2',
+	recipe = {
+		{'default:diamond', 'default:steel_ingot', 'technic:laser_mk1'},
+		{'',                'default:steel_ingot', 'technic:green_energy_crystal'},
+		{'',                '',                    'default:copper_ingot'},
+	}
+})
+minetest.register_craft({
+	output = 'technic:laser_mk3',
+	recipe = {
+		{'default:diamond', 'default:steel_ingot', 'technic:laser_mk2'},
+		{'',                'default:steel_ingot', 'technic:blue_energy_crystal'},
 		{'',                '',                    'default:copper_ingot'},
 	}
 })
@@ -158,7 +173,10 @@ for _, m in pairs(mining_lasers_list) do
 			if not meta or not meta.charge then
 				return
 			end
-			if meta.charge - 400 > 0 then
+
+			-- If there's enough charge left, fire the laser
+			if meta.charge >= m[4] then
+				meta.charge = meta.charge - m[4]
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
 				meta.charge = meta.charge - 400
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
