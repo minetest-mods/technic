@@ -802,7 +802,7 @@ minetest.register_tool("technic:template_tool",{
 	inventory_image = "technic_template_tool.png",
 	on_use = function(itemstack, puncher, pointed_thing)
 		local pos = pointed_thing.under
-		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, placer:get_player_name())) then
+		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, puncher:get_player_name())) then
 			return nil
 		end
 		local node = minetest.get_node(pos)
