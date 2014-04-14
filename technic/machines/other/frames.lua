@@ -877,7 +877,7 @@ minetest.register_craft({
 	output = 'technic:frame_motor',
 	recipe = {
 		{'',					'technic:frame_111111',	''},
-		{'group:mesecons_conductor_craftable',	'technic:motor',	'group:mesecons_conductor_craftable'},
+		{'group:mesecon_conductor_craftable',	'technic:motor',	'group:mesecon_conductor_craftable'},
 		{'',					'technic:frame_111111',	''},
 	}
 })
@@ -905,7 +905,7 @@ minetest.register_craft({
 	output = 'technic:template_motor',
 	recipe = {
 		{'',					'technic:template',	''},
-		{'group:mesecons_conductor_craftable',	'technic:motor',	'group:mesecons_conductor_craftable'},
+		{'group:mesecon_conductor_craftable',	'technic:motor',	'group:mesecon_conductor_craftable'},
 		{'',					'technic:template',	''},
 	}
 })
