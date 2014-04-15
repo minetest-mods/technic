@@ -802,7 +802,7 @@ minetest.register_tool("technic:template_tool",{
 	inventory_image = "technic_template_tool.png",
 	on_use = function(itemstack, puncher, pointed_thing)
 		local pos = pointed_thing.under
-		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, placer:get_player_name())) then
+		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, puncher:get_player_name())) then
 			return nil
 		end
 		local node = minetest.get_node(pos)
@@ -877,7 +877,7 @@ minetest.register_craft({
 	output = 'technic:frame_motor',
 	recipe = {
 		{'',					'technic:frame_111111',	''},
-		{'group:mesecons_conductor_craftable',	'technic:motor',	'group:mesecons_conductor_craftable'},
+		{'group:mesecon_conductor_craftable',	'technic:motor',	'group:mesecon_conductor_craftable'},
 		{'',					'technic:frame_111111',	''},
 	}
 })
@@ -905,7 +905,7 @@ minetest.register_craft({
 	output = 'technic:template_motor',
 	recipe = {
 		{'',					'technic:template',	''},
-		{'group:mesecons_conductor_craftable',	'technic:motor',	'group:mesecons_conductor_craftable'},
+		{'group:mesecon_conductor_craftable',	'technic:motor',	'group:mesecon_conductor_craftable'},
 		{'',					'technic:template',	''},
 	}
 })
