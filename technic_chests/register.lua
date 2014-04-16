@@ -11,7 +11,7 @@ local chest_mark_colors = {
 	{"black", S("Black")},
 	{"blue", S("Blue")},
 	{"brown", S("Brown")},
-	{"cyan", S("Byan")},
+	{"cyan", S("Cyan")},
 	{"dark_green", S("Dark Green")},
 	{"dark_grey", S("Dark Grey")},
 	{"green", S("Green")},
@@ -113,7 +113,7 @@ function technic.chests:register(name, data)
 	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
 	data.formspec = "invsize["..width..",10;]"..
-			"label[0,0;"..name.." Chest]"..
+			"label[0,0;"..S("%s Chest"):format(name).."]"..
 			"list[current_name;main;0,1;"..width..",4;]"..
 			"list[current_player;main;0,6;8,4;]"..
 			"background[-0.19,-0.25;"..width..".4,10.75;ui_form_bg.png]"..
