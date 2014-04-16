@@ -1,0 +1,7 @@
+# template.txt
+# Template for translations of Technic
+
+Marble = 
+Marble Bricks = 
+Granite = 
+Concrete = 
