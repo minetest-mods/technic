@@ -1,0 +1,28 @@
+# template.txt
+# Template for translations of Technic
+
+###crafts.lua
+Uranium = 
+Chromium Lump = 
+Chromium Ingot = 
+Zinc Lump = 
+Zinc Ingot = 
+Brass Ingot = 
+Stainless Steel Ingot = 
+
+###nodes.lua
+Uranium Ore = 
+Chromium Ore = 
+Zinc Ore = 
+Granite = 
+Marble = 
+Marble Bricks = 
+Uranium Block = 
+Chromium Block = 
+Zinc Block = 
+Stainless Steel Block = 
+Brass Block = 
+
+###rubber.lua
+Rubber Tree Sapling = 
+Rubber Tree = 
