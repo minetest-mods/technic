@@ -1,38 +1,46 @@
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 minetest.register_craftitem(":technic:uranium", {
-	description = "Uranium",
+	description = S("Uranium"),
 	inventory_image = "technic_uranium.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craftitem(":technic:chromium_lump", {
-	description = "Chromium Lump",
+	description = S("Chromium Lump"),
 	inventory_image = "technic_chromium_lump.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craftitem(":technic:chromium_ingot", {
-	description = "Chromium Ingot",
+	description = S("Chromium Ingot"),
 	inventory_image = "technic_chromium_ingot.png",
 	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craftitem(":technic:zinc_lump", {
-	description = "Zinc Lump",
+	description = S("Zinc Lump"),
 	inventory_image = "technic_zinc_lump.png",
 })
 
 minetest.register_craftitem(":technic:zinc_ingot", {
-	description = "Zinc Ingot",
+	description = S("Zinc Ingot"),
 	inventory_image = "technic_zinc_ingot.png",
 })
 
 minetest.register_craftitem(":technic:brass_ingot", {
-	description = "Brass Ingot",
+	description = S("Brass Ingot"),
 	inventory_image = "technic_brass_ingot.png",
 })
 
 minetest.register_craftitem(":technic:stainless_steel_ingot", {
-	description = "Stainless Steel Ingot",
+	description = S("Stainless Steel Ingot"),
 	inventory_image = "technic_stainless_steel_ingot.png",
 })
 
