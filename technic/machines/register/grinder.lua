@@ -34,12 +34,12 @@ function technic.register_grinder(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,6;8,4;]"..
-		"label[0,0;"..tier.." Grinder]"
+		"label[0,0;"..S("%s Grinder"):format(tier).."]"
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
 			"list[current_name;upgrade2;2,4;1,1;]"..
-			"label[1,5;Upgrade Slots]"
+			"label[1,5;"..S("Upgrade Slots").."]"
 	end
 
 	minetest.register_node("technic:"..ltier.."_grinder", {

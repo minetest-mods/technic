@@ -41,11 +41,11 @@ function technic.register_electric_furnace(data)
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
 			"list[current_name;upgrade2;2,4;1,1;]"..
-			"label[1,5;Upgrade Slots]"
+			"label[1,5;"..S("Upgrade Slots").."]"
 	end
 
 	minetest.register_node("technic:"..ltier.."_electric_furnace", {
-		description = S("%s Electric furnace"):format(tier),
+		description = S("%s Electric Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
 		         "technic_"..ltier.."_electric_furnace_bottom.png",
 		         tube_side_texture,
@@ -60,7 +60,7 @@ function technic.register_electric_furnace(data)
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			meta:set_string("infotext", S("%s Electric furnace"):format(tier))
+			meta:set_string("infotext", S("%s Electric Furnace"):format(tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
@@ -76,7 +76,7 @@ function technic.register_electric_furnace(data)
 	})
 
 	minetest.register_node("technic:"..ltier.."_electric_furnace_active", {
-		description = tier.." Electric furnace",
+		description = ("%s Electric Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
 		         "technic_"..ltier.."_electric_furnace_bottom.png",
 		         tube_side_texture,
@@ -93,7 +93,7 @@ function technic.register_electric_furnace(data)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
 			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", S("%s Electric furnace"):format(tier))
+			meta:set_string("infotext", S("%s Electric Furnace"):format(tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()

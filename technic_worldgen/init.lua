@@ -1,5 +1,12 @@
 local modpath = minetest.get_modpath("technic_worldgen")
 
+technic.worldgen = {}
+if intllib then
+	technic.worldgen.gettext = intllib.Getter()
+else
+	technic.worldgen.gettext = function(s) return s end
+end
+
 dofile(modpath.."/nodes.lua")
 dofile(modpath.."/oregen.lua")
 dofile(modpath.."/crafts.lua")

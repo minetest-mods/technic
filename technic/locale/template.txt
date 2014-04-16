@@ -45,7 +45,13 @@ Inventory move disallowed due to protection =
 %s Finished =
 Enable/Disable =
 Range =
-
+Upgrade Slots =
+In: =
+Out: =
+Slot %d =
+Mode: %s =
+single items =
+whole stacks =
 
 ## Machine names
 # $1: Tier
@@ -94,6 +100,9 @@ Power level =
 # $1: Machine name $2: Supply $3: Demand
 %s. Supply: %d Demand: %d =
 Production at %d%% =
+Choose Milling Program: =
+Slim Elements half / normal height: =
+Current track %s =
 
 ## CNC
 Cylinder =

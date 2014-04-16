@@ -1,0 +1,7 @@
+# German Translation for technic_wrench
+# Deutsche Übersetzung von technic_wrench
+# by Xanthin
+
+Wrench = Schraubenschluessel
+%s with items = %s mit Gegenstaenden
+

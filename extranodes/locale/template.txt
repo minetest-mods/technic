@@ -1,0 +1,7 @@
+# technic_extranodes translation template
+
+Marble =
+Marble Bricks =
+Granite =
+Concrete =
+

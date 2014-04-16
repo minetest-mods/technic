@@ -1,0 +1,9 @@
+# German Translation for technic_extranodes
+# Deutsche Übersetzung von technic_extranodes
+# by Xanthin
+
+Marble = Marmor
+Marble Bricks = Marmorziegel
+Granite = Granit
+Concrete = Beton
+

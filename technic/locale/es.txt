@@ -1,4 +1,3 @@
-# es.txt
 # Spanish Translation for Technic Mod
 # Traduccion al Español del Mod Technic
 # Autor: Diego Martínez <kaeza>

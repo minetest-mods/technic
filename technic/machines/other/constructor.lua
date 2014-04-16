@@ -134,7 +134,7 @@ minetest.register_node("technic:constructor_mk1_off", {
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;"..S("Constructor Mk%d"):format(1).."]"..
-				"label[5,0;Slot 1]"..
+				"label[5,0;"..S("Slot %d"):format(1).."]"..
 				"list[current_name;slot1;6,0;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", S("Constructor Mk%d"):format(1))
@@ -215,9 +215,9 @@ minetest.register_node("technic:constructor_mk2_off", {
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;"..S("Constructor Mk%d"):format(2).."]"..
-				"label[5,0;Slot 1]"..
+				"label[5,0;"..S("Slot %d"):format(1).."]"..
 				"list[current_name;slot1;6,0;1,1;]"..
-				"label[5,1;Slot 2]"..
+				"label[5,1;"..S("Slot %d"):format(2).."]"..
 				"list[current_name;slot2;6,1;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", S("Constructor Mk%d"):format(2))
@@ -316,13 +316,13 @@ minetest.register_node("technic:constructor_mk3_off", {
 	meta:set_string("formspec",
 				"invsize[8,9;]"..
 				"label[0,0;"..S("Constructor Mk%d"):format(3).."]"..
-				"label[5,0;Slot 1]"..
+				"label[5,0;"..S("Slot %d"):format(1).."]"..
 				"list[current_name;slot1;6,0;1,1;]"..
-				"label[5,1;Slot 2]"..
+				"label[5,1;"..S("Slot %d"):format(2).."]"..
 				"list[current_name;slot2;6,1;1,1;]"..
-				"label[5,2;Slot 3]"..
+				"label[5,2;"..S("Slot %d"):format(3).."]"..
 				"list[current_name;slot3;6,2;1,1;]"..
-				"label[5,3;Slot 4]"..
+				"label[5,3;"..S("Slot %d"):format(4).."]"..
 				"list[current_name;slot4;6,3;1,1;]"..
 				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", S("Constructor Mk%d"):format(3))

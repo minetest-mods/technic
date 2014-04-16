@@ -1,0 +1,8 @@
+# technic_concrete translation template
+
+Rebar =
+Concrete Block =
+Blast-resistant Concrete Block =
+Concrete Post Platform =
+Concrete Post =
+

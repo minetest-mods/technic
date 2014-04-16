@@ -29,7 +29,7 @@ local music_player_formspec =
 	"button[6,3;1,1;track9;9]"..
 	"button[4,4;1,2;play;Play]"..
 	"button[6,4;1,2;stop;Stop]"..
-	"label[4,0;Current track --]"
+	"label[4,0;"..S("Current track %s"):format("--").."]"
 
 local function play_track(pos, track)
 	return minetest.sound_play("technic_track"..tostring(track),
@@ -78,8 +78,8 @@ minetest.register_node("technic:music_player", {
 				"button[6,3;1,1;track9;9]"..
 				"button[4,4;1,2;play;Play]"..
 				"button[6,4;1,2;stop;Stop]"..
-				"label[4,0;Current track "
-				..current_track.."]")
+				"label[4,0;"..S("Current track %s")
+					:format(current_track).."]")
 		if fields.play then
 			if music_handle then
 				minetest.sound_stop(music_handle)
