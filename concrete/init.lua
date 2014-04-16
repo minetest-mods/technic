@@ -4,6 +4,14 @@
 local technic = technic or {}
 technic.concrete_posts = {}
 
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 minetest.register_alias("technic:concrete_post",   "technic:concrete_post0")
 minetest.register_alias("technic:concrete_post32", "technic:concrete_post12")
 minetest.register_alias("technic:concrete_post33", "technic:concrete_post3")
@@ -61,12 +69,12 @@ local box_x2       = {0,     -0.3, -0.1,  -0.5, 0.3, 0.1}
 local box_z2       = {-0.1,  -0.3, 0,     0.1,  0.3, -0.5}
 
 minetest.register_craftitem(":technic:rebar", {
-	description = "Rebar",
+	description = S("Rebar"),
 	inventory_image = "technic_rebar.png",
 })
 
 minetest.register_node(":technic:concrete", {
-	description = "Concrete Block",
+	description = S("Concrete Block"),
 	tile_images = {"technic_concrete_block.png",},
 	groups = {cracky=1, level=2, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
@@ -79,7 +87,7 @@ minetest.register_node(":technic:concrete", {
 })
 
 minetest.register_node(":technic:blast_resistant_concrete", {
-	description = "Blast-resistant Concrete Block",
+	description = S("Blast-resistant Concrete Block"),
 	tile_images = {"technic_blast_resistant_concrete_block.png",},
 	groups={cracky=1, level=3, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
@@ -92,7 +100,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 })
 
 minetest.register_node(":technic:concrete_post_platform", {
-	description = "Concrete Post Platform",
+	description = S("Concrete Post Platform"),
 	tile_images = {"technic_concrete_block.png",},
 	groups={cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults(),
@@ -222,7 +230,7 @@ for platform = 0, 1 do
 	end
 
 	minetest.register_node(":technic:concrete_post"..id, {
-		description = "Concrete Post",
+		description = S("Concrete Post"),
 		tiles = {"technic_concrete_block.png"},
 		groups = groups,
 		sounds = default.node_sound_stone_defaults(),
