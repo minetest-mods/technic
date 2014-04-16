@@ -1,0 +1,9 @@
+# de.txt
+# German Translation for Technic Mod
+# Deutsche Übersetzung des Technic Mods
+# by Xanthin
+
+Marble = Marmor
+Marble Bricks = Marmorziegel
+Granite = Granit
+Concrete = Beton
