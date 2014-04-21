@@ -1,5 +1,5 @@
 # template.txt
-# Template for translations of Technic
+# technic_worldgen translation template
 
 ###crafts.lua
 Uranium = 
