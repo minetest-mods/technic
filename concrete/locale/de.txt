@@ -1,6 +1,6 @@
 # de.txt
-# German Translation for Technic Mod
-# Deutsche Übersetzung des Technic Mods
+# German Translation for technic_concrete
+# Deutsche Übersetzung von technic_concrete
 # by Xanthin
 
 Rebar = Bewehrungsstab
