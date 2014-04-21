@@ -105,7 +105,7 @@ function technic.register_alloy_furnace(data)
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
 			"list[current_name;upgrade2;2,4;1,1;]"..
-			"label[1,5;Upgrade Slots]"
+			"label[1,5;"..S("Upgrade Slots").."]"
 	end
 
 	minetest.register_node("technic:"..ltier.."_alloy_furnace", {
