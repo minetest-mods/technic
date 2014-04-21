@@ -1,6 +1,6 @@
 # de.txt
-# German Translation for Technic Mod
-# Deutsche Übersetzung des Technic Mods
+# German Translation for technic_worldgen
+# Deutsche Übersetzung von technic_worldgen
 # by Xanthin
 
 ###crafts.lua
