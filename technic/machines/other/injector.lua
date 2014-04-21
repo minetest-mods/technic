@@ -67,7 +67,7 @@ minetest.register_node("technic:injector", {
 				"invsize[8,9;]"..
 				"label[0,0;"..S("Injector").."]"..
 				"button[0,1;.8,.8;mode;]"..
-				"label[.8,1;Mode: single items]"..
+				"label[.8,1;"..S("Mode: single items").."]"..
 				"list[current_name;main;0,2;8,2;]"..
 				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", S("Injector"))
@@ -95,7 +95,7 @@ minetest.register_node("technic:injector", {
 				"invsize[8,9;]"..
 				"label[0,0;"..S("Injector").."]"..
 				"button[0,1;.8,.8;mode;]"..
-				"label[.8,1;Mode: "..mode.."]"..
+				"label[.8,1;"..S("Mode: %s"):format(S(mode)).."]"..
 				"list[current_name;main;0,2;8,2;]"..
 				"list[current_player;main;0,5;8,4;]")
 	end,
