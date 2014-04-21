@@ -1,4 +1,7 @@
-# Translation by Xanthin
+# de.txt
+# German Translation for Technic Mod
+# Deutsche Uebersetzung des Technic Mods
+# by Xanthin
 
 ## Misc
 [Technic] Loaded in %f seconds = [Technic] ist in %f Sekunden geladen
@@ -7,7 +10,7 @@
 Silicon Wafer = Siliziumscheibe
 Doped Silicon Wafer = Dotierte Siliziumscheibe
 Enriched Uranium = Angereichertes Uran
-Uranium Fuel = Uran-Brennstoff
+Uranium Fuel = Uranbrennstoff
 Diamond Drill Head = Diamantbohrkopf
 Blue Energy Crystal = Blauer Energiekristall
 Green Energy Crystal = Gruener Energiekristall
@@ -19,12 +22,12 @@ Low Voltage Transformer = Niederspannungstransformator
 Medium Voltage Transformer = Mittelspannungstransformator
 High Voltage Transformer = Hochspannungstransformator
 Control Logic Unit = Steuer- und Regelungseinheit
-Mixed Metal Ingot = Metallmixbarren
+Mixed Metal Ingot = Mischmetallbarren
 Composite Plate = Verbundplatte
 Copper Plate = Kupferplatte
-Carbon Plate = Carbonplatte
+Carbon Plate = Kohlefaserplatte
 Graphite = Graphit 
-Carbon Cloth = Carbonstoff
+Carbon Cloth = Kohlefasergewebe
 Raw Latex = Rohlatex
 Rubber Fiber = Gummifaser
 
@@ -43,7 +46,21 @@ Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugri
 %s Finished = %s ist fertig
 Enable/Disable = Einschalten/Ausschalten
 Range = Reichweite
-
+Upgrade Slots = Verbesserungsfaecher
+Choose Milling Program: = Waehle ein Fraesprogramm:
+Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
+In: = Rein:
+Out: = Raus:
+Slot 1 = Fach 1
+Slot 2 = Fach 2
+Slot 3 = Fach 3
+Slot 4 = Fach 4
+Mode: single items = Methode: Einzelstuecke
+Mode: %s = Methode: %s
+single items = Einzelstuecke
+whole stacks = Ganzer Stapel
+Current track -- = Aktueller Titel --
+Current track %s = Aktueller Titel %s
 
 ## Machine names
 # $1: Tier
@@ -56,30 +73,30 @@ Range = Reichweite
 %s Solar Array = %s Solaranlage
 Injector = Injektor
 Constructor Mk%d = Konstruktor Modell %d
-Frame = Rahmen
-Frame Motor = Rahmenmotor
+Frame = Geruest
+Frame Motor = Geruestmotor
 Template = Schablone
 Template (replacing) = Schablone (ersetzend)
-Template Motor = Schablonenmotor
-Template Tool = Schablonenwerkzeug
+Template motor = Schablonenmotor
+Template tool = Schablonenwerkzeug
 Battery Box = Batteriebox
 Supply Converter = Stromumwandler
 Switching Station = Schaltanlage
 CNC Machine = CNC-Maschine
-Coal Alloy Furnace = Kohle-Legierung-Ofen
+Coal Alloy Furnace = Kohle-Legierungsofen
 Extractor = Extraktor
 Compressor = Kompressor
 Solar Panel = Solarpaneel
 Geothermal Generator = Geothermie-Generator
-Music Player = Musikabspieler
+Music Player = Musikspieler
 Water Mill = Wassermuehle
 Tool Workshop = Werkzeugwerkstatt
-Wind Mill = Windrad
-Wind Mill Frame = Windradgeruest
+Wind Mill = Windmuehle
+Wind Mill Frame = Windmuehlengeruest
 Forcefield Emitter = Kraftfeld-Emitter 
 Forcefield = Kraftfeld
-Nuclear Reactor Core = Kernreaktor
-Nuclear Reactor Rod Compartment = Fach fuer Kernbrennstoff
+Nuclear Reactor Core = Reaktorkern
+Nuclear Reactor Rod Compartment = Brennstabfaecher
 Quarry = Steinbruch
 
 ## Machine-specific
@@ -95,15 +112,15 @@ Production at %d%% = Produktion bei %d%%
 
 ## CNC
 Cylinder = Zylinder
-Element Cross = Halbhohes Kreuzelement
+Element Cross = Halbes Kreuzelement
 Element Cross Double = Kreuzelement
-Element Edge = Halbhohes Eckelement
+Element Edge = Halbes Eckelement
 Element Edge Double = Eckelement
-Element End = Halbhohes Endelement
+Element End = Halbes Endelement
 Element End Double = Endelement
-Element Straight = Halbhohes aufrechtes Element
+Element Straight = Halbes aufrechtes Element
 Element Straight Double = Aufrechtes Element
-Element T = Halbhohes T-Element
+Element T = Halbes T-Element
 Element T Double = T-Element
 Horizontal Cylinder = Liegender Zylinder
 One Curved Edge Block = Block mit einer abgerundeten Kante
@@ -159,12 +176,10 @@ Flashlight = Taschenlampe
 3 nodes tall. = 3 Bloecke hoch.
 3 nodes wide. = 3 Bloecke breit.
 3x3 nodes. = 3x3 Bloecke.
-Hold shift and use to change Mining Drill Mk%d modes. = Halte die Shift-Taste beim Benutzen gedrueckt, um den Modus vom Bergbaubohrer Modell %d zu aendern.
-Mining Drill Mk%d Mode %d = Bergbaubohrer Modell %d Modus %d
+Hold shift and use to change Mining Drill Mk%d modes. = Halte die Shift-Taste beim Benutzen gedrueckt, um die Funktion des Bergbaubohrers Modell %d zu aendern.
+Mining Drill Mk%d Mode %d = Bergbaubohrer Modell %d Funktion %d
 Mining Drill Mk%d = Bergbaubohrer Modell %d
 Mining Laser Mk%d = Bergbaulaser Modell %d
 Single node. = Einzelblock
 Sonic Screwdriver = Schallschraubendreher
 Tree Tap = Baumzapfhahn
-
-
