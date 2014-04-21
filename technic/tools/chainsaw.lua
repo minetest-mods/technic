@@ -55,6 +55,8 @@ if( minetest.get_modpath("moretrees") ~= nil ) then
         if chainsaw_leaves then
                 timber_nodenames["moretrees:apple_tree_leaves"]        = true
                 timber_nodenames["moretrees:oak_leaves"]               = true
+                timber_nodenames["moretrees:fir_leaves"]                = true
+                timber_nodenames["moretrees:fir_leaves_bright"]                = true
                 timber_nodenames["moretrees:sequoia_leaves"]           = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
