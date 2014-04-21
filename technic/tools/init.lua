@@ -14,3 +14,8 @@ dofile(path.."/chainsaw.lua")
 dofile(path.."/tree_tap.lua")
 dofile(path.."/sonic_screwdriver.lua")
 
+if minetest.get_modpath("screwdriver") then
+	-- compatibility alias
+	minetest.register_alias("technic:screwdriver", "screwdriver:screwdriver")
+end
+

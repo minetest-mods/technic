@@ -10,3 +10,5 @@ minetest.register_craft({
 
 technic.register_solar_array({tier="MV", power=30})
 
+-- compatibility alias for upgrading from old versions of technic
+minetest.register_alias("technic:solar_panel_mv", "technic:solar_array_mv")
