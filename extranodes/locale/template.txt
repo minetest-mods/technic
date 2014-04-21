@@ -1,5 +1,5 @@
 # template.txt
-# Template for translations of Technic
+# technic_extranodes translation template
 
 Marble = 
 Marble Bricks = 
