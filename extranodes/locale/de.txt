@@ -1,6 +1,6 @@
 # de.txt
-# German Translation for Technic Mod
-# Deutsche Übersetzung des Technic Mods
+# German Translation for technic_extranodes
+# Deutsche Übersetzung von technic_extranodes
 # by Xanthin
 
 Marble = Marmor
