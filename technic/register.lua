@@ -44,7 +44,14 @@ end
 
 -- Wear down a tool depending on the remaining charge.
 function technic.set_RE_wear(itemstack, item_load, max_load)
-	local temp = 65536 - math.floor(item_load / max_load * 65535)
+	local temp
+	if item_load == 0 then
+		temp = 0
+	else
+		temp = 65536 - math.floor(item_load / max_load * 65535)
+		if temp > 65535 then temp = 65535 end
+		if temp < 1 then temp = 1 end
+	end
 	itemstack:set_wear(temp)
 	return itemstack
 end
