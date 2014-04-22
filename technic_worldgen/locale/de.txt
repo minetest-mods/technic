@@ -1,0 +1,30 @@
+# de.txt
+# German Translation for technic_worldgen
+# Deutsche Übersetzung von technic_worldgen
+# by Xanthin
+
+###crafts.lua
+Uranium = Uran
+Chromium Lump = Chromklumpen
+Chromium Ingot = Chrombarren
+Zinc Lump = Zinkklumpen
+Zinc Ingot = Zinkbarren
+Brass Ingot = Messingbarren
+Stainless Steel Ingot = Edelstahlbarren
+
+###nodes.lua
+Uranium Ore = Uranerz
+Chromium Ore = Chromerz
+Zinc Ore = Zinkerz
+Granite = Granit
+Marble = Marmor
+Marble Bricks = Marmorziegel
+Uranium Block = Uranblock
+Chromium Block = Chromblock
+Zinc Block = Zinkblock
+Stainless Steel Block = Edelstahlblock
+Brass Block = Messingblock
+
+###rubber.lua
+Rubber Tree Sapling = Gummibaumsetzling
+Rubber Tree = Gummibaum

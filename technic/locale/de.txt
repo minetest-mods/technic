@@ -1,0 +1,185 @@
+# de.txt
+# German Translation for Technic Mod
+# Deutsche Uebersetzung des Technic Mods
+# by Xanthin
+
+## Misc
+[Technic] Loaded in %f seconds = [Technic] ist in %f Sekunden geladen
+
+## Items
+Silicon Wafer = Siliziumscheibe
+Doped Silicon Wafer = Dotierte Siliziumscheibe
+Enriched Uranium = Angereichertes Uran
+Uranium Fuel = Uranbrennstoff
+Diamond Drill Head = Diamantbohrkopf
+Blue Energy Crystal = Blauer Energiekristall
+Green Energy Crystal = Gruener Energiekristall
+Red Energy Crystal = Roter Energiekristall
+Fine Copper Wire = Feinkupferdraht
+Copper Coil = Kupferspule
+Electric Motor = Elektromotor
+Low Voltage Transformer = Niederspannungstransformator
+Medium Voltage Transformer = Mittelspannungstransformator
+High Voltage Transformer = Hochspannungstransformator
+Control Logic Unit = Steuer- und Regelungseinheit
+Mixed Metal Ingot = Mischmetallbarren
+Composite Plate = Verbundplatte
+Copper Plate = Kupferplatte
+Carbon Plate = Kohlefaserplatte
+Graphite = Graphit 
+Carbon Cloth = Kohlefasergewebe
+Raw Latex = Rohlatex
+Rubber Fiber = Gummifaser
+
+## Machine misc
+Machine cannot be removed because it is not empty = Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
+Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugriff verweigert.
+# $1: Machine name (Includes tier)
+%s Active = %s ist eingeschaltet
+%s Disabled = %s ist ausgeschaltet
+%s Idle = %s ist bereit
+%s Improperly Placed = %s ist falsch plaziert
+%s Unpowered = %s hat keine Stromversorgung 
+%s Out Of Fuel = %s hat keinen Brennstoff
+%s Has Bad Cabling = %s ist falsch verkabelt
+%s Has No Network = %s hat kein Netzwerk
+%s Finished = %s ist fertig
+Enable/Disable = Einschalten/Ausschalten
+Range = Reichweite
+Upgrade Slots = Verbesserungsfaecher
+Choose Milling Program: = Waehle ein Fraesprogramm:
+Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
+In: = Rein:
+Out: = Raus:
+Slot 1 = Fach 1
+Slot 2 = Fach 2
+Slot 3 = Fach 3
+Slot 4 = Fach 4
+Mode: single items = Methode: Einzelstuecke
+Mode: %s = Methode: %s
+single items = Einzelstuecke
+whole stacks = Ganzer Stapel
+Current track -- = Aktueller Titel --
+Current track %s = Aktueller Titel %s
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = %s Legierungsofen
+%s Battery Box = %s Batteriebox
+%s Cable = %s Kabel
+%s Electric Furnace = %s Elektro-Ofen
+%s Grinder = %s Schleifmaschine
+%s Generator = %s Generator
+%s Solar Array = %s Solaranlage
+Injector = Injektor
+Constructor Mk%d = Konstruktor Modell %d
+Frame = Rahmen
+Frame Motor = Rahmenmotor
+Template = Schablone
+Template (replacing) = Schablone (ersetzend)
+Template motor = Schablonenmotor
+Template tool = Schablonenwerkzeug
+Battery Box = Batteriebox
+Supply Converter = Stromumwandler
+Switching Station = Schaltanlage
+CNC Machine = CNC-Maschine
+Coal Alloy Furnace = Kohle-Legierungsofen
+Extractor = Extraktor
+Compressor = Kompressor
+Solar Panel = Solarmodul
+Geothermal Generator = Geothermie-Generator
+Music Player = Musikspieler
+Water Mill = Wassermuehle
+Tool Workshop = Werkzeugwerkstatt
+Wind Mill = Windmuehle
+Wind Mill Frame = Windmuehlengeruest
+Forcefield Emitter = Kraftfeld-Emitter 
+Forcefield = Kraftfeld
+Nuclear Reactor Core = Reaktorkern
+Nuclear Reactor Rod Compartment = Brennstabfaecher
+Quarry = Steinbruch
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Aufladen
+Discharge = Entladen
+Power level = Energiestufe
+# $1: Tier $2: current_charge $3: max_charge 
+%s Battery Box: %d/%d = %s Batteriebox: %d/%d
+# $1: Machine name $2: Supply $3: Demand
+%s. Supply: %d Demand: %d = %s. Versorgung: %d Bedarf: %d
+Production at %d%% = Produktion bei %d%%
+
+## CNC
+Cylinder = Zylinder
+Element Cross = Halbes Kreuzelement
+Element Cross Double = Kreuzelement
+Element Edge = Halbes Eckelement
+Element Edge Double = Eckelement
+Element End = Halbes Endelement
+Element End Double = Endelement
+Element Straight = Halbes aufrechtes Element
+Element Straight Double = Aufrechtes Element
+Element T = Halbes T-Element
+Element T Double = T-Element
+Horizontal Cylinder = Liegender Zylinder
+One Curved Edge Block = Block mit einer abgerundeten Kante
+Pyramid = Pyramide
+Slope = Schraege
+Slope Edge = Schraege mit Ecke
+Slope Inner Edge = Schraege mit Innenecke
+Slope Lying = Liegende Schraege
+Slope Upside Down = Umgedrehte Schraege
+Slope Upside Down Edge = Umgedrehte Schraege mit Ecke
+Slope Upside Down Inner Edge = Umgedrehte Schraege mit Innenecke
+Sphere = Kugel
+Spike = Spitze
+Stick = Stange
+Two Curved Edge Block = Block mit zwei abgerundeten Kanten
+Brick = Ziegel:
+Cobble = Pflasterstein:
+Dirt = Erde:
+Leaves = Laub:
+Sandstone = Sandstein:
+Steel = Stahl:
+Stone = Stein:
+Tree = Baumstamm:
+Wooden = Holz:
+
+## Grinder Recipes
+# $1: Name
+%s Dust = %sstaub
+Akalin = Akalin
+Alatro = Alatro
+Arol = Arol
+Brass = Messing
+Bronze = Bronze
+Chromium = Chrom
+Coal = Kohle
+Copper = Kupfer
+Gold = Gold
+Iron = Eisen
+Mithril = Mithril
+Silver = Silber
+Stainless Steel = Edelstahl
+Talinite = Talinite
+Tin = Zinn
+Zinc = Zink
+
+## Tools
+RE Battery = Akkubatterie
+Water Can = Wasserkanister
+Lava Can = Lavakanister
+Chainsaw = Kettensaege
+Flashlight = Taschenlampe
+3 nodes deep. = 3 Bloecke tief.
+3 nodes tall. = 3 Bloecke hoch.
+3 nodes wide. = 3 Bloecke breit.
+3x3 nodes. = 3x3 Bloecke.
+Hold shift and use to change Mining Drill Mk%d modes. = Halte die Shift-Taste beim Benutzen gedrueckt, um die Funktion des Bergbaubohrers Modell %d zu aendern.
+Mining Drill Mk%d Mode %d = Bergbaubohrer Modell %d Funktion %d
+Mining Drill Mk%d = Bergbaubohrer Modell %d
+Mining Laser Mk%d = Bergbaulaser Modell %d
+Single node. = Einzelblock
+Sonic Screwdriver = Schallschraubendreher
+Tree Tap = Baumzapfhahn

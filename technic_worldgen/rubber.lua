@@ -1,7 +1,14 @@
 -- Code of rubber tree by PilzAdam
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
 
 minetest.register_node(":moretrees:rubber_tree_sapling", {
-	description = "Rubber Tree Sapling",
+	description = S("Rubber Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"technic_rubber_sapling.png"},
 	inventory_image = "technic_rubber_sapling.png",
@@ -19,7 +26,7 @@ minetest.register_craft({
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk", {
-	description = "Rubber Tree",
+	description = S("Rubber Tree"),
 	tiles = {"default_tree_top.png", "default_tree_top.png",
 		"technic_rubber_tree_full.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
@@ -32,7 +39,7 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
-	description = "Rubber Tree",
+	description = S("Rubber Tree"),
 	tiles = {"default_tree_top.png", "default_tree_top.png",
 		"technic_rubber_tree_empty.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,

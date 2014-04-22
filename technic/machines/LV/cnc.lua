@@ -37,7 +37,7 @@ local twosize_products = {
 
 local cnc_formspec =
 	"invsize[9,11;]"..
-	"label[1,0;Choose Milling Program:]"..
+	"label[1,0;"..S("Choose Milling Program:").."]"..
 	"image_button[1,0.5;1,1;technic_cnc_slope.png;slope; ]"..
 	"image_button[2,0.5;1,1;technic_cnc_slope_edge.png;slope_edge; ]"..
 	"image_button[3,0.5;1,1;technic_cnc_slope_inner_edge.png;slope_inner_edge; ]"..
@@ -56,7 +56,7 @@ local cnc_formspec =
 	"image_button[2,2.5;1,1;technic_cnc_onecurvededge.png;onecurvededge; ]"..
 	"image_button[3,2.5;1,1;technic_cnc_twocurvededge.png;twocurvededge; ]"..
 
-	"label[1,3.5;Slim Elements half / normal height:]"..
+	"label[1,3.5;"..S("Slim Elements half / normal height:").."]"..
 
 	"image_button[1,4;1,0.5;technic_cnc_full.png;full; ]"..
 	"image_button[1,4.5;1,0.5;technic_cnc_half.png;half; ]"..
@@ -66,9 +66,9 @@ local cnc_formspec =
 	"image_button[5,4;1,1;technic_cnc_element_t.png;element_t; ]"..
 	"image_button[6,4;1,1;technic_cnc_element_edge.png;element_edge; ]"..
 
-	"label[0, 5.5;In:]"..
+	"label[0, 5.5;"..S("In:").."]"..
 	"list[current_name;src;0.5,5.5;1,1;]"..
-	"label[4, 5.5;Out:]"..
+	"label[4, 5.5;"..S("Out:").."]"..
 	"list[current_name;dst;5,5.5;4,1;]"..
 
 	"list[current_player;main;0,7;8,4;]"

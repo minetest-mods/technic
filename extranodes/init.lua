@@ -1,11 +1,17 @@
 -- Minetest 0.4.6 mod: extranodes
 -- namespace: technic
-
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
 --register stairslike nodes 
 register_stair_slab_panel_micro("technic", "marble", "technic:marble",
 	{cracky=2, not_in_creative_inventory=1},
 	{"technic_marble.png"},
-	"Marble",
+	S("Marble"),
 	"marble",
 	"facedir",
 	0)
@@ -13,7 +19,7 @@ register_stair_slab_panel_micro("technic", "marble", "technic:marble",
 register_stair_slab_panel_micro("technic", "marble_bricks", "technic:marble_bricks",
 	{cracky=2, not_in_creative_inventory=1},
 	{"technic_marble_bricks.png"},
-	"Marble Bricks",
+	S("Marble Bricks"),
 	"marble_bricks",
 	"facedir",
 	0)
@@ -21,7 +27,7 @@ register_stair_slab_panel_micro("technic", "marble_bricks", "technic:marble_bric
 register_stair_slab_panel_micro("technic", "granite", "technic:granite",
 	{cracky=3, not_in_creative_inventory=1},
 	{"technic_granite.png"},
-	"Granite",
+	S("Granite"),
 	"granite",
 	"facedir",
 	0)
@@ -29,7 +35,7 @@ register_stair_slab_panel_micro("technic", "granite", "technic:granite",
 register_stair_slab_panel_micro("technic", "concrete", "technic:concrete",
 	{cracky=3, not_in_creative_inventory=1},
 	{"technic_concrete_block.png"},
-	"Concrete",
+	S("Concrete"),
 	"concrete",
 	"facedir",
 	0)

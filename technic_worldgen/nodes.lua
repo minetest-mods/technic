@@ -1,5 +1,13 @@
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 minetest.register_node( ":technic:mineral_uranium", {
-	description = "Uranium Ore",
+	description = S("Uranium Ore"),
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -8,7 +16,7 @@ minetest.register_node( ":technic:mineral_uranium", {
 }) 
 
 minetest.register_node( ":technic:mineral_chromium", {
-	description = "Chromium Ore",
+	description = S("Chromium Ore"),
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -17,7 +25,7 @@ minetest.register_node( ":technic:mineral_chromium", {
 }) 
 
 minetest.register_node( ":technic:mineral_zinc", {
-	description = "Zinc Ore",
+	description = S("Zinc Ore"),
 	tile_images = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -26,7 +34,7 @@ minetest.register_node( ":technic:mineral_zinc", {
 })
 
 minetest.register_node( ":technic:granite", {
-	description = "Granite",
+	description = S("Granite"),
 	tiles = { "technic_granite.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -34,7 +42,7 @@ minetest.register_node( ":technic:granite", {
 }) 
 
 minetest.register_node( ":technic:marble", {
-	description = "Marble",
+	description = S("Marble"),
 	tiles = { "technic_marble.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -42,7 +50,7 @@ minetest.register_node( ":technic:marble", {
 }) 
 
 minetest.register_node( ":technic:marble_bricks", {
-	description = "Marble Bricks",
+	description = S("Marble Bricks"),
 	tiles = { "technic_marble_bricks.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -50,7 +58,7 @@ minetest.register_node( ":technic:marble_bricks", {
 }) 
 
 minetest.register_node(":technic:uranium_block", {
-	description = "Uranium Block",
+	description = S("Uranium Block"),
 	tiles = { "technic_uranium_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
@@ -58,7 +66,7 @@ minetest.register_node(":technic:uranium_block", {
 })
 
 minetest.register_node(":technic:chromium_block", {
-	description = "Chromium Block",
+	description = S("Chromium Block"),
 	tiles = { "technic_chromium_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
@@ -66,7 +74,7 @@ minetest.register_node(":technic:chromium_block", {
 })
 
 minetest.register_node(":technic:zinc_block", {
-	description = "Zinc Block",
+	description = S("Zinc Block"),
 	tiles = { "technic_zinc_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
@@ -74,7 +82,7 @@ minetest.register_node(":technic:zinc_block", {
 })
 
 minetest.register_node(":technic:stainless_steel_block", {
-	description = "Stainless Steel Block",
+	description = S("Stainless Steel Block"),
 	tiles = { "technic_stainless_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
@@ -82,7 +90,7 @@ minetest.register_node(":technic:stainless_steel_block", {
 })
 
 minetest.register_node(":technic:brass_block", {
-	description = "Brass Block",
+	description = S("Brass Block"),
 	tiles = { "technic_brass_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},

@@ -16,6 +16,14 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]
 	if not def or not def.metas or not def.metas[metaname] then
@@ -60,7 +68,7 @@ for name, info in pairs(wrench.registered_nodes) do
 			newdef[key] = value
 		end
 		newdef.stack_max = 1
-		newdef.description = newdef.description.." with items"
+		newdef.description = S("%s with items"):format(newdef.description)
 		newdef.groups = {}
 		newdef.groups.not_in_creative_inventory = 1
 		newdef.on_construct = nil
@@ -71,7 +79,7 @@ for name, info in pairs(wrench.registered_nodes) do
 end
 
 minetest.register_tool("wrench:wrench", {
-	description = "Wrench",
+	description = S("Wrench"),
 	inventory_image = "technic_wrench.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
