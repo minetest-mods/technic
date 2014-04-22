@@ -178,7 +178,6 @@ for _, m in pairs(mining_lasers_list) do
 			if meta.charge >= m[4] then
 				meta.charge = meta.charge - m[4]
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				meta.charge = meta.charge - 400
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
 				itemstack:set_metadata(minetest.serialize(meta))
 			end
