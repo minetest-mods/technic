@@ -69,7 +69,7 @@ local function get_receive_fields(name, data)
 		if fields.edit_infotext then
 			page = "edit_infotext"
 		end
-		if fields.save_infotext then
+		if fields.infotext_box then
 			meta:set_string("infotext", fields.infotext_box)
 		end
 		local formspec = data.formspec
