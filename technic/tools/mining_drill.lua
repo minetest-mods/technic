@@ -243,7 +243,7 @@ local function mining_drill_mk2_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(2))
+		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(2))
 		meta["mode"]=0
 		mode=0
 	end
@@ -267,7 +267,7 @@ local function mining_drill_mk3_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Hold shift and use to change Mining Drill Mk%d modes."):format(3))
+		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(3))
 		meta["mode"]=0
 		mode=0
 	end
