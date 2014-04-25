@@ -59,7 +59,7 @@ minetest.register_node("technic:injector", {
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
 		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1},
-	tube = tubes_properties,
+	tube = {connect_sides={bottom=1}},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
