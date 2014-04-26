@@ -56,7 +56,7 @@ minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	local pos = player:getpos()
 	local rounded_pos = vector.round(pos)
-	rounded_pos.x = rounded_pos.x + 1
+	rounded_pos.y = rounded_pos.y + 1
 	player_positions[player_name] = rounded_pos
 	was_wielding[player_name] = true
 end)
@@ -66,7 +66,7 @@ minetest.register_on_leaveplayer(function(player)
 	local player_name = player:get_player_name()
 	local pos = player_positions[player_name]
 	local nodename = minetest.get_node(pos).name
-	if nodename == "technic:light_off" or nodename == "technic:light" then
+	if nodename == "technic:light" then
 		minetest.remove_node(pos)
 	end
 	player_positions[player_name] = nil
@@ -103,7 +103,7 @@ minetest.register_globalstep(function(dtime)
 		local flashlight_weared = check_for_flashlight(player)
 		local pos = player:getpos()
 		local rounded_pos = vector.round(pos)
-		rounded_pos.x = rounded_pos.x + 1
+		rounded_pos.y = rounded_pos.y + 1
 		local old_pos = player_positions[player_name]
 		local player_moved = not vector.equals(old_pos, rounded_pos)
 
@@ -112,7 +112,6 @@ minetest.register_globalstep(function(dtime)
 			was_wielding[player_name] = false
 			local node = minetest.get_node_or_nil(old_pos)
 			if node and node.name == "technic:light" then
-				minetest.set_node(old_pos, {name="technic:light_off"})
 				minetest.remove_node(old_pos)
 			end
 		elseif (player_moved or not was_wielding[player_name]) and flashlight_weared then
@@ -122,7 +121,6 @@ minetest.register_globalstep(function(dtime)
 			end
 			local node = minetest.get_node_or_nil(old_pos)
 			if node and node.name == "technic:light" then
-				minetest.set_node(old_pos, {name="technic:light_off"})
 				minetest.remove_node(old_pos)
 			end
 			player_positions[player_name] = rounded_pos
@@ -140,22 +138,6 @@ minetest.register_node("technic:light", {
 	walkable = false,
 	buildable_to = true,
 	sunlight_propagates = true,
-	light_source = 15,
+	light_source = LIGHT_MAX,
 	pointable = false,
 })
-
-minetest.register_node("technic:light_off", {
-	drawtype = "glasslike",
-	tile_images = {"technic_light.png"},
-	paramtype = "light",
-	groups = {not_in_creative_inventory=1},
-	drop = "",
-	walkable = false,
-	buildable_to = true,
-	sunlight_propagates = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {0, 0, 0, 0, 0, 0},
-	},
-})
-
