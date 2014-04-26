@@ -49,19 +49,19 @@ end
 
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
 	minetest.log("action", player:get_player_name()..
-		" moves stuff in locked chest at "
+		" moves stuff in chest at "
 		..minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_put(pos, listname, index, stack, player)
 	minetest.log("action", player:get_player_name()..
-		" puts stuff in to locked chest at "
+		" puts stuff in to chest at "
 		..minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_take(pos, listname, index, stack, player)
 	minetest.log("action", player:get_player_name()..
-		" takes stuff from locked chest at "
+		" takes stuff from chest at "
 		..minetest.pos_to_string(pos))
 end
 
