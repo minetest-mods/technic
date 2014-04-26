@@ -86,6 +86,7 @@ minetest.register_node("technic:extractor_active", {
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_side.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_front_active.png"},
 	paramtype2 = "facedir",
+	drop = "technic:extractor",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),

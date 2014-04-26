@@ -76,6 +76,7 @@ function technic.register_grinder(data)
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_side.png",
 			 "technic_"..ltier.."_grinder_side.png", "technic_"..ltier.."_grinder_front_active.png"},
 		paramtype2 = "facedir",
+		drop = "technic:"..ltier.."_grinder",
 		groups = active_groups,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),

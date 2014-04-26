@@ -80,6 +80,7 @@ minetest.register_node("technic:compressor_active", {
 	         "technic_compressor_side.png", "technic_compressor_side.png",
 	         "technic_compressor_back.png", "technic_compressor_front_active.png"},
 	paramtype2 = "facedir",
+	drop = "technic:compressor",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),

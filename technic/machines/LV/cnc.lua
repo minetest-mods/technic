@@ -163,6 +163,7 @@ minetest.register_node("technic:cnc_active", {
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	paramtype2 = "facedir",
+	drop = "technic:cnc",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	can_dig = technic.machine_can_dig,

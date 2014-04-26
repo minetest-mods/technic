@@ -84,6 +84,7 @@ function technic.register_electric_furnace(data)
 		         "technic_"..ltier.."_electric_furnace_side.png",
 		         "technic_"..ltier.."_electric_furnace_front_active.png"},
 		paramtype2 = "facedir",
+		drop = "technic:"..ltier.."_electric_furnace",
 		groups = active_groups,
 		light_source = 8,
 		legacy_facedir_simple = true,
