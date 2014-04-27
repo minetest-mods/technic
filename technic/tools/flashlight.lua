@@ -37,10 +37,7 @@ local function check_for_flashlight(player)
 	for i = 1, 8 do
 		if hotbar[i]:get_name() == "technic:flashlight" then
 			local meta = minetest.deserialize(hotbar[i]:get_metadata())
-			if not meta or not meta.charge then
-				return false
-			end
-			if meta.charge >= 2 then
+			if meta and meta.charge and meta.charge >= 2 then
 				meta.charge = meta.charge - 2;
 				technic.set_RE_wear(hotbar[i], meta.charge, flashlight_max_charge)
 				hotbar[i]:set_metadata(minetest.serialize(meta))
