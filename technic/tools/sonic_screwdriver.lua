@@ -30,7 +30,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 		if not meta1 or not meta1.charge then
 			return
 		end
-		if meta1.charge - 100 > 0 then
+		if meta1.charge >= 100 then
 			minetest.sound_play("technic_sonic_screwdriver",
 					{pos = pos, gain = 0.3, max_hear_distance = 10})
 			local p = node.param2

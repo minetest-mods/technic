@@ -40,7 +40,7 @@ local function check_for_flashlight(player)
 			if not meta or not meta.charge then
 				return false
 			end
-			if meta.charge - 2 > 0 then
+			if meta.charge >= 2 then
 				meta.charge = meta.charge - 2;
 				technic.set_RE_wear(hotbar[i], meta.charge, flashlight_max_charge)
 				hotbar[i]:set_metadata(minetest.serialize(meta))
@@ -71,31 +71,6 @@ minetest.register_on_leaveplayer(function(player)
 	end
 	player_positions[player_name] = nil
 end)
-
-
-local function check_for_flashlight(player)
-	if player == nil then
-		return false
-	end
-	local inv = player:get_inventory()
-	local hotbar = inv:get_list("main")
-	for i = 1, 8 do
-		if hotbar[i]:get_name() == "technic:flashlight" then
-			local meta = minetest.deserialize(hotbar[i]:get_metadata())
-			if not meta or not meta.charge then
-				return false
-			end
-			if meta.charge - 2 > 0 then
-				meta.charge = meta.charge - 2;
-				technic.set_RE_wear(hotbar[i], meta.charge, flashlight_max_charge)
-				hotbar[i]:set_metadata(minetest.serialize(meta))
-				inv:set_stack("main", i, hotbar[i])
-				return true
-			end
-		end
-	end
-	return false
-end
 
 minetest.register_globalstep(function(dtime)
 	for i, player in pairs(minetest.get_connected_players()) do
