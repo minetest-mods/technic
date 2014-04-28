@@ -21,6 +21,17 @@ minetest.register_craft({
 	}
 })
 
+local function set_can_wear(itemstack, level, max_level)
+	local temp
+	if level == 0 then
+		temp = 0
+	else
+		temp = 65536 - math.floor(level / max_level * 65535)
+		if temp > 65535 then temp = 65535 end
+		if temp < 1 then temp = 1 end
+	end
+	itemstack:set_wear(temp)
+end
 
 minetest.register_tool("technic:water_can", {
 	description = S("Water Can"),
@@ -45,7 +56,7 @@ minetest.register_tool("technic:water_can", {
 				minetest.remove_node(pointed_thing.under)
 				charge = charge + 1
 				itemstack:set_metadata(tostring(charge))
-				technic.set_RE_wear(itemstack, charge, water_can_max_load)
+				set_can_wear(itemstack, charge, water_can_max_load)
 			end
 			return itemstack
 		end
@@ -57,7 +68,7 @@ minetest.register_tool("technic:water_can", {
 			minetest.set_node(pointed_thing.under, {name="default:water_source"})
 			charge = charge - 1
 			itemstack:set_metadata(tostring(charge))
-			technic.set_RE_wear(itemstack, charge, water_can_max_load)
+			set_can_wear(itemstack, charge, water_can_max_load)
 			return itemstack
 		end
 
@@ -66,7 +77,7 @@ minetest.register_tool("technic:water_can", {
 			minetest.set_node(pointed_thing.above, {name="default:water_source"})
 			charge = charge - 1;
 			itemstack:set_metadata(tostring(charge))
-			technic.set_RE_wear(itemstack, charge, water_can_max_load)
+			set_can_wear(itemstack, charge, water_can_max_load)
 			return itemstack
 		end		
 	end,
@@ -95,7 +106,7 @@ minetest.register_tool("technic:lava_can", {
 				minetest.remove_node(pointed_thing.under)
 				charge = charge + 1
 				itemstack:set_metadata(tostring(charge))
-				technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+				set_can_wear(itemstack, charge, lava_can_max_load)
 			end
 			return itemstack
 		end
@@ -107,7 +118,7 @@ minetest.register_tool("technic:lava_can", {
 			minetest.set_node(pointed_thing.under, {name="default:lava_source"})
 			charge = charge - 1	
 			itemstack:set_metadata(tostring(charge))
-			technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+			set_can_wear(itemstack, charge, lava_can_max_load)
 			return itemstack
 		end
 
@@ -116,7 +127,7 @@ minetest.register_tool("technic:lava_can", {
 			minetest.set_node(pointed_thing.above, {name="default:lava_source"})
 			charge = charge - 1
 			itemstack:set_metadata(tostring(charge))
-			technic.set_RE_wear(itemstack, charge, lava_can_max_load)
+			set_can_wear(itemstack, charge, lava_can_max_load)
 			return itemstack
 		end
 	end,
