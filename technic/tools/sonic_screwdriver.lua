@@ -7,6 +7,7 @@ technic.register_power_tool("technic:sonic_screwdriver", sonic_screwdriver_max_c
 minetest.register_tool("technic:sonic_screwdriver", {
 	description = S("Sonic Screwdriver"),
 	inventory_image = "technic_sonic_screwdriver.png",
+	wear_represents = "technic_RE_charge",
 	on_use = function(itemstack, user, pointed_thing)
 		-- Must be pointing to facedir applicable node
 		if pointed_thing.type ~= "node" then

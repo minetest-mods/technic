@@ -13,6 +13,7 @@ minetest.register_tool("technic:flashlight", {
 	description = S("Flashlight"),
 	inventory_image = "technic_flashlight.png",
 	stack_max = 1,
+	wear_represents = "technic_RE_charge",
 })
 
 minetest.register_craft({

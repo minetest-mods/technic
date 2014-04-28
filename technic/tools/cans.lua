@@ -26,6 +26,7 @@ minetest.register_tool("technic:water_can", {
 	description = S("Water Can"),
 	inventory_image = "technic_water_can.png",
 	stack_max = 1,
+	wear_represents = "content_level",
 	liquids_pointable = true,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then
@@ -75,6 +76,7 @@ minetest.register_tool("technic:lava_can", {
 	description = S("Lava Can"),
 	inventory_image = "technic_lava_can.png",
 	stack_max = 1,
+	wear_represents = "content_level",
 	liquids_pointable = true,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then

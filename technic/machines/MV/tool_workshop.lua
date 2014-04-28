@@ -60,11 +60,15 @@ minetest.register_abm({
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "MV")
 
+		local repairable = false
 		local srcstack = inv:get_stack("src", 1)
-		if inv:is_empty("src") or
-		   srcstack:get_wear() == 0 or
-		   srcstack:get_name() == "technic:water_can" or
-		   srcstack:get_name() == "technic:lava_can" then
+		if (not srcstack:is_empty("src")) then
+			local itemdef = minetest.registered_items[srcstack:get_name()]
+			if (itemdef.wear_represents or "mechanical_wear") == "mechanical_wear" and srcstack:get_wear() ~= 0 then
+				repairable = true
+			end
+		end
+		if not repairable then
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int("MV_EU_demand", 0)
 			return

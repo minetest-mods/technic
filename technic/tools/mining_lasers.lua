@@ -168,6 +168,7 @@ for _, m in pairs(mining_lasers_list) do
 		description = S("Mining Laser Mk%d"):format(m[1]),
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		stack_max = 1,
+		wear_represents = "technic_RE_charge",
 		on_use = function(itemstack, user)
 			local meta = minetest.deserialize(itemstack:get_metadata())
 			if not meta or not meta.charge then
