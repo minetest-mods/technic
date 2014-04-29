@@ -1,6 +1,14 @@
 
 local S = technic.getter
 
+if unified_inventory.register_craft_type then
+	unified_inventory.register_craft_type("grinding", {
+		description = S("Grinding"),
+		height = 1,
+		width = 1,
+	})
+end
+
 technic.grinder_recipes = {}
 
 function technic.register_grinder_recipe(data)

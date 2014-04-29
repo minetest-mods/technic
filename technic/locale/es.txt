@@ -168,3 +168,8 @@ Single node. = Nodo simple.
 Sonic Screwdriver = Destonillador Sonico
 Tree Tap = Grifo de Arbol
 
+## Craft descriptions
+Alloy cooking =
+Grinding =
+Compressing =
+Extracting =

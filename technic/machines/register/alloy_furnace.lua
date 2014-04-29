@@ -1,6 +1,14 @@
 
 local S = technic.getter
 
+if unified_inventory.register_craft_type then
+	unified_inventory.register_craft_type("alloy", {
+		description = S("Alloy cooking"),
+		height = 2,
+		width = 1,
+	})
+end
+
 -- Register alloy recipes
 technic.alloy_recipes = {}
 
@@ -32,7 +40,7 @@ technic.register_alloy_recipe = function(metal1, count1, metal2, count2, result,
 			type = "alloy",
 			output = result.." "..count3,
 			items = {metal1.." "..count1, metal2.." "..count2},
-			width = 2,
+			width = 0,
 		})
 	end
 end

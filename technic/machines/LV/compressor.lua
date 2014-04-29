@@ -3,6 +3,14 @@ technic.compressor_recipes = {}
 
 local S = technic.getter
 
+if unified_inventory.register_craft_type then
+	unified_inventory.register_craft_type("compressing", {
+		description = S("Compressing"),
+		height = 1,
+		width = 1,
+	})
+end
+
 technic.register_compressor_recipe = function(src, src_count, dst, dst_count)
 	technic.compressor_recipes[src] = {src_count = src_count, dst_name = dst, dst_count = dst_count}
 	if unified_inventory then

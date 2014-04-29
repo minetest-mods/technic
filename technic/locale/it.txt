@@ -165,3 +165,9 @@ Mining Laser Mk%d = Laser da miniera mk%d
 Single node. = Nodo singolo.
 Sonic Screwdriver = Cacciavite sonico
 Tree Tap = Batti albero
+
+## Craft descriptions
+Alloy cooking =
+Grinding =
+Compressing =
+Extracting =

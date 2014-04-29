@@ -178,3 +178,8 @@ Single node. =
 Sonic Screwdriver =
 Tree Tap =
 
+## Craft descriptions
+Alloy cooking =
+Grinding =
+Compressing =
+Extracting =

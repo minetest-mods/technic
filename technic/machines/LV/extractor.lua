@@ -3,6 +3,14 @@ technic.extractor_recipes ={}
 
 local S = technic.getter
 
+if unified_inventory.register_craft_type then
+	unified_inventory.register_craft_type("extracting", {
+		description = S("Extracting"),
+		height = 1,
+		width = 1,
+	})
+end
+
 technic.register_extractor_recipe = function(src, src_count, dst, dst_count)
 	technic.extractor_recipes[src] = {src_count = src_count, dst_name = dst, dst_count = dst_count}
 	if unified_inventory then

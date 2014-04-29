@@ -178,3 +178,8 @@ Single node. = Einzelblock
 Sonic Screwdriver = Schallschraubendreher
 Tree Tap = Baumzapfhahn
 
+## Craft descriptions
+Alloy cooking =
+Grinding =
+Compressing =
+Extracting =
