@@ -19,6 +19,7 @@ minetest.register_tool("technic:battery", {
 	description = S("RE Battery"),
 	inventory_image = "technic_battery.png",
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	tool_capabilities = {
 		charge = 0,
 		max_drop_level = 0,

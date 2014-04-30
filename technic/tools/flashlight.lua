@@ -14,6 +14,7 @@ minetest.register_tool("technic:flashlight", {
 	inventory_image = "technic_flashlight.png",
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 })
 
 minetest.register_craft({

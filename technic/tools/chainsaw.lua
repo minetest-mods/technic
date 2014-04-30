@@ -256,6 +256,7 @@ minetest.register_tool("technic:chainsaw", {
 	inventory_image = "technic_chainsaw.png",
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then
 			return itemstack

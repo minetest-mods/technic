@@ -327,6 +327,7 @@ minetest.register_tool("technic:mining_drill", {
 	inventory_image = "technic_mining_drill.png",
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then
 			return itemstack
@@ -351,6 +352,7 @@ minetest.register_tool("technic:mining_drill_mk2", {
 	description = S("Mining Drill Mk%d"):format(2),
 	inventory_image = "technic_mining_drill_mk2.png",
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		mining_drill_mk2_handler(itemstack, user, pointed_thing)
 		return itemstack
@@ -366,6 +368,7 @@ for i = 1, 4 do
 		inventory_image = "technic_mining_drill_mk2.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk2.png",
 		wear_represents = "technic_RE_charge",
+		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory=1},
 		on_use = function(itemstack, user, pointed_thing)
 			mining_drill_mk2_handler(itemstack, user, pointed_thing)
@@ -378,6 +381,7 @@ minetest.register_tool("technic:mining_drill_mk3", {
 	description = S("Mining Drill Mk%d"):format(3),
 	inventory_image = "technic_mining_drill_mk3.png",
 	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 	mining_drill_mk3_handler(itemstack,user,pointed_thing)
 	return itemstack
@@ -393,6 +397,7 @@ for i=1,5,1 do
 		inventory_image = "technic_mining_drill_mk3.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk3.png",
 		wear_represents = "technic_RE_charge",
+		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory=1},
 		on_use = function(itemstack, user, pointed_thing)
 		mining_drill_mk3_handler(itemstack,user,pointed_thing)

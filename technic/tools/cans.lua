@@ -81,6 +81,11 @@ minetest.register_tool("technic:water_can", {
 			return itemstack
 		end		
 	end,
+	on_refill = function(stack)
+		stack:set_metadata(tostring(water_can_max_load))
+		set_can_wear(stack, water_can_max_load, water_can_max_load)
+		return stack
+	end,
 })
 
 minetest.register_tool("technic:lava_can", {
@@ -130,6 +135,11 @@ minetest.register_tool("technic:lava_can", {
 			set_can_wear(itemstack, charge, lava_can_max_load)
 			return itemstack
 		end
+	end,
+	on_refill = function(stack)
+		stack:set_metadata(tostring(lava_can_max_load))
+		set_can_wear(stack, lava_can_max_load, lava_can_max_load)
+		return stack
 	end,
 })
 
