@@ -68,6 +68,7 @@ local recipes = {
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
 	{"technic:wrought_iron_ingot", "technic:wrought_iron_dust 1"},
 	{"technic:carbon_steel_ingot", "technic:carbon_steel_dust 1"},
+	{"technic:stainless_steel_ingot", "technic:stainless_steel_dust 1"},
 	{"technic:zinc_ingot",      "technic:zinc_dust 1"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
 	{"technic:brass_ingot",     "technic:brass_dust 1"},
