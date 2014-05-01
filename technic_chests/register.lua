@@ -56,50 +56,111 @@ local function check_color_buttons(pos, meta, chest_name, fields)
 	end
 end
 
-
-local function get_receive_fields(name, data)
-	if not data.infotext and not data.color then
-		return nil
+local function set_formspec(pos, data, page)
+	local meta = minetest.get_meta(pos)
+	local node = minetest.get_node(pos)
+	local formspec = data.formspec
+	if data.autosort then
+		local status = meta:get_int("autosort")
+		formspec = formspec.."button[2,5.1;3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
 	end
-	local lname = name:lower()
-	return function(pos, formname, fields, sender)
-		local meta = minetest.get_meta(pos)
-		local node = minetest.get_node(pos)
-		local page = "main"
-		if fields.edit_infotext then
-			page = "edit_infotext"
-		end
-		if fields.infotext_box then
-			meta:set_string("infotext", fields.infotext_box)
-		end
-		local formspec = data.formspec
+	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
-		if page == "main" and data.infotext then
+		if page == "main" then
 			formspec = formspec.."image_button[2.1,0.1;0.8,0.8;"
 					.."technic_pencil_icon.png;edit_infotext;]"
 					.."label[3,0;"..formspec_infotext.."]"
-		end
-		if page == "edit_infotext" then
+		elseif page == "edit_infotext" then
 			formspec = formspec.."image_button[2.1,0.1;0.8,0.8;"
 					.."technic_checkmark_icon.png;save_infotext;]"
 					.."field[3.3,0.2;4.8,1;"
 					.."infotext_box;"..S("Edit chest description:")..";"
 					..formspec_infotext.."]"
 		end
+	end
+	if data.color then
+		local colorID = meta:get_int("color")
+		local colorName
+		if chest_mark_colors[colorID] then
+			colorName = chest_mark_colors[colorID][2]
+		else
+			colorName = S("None")
+		end
+		formspec = formspec.."label[8.2,9;"..S("Color Filter: %s"):format(colorName).."]"
+	end
+	meta:set_string("formspec", formspec)
+end
+
+local function sort_inventory(inv)
+	local inlist = inv:get_list("main")
+	local typecnt = {}
+	local typekeys = {}
+	for _, st in ipairs(inlist) do
+		if not st:is_empty() then
+			local n = st:get_name()
+			local w = st:get_wear()
+			local m = st:get_metadata()
+			local k = string.format("%s %05d %s", n, w, m)
+			if not typecnt[k] then
+				typecnt[k] = {
+					name = n,
+					wear = w,
+					metadata = m,
+					stack_max = st:get_stack_max(),
+					count = 0,
+				}
+				table.insert(typekeys, k)
+			end
+			typecnt[k].count = typecnt[k].count + st:get_count()
+		end
+	end
+	table.sort(typekeys)
+	local outlist = {}
+	for _, k in ipairs(typekeys) do
+		local tc = typecnt[k]
+		while tc.count > 0 do
+			local c = math.min(tc.count, tc.stack_max)
+			table.insert(outlist, ItemStack({
+				name = tc.name,
+				wear = tc.wear,
+				metadata = tc.metadata,
+				count = c,
+			}))
+			tc.count = tc.count - c
+		end
+	end
+	if #outlist > #inlist then return end
+	while #outlist < #inlist do
+		table.insert(outlist, ItemStack(nil))
+	end
+	inv:set_list("main", outlist)
+end
+
+local function get_receive_fields(name, data)
+	if not data.sort and not data.autosort and not data.infotext and not data.color then
+		return nil
+	end
+	local lname = name:lower()
+	return function(pos, formname, fields, sender)
+		local meta = minetest.get_meta(pos)
+		local page = "main"
+		if fields.sort or (data.autosort and fields.quit and meta:get_int("autosort") == 1) then
+			sort_inventory(meta:get_inventory())
+		end
+		if fields.edit_infotext then
+			page = "edit_infotext"
+		end
+		if fields.autosort_to_1 then meta:set_int("autosort", 1) end
+		if fields.autosort_to_0 then meta:set_int("autosort", 0) end
+		if fields.infotext_box then
+			meta:set_string("infotext", fields.infotext_box)
+		end
 		if data.color then
 			-- This sets the node
 			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
-			local colorID = meta:get_int("color")
-			local colorName
-			if chest_mark_colors[colorID] then
-				colorName = chest_mark_colors[colorID][2]
-			else
-				colorName = S("None")
-			end
-			formspec = formspec.."label[8.2,9;"..S("Color Filter: %s"):format(colorName).."]"
 		end
-		meta:set_string("formspec", formspec)
+		set_formspec(pos, data, page)
 	end
 end
 
@@ -119,6 +180,9 @@ function technic.chests:register(name, data)
 			"background[-0.19,-0.25;"..width..".4,10.75;ui_form_bg.png]"..
 			"background[0,1;"..width..",4;technic_"..lname.."_chest_inventory.png]"..
 			"background[0,6;8,4;ui_main_inventory.png]"
+	if data.sort then
+		data.formspec = data.formspec.."button[0,5.1;1,0.8;sort;"..S("Sort").."]"
+	end
 	if data.color then
 		data.formspec = data.formspec..get_color_buttons()
 	end
@@ -154,11 +218,8 @@ function technic.chests:register(name, data)
 		after_place_node = locked_after_place,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", data.formspec
-				..(data.color and "label[8.2,9;Color Filter: None" or "")
-				..(data.infotext and "image_button[2.1,0.1;0.8,0.8;"
-					.."technic_pencil_icon.png;edit_infotext;]" or ""))
 			meta:set_string("infotext", S("%s Chest"):format(name))
+			set_formspec(pos, data, "main")
 			local inv = meta:get_inventory()
 			inv:set_size("main", data.width * 4)
 		end,

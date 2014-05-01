@@ -26,6 +26,8 @@ minetest.register_craft({
 
 technic.chests:register("Mithril", {
 	width = 13,
+	sort = true,
+	autosort = true,
 	infotext = false,
 	color = false,
 	locked = false,
@@ -33,6 +35,8 @@ technic.chests:register("Mithril", {
 
 technic.chests:register("Mithril", {
 	width = 13,
+	sort = true,
+	autosort = true,
 	infotext = false,
 	color = false,
 	locked = true,

@@ -31,3 +31,8 @@ Iron =
 Mithril =
 Silver =
 
+# Sorting
+Sort =
+Auto-sort is %s =
+Off =
+On =

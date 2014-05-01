@@ -26,6 +26,8 @@ minetest.register_craft({
 
 technic.chests:register("Silver", {
 	width = 11,
+	sort = true,
+	autosort = true,
 	infotext = true,
 	color = false,
 	locked = false,
@@ -33,6 +35,8 @@ technic.chests:register("Silver", {
 
 technic.chests:register("Silver", {
 	width = 11,
+	sort = true,
+	autosort = true,
 	infotext = true,
 	color = false,
 	locked = true,
