@@ -29,7 +29,7 @@ Rubber Fiber = Fibra di gomma
 
 ## Machine misc
 Machine cannot be removed because it is not empty = La macchina non può essere rimossa perchè non è vuota
-Inventory move disallowed due to protection =
+Inventory move disallowed due to protection = Impossibile muovere l'inventario a causa della protezione
 # $1: Machine name (Includes tier)
 %s Active = %s Attivo
 %s Disabled = %s Disabilitato
@@ -42,7 +42,13 @@ Inventory move disallowed due to protection =
 %s Finished = %s Finito
 Enable/Disable = Abilita/Disabilita
 Range = Raggio
-
+Upgrade Slots = 
+In: = Ingresso:
+Out: = Uscita:
+Slot %d = 
+Mode: %s = Modalità: %s
+single items = Singolo elemento
+whole stacks = pila completa
 
 ## Machine names
 # $1: Tier
@@ -53,12 +59,12 @@ Range = Raggio
 %s Grinder = %s Tritatutto
 %s Generator = %s Generatore
 %s Solar Array = %s Pannello Solare
-Injector =
-Constructor Mk%d =
-Frame =
-Frame Motor =
+Injector = Ignettore
+Constructor Mk%d = Costruttore Mk%d
+Frame = Cornice
+Frame Motor = Cornice del motore
 Template =
-Template (replacing) =
+Template (replacing) = Template (rimpiazzato)
 Template Motor =
 Template Tool =
 Battery Box = Box batterie
@@ -91,33 +97,36 @@ Power level = Livello di potenza
 # $1: Machine name $2: Supply $3: Demand
 %s. Supply: %d Demand: %d = %s. Prodotto: %d Consumato: %d
 Production at %d%% = Produzione a %d%%
+Choose Milling Program: = Scegliere un programma di Fresatura
+Slim Elements half / normal height: = Metà elementi sottili / altezza normale:
+Current track %s = Traccia corrente %s
 
 ## CNC
 Cylinder = Cilindro
 Element Cross = Elemento a croce
 Element Cross Double = Elemento a croce doppio
-Element Edge =
-Element Edge Double =
+Element Edge = Elemento bordo
+Element Edge Double = Elemento bordo doppio
 Element End = Elemento finale
 Element End Double = Elemento finale doppio
-Element Straight =
-Element Straight Double =
+Element Straight = Elemento dritto
+Element Straight Double = Elemento dritto doppio
 Element T = Elemento a T
 Element T Double = Elemento a T doppio
 Horizontal Cylinder = Cilindro orizzontale
-One Curved Edge Block =
+One Curved Edge Block = Blocco con bordo curvo
 Pyramid = Piramide
-Slope =
-Slope Edge =
-Slope Inner Edge =
-Slope Lying =
-Slope Upside Down =
-Slope Upside Down Edge =
-Slope Upside Down Inner Edge =
+Slope = Inclinato
+Slope Edge = Bordo inclinato
+Slope Inner Edge = Bordo interno inclinato
+Slope Lying = Pendenza bugiarda
+Slope Upside Down = Pendenza capovolta
+Slope Upside Down Edge = Bordo inclinato capovolto
+Slope Upside Down Inner Edge = Bordo interno inclinato capovolto
 Sphere = Sfera
-Spike =
+Spike = Spuntone
 Stick = Bastone
-Two Curved Edge Block =
+Two Curved Edge Block = Blocco con bordo a doppia curva
 Brick = Mattone
 Cobble = Ciottolato
 Dirt = Terra
@@ -167,7 +176,7 @@ Sonic Screwdriver = Cacciavite sonico
 Tree Tap = Batti albero
 
 ## Craft descriptions
-Alloy cooking =
-Grinding =
-Compressing =
-Extracting =
+Alloy cooking = Cottura lege
+Grinding = Macinazione
+Compressing = Compressione
+Extracting = Estrazione
