@@ -52,11 +52,6 @@ local recipes = {
 	{"default:gravel",          "default:dirt"},
 	{"default:iron_lump",       "technic:wrought_iron_dust 2"},
 	{"default:stone",           "default:sand"},
-	{"gloopores:alatro_lump",   "technic:alatro_dust 2"},
-	{"gloopores:kalite_lump",   "technic:kalite_dust 2"},
-	{"gloopores:arol_lump",     "technic:arol_dust 2"},
-	{"gloopores:talinite_lump", "technic:talinite_dust 2"},
-	{"gloopores:akalin_lump",   "technic:akalin_dust 2"},
 	{"moreores:mithril_ingot",  "technic:mithril_dust 1"},
 	{"moreores:mithril_lump",   "technic:mithril_dust 2"},
 	{"moreores:silver_ingot",   "technic:silver_dust 1"},
@@ -73,6 +68,14 @@ local recipes = {
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
 	{"technic:brass_ingot",     "technic:brass_dust 1"},
 }
+
+if minetest.get_modpath("gloopores") then
+	table.insert(recipes, {"gloopores:alatro_lump",   "technic:alatro_dust 2"})
+	table.insert(recipes, {"gloopores:kalite_lump",   "technic:kalite_dust 2"})
+	table.insert(recipes, {"gloopores:arol_lump",     "technic:arol_dust 2"})
+	table.insert(recipes, {"gloopores:talinite_lump", "technic:talinite_dust 2"})
+	table.insert(recipes, {"gloopores:akalin_lump",   "technic:akalin_dust 2"})
+end
 
 if minetest.get_modpath("homedecor") then
 	table.insert(recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
@@ -100,9 +103,6 @@ local function register_dust(name, ingot)
 end
 
 -- Sorted alphibeticaly
-register_dust("Akalin",          "glooptest:akalin_ingot")
-register_dust("Alatro",          "glooptest:alatro_ingot")
-register_dust("Arol",            "glooptest:arol_ingot")
 register_dust("Brass",           "technic:brass_ingot")
 register_dust("Bronze",          "default:bronze_ingot")
 register_dust("Carbon Steel",    "technic:carbon_steel_ingot")
@@ -114,10 +114,15 @@ register_dust("Gold",            "default:gold_ingot")
 register_dust("Mithril",         "moreores:mithril_ingot")
 register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
-register_dust("Talinite",        "glooptest:talinite_ingot")
 register_dust("Tin",             "moreores:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
+if minetest.get_modpath("gloopores") then
+	register_dust("Akalin",          "glooptest:akalin_ingot")
+	register_dust("Alatro",          "glooptest:alatro_ingot")
+	register_dust("Arol",            "glooptest:arol_ingot")
+	register_dust("Talinite",        "glooptest:talinite_ingot")
+end
 
 minetest.register_craft({
 	type = "fuel",
