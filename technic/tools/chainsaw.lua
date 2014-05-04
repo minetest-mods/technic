@@ -56,6 +56,8 @@ if( minetest.get_modpath("moretrees") ~= nil ) then
                 timber_nodenames["moretrees:apple_tree_leaves"]        = true
                 timber_nodenames["moretrees:oak_leaves"]               = true
                 timber_nodenames["moretrees:sequoia_leaves"]           = true
+                timber_nodenames["moretrees:fir_leaves"]               = true
+                timber_nodenames["moretrees:fir_leaves_bright"]        = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
                 timber_nodenames["moretrees:palm_leaves"]              = true
@@ -261,6 +263,8 @@ minetest.register_tool("technic:chainsaw", {
 	description = S("Chainsaw"),
 	inventory_image = "technic_chainsaw.png",
 	stack_max = 1,
+	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then
 			return itemstack
