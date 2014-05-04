@@ -215,7 +215,7 @@ local function get_drop_pos(pos)
             p.y = p.y + 1
             node = minetest.get_node(p).name
         until node == "air" or node == "ignore" -- Make sure drops wont appear inside ground
-    until p.y < pos.y + 15 -- Make sure the drops dont end up on a high ledge or column
+    until p.y < pos.y + 5 -- Make sure the drops dont end up on a high ledge or column
     return p
 end
 
