@@ -1,6 +1,6 @@
 -- The enriched uranium rod driven EU generator.
 -- A very large and advanced machine providing vast amounts of power.
--- Very efficient but also expensive to run as it needs uranium. (10000EU 86400 ticks (24h))
+-- Very efficient but also expensive to run as it needs uranium. (10000EU 86400 ticks (one week))
 -- Provides HV EUs that can be down converted as needed.
 --
 -- The nuclear reactor core needs water and a protective shield to work.
