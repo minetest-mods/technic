@@ -245,6 +245,9 @@ local function chainsaw_dig_it(pos, player,current_charge)
                         }
                         number = number - 99
                 end
+                while minetest.get_node(pos).name ~= "air" do
+                    pos.y = pos.y + 1
+                end
                 minetest.env:add_item(p, produced_item .. " " .. number)
         end
         return remaining_charge
