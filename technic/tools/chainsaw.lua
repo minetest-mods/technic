@@ -55,8 +55,6 @@ if( minetest.get_modpath("moretrees") ~= nil ) then
         if chainsaw_leaves then
                 timber_nodenames["moretrees:apple_tree_leaves"]        = true
                 timber_nodenames["moretrees:oak_leaves"]               = true
-                timber_nodenames["moretrees:fir_leaves"]               = true
-                timber_nodenames["moretrees:fir_leaves_bright"]        = true
                 timber_nodenames["moretrees:sequoia_leaves"]           = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
                 timber_nodenames["moretrees:birch_leaves"]             = true
@@ -203,6 +201,22 @@ local function recursive_dig(pos, remaining_charge, player)
         return remaining_charge
 end
 
+local function get_drop_pos(pos)
+    local p
+    repeat
+        p = {
+                x = pos.x + math.random() * 6 - 3,
+                y = pos.y - 1,
+                z = pos.z + math.random() * 6 - 3
+        }
+        repeat
+            p.y = p.y + 1
+            node = minetest.get_node(p).name
+        until node == "air" or node == "ignore" -- Make sure drops wont appear inside ground
+    until p.y < pos.y + 15 -- Make sure the drops dont end up on a high ledge or column
+    return p
+end
+
 -- Saw down trees entry point
 local function chainsaw_dig_it(pos, player,current_charge)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -231,18 +245,10 @@ local function chainsaw_dig_it(pos, player,current_charge)
         for produced_item,number in pairs(produced) do
                 --print("ADDING ITEM: " .. produced_item .. " " .. number)
                 -- Drop stacks of 99 or less
-                p = {
-                        x = pos.x + math.random()*4,
-                        y = pos.y,
-                        z = pos.z + math.random()*4
-                }
+                p = get_drop_pos(pos)
                 while number > 99 do
                         minetest.env:add_item(p, produced_item .. " 99")
-                        p = {
-                                x = pos.x + math.random()*4,
-                                y = pos.y,
-                                z = pos.z + math.random()*4
-                        }
+                        p = get_drop_pos(pos)
                         number = number - 99
                 end
                 minetest.env:add_item(p, produced_item .. " " .. number)
@@ -255,8 +261,6 @@ minetest.register_tool("technic:chainsaw", {
 	description = S("Chainsaw"),
 	inventory_image = "technic_chainsaw.png",
 	stack_max = 1,
-	wear_represents = "technic_RE_charge",
-	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type ~= "node" then
 			return itemstack
