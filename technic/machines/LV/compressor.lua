@@ -3,7 +3,7 @@ technic.compressor_recipes = {}
 
 local S = technic.getter
 
-if unified_inventory.register_craft_type then
+if unified_inventory and unified_inventory.register_craft_type then
 	unified_inventory.register_craft_type("compressing", {
 		description = S("Compressing"),
 		height = 1,
