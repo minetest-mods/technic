@@ -3,9 +3,9 @@ local S = technic.getter
 
 minetest.register_craft({
 	recipe = {
-		{"default:steelblock", "pipeworks:filter",           "default:steelblock"},
-		{"default:steelblock", "technic:motor",              "default:steelblock"},
-		{"default:steelblock", "technic:diamond_drill_head", "default:steelblock"}},
+		{"technic:carbon_steel_block", "pipeworks:filter",           "technic:carbon_steel_block"},
+		{"technic:carbon_steel_block", "technic:motor",              "technic:carbon_steel_block"},
+		{"technic:carbon_steel_block", "technic:diamond_drill_head", "technic:carbon_steel_block"}},
 	output = "technic:quarry",
 })
 
@@ -136,9 +136,9 @@ end
 
 minetest.register_node("technic:quarry", {
 	description = S("Quarry"),
-	tiles = {"default_steel_block.png", "default_steel_block.png",
-	         "default_steel_block.png", "default_steel_block.png",
-	         "default_steel_block.png^default_tool_mesepick.png", "default_steel_block.png"},
+	tiles = {"technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
+	         "technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
+	         "technic_carbon_steel_block.png^default_tool_mesepick.png", "technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=2, tubedevice=1},
 	tube = {

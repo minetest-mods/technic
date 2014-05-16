@@ -24,6 +24,7 @@ technic.legacy_nodenames = {
 	["technic:mv_battery_box"] = "technic:mv_battery_box0",
 	["technic:generator"]        = "technic:lv_generator",
 	["technic:generator_active"] = "technic:lv_generator_active",
+	["technic:iron_dust"] = "technic:wrought_iron_dust",
 }
 
 for old, new in pairs(technic.legacy_nodenames) do

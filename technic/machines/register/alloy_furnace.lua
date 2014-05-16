@@ -45,6 +45,36 @@ technic.register_alloy_recipe = function(metal1, count1, metal2, count2, result,
 	end
 end
 
+minetest.after(0.01, function ()
+	for _, recipe in pairs(technic.alloy_recipes) do
+		local in1 = recipe.input[1]
+		local in2 = recipe.input[2]
+		local in1n = in1.name
+		local in2n = in2.name
+		while minetest.registered_aliases[in1n] do
+			in1n = minetest.registered_aliases[in1n]
+		end
+		while minetest.registered_aliases[in2n] do
+			in2n = minetest.registered_aliases[in2n]
+		end
+		if in1n > in2n then
+			local temp = in1
+			in1 = in2
+			in2 = temp
+			temp = in1n
+			in1n = in2n
+			in2n = temp
+		end
+		technic.alloy_recipes[in1n.." "..in2n] = {
+			input = {
+				{ name = in1n, count = in1.count },
+				{ name = in2n, count = in2.count },
+			},
+			output = recipe.output,
+		}
+	end
+end)
+
 -- Retrieve a recipe given the input metals.
 function technic.get_alloy_recipe(stack1, stack2)
 	-- Sort the stacks alphebetically
@@ -65,8 +95,12 @@ end
 
 technic.register_alloy_recipe("technic:copper_dust",   3, "technic:tin_dust",       1, "technic:bronze_dust",           4)
 technic.register_alloy_recipe("default:copper_ingot",  3, "moreores:tin_ingot",     1, "moreores:bronze_ingot",         4)
-technic.register_alloy_recipe("technic:iron_dust",     3, "technic:chromium_dust",  1, "technic:stainless_steel_dust",  4)
-technic.register_alloy_recipe("default:steel_ingot",   3, "technic:chromium_ingot", 1, "technic:stainless_steel_ingot", 4)
+technic.register_alloy_recipe("technic:wrought_iron_dust", 1, "technic:coal_dust",  1, "technic:carbon_steel_dust",     1)
+technic.register_alloy_recipe("technic:wrought_iron_ingot", 1, "technic:coal_dust", 1, "technic:carbon_steel_ingot",    1)
+technic.register_alloy_recipe("technic:carbon_steel_dust", 1, "technic:coal_dust",  1, "technic:cast_iron_dust",        1)
+technic.register_alloy_recipe("technic:carbon_steel_ingot", 1, "technic:coal_dust", 1, "technic:cast_iron_ingot",       1)
+technic.register_alloy_recipe("technic:carbon_steel_dust", 3, "technic:chromium_dust", 1, "technic:stainless_steel_dust", 4)
+technic.register_alloy_recipe("technic:carbon_steel_ingot", 3, "technic:chromium_ingot", 1, "technic:stainless_steel_ingot", 4)
 technic.register_alloy_recipe("technic:copper_dust",   2, "technic:zinc_dust",      1, "technic:brass_dust",            3)
 technic.register_alloy_recipe("default:copper_ingot",  2, "technic:zinc_ingot",     1, "technic:brass_ingot",           3)
 technic.register_alloy_recipe("default:sand",          2, "technic:coal_dust",      2, "technic:silicon_wafer",         1)

@@ -20,7 +20,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:gold_locked_chest',
 	recipe = {
-		{'default:steel_ingot'},
+		{'technic:wrought_iron_ingot'},
 		{'technic:gold_chest'},
 	}
 })

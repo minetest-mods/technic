@@ -132,7 +132,6 @@ Cobble = Ciottolato
 Dirt = Terra
 Leaves = Foglie
 Sandstone = Arenaria
-Steel = Acciaio
 Stone = Pietra
 Tree = Albero
 Wooden = Legno
@@ -145,16 +144,18 @@ Alatro = Alatro
 Arol = Arol
 Brass = Ottone
 Bronze = Bronzo
+Carbon Steel = Acciaio al Carbonio
+Cast Iron = Ghisa
 Chromium = Cromo
 Coal = Carbone
 Copper = Rame
 Gold = Oro
-Iron = Ferro
 Mithril = Mithril
 Silver = Argento
 Stainless Steel = Acciaio Inossidabile
 Talinite = Talinite
 Tin = Stagno
+Wrought Iron = Ferro Battuto
 Zinc = Zinco
 
 ## Tools

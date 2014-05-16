@@ -100,36 +100,36 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:copper_coil 1',
 	recipe = {
-		{'technic:fine_copper_wire', 'default:steel_ingot', 'technic:fine_copper_wire'},
-		{'default:steel_ingot', '', 'default:steel_ingot'},
-		{'technic:fine_copper_wire', 'default:steel_ingot', 'technic:fine_copper_wire'},
+		{'technic:fine_copper_wire', 'technic:wrought_iron_ingot', 'technic:fine_copper_wire'},
+		{'technic:wrought_iron_ingot', '', 'technic:wrought_iron_ingot'},
+		{'technic:fine_copper_wire', 'technic:wrought_iron_ingot', 'technic:fine_copper_wire'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:motor',
 	recipe = {
-		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
-		{'default:steel_ingot', 'technic:copper_coil', 'default:steel_ingot'},
-		{'default:steel_ingot', 'default:copper_ingot', 'default:steel_ingot'},
+		{'technic:carbon_steel_ingot', 'technic:copper_coil', 'technic:carbon_steel_ingot'},
+		{'technic:carbon_steel_ingot', 'technic:copper_coil', 'technic:carbon_steel_ingot'},
+		{'technic:carbon_steel_ingot', 'default:copper_ingot', 'technic:carbon_steel_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:lv_transformer',
 	recipe = {
-		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
-		{'technic:copper_coil', 'default:iron_lump', 'technic:copper_coil'},
-		{'default:iron_lump',   'default:iron_lump', 'default:iron_lump'},
+		{'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot'},
+		{'technic:copper_coil',        'technic:wrought_iron_ingot', 'technic:copper_coil'},
+		{'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:mv_transformer',
 	recipe = {
-		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
-		{'technic:copper_coil', 'default:steel_ingot', 'technic:copper_coil'},
-		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+		{'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot'},
+		{'technic:copper_coil',        'technic:carbon_steel_ingot', 'technic:copper_coil'},
+		{'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot'},
 	}
 })
 

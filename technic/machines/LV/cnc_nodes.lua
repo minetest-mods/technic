@@ -58,12 +58,13 @@ technic.cnc.register_all("default:tree",
                 {snappy=1, choppy=2, oddly_breakable_by_hand=2, flammable=3, wood=1, not_in_creative_inventory=1},
                 {"default_tree.png"},
                 S("Tree"))
--- STEEL
---------
+
+-- WROUGHT IRON
+---------------
 technic.cnc.register_all("default:steelblock",
                 {cracky=1, level=2, not_in_creative_inventory=1},
-                {"default_steel_block.png"},
-                S("Steel"))
+                {"technic_wrought_iron_block.png"},
+                S("Wrought Iron"))
 
 -- Bronze
 --------

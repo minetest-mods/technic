@@ -1,0 +1,68 @@
+Notes on iron and steel
+=======================
+
+Alloying iron with carbon is of huge importance, but in some processes
+the alloying is an implicit side effect rather than the product of
+explicit mixing, so it is a complex area.  In the real world, there is
+a huge variety of kinds of iron and steel, differing in the proportion
+of carbon included and in other elements added to the mix.
+
+The Minetest default mod doesn't distinguish between types of iron and
+steel at all.  This mod introduces multiple types in order to get a bit
+of complexity and flavour.
+
+Leaving aside explicit addition of other elements, the iron/carbon
+spectrum is here represented by three substances: wrought iron,
+carbon steel, and cast iron.  Wrought iron has low carbon content
+(less than 0.25%), resists shattering, and is easily welded, but is
+relatively soft and susceptible to rusting.  It was used for rails,
+gates, chains, wire, pipes, fasteners, and other purposes.  Cast iron
+has high carbon content (2.1% to 4%), is especially hard, and resists
+corrosion, but is relatively brittle, and difficult to work.  It was used
+to build large structures such as bridges, and for cannons, cookware,
+and engine cylinders.  Carbon steel has medium carbon content (0.25%
+to 2.1%), and intermediate properties: moderately hard and also tough,
+somewhat resistant to corrosion.  It is now used for most of the purposes
+previously satisfied by wrought iron and many of those of cast iron,
+but has historically been especially important for its use in swords,
+armour, skyscrapers, large bridges, and machines.
+
+Historically, the first form of iron to be refined was wrought iron,
+produced from ore by a low-temperature furnace process in which the
+ore/iron remains solid and impurities (slag) are progressively removed.
+Cast iron, by contrast, was produced somewhat later by a high-temperature
+process in a blast furnace, in which the metal is melted, and carbon is
+unavoidably incorporated from the furnace's fuel.  (In fact, it's done
+in two stages, first producing pig iron from ore, and then remelting the
+pig iron to cast as cast iron.)  Carbon steel requires a more advanced
+process, in which molten pig iron is processed to remove the carbon,
+and then a controlled amount of carbon is explicitly mixed back in.
+Other processes are possible to refine iron ore and to adjust its
+carbon content.
+
+Unfortunately, Minetest doesn't let us readily distinguish between
+low-temperature and high-temperature processes: in the default game, the
+same furnace is used both to cook food (low temperature) and to cast metal
+ingots (varying high temperatures).  So we can't sensibly have wrought
+iron and cast iron produced by different types of furnace.  Nor can
+furnace recipes discriminate by which kind of fuel is used (and thus
+by the availability of carbon).  The alloy furnace allows for explicit
+alloying, which appropriately represents how carbon steel is made, but
+is not sensible for the other two, and is a relatively advanced process.
+About the only option to make a second iron-processing furnace process
+readily available is to cook multiple times; happily, this bears a slight
+resemblance to the real process with pig iron as an intermediate product.
+
+The default mod's refined iron, which it calls "steel", is identified
+with this mod's wrought iron.  Cooking an iron lump (representing ore)
+initially produces wrought iron; the cooking process here represents a
+low-temperature bloomery process.  Cooking wrought iron then produces
+cast iron; this time the cooking process represents a blast furnace.
+Alloy cooking wrought iron with coal dust (carbon) produces carbon steel;
+this represents the explicit mixing stage of carbon steel production.
+Additionally, alloy cooking carbon steel with coal dust produces cast
+iron, which is logical but not very useful.  Furthermore, to make it
+possible to turn any of the forms of iron into any other, cooking carbon
+steel or cast iron produces wrought iron, in an abbreviated form of the
+bloomery process.  As usual for metals, the same cooking and alloying
+processes can be performed in parallel forms on ingots or dust.

@@ -29,7 +29,7 @@ minetest.register_craft({
 	output = 'technic:solar_panel',
 	recipe = {
 		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer'},
-		{'default:steel_ingot',         'technic:lv_cable0',           'default:steel_ingot'},
+		{'technic:wrought_iron_ingot',  'technic:lv_cable0',           'technic:wrought_iron_ingot'},
 
 	}
 })

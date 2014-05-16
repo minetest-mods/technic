@@ -19,7 +19,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:mithril_locked_chest 1',
 	recipe = {
-		{'default:steel_ingot'},
+		{'technic:wrought_iron_ingot'},
 		{'technic:mithril_chest'},
 	}
 })

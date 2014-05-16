@@ -18,12 +18,19 @@ minetest.register_alias("technic:concrete_post33", "technic:concrete_post3")
 minetest.register_alias("technic:concrete_post34", "technic:concrete_post28")
 minetest.register_alias("technic:concrete_post35", "technic:concrete_post19")
 
+local steel_ingot
+if minetest.get_modpath("technic_worldgen") then
+	steel_ingot = "technic:carbon_steel_ingot"
+else
+	steel_ingot = "default:steel_ingot"
+end
+
 minetest.register_craft({
 	output = 'technic:rebar 6',
 	recipe = {
-		{'','', 'default:steel_ingot'},
-		{'','default:steel_ingot',''},
-		{'default:steel_ingot', '', ''},
+		{'','', steel_ingot},
+		{'',steel_ingot,''},
+		{steel_ingot, '', ''},
 	}
 })
 

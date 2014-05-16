@@ -7,8 +7,8 @@ minetest.register_craft({
 	output = 'technic:water_can 1',
 	recipe = {
 		{'technic:zinc_ingot', 'technic:rubber','technic:zinc_ingot'},
-		{'default:steel_ingot', '', 'default:steel_ingot'},
-		{'technic:zinc_ingot', 'default:steel_ingot', 'technic:zinc_ingot'},
+		{'technic:carbon_steel_ingot', '', 'technic:carbon_steel_ingot'},
+		{'technic:zinc_ingot', 'technic:carbon_steel_ingot', 'technic:zinc_ingot'},
 	}
 })
 

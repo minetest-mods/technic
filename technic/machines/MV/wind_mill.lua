@@ -4,25 +4,25 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:wind_mill_frame 5',
 	recipe = {
-		{'default:steel_ingot', '',                    'default:steel_ingot'},
-		{'',                    'default:steel_ingot', ''},
-		{'default:steel_ingot', '',                    'default:steel_ingot'},
+		{'technic:carbon_steel_ingot', '',                           'technic:carbon_steel_ingot'},
+		{'',                           'technic:carbon_steel_ingot', ''},
+		{'technic:carbon_steel_ingot', '',                           'technic:carbon_steel_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:wind_mill',
 	recipe = {
-		{'',                    'default:steel_ingot', ''},
-		{'default:steel_ingot', 'technic:motor',       'default:steel_ingot'},
-		{'',                    'default:steelblock',  ''},
+		{'',                           'technic:carbon_steel_ingot', ''},
+		{'technic:carbon_steel_ingot', 'technic:motor',              'technic:carbon_steel_ingot'},
+		{'',                           'technic:carbon_steel_block', ''},
 	}
 })
 
 minetest.register_node("technic:wind_mill_frame", {
 	description = S("Wind Mill Frame"),
 	drawtype = "glasslike_framed",
-	tiles = {"default_steel_block.png", "default_glass.png"},
+	tiles = {"technic_carbon_steel_block.png", "default_glass.png"},
 	sunlight_propagates = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -31,7 +31,7 @@ minetest.register_node("technic:wind_mill_frame", {
 
 minetest.register_node("technic:wind_mill", {
 	description = S("Wind Mill"),
-	tiles = {"default_steel_block.png"},
+	tiles = {"technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=1},
 	sounds = default.node_sound_stone_defaults(),

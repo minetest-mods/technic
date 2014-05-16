@@ -121,7 +121,6 @@ Slope Edge = Borde de Rampa
 Slope = Rampa
 Element T = Elemento T
 Cylinder = Cilindro
-Steel = Acero
 Cobble = Adoquines
 Stone = Piedra
 Brick = Ladrillo
@@ -138,16 +137,18 @@ Alatro = Alatro
 Arol = Arol
 Brass = Laton
 Bronze = Bronce
+Carbon Steel = Acero al Carbono
+Cast Iron = Hierro Fundido
 Chromium = Cromo
 Coal = Carbon
 Copper = Cobre
 Gold = Oro
-Iron = Hierro
 Mithril = Mitrilo
 Silver = Plata
 Stainless Steel = Acero Inoxidable
 Talinite = Talinita
 Tin = Estanio
+Wrought Iron = Hierro Forjado
 Zinc = Zinc
 
 ## Tools

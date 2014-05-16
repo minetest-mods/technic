@@ -135,7 +135,6 @@ Cobble =
 Dirt =
 Leaves =
 Sandstone =
-Steel =
 Stone =
 Tree =
 Wooden =
@@ -148,16 +147,18 @@ Alatro =
 Arol =
 Brass =
 Bronze =
+Carbon Steel =
+Cast Iron =
 Chromium =
 Coal =
 Copper =
 Gold =
-Iron =
 Mithril =
 Silver =
 Stainless Steel =
 Talinite =
 Tin =
+Wrought Iron =
 Zinc =
 
 ## Tools

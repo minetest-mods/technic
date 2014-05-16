@@ -135,7 +135,6 @@ Cobble = Pflasterstein:
 Dirt = Erde:
 Leaves = Laub:
 Sandstone = Sandstein:
-Steel = Stahl:
 Stone = Stein:
 Tree = Baumstamm:
 Wooden = Holz:
@@ -148,16 +147,18 @@ Alatro = Alatro
 Arol = Arol
 Brass = Messing
 Bronze = Bronze
+Carbon Steel = Kohlenstoffstahl
+Cast Iron = Gusseisen
 Chromium = Chrom
 Coal = Kohle
 Copper = Kupfer
 Gold = Gold
-Iron = Eisen
 Mithril = Mithril
 Silver = Silber
 Stainless Steel = Edelstahl
 Talinite = Talinite
 Tin = Zinn
+Wrought Iron = Schmiedeeisen
 Zinc = Zink
 
 ## Tools
