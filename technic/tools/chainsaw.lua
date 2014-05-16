@@ -204,12 +204,12 @@ local function recursive_dig(pos, remaining_charge, player)
 end
 
 local function get_drop_pos(pos)
-    local p
+    local p, node
     repeat
         p = {
-                x = pos.x + math.random() * 6 - 3,
+                x = pos.x + math.random(-3, 3),
                 y = pos.y - 1,
-                z = pos.z + math.random() * 6 - 3
+                z = pos.z + math.random(-3, 3)
         }
         repeat
             p.y = p.y + 1
