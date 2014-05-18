@@ -107,15 +107,10 @@ local function quarry_dig(pos, center, size)
 		end
 		dig_y = digpos.y
 		local node = minetest.get_node(digpos)
-		drops = minetest.get_node_drops(node.name, "")
-		minetest.dig_node(digpos)
-		if minetest.get_node(digpos).name == node.name then
-			-- We tried to dig something undigable like a
-			-- filled chest. Notice that we check for a node
-			-- change, not for air. This is so that we get drops
-			-- from things like concrete posts with platforms,
-			-- which turn into regular concrete posts when dug.
-			drops = {}
+		local node_def = minetest.registered_nodes[node.name] or { diggable = false }
+		if node_def.diggable and ((not node_def.can_dig) or node_def.can_dig(digpos, nil)) then
+			minetest.remove_node(digpos)
+			drops = minetest.get_node_drops(node.name, "")
 		end
 	elseif not (dig_y < pos.y - quarry_max_depth) then
 		dig_y = dig_y - 16
