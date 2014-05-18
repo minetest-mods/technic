@@ -107,9 +107,9 @@ local function laser_nodes(pos, dir, player, range)
 	local t_dir = get_used_dir(dir)
 	local dir_typ = t_dir[1]
 	if t_dir[3] == "+" then
-		f_tab = {0, range}
+		f_tab = {1, range}
 	else
-		f_tab = {-range,0}
+		f_tab = {-range, -1}
 	end
 	local d_ch = t_dir[2]
 	if dir_typ == "x" then
