@@ -163,7 +163,6 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 		return batt_charge
 	end
 	local srcstack = inv:get_stack("src", 1)
-	local src_meta = minetest.deserialize(srcstack:get_metadata())
 
 	local toolname = srcstack:get_name()
 	if not technic.power_tools[toolname] then
