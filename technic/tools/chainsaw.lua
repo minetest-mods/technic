@@ -18,11 +18,11 @@ end
 -- technic_worldgen defines rubber trees if moretrees isn't installed
 if minetest.get_modpath("technic_worldgen") or
    minetest.get_modpath("moretrees") then
-    timber_nodenames["moretrees:rubber_tree_trunk_empty"] = true
-    timber_nodenames["moretrees:rubber_tree_trunk"]       = true
-    if chainsaw_leaves then
+	timber_nodenames["moretrees:rubber_tree_trunk_empty"] = true
+	timber_nodenames["moretrees:rubber_tree_trunk"]       = true
+	if chainsaw_leaves then
                 timber_nodenames["moretrees:rubber_tree_leaves"] = true
-    end
+	end
 end
 
 -- Support moretrees if it is there
@@ -208,26 +208,26 @@ local function get_drop_pos(pos)
     local drop_pos, node
     
     repeat
-        -- Randomize position for a new drop
-        drop_pos = {
-                x = pos.x + math.random(-3, 3),
-                y = pos.y - 1,
-                z = pos.z + math.random(-3, 3)
-        }
-        
-        -- Move the newly-randomized position upwards until there's
-        -- no node in it or an unloaded block is found
-        repeat
-            drop_pos.y = drop_pos.y + 1
-            node = minetest.get_node(drop_pos).name
-            
-            if node == "ignore" then
-                -- On a rare chase where the block above the digging position is not
-                -- loaded yet, simply drop the nodes at the original digging position
-                return pos
-            end
-        until node == "air"
-        
+	-- Randomize position for a new drop
+	drop_pos = {
+		x = pos.x + math.random(-3, 3),
+		y = pos.y - 1,
+		z = pos.z + math.random(-3, 3)
+	}
+	
+	-- Move the newly-randomized position upwards until there's
+	-- no node in it or an unloaded block is found
+	repeat
+	    drop_pos.y = drop_pos.y + 1
+	    node = minetest.get_node(drop_pos).name
+	    
+	    if node == "ignore" then
+		-- On a rare chase where the block above the digging position is not
+		-- loaded yet, simply drop the nodes at the original digging position
+		return pos
+	    end
+	until node == "air"
+	
     -- Make sure the drops will not end up too high on a tall ledge or a column
     until drop_pos.y < pos.y + 5
     
@@ -240,14 +240,14 @@ end
 
 -- Saw down trees entry point
 local function chainsaw_dig_it(pos, player,current_charge)
-    if minetest.is_protected(pos, player:get_player_name()) then
-        minetest.record_protection_violation(pos, player:get_player_name())
-        return current_charge
-    end
+	if minetest.is_protected(pos, player:get_player_name()) then
+		minetest.record_protection_violation(pos, player:get_player_name())
+		return current_charge
+	end
         local remaining_charge=current_charge
 
         -- Save the currently installed dropping mechanism so we can restore it.
-    local original_handle_node_drops = minetest.handle_node_drops
+	local original_handle_node_drops = minetest.handle_node_drops
 
         -- A bit of trickery here: use a different node drop callback
         -- and restore the original afterwards.
@@ -279,30 +279,30 @@ end
 
 
 minetest.register_tool("technic:chainsaw", {
-    description = S("Chainsaw"),
-    inventory_image = "technic_chainsaw.png",
-    stack_max = 1,
-    wear_represents = "technic_RE_charge",
-    on_refill = technic.refill_RE_charge,
-    on_use = function(itemstack, user, pointed_thing)
-        if pointed_thing.type ~= "node" then
-            return itemstack
-        end
-        local meta = minetest.deserialize(itemstack:get_metadata())
-        if not meta or not meta.charge then
-            return
-        end
-        -- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
-        if meta.charge < chainsaw_charge_per_node then
-            return
-        end
+	description = S("Chainsaw"),
+	inventory_image = "technic_chainsaw.png",
+	stack_max = 1,
+	wear_represents = "technic_RE_charge",
+	on_refill = technic.refill_RE_charge,
+	on_use = function(itemstack, user, pointed_thing)
+		if pointed_thing.type ~= "node" then
+			return itemstack
+		end
+		local meta = minetest.deserialize(itemstack:get_metadata())
+		if not meta or not meta.charge then
+			return
+		end
+		-- Send current charge to digging function so that the chainsaw will stop after digging a number of nodes.
+		if meta.charge < chainsaw_charge_per_node then
+			return
+		end
 
-        local pos = minetest.get_pointed_thing_position(pointed_thing, above)
-        meta.charge = chainsaw_dig_it(pos, user, meta.charge)
-        technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
-        itemstack:set_metadata(minetest.serialize(meta))
-        return itemstack
-    end,
+		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		meta.charge = chainsaw_dig_it(pos, user, meta.charge)
+		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
+		itemstack:set_metadata(minetest.serialize(meta))
+		return itemstack
+	end,
 })
 
 minetest.register_craft({
