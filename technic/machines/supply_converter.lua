@@ -76,6 +76,6 @@ minetest.register_abm({
 })
 
 for tier, machines in pairs(technic.machines) do
-	technic.register_machine(tier, "technic:supply_converter", technic.battery)
+	technic.register_machine(tier, "technic:supply_converter", technic.producer_receiver)
 end
 

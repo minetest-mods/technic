@@ -106,6 +106,9 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, all_nodes, pos, m
 			add_new_cable_node(PR_nodes, pos)
 		elseif machines[name] == technic.receiver then
 			add_new_cable_node(RE_nodes, pos)
+		elseif machines[name] == technic.producer_receiver then
+			add_new_cable_node(PR_nodes, pos)
+			add_new_cable_node(RE_nodes, pos)
 		elseif machines[name] == technic.battery then
 			add_new_cable_node(BA_nodes, pos)
 		end
