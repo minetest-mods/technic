@@ -33,6 +33,7 @@ Inventory move disallowed due to protection = Impossibile muovere l'inventario a
 # $1: Machine name (Includes tier)
 %s Active = %s Attivo
 %s Disabled = %s Disabilitato
+%s Enabled =
 %s Idle = %s Inattivo
 %s Improperly Placed = %s Piazzato impropiamente
 %s Unpowered = %s Non alimentato

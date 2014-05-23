@@ -12,32 +12,28 @@ minetest.register_craft({
 local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
 local quarry_max_depth       = 100
 
-local function get_quarry_formspec(size)
-	return "size[3,1.5]"..
-		"field[1,0.5;2,1;size;Radius;"..size.."]"..
-		"button[0,1;3,1;toggle;"..S("Enable/Disable").."]"
+local function set_quarry_formspec(meta)
+	local formspec = "size[3,1.5]"..
+		"field[1,0.5;2,1;size;Radius;"..meta:get_int("size").."]"
+	if meta:get_int("enabled") == 0 then
+		formspec = formspec.."button[0,1;3,1;enable;"..S("%s Disabled"):format(S("Quarry")).."]"
+	else
+		formspec = formspec.."button[0,1;3,1;disable;"..S("%s Enabled"):format(S("Quarry")).."]"
+	end
+	meta:set_string("formspec", formspec)
 end
 
 local function quarry_receive_fields(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
-	local size = tonumber(fields.size) or 0
-
-	if fields.toggle then
-		if meta:get_int("enabled") == 0 then
-			meta:set_int("enabled", 1)
-		else
-			meta:set_int("enabled", 0)
-		end
-	end
-
-	-- Smallest size is 2. Largest is 8.
-	size = math.max(size, 2)
-	size = math.min(size, 8)
-
-	if meta:get_int("size") ~= size then
+	if fields.size then
+		local size = tonumber(fields.size) or 0
+		size = math.max(size, 2)
+		size = math.min(size, 8)
 		meta:set_int("size", size)
-		meta:set_string("formspec", get_quarry_formspec(size))
 	end
+	if fields.enable then meta:set_int("enabled", 1) end
+	if fields.disable then meta:set_int("enabled", 0) end
+	set_quarry_formspec(meta)
 end
 
 local function get_quarry_center(pos, size)
@@ -103,6 +99,7 @@ local function quarry_dig(pos, center, size)
 		end
 		if minetest.is_protected and minetest.is_protected(digpos, owner) then
 			meta:set_int("enabled", 0)
+			set_quarry_formspec(meta)
 			return {}
 		end
 		dig_y = digpos.y
@@ -140,11 +137,10 @@ minetest.register_node("technic:quarry", {
 		connect_sides = {top = 1},
 	},
 	on_construct = function(pos)
-		local size = 4
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Quarry"))
-		meta:set_string("formspec", get_quarry_formspec(4))
-		meta:set_int("size", size)
+		meta:set_int("size", 4)
+		set_quarry_formspec(meta)
 		meta:set_int("dig_y", pos.y)
 	end,
 	after_place_node = function(pos, placer, itemstack)

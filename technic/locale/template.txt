@@ -36,6 +36,7 @@ Inventory move disallowed due to protection =
 # $1: Machine name (Includes tier)
 %s Active =
 %s Disabled =
+%s Enabled =
 %s Idle =
 %s Improperly Placed =
 %s Unpowered =

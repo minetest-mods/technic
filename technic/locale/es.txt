@@ -35,6 +35,7 @@ Machine cannot be removed because it is not empty = La maquina no puede removers
 Inventory move disallowed due to protection =
 # $1: Machine name (Includes tier)
 %s Active = %s Activo
+%s Enabled =
 %s Idle = %s Quieto
 %s Unpowered = %s Sin Energia
 %s Out Of Fuel = %s Sin Combustible
