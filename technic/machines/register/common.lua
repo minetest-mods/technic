@@ -37,12 +37,16 @@ function technic.handle_machine_upgrades(meta)
 end
 
 
-function technic.send_items(pos, x_velocity, z_velocity)
+function technic.send_items(pos, x_velocity, z_velocity, output_name)
 	-- Send items on their way in the pipe system.
+	if output_name == nil then
+		output_name = "dst"
+	end
+	
 	local meta = minetest.get_meta(pos) 
 	local inv = meta:get_inventory()
 	local i = 0
-	for _, stack in ipairs(inv:get_list("dst")) do
+	for _, stack in ipairs(inv:get_list(output_name)) do
 		i = i + 1
 		if stack then
 			local item0 = stack:to_table()
@@ -53,7 +57,7 @@ function technic.send_items(pos, x_velocity, z_velocity)
 				item1:setvelocity({x=x_velocity, y=0, z=z_velocity})
 				item1:setacceleration({x=0, y=0, z=0})
 				stack:take_item(1)
-				inv:set_stack("dst", i, stack)
+				inv:set_stack(output_name, i, stack)
 				return
 			end
 		end
@@ -81,7 +85,11 @@ function technic.smelt_item(meta, result, speed)
 	end
 end
 
-function technic.handle_machine_pipeworks(pos, tube_upgrade)
+function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
+	if send_function == nil then
+		send_function = technic.send_items
+	end
+	
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -105,7 +113,7 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade)
 	if tube_time >= 2 then
 		tube_time = 0
 		if output_tube_connected then
-			technic.send_items(pos, x_velocity, z_velocity)
+			send_function(pos, x_velocity, z_velocity)
 		end
 	end
 	meta:set_int("tube_time", tube_time)

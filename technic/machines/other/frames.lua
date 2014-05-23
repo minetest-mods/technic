@@ -542,11 +542,15 @@ local function frame_motor_on(pos, node)
 		nnode.name = frames_pos[pos_to_string(nnodepos)]
 	end
 	local meta = minetest.get_meta(pos)
+	if meta:get_int("last_moved") == minetest.get_gametime() then
+		return
+	end
 	local owner = meta:get_string("owner")
 	if minetest.registered_nodes[nnode.name].frame==1 then
 		local connected_nodes=get_connected_nodes(nnodepos)
 		move_nodes_vect(connected_nodes,dir,pos,owner)
 	end
+	minetest.get_meta(vector.add(pos, dir)):set_int("last_moved", minetest.get_gametime())
 end
 
 minetest.register_node("technic:frame_motor",{
@@ -843,11 +847,15 @@ local function template_motor_on(pos, node)
 	local dir = minetest.facedir_to_dir(node.param2)
 	local nnode=minetest.get_node(nnodepos)
 	local meta = minetest.get_meta(pos)
+	if meta:get_int("last_moved") == minetest.get_gametime() then
+		return
+	end
 	local owner = meta:get_string("owner")
 	if nnode.name == "technic:template" then
 		local connected_nodes=get_template_nodes(nnodepos)
 		move_nodes_vect(connected_nodes,dir,pos,owner)
 	end
+	minetest.get_meta(vector.add(pos, dir)):set_int("last_moved", minetest.get_gametime())
 end
 
 minetest.register_node("technic:template_motor",{

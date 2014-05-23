@@ -15,5 +15,7 @@ technic.register_battery_box({
 	discharge_rate = 400000,
 	charge_step    = 10000,
 	discharge_step = 40000,
+	upgrade        = 1,
+	tube           = 1,
 })
 
