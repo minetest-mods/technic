@@ -62,9 +62,12 @@ minetest.register_abm({
 
 		local repairable = false
 		local srcstack = inv:get_stack("src", 1)
-		if (not srcstack:is_empty("src")) then
+		if not srcstack:is_empty("src") then
 			local itemdef = minetest.registered_items[srcstack:get_name()]
-			if (itemdef.wear_represents or "mechanical_wear") == "mechanical_wear" and srcstack:get_wear() ~= 0 then
+			if itemdef and
+					itemdef.wear_represents and
+					itemdef.wear_represents == "mechanical_wear" and
+					srcstack:get_wear() ~= 0 then
 				repairable = true
 			end
 		end
