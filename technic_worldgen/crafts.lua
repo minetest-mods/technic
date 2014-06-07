@@ -114,7 +114,7 @@ minetest.register_craft({
 	output = "technic:wrought_iron_ingot",
 })
 
-local function for_each_registered_craftitem(action)
+local function for_each_registered_item(action)
 	local already_reg = {}
 	for k, _ in pairs(minetest.registered_items) do
 		table.insert(already_reg, k)
@@ -122,6 +122,16 @@ local function for_each_registered_craftitem(action)
 	local really_register_craftitem = minetest.register_craftitem
 	minetest.register_craftitem = function(name, def)
 		really_register_craftitem(name, def)
+		action(string.gsub(name, "^:", ""))
+	end
+	local really_register_tool = minetest.register_tool
+	minetest.register_tool = function(name, def)
+		really_register_tool(name, def)
+		action(string.gsub(name, "^:", ""))
+	end
+	local really_register_node = minetest.register_node
+	minetest.register_node = function(name, def)
+		really_register_node(name, def)
 		action(string.gsub(name, "^:", ""))
 	end
 	for _, name in ipairs(already_reg) do
@@ -137,6 +147,9 @@ for _, i in ipairs({
 	"default:sword_steel",
 	"doors:door_steel",
 	"farming:hoe_steel",
+	"glooptest:hammer_steel",
+	"glooptest:handsaw_steel",
+	"glooptest:reinforced_crystal_glass",
 	"mesecons_doors:op_door_steel",
 	"mesecons_doors:sig_door_steel",
 	"vessels:steel_bottle",
@@ -144,7 +157,7 @@ for _, i in ipairs({
 	steel_to_iron[i] = true
 end
 
-for_each_registered_craftitem(function(item_name)
+for_each_registered_item(function(item_name)
 	local item_def = minetest.registered_items[item_name]
 	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
 		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
