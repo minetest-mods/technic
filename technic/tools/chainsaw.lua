@@ -12,7 +12,8 @@ local timber_nodenames={["default:jungletree"] = true,
 }
 
 if chainsaw_leaves == true then
-        timber_nodenames["default:leaves"] = true
+	timber_nodenames["default:leaves"] = true
+	timber_nodenames["default:jungleleaves"] = true
 end
 
 -- technic_worldgen defines rubber trees if moretrees isn't installed
