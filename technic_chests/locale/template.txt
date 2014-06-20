@@ -30,6 +30,7 @@ Gold =
 Iron =
 Mithril =
 Silver =
+Wooden =
 
 # Sorting
 Sort =

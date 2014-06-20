@@ -32,6 +32,7 @@ Gold = Gold
 Iron = Eisen
 Mithril = Mithril
 Silver = Silber
+Wooden = Holz
 
 # Sorting
 Sort =

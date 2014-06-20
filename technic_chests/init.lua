@@ -8,6 +8,7 @@ technic.chests = {}
 
 dofile(modpath.."/common.lua")
 dofile(modpath.."/register.lua")
+dofile(modpath.."/wooden_chest.lua")
 dofile(modpath.."/iron_chest.lua")
 dofile(modpath.."/copper_chest.lua")
 dofile(modpath.."/silver_chest.lua")
