@@ -229,6 +229,12 @@ local function drill_dig_it(pos, player, mode)
 	minetest.sound_play("mining_drill", {pos = pos, gain = 1.0, max_hear_distance = 10,})
 end
 
+local function pos_is_pointable(pos)
+	local node = minetest.env:get_node(pos)
+	local nodedef = minetest.registered_nodes[node.name]
+	return nodedef and nodedef.pointable
+end
+
 local function mining_drill_mk2_setmode(user,itemstack)
 	local player_name=user:get_player_name()
 	local item=itemstack:to_table()
@@ -285,7 +291,7 @@ local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
 	if not meta or not meta.mode or keys.sneak then
 		return mining_drill_mk2_setmode(user, itemstack)
 	end
-	if pointed_thing.type ~= "node" or not meta.charge then
+	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) or not meta.charge then
 		return
 	end
 	local charge_to_take = cost_to_use(2, meta.mode)
@@ -306,7 +312,7 @@ local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
 	if not meta or not meta.mode or keys.sneak then
 		return mining_drill_mk3_setmode(user, itemstack)
 	end
-	if pointed_thing.type ~= "node" or not meta.charge then
+	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) or not meta.charge then
 		return
 	end
 	local charge_to_take = cost_to_use(3, meta.mode)
@@ -329,7 +335,7 @@ minetest.register_tool("technic:mining_drill", {
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type ~= "node" then
+		if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) then
 			return itemstack
 		end
 		local meta = minetest.deserialize(itemstack:get_metadata())
