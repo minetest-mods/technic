@@ -183,7 +183,7 @@ function technic.register_alloy_furnace(data)
 	})
 
 	minetest.register_node("technic:"..ltier.."_alloy_furnace_active",{
-		description = S(tier.." Alloy Furnace"),
+		description = S("%s Alloy Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_alloy_furnace_top.png",
 		         "technic_"..ltier.."_alloy_furnace_bottom.png",
 			 tube_side_texture,

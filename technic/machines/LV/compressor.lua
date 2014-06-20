@@ -54,13 +54,13 @@ minetest.register_craft({
 
 local compressor_formspec =
 	"invsize[8,9;]"..
-	"label[0,0;"..S("Compressor").."]"..
+	"label[0,0;"..S("%s Compressor"):format("LV").."]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
 	"list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:compressor", {
-	description = S("Compressor"),
+	description = S("%s Compressor"):format("LV"),
 	tiles = {"technic_compressor_top.png",  "technic_compressor_bottom.png",
 	         "technic_compressor_side.png", "technic_compressor_side.png",
 	         "technic_compressor_back.png", "technic_compressor_front.png"},
@@ -70,7 +70,7 @@ minetest.register_node("technic:compressor", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Compressor"))
+		meta:set_string("infotext", S("%s Compressor"):format("LV"))
 		meta:set_string("formspec", compressor_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -83,7 +83,7 @@ minetest.register_node("technic:compressor", {
 })
 
 minetest.register_node("technic:compressor_active", {
-	description = S("Compressor"),
+	description = S("%s Compressor"):format("LV"),
 	tiles = {"technic_compressor_top.png",  "technic_compressor_bottom.png",
 	         "technic_compressor_side.png", "technic_compressor_side.png",
 	         "technic_compressor_back.png", "technic_compressor_front_active.png"},
@@ -105,7 +105,7 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta         = minetest.get_meta(pos)
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = S("Compressor")
+		local machine_name = S("%s Compressor"):format("LV")
 		local machine_node = "technic:compressor"
 		local demand       = 300
  

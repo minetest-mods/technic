@@ -17,7 +17,7 @@ local music_handles = {}
 
 local music_player_formspec =
 	"invsize[8,9;]"..
-	"label[0,0;"..S("Music Player").."]"..
+	"label[0,0;"..S("%s Music Player"):format("LV").."]"..
 	"button[4,1;1,1;track1;1]"..
 	"button[5,1;1,1;track2;2]"..
 	"button[6,1;1,1;track3;3]"..
@@ -37,14 +37,14 @@ local function play_track(pos, track)
 end
 
 minetest.register_node("technic:music_player", {
-	description = S("Music Player"),
+	description = S("%s Music Player"):format("LV"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Music Player"))
+		meta:set_string("infotext", S("%s Music Player"):format("LV"))
 		meta:set_int("active", 0)
 		meta:set_int("current_track", 1)
 		meta:set_string("formspec", music_player_formspec)
@@ -66,7 +66,7 @@ minetest.register_node("technic:music_player", {
 		meta:set_int("current_track", current_track)
 		meta:set_string("formspec",
 				"invsize[8,9;]"..
-				"label[0,0;"..S("Music Player").."]"..
+				"label[0,0;"..S("%s Music Player"):format("LV").."]"..
 				"button[4,1;1,1;track1;1]"..
 				"button[5,1;1,1;track2;2]"..
 				"button[6,1;1,1;track3;3]"..
@@ -104,7 +104,7 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta         = minetest.get_meta(pos)
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = S("Music Player")
+		local machine_name = S("%s Music Player"):format("LV")
 		local machine_node = "technic:music_player"
 		local demand       = 150
 

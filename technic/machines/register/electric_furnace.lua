@@ -36,7 +36,7 @@ function technic.register_electric_furnace(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,6;8,4;]"..
-		"label[0,0;"..S("%s Electric Furnace"):format(tier).."]"
+		"label[0,0;"..S("%s Furnace"):format(tier).."]"
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,4;1,1;]"..
@@ -45,7 +45,7 @@ function technic.register_electric_furnace(data)
 	end
 
 	minetest.register_node("technic:"..ltier.."_electric_furnace", {
-		description = S("%s Electric Furnace"):format(tier),
+		description = S("%s Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
 		         "technic_"..ltier.."_electric_furnace_bottom.png",
 		         tube_side_texture,
@@ -60,7 +60,7 @@ function technic.register_electric_furnace(data)
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			meta:set_string("infotext", S("%s Electric Furnace"):format(tier))
+			meta:set_string("infotext", S("%s Furnace"):format(tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
@@ -76,7 +76,7 @@ function technic.register_electric_furnace(data)
 	})
 
 	minetest.register_node("technic:"..ltier.."_electric_furnace_active", {
-		description = ("%s Electric Furnace"):format(tier),
+		description = ("%s Furnace"):format(tier),
 		tiles = {"technic_"..ltier.."_electric_furnace_top.png",
 		         "technic_"..ltier.."_electric_furnace_bottom.png",
 		         tube_side_texture,
@@ -94,7 +94,7 @@ function technic.register_electric_furnace(data)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
 			local data = minetest.registered_nodes[name].technic
-			meta:set_string("infotext", S("%s Electric Furnace"):format(tier))
+			meta:set_string("infotext", S("%s Furnace"):format(tier))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
@@ -120,7 +120,7 @@ function technic.register_electric_furnace(data)
 			local eu_input = meta:get_int(tier.."_EU_input")
 
 			-- Machine information
-			local machine_name   = S("%s Electric Furnace"):format(tier)
+			local machine_name   = S("%s Furnace"):format(tier)
 			local machine_node   = "technic:"..ltier.."_electric_furnace"
 			local machine_demand = data.demand
 

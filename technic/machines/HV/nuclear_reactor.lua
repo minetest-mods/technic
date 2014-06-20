@@ -49,7 +49,7 @@ local nodebox = {
 }
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = S("Nuclear Reactor Core"),
+	description = S("Nuclear %s Generator Core"):format("HV"),
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
@@ -65,7 +65,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Nuclear Reactor Core"))
+		meta:set_string("infotext", S("Nuclear %s Generator Core"):format("HV"))
 		meta:set_int("HV_EU_supply", 0)
 		-- Signal to the switching station that this device burns some
 		-- sort of fuel and needs special handling
@@ -194,7 +194,7 @@ minetest.register_abm({
 	chance   = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
-		local machine_name = S("Nuclear Reactor Core")
+		local machine_name = S("Nuclear %s Generator Core"):format("HV")
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then

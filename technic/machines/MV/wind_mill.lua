@@ -30,7 +30,7 @@ minetest.register_node("technic:wind_mill_frame", {
 })
 
 minetest.register_node("technic:wind_mill", {
-	description = S("Wind Mill"),
+	description = S("Wind %s Generator"):format("MV"),
 	tiles = {"technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=1},
@@ -48,7 +48,7 @@ minetest.register_node("technic:wind_mill", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Wind Mill"))
+		meta:set_string("infotext", S("Wind %s Generator"):format("MV"))
 		meta:set_int("MV_EU_supply", 0)
 	end,	
 })
@@ -72,7 +72,7 @@ minetest.register_abm({
 	chance   = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
-		local machine_name = S("Wind Mill")
+		local machine_name = S("Wind %s Generator"):format("MV")
 		local power = math.min(pos.y * 100, 5000)
 
 		if not check_wind_mill(pos) then

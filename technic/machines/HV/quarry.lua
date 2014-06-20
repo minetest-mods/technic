@@ -16,9 +16,9 @@ local function set_quarry_formspec(meta)
 	local formspec = "size[3,1.5]"..
 		"field[1,0.5;2,1;size;Radius;"..meta:get_int("size").."]"
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1;3,1;enable;"..S("%s Disabled"):format(S("Quarry")).."]"
+		formspec = formspec.."button[0,1;3,1;enable;"..S("%s Disabled"):format(S("%s Quarry"):format("HV")).."]"
 	else
-		formspec = formspec.."button[0,1;3,1;disable;"..S("%s Enabled"):format(S("Quarry")).."]"
+		formspec = formspec.."button[0,1;3,1;disable;"..S("%s Enabled"):format(S("%s Quarry"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -127,7 +127,7 @@ local function send_items(items, pos, node)
 end
 
 minetest.register_node("technic:quarry", {
-	description = S("Quarry"),
+	description = S("%s Quarry"):format("HV"),
 	tiles = {"technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png^default_tool_mesepick.png", "technic_carbon_steel_block.png"},
@@ -138,7 +138,7 @@ minetest.register_node("technic:quarry", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Quarry"))
+		meta:set_string("infotext", S("%s Quarry"):format("HV"))
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		meta:set_int("dig_y", pos.y)
@@ -163,7 +163,7 @@ minetest.register_abm({
 		local demand = 10000
 		local center = get_quarry_center(pos, size)
 		local dig_y = meta:get_int("dig_y")
-		local machine_name = S("Quarry")
+		local machine_name = S("%s Quarry"):format("HV")
 
 		technic.switching_station_timeout_count(pos, "HV")
 

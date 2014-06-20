@@ -17,18 +17,18 @@ minetest.register_craft({
 local workshop_formspec =
 	"invsize[8,9;]"..
 	"list[current_name;src;3,1;1,1;]"..
-	"label[0,0;"..S("Tool Workshop").."]"..
+	"label[0,0;"..S("%s Tool Workshop"):format("MV").."]"..
 	"list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:tool_workshop", {
-	description = S("Tool Workshop"),
+	description = S("%s Tool Workshop"):format("MV"),
 	tiles = {"technic_workshop_top.png", "technic_machine_bottom.png", "technic_workshop_side.png",
 	         "technic_workshop_side.png", "technic_workshop_side.png", "technic_workshop_side.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Tool Workshop"))
+		meta:set_string("infotext", S("%s Tool Workshop"):format("MV"))
 		meta:set_string("formspec", workshop_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -46,7 +46,7 @@ minetest.register_abm({
 		local meta         = minetest.get_meta(pos)
 		local inv          = meta:get_inventory()
 		local eu_input     = meta:get_int("MV_EU_input")
-		local machine_name = S("Tool Workshop")
+		local machine_name = S("%s Tool Workshop"):format("MV")
 		local machine_node = "technic:tool_workshop"
 		local demand       = 5000
 

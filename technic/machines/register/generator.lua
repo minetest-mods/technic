@@ -29,12 +29,12 @@ function technic.register_generator(data)
 
 	local generator_formspec =
 		"invsize[8,9;]"..
-		"label[0,0;"..S("%s Generator"):format(tier).."]"..
+		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"
 	
-	local desc = S("%s Generator"):format(tier)
+	local desc = S("Fuel-Fired %s Generator"):format(tier)
 	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
@@ -121,7 +121,7 @@ function technic.register_generator(data)
 			meta:set_string("infotext", desc.." ("..percent.."%)")
 				meta:set_string("formspec", 
 					"size[8, 9]"..
-					"label[0, 0;Generator]"..
+					"label[0, 0;"..minetest.formspec_escape(desc).."]"..
 					"list[current_name;src;3, 1;1, 1;]"..
 					"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 					(percent)..":default_furnace_fire_fg.png]"..

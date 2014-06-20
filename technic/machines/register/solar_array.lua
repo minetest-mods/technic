@@ -11,7 +11,7 @@ function technic.register_solar_array(data)
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png"},
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
 		sounds = default.node_sound_wood_defaults(),
-		description = S("%s Solar Array"):format(tier),
+		description = S("Arrayed Solar %s Generator"):format(tier),
 		active = false,
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -40,7 +40,7 @@ function technic.register_solar_array(data)
 			-- To take care of some of it solar panels do not work outside daylight hours or if
 			-- built below -10m
 			local pos1 = {}
-			local machine_name = S("%s Solar Array"):format(tier)
+			local machine_name = S("Arrayed Solar %s Generator"):format(tier)
 			pos1.y = pos.y + 1
 			pos1.x = pos.x
 			pos1.z = pos.z

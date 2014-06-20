@@ -105,7 +105,7 @@ local mesecons = {
 }
 
 minetest.register_node("technic:forcefield_emitter_off", {
-	description = S("Forcefield Emitter"),
+	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_off.png"},
 	groups = {cracky = 1},
 	on_receive_fields = forcefield_receive_fields,
@@ -116,13 +116,13 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_int("range", 10)
 		meta:set_int("enabled", 0)
 		meta:set_string("formspec", get_forcefield_formspec(10))
-		meta:set_string("infotext", S("Forcefield Emitter"))
+		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
 	end,
 	mesecons = mesecons
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
-	description = S("Forcefield Emitter"),
+	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_on.png"},
 	groups = {cracky = 1, not_in_creative_inventory=1},
 	drop = "technic:forcefield_emitter_off",
@@ -140,7 +140,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 })
 
 minetest.register_node("technic:forcefield", {
-	description = S("Forcefield"),
+	description = S("%s Forcefield"):format("HV"),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1, unbreakable=1},
@@ -166,7 +166,7 @@ minetest.register_abm({
 		local eu_input   = meta:get_int("HV_EU_input")
 		local eu_demand  = meta:get_int("HV_EU_demand")
 		local enabled    = meta:get_int("enabled")
-		local machine_name = S("Forcefield Emitter")
+		local machine_name = S("%s Forcefield Emitter"):format("HV")
 		-- Power off automatically if no longer connected to a switching station
 		technic.switching_station_timeout_count(pos, "HV")
 

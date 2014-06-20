@@ -61,13 +61,13 @@ minetest.register_craft({
 
 local extractor_formspec =
    "invsize[8,9;]"..
-   "label[0,0;"..S("Extractor").."]"..
+   "label[0,0;"..S("%s Extractor"):format("LV").."]"..
    "list[current_name;src;3,1;1,1;]"..
    "list[current_name;dst;5,1;2,2;]"..
    "list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:extractor", {
-	description = S("Extractor"),
+	description = S("%s Extractor"):format("LV"),
 	tiles = {"technic_lv_grinder_top.png",  "technic_lv_grinder_bottom.png", "technic_lv_grinder_side.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_side.png",   "technic_lv_grinder_front.png"},
 	paramtype2 = "facedir",
@@ -76,7 +76,7 @@ minetest.register_node("technic:extractor", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Extractor"))
+		meta:set_string("infotext", S("%s Extractor"):format("LV"))
 		meta:set_string("formspec", extractor_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -89,7 +89,7 @@ minetest.register_node("technic:extractor", {
 })
 
 minetest.register_node("technic:extractor_active", {
-	description = S("Extractor"),
+	description = S("%s Extractor"):format("LV"),
 	tiles = {"technic_lv_grinder_top.png",  "technic_lv_grinder_bottom.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_side.png",
 	         "technic_lv_grinder_side.png", "technic_lv_grinder_front_active.png"},
@@ -116,7 +116,7 @@ minetest.register_abm({
 		local eu_input = meta:get_int("LV_EU_input")
 
 		-- Machine information
-		local machine_name = S("Extractor")
+		local machine_name = S("%s Extractor"):format("LV")
 		local machine_node = "technic:extractor"
 		local demand       = 300
 

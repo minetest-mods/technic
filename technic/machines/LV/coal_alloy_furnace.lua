@@ -1,5 +1,5 @@
 
--- Coal driven alloy furnace. This uses no EUs:
+-- Fuel driven alloy furnace. This uses no EUs:
 
 local S = technic.getter
 
@@ -13,7 +13,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:coal_alloy_furnace", {
-	description = S("Coal Alloy Furnace"),
+	description = S("Fuel-Fired Alloy Furnace"),
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
@@ -24,7 +24,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", coal_alloy_furnace_formspec)
-		meta:set_string("infotext", S("Coal Alloy Furnace"))
+		meta:set_string("infotext", S("Fuel-Fired Alloy Furnace"))
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 1)
@@ -38,7 +38,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
-	description = "Alloy Furnace",
+	description = S("Fuel-Fired Alloy Furnace"),
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front_active.png"},
@@ -62,7 +62,7 @@ minetest.register_abm({
 		local meta = minetest.get_meta(pos)
 		local inv    = meta:get_inventory()
 		local recipe = nil
-		local machine_name = S("Coal Alloy Furnace")
+		local machine_name = S("Fuel-Fired Alloy Furnace")
 		local formspec =
 			"size[8,9]"..
 			"label[0,0;"..machine_name.."]"..

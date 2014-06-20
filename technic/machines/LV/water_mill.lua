@@ -16,7 +16,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:water_mill", {
-	description = S("Water Mill"),
+	description = S("Hydro %s Generator"):format("LV"),
 	tiles = {"technic_water_mill_top.png",  "technic_machine_bottom.png",
 	         "technic_water_mill_side.png", "technic_water_mill_side.png",
 	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
@@ -26,13 +26,13 @@ minetest.register_node("technic:water_mill", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Water Mill"))
+		meta:set_string("infotext", S("Hydro %s Generator"):format("LV"))
 		meta:set_int("LV_EU_supply", 0)
 	end,	
 })
 
 minetest.register_node("technic:water_mill_active", {
-	description = S("Water Mill"),
+	description = S("Hydro %s Generator"):format("LV"),
 	tiles = {"technic_water_mill_top_active.png", "technic_machine_bottom.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png"},
@@ -85,7 +85,7 @@ minetest.register_abm({
 		end
 
 		meta:set_string("infotext",
-			S("Water Mill").." ("..production_level.."%)")
+			S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
 
 		if production_level > 0 and
 		   minetest.get_node(pos).name == "technic:water_mill" then

@@ -127,7 +127,7 @@ end
 
 -- The actual block inactive state
 minetest.register_node("technic:cnc", {
-	description = S("CNC Machine"),
+	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
 	drawtype    = "nodebox",
@@ -143,7 +143,7 @@ minetest.register_node("technic:cnc", {
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("CNC Machine"))
+		meta:set_string("infotext", S("%s CNC Machine"):format("LV"))
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", cnc_formspec)
 		local inv = meta:get_inventory()
@@ -159,7 +159,7 @@ minetest.register_node("technic:cnc", {
 
 -- Active state block
 minetest.register_node("technic:cnc_active", {
-	description = S("CNC Machine"),
+	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	paramtype2 = "facedir",
@@ -182,7 +182,7 @@ minetest.register_abm({
 		local meta         = minetest.get_meta(pos)
 		local inv          = meta:get_inventory()
 		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = S("CNC Machine")
+		local machine_name = S("%s CNC Machine"):format("LV")
 		local machine_node = "technic:cnc"
 		local demand       = 450
 
