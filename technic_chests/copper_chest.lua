@@ -25,7 +25,8 @@ minetest.register_craft({
 })
 
 technic.chests:register("Copper", {
-	width = 10,
+	width = 12,
+	height = 5,
 	sort = true,
 	autosort = true,
 	infotext = false,
@@ -34,7 +35,8 @@ technic.chests:register("Copper", {
 })
 
 technic.chests:register("Copper", {
-	width = 10,
+	width = 12,
+	height = 5,
 	sort = true,
 	autosort = true,
 	infotext = false,

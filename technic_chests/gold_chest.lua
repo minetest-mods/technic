@@ -26,7 +26,8 @@ minetest.register_craft({
 })
 
 technic.chests:register("Gold", {
-	width = 12,
+	width = 15,
+	height = 6,
 	sort = true,
 	autosort = true,
 	infotext = true,
@@ -35,7 +36,8 @@ technic.chests:register("Gold", {
 })
 
 technic.chests:register("Gold", {
-	width = 12,
+	width = 15,
+	height = 6,
 	sort = true,
 	autosort = true,
 	infotext = true,

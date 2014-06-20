@@ -27,6 +27,7 @@ minetest.register_craft({
 
 technic.chests:register("Iron", {
 	width = 9,
+	height = 5,
 	sort = true,
 	autosort = false,
 	infotext = false,
@@ -36,6 +37,7 @@ technic.chests:register("Iron", {
 
 technic.chests:register("Iron", {
 	width = 9,
+	height = 5,
 	sort = true,
 	autosort = false,
 	infotext = false,
