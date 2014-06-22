@@ -26,7 +26,7 @@ minetest.register_craft({
 
 technic.chests:register("Mithril", {
 	width = 15,
-	height = 7,
+	height = 6,
 	sort = true,
 	autosort = true,
 	infotext = false,
@@ -36,7 +36,7 @@ technic.chests:register("Mithril", {
 
 technic.chests:register("Mithril", {
 	width = 15,
-	height = 7,
+	height = 6,
 	sort = true,
 	autosort = true,
 	infotext = false,
