@@ -289,9 +289,9 @@ minetest.register_tool("technic:chainsaw", {
 		end
 
 		local name = user:get_player_name()
-		if minetest.is_protected(pos, name) then
-			minetest.record_protection_violation(pos, name)
-			return current_charge
+		if minetest.is_protected(pointed_thing.under, name) then
+			minetest.record_protection_violation(pointed_thing.under, name)
+			return
 		end
 
 		-- Send current charge to digging function so that the
