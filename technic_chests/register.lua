@@ -142,9 +142,6 @@ local function sort_inventory(inv)
 end
 
 local function get_receive_fields(name, data)
-	if not data.sort and not data.autosort and not data.infotext and not data.color then
-		return nil
-	end
 	local lname = name:lower()
 	return function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
@@ -171,7 +168,7 @@ local function get_receive_fields(name, data)
 end
 
 
-function technic.chests:register(name, data)
+function technic.chests:definition(name, data)
 	local lname = name:lower()
 	name = S(name)
 
@@ -245,13 +242,22 @@ function technic.chests:register(name, data)
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
 	end
+	return def
+end
 
-	local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
+function technic.chests:register(name, data)
+	local def = technic.chests:definition(name, data)
 
+	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
 	minetest.register_node(":"..nn, def)
 
 	if data.color then
-		front[3] = front[2]
+		local mk_front
+		if string.find(def.tiles[6], "%^") then
+			mk_front = function (overlay) return def.tiles[6]:gsub("%^", "^"..overlay.."^") end
+		else
+			mk_front = function (overlay) return def.tiles[6].."^"..overlay end
+		end
 		for i = 1, 15 do
 			local postfix = colorid_to_postfix(i)
 			local colordef = {}
@@ -260,8 +266,7 @@ function technic.chests:register(name, data)
 			end
 			colordef.drop = nn
 			colordef.groups = self.groups_noinv
-			front[2] = "technic_chest_overlay"..postfix..".png"
-			colordef.tiles[6] = table.concat(front, "^")
+			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay"..postfix..".png") }
 			minetest.register_node(":"..nn..postfix, colordef)
 		end
 	end
