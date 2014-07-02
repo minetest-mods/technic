@@ -1,53 +1,11 @@
 
 local S = technic.getter
 
-if unified_inventory and unified_inventory.register_craft_type then
-	unified_inventory.register_craft_type("extracting", {
-		description = S("Extracting"),
-		height = 1,
-		width = 1,
-	})
-end
-
-technic.extractor_recipes = {}
+technic.register_recipe_type("extracting", S("Extracting"))
 
 function technic.register_extractor_recipe(data)
 	data.time = data.time or 4
-	local src = ItemStack(data.input):get_name()
-	technic.extractor_recipes[src] = data
-	if unified_inventory then
-		unified_inventory.register_craft({
-			type = "extracting",
-			output = data.output,
-			items = {data.input},
-			width = 0,
-		})
-	end
-end
-
--- Receive an ItemStack of result by an ItemStack input
-function technic.get_extractor_recipe(item)
-	if technic.extractor_recipes[item:get_name()] and
-	   item:get_count() >= ItemStack(technic.extractor_recipes[item:get_name()].input):get_count() then
-		return technic.extractor_recipes[item:get_name()]
-	else
-		return nil
-	end
-end
-
-minetest.after(0.01, function ()
-	for ingredient, recipe in pairs(technic.extractor_recipes) do
-		ingredient = minetest.registered_aliases[ingredient]
-		while ingredient do
-			technic.grinder_recipes[ingredient] = recipe
-			ingredient = minetest.registered_aliases[ingredient]
-		end
-	end
-end)
-
--- Receive an ItemStack of result by an ItemStack input
-function technic.get_grinder_recipe(itemstack)
-	return technic.grinder_recipes[itemstack:get_name()]
+	technic.register_recipe("extracting", data)
 end
 
 local recipes = {

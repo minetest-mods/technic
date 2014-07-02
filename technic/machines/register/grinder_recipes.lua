@@ -1,59 +1,30 @@
 
 local S = technic.getter
 
-if unified_inventory and unified_inventory.register_craft_type then
-	unified_inventory.register_craft_type("grinding", {
-		description = S("Grinding"),
-		height = 1,
-		width = 1,
-	})
-end
-
-technic.grinder_recipes = {}
+technic.register_recipe_type("grinding", S("Grinding"))
 
 function technic.register_grinder_recipe(data)
 	data.time = data.time or 3
-	technic.grinder_recipes[data.input] = data
-	if unified_inventory then
-		unified_inventory.register_craft({
-			type = "grinding",
-			output = data.output,
-			items = {data.input},
-			width = 0,
-		})
-	end
+	technic.register_recipe("grinding", data)
 end
 
-minetest.after(0.01, function ()
-	for ingredient, recipe in pairs(technic.grinder_recipes) do
-		ingredient = minetest.registered_aliases[ingredient]
-		while ingredient do
-			technic.grinder_recipes[ingredient] = recipe
-			ingredient = minetest.registered_aliases[ingredient]
-		end
-	end
-end)
-
--- Receive an ItemStack of result by an ItemStack input
-function technic.get_grinder_recipe(itemstack)
-	return technic.grinder_recipes[itemstack:get_name()]
-end
-
--- Sorted alphebeticaly
 local recipes = {
+	-- Dusts
 	{"default:coal_lump",       "technic:coal_dust 2"},
-	{"default:cobble",          "default:gravel"},
 	{"default:copper_lump",     "technic:copper_dust 2"},
 	{"default:desert_stone",    "default:desert_sand"},
 	{"default:gold_lump",       "technic:gold_dust 2"},
-	{"default:gravel",          "default:dirt"},
 	{"default:iron_lump",       "technic:wrought_iron_dust 2"},
-	{"default:stone",           "default:sand"},
 	{"moreores:mithril_lump",   "technic:mithril_dust 2"},
 	{"moreores:silver_lump",    "technic:silver_dust 2"},
 	{"moreores:tin_lump",       "technic:tin_dust 2"},
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
+	
+	-- Other
+	{"default:cobble",          "default:gravel"},
+	{"default:gravel",          "default:dirt"},
+	{"default:stone",           "default:sand"},
 }
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
@@ -69,7 +40,7 @@ if minetest.get_modpath("homedecor") then
 end
 
 for _, data in pairs(recipes) do
-	technic.register_grinder_recipe({input=data[1], output=data[2]})
+	technic.register_grinder_recipe({input = data[1], output = data[2]})
 end
 
 local function register_dust(name, ingot)

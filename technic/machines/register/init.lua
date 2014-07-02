@@ -1,5 +1,7 @@
 local path = technic.modpath.."/machines/register"
 
+dofile(path.."/recipes.lua")
+dofile(path.."/machine_base.lua")
 dofile(path.."/alloy_furnace.lua")
 dofile(path.."/battery_box.lua")
 dofile(path.."/cables.lua")
