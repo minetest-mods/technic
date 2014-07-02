@@ -31,13 +31,13 @@ local function colorid_to_postfix(id)
 end
 
 
-local function get_color_buttons(loleft, lotop)
+local function get_color_buttons(coleft, lotop)
 	local buttons_string = ""
 	for y = 0, 3 do
 		for x = 0, 3 do
 			local file_name = "technic_colorbutton"..(y * 4 + x)..".png"
 			buttons_string = buttons_string.."image_button["
-				..(loleft + 8.1 + x * 0.7)..","..(lotop + 0.1 + y * 0.7)
+				..(coleft + 0.1 + x * 0.7)..","..(lotop + 0.1 + y * 0.7)
 				..";0.8,0.8;"..file_name..";color_button"
 				..(y * 4 + x + 1)..";]"
 		end
@@ -59,26 +59,21 @@ end
 local function set_formspec(pos, data, page)
 	local meta = minetest.get_meta(pos)
 	local node = minetest.get_node(pos)
-	local formspec = data.formspec
-	local lowidth = data.color and 11 or 8
-	local ovwidth = math.max(lowidth, data.width)
-	local hileft = (ovwidth - data.width) / 2
-	local loleft = (ovwidth - lowidth) / 2
-	local lotop = data.height + 2
+	local formspec = data.base_formspec
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec.."button["..(hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
+		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
 		if page == "main" then
-			formspec = formspec.."image_button["..(hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_pencil_icon.png;edit_infotext;]"
-					.."label["..(hileft+3)..",0;"..formspec_infotext.."]"
+					.."label["..(data.hileft+3)..",0;"..formspec_infotext.."]"
 		elseif page == "edit_infotext" then
-			formspec = formspec.."image_button["..(hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_checkmark_icon.png;save_infotext;]"
-					.."field["..(hileft+3.3)..",0.2;4.8,1;"
+					.."field["..(data.hileft+3.3)..",0.2;4.8,1;"
 					.."infotext_box;"..S("Edit chest description:")..";"
 					..formspec_infotext.."]"
 		end
@@ -91,7 +86,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		formspec = formspec.."label["..(loleft+8.2)..","..(lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
+		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -171,28 +166,43 @@ end
 function technic.chests:definition(name, data)
 	local lname = name:lower()
 	name = S(name)
+	local d = {}
+	for k, v in pairs(data) do d[k] = v end
+	data = d
 
-	local lowidth = data.color and 11 or 8
-	local ovwidth = math.max(lowidth, data.width)
-	local hileft = (ovwidth - data.width) / 2
-	local loleft = (ovwidth - lowidth) / 2
-	local lotop = data.height + 2
-	local ovheight = lotop + 4
+	data.lowidth = 8
+	data.ovwidth = math.max(data.lowidth, data.width)
+	data.hileft = (data.ovwidth - data.width) / 2
+	data.loleft = (data.ovwidth - data.lowidth) / 2
+	if data.color then
+		if data.lowidth + 3 <= data.ovwidth then
+			data.coleft = data.ovwidth - 3
+			if data.loleft + data.lowidth > data.coleft then
+				data.loleft = data.coleft - data.lowidth
+			end
+		else
+			data.loleft = 0
+			data.coleft = data.lowidth
+			data.ovwidth = data.lowidth + 3
+		end
+	end
+	data.lotop = data.height + 2
+	data.ovheight = data.lotop + 4
 
 	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
-	data.formspec = "invsize["..ovwidth..","..ovheight..";]"..
+	data.base_formspec = "invsize["..data.ovwidth..","..data.ovheight..";]"..
 			"label[0,0;"..S("%s Chest"):format(name).."]"..
-			"list[current_name;main;"..hileft..",1;"..data.width..","..data.height..";]"..
-			"list[current_player;main;"..loleft..","..lotop..";8,4;]"..
-			"background[-0.19,-0.25;"..(ovwidth+0.4)..","..(ovheight+0.75)..";ui_form_bg.png]"..
-			"background["..hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
-			"background["..loleft..","..lotop..";8,4;ui_main_inventory.png]"
+			"list[current_name;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
+			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
+			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";ui_form_bg.png]"..
+			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
+			"background["..data.loleft..","..data.lotop..";8,4;ui_main_inventory.png]"
 	if data.sort then
-		data.formspec = data.formspec.."button["..hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
+		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
 	end
 	if data.color then
-		data.formspec = data.formspec..get_color_buttons(loleft, lotop)
+		data.base_formspec = data.base_formspec..get_color_buttons(data.coleft, data.lotop)
 	end
 
 	if data.locked then
