@@ -11,6 +11,8 @@ dofile(path.."/grinder.lua")
 dofile(path.."/grinder_recipes.lua")
 dofile(path.."/extractor.lua")
 dofile(path.."/extractor_recipes.lua")
+dofile(path.."/compressor.lua")
+dofile(path.."/compressor_recipes.lua")
 dofile(path.."/solar_array.lua")
 dofile(path.."/generator.lua")
 
