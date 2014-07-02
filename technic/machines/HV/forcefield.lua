@@ -62,35 +62,34 @@ local function update_forcefield(pos, range, active)
 	vm:update_map()
 end
 
-local get_forcefield_formspec = function(range)
-	return "size[3,1.5]"..
-		"field[1,0.5;2,1;range;"..S("Range")..";"..range.."]"..
-		"button[0,1;3,1;toggle;"..S("Enable/Disable").."]"
+local function set_forcefield_formspec(meta)
+	local formspec = "size[5,1.5]"..
+		"field[2,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
+	if meta:get_int("enabled") == 0 then
+		formspec = formspec.."button[0,1;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+	else
+		formspec = formspec.."button[0,1;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+	end
+	meta:set_string("formspec", formspec)
 end
 
 local forcefield_receive_fields = function(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
-	local range = tonumber(fields.range) or 0
-
-	if fields.toggle then
-		if meta:get_int("enabled") == 1 then
-		   meta:set_int("enabled", 0)
-		else
-		   meta:set_int("enabled", 1)
+	if fields.range then
+		local range = tonumber(fields.range) or 0
+		-- Smallest field is 5. Anything less is asking for trouble.
+		-- Largest is 20. It is a matter of pratical node handling.
+		-- At the maximim range updating the forcefield takes about 0.2s
+		range = math.max(range, 5)
+		range = math.min(range, 20)
+		if meta:get_int("range") ~= range then
+			update_forcefield(pos, meta:get_int("range"), false)
+			meta:set_int("range", range)
 		end
 	end
-
-	-- Smallest field is 5. Anything less is asking for trouble.
-	-- Largest is 20. It is a matter of pratical node handling.
-	-- At the maximim range updating the forcefield takes about 0.2s
-	range = math.max(range, 5)
-	range = math.min(range, 20)
-
-	if meta:get_int("range") ~= range then
-		update_forcefield(pos, meta:get_int("range"), false)
-		meta:set_int("range", range)
-		meta:set_string("formspec", get_forcefield_formspec(range))
-	end
+	if fields.enable then meta:set_int("enabled", 1) end
+	if fields.disable then meta:set_int("enabled", 0) end
+	set_forcefield_formspec(meta)
 end
 
 local mesecons = {
@@ -115,8 +114,8 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_int("HV_EU_demand", 0)
 		meta:set_int("range", 10)
 		meta:set_int("enabled", 0)
-		meta:set_string("formspec", get_forcefield_formspec(10))
 		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
+		set_forcefield_formspec(meta)
 	end,
 	mesecons = mesecons
 })
