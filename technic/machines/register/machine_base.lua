@@ -37,7 +37,7 @@ function technic.register_base_machine(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
-		"label[0,0;"..S("%s Grinder"):format(tier).."]"
+		"label[0,0;"..machine_desc:format(tier).."]"
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,3;1,1;]"..
