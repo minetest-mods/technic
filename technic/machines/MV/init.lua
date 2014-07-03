@@ -14,6 +14,8 @@ if technic.config:get_bool("enable_wind_mill") then
 	dofile(path.."/wind_mill.lua")
 end
 dofile(path.."/generator.lua")
+dofile(path.."/extractor.lua")
+dofile(path.."/compressor.lua")
 
 -- The power radiator supplies appliances with inductive coupled power:
 -- Lighting and associated textures is taken directly from VanessaE's homedecor and made electric.
