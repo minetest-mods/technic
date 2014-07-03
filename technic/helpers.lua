@@ -25,3 +25,21 @@ function technic.refill_RE_charge(stack)
 	stack:set_metadata(minetest.serialize(meta))
 	return stack
 end
+
+ --------------------------------------------------------------------------------
+local function resolve_name(function_name)
+	local a = _G
+	for key in string.gmatch(function_name, "([^%.]+)(%.?)") do
+		if a[key] then
+			a = a[key]
+		else
+			return nil
+		end
+	end
+	return a
+end
+
+function technic.function_exists(function_name)
+	return type(resolve_name(function_name)) == 'function'
+end
+--------------------------------------------------------------------------------
