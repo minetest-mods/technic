@@ -39,6 +39,7 @@ Inventory move disallowed due to protection =
 %s Enabled =
 %s Idle =
 %s Improperly Placed =
+%s is empty =
 %s Unpowered =
 %s Out Of Fuel =
 %s Has Bad Cabling =
