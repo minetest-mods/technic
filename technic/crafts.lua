@@ -1,45 +1,9 @@
 -- tubes crafting recipes
 
 minetest.register_craft({
-	output = 'pipeworks:tube_1 9',
-	recipe = {
-		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot', 'default:glass', 'technic:stainless_steel_ingot'},
-	}
-})
-minetest.register_craft({
-	output = 'pipeworks:mese_tube_000000',
-	recipe = {
-		{'default:mese_crystal_fragment', 'pipeworks:tube_1', 'default:mese_crystal_fragment'},
-		}
-})
-
-minetest.register_craft({
     output = 'pipeworks:accelerator_tube_1',
     recipe = {
         {'technic:copper_coil', 'pipeworks:tube_1', 'technic:copper_coil'},
-        }
-})
-
-minetest.register_craft({
-    output = 'pipeworks:detector_tube_off_1',
-    recipe = {
-        {'mesecons:mesecon', 'pipeworks:tube_1', 'mesecons:mesecon'},
-        }
-})
-
-minetest.register_craft({
-    output = 'pipeworks:sand_tube_1',
-    recipe = {
-        {'default:sand', 'pipeworks:tube_1', 'default:sand'},
-        }
-})
-
-minetest.register_craft({
-    output = 'pipeworks:mese_sand_tube_1',
-    recipe = {
-        {'default:mese_crystal_fragment', 'pipeworks:sand_tube_1', 'default:mese_crystal_fragment'},
         }
 })
 
@@ -167,15 +131,10 @@ minetest.register_craft({
 	}
 })
 
+-- Remove some recipes
 minetest.register_craftitem("technic:nothing", {
 	description = "",
 	inventory_image = "blank.png",
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "technic:nothing",
-	recipe = {"default:copper_ingot", "default:steel_ingot"}
 })
 
 if minetest.register_craft_predict then
@@ -185,4 +144,31 @@ if minetest.register_craft_predict then
 		end
 	end)
 end
+
+-- Bronze
+minetest.register_craft({
+	type = "shapeless",
+	output = "technic:nothing",
+	recipe = {"default:copper_ingot", "default:steel_ingot"}
+})
+
+-- Accelerator tube
+minetest.register_craft({
+	output = "technic:nothing",
+	recipe = {
+	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
+	        { "default:mese_crystal_fragment", "default:steel_ingot", "default:mese_crystal_fragment" },
+	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
+	},
+})
+
+-- Teleport tube
+minetest.register_craft({
+	output = "technic:nothing",
+	recipe = {
+	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
+	        { "default:desert_stone", "default:mese_block", "default:desert_stone" },
+	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
+	},
+})
 
