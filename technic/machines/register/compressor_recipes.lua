@@ -19,6 +19,6 @@ local recipes = {
 }
 
 for _, data in pairs(recipes) do
-	technic.register_compressor_recipe({input = data[1], output = data[2]})
+	technic.register_compressor_recipe({input = {data[1]}, output = data[2]})
 end
 

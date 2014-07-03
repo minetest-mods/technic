@@ -40,7 +40,7 @@ if minetest.get_modpath("homedecor") then
 end
 
 for _, data in pairs(recipes) do
-	technic.register_grinder_recipe({input = data[1], output = data[2]})
+	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
 end
 
 local function register_dust(name, ingot)
@@ -57,7 +57,7 @@ local function register_dust(name, ingot)
 			recipe = "technic:"..lname.."_dust",
 			output = ingot,
 		})
-		technic.register_grinder_recipe({ input = ingot, output = "technic:"..lname.."_dust 1" })
+		technic.register_grinder_recipe({ input = {ingot}, output = "technic:"..lname.."_dust 1" })
 	end
 end
 

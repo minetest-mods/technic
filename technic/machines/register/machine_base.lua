@@ -17,6 +17,7 @@ local tube = {
 
 function technic.register_base_machine(data)
 	local typename = data.typename
+	local numitems = technic.recipes[typename].numitems
 	local machine_name = data.machine_name
 	local machine_desc = data.machine_desc
 	local tier = data.tier
@@ -34,7 +35,7 @@ function technic.register_base_machine(data)
 
 	local formspec =
 		"invsize[8,9;]"..
-		"list[current_name;src;3,1;1,1;]"..
+		"list[current_name;src;"..(4-numitems)..",1;"..numitems..",1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"label[0,0;"..machine_desc:format(tier).."]"
@@ -65,7 +66,7 @@ function technic.register_base_machine(data)
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
-			inv:set_size("src", 1)
+			inv:set_size("src", numitems)
 			inv:set_size("dst", 4)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)
@@ -128,7 +129,7 @@ function technic.register_base_machine(data)
 				technic.handle_machine_pipeworks(pos, tube_upgrade)
 			end
 
-			local result = technic.get_recipe(typename, inv:get_stack("src", 1))
+			local result = technic.get_recipe(typename, inv:get_list("src"))
 
 			if not result then
 				technic.swap_node(pos, machine_node)
@@ -151,9 +152,7 @@ function technic.register_base_machine(data)
 					meta:set_int("src_time", 0)
 					local result_stack = ItemStack(result.output)
 					if inv:room_for_item("dst", result_stack) then
-						srcstack = inv:get_stack("src", 1)
-						srcstack:take_item(ItemStack(result.input):get_count())
-						inv:set_stack("src", 1, srcstack)
+						inv:set_list("src", result.new_input)
 						inv:add_item("dst", result_stack)
 					end
 				end

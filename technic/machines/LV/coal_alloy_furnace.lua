@@ -27,8 +27,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 		meta:set_string("infotext", S("Fuel-Fired Alloy Furnace"))
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
-		inv:set_size("src", 1)
-		inv:set_size("src2", 1)
+		inv:set_size("src", 2)
 		inv:set_size("dst", 4)
 	end,
 	can_dig = technic.machine_can_dig,
@@ -61,6 +60,13 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
 		local inv    = meta:get_inventory()
+		
+		if inv:get_size("src") == 1 then -- Old furnace -> convert it
+			inv:set_size("src", 2)
+			inv:set_stack("src", 2, inv:get_stack("src2", 1))
+			inv:set_size("src2", 0)
+		end
+		
 		local recipe = nil
 		local machine_name = S("Fuel-Fired Alloy Furnace")
 		local formspec =
@@ -68,8 +74,7 @@ minetest.register_abm({
 			"label[0,0;"..machine_name.."]"..
 			"image[2,2;1,1;default_furnace_fire_bg.png]"..
 			"list[current_name;fuel;2,3;1,1;]"..
-			"list[current_name;src;2,1;1,1;]"..
-			"list[current_name;src2;3,1;1,1;]"..
+			"list[current_name;src;2,1;2,1;]"..
 			"list[current_name;dst;5,1;2,2;]"..
 			"list[current_player;main;0,5;8,4;]"
 
@@ -84,33 +89,22 @@ minetest.register_abm({
 		end
 
 		-- Get what to cook if anything
-		local srcstack = inv:get_stack("src", 1)
-		local src2stack = inv:get_stack("src2", 1)
-		local recipe = technic.get_alloy_recipe(srcstack, src2stack)
-		if srcstack:get_name() > src2stack:get_name() then
-			local temp = srcstack
-			srcstack = src2stack
-			src2stack = temp
-		end
+		local result = technic.get_recipe("alloy", inv:get_list("src"))
 
 		local was_active = false
 
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			was_active = true
 			meta:set_int("fuel_time", meta:get_int("fuel_time") + 1)
-			if recipe then
+			if result then
 				meta:set_int("src_time", meta:get_int("src_time") + 1)
-				if meta:get_int("src_time") == 6 then
-					-- check if there's room for output in "dst" list
-					local dst_stack = ItemStack(recipe.output)
-					if inv:room_for_item("dst", dst_stack) then
-						srcstack:take_item(recipe.input[1].count)
-						inv:set_stack("src", 1, srcstack)
-						src2stack:take_item(recipe.input[2].count)
-						inv:set_stack("src2", 1, src2stack)
-						inv:add_item("dst", dst_stack)
-					end
+				if meta:get_int("src_time") >= result.time then
 					meta:set_int("src_time", 0)
+					local result_stack = ItemStack(result.output)
+					if inv:room_for_item("dst", result_stack) then
+						inv:set_list("src", result.new_input)
+						inv:add_item("dst", result_stack)
+					end
 				end
 			else
 				meta:set_int("src_time", 0)
@@ -128,22 +122,17 @@ minetest.register_abm({
 					"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
 					(100 - percent)..":default_furnace_fire_fg.png]"..
 					"list[current_name;fuel;2,3;1,1;]"..
-					"list[current_name;src;2,1;1,1;]"..
-					"list[current_name;src2;3,1;1,1;]"..
+					"list[current_name;src;2,1;2,1;]"..
 					"list[current_name;dst;5,1;2,2;]"..
 					"list[current_player;main;0,5;8,4;]")
 			return
 		end
 
-		-- FIXME: Make this look more like the electrical version.
-		-- This code refetches the recipe to see if it can be done again after the iteration
-		srcstack = inv:get_stack("src", 1)
-		srcstack = inv:get_stack("src2", 1)
-		local recipe = technic.get_alloy_recipe(srcstack, src2stack)
+		local recipe = technic.get_recipe("alloy", inv:get_list("src"))
 
-		if recipe then
+		if not recipe then
 			if was_active then
-				meta:set_string("infotext", "Furnace is empty")
+				meta:set_string("infotext", S("%s is empty"):format(machine_name))
 				technic.swap_node(pos, "technic:coal_alloy_furnace")
 				meta:set_string("formspec", formspec)
 			end
