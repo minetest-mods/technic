@@ -5,7 +5,7 @@ function technic.register_recipe_type(typename, desc, numitems)
 	if unified_inventory and unified_inventory.register_craft_type then
 		unified_inventory.register_craft_type(typename, {
 			description = desc,
-			height = numtiems,
+			height = numitems,
 			width = 1,
 		})
 	end
