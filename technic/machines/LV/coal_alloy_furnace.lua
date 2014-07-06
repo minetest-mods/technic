@@ -12,8 +12,18 @@ minetest.register_craft({
 	}
 })
 
+local machine_name = S("Fuel-Fired Alloy Furnace")
+local formspec =
+	"size[8,9]"..
+	"label[0,0;"..machine_name.."]"..
+	"image[2,2;1,1;default_furnace_fire_bg.png]"..
+	"list[current_name;fuel;2,3;1,1;]"..
+	"list[current_name;src;2,1;2,1;]"..
+	"list[current_name;dst;5,1;2,2;]"..
+	"list[current_player;main;0,5;8,4;]"
+
 minetest.register_node("technic:coal_alloy_furnace", {
-	description = S("Fuel-Fired Alloy Furnace"),
+	description = machine_name,
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
@@ -23,8 +33,8 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec", coal_alloy_furnace_formspec)
-		meta:set_string("infotext", S("Fuel-Fired Alloy Furnace"))
+		meta:set_string("formspec", formspec)
+		meta:set_string("infotext", machine_name)
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 2)
@@ -37,7 +47,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
-	description = S("Fuel-Fired Alloy Furnace"),
+	description = machine_name,
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front_active.png"},
@@ -68,15 +78,6 @@ minetest.register_abm({
 		end
 		
 		local recipe = nil
-		local machine_name = S("Fuel-Fired Alloy Furnace")
-		local formspec =
-			"size[8,9]"..
-			"label[0,0;"..machine_name.."]"..
-			"image[2,2;1,1;default_furnace_fire_bg.png]"..
-			"list[current_name;fuel;2,3;1,1;]"..
-			"list[current_name;src;2,1;2,1;]"..
-			"list[current_name;dst;5,1;2,2;]"..
-			"list[current_player;main;0,5;8,4;]"
 
 		for i, name in pairs({
 				"fuel_totaltime",
