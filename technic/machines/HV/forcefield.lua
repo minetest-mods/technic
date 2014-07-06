@@ -16,7 +16,7 @@ minetest.register_craft({
 	recipe = {
 			{'default:mese',         'technic:motor',          'default:mese'        },
 			{'technic:deployer_off', 'technic:machine_casing', 'technic:deployer_off'},
-			{'default:mese',         'technic:deployer_off',   'default:mese'        },
+			{'default:mese',         'technic:hv_cable0',      'default:mese'        },
 	}
 })
 

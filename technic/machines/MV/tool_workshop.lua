@@ -10,7 +10,7 @@ minetest.register_craft({
 	recipe = {
 		{'group:wood',    'default:diamond',        'group:wood'},
 		{'group:wood',    'technic:machine_casing', 'group:wood'},
-		{'default:stone', 'default:copper_ingot',   'default:stone'},
+		{'default:stone', 'technic:mv_cable0',      'default:stone'},
 	}
 })
 

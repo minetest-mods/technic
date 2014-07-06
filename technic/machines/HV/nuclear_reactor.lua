@@ -18,7 +18,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 		{'technic:stainless_steel_ingot',        'technic:machine_casing', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot',              'technic:hv_cable', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot',             'technic:hv_cable0', 'technic:stainless_steel_ingot'},
 	}
 })
 

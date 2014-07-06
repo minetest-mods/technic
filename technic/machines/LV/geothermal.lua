@@ -12,7 +12,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:stone', 'default:diamond', 'default:stone'},
 		{'default:copper_ingot', 'technic:machine_casing', 'default:copper_ingot'},
-		{'default:stone', 'default:copper_ingot', 'default:stone'},
+		{'default:stone', 'technic:lv_cable0', 'default:stone'},
 	}
 })
 

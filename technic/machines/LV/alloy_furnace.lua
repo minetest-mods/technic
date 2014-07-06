@@ -6,7 +6,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:brick',           'default:brick',          'default:brick'},
 		{'default:brick',           'technic:machine_casing', 'default:brick'},
-		{'default:brick',           'default:copper_ingot',   'default:brick'},
+		{'default:brick',           'technic:lv_cable0',      'default:brick'},
 	}
 })
 
