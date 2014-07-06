@@ -8,9 +8,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
-		{'group:wood',    'group:wood',           'group:wood'},
-		{'group:wood',    'default:diamond',      'group:wood'},
-		{'default:stone', 'default:copper_ingot', 'default:stone'},
+		{'group:wood',    'default:diamond',        'group:wood'},
+		{'group:wood',    'technic:machine_casing', 'group:wood'},
+		{'default:stone', 'default:copper_ingot',   'default:stone'},
 	}
 })
 

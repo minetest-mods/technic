@@ -35,9 +35,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = "technic:switching_station",
 	recipe = {
-		{"technic:cast_iron_ingot", "technic:lv_transformer", "technic:cast_iron_ingot"},
-		{"default:copper_ingot",    "technic:lv_cable0",      "default:copper_ingot"},
-		{"technic:cast_iron_ingot", "technic:lv_cable0",      "technic:cast_iron_ingot"}
+		{"",                        "technic:lv_transformer", ""},
+		{"default:copper_ingot",    "technic:machine_casing", "default:copper_ingot"},
+		{"technic:lv_cable0",       "technic:lv_cable0",      "technic:lv_cable0"}
 	}
 })
 
