@@ -144,3 +144,12 @@ minetest.register_craftitem("technic:carbon_cloth", {
 	inventory_image = "technic_carbon_cloth.png",
 })
 
+minetest.register_node("technic:machine_casing", {
+	description = S("Machine Casing"),
+	groups = {cracky=2},
+	sunlight_propagates = true,
+	paramtype = "light",
+	drawtype = "allfaces",
+	tiles = {"technic_machine_casing.png"},
+	sounds = default.node_sound_stone_defaults(),
+})

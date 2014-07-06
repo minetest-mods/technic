@@ -131,6 +131,15 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craft({
+	output = "technic:machine_casing",
+	recipe = {
+		{ "technic:cast_iron_ingot", "technic:cast_iron_ingot", "technic:cast_iron_ingot" },
+		{ "technic:cast_iron_ingot", "technic:brass_ingot", "technic:cast_iron_ingot" },
+		{ "technic:cast_iron_ingot", "technic:cast_iron_ingot", "technic:cast_iron_ingot" },
+	},
+})
+
 -- Remove some recipes
 minetest.register_craftitem("technic:nothing", {
 	description = "",
