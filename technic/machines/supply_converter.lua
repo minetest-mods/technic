@@ -32,8 +32,8 @@ minetest.register_node("technic:supply_converter", {
 minetest.register_craft({
 	output = 'technic:supply_converter 1',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:machine_casing', 'technic:stainless_steel_ingot'},
-		{'technic:mv_transformer',        'technic:mv_cable0',      'technic:lv_transformer'},
+		{'technic:stainless_steel_ingot', 'technic:rubber',         'technic:stainless_steel_ingot'},
+		{'technic:mv_transformer',        'technic:machine_casing', 'technic:lv_transformer'},
 		{'technic:mv_cable0',             'technic:rubber',         'technic:lv_cable0'},
 	}
 })
