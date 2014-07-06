@@ -62,6 +62,24 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = 'technic:fine_gold_wire 2',
+	recipe = {
+		{'', 'default:gold_ingot', ''},
+		{'', 'default:gold_ingot', ''},
+		{'', 'default:gold_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'technic:fine_silver_wire 2',
+	recipe = {
+		{'', 'moreores:silver_ingot', ''},
+		{'', 'moreores:silver_ingot', ''},
+		{'', 'moreores:silver_ingot', ''},
+	}
+})
+
+minetest.register_craft({
 	output = 'technic:copper_coil 1',
 	recipe = {
 		{'technic:fine_copper_wire', 'technic:wrought_iron_ingot', 'technic:fine_copper_wire'},
