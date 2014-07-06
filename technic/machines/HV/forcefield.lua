@@ -14,9 +14,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:forcefield_emitter_off',
 	recipe = {
-			{'default:mese',         'technic:deployer_off', 'default:mese'        },
-			{'technic:deployer_off', 'technic:motor',        'technic:deployer_off'},
-			{'default:mese',         'technic:deployer_off', 'default:mese'        },
+			{'default:mese',         'technic:motor',          'default:mese'        },
+			{'technic:deployer_off', 'technic:machine_casing', 'technic:deployer_off'},
+			{'default:mese',         'technic:deployer_off',   'default:mese'        },
 	}
 })
 
