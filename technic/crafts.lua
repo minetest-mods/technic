@@ -162,6 +162,7 @@ minetest.register_craft({
 minetest.register_craftitem("technic:nothing", {
 	description = "",
 	inventory_image = "blank.png",
+	groups = { not_in_creative_inventory = 1 },
 })
 
 if minetest.register_craft_predict then
