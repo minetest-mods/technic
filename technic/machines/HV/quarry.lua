@@ -3,7 +3,7 @@ local S = technic.getter
 
 minetest.register_craft({
 	recipe = {
-		{"technic:carbon_steel_block", "pipeworks:filter",       "technic:carbon_steel_block"},
+		{"technic:carbon_plate",       "pipeworks:filter",       "technic:composite_plate"},
 		{"technic:motor",              "technic:machine_casing", "technic:diamond_drill_head"},
 		{"technic:carbon_steel_block", "technic:hv_cable0",      "technic:carbon_steel_block"}},
 	output = "technic:quarry",

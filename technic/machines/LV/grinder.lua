@@ -5,7 +5,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:desert_stone', 'default:diamond',        'default:desert_stone'},
 		{'default:desert_stone', 'technic:machine_casing', 'default:desert_stone'},
-		{'default:stone',        'technic:lv_cable0',      'default:stone'},
+		{'technic:granite',      'technic:lv_cable0',      'technic:granite'},
 	}
 })
 

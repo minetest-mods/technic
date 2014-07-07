@@ -16,9 +16,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot',        'technic:machine_casing', 'technic:stainless_steel_ingot'},
-		{'technic:stainless_steel_ingot',             'technic:hv_cable0', 'technic:stainless_steel_ingot'},
+		{'technic:carbon_plate',          'default:obsidian_glass', 'technic:carbon_plate'},
+		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
+		{'technic:stainless_steel_ingot',      'technic:hv_cable0', 'technic:stainless_steel_ingot'},
 	}
 })
 

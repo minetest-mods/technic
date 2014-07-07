@@ -100,7 +100,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:lv_transformer',
 	recipe = {
-		{'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot'},
+		{'mesecons_materials:fiber',   'technic:wrought_iron_ingot', 'mesecons_materials:fiber'},
 		{'technic:copper_coil',        'technic:wrought_iron_ingot', 'technic:copper_coil'},
 		{'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot'},
 	}
@@ -109,7 +109,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:mv_transformer',
 	recipe = {
-		{'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot'},
+		{'mesecons_materials:fiber',   'technic:carbon_steel_ingot', 'mesecons_materials:fiber'},
 		{'technic:copper_coil',        'technic:carbon_steel_ingot', 'technic:copper_coil'},
 		{'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot'},
 	}
@@ -118,7 +118,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:hv_transformer',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
+		{'mesecons_materials:fiber',      'technic:stainless_steel_ingot', 'mesecons_materials:fiber'},
 		{'technic:copper_coil',           'technic:stainless_steel_ingot', 'technic:copper_coil'},
 		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 	}
@@ -127,9 +127,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:control_logic_unit',
 	recipe = {
-		{'', 'default:gold_ingot', ''},
+		{'', 'technic:fine_gold_wire', ''},
 		{'default:copper_ingot', 'technic:silicon_wafer', 'default:copper_ingot'},
-		{'', 'default:copper_ingot', ''},
+		{'', 'technic:chromium_ingot', ''},
 	}
 })
 

@@ -10,9 +10,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
-		{'default:stone', 'default:diamond', 'default:stone'},
-		{'default:copper_ingot', 'technic:machine_casing', 'default:copper_ingot'},
-		{'default:stone', 'technic:lv_cable0', 'default:stone'},
+		{'technic:granite', 'default:diamond', 'technic:granite'},
+		{'technic:fine_copper_wire', 'technic:machine_casing', 'technic:fine_copper_wire'},
+		{'technic:granite', 'technic:lv_cable0', 'technic:granite'},
 	}
 })
 

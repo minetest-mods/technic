@@ -307,9 +307,9 @@ minetest.register_tool("technic:chainsaw", {
 minetest.register_craft({
 	output = "technic:chainsaw",
 	recipe = {
-		{"technic:stainless_steel_ingot", "technic:stainless_steel_ingot", "technic:battery"},
-		{"technic:stainless_steel_ingot", "technic:motor",                 "technic:battery"},
-		{"",                              "",                              "default:copper_ingot"},
+		{"technic:stainless_steel_ingot", "mesecons_button:button_off", "technic:battery"},
+		{"technic:fine_copper_wire",      "technic:motor",              "technic:battery"},
+		{"",                              "",                           "technic:stainless_steel_ingot"},
 	}
 })
 
