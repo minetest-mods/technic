@@ -37,18 +37,18 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:blue_energy_crystal',
 	recipe = {
-		{'default:gold_ingot', 'technic:battery', 'dye:blue'},
+		{'moreores:mithril_ingot', 'technic:battery', 'dye:blue'},
 		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
-		{'dye:blue', 'technic:battery', 'default:gold_ingot'},
+		{'dye:blue', 'technic:battery', 'moreores:mithril_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
-		{'default:gold_ingot', 'technic:battery', 'dye:red'},
+		{'moreores:silver_ingot', 'technic:battery', 'dye:red'},
 		{'technic:battery', 'default:diamondblock', 'technic:battery'},
-		{'dye:red', 'technic:battery', 'default:gold_ingot'},
+		{'dye:red', 'technic:battery', 'moreores:silver_ingot'},
 	}
 })
 
