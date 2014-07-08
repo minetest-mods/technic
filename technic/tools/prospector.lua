@@ -1,6 +1,6 @@
 local S = technic.getter
 
-technic.register_power_tool("technic:prospector", 15000)
+technic.register_power_tool("technic:prospector", 300000)
 
 local function get_metadata(toolstack)
 	local m = minetest.deserialize(toolstack:get_metadata())
@@ -121,6 +121,6 @@ minetest.register_craft({
 	recipe = {
 		{"moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1"},
 		{"technic:brass_ingot", "technic:control_logic_unit", "technic:brass_ingot"},
-		{"", "technic:brass_ingot", ""},
+		{"", "technic:blue_energy_crystal", ""},
 	}
 })
