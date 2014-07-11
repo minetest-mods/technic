@@ -126,13 +126,43 @@ local function send_items(items, pos, node)
 	end
 end
 
+local run = function(pos, node)
+	local meta = minetest.get_meta(pos)
+	local size = meta:get_int("size")
+	local eu_input = meta:get_int("HV_EU_input")
+	local demand = 10000
+	local center = get_quarry_center(pos, size)
+	local dig_y = meta:get_int("dig_y")
+	local machine_name = S("%s Quarry"):format("HV")
+
+	if meta:get_int("enabled") == 0 then
+		meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+		meta:set_int("HV_EU_demand", 0)
+		return
+	end
+
+	if eu_input < demand then
+		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+	elseif eu_input >= demand then
+		meta:set_string("infotext", S("%s Active"):format(machine_name))
+
+		local items = quarry_dig(pos, center, size)
+		send_items(items, pos, node)
+
+		if dig_y < pos.y - quarry_max_depth then
+			meta:set_string("infotext", S("%s Finished"):format(machine_name))
+		end
+	end
+	meta:set_int("HV_EU_demand", demand)
+end
+
 minetest.register_node("technic:quarry", {
 	description = S("%s Quarry"):format("HV"),
 	tiles = {"technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png^default_tool_mesepick.png", "technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, tubedevice=1},
+	groups = {cracky=2, tubedevice=1, technic_machine = 1},
 	tube = {
 		connect_sides = {top = 1},
 	},
@@ -150,43 +180,7 @@ minetest.register_node("technic:quarry", {
 	end,
 	after_dig_node = pipeworks.scan_for_tube_objects,
 	on_receive_fields = quarry_receive_fields,
-})
-
-minetest.register_abm({
-	nodenames = {"technic:quarry"},
-	interval = 1,
-	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
-		local size = meta:get_int("size")
-		local eu_input = meta:get_int("HV_EU_input")
-		local demand = 10000
-		local center = get_quarry_center(pos, size)
-		local dig_y = meta:get_int("dig_y")
-		local machine_name = S("%s Quarry"):format("HV")
-
-		technic.switching_station_timeout_count(pos, "HV")
-
-		if meta:get_int("enabled") == 0 then
-			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
-			meta:set_int("HV_EU_demand", 0)
-			return
-		end
-
-		if eu_input < demand then
-			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-		elseif eu_input >= demand then
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
-
-			local items = quarry_dig(pos, center, size)
-			send_items(items, pos, node)
-
-			if dig_y < pos.y - quarry_max_depth then
-				meta:set_string("infotext", S("%s Finished"):format(machine_name))
-			end
-		end
-		meta:set_int("HV_EU_demand", demand)
-	end
+	technic_run = run,
 })
 
 technic.register_machine("HV", "technic:quarry", technic.receiver)

@@ -59,7 +59,6 @@ function technic.register_cable(tier, size)
 	end
 end
 
-
 minetest.register_on_placenode(function(pos, node)
 	for tier, machine_list in pairs(technic.machines) do
 		if machine_list[node.name] ~= nil then
@@ -78,7 +77,6 @@ minetest.register_on_dignode(function(pos, node)
 		end
 	end
 end)
-
 
 function technic.get_cable_id(links)
 	return (links[6] * 1) + (links[5] * 2)
@@ -146,7 +144,7 @@ function technic.gen_cable_nodebox(x1, y1, z1, x2, y2, z2, size)
 	local box_center = {-size, -size, -size, size,  size, size}
 	local box_y1 =     {-size, -size, -size, size,  0.5,  size} -- y+
 	local box_x1 =     {-size, -size, -size, 0.5,   size, size} -- x+
-	local box_z1 =     {-size, -size,  size, size,  size, 0.5}   -- z+
+	local box_z1 =     {-size, -size,  size, size,  size, 0.5}  -- z+
 	local box_z2 =     {-size, -size, -0.5,  size,  size, size} -- z-
 	local box_y2 =     {-size, -0.5,  -size, size,  size, size} -- y-
 	local box_x2 =     {-0.5,  -size, -size, size,  size, size} -- x-

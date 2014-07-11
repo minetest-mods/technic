@@ -103,10 +103,45 @@ local mesecons = {
 	}
 }
 
+local run = function(pos, node, active_object_count, active_object_count_wider)
+	local meta = minetest.get_meta(pos)
+	local eu_input   = meta:get_int("HV_EU_input")
+	local eu_demand  = meta:get_int("HV_EU_demand")
+	local enabled    = meta:get_int("enabled")
+	local machine_name = S("%s Forcefield Emitter"):format("HV")
+
+	local power_requirement = math.floor(
+			4 * math.pi * math.pow(meta:get_int("range"), 2)
+		) * forcefield_power_drain
+
+	if meta:get_int("enabled") == 0 then
+		if node.name == "technic:forcefield_emitter_on" then
+			meta:set_int("HV_EU_demand", 0)
+			update_forcefield(pos, meta:get_int("range"), false)
+			technic.swap_node(pos, "technic:forcefield_emitter_off")
+			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+			return
+		end
+	elseif eu_input < power_requirement then
+		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		if node.name == "technic:forcefield_emitter_on" then
+			update_forcefield(pos, meta:get_int("range"), false)
+			technic.swap_node(pos, "technic:forcefield_emitter_off")
+		end
+	elseif eu_input >= power_requirement then
+		if node.name == "technic:forcefield_emitter_off" then
+			technic.swap_node(pos, "technic:forcefield_emitter_on")
+			meta:set_string("infotext", S("%s Active"):format(machine_name))
+		end
+		update_forcefield(pos, meta:get_int("range"), true)
+	end
+	meta:set_int("HV_EU_demand", power_requirement)
+end
+
 minetest.register_node("technic:forcefield_emitter_off", {
 	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_off.png"},
-	groups = {cracky = 1},
+	groups = {cracky = 1, technic_machine = 1},
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -117,13 +152,14 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
 		set_forcefield_formspec(meta)
 	end,
-	mesecons = mesecons
+	mesecons = mesecons,
+	technic_run = run,
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
 	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_on.png"},
-	groups = {cracky = 1, not_in_creative_inventory=1},
+	groups = {cracky = 1, technic_machine = 1, not_in_creative_inventory=1},
 	drop = "technic:forcefield_emitter_off",
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos) 
@@ -135,7 +171,9 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		local meta = minetest.get_meta(pos)
 		update_forcefield(pos, meta:get_int("range"), false)
 	end,
-	mesecons = mesecons
+	mesecons = mesecons,
+	technic_run = run,
+	technic_disabled_machine_name = "technic:forcefield_emitter",
 })
 
 minetest.register_node("technic:forcefield", {
@@ -156,52 +194,11 @@ minetest.register_node("technic:forcefield", {
 		},
 	}},
 })
-minetest.register_abm({
-	nodenames = {"technic:forcefield_emitter_on", "technic:forcefield_emitter_off"},
-	interval = 1,
-	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
-		local eu_input   = meta:get_int("HV_EU_input")
-		local eu_demand  = meta:get_int("HV_EU_demand")
-		local enabled    = meta:get_int("enabled")
-		local machine_name = S("%s Forcefield Emitter"):format("HV")
-		-- Power off automatically if no longer connected to a switching station
-		technic.switching_station_timeout_count(pos, "HV")
 
-		local power_requirement = math.floor(
-				4 * math.pi * math.pow(meta:get_int("range"), 2)
-			) * forcefield_power_drain
-
-		if meta:get_int("enabled") == 0 then
-			if node.name == "technic:forcefield_emitter_on" then
-				meta:set_int("HV_EU_demand", 0)
-				update_forcefield(pos, meta:get_int("range"), false)
-				technic.swap_node(pos, "technic:forcefield_emitter_off")
-				meta:set_string("infotext", S("%s Disabled"):format(machine_name))
-				return
-			end
-		elseif eu_input < power_requirement then
-			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-			if node.name == "technic:forcefield_emitter_on" then
-				update_forcefield(pos, meta:get_int("range"), false)
-				technic.swap_node(pos, "technic:forcefield_emitter_off")
-			end
-		elseif eu_input >= power_requirement then
-			if node.name == "technic:forcefield_emitter_off" then
-				technic.swap_node(pos, "technic:forcefield_emitter_on")
-				meta:set_string("infotext", S("%s Active"):format(machine_name))
-			end
-			update_forcefield(pos, meta:get_int("range"), true)
-		end
-		meta:set_int("HV_EU_demand", power_requirement)
-	end
-})
 
 if minetest.get_modpath("mesecons_mvps") then
 	mesecon:register_mvps_stopper("technic:forcefield")
 end
--- TODO: Register a stopper for frames
 
 technic.register_machine("HV", "technic:forcefield_emitter_on",  technic.receiver)
 technic.register_machine("HV", "technic:forcefield_emitter_off", technic.receiver)

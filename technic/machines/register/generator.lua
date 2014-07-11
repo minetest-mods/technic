@@ -18,8 +18,8 @@ function technic.register_generator(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2}
-	local active_groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1}
+	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1}
+	local active_groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, not_in_creative_inventory=1}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
@@ -35,6 +35,54 @@ function technic.register_generator(data)
 		"list[current_player;main;0,5;8,4;]"
 	
 	local desc = S("Fuel-Fired %s Generator"):format(tier)
+	
+	local run = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		local burn_time = meta:get_int("burn_time")
+		local burn_totaltime = meta:get_int("burn_totaltime")
+		-- If more to burn and the energy produced was used: produce some more
+		if burn_time > 0 then
+			meta:set_int(tier.."_EU_supply", data.supply)
+			burn_time = burn_time - 1
+			meta:set_int("burn_time", burn_time)
+		end
+		-- Burn another piece of fuel
+		if burn_time == 0 then
+			local inv = meta:get_inventory()
+			if not inv:is_empty("src") then 
+				local fuellist = inv:get_list("src")
+				local fuel = minetest.get_craft_result(
+						{method = "fuel", width = 1,
+						items = fuellist})
+				if not fuel or fuel.time == 0 then
+					meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
+					technic.swap_node(pos, "technic:"..ltier.."_generator")
+					return
+				end
+				meta:set_int("burn_time", fuel.time)
+				meta:set_int("burn_totaltime", fuel.time)
+				local stack = inv:get_stack("src", 1)
+				stack:take_item()
+				inv:set_stack("src", 1, stack)
+				technic.swap_node(pos, "technic:"..ltier.."_generator_active")
+				meta:set_int(tier.."_EU_supply", data.supply)
+			else
+				technic.swap_node(pos, "technic:"..ltier.."_generator")
+				meta:set_int(tier.."_EU_supply", 0)
+			end
+		end
+		if burn_totaltime == 0 then burn_totaltime = 1 end
+		local percent = math.floor((burn_time / burn_totaltime) * 100)
+		meta:set_string("infotext", desc.." ("..percent.."%)")
+			meta:set_string("formspec", 
+				"size[8, 9]"..
+				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
+				"list[current_name;src;3, 1;1, 1;]"..
+				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
+				(percent)..":default_furnace_fire_fg.png]"..
+				"list[current_player;main;0, 5;8, 4;]")
+	end
+	
 	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
@@ -59,6 +107,7 @@ function technic.register_generator(data)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		technic_run = run,
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
@@ -76,58 +125,10 @@ function technic.register_generator(data)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		technic_run = run,
+		technic_disabled_machine_name = "technic:"..ltier.."_generator",
 	})
-	minetest.register_abm({
-		nodenames = {"technic:"..ltier.."_generator", "technic:"..ltier.."_generator_active"},
-		interval = 1,
-		chance = 1,
-		action = function(pos, node, active_object_count, active_object_count_wider)
-			local meta = minetest.get_meta(pos)
-			local burn_time = meta:get_int("burn_time")
-			local burn_totaltime = meta:get_int("burn_totaltime")
-			-- If more to burn and the energy produced was used: produce some more
-			if burn_time > 0 then
-				meta:set_int(tier.."_EU_supply", data.supply)
-				burn_time = burn_time - 1
-				meta:set_int("burn_time", burn_time)
-			end
-			-- Burn another piece of fuel
-			if burn_time == 0 then
-				local inv = meta:get_inventory()
-				if not inv:is_empty("src") then 
-					local fuellist = inv:get_list("src")
-					local fuel = minetest.get_craft_result(
-							{method = "fuel", width = 1,
-							items = fuellist})
-					if not fuel or fuel.time == 0 then
-						meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
-						technic.swap_node(pos, "technic:"..ltier.."_generator")
-						return
-					end
-					meta:set_int("burn_time", fuel.time)
-					meta:set_int("burn_totaltime", fuel.time)
-					local stack = inv:get_stack("src", 1)
-					stack:take_item()
-					inv:set_stack("src", 1, stack)
-					technic.swap_node(pos, "technic:"..ltier.."_generator_active")
-					meta:set_int(tier.."_EU_supply", data.supply)
-				else
-					technic.swap_node(pos, "technic:"..ltier.."_generator")
-					meta:set_int(tier.."_EU_supply", 0)
-				end
-			end
-			if burn_totaltime == 0 then burn_totaltime = 1 end
-			local percent = math.floor((burn_time / burn_totaltime) * 100)
-			meta:set_string("infotext", desc.." ("..percent.."%)")
-				meta:set_string("formspec", 
-					"size[8, 9]"..
-					"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-					"list[current_name;src;3, 1;1, 1;]"..
-					"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
-					(percent)..":default_furnace_fire_fg.png]"..
-					"list[current_player;main;0, 5;8, 4;]")
-		end
-	})
+
 	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)
 	technic.register_machine(tier, "technic:"..ltier.."_generator_active", technic.producer)
 end

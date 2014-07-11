@@ -23,8 +23,8 @@ function technic.register_base_machine(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = {cracky = 2}
-	local active_groups = {cracky = 2, not_in_creative_inventory = 1}
+	local groups = {cracky = 2, technic_machine = 1}
+	local active_groups = {cracky = 2, technic_machine = 1, not_in_creative_inventory = 1}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
@@ -46,6 +46,61 @@ function technic.register_base_machine(data)
 			"label[1,4;"..S("Upgrade Slots").."]"
 	end
 
+	local run = function(pos, node)
+		local meta     = minetest.get_meta(pos)
+		local inv      = meta:get_inventory()
+		local eu_input = meta:get_int(tier.."_EU_input")
+
+		local machine_desc_tier = machine_desc:format(tier)
+		local machine_node      = "technic:"..ltier.."_"..machine_name
+		local machine_demand    = data.demand
+
+		-- Setup meta data if it does not exist.
+		if not eu_input then
+			meta:set_int(tier.."_EU_demand", machine_demand[1])
+			meta:set_int(tier.."_EU_input", 0)
+			return
+		end
+
+		local EU_upgrade, tube_upgrade = 0, 0
+		if data.upgrade then
+			EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+		end
+		if data.tube then
+			technic.handle_machine_pipeworks(pos, tube_upgrade)
+		end
+
+		local result = technic.get_recipe(typename, inv:get_list("src"))
+
+		if not result then
+			technic.swap_node(pos, machine_node)
+			meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+			meta:set_int(tier.."_EU_demand", 0)
+			return
+		end
+		
+		if eu_input < machine_demand[EU_upgrade+1] then
+			-- Unpowered - go idle
+			technic.swap_node(pos, machine_node)
+			meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
+		elseif eu_input >= machine_demand[EU_upgrade+1] then
+			-- Powered	
+			technic.swap_node(pos, machine_node.."_active")
+			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
+
+			meta:set_int("src_time", meta:get_int("src_time") + 1)
+			if meta:get_int("src_time") >= result.time / data.speed then
+				meta:set_int("src_time", 0)
+				local result_stack = ItemStack(result.output)
+				if inv:room_for_item("dst", result_stack) then
+					inv:set_list("src", result.new_input)
+					inv:add_item("dst", result_stack)
+				end
+			end
+		end
+		meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
+	end
+	
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png", 
@@ -75,6 +130,7 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		technic_run = run,
 	})
 
 	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
@@ -95,70 +151,8 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
-	})
-
-	minetest.register_abm({
-		nodenames = {"technic:"..ltier.."_"..machine_name,
-		             "technic:"..ltier.."_"..machine_name.."_active"},
-		interval = 1,
-		chance   = 1,
-		action = function(pos, node, active_object_count, active_object_count_wider)
-			local meta     = minetest.get_meta(pos)
-			local inv      = meta:get_inventory()
-			local eu_input = meta:get_int(tier.."_EU_input")
-
-			local machine_desc_tier = machine_desc:format(tier)
-			local machine_node      = "technic:"..ltier.."_"..machine_name
-			local machine_demand    = data.demand
-
-			-- Setup meta data if it does not exist.
-			if not eu_input then
-				meta:set_int(tier.."_EU_demand", machine_demand[1])
-				meta:set_int(tier.."_EU_input", 0)
-				return
-			end
-		
-			-- Power off automatically if no longer connected to a switching station
-			technic.switching_station_timeout_count(pos, tier)
-
-			local EU_upgrade, tube_upgrade = 0, 0
-			if data.upgrade then
-				EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
-			end
-			if data.tube then
-				technic.handle_machine_pipeworks(pos, tube_upgrade)
-			end
-
-			local result = technic.get_recipe(typename, inv:get_list("src"))
-
-			if not result then
-				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
-				meta:set_int(tier.."_EU_demand", 0)
-				return
-			end
-		
-			if eu_input < machine_demand[EU_upgrade+1] then
-				-- Unpowered - go idle
-				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
-			elseif eu_input >= machine_demand[EU_upgrade+1] then
-				-- Powered	
-				technic.swap_node(pos, machine_node.."_active")
-				meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
-
-				meta:set_int("src_time", meta:get_int("src_time") + 1)
-				if meta:get_int("src_time") >= result.time / data.speed then
-					meta:set_int("src_time", 0)
-					local result_stack = ItemStack(result.output)
-					if inv:room_for_item("dst", result_stack) then
-						inv:set_list("src", result.new_input)
-						inv:add_item("dst", result_stack)
-					end
-				end
-			end
-			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
-		end
+		technic_run = run,
+		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name,            technic.receiver)

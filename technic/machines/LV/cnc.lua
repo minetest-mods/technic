@@ -125,6 +125,44 @@ local function form_handler(pos, formname, fields, sender)
 	return
 end
 
+-- Action code performing the transformation
+local run = function(pos, node)
+	local meta         = minetest.get_meta(pos)
+	local inv          = meta:get_inventory()
+	local eu_input     = meta:get_int("LV_EU_input")
+	local machine_name = S("%s CNC Machine"):format("LV")
+	local machine_node = "technic:cnc"
+	local demand       = 450
+
+	local result = meta:get_string("cnc_product")
+	if inv:is_empty("src") or 
+	   (not minetest.registered_nodes[result]) or
+	   (not inv:room_for_item("dst", result)) then
+		technic.swap_node(pos, machine_node)
+		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_string("cnc_product", "")
+		meta:set_int("LV_EU_demand", 0)
+		return
+	end
+
+	if eu_input < demand then
+		technic.swap_node(pos, machine_node)
+		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+	elseif eu_input >= demand then
+		technic.swap_node(pos, machine_node.."_active")
+		meta:set_string("infotext", S("%s Active"):format(machine_name))
+		meta:set_int("src_time", meta:get_int("src_time") + 1)
+		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
+			meta:set_int("src_time", 0)
+			srcstack = inv:get_stack("src", 1)
+			srcstack:take_item()
+			inv:set_stack("src", 1, srcstack)
+			inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
+		end
+	end
+	meta:set_int("LV_EU_demand", demand)
+end
+
 -- The actual block inactive state
 minetest.register_node("technic:cnc", {
 	description = S("%s CNC Machine"):format("LV"),
@@ -139,7 +177,7 @@ minetest.register_node("technic:cnc", {
 			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 		},
 	},
-	groups = {cracky=2},
+	groups = {cracky=2, technic_machine=1},
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -155,6 +193,7 @@ minetest.register_node("technic:cnc", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	on_receive_fields = form_handler,
+	technic_run = run,
 })
 
 -- Active state block
@@ -164,60 +203,16 @@ minetest.register_node("technic:cnc_active", {
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	paramtype2 = "facedir",
 	drop = "technic:cnc",
-	groups = {cracky=2, not_in_creative_inventory=1},
+	groups = {cracky=2, technic_machine=1, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	on_receive_fields = form_handler,
+	technic_run = run,
+	technic_disabled_machine_name = "technic:cnc",
 })
-
--- Action code performing the transformation
-minetest.register_abm({
-	nodenames = {"technic:cnc","technic:cnc_active"},
-	interval = 1,
-	chance   = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta         = minetest.get_meta(pos)
-		local inv          = meta:get_inventory()
-		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = S("%s CNC Machine"):format("LV")
-		local machine_node = "technic:cnc"
-		local demand       = 450
-
-		-- Power off automatically if no longer connected to a switching station
-		technic.switching_station_timeout_count(pos, "LV")
-
-		local result = meta:get_string("cnc_product")
-		if inv:is_empty("src") or 
-		   (not minetest.registered_nodes[result]) or
-		   (not inv:room_for_item("dst", result)) then
-			technic.swap_node(pos, machine_node)
-			meta:set_string("infotext", S("%s Idle"):format(machine_name))
-			meta:set_string("cnc_product", "")
-			meta:set_int("LV_EU_demand", 0)
-			return
-		end
-
-		if eu_input < demand then
-			technic.swap_node(pos, machine_node)
-			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-		elseif eu_input >= demand then
-			technic.swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
-			meta:set_int("src_time", meta:get_int("src_time") + 1)
-			if meta:get_int("src_time") >= 3 then -- 3 ticks per output
-				meta:set_int("src_time", 0)
-				srcstack = inv:get_stack("src", 1)
-				srcstack:take_item()
-				inv:set_stack("src", 1, srcstack)
-				inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
-			end
-		end
-		meta:set_int("LV_EU_demand", demand)
-	end
-}) 
 
 technic.register_machine("LV", "technic:cnc",        technic.receiver)
 technic.register_machine("LV", "technic:cnc_active", technic.receiver)

@@ -43,6 +43,7 @@ Inventory move disallowed due to protection =
 %s Unpowered =
 %s Out Of Fuel =
 %s Has Bad Cabling =
+%s (Slave) =
 %s Has No Network =
 %s Finished =
 Enable/Disable =

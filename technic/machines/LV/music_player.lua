@@ -36,11 +36,51 @@ local function play_track(pos, track)
 			{pos = pos, gain = 1.0, loop = true, max_hear_distance = 72,})
 end
 
+local run = function(pos, node)
+	local meta         = minetest.get_meta(pos)
+	local eu_input     = meta:get_int("LV_EU_input")
+	local machine_name = S("%s Music Player"):format("LV")
+	local machine_node = "technic:music_player"
+	local demand       = 150
+
+	local current_track = meta:get_int("current_track")
+	local pos_hash      = minetest.hash_node_position(pos)
+	local music_handle  = music_handles[pos_hash]
+
+	-- Setup meta data if it does not exist.
+	if not eu_input then
+		meta:set_int("LV_EU_demand", demand)
+		meta:set_int("LV_EU_input", 0)
+		return
+	end
+
+	if meta:get_int("active") == 0 then
+		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_int("LV_EU_demand", 0)
+		return
+	end
+
+	if eu_input < demand then
+		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		if music_handle then
+			minetest.sound_stop(music_handle)
+			music_handle = nil
+		end
+	elseif eu_input >= demand then
+		meta:set_string("infotext", S("%s Active"):format(machine_name))
+		if not music_handle then
+			music_handle = play_track(pos, current_track)
+		end
+	end
+	music_handles[pos_hash] = music_handle
+	meta:set_int("LV_EU_demand", demand)
+end
+
 minetest.register_node("technic:music_player", {
 	description = S("%s Music Player"):format("LV"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -95,54 +135,7 @@ minetest.register_node("technic:music_player", {
 		end
 		music_handles[pos_hash] = music_handle
 	end,
-})
-
-minetest.register_abm({
-	nodenames = {"technic:music_player"},
-	interval = 1,
-	chance   = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta         = minetest.get_meta(pos)
-		local eu_input     = meta:get_int("LV_EU_input")
-		local machine_name = S("%s Music Player"):format("LV")
-		local machine_node = "technic:music_player"
-		local demand       = 150
-
-		local current_track = meta:get_int("current_track")
-		local pos_hash      = minetest.hash_node_position(pos)
-		local music_handle  = music_handles[pos_hash]
-
-		-- Setup meta data if it does not exist.
-		if not eu_input then
-			meta:set_int("LV_EU_demand", demand)
-			meta:set_int("LV_EU_input", 0)
-			return
-		end
-
-		-- Power off automatically if no longer connected to a switching station
-		technic.switching_station_timeout_count(pos, "LV")
-
-		if meta:get_int("active") == 0 then
-			meta:set_string("infotext", S("%s Idle"):format(machine_name))
-			meta:set_int("LV_EU_demand", 0)
-			return
-		end
-
-		if eu_input < demand then
-			meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-			if music_handle then
-				minetest.sound_stop(music_handle)
-				music_handle = nil
-			end
-		elseif eu_input >= demand then
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
-			if not music_handle then
-				music_handle = play_track(pos, current_track)
-			end
-		end
-		music_handles[pos_hash] = music_handle
-		meta:set_int("LV_EU_demand", demand)
-	end
+	technic_run = run,
 })
 
 technic.register_machine("LV", "technic:music_player", technic.receiver)

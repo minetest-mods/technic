@@ -9,12 +9,44 @@
 
 local S = technic.getter
 
+local run = function(pos, node)
+	local demand = 10000
+	local remain = 0.9
+	-- Machine information
+	local machine_name  = S("Supply Converter")
+	local meta          = minetest.get_meta(pos)
+
+	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
+	local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
+	local name_up       = minetest.get_node(pos_up).name
+	local name_down     = minetest.get_node(pos_down).name
+
+	local from = technic.get_cable_tier(name_up)
+	local to   = technic.get_cable_tier(name_down)
+
+	if from and to then
+		technic.switching_station_timeout_count(pos, from)
+		local input = meta:get_int(from.."_EU_input")
+		meta:set_int(from.."_EU_demand", demand)
+		meta:set_int(from.."_EU_supply", 0)
+		meta:set_int(to.."_EU_demand", 0)
+		meta:set_int(to.."_EU_supply", input * remain)
+		meta:set_string("infotext", machine_name
+			.." ("..input.." "..from.." -> "
+			..input * remain.." "..to..")")
+	else
+		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
+		return
+	end
+
+end
+
 minetest.register_node("technic:supply_converter", {
 	description = S("Supply Converter"),
 	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
 	sounds = default.node_sound_wood_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -27,6 +59,7 @@ minetest.register_node("technic:supply_converter", {
 		meta:set_string("infotext", S("Supply Converter"))
 		meta:set_float("active", false)
 	end,
+	technic_run = run,
 })
 
 minetest.register_craft({
@@ -36,43 +69,6 @@ minetest.register_craft({
 		{'technic:mv_transformer',        'technic:machine_casing', 'technic:lv_transformer'},
 		{'technic:mv_cable0',             'technic:rubber',         'technic:lv_cable0'},
 	}
-})
-
-minetest.register_abm({
-	nodenames = {"technic:supply_converter"},
-	interval   = 1,
-	chance     = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local demand = 10000
-		local remain = 0.9
-		-- Machine information
-		local machine_name  = S("Supply Converter")
-		local meta          = minetest.get_meta(pos)
-
-		local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
-		local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
-		local name_up       = minetest.get_node(pos_up).name
-		local name_down     = minetest.get_node(pos_down).name
-
-		local from = technic.get_cable_tier(name_up)
-		local to   = technic.get_cable_tier(name_down)
-
-		if from and to then
-			technic.switching_station_timeout_count(pos, from)
-			local input = meta:get_int(from.."_EU_input")
-			meta:set_int(from.."_EU_demand", demand)
-			meta:set_int(from.."_EU_supply", 0)
-			meta:set_int(to.."_EU_demand", 0)
-			meta:set_int(to.."_EU_supply", input * remain)
-			meta:set_string("infotext", machine_name
-				.." ("..input.." "..from.." -> "
-				..input * remain.." "..to..")")
-		else
-			meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
-			return
-		end
-
-	end,
 })
 
 for tier, machines in pairs(technic.machines) do

@@ -48,60 +48,6 @@ local nodebox = {
 	{ -0.303, -0.303, -0.397, 0.303, 0.303, 0.397 },
 }
 
-minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = S("Nuclear %s Generator Core"):format("HV"),
-	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
-	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
-	drawtype="nodebox",
-	paramtype = "light",
-	stack_max = 1,
-	node_box = {
-		type = "fixed",
-		fixed = nodebox
-	},
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Nuclear %s Generator Core"):format("HV"))
-		meta:set_int("HV_EU_supply", 0)
-		-- Signal to the switching station that this device burns some
-		-- sort of fuel and needs special handling
-		meta:set_int("HV_EU_from_fuel", 1)
-		meta:set_int("burn_time", 0)
-		meta:set_string("formspec", generator_formspec)
-		local inv = meta:get_inventory()
-		inv:set_size("src", 6)
-	end,	
-	can_dig = technic.machine_can_dig,
-	allow_metadata_inventory_put = technic.machine_inventory_put,
-	allow_metadata_inventory_take = technic.machine_inventory_take,
-	allow_metadata_inventory_move = technic.machine_inventory_move,
-})
-
-minetest.register_node("technic:hv_nuclear_reactor_core_active", {
-	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
-	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
-	drop="technic:hv_nuclear_reactor_core",
-	drawtype="nodebox",
-	light_source = 15,
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = nodebox
-	},
-	can_dig = technic.machine_can_dig,
-	allow_metadata_inventory_put = technic.machine_inventory_put,
-	allow_metadata_inventory_take = technic.machine_inventory_take,
-	allow_metadata_inventory_move = technic.machine_inventory_move,
-})
-
 local check_reactor_structure = function(pos)
 	-- The reactor consists of a 9x9x9 cube structure
 	-- A cross section through the middle:
@@ -188,57 +134,109 @@ local function damage_nearby_players(pos)
 	end
 end
 
-minetest.register_abm({
-	nodenames = {"technic:hv_nuclear_reactor_core", "technic:hv_nuclear_reactor_core_active"},
-	interval = 1,
-	chance   = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
-		local machine_name = S("Nuclear %s Generator Core"):format("HV")
-		local burn_time = meta:get_int("burn_time") or 0
+local run = function(pos, node)
+	local meta = minetest.get_meta(pos)
+	local machine_name = S("Nuclear %s Generator Core"):format("HV")
+	local burn_time = meta:get_int("burn_time") or 0
 
-		if burn_time >= burn_ticks or burn_time == 0 then
-			local inv = meta:get_inventory()
-			if not inv:is_empty("src") then 
-				local srclist = inv:get_list("src")
-				local correct_fuel_count = 0
-				for _, srcstack in pairs(srclist) do
-					if srcstack then
-						if  srcstack:get_name() == fuel_type then
-							correct_fuel_count = correct_fuel_count + 1
-						end
+	if burn_time >= burn_ticks or burn_time == 0 then
+		local inv = meta:get_inventory()
+		if not inv:is_empty("src") then 
+			local srclist = inv:get_list("src")
+			local correct_fuel_count = 0
+			for _, srcstack in pairs(srclist) do
+				if srcstack then
+					if  srcstack:get_name() == fuel_type then
+						correct_fuel_count = correct_fuel_count + 1
 					end
 				end
-				-- Check that the reactor is complete as well
-				-- as the correct number of correct fuel
-				if correct_fuel_count == 6 and
-				   check_reactor_structure(pos) then
-					meta:set_int("burn_time", 1)
-					technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
-					meta:set_int("HV_EU_supply", power_supply)
-					for idx, srcstack in pairs(srclist) do
-						srcstack:take_item()
-						inv:set_stack("src", idx, srcstack)
-					end
-					return
+			end
+			-- Check that the reactor is complete as well
+			-- as the correct number of correct fuel
+			if correct_fuel_count == 6 and
+			   check_reactor_structure(pos) then
+				meta:set_int("burn_time", 1)
+				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+				meta:set_int("HV_EU_supply", power_supply)
+				for idx, srcstack in pairs(srclist) do
+					srcstack:take_item()
+					inv:set_stack("src", idx, srcstack)
 				end
+				return
 			end
-			meta:set_int("HV_EU_supply", 0)
-			meta:set_int("burn_time", 0)
-			meta:set_string("infotext", S("%s Idle"):format(machine_name))
-			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
-		elseif burn_time > 0 then
-			damage_nearby_players(pos)
-			if not check_reactor_structure(pos) then
-				explode_reactor(pos)
-			end
-			burn_time = burn_time + 1
-			meta:set_int("burn_time", burn_time)
-			local percent = math.floor(burn_time / burn_ticks * 100)
-			meta:set_string("infotext", machine_name.." ("..percent.."%)")
-			meta:set_int("HV_EU_supply", power_supply)
 		end
+		meta:set_int("HV_EU_supply", 0)
+		meta:set_int("burn_time", 0)
+		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
+	elseif burn_time > 0 then
+		damage_nearby_players(pos)
+		if not check_reactor_structure(pos) then
+			explode_reactor(pos)
+		end
+		burn_time = burn_time + 1
+		meta:set_int("burn_time", burn_time)
+		local percent = math.floor(burn_time / burn_ticks * 100)
+		meta:set_string("infotext", machine_name.." ("..percent.."%)")
+		meta:set_int("HV_EU_supply", power_supply)
 	end
+end
+
+minetest.register_node("technic:hv_nuclear_reactor_core", {
+	description = S("Nuclear %s Generator Core"):format("HV"),
+	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
+	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
+	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
+	legacy_facedir_simple = true,
+	sounds = default.node_sound_wood_defaults(),
+	drawtype="nodebox",
+	paramtype = "light",
+	stack_max = 1,
+	node_box = {
+		type = "fixed",
+		fixed = nodebox
+	},
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("infotext", S("Nuclear %s Generator Core"):format("HV"))
+		meta:set_int("HV_EU_supply", 0)
+		-- Signal to the switching station that this device burns some
+		-- sort of fuel and needs special handling
+		meta:set_int("HV_EU_from_fuel", 1)
+		meta:set_int("burn_time", 0)
+		meta:set_string("formspec", generator_formspec)
+		local inv = meta:get_inventory()
+		inv:set_size("src", 6)
+	end,	
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
+	technic_run = run,
+})
+
+minetest.register_node("technic:hv_nuclear_reactor_core_active", {
+	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
+	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
+		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, not_in_creative_inventory=1},
+	legacy_facedir_simple = true,
+	sounds = default.node_sound_wood_defaults(),
+	drop="technic:hv_nuclear_reactor_core",
+	drawtype="nodebox",
+	light_source = 15,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = nodebox
+	},
+	can_dig = technic.machine_can_dig,
+	allow_metadata_inventory_put = technic.machine_inventory_put,
+	allow_metadata_inventory_take = technic.machine_inventory_take,
+	allow_metadata_inventory_move = technic.machine_inventory_move,
+	technic_run = run,
+	technic_disabled_machine_name = "technic:hv_nuclear_reactor_core",
 })
 
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core",        technic.producer)
