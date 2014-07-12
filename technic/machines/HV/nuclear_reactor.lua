@@ -236,7 +236,29 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	technic_run = run,
-	technic_disabled_machine_name = "technic:hv_nuclear_reactor_core",
+	technic_on_disable = function(pos, node)
+		local timer = minetest.get_node_timer(pos)
+        	timer:start(1)
+        end,
+	on_timer = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		
+		-- Connected back?
+		if meta:get_int("HV_EU_timeout") > 0 then return end	
+		
+		local burn_time = meta:get_int("burn_time") or 0
+
+		if burn_time >= burn_ticks or burn_time == 0 then
+			meta:set_int("HV_EU_supply", 0)
+			meta:set_int("burn_time", 0)
+			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
+			return
+		end
+		
+		meta:set_int("burn_time", burn_time + 1)
+		local timer = minetest.get_node_timer(pos)
+        	timer:start(1)
+	end,
 })
 
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core",        technic.producer)

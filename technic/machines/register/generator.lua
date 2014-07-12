@@ -126,7 +126,40 @@ function technic.register_generator(data)
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
-		technic_disabled_machine_name = "technic:"..ltier.."_generator",
+		technic_on_disable = function(pos, node)
+			local timer = minetest.get_node_timer(pos)
+        		timer:start(1)
+        	end,
+		on_timer = function(pos, node)
+			local meta = minetest.get_meta(pos)
+			
+			-- Connected back?
+			if meta:get_int(tier.."_EU_timeout") > 0 then return end
+			
+			local burn_time = meta:get_int("burn_time") or 0
+
+			if burn_time <= 0 then
+				meta:set_int(tier.."_EU_supply", 0)
+				meta:set_int("burn_time", 0)
+				technic.swap_node(pos, "technic:"..ltier.."_generator")
+				return
+			end
+
+			local burn_totaltime = meta:get_int("burn_totaltime") or 0
+			if burn_totaltime == 0 then burn_totaltime = 1 end
+			burn_time = burn_time - 1
+			meta:set_int("burn_time", burn_time)
+			local percent = math.floor(burn_time / burn_totaltime * 100)
+			meta:set_string("formspec", 
+				"size[8, 9]"..
+				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
+				"list[current_name;src;3, 1;1, 1;]"..
+				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
+				(percent)..":default_furnace_fire_fg.png]"..
+				"list[current_player;main;0, 5;8, 4;]")
+			local timer = minetest.get_node_timer(pos)
+	        	timer:start(1)
+		end,
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)
