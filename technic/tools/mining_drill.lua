@@ -8,7 +8,7 @@ minetest.register_craft({
 	recipe = {
 		{'moreores:tin_ingot',            'technic:diamond_drill_head', 'moreores:tin_ingot'},
 		{'technic:stainless_steel_ingot', 'technic:motor',              'technic:stainless_steel_ingot'},
-		{'',                              'technic:red_energy_crystal', 'moreores:copper_ingot'},
+		{'',                              'technic:red_energy_crystal', 'default:copper_ingot'},
 	}
 })
 minetest.register_craft({
