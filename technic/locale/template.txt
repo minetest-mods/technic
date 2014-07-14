@@ -55,6 +55,9 @@ Slot %d =
 Mode: %s =
 single items =
 whole stacks =
+Ignoring Mesecon Signal =
+Controlled by Positive Mesecon Signal =
+Controlled by Inverted Mesecon Signal =
 
 ## Machine names
 # $1: Tier
