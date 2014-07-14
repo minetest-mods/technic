@@ -35,7 +35,12 @@ local run = function(pos, node)
 			..input * remain.." "..to..")")
 	else
 		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
-		meta:set_int(to.."_EU_supply", 0)
+		if to then
+			meta:set_int(to.."_EU_supply", 0)
+		end
+		if from then
+			meta:set_int(from.."_EU_demand", 0)
+		end
 		return
 	end
 
