@@ -1,7 +1,10 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("alloy", S("Alloy cooking"), 2)
+technic.register_recipe_type("alloy", {
+	description = S("Alloy cooking"),
+	input_size = 2,
+})
 
 function technic.register_alloy_recipe(data)
 	data.time = data.time or 6

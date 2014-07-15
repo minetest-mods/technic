@@ -1,7 +1,7 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("compressing", S("Compressing"))
+technic.register_recipe_type("compressing", { description = S("Compressing") })
 
 function technic.register_compressor_recipe(data)
 	data.time = data.time or 4

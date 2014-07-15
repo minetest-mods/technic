@@ -19,6 +19,7 @@ dofile(path.."/alloy_recipes.lua")
 dofile(path.."/grinder_recipes.lua")
 dofile(path.."/extractor_recipes.lua")
 dofile(path.."/compressor_recipes.lua")
+dofile(path.."/centrifuge_recipes.lua")
 
 -- Machines
 dofile(path.."/alloy_furnace.lua")
@@ -26,4 +27,4 @@ dofile(path.."/electric_furnace.lua")
 dofile(path.."/grinder.lua")
 dofile(path.."/extractor.lua")
 dofile(path.."/compressor.lua")
-
+dofile(path.."/centrifuge.lua")

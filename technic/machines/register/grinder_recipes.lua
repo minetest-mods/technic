@@ -1,7 +1,7 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("grinding", S("Grinding"))
+technic.register_recipe_type("grinding", { description = S("Grinding") })
 
 function technic.register_grinder_recipe(data)
 	data.time = data.time or 3
