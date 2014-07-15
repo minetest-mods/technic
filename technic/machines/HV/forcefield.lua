@@ -63,19 +63,21 @@ local function update_forcefield(pos, range, active)
 end
 
 local function set_forcefield_formspec(meta)
-	local formspec = "size[5.5,2.25]"..
-		"field[2.25,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
+	local formspec = "size[5,2.25]"..
+		"field[2,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
+	-- The names for these toggle buttons are explicit about which
+	-- state they'll switch to, so that multiple presses (arising
+	-- from the ambiguity between lag and a missed press) only make
+	-- the single change that the user expects.
 	if meta:get_int("mesecon_mode") == 0 then
-		formspec = formspec.."button[0,1;5.5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
-	elseif meta:get_int("mesecon_mode") == 1 then
-		formspec = formspec.."button[0,1;5.5,1;mesecon_mode_2;"..S("Controlled by Positive Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
 	else
-		formspec = formspec.."button[0,1;5.5,1;mesecon_mode_0;"..S("Controlled by Inverted Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0.25,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	else
-		formspec = formspec.."button[0.25,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -98,7 +100,6 @@ local forcefield_receive_fields = function(pos, formname, fields, sender)
 	if fields.disable then meta:set_int("enabled", 0) end
 	if fields.mesecon_mode_0 then meta:set_int("mesecon_mode", 0) end
 	if fields.mesecon_mode_1 then meta:set_int("mesecon_mode", 1) end
-	if fields.mesecon_mode_2 then meta:set_int("mesecon_mode", 2) end
 	set_forcefield_formspec(meta)
 end
 
@@ -117,7 +118,7 @@ local run = function(pos, node, active_object_count, active_object_count_wider)
 	local meta = minetest.get_meta(pos)
 	local eu_input   = meta:get_int("HV_EU_input")
 	local eu_demand  = meta:get_int("HV_EU_demand")
-	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or (meta:get_int("mesecon_mode") == 1 and meta:get_int("mesecon_effect") ~= 0) or (meta:get_int("mesecon_mode") == 2 and meta:get_int("mesecon_effect") == 0))
+	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
 	local machine_name = S("%s Forcefield Emitter"):format("HV")
 
 	local power_requirement = math.floor(
