@@ -1,17 +1,17 @@
 -- tubes crafting recipes
 
 minetest.register_craft({
-    output = 'pipeworks:accelerator_tube_1',
+    output = 'pipeworks:accelerator_tube',
     recipe = {
-        {'technic:copper_coil', 'pipeworks:tube_1', 'technic:copper_coil'},
+        {'technic:copper_coil', 'pipeworks:tube', 'technic:copper_coil'},
         }
 })
 
 minetest.register_craft({
-    output = 'pipeworks:teleport_tube_1',
+    output = 'pipeworks:teleport_tube',
     recipe = {
         {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
-        {'pipeworks:tube_1', 'technic:control_logic_unit', 'pipeworks:tube_1'},
+        {'pipeworks:tube', 'technic:control_logic_unit', 'pipeworks:tube'},
         {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
         }
 })
