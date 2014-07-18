@@ -142,10 +142,11 @@ minetest.register_abm({
 
 		-- Next take a hard look at the fuel situation
 		local fuel = nil
+		local afterfuel
 		local fuellist = inv:get_list("fuel")
 
 		if fuellist then
-			fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
+			fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 		end
 
 		if fuel.time <= 0 then
@@ -158,9 +159,7 @@ minetest.register_abm({
 		meta:set_string("fuel_totaltime", fuel.time)
 		meta:set_string("fuel_time", 0)
 
-		local stack = inv:get_stack("fuel", 1)
-		stack:take_item()
-		inv:set_stack("fuel", 1, stack)
+		inv:set_stack("fuel", 1, afterfuel.items[1])
 	end,
 })
 
