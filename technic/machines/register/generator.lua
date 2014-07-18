@@ -51,7 +51,9 @@ function technic.register_generator(data)
 			local inv = meta:get_inventory()
 			if not inv:is_empty("src") then 
 				local fuellist = inv:get_list("src")
-				local fuel = minetest.get_craft_result(
+				local fuel
+				local afterfuel
+				fuel, afterfuel = minetest.get_craft_result(
 						{method = "fuel", width = 1,
 						items = fuellist})
 				if not fuel or fuel.time == 0 then
@@ -61,9 +63,7 @@ function technic.register_generator(data)
 				end
 				meta:set_int("burn_time", fuel.time)
 				meta:set_int("burn_totaltime", fuel.time)
-				local stack = inv:get_stack("src", 1)
-				stack:take_item()
-				inv:set_stack("src", 1, stack)
+				inv:set_stack("src", 1, afterfuel.items[1])
 				technic.swap_node(pos, "technic:"..ltier.."_generator_active")
 				meta:set_int(tier.."_EU_supply", data.supply)
 			else
