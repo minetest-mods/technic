@@ -1,9 +1,3 @@
-minetest.swap_node = minetest.swap_node or function(pos, node)
-	local oldmeta = minetest.get_meta(pos):to_table()
-	minetest.set_node(pos, node)
-	minetest.get_meta(pos):from_table(oldmeta)
-end
-
 -- Only changes name, keeps other params
 function technic.swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -26,7 +20,6 @@ function technic.refill_RE_charge(stack)
 	return stack
 end
 
- --------------------------------------------------------------------------------
 local function resolve_name(function_name)
 	local a = _G
 	for key in string.gmatch(function_name, "([^%.]+)(%.?)") do
@@ -42,4 +35,4 @@ end
 function technic.function_exists(function_name)
 	return type(resolve_name(function_name)) == 'function'
 end
---------------------------------------------------------------------------------
+
