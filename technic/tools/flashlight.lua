@@ -79,7 +79,11 @@ minetest.register_globalstep(function(dtime)
 		local rounded_pos = vector.round(pos)
 		rounded_pos.y = rounded_pos.y + 1
 		local old_pos = player_positions[player_name]
-		local player_moved = not vector.equals(old_pos, rounded_pos)
+		local player_moved = old_pos and not vector.equals(old_pos, rounded_pos)
+		if not old_pos then
+			old_pos = rounded_pos
+			player_moved = true
+		end
 
 		-- Remove light, flashlight weared out or was removed from hotbar
 		if was_wielding[player_name] and not flashlight_weared then
