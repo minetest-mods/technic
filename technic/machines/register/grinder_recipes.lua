@@ -15,9 +15,6 @@ local recipes = {
 	{"default:desert_stone",    "default:desert_sand"},
 	{"default:gold_lump",       "technic:gold_dust 2"},
 	{"default:iron_lump",       "technic:wrought_iron_dust 2"},
-	{"moreores:mithril_lump",   "technic:mithril_dust 2"},
-	{"moreores:silver_lump",    "technic:silver_dust 2"},
-	{"moreores:tin_lump",       "technic:tin_dust 2"},
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
 	
@@ -26,6 +23,12 @@ local recipes = {
 	{"default:gravel",          "default:dirt"},
 	{"default:stone",           "default:sand"},
 }
+
+if minetest.get_modpath("moreores") then
+	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
+	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
+	table.insert(recipes, {"moreores:tin_lump",       "technic:tin_dust 2"})
+end
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	table.insert(recipes, {"gloopores:alatro_lump",   "technic:alatro_dust 2"})
