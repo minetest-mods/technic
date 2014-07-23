@@ -13,6 +13,7 @@ local defaults = {
 	enable_marble_generation = "true",
 	enable_granite_generation = "true",
 	enable_wind_mill = "false",
+	enable_corium_griefing = "true",
 }
 
 for k, v in pairs(defaults) do

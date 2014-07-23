@@ -351,30 +351,34 @@ minetest.register_abm({
 	end,
 })
 
+local griefing = technic.config:get_bool("enable_corium_griefing")
+
 minetest.register_abm({
 	nodenames = {"technic:corium_flowing"},
 	interval = 5,
-	chance = 10,
+	chance = (griefing and 10 or 1),
 	action = function (pos, node)
 		minetest.set_node(pos, {name="technic:chernobylite_block"})
 	end,
 })
 
-minetest.register_abm({
-	nodenames = { "technic:corium_source", "technic:corium_flowing" },
-	interval = 4,
-	chance = 4,
-	action = function (pos, node)
-		for _, offset in ipairs({
-			vector.new(1,0,0),
-			vector.new(-1,0,0),
-			vector.new(0,0,1),
-			vector.new(0,0,-1),
-			vector.new(0,-1,0),
-		}) do
-			if math.random(8) == 1 then
-				minetest.dig_node(vector.add(pos, offset))
+if griefing then
+	minetest.register_abm({
+		nodenames = { "technic:corium_source", "technic:corium_flowing" },
+		interval = 4,
+		chance = 4,
+		action = function (pos, node)
+			for _, offset in ipairs({
+				vector.new(1,0,0),
+				vector.new(-1,0,0),
+				vector.new(0,0,1),
+				vector.new(0,0,-1),
+				vector.new(0,-1,0),
+			}) do
+				if math.random(8) == 1 then
+					minetest.dig_node(vector.add(pos, offset))
+				end
 			end
-		end
-	end,
-})
+		end,
+	})
+end
