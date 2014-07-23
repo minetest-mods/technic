@@ -123,27 +123,7 @@ end
 
 local explode_reactor = function(pos)
 	print("A reactor exploded at "..minetest.pos_to_string(pos))
-	for x = -1, 1 do
-	for y = -1, 1 do
-	for z = -1, 1 do
-		local erase_pos = { x = pos.x + x, y = pos.y + y, z = pos.z + z }
-		local node = minetest.get_node(erase_pos)
-		if node.name == "default:water_source" or node.name == "default:water_flowing" then
-			minetest.set_node(erase_pos, {name = "air"})
-		end
-	end
-	end
-	end
-	minetest.set_node(pos, {name = "default:lava_source"})
-end
-
-local function damage_nearby_players(pos)
-	local objs = minetest.get_objects_inside_radius(pos, 4)
-	for _, o in pairs(objs) do
-		if o:is_player() then
-			o:set_hp(math.max(o:get_hp() - 2, 0))
-		end
-	end
+	minetest.set_node(pos, {name="technic:corium_source"})
 end
 
 local run = function(pos, node)
@@ -182,7 +162,6 @@ local run = function(pos, node)
 		meta:set_string("infotext", S("%s Idle"):format(machine_name))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 	elseif burn_time > 0 then
-		damage_nearby_players(pos)
 		if not check_reactor_structure(pos) then
 			explode_reactor(pos)
 		end
@@ -232,7 +211,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, not_in_creative_inventory=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, radioactive=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop="technic:hv_nuclear_reactor_core",
@@ -276,3 +255,126 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core",        technic.producer)
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core_active", technic.producer)
 
+-- radioactive materials that can result from destroying a reactor
+
+minetest.register_abm({
+	nodenames = {"group:radioactive"},
+	interval = 1,
+	chance = 1,
+	action = function (pos, node)
+		for r = 1, minetest.registered_nodes[node.name].groups.radioactive do
+			for _, o in ipairs(minetest.get_objects_inside_radius(pos, r*2)) do
+				if o:is_player() then
+					o:set_hp(math.max(o:get_hp() - 1, 0))
+				end
+			end
+		end
+	end,
+})
+
+for _, state in ipairs({ "flowing", "source" }) do
+	minetest.register_node("technic:corium_"..state, {
+		description = S(state == "source" and "Corium Source" or "Flowing Corium"),
+		drawtype = (state == "source" and "liquid" or "flowingliquid"),
+		[state == "source" and "tiles" or "special_tiles"] = {{
+			name = "technic_corium_"..state.."_animated.png",
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 3.0,
+			},
+		}},
+		paramtype = "light",
+		paramtype2 = (state == "flowing" and "flowingliquid" or nil),
+		light_source = (state == "source" and 4 or 3),
+		walkable = false,
+		pointable = false,
+		diggable = false,
+		buildable_to = true,
+		drop = "",
+		drowning = 1,
+		liquidtype = state,
+		liquid_alternative_flowing = "technic:corium_flowing",
+		liquid_alternative_source = "technic:corium_source",
+		liquid_viscosity = LAVA_VISC,
+		liquid_renewable = false,
+		damage_per_second = 6,
+		post_effect_color = { a=192, r=80, g=160, b=80 },
+		groups = {
+			liquid = 2,
+			hot = 3,
+			igniter = 1,
+			radioactive = (state == "source" and 3 or 2),
+			not_in_creative_inventory = (state == "flowing" and 1 or nil),
+		},
+	})
+end
+
+if bucket and bucket.register_liquid then
+	bucket.register_liquid(
+		"technic:corium_source",
+		"technic:corium_flowing",
+		"technic:bucket_corium",
+		"technic_bucket_corium.png",
+		"Corium Bucket"
+	)
+end
+
+minetest.register_node("technic:chernobylite_block", {
+        description = S("Chernobylite Block"),
+	tiles = { "technic_chernobylite_block.png" },
+	is_ground_content = true,
+	groups = { cracky=1, radioactive=1, level=2 },
+	sounds = default.node_sound_stone_defaults(),
+	light_source = 2,
+
+})
+
+minetest.register_abm({
+	nodenames = {"group:water"},
+	neighbors = {"technic:corium_source"},
+	interval = 1,
+	chance = 1,
+	action = function (pos, node)
+		minetest.remove_node(pos)
+	end,
+})
+
+minetest.register_abm({
+	nodenames = {"technic:corium_flowing"},
+	neighbors = {"group:water"},
+	interval = 1,
+	chance = 1,
+	action = function (pos, node)
+		minetest.set_node(pos, {name="technic:chernobylite_block"})
+	end,
+})
+
+minetest.register_abm({
+	nodenames = {"technic:corium_flowing"},
+	interval = 5,
+	chance = 10,
+	action = function (pos, node)
+		minetest.set_node(pos, {name="technic:chernobylite_block"})
+	end,
+})
+
+minetest.register_abm({
+	nodenames = { "technic:corium_source", "technic:corium_flowing" },
+	interval = 4,
+	chance = 4,
+	action = function (pos, node)
+		for _, offset in ipairs({
+			vector.new(1,0,0),
+			vector.new(-1,0,0),
+			vector.new(0,0,1),
+			vector.new(0,0,-1),
+			vector.new(0,-1,0),
+		}) do
+			if math.random(8) == 1 then
+				minetest.dig_node(vector.add(pos, offset))
+			end
+		end
+	end,
+})
