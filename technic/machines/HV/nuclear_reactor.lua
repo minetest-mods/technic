@@ -123,6 +123,18 @@ end
 
 local explode_reactor = function(pos)
 	print("A reactor exploded at "..minetest.pos_to_string(pos))
+	for x = -1, 1 do
+	for y = -1, 1 do
+	for z = -1, 1 do
+		local erase_pos = { x = pos.x + x, y = pos.y + y, z = pos.z + z }
+		local node = minetest.get_node(erase_pos)
+		if node.name == "default:water_source" or node.name == "default:water_flowing" then
+			minetest.set_node(erase_pos, {name = "air"})
+		end
+	end
+	end
+	end
+	minetest.set_node(pos, {name = "default:lava_source"})
 end
 
 local function damage_nearby_players(pos)
