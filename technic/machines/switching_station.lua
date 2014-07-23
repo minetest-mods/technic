@@ -80,6 +80,7 @@ local add_new_cable_node = function(nodes, pos)
 end
 
 local load_position = function(pos)
+	if minetest.get_node_or_nil(pos) then return end
 	local vm = VoxelManip()
 	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
 end
