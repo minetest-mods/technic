@@ -287,7 +287,7 @@ for _, state in ipairs({ "flowing", "source" }) do
 		}},
 		paramtype = "light",
 		paramtype2 = (state == "flowing" and "flowingliquid" or nil),
-		light_source = (state == "source" and 4 or 3),
+		light_source = (state == "source" and 8 or 5),
 		walkable = false,
 		pointable = false,
 		diggable = false,
