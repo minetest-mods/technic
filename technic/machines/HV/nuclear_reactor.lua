@@ -12,6 +12,15 @@ local fuel_type    = "technic:uranium_fuel" -- The reactor burns this stuff
 
 local S = technic.getter
 
+if not vector.distance_square then
+	vector.distance_square = function (u, v)
+		local dx = v.x - u.x
+		local dy = v.y - u.y
+		local dz = v.z - u.z
+		return dx*dx + dy*dy + dz*dz
+	end
+end
+
 -- FIXME: recipe must make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
@@ -211,7 +220,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, radioactive=2, not_in_creative_inventory=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, radioactive=3, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop="technic:hv_nuclear_reactor_core",
@@ -257,15 +266,46 @@ technic.register_machine("HV", "technic:hv_nuclear_reactor_core_active", technic
 
 -- radioactive materials that can result from destroying a reactor
 
+local assumed_abdomen_offset = vector.new(0, 1, 0)
+local assumed_abdomen_offset_length = vector.length(assumed_abdomen_offset)
+
 minetest.register_abm({
 	nodenames = {"group:radioactive"},
 	interval = 1,
 	chance = 1,
 	action = function (pos, node)
-		for r = 1, minetest.registered_nodes[node.name].groups.radioactive do
-			for _, o in ipairs(minetest.get_objects_inside_radius(pos, r*2)) do
-				if o:is_player() then
-					o:set_hp(math.max(o:get_hp() - 1, 0))
+		-- Damage depends on distance between the radiation source
+		-- and the player, with an inverse square relationship.
+		-- The "radioactive" group value is the distance in
+		-- metres from a node at which a player will be damaged by
+		-- 1 HP/s.  Or, equivalently, it is the square root of the
+		-- damage rate in HP/s that a player 1 m away will take.
+		local strength = minetest.registered_nodes[node.name].groups.radioactive
+		-- Damage is processed at rates down to 0.25 HP/s,
+		-- which is attained at twice the 1 HP/s distance.
+		for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*2 + assumed_abdomen_offset_length)) do
+			if o:is_player() then
+				-- If the player is very close, swimming
+				-- in radioactive liquid, then the nominal
+				-- distance could go to zero, but in
+				-- that case we model the player's body
+				-- displacing the liquid and increasing
+				-- the effective distance to non-zero.
+				-- The minimum effective distance is set
+				-- to the maximum distance one can get
+				-- from the node centre within the node,
+				-- so that swimming in radioactive liquid
+				-- gives a uniform effective distance.
+				local dist_sq = math.max(0.75, vector.distance_square(pos, vector.add(o:getpos(), assumed_abdomen_offset)))
+				local dmg_rate = strength*strength/dist_sq
+				if dmg_rate >= 0.25 then
+					local dmg_int = math.floor(dmg_rate)
+					if math.random() < dmg_rate-dmg_int then
+						dmg_int = dmg_int + 1
+					end
+					if dmg_int > 0 then
+						o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+					end
 				end
 			end
 		end
@@ -305,7 +345,7 @@ for _, state in ipairs({ "flowing", "source" }) do
 			liquid = 2,
 			hot = 3,
 			igniter = 1,
-			radioactive = (state == "source" and 3 or 2),
+			radioactive = (state == "source" and 4 or 3),
 			not_in_creative_inventory = (state == "flowing" and 1 or nil),
 		},
 	})
@@ -325,7 +365,7 @@ minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
 	tiles = { "technic_chernobylite_block.png" },
 	is_ground_content = true,
-	groups = { cracky=1, radioactive=1, level=2 },
+	groups = { cracky=1, radioactive=2, level=2 },
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 
