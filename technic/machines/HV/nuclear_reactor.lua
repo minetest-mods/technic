@@ -54,6 +54,49 @@ local nodebox = {
 	{ -0.303, -0.303, -0.397, 0.303, 0.303, 0.397 },
 }
 
+local reactor_siren = {}
+local function siren_set_state(pos, newstate)
+	local hpos = minetest.hash_node_position(pos)
+	local siren = reactor_siren[hpos]
+	if not siren then
+		if newstate == "off" then return end
+		siren = {state="off"}
+		reactor_siren[hpos] = siren
+	end
+	if newstate == "danger" and siren.state ~= "danger" then
+		if siren.handle then minetest.sound_stop(siren.handle) end
+		siren.handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_danger_loop", {pos=pos, gain=1.5, loop=true, max_hear_distance=48})
+		siren.state = "danger"
+	elseif newstate == "clear" then
+		if siren.handle then minetest.sound_stop(siren.handle) end
+		local clear_handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_clear", {pos=pos, gain=1.5, loop=false, max_hear_distance=48})
+		siren.handle = clear_handle
+		siren.state = "clear"
+		minetest.after(10, function ()
+			if siren.handle == clear_handle then
+				minetest.sound_stop(clear_handle)
+				if reactor_siren[hpos] == siren then
+					reactor_siren[hpos] = nil
+				end
+			end
+		end)
+	elseif newstate == "off" and siren.state ~= "off" then
+		if siren.handle then minetest.sound_stop(siren.handle) end
+		siren.handle = nil
+		reactor_siren[hpos] = nil
+	end
+end
+local function siren_danger(pos, meta)
+	meta:set_int("siren", 1)
+	siren_set_state(pos, "danger")
+end
+local function siren_clear(pos, meta)
+	if meta:get_int("siren") ~= 0 then
+		siren_set_state(pos, "clear")
+		meta:set_int("siren", 0)
+	end
+end
+
 local reactor_structure_badness = function(pos)
 	-- The reactor consists of a 9x9x9 cube structure
 	-- A cross section through the middle:
@@ -142,8 +185,10 @@ minetest.register_abm({
 		if badness == 0 then
 			if accum_badness ~= 0 then
 				meta:set_int("structure_accumulated_badness", accum_badness - 1)
+				siren_clear(pos, meta)
 			end
 		else
+			siren_danger(pos, meta)
 			accum_badness = accum_badness + badness
 			if accum_badness >= 100 then
 				meltdown_reactor(pos)
@@ -190,6 +235,7 @@ local run = function(pos, node)
 		meta:set_string("infotext", S("%s Idle"):format(machine_name))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
+		siren_clear(pos, meta)
 	elseif burn_time > 0 then
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
@@ -227,6 +273,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		inv:set_size("src", 6)
 	end,	
 	can_dig = technic.machine_can_dig,
+	on_destruct = function(pos) siren_set_state(pos, "off") end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
@@ -250,6 +297,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	},
 	can_dig = technic.machine_can_dig,
 	after_dig_node = meltdown_reactor,
+	on_destruct = function(pos) siren_set_state(pos, "off") end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
@@ -271,6 +319,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			meta:set_int("burn_time", 0)
 			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 			meta:set_int("structure_accumulated_badness", 0)
+			siren_clear(pos, meta)
 			return
 		end
 		
