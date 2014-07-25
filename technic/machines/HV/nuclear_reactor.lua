@@ -97,64 +97,74 @@ local function siren_clear(pos, meta)
 	end
 end
 
+-- The standard reactor structure consists of a 9x9x9 cube.  A cross
+-- section through the middle:
+--
+--     CCCC CCCC
+--     CBBB BBBC
+--     CBSS SSBC
+--     CBSWWWSBC
+--     CBSW#WSBC
+--     CBSW|WSBC
+--     CBSS|SSBC
+--     CBBB|BBBC
+--     CCCC|CCCC
+--     C = Concrete, B = Blast-resistant concrete, S = Stainless Steel,
+--     W = water node, # = reactor core, | = HV cable
+--
+-- The man-hole and the HV cable are only in the middle, and the man-hole
+-- is optional.
+--
+-- For the reactor to operate and not melt down, it insists on the inner
+-- 7x7x7 portion (from the core out to the blast-resistant concrete)
+-- being intact.  Intactness only depends on the number of nodes of the
+-- right type in each layer.  The water layer must have water in all but
+-- at most one node; the steel and blast-resistant concrete layers must
+-- have the right material in all but at most two nodes.  The permitted
+-- gaps are meant for the cable and man-hole, but can actually be anywhere
+-- and contain anything.  For the reactor to be useful, a cable must
+-- connect to the core, but it can go in any direction.
+--
+-- The outer concrete layer of the standard structure is not required
+-- for the reactor to operate.  It is noted here because it used to
+-- be mandatory, and for historical reasons (that it predates the
+-- implementation of radiation) it needs to continue being adequate
+-- shielding of legacy reactors.  If it ever ceases to be adequate
+-- shielding for new reactors, legacy ones should be grandfathered.
 local reactor_structure_badness = function(pos)
-	-- The reactor consists of a 9x9x9 cube structure
-	-- A cross section through the middle:
-	--  CCCC CCCC
-	--  CBBB BBBC
-	--  CBSS SSBC
-	--  CBSWWWSBC
-	--  CBSW#WSBC
-	--  CBSW|WSBC
-	--  CBSS|SSBC
-	--  CBBB|BBBC
-	--  CCCC|CCCC
-	--  C = Concrete, B = Blast resistant concrete, S = Stainless Steel,
-	--  W = water node, # = reactor core, | = HV cable
-	--  The man-hole and the HV cable is only in the middle
-	--  The man-hole is optional
-
 	local vm = VoxelManip()
-	local pos1 = vector.subtract(pos, 4)
-	local pos2 = vector.add(pos, 4)
+	local pos1 = vector.subtract(pos, 3)
+	local pos2 = vector.add(pos, 3)
 	local MinEdge, MaxEdge = vm:read_from_map(pos1, pos2)
 	local data = vm:get_data()
 	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
 
-	local c_concrete = minetest.get_content_id("technic:concrete")
 	local c_blast_concrete = minetest.get_content_id("technic:blast_resistant_concrete")
 	local c_stainless_steel = minetest.get_content_id("technic:stainless_steel_block")
 	local c_water_source = minetest.get_content_id("default:water_source")
 	local c_water_flowing = minetest.get_content_id("default:water_flowing")
 
-	local concretelayer, blastlayer, steellayer, waterlayer = 0, 0, 0, 0
+	local blastlayer, steellayer, waterlayer = 0, 0, 0
 
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
 	for x = pos1.x, pos2.x do
-		-- If the position is in the outer layer
+		local cid = data[area:index(x, y, z)]
 		if x == pos1.x or x == pos2.x or
 		   y == pos1.y or y == pos2.y or
 		   z == pos1.z or z == pos2.z then
-			if data[area:index(x, y, z)] == c_concrete then
-				concretelayer = concretelayer + 1
+			if cid == c_blast_concrete then
+				blastlayer = blastlayer + 1
 			end
 		elseif x == pos1.x+1 or x == pos2.x-1 or
 		   y == pos1.y+1 or y == pos2.y-1 or
 		   z == pos1.z+1 or z == pos2.z-1 then
-			if data[area:index(x, y, z)] == c_blast_concrete then
-				blastlayer = blastlayer + 1
+			if cid == c_stainless_steel then
+				steellayer = steellayer + 1
 			end
 		elseif x == pos1.x+2 or x == pos2.x-2 or
 		   y == pos1.y+2 or y == pos2.y-2 or
 		   z == pos1.z+2 or z == pos2.z-2 then
-			if data[area:index(x, y, z)] == c_stainless_steel then
-				steellayer = steellayer + 1
-			end
-		elseif x == pos1.x+3 or x == pos2.x-3 or
-		   y == pos1.y+3 or y == pos2.y-3 or
-		   z == pos1.z+3 or z == pos2.z-3 then
-		   	local cid = data[area:index(x, y, z)]
 			if cid == c_water_source or cid == c_water_flowing then
 				waterlayer = waterlayer + 1
 			end
@@ -165,8 +175,7 @@ local reactor_structure_badness = function(pos)
 	if waterlayer > 25 then waterlayer = 25 end
 	if steellayer > 96 then steellayer = 96 end
 	if blastlayer > 216 then blastlayer = 216 end
-	if concretelayer > 384 then concretelayer = 384 end
-	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer) + (384 - concretelayer)
+	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer)
 end
 
 local function meltdown_reactor(pos)
