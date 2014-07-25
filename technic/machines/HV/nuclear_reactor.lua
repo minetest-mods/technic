@@ -54,7 +54,7 @@ local nodebox = {
 	{ -0.303, -0.303, -0.397, 0.303, 0.303, 0.397 },
 }
 
-local check_reactor_structure = function(pos)
+local reactor_structure_badness = function(pos)
 	-- The reactor consists of a 9x9x9 cube structure
 	-- A cross section through the middle:
 	--  CCCC CCCC
@@ -119,18 +119,40 @@ local check_reactor_structure = function(pos)
 	end
 	end
 	end
-	if waterlayer >= 25 and
-	   steellayer >= 96 and
-	   blastlayer >= 216 and
-	   concretelayer >= 384 then
-		return true
-	end
+	if waterlayer > 25 then waterlayer = 25 end
+	if steellayer > 96 then steellayer = 96 end
+	if blastlayer > 216 then blastlayer = 216 end
+	if concretelayer > 384 then concretelayer = 384 end
+	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer) + (384 - concretelayer)
 end
 
-local explode_reactor = function(pos)
-	print("A reactor exploded at "..minetest.pos_to_string(pos))
+local function meltdown_reactor(pos)
+	print("A reactor melted down at "..minetest.pos_to_string(pos))
 	minetest.set_node(pos, {name="technic:corium_source"})
 end
+
+minetest.register_abm({
+	nodenames = {"technic:hv_nuclear_reactor_core_active"},
+	interval = 1,
+	chance = 1,
+	action = function (pos, node)
+		local meta = minetest.get_meta(pos)
+		local badness = reactor_structure_badness(pos)
+		local accum_badness = meta:get_int("structure_accumulated_badness")
+		if badness == 0 then
+			if accum_badness ~= 0 then
+				meta:set_int("structure_accumulated_badness", accum_badness - 1)
+			end
+		else
+			accum_badness = accum_badness + badness
+			if accum_badness >= 100 then
+				meltdown_reactor(pos)
+			else
+				meta:set_int("structure_accumulated_badness", accum_badness)
+			end
+		end
+	end,
+})
 
 local run = function(pos, node)
 	local meta = minetest.get_meta(pos)
@@ -152,7 +174,7 @@ local run = function(pos, node)
 			-- Check that the reactor is complete as well
 			-- as the correct number of correct fuel
 			if correct_fuel_count == 6 and
-			   check_reactor_structure(pos) then
+			   reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
 				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
 				meta:set_int("HV_EU_supply", power_supply)
@@ -167,10 +189,8 @@ local run = function(pos, node)
 		meta:set_int("burn_time", 0)
 		meta:set_string("infotext", S("%s Idle"):format(machine_name))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
+		meta:set_int("structure_accumulated_badness", 0)
 	elseif burn_time > 0 then
-		if not check_reactor_structure(pos) then
-			explode_reactor(pos)
-		end
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
@@ -229,6 +249,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		fixed = nodebox
 	},
 	can_dig = technic.machine_can_dig,
+	after_dig_node = meltdown_reactor,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
@@ -249,6 +270,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			meta:set_int("HV_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
+			meta:set_int("structure_accumulated_badness", 0)
 			return
 		end
 		
