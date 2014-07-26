@@ -2,7 +2,7 @@
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
-technic = {}
+technic = technic or {}
 
 local load_start = os.clock()
 local modpath = minetest.get_modpath("technic")
