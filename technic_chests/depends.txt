@@ -1,6 +1,3 @@
 default
-technic
-technic_worldgen
 pipeworks
 intllib?
-
