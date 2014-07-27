@@ -11,11 +11,6 @@ minetest.register_craftitem( "technic:doped_silicon_wafer", {
 	inventory_image = "technic_doped_silicon_wafer.png",
 })
 
-minetest.register_craftitem("technic:enriched_uranium", {
-	description = S("Enriched Uranium"),
-	inventory_image = "technic_enriched_uranium.png",
-})
-
 minetest.register_craftitem("technic:uranium_fuel", {
 	description = S("Uranium Fuel"),
 	inventory_image = "technic_uranium_fuel.png",
@@ -163,3 +158,37 @@ minetest.register_node("technic:machine_casing", {
 	tiles = {"technic_machine_casing.png"},
 	sounds = default.node_sound_stone_defaults(),
 })
+
+for p = 0, 35 do
+	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
+	local psuffix = p == 7 and "" or p
+	local ingot = "technic:uranium"..psuffix.."_ingot"
+	local block = "technic:uranium"..psuffix.."_block"
+	local ov = p == 7 and minetest.override_item or nil;
+	(ov or minetest.register_craftitem)(ingot, {
+		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p/10),
+		inventory_image = "technic_uranium_ingot.png",
+		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
+	});
+	(ov or minetest.register_node)(block, {
+		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
+		tiles = {"technic_uranium_block.png"},
+		is_ground_content = true,
+		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(math.sqrt(p) + 0.5)},
+		sounds = default.node_sound_stone_defaults(),
+	});
+	if not ov then
+		minetest.register_craft({
+			output = block,
+			recipe = {
+				{ingot, ingot, ingot},
+				{ingot, ingot, ingot},
+				{ingot, ingot, ingot},
+			},
+		})
+		minetest.register_craft({
+			output = ingot.." 9",
+			recipe = {{block}},
+		})
+	end
+end

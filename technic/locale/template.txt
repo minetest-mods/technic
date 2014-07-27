@@ -29,6 +29,8 @@ Graphite =
 Carbon Cloth =
 Raw Latex =
 Rubber Fiber =
+%.1f%%-Fissile Uranium Ingot =
+%.1f%%-Fissile Uranium Block =
 
 ## Machine misc
 Machine cannot be removed because it is not empty =
@@ -167,6 +169,7 @@ Talinite =
 Tin =
 Wrought Iron =
 Zinc =
+%.1f%%-Fissile Uranium =
 
 ## Tools
 RE Battery =

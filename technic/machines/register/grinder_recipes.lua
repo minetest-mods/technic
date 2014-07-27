@@ -16,6 +16,7 @@ local recipes = {
 	{"default:gold_lump",       "technic:gold_dust 2"},
 	{"default:iron_lump",       "technic:wrought_iron_dust 2"},
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
+	{"technic:uranium_lump",    "technic:uranium_dust 2"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
 	
 	-- Other
@@ -85,6 +86,41 @@ if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	register_dust("Arol",            "glooptest:arol_ingot")
 	register_dust("Kalite",          nil)
 	register_dust("Talinite",        "glooptest:talinite_ingot")
+end
+
+for p = 0, 35 do
+	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
+	local psuffix = p == 7 and "" or p
+	local ingot = "technic:uranium"..psuffix.."_ingot"
+	local dust = "technic:uranium"..psuffix.."_dust"
+	minetest.register_craftitem(dust, {
+		description = S("%s Dust"):format(string.format(S("%.1f%%-Fissile Uranium"), p/10)),
+		inventory_image = "technic_uranium_dust.png",
+		on_place_on_ground = minetest.craftitem_place_item,
+		groups = {uranium_dust=1, not_in_creative_inventory=nici},
+	})
+	minetest.register_craft({
+		type = "cooking",
+		recipe = dust,
+		output = ingot,
+	})
+	technic.register_grinder_recipe({ input = {ingot}, output = dust })
+end
+
+local function uranium_dust(p)
+	return "technic:uranium"..(p == 7 and "" or p).."_dust"
+end
+for pa = 0, 34 do
+	for pb = pa+1, 35 do
+		local pc = (pa+pb)/2
+		if pc == math.floor(pc) then
+			minetest.register_craft({
+				type = "shapeless",
+				recipe = { uranium_dust(pa), uranium_dust(pb) },
+				output = uranium_dust(pc).." 2",
+			})
+		end
+	end
 end
 
 minetest.register_craft({

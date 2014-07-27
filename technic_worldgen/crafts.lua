@@ -1,10 +1,18 @@
 
 local S = technic.worldgen.gettext
 
-minetest.register_craftitem(":technic:uranium", {
-	description = S("Uranium"),
-	inventory_image = "technic_uranium.png",
+minetest.register_craftitem(":technic:uranium_lump", {
+	description = S("Uranium Lump"),
+	inventory_image = "technic_uranium_lump.png",
 	on_place_on_ground = minetest.craftitem_place_item,
+})
+minetest.register_alias("technic:uranium", "technic:uranium_lump")
+
+minetest.register_craftitem(":technic:uranium_ingot", {
+	description = S("Uranium Ingot"),
+	inventory_image = "technic_uranium_ingot.png",
+	on_place_on_ground = minetest.craftitem_place_item,
+	groups = {uranium_ingot=1},
 })
 
 minetest.register_craftitem(":technic:chromium_lump", {
@@ -74,7 +82,7 @@ local function register_block(block, ingot)
 	})
 end
 
-register_block("technic:uranium_block", "technic:uranium")
+register_block("technic:uranium_block", "technic:uranium_ingot")
 register_block("technic:chromium_block", "technic:chromium_ingot")
 register_block("technic:zinc_block", "technic:zinc_ingot")
 register_block("technic:brass_block", "technic:brass_ingot")
@@ -92,6 +100,12 @@ minetest.register_craft({
 	type = 'cooking',
 	recipe = "technic:chromium_lump",
 	output = "technic:chromium_ingot",
+})
+
+minetest.register_craft({
+	type = 'cooking',
+	recipe = "technic:uranium_lump",
+	output = "technic:uranium_ingot",
 })
 
 minetest.register_craft({
