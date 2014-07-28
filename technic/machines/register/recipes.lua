@@ -80,7 +80,6 @@ function technic.get_recipe(typename, items)
 		local new_input = {}
 		for i, stack in ipairs(items) do
 			if stack:get_count() < recipe.input[stack:get_name()] then
-				print(stack:get_name())
 				return nil
 			else
 				new_input[i] = ItemStack(stack)
