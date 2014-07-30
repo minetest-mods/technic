@@ -25,7 +25,7 @@ register_stair_slab_panel_micro("technic", "marble_bricks", "technic:marble_bric
 	0)
 
 register_stair_slab_panel_micro("technic", "granite", "technic:granite",
-	{cracky=3, not_in_creative_inventory=1},
+	{cracky=1, not_in_creative_inventory=1},
 	{"technic_granite.png"},
 	S("Granite"),
 	"granite",

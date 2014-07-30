@@ -90,7 +90,7 @@ technic.cnc.register_all("technic:marble",
 -- Granite
 ------------
 technic.cnc.register_all("technic:granite",
-                {cracky=3, not_in_creative_inventory=1},
+                {cracky=1, not_in_creative_inventory=1},
                 {"technic_granite.png"},
                 S("Granite"))
 

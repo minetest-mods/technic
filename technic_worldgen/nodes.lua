@@ -32,7 +32,7 @@ minetest.register_node( ":technic:granite", {
 	description = S("Granite"),
 	tiles = { "technic_granite.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=1},
 	sounds = default.node_sound_stone_defaults(),
 }) 
 
