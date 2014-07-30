@@ -2,7 +2,8 @@
 # technic_worldgen translation template
 
 ###crafts.lua
-Uranium = 
+Uranium Lump = 
+Uranium Ingot = 
 Chromium Lump = 
 Chromium Ingot = 
 Zinc Lump = 

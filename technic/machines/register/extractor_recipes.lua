@@ -1,7 +1,7 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("extracting", S("Extracting"))
+technic.register_recipe_type("extracting", { description = S("Extracting") })
 
 function technic.register_extractor_recipe(data)
 	data.time = data.time or 4
@@ -24,9 +24,6 @@ local recipes = {
 	{"technic:raw_latex",                 "technic:rubber 3"},
 	{"moretrees:rubber_tree_trunk_empty", "technic:rubber"},
 	{"moretrees:rubber_tree_trunk",       "technic:rubber"},
-	
-	-- Other
-	{"technic:uranium 5",                 "technic:enriched_uranium"},
 }
 
 for _, data in pairs(recipes) do

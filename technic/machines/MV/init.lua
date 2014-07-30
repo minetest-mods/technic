@@ -20,6 +20,7 @@ dofile(path.."/electric_furnace.lua")
 dofile(path.."/grinder.lua")
 dofile(path.."/extractor.lua")
 dofile(path.."/compressor.lua")
+dofile(path.."/centrifuge.lua")
 
 dofile(path.."/tool_workshop.lua")
 

@@ -1,4 +1,3 @@
 default
-technic
 intllib?
 mg?

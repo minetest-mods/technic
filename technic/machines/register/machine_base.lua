@@ -17,7 +17,7 @@ local tube = {
 
 function technic.register_base_machine(data)
 	local typename = data.typename
-	local numitems = technic.recipes[typename].numitems
+	local input_size = technic.recipes[typename].input_size
 	local machine_name = data.machine_name
 	local machine_desc = data.machine_desc
 	local tier = data.tier
@@ -35,7 +35,7 @@ function technic.register_base_machine(data)
 
 	local formspec =
 		"invsize[8,9;]"..
-		"list[current_name;src;"..(4-numitems)..",1;"..numitems..",1;]"..
+		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"label[0,0;"..machine_desc:format(tier).."]"
@@ -91,10 +91,26 @@ function technic.register_base_machine(data)
 			meta:set_int("src_time", meta:get_int("src_time") + 1)
 			if meta:get_int("src_time") >= result.time / data.speed then
 				meta:set_int("src_time", 0)
-				local result_stack = ItemStack(result.output)
-				if inv:room_for_item("dst", result_stack) then
+				local output = result.output
+				if type(output) ~= "table" then output = { output } end
+				local output_stacks = {}
+				for _, o in ipairs(output) do
+					table.insert(output_stacks, ItemStack(o))
+				end
+				local room_for_output = true
+				inv:set_size("dst_tmp", inv:get_size("dst"))
+				inv:set_list("dst_tmp", inv:get_list("dst"))
+				for _, o in ipairs(output_stacks) do
+					if not inv:room_for_item("dst_tmp", o) then
+						room_for_output = false
+						break
+					end
+					inv:add_item("dst_tmp", o)
+				end
+				if room_for_output then
 					inv:set_list("src", result.new_input)
-					inv:add_item("dst", result_stack)
+					inv:set_list("dst", inv:get_list("dst_tmp"))
+				else
 				end
 			end
 		end
@@ -121,7 +137,7 @@ function technic.register_base_machine(data)
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
-			inv:set_size("src", numitems)
+			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
 			inv:set_size("upgrade1", 1)
 			inv:set_size("upgrade2", 1)

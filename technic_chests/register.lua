@@ -49,7 +49,9 @@ end
 local function check_color_buttons(pos, meta, chest_name, fields)
 	for i = 1, 16 do
 		if fields["color_button"..i] then
-			technic.swap_node(pos, chest_name..colorid_to_postfix(i))
+			local node = minetest.get_node(pos)
+			node.name = chest_name..colorid_to_postfix(i)
+			minetest.swap_node(pos, node)
 			meta:set_string("color", i)
 			return
 		end

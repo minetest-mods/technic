@@ -26,6 +26,8 @@ Graphite = Lastra in graffite
 Carbon Cloth = Fibra di carbonio
 Raw Latex = Latex grezzo
 Rubber Fiber = Fibra di gomma
+%.1f%%-Fissile Uranium Ingot =
+%.1f%%-Fissile Uranium Block =
 
 ## Machine misc
 Machine cannot be removed because it is not empty = La macchina non può essere rimossa perchè non è vuota
@@ -159,6 +161,7 @@ Talinite = Talinite
 Tin = Stagno
 Wrought Iron = Ferro Battuto
 Zinc = Zinco
+%.1f%%-Fissile Uranium =
 
 ## Tools
 RE Battery =

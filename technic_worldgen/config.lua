@@ -3,11 +3,9 @@ technic.config = technic.config or Settings(minetest.get_worldpath().."/technic.
 local conf_table = technic.config:to_table()
 
 local defaults = {
-	enable_mining_drill = "true",
-	enable_mining_laser = "true",
-	enable_flashlight = "false",
-	enable_wind_mill = "false",
-	enable_corium_griefing = "true",
+	enable_granite_generation = "true",
+	enable_marble_generation = "true",
+	enable_rubber_tree_generation = "true",
 }
 
 for k, v in pairs(defaults) do

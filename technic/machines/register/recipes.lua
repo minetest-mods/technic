@@ -1,15 +1,19 @@
 
-technic.recipes = {cooking = {numitems = 1}}
-function technic.register_recipe_type(typename, desc, numitems)
-	numitems = numitems or 1
-	if unified_inventory and unified_inventory.register_craft_type then
+technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
+function technic.register_recipe_type(typename, origdata)
+	local data = {}
+	for k, v in pairs(origdata) do data[k] = v end
+	data.input_size = data.input_size or 1
+	data.output_size = data.output_size or 1
+	if unified_inventory and unified_inventory.register_craft_type and data.output_size == 1 then
 		unified_inventory.register_craft_type(typename, {
-			description = desc,
-			height = numitems,
+			description = data.description,
+			height = data.input_size,
 			width = 1,
 		})
 	end
-	technic.recipes[typename] = {numitems = numitems, recipes = {}}
+	data.recipes = {}
+	technic.recipes[typename] = data
 end
 
 local function get_recipe_index(items)
@@ -26,7 +30,13 @@ local function register_recipe(typename, data)
 	for i, stack in ipairs(data.input) do
 		data.input[i] = ItemStack(stack):to_string()
 	end
-	data.output = ItemStack(data.output):to_string()
+	if type(data.output) == "table" then
+		for i, v in ipairs(data.output) do
+			data.output[i] = ItemStack(data.output[i]):to_string()
+		end
+	else
+		data.output = ItemStack(data.output):to_string()
+	end
 	
 	local recipe = {time = data.time, input = {}, output = data.output}
 	local index = get_recipe_index(data.input)
@@ -35,7 +45,7 @@ local function register_recipe(typename, data)
 	end
 	
 	technic.recipes[typename].recipes[index] = recipe
-	if unified_inventory then
+	if unified_inventory and technic.recipes[typename].output_size == 1 then
 		unified_inventory.register_craft({
 			type = typename,
 			output = data.output,
@@ -70,7 +80,6 @@ function technic.get_recipe(typename, items)
 		local new_input = {}
 		for i, stack in ipairs(items) do
 			if stack:get_count() < recipe.input[stack:get_name()] then
-				print(stack:get_name())
 				return nil
 			else
 				new_input[i] = ItemStack(stack)

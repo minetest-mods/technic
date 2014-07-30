@@ -1,7 +1,7 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("compressing", S("Compressing"))
+technic.register_recipe_type("compressing", { description = S("Compressing") })
 
 function technic.register_compressor_recipe(data)
 	data.time = data.time or 4
@@ -15,7 +15,7 @@ local recipes = {
 	{"default:copper_ingot 5",     "technic:copper_plate"},
 	{"technic:coal_dust 4",        "technic:graphite"},
 	{"technic:carbon_cloth",       "technic:carbon_plate"},
-	{"technic:enriched_uranium 4", "technic:uranium_fuel"},
+	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
 
 for _, data in pairs(recipes) do

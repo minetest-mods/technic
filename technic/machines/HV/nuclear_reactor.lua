@@ -493,7 +493,6 @@ local default_radiation_resistance_per_node = {
 	["technic:mineral_uranium"] = 71,
 	["technic:mineral_zinc"] = 19,
 	["technic:stainless_steel_block"] = 40,
-	["technic:uranium_block"] = 500,
 	["technic:zinc_block"] = 36,
 	["tnt:tnt"] = 11,
 	["tnt:tnt_burning"] = 11,
@@ -501,6 +500,7 @@ local default_radiation_resistance_per_node = {
 local default_radiation_resistance_per_group = {
 	concrete = 16,
 	tree = 3.4,
+	uranium_block = 500,
 	wood = 1.7,
 }
 local cache_radiation_resistance = {}

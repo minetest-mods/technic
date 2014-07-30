@@ -3,7 +3,8 @@
 # by Xanthin
 
 ## crafts.lua
-Uranium = Uran
+Uranium Lump = Uranklumpen
+Uranium Ingot = Uranbarren
 Chromium Lump = Chromklumpen
 Chromium Ingot = Chrombarren
 Zinc Lump = Zinkklumpen
