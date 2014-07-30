@@ -42,7 +42,7 @@ technic.cnc.register_all("default:brick",
 -- SANDSTONE
 ------------
 technic.cnc.register_all("default:sandstone",
-                {crumbly=2, cracky=2, not_in_creative_inventory=1},
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
                 {"default_sandstone.png"},
                 S("Sandstone"))
 
