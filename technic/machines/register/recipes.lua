@@ -8,8 +8,8 @@ function technic.register_recipe_type(typename, origdata)
 	if unified_inventory and unified_inventory.register_craft_type and data.output_size == 1 then
 		unified_inventory.register_craft_type(typename, {
 			description = data.description,
-			height = data.input_size,
-			width = 1,
+			width = data.input_size,
+			height = 1,
 		})
 	end
 	data.recipes = {}
