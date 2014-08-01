@@ -181,7 +181,11 @@ minetest.register_node("technic:forcefield_emitter_on", {
 	end,
 	mesecons = mesecons,
 	technic_run = run,
-	technic_disabled_machine_name = "technic:forcefield_emitter",
+	technic_on_disable = function (pos, node)
+		local meta = minetest.get_meta(pos)
+		update_forcefield(pos, meta:get_int("range"), false)
+		technic.swap_node(pos, "technic:forcefield_emitter_off")
+	end,
 })
 
 minetest.register_node("technic:forcefield", {
