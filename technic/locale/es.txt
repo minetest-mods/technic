@@ -48,6 +48,8 @@ Inventory move disallowed due to protection =
 %s Improperly Placed = %s No Colocado Apropiadamente
 Range = Alcance
 Enable/Disable = Habilitar/Deshabilitar
+Itemwise =
+Stackwise =
 
 ## Machine names
 # $1: Tier
@@ -70,7 +72,7 @@ Hydro %s Generator = Molino de Agua %s
 Nuclear %s Generator Core = Nucleo de Reactor Nuclear %s
 Small Solar %s Generator = Panel Solar %s
 Wind %s Generator = Molino de Viento %s
-Injector =
+Self-Contained Injector =
 Constructor Mk%d =
 Frame =
 Frame Motor =

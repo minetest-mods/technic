@@ -54,8 +54,21 @@ minetest.register_craft({
 	}
 })
 
+local function set_injector_formspec(meta)
+	local is_stack = meta:get_string("mode") == "whole stacks"
+	meta:set_string("formspec",
+			"invsize[8,9;]"..
+			"item_image[0,0;1,1;technic:injector]"..
+			"label[1,0;"..S("Self-Contained Injector").."]"..
+			(is_stack and
+				"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
+				"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
+			"list[current_name;main;0,2;8,2;]"..
+			"list[current_player;main;0,5;8,4;]")
+end
+
 minetest.register_node("technic:injector", {
-	description = S("Injector"),
+	description = S("Self-Contained Injector"),
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
 		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1},
@@ -63,17 +76,11 @@ minetest.register_node("technic:injector", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",
-				"invsize[8,9;]"..
-				"label[0,0;"..S("Injector").."]"..
-				"button[0,1;.8,.8;mode;]"..
-				"label[.8,1;"..S("Mode: %s"):format("single items").."]"..
-				"list[current_name;main;0,2;8,2;]"..
-				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", S("Injector"))
+		meta:set_string("infotext", S("Self-Contained Injector"))
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
 		meta:set_string("mode","single items")
+		set_injector_formspec(meta)
 	end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos);
@@ -82,22 +89,9 @@ minetest.register_node("technic:injector", {
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
 		local meta = minetest.env:get_meta(pos)
-		local mode=meta:get_string("mode")
-		if fields.mode then 
-			if mode == "single items" then
-				mode = "whole stacks" 
-			else
-				mode = "single items"
-			end
-			meta:set_string("mode", mode)
-		end
-		meta:set_string("formspec",
-				"invsize[8,9;]"..
-				"label[0,0;"..S("Injector").."]"..
-				"button[0,1;.8,.8;mode;]"..
-				"label[.8,1;"..S("Mode: %s"):format(S(mode)).."]"..
-				"list[current_name;main;0,2;8,2;]"..
-				"list[current_player;main;0,5;8,4;]")
+		if fields.mode_item then meta:set_string("mode", "single items") end
+		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
+		set_injector_formspec(meta)
 	end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,

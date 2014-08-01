@@ -49,9 +49,8 @@ Upgrade Slots =
 In: = Ingresso:
 Out: = Uscita:
 Slot %d =
-Mode: %s = Modalità: %s
-single items = Singolo elemento
-whole stacks = pila completa
+Itemwise = Singolo elemento
+Stackwise = pila completa
 
 ## Machine names
 # $1: Tier
@@ -74,7 +73,7 @@ Hydro %s Generator = Turbina Elettrica %s
 Nuclear %s Generator Core = Reattore nucleare %s
 Small Solar %s Generator = %s Pannello solare
 Wind %s Generator = %s Generatore eolico
-Injector = Ignettore
+Self-Contained Injector = Ignettore
 Constructor Mk%d = Costruttore Mk%d
 Frame = Cornice
 Frame Motor = Cornice del motore

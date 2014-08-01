@@ -52,9 +52,8 @@ Upgrade Slots = Verbesserungsfaecher
 In: = Rein:
 Out: = Raus:
 Slot %d = Fach %d
-Mode: %s = Methode: %s
-single items = Einzelstuecke
-whole stacks = Ganzer Stapel
+Itemwise = Einzelstuecke
+Stackwise = Ganzer Stapel
 
 ## Machine names
 # $1: Tier
@@ -77,7 +76,7 @@ Hydro %s Generator = %s Wassermuehle
 Nuclear %s Generator Core = %s Reaktorkern
 Small Solar %s Generator = %s Solarmodul
 Wind %s Generator = %s Windmuehle
-Injector = Injektor
+Self-Contained Injector = Selbstversorger-Injektor
 Constructor Mk%d = Konstruktor Modell %d
 Frame = Rahmen
 Frame Motor = Rahmenmotor
