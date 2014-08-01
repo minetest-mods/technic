@@ -2,7 +2,7 @@
 local S = technic.getter
 
 technic.register_recipe_type("alloy", {
-	description = S("Alloy cooking"),
+	description = S("Alloying"),
 	input_size = 2,
 })
 
