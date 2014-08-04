@@ -80,7 +80,7 @@ minetest.register_node("technic:water_mill", {
 		meta:set_string("infotext", S("Hydro %s Generator"):format("LV"))
 		meta:set_int("LV_EU_supply", 0)
 	end,
-	technic_run,
+	technic_run = run,
 })
 
 minetest.register_node("technic:water_mill_active", {
@@ -93,7 +93,7 @@ minetest.register_node("technic:water_mill_active", {
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:water_mill",
-	technic_run,
+	technic_run = run,
 	technic_disabled_machine_name = "technic:water_mill",
 })
 
