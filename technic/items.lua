@@ -170,11 +170,42 @@ for p = 0, 35 do
 		inventory_image = "technic_uranium_ingot.png",
 		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
 	});
+	-- Note on radioactivity of blocks:
+	-- Source: <http://www.wise-uranium.org/rup.html>
+	-- The baseline radioactivity of an isotope is not especially
+	-- correlated with whether it's fissile (i.e., suitable as
+	-- reactor fuel).  Natural uranium consists mainly of fissile
+	-- U-235 and non-fissile U-238, and both U-235 and U-238 are
+	-- significantly radioactive.  U-235's massic activity is
+	-- about 80.0 MBq/kg, and U-238's is about 12.4 MBq/kg, which
+	-- superficially suggests that 3.5%-fissile uranium should have
+	-- only 1.19 times the activity of fully-depleted uranium.
+	-- But a third isotope affects the result hugely: U-234 has
+	-- massic activity of 231 GBq/kg.  Natural uranium has massic
+	-- composition of 99.2837% U-238, 0.711% U-235, and 0.0053% U-234,
+	-- so its activity comes roughly 49% each from U-234 and U-238
+	-- and only 2% from U-235.  During enrichment via centrifuge,
+	-- the U-234 fraction is concentrated along with the U-235, with
+	-- the U-234:U-235 ratio remaining close to its original value.
+	-- (Actually the U-234 gets separated from U-238 slightly more
+	-- than the U-235 is, so the U-234:U-235 ratio is slightly
+	-- higher in enriched uranium.)  A typical massic composition
+	-- for 3.5%-fissile uranium is 96.47116% U-238, 3.5% U-235, and
+	-- 0.02884% U-234.  This gives 3.5%-fissile uranium about 6.55
+	-- times the activity of fully-depleted uranium.  The values we
+	-- compute here for the "radioactive" group value are based on
+	-- linear interpolation of activity along that scale, rooted at
+	-- a natural (0.7%-fissile) uranium block having the activity of
+	-- 9 uranium ore blocks (due to 9 ingots per block).  The group
+	-- value is proportional to the square root of the activity,
+	-- and uranium ore has radioactive=1.  This yields radioactive=2
+	-- for a fully-depleted uranium block and radioactive=5 for a
+	-- 3.5%-fissile uranium block.
 	(ov or minetest.register_node)(block, {
 		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
 		tiles = {"technic_uranium_block.png"},
 		is_ground_content = true,
-		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(math.sqrt(p) + 0.5)},
+		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(math.sqrt((1+5.55*p/35) * 9 / (1+5.55*7/35)) + 0.5)},
 		sounds = default.node_sound_stone_defaults(),
 	});
 	if not ov then
