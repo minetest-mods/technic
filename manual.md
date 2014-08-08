@@ -34,7 +34,7 @@ ranges, so you will ultimately need to mine at more than one elevation
 to find all the ores.  Also, because one of the best elevations to mine
 at is very deep, you will be unable to mine there early in the game.
 
-Elevation is measured in metres, relative to a reference plane that
+Elevation is measured in meters, relative to a reference plane that
 is not quite sea level.  (The standard sea level is at an elevation
 of about +1.4.)  Positive elevations are above the reference plane and
 negative elevations below.  Because elevations are always described this
@@ -94,7 +94,7 @@ the fuel for nuclear reactors, and is also one of the best radiation
 shielding materials available.  It is not difficult to find enough uranium
 ore to satisfy these uses.  Beware that the ore is slightly radioactive:
 it will slightly harm you if you stand as close as possible to it.
-It is safe when more than a metre away or when mined.
+It is safe when more than a meter away or when mined.
 
 Silver is supplied by the moreores mod.  It is found from elevation -2
 downwards, with no elevation-dependent variations in abundance beyond
