@@ -23,8 +23,10 @@ craft guide mod to look up the recipes in-game.  For the best possible
 guidance, use the unified\_inventory mod, with which technic registers
 its specialised recipe types.
 
-ore
----
+substances
+----------
+
+### ore ###
 
 The technic mod makes extensive use of not just the default ores but also
 some that are added by mods.  You will need to mine for all the ore types
@@ -129,8 +131,7 @@ technic).  It is found from elevation -128 downwards, but is more abundant
 from elevation -256 downwards.  It is a precious gemstone.  It is used
 moderately, mainly for reasons connected to its extreme hardness.
 
-rock
-----
+### rock ###
 
 In addition to the ores, there are multiple kinds of rock that need to be
 mined in their own right, rather than for minerals.  The rock types that
@@ -160,113 +161,30 @@ elevation -150 downwards.  It is much harder to dig than standard stone,
 so impedes mining when it is encountered.  It has mainly decorative use,
 but also appears in a couple of machine recipes.
 
-alloying
---------
+### rubber ###
 
-In technic, alloying is a way of combining items to create other items,
-distinct from standard crafting.  Alloying always uses inputs of exactly
-two distinct types, and produces a single output.  Like cooking, which
-takes a single input, it is performed using a powered machine, known
-generically as an "alloy furnace".  An alloy furnace always has two
-input slots, and it doesn't matter which way round the two ingredients
-are placed in the slots.  Many alloying recipes require one or both
-slots to contain a stack of more than one of the ingredient item: the
-quantity required of each ingredient is part of the recipe.
+Rubber is a biologically-derived material that has industrial uses due
+to its electrical resistivity and its impermeability.  In technic, it
+is used in a few recipes, and it must be acquired by tapping rubber trees.
 
-As with the furnaces used for cooking, there are multiple kinds of alloy
-furnace, powered in different ways.  The most-used alloy furnaces are
-electrically powered.  There is also an alloy furnace that is powered
-by directly burning fuel, just like the basic cooking furnace.  Building
-almost any electrical machine, including the electrically-powered alloy
-furnaces, requires a machine casing component, one ingredient of which
-is brass, an alloy.  It is therefore necessary to use the fuel-fired
-alloy furnace in the early part of the game, on the way to building
-electrical machinery.
+If you have the moretrees mod installed, the rubber trees you need
+are those defined by that mod.  If not, technic supplies a copy of the
+moretrees rubber tree.
 
-Alloying recipes are mainly concerned with metals.  These recipes
-combine a base metal with some other element, most often another metal,
-to produce a new metal.  This is discussed in the section on metal.
-There are also a few alloying recipes in which the base ingredient is
-non-metallic, such as the recipe for the silicon wafer.
+Extracting rubber requires a specific tool, a tree tap.  Using the tree
+tap (by left-clicking) on a rubber tree trunk block extracts a lump of
+raw latex from the trunk.  Each trunk block can be repeatedly tapped for
+latex, at intervals of several minutes; its appearance changes to show
+whether it is currently ripe for tapping.  Each tree has several trunk
+blocks, so several latex lumps can be extracted from a tree in one visit.
 
-grinding, extracting, and compressing
--------------------------------------
+Raw latex isn't used directly.  It must be vulcanized to produce finished
+rubber.  This can be performed by simply cooking the latex, with each
+latex lump producing one lump of rubber.  If you have an extractor,
+however, the latex is better processed there: each latex lump will
+produce three lumps of rubber.
 
-Grinding, extracting, and compressing are three distinct, but very
-similar, ways of converting one item into another.  They are all quite
-similar to the cooking found in the basic Minetest game.  Each uses
-an input consisting of a single item type, and produces a single
-output.  They are all performed using powered machines, respectively
-known generically as a "grinder", "extractor", and "compressor".
-Some compressing recipes require the input to be a stack of more than
-one of the input item: the quantity required is part of the recipe.
-Grinding and extracting recipes never require such a stacked input.
-
-There are multiple kinds of grinder, extractor, and compressor.  Unlike
-cooking furnaces and alloy furnaces, there are none that directly burn
-fuel; they are all electrically powered.
-
-Grinding recipes always produce some kind of dust, loosely speaking,
-as output.  The most important grinding recipes are concerned with metals:
-every metal lump or ingot can be ground into metal dust.  Coal can also
-be ground into dust, and burning the dust as fuel produces much more
-energy than burning the original coal lump.  There are a few other
-grinding recipes that make block types from the basic Minetest game
-more interconvertible: standard stone can be ground to standard sand,
-desert stone to desert sand, cobblestone to gravel, and gravel to dirt.
-
-Extracting is a miscellaneous category, used for a small group
-of processes that just don't fit nicely anywhere else.  (Its name is
-notably vaguer than those of the other kinds of processing.)  It is used
-for recipes that produce dye, mainly from flowers.  (However, for those
-recipes using flowers, the basic Minetest game provides parallel crafting
-recipes that are easier to use and produce more dye, and those recipes
-are not suppressed by technic.)  Its main use is to generate rubber from
-raw latex, which it does three times as efficiently as merely cooking
-the latex.  Extracting was also formerly used for uranium enrichment for
-use as nuclear fuel, but this use has been superseded by a new enrichment
-system using the centrifuge.
-
-Compressing recipes are mainly used to produce a few relatively advanced
-artificial item types, such as the copper and carbon plates used in
-advanced machine recipes.  There are also a couple of compressing recipes
-making natural block types more interconvertible.
-
-centrifuging
-------------
-
-Centrifuging is another way of using a machine to convert items.
-Centrifuging takes an input of a single item type, and produces outputs
-of two distinct types.  The input may be required to be a stack of
-more than one of the input item: the quantity required is part of
-the recipe.  Centrifuging is only performed by a single machine type,
-the MV (electrically-powered) centrifuge.
-
-Currently, centrifuging recipes don't appear in the unified\_inventory
-craft guide, because unified\_inventory can't yet handle recipes with
-multiple outputs.
-
-Generally, centrifuging separates the input item into constituent
-substances, but it can only work when the input is reasonably fluid,
-and in marginal cases it is quite destructive to item structure.
-(In real life, centrifuges require their input to be mainly fluid, that
-is either liquid or gas.  Few items in the game are described as liquid
-or gas, so the concept of the centrifuge is stretched a bit to apply to
-finely-divided solids.)
-
-The main use of centrifuging is in uranium enrichment, where it
-separates the isotopes of uranium dust that otherwise appears uniform.
-Enrichment is a necessary process before uranium can be used as nuclear
-fuel, and the radioactivity of uranium blocks is also affected by its
-isotopic composition.
-
-A secondary use of centrifuging is to separate the components of
-metal alloys.  This can only be done using the dust form of the alloy.
-It recovers both components of binary metal/metal alloys.  It can't
-recover the carbon from steel or cast iron.
-
-metal
------
+### metal ###
 
 Many of the substances important in technic are metals, and there is
 a common pattern in how metals are handled.  Generally, each metal can
@@ -322,8 +240,7 @@ ingots, or by alloying two piles of copper dust with one pile of zinc
 dust to make three piles of brass dust.  The two ways of alloying produce
 equivalent results.
 
-iron and its alloys
--------------------
+### iron and its alloys ###
 
 Iron forms several important alloys.  In real-life history, iron was the
 second metal to be used as the base component of deliberately-constructed
@@ -426,29 +343,110 @@ There's one more iron alloy in the game: stainless steel.  It is managed
 in a completely regular manner, created by alloying carbon steel with
 chromium.
 
-rubber
-------
+industrial processes
+--------------------
 
-Rubber is a biologically-derived material that has industrial uses due
-to its electrical resistivity and its impermeability.  In technic, it
-is used in a few recipes, and it must be acquired by tapping rubber trees.
+### alloying ###
 
-If you have the moretrees mod installed, the rubber trees you need
-are those defined by that mod.  If not, technic supplies a copy of the
-moretrees rubber tree.
+In technic, alloying is a way of combining items to create other items,
+distinct from standard crafting.  Alloying always uses inputs of exactly
+two distinct types, and produces a single output.  Like cooking, which
+takes a single input, it is performed using a powered machine, known
+generically as an "alloy furnace".  An alloy furnace always has two
+input slots, and it doesn't matter which way round the two ingredients
+are placed in the slots.  Many alloying recipes require one or both
+slots to contain a stack of more than one of the ingredient item: the
+quantity required of each ingredient is part of the recipe.
 
-Extracting rubber requires a specific tool, a tree tap.  Using the tree
-tap (by left-clicking) on a rubber tree trunk block extracts a lump of
-raw latex from the trunk.  Each trunk block can be repeatedly tapped for
-latex, at intervals of several minutes; its appearance changes to show
-whether it is currently ripe for tapping.  Each tree has several trunk
-blocks, so several latex lumps can be extracted from a tree in one visit.
+As with the furnaces used for cooking, there are multiple kinds of alloy
+furnace, powered in different ways.  The most-used alloy furnaces are
+electrically powered.  There is also an alloy furnace that is powered
+by directly burning fuel, just like the basic cooking furnace.  Building
+almost any electrical machine, including the electrically-powered alloy
+furnaces, requires a machine casing component, one ingredient of which
+is brass, an alloy.  It is therefore necessary to use the fuel-fired
+alloy furnace in the early part of the game, on the way to building
+electrical machinery.
 
-Raw latex isn't used directly.  It must be vulcanized to produce finished
-rubber.  This can be performed by simply cooking the latex, with each
-latex lump producing one lump of rubber.  If you have an extractor,
-however, the latex is better processed there: each latex lump will
-produce three lumps of rubber.
+Alloying recipes are mainly concerned with metals.  These recipes
+combine a base metal with some other element, most often another metal,
+to produce a new metal.  This is discussed in the section on metal.
+There are also a few alloying recipes in which the base ingredient is
+non-metallic, such as the recipe for the silicon wafer.
+
+### grinding, extracting, and compressing ###
+
+Grinding, extracting, and compressing are three distinct, but very
+similar, ways of converting one item into another.  They are all quite
+similar to the cooking found in the basic Minetest game.  Each uses
+an input consisting of a single item type, and produces a single
+output.  They are all performed using powered machines, respectively
+known generically as a "grinder", "extractor", and "compressor".
+Some compressing recipes require the input to be a stack of more than
+one of the input item: the quantity required is part of the recipe.
+Grinding and extracting recipes never require such a stacked input.
+
+There are multiple kinds of grinder, extractor, and compressor.  Unlike
+cooking furnaces and alloy furnaces, there are none that directly burn
+fuel; they are all electrically powered.
+
+Grinding recipes always produce some kind of dust, loosely speaking,
+as output.  The most important grinding recipes are concerned with metals:
+every metal lump or ingot can be ground into metal dust.  Coal can also
+be ground into dust, and burning the dust as fuel produces much more
+energy than burning the original coal lump.  There are a few other
+grinding recipes that make block types from the basic Minetest game
+more interconvertible: standard stone can be ground to standard sand,
+desert stone to desert sand, cobblestone to gravel, and gravel to dirt.
+
+Extracting is a miscellaneous category, used for a small group
+of processes that just don't fit nicely anywhere else.  (Its name is
+notably vaguer than those of the other kinds of processing.)  It is used
+for recipes that produce dye, mainly from flowers.  (However, for those
+recipes using flowers, the basic Minetest game provides parallel crafting
+recipes that are easier to use and produce more dye, and those recipes
+are not suppressed by technic.)  Its main use is to generate rubber from
+raw latex, which it does three times as efficiently as merely cooking
+the latex.  Extracting was also formerly used for uranium enrichment for
+use as nuclear fuel, but this use has been superseded by a new enrichment
+system using the centrifuge.
+
+Compressing recipes are mainly used to produce a few relatively advanced
+artificial item types, such as the copper and carbon plates used in
+advanced machine recipes.  There are also a couple of compressing recipes
+making natural block types more interconvertible.
+
+### centrifuging ###
+
+Centrifuging is another way of using a machine to convert items.
+Centrifuging takes an input of a single item type, and produces outputs
+of two distinct types.  The input may be required to be a stack of
+more than one of the input item: the quantity required is part of
+the recipe.  Centrifuging is only performed by a single machine type,
+the MV (electrically-powered) centrifuge.
+
+Currently, centrifuging recipes don't appear in the unified\_inventory
+craft guide, because unified\_inventory can't yet handle recipes with
+multiple outputs.
+
+Generally, centrifuging separates the input item into constituent
+substances, but it can only work when the input is reasonably fluid,
+and in marginal cases it is quite destructive to item structure.
+(In real life, centrifuges require their input to be mainly fluid, that
+is either liquid or gas.  Few items in the game are described as liquid
+or gas, so the concept of the centrifuge is stretched a bit to apply to
+finely-divided solids.)
+
+The main use of centrifuging is in uranium enrichment, where it
+separates the isotopes of uranium dust that otherwise appears uniform.
+Enrichment is a necessary process before uranium can be used as nuclear
+fuel, and the radioactivity of uranium blocks is also affected by its
+isotopic composition.
+
+A secondary use of centrifuging is to separate the components of
+metal alloys.  This can only be done using the dust form of the alloy.
+It recovers both components of binary metal/metal alloys.  It can't
+recover the carbon from steel or cast iron.
 
 chests
 ------
@@ -576,10 +574,36 @@ subjects missing from this manual
 
 This manual needs to be extended with sections on:
 
-*   the miscellaneous powered machine types
-*   how machines interact with tubes
-*   the generator types
-*   the mining tools
+*   substances
+    *   concrete
+*   powered machines
+    *   machine upgrades
+    *   how machines interact with tubes
+    *   battery box
+    *   processing machines
+    *   CNC machine
+    *   music player
+    *   tool workshop
+    *   forcefield emitter
+    *   quarry
+*   power generators
+    *   hydro
+    *   geothermal
+    *   fuel-fired
+    *   wind
+    *   solar
+    *   nuclear
+*   tools
+    *   tool charging
+    *   battery and energy crystals
+    *   chainsaw
+    *   flashlight
+    *   mining lasers
+    *   liquid cans
+    *   mining drills
+    *   prospector
+    *   sonic screwdriver
+    *   wrench
 *   radioactivity
 *   frames
 *   templates
