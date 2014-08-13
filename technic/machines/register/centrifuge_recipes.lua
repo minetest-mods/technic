@@ -20,14 +20,6 @@ local recipes = {
 	{ "moretrees:rubber_tree_trunk",       rubber_tree_planks.." 4",      "technic:raw_latex"     },
 }
 
--- Refining uranium via centrifuge is intended to make it a practical
--- necessity to set up an automated cascade of centrifuges.  Once the
--- cascade has been primed, production of one 3.5%-fissile dust requires
--- input of five 0.7%-fissile dust and 490 centrifuge operations, and
--- produces four 0.0%-fissile dust as a byproduct.  The busiest stage
--- of the cascade is the one taking 0.7%-fissile dust, which performs 28
--- of the 490 operations.  The least busy is the one taking 3.4%-fissile
--- dust, which performs 1 of the 490 operations.
 local function uranium_dust(p)
 	return "technic:uranium"..(p == 7 and "" or p).."_dust"
 end

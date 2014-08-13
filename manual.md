@@ -343,6 +343,162 @@ There's one more iron alloy in the game: stainless steel.  It is managed
 in a completely regular manner, created by alloying carbon steel with
 chromium.
 
+### uranium enrichment ###
+
+When uranium is to be used to fuel a nuclear reactor, it is not
+sufficient to merely isolate and refine uranium metal.  It is necessary
+to control its isotopic composition, because the different isotopes
+behave differently in nuclear processes.
+
+The main isotopes of interest are U-235 and U-238.  U-235 is good at
+sustaining a nuclear chain reaction, because when a U-235 nucleus is
+bombarded with a neutron it will usually fission (split) into fragments.
+It is therefore described as "fissile".  U-238, on the other hand,
+is not fissile: if bombarded with a neutron it will usually capture it,
+becoming U-239, which is very unstable and quickly decays into semi-stable
+(and fissile) plutonium-239.
+
+Inconveniently, the fissile U-235 makes up only about 0.7% of natural
+uranium, almost all of the other 99.3% being U-238.  Natural uranium
+therefore doesn't make a great nuclear fuel.  (In real life there are
+a small number of reactor types that can use it, but technic doesn't
+have such a reactor.)  Better nuclear fuel needs to contain a higher
+proportion of U-235.
+
+Achieving a higher U-235 content isn't as simple as separating the U-235
+from the U-238 and just using the required amount of U-235.  Because
+U-235 and U-238 are both uranium, and therefore chemically identical,
+they cannot be chemically separated, in the way that different elements
+are separated from each other when refining metal.  They do differ
+in atomic mass, so they can be separated by centrifuging, but because
+their atomic masses are very close, centrifuging doesn't separate them
+very well.  They cannot be separated completely, but it is possible to
+produce uranium that has the isotopes mixed in different proportions.
+Uranium with a significantly larger fissile U-235 fraction than natural
+uranium is called "enriched", and that with a significantly lower fissile
+fraction is called "depleted".
+
+A single pass through a centrifuge produces two output streams, one with
+a fractionally higher fissile proportion than the input, and one with a
+fractionally lower fissile proportion.  To alter the fissile proportion
+by a significant amount, these output streams must be centrifuged again,
+repeatedly.  The usual arrangement is a "cascade", a linear arrangement
+of many centrifuges.  Each centrifuge takes as input uranium with some
+specific fissile proportion, and passes its two output streams to the
+two adjacent centrifuges.  Natural uranium is input somewhere in the
+middle of the cascade, and the two ends of the cascade produce properly
+enriched and depleted uranium.
+
+Fuel for technic's nuclear reactor consists of enriched uranium of which
+3.5% is fissile.  (This is a typical value for a real-life light water
+reactor, a common type for power generation.)  To enrich uranium in the
+game, it must first be in dust form: the centrifuge will not operate
+on ingots.  (In real life uranium enrichment is done with the uranium
+in the form of a gas.)  It is best to grind uranium lumps directly to
+dust, rather than cook them to ingots first, because this yields twice
+as much metal dust.  When uranium is in refined form (dust, ingot, or
+block), the name of the inventory item indicates its fissile proportion.
+Uranium of any available fissile proportion can be put through all the
+usual processes for metal.
+
+A single centrifuge operation takes two uranium dust piles, and produces
+as output one dust pile with a fissile proportion 0.1% higher and one with
+a fissile proportion 0.1% lower.  Uranium can be enriched up to the 3.5%
+required for nuclear fuel, and depleted down to 0.0%.  Thus a cascade
+covering the full range of fissile fractions requires 34 cascade stages.
+(In real life, enriching to 3.5% uses thousands of cascade stages.
+Also, centrifuging is less effective when the input isotope ratio
+is more skewed, so the steps in fissile proportion are smaller for
+relatively depleted uranium.  Zero fissile content is only asymptotically
+approachable, and natural uranium relatively cheap, so uranium is normally
+only depleted to around 0.3%.  On the other hand, much higher enrichment
+than 3.5% isn't much more difficult than enriching that far.)
+
+Although centrifuges can be used manually, it is not feasible to perform
+uranium enrichment by hand.  It is a practical necessity to set up
+an automated cascade, using pneumatic tubes to transfer uranium dust
+piles between centrifuges.  Because both outputs from a centrifuge are
+ejected into the same tube, sorting tubes are needed to send the outputs
+in different directions along the cascade.  It is possible to send items
+into the centrifuges through the same tubes that take the outputs, so the
+simplest version of the cascade structure has a line of 34 centrifuges
+linked by a line of 34 sorting tube segments.
+
+Assuming that the cascade depletes uranium all the way to 0.0%,
+producing one unit of 3.5%-fissile uranium requires the input of five
+units of 0.7%-fissile (natural) uranium, takes 490 centrifuge operations,
+and produces four units of 0.0%-fissile (fully depleted) uranium as a
+byproduct.  It is possible to reduce the number of required centrifuge
+operations by using more natural uranium input and outputting only
+partially depleted uranium, but (unlike in real life) this isn't usually
+an economical approach.  The 490 operations are not spread equally over
+the cascade stages: the busiest stage is the one taking 0.7%-fissile
+uranium, which performs 28 of the 490 operations.  The least busy is the
+one taking 3.4%-fissile uranium, which performs 1 of the 490 operations.
+
+A centrifuge cascade will consume quite a lot of energy.  It is
+worth putting a battery upgrade in each centrifuge.  (Only one can be
+accommodated, because a control logic unit upgrade is also required for
+tube operation.)  An MV centrifuge, the only type presently available,
+draws 7 kEU/s in this state, and takes 5 s for each uranium centrifuging
+operation.  It thus takes 35 kEU per operation, and the cascade requires
+17.15 MEU to produce each unit of enriched uranium.  It takes five units
+of enriched uranium to make each fuel rod, and six rods to fuel a reactor,
+so the enrichment cascade requires 514.5 MEU to process a full set of
+reactor fuel.  This is about 0.85% of the 6.048 GEU that the reactor
+will generate from that fuel.
+
+If there is enough power available, and enough natural uranium input,
+to keep the cascade running continuously, and exactly one centrifuge
+at each stage, then the overall speed of the cascade is determined by
+the busiest stage, the 0.7% stage.  It can perform its 28 operations
+towards the enrichment of a single uranium unit in 140 s, so that is
+the overall cycle time of the cascade.  It thus takes 70 min to enrich
+a full set of reactor fuel.  While the cascade is running at this full
+speed, its average power consumption is 122.5 kEU/s.  The instantaneous
+power consumption varies from second to second over the 140 s cycle,
+and the maximum possible instantaneous power consumption (with all 34
+centrifuges active simultaneously) is 238 kEU/s.  It is recommended to
+have some battery boxes to smooth out these variations.
+
+If the power supplied to the centrifuge cascade averages less than
+122.5 kEU/s, then the cascade can't run continuously.  (Also, if the
+power supply is intermittent, such as solar, then continuous operation
+requires more battery boxes to smooth out the supply variations, even if
+the average power is high enough.)  Because it's automated and doesn't
+require continuous player attention, having the cascade run at less
+than full speed shouldn't be a major problem.  The enrichment work will
+consume the same energy overall regardless of how quickly it's performed,
+and the speed will vary in direct proportion to the average power supply
+(minus any supply lost because battery boxes filled completely).
+
+If there is insufficient power to run both the centrifuge cascade at
+full speed and whatever other machines require power, all machines on
+the same power network as the centrifuge will be forced to run at the
+same fractional speed.  This can be inconvenient, especially if use
+of the other machines is less automated than the centrifuge cascade.
+It can be avoided by putting the centrifuge cascade on a separate power
+network from other machines, and limiting the proportion of the generated
+power that goes to it.
+
+If there is sufficient power and it is desired to enrich uranium faster
+than a single cascade can, the process can be speeded up more economically
+than by building an entire second cascade.  Because the stages of the
+cascade do different proportions of the work, it is possible to add a
+second and subsequent centrifuges to only the busiest stages, and have
+the less busy stages still keep up with only a single centrifuge each.
+
+Another possible approach to uranium enrichment is to have no fixed
+assignment of fissile proportions to centrifuges, dynamically putting
+whatever uranium is available into whichever centrifuges are available.
+Theoretically all of the centrifuges can be kept almost totally busy all
+the time, making more efficient use of capital resources, and the number
+of centrifuges used can be as little (down to one) or as large as desired.
+The difficult part is that it is not sufficient to put each uranium dust
+pile individually into whatever centrifuge is available: they must be
+input in matched pairs.  Any odd dust pile in a centrifuge will not be
+processed and will prevent that centrifuge from accepting any other input.
+
 industrial processes
 --------------------
 
