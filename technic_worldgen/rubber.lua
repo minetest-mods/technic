@@ -27,10 +27,6 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 		flammable=2},
 	sounds = default.node_sound_wood_defaults(),
-	after_place_node = function(pos, placer, itemstack)
-		local meta = minetest.get_meta(pos)
-		meta:set_int("placed", 1)
-	end,
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
@@ -40,10 +36,6 @@ minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 			flammable=2, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
-	after_place_node = function(pos, placer, itemstack)
-		local meta = minetest.get_meta(pos)
-		meta:set_int("placed", 1)
-	end,
 })
 
 minetest.register_node(":moretrees:rubber_tree_leaves", {

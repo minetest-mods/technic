@@ -65,11 +65,10 @@ minetest.register_abm({
 	interval = 60,
 	chance = 15,
 	action = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		if meta:get_int("placed") ~= 0 then
-			return
+		if minetest.find_node_near(pos, (moretrees and moretrees.leafdecay_radius) or 5, {"moretrees:rubber_tree_leaves"}) then
+			node.name = "moretrees:rubber_tree_trunk"
+			minetest.swap_node(pos, node)
 		end
-		minetest.set_node(pos, {name="moretrees:rubber_tree_trunk"})
 	end
 })
 
