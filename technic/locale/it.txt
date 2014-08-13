@@ -51,6 +51,12 @@ Out: = Uscita:
 Slot %d =
 Itemwise = Singolo elemento
 Stackwise = pila completa
+Owner: =
+Unlocked =
+Locked =
+Radius: =
+Enabled =
+Disabled =
 
 ## Machine names
 # $1: Tier
@@ -89,6 +95,7 @@ Fuel-Fired Furnace = Fornace a carbone
 Wind Mill Frame = Pala eolica
 Forcefield = Campo di forza
 Nuclear Reactor Rod Compartment = Compartimento combustibile nucleare
+Administrative World Anchor =
 
 ## Machine-specific
 # $1: Pruduced EU
@@ -103,6 +110,7 @@ Production at %d%% = Produzione a %d%%
 Choose Milling Program: = Scegliere un programma di Fresatura
 Slim Elements half / normal height: = Metà elementi sottili / altezza normale:
 Current track %s = Traccia corrente %s
+Keeping %d/%d map blocks loaded =
 
 ## CNC
 Cylinder = Cilindro

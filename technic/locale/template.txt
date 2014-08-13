@@ -58,6 +58,12 @@ Itemwise =
 Stackwise =
 Ignoring Mesecon Signal =
 Controlled by Mesecon Signal =
+Owner: =
+Unlocked =
+Locked =
+Radius: =
+Enabled =
+Disabled =
 
 ## Machine names
 # $1: Tier
@@ -97,6 +103,7 @@ Fuel-Fired Furnace =
 Wind Mill Frame =
 Forcefield =
 Nuclear Reactor Rod Compartment =
+Administrative World Anchor =
 
 ## Machine-specific
 # $1: Pruduced EU
@@ -111,6 +118,7 @@ Production at %d%% =
 Choose Milling Program: =
 Slim Elements half / normal height: =
 Current track %s =
+Keeping %d/%d map blocks loaded =
 
 ## CNC
 Cylinder =

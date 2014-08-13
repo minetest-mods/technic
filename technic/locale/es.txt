@@ -50,6 +50,12 @@ Range = Alcance
 Enable/Disable = Habilitar/Deshabilitar
 Itemwise =
 Stackwise =
+Owner: =
+Unlocked =
+Locked =
+Radius: =
+Enabled =
+Disabled =
 
 ## Machine names
 # $1: Tier
@@ -88,6 +94,7 @@ Fuel-Fired Furnace = Horno a Carbon
 Forcefield = Campo de Fuerza
 Nuclear Reactor Rod Compartment = Compartimiento para Vara de Reactor Nuclear
 Wind Mill Frame = Armazon de Molino de Viento
+Administrative World Anchor =
 
 ## Machine-specific
 # $1: Pruduced EU
@@ -100,6 +107,7 @@ Power level = Nivel de Poder
 %s. Supply: %d Demand: %d = %s. Alimentacion: %d Demanda: %d
 # $1: Production percent
 Production at %d%% = Produccion en %d%%
+Keeping %d/%d map blocks loaded =
 
 ## CNC Machine
 Element Edge = Elemento Borde
