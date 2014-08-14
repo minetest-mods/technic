@@ -110,6 +110,7 @@ Production at %d%% = Produzione a %d%%
 Choose Milling Program: = Scegliere un programma di Fresatura
 Slim Elements half / normal height: = Metà elementi sottili / altezza normale:
 Current track %s = Traccia corrente %s
+Stopped =
 Keeping %d/%d map blocks loaded =
 
 ## CNC

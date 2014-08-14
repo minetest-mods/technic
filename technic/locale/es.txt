@@ -107,6 +107,7 @@ Power level = Nivel de Poder
 %s. Supply: %d Demand: %d = %s. Alimentacion: %d Demanda: %d
 # $1: Production percent
 Production at %d%% = Produccion en %d%%
+Stopped =
 Keeping %d/%d map blocks loaded =
 
 ## CNC Machine

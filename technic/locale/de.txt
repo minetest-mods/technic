@@ -113,6 +113,7 @@ Production at %d%% = Produktion bei %d%%
 Choose Milling Program: = Waehle ein Fraesprogramm:
 Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
 Current track %s = Aktueller Titel %s
+Stopped =
 Keeping %d/%d map blocks loaded =
 
 ## CNC

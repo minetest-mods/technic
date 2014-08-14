@@ -118,6 +118,7 @@ Production at %d%% =
 Choose Milling Program: =
 Slim Elements half / normal height: =
 Current track %s =
+Stopped =
 Keeping %d/%d map blocks loaded =
 
 ## CNC
