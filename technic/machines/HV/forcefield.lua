@@ -138,7 +138,6 @@ local mesecons = {
 local run = function(pos, node, active_object_count, active_object_count_wider)
 	local meta = minetest.get_meta(pos)
 	local eu_input   = meta:get_int("HV_EU_input")
-	local eu_demand  = meta:get_int("HV_EU_demand")
 	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
 	local machine_name = S("%s Forcefield Emitter"):format("HV")
 
@@ -153,13 +152,15 @@ local run = function(pos, node, active_object_count, active_object_count_wider)
 
 	if not enabled then
 		if node.name == "technic:forcefield_emitter_on" then
-			meta:set_int("HV_EU_demand", 0)
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
 			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
-			return
 		end
-	elseif eu_input < power_requirement then
+		meta:set_int("HV_EU_demand", 0)
+		return
+	end
+	meta:set_int("HV_EU_demand", power_requirement)
+	if eu_input < power_requirement then
 		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
@@ -172,7 +173,6 @@ local run = function(pos, node, active_object_count, active_object_count_wider)
 		end
 		update_forcefield(pos, meta, true)
 	end
-	meta:set_int("HV_EU_demand", power_requirement)
 end
 
 minetest.register_node("technic:forcefield_emitter_off", {
