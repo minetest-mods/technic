@@ -119,7 +119,7 @@ end
 
 local function send_items(items, pos, node)
 	for _, item in pairs(items) do
-		pipeworks.tube_item(pos, pos, vector.new(0, 1, 0), item)
+		technic.tube_inject_item(pos, pos, vector.new(0, 1, 0), item)
 	end
 end
 

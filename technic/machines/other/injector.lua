@@ -13,7 +13,7 @@ local function inject_items (pos)
 				local item0=stack:to_table()
 				if item0 then 
 					item0["count"] = "1"
-					pipeworks.tube_item(pos, pos, vector.new(0, -1, 0), item0)
+					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:take_item(1)
 					inv:set_stack("main", i, stack)
 					return
@@ -28,7 +28,7 @@ local function inject_items (pos)
 				if stack then
 				local item0=stack:to_table()
 				if item0 then 
-					pipeworks.tube_item(pos, pos, vector.new(0, -1, 0), item0)
+					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:clear()
 					inv:set_stack("main", i, stack)
 					return

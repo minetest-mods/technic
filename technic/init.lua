@@ -4,6 +4,13 @@
 
 technic = technic or {}
 
+technic.tube_inject_item = pipeworks.tube_inject_item or function (pos, start_pos, velocity, item)
+	local tubed = pipeworks.tube_item(vector.new(pos), item)
+	tubed:get_luaentity().start_pos = vector.new(start_pos)
+	tubed:setvelocity(velocity)
+	tubed:setacceleration(vector.new(0, 0, 0))
+end
+
 local load_start = os.clock()
 local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
