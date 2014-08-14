@@ -52,10 +52,7 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 			local item0 = stack:to_table()
 			if item0 then 
 				item0["count"] = "1"
-				local item1 = pipeworks.tube_item({x=pos.x, y=pos.y, z=pos.z}, item0)
-				item1:get_luaentity().start_pos = {x=pos.x, y=pos.y, z=pos.z}
-				item1:setvelocity({x=x_velocity, y=0, z=z_velocity})
-				item1:setacceleration({x=0, y=0, z=0})
+				pipeworks.tube_item(pos, pos, vector.new(x_velocity, 0, z_velocity), item0)
 				stack:take_item(1)
 				inv:set_stack(output_name, i, stack)
 				return
