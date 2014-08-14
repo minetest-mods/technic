@@ -76,6 +76,15 @@ local run = function(pos, node)
 	meta:set_int("LV_EU_demand", demand)
 end
 
+local function stop_player(pos, node)
+	local pos_hash = minetest.hash_node_position(pos)
+	local music_handle = music_handles[pos_hash]
+	if music_handle then
+		minetest.sound_stop(music_handle)
+		music_handles[pos_hash] = nil
+	end
+end
+
 minetest.register_node("technic:music_player", {
 	description = S("%s Music Player"):format("LV"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
@@ -91,8 +100,6 @@ minetest.register_node("technic:music_player", {
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
 		local meta          = minetest.get_meta(pos)
-		local pos_hash      = minetest.hash_node_position(pos)
-		local music_handle  = music_handles[pos_hash]
 		local current_track = meta:get_int("current_track")
 		if fields.track1 then current_track = 1 end
 		if fields.track2 then current_track = 2 end
@@ -120,22 +127,14 @@ minetest.register_node("technic:music_player", {
 				"button[6,4;1,2;stop;Stop]"..
 				"label[4,0;"..S("Current track %s")
 					:format(current_track).."]")
-		if fields.play then
-			if music_handle then
-				minetest.sound_stop(music_handle)
-			end
-			music_handle = play_track(pos, current_track)
-			meta:set_int("active", 1)
+		if fields.play or fields.stop then
+			stop_player(pos)
+			meta:set_int("active", fields.play and 1 or 0)
 		end
-		if fields.stop then
-			meta:set_int("active", 0)
-			if music_handle then
-				minetest.sound_stop(music_handle)
-			end
-		end
-		music_handles[pos_hash] = music_handle
 	end,
+	on_destruct = stop_player,
 	technic_run = run,
+	technic_on_disable = stop_player,
 })
 
 technic.register_machine("LV", "technic:music_player", technic.receiver)
