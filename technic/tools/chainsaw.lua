@@ -153,31 +153,31 @@ end
 -- @param pos Reference to sawing position.  Note that this is overridden.
 local function iterSawTries(pos)
 	-- Shift the position down on the x and z axes
-	pos.x, pos.z = pos.x - 1, pos.z - 1
+	local c_pos = {x=pos.x - 1, y=pos.y, z=pos.z - 1} -- a copy of pos after shifting
 	-- Save our starting position for reseting it later
-	local startx, startz = pos.x, pos.z
+	local startx, startz = c_pos.x, c_pos.z
 	-- We will move out by one in every direction except -y
-	local endx, endy, endz = pos.x + 2, pos.y + 1, pos.z + 2
+	local endx, endy, endz = c_pos.x + 2, c_pos.y + 1, c_pos.z + 2
 	-- Adjust for initial increment
-	pos.x = pos.x - 1
+	c_pos.x = c_pos.x - 1
 
 	return function()
-		if pos.x < endx then
-			pos.x = pos.x + 1
+		if c_pos.x < endx then
+			c_pos.x = c_pos.x + 1
 		else
-			pos.x = startx
-			if pos.z < endz then
-				pos.z = pos.z + 1
+			c_pos.x = startx
+			if c_pos.z < endz then
+				c_pos.z = c_pos.z + 1
 			else
-				pos.z = startz
-				if pos.y < endy then
-					pos.y = pos.y + 1
+				c_pos.z = startz
+				if c_pos.y < endy then
+					c_pos.y = c_pos.y + 1
 				else
 					return nil
 				end
 			end
 		end
-		return pos
+		return c_pos
 	end
 end
 
@@ -199,12 +199,13 @@ local function recursive_dig(pos, remaining_charge)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
 
 	-- Check surroundings and run recursively if any charge left
-	for pos in iterSawTries(pos) do
+	local npos
+	for npos in iterSawTries(pos) do
 		if remaining_charge < chainsaw_charge_per_node then
 			break
 		end
-		if timber_nodenames[minetest.get_node(pos).name] then
-			remaining_charge = recursive_dig(pos, remaining_charge)
+		if timber_nodenames[minetest.get_node(npos).name] then
+			remaining_charge = recursive_dig(npos, remaining_charge)
 		end
 	end
 	return remaining_charge
@@ -312,4 +313,3 @@ minetest.register_craft({
 		{"",                              "",                           "technic:stainless_steel_ingot"},
 	}
 })
-
