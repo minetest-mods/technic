@@ -101,8 +101,8 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	if node.param2 == 0 then pos1.x = pos1.x + 1  x_velocity =  1 end
 
 	local output_tube_connected = false
-	local meta1 = minetest.get_meta(pos1) 
-	if meta1:get_int("tubelike") == 1 then
+	local node1 = minetest.get_node(pos1) 
+	if minetest.get_item_group(node1.name, "tubedevice") > 0 then
 		output_tube_connected = true
 	end
 	tube_time = meta:get_int("tube_time")

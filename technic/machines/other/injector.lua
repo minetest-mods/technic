@@ -97,12 +97,11 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-	local pos1={}
-	pos1.x = pos.x
-	pos1.y = pos.y-1
-	pos1.z = pos.z
-	local meta=minetest.env:get_meta(pos1) 
-		if meta:get_int("tubelike")==1 then inject_items (pos) end
+		local pos1 = vector.add(pos, vector.new(0, -1, 0))
+		local node1 = minetest.get_node(pos1) 
+		if minetest.get_item_group(node1.name, "tubedevice") > 0 then
+			inject_items(pos)
+		end
 	end,
 })
 
