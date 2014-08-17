@@ -690,9 +690,7 @@ no energy will flow without one.  Unlike most electrical items, the
 switching station is not voltage-specific: the same item will manage
 a network of any tier.  However, also unlike most electrical items,
 it is picky about the direction in which it is connected to the cable:
-the cable must be directly below the switching station.  Due to a bug,
-the switching station will visually appear to connect to cables on other
-sides, but those connections don't do anything.
+the cable must be directly below the switching station.
 
 Hovering over a network's switching station will show the aggregate energy
 supply and demand, which is useful for troubleshooting.  Electrical energy

@@ -130,7 +130,11 @@ end
 function technic.cables_should_connect(pos1, pos2, tier)
 	local name = minetest.get_node(pos2).name
 
-	if technic.is_tier_cable(name, tier) then
+	if name == "technic:switching_station" then
+		return pos2.y == pos1.y + 1 and "machine" or false
+	elseif name == "technic:supply_converter" then
+		return math.abs(pos2.y - pos1.y) == 1 and "machine" or false
+	elseif technic.is_tier_cable(name, tier) then
 		return "cable"
 	elseif technic.machines[tier][name] then
 		return "machine"
