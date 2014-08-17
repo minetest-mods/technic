@@ -109,6 +109,10 @@ Power level = Nivel de Poder
 Production at %d%% = Produccion en %d%%
 Stopped =
 Keeping %d/%d map blocks loaded =
+Digging not started =
+Digging finished =
+Digging %d m above machine =
+Digging %d m below machine =
 
 ## CNC Machine
 Element Edge = Elemento Borde

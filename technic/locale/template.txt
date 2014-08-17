@@ -120,6 +120,10 @@ Slim Elements half / normal height: =
 Current track %s =
 Stopped =
 Keeping %d/%d map blocks loaded =
+Digging not started =
+Digging finished =
+Digging %d m above machine =
+Digging %d m below machine =
 
 ## CNC
 Cylinder =
