@@ -15,6 +15,10 @@ local tube = {
 	connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
 }
 
+local function round(v)
+	return math.floor(v + 0.5)
+end
+
 function technic.register_base_machine(data)
 	local typename = data.typename
 	local input_size = technic.recipes[typename].input_size
@@ -70,51 +74,53 @@ function technic.register_base_machine(data)
 			technic.handle_machine_pipeworks(pos, tube_upgrade)
 		end
 
-		local result = technic.get_recipe(typename, inv:get_list("src"))
-
-		if not result then
-			technic.swap_node(pos, machine_node)
-			meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
-			meta:set_int(tier.."_EU_demand", 0)
-			return
+		local powered = eu_input >= machine_demand[EU_upgrade+1]
+		if powered then
+			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
-		
-		if eu_input < machine_demand[EU_upgrade+1] then
-			-- Unpowered - go idle
-			technic.swap_node(pos, machine_node)
-			meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
-		elseif eu_input >= machine_demand[EU_upgrade+1] then
-			-- Powered	
+		while true do
+			local result = technic.get_recipe(typename, inv:get_list("src"))
+			if not result then
+				technic.swap_node(pos, machine_node)
+				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_int(tier.."_EU_demand", 0)
+				meta:set_int("src_time", 0)
+				return
+			end
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
-
-			meta:set_int("src_time", meta:get_int("src_time") + 1)
-			if meta:get_int("src_time") >= result.time / data.speed then
-				meta:set_int("src_time", 0)
-				local output = result.output
-				if type(output) ~= "table" then output = { output } end
-				local output_stacks = {}
-				for _, o in ipairs(output) do
-					table.insert(output_stacks, ItemStack(o))
+			if meta:get_int("src_time") < round(result.time*10) then
+				if not powered then
+					technic.swap_node(pos, machine_node)
+					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
 				end
-				local room_for_output = true
-				inv:set_size("dst_tmp", inv:get_size("dst"))
-				inv:set_list("dst_tmp", inv:get_list("dst"))
-				for _, o in ipairs(output_stacks) do
-					if not inv:room_for_item("dst_tmp", o) then
-						room_for_output = false
-						break
-					end
-					inv:add_item("dst_tmp", o)
-				end
-				if room_for_output then
-					inv:set_list("src", result.new_input)
-					inv:set_list("dst", inv:get_list("dst_tmp"))
-				else
-				end
+				return
 			end
+			local output = result.output
+			if type(output) ~= "table" then output = { output } end
+			local output_stacks = {}
+			for _, o in ipairs(output) do
+				table.insert(output_stacks, ItemStack(o))
+			end
+			local room_for_output = true
+			inv:set_size("dst_tmp", inv:get_size("dst"))
+			inv:set_list("dst_tmp", inv:get_list("dst"))
+			for _, o in ipairs(output_stacks) do
+				if not inv:room_for_item("dst_tmp", o) then
+					room_for_output = false
+					break
+				end
+				inv:add_item("dst_tmp", o)
+			end
+			if not room_for_output then
+				meta:set_int("src_time", round(result.time*10))
+				return
+			end
+			meta:set_int("src_time", meta:get_int("src_time") - round(result.time*10))
+			inv:set_list("src", result.new_input)
+			inv:set_list("dst", inv:get_list("dst_tmp"))
 		end
-		meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 	end
 	
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
