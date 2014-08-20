@@ -293,7 +293,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, radioactive=7000, not_in_creative_inventory=1},
+	groups = {cracky=1, technic_machine=1, radioactive=11000, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop="technic:hv_nuclear_reactor_core",
@@ -548,14 +548,18 @@ end
 --
 -- Shielding is assessed by sampling every 0.25 m along the path
 -- from the source to the player, ignoring the source node itself.
--- The summed radiation resistance values from the sampled nodes yield
--- a measure of the total amount of radiation resistance on the path.
--- As in reality, shielding causes exponential attenuation of radiation.
--- However, the effect is scaled down relative to real life: each
--- metre-point of shielding, corresponding to a real-life halving of
--- radiation, reduces radiation by 0.01 nepers (a factor of about 1.01).
--- This scales down the difference between shielded and unshielded safe
--- distances, avoiding the latter becoming impractically large.
+-- The summed shielding values from the sampled nodes yield a measure
+-- of the total amount of shielding on the path.  As in reality,
+-- shielding causes exponential attenuation of radiation.  However, the
+-- effect is scaled down relative to real life.  A metre of a node with
+-- radiation resistance value R yields attenuation of sqrt(R)*0.1 nepers.
+-- (In real life it would be about R*0.69 nepers, by the definition
+-- of the radiation resistance values.)  The sqrt part of this formula
+-- scales down the differences between shielding types, reflecting the
+-- game's simplification of making expensive materials such as gold
+-- readily available in cubic metres.  The multiplicative factor in the
+-- formula scales down the difference between shielded and unshielded
+-- safe distances, avoiding the latter becoming impractically large.
 --
 -- Damage is processed at rates down to 0.25 HP/s, which in the absence of
 -- shielding is attained at the distance specified by the "radioactive"
@@ -565,6 +569,7 @@ end
 -- need to be considered.
 local assumed_abdomen_offset = vector.new(0, 1, 0)
 local assumed_abdomen_offset_length = vector.length(assumed_abdomen_offset)
+local cache_scaled_shielding = {}
 minetest.register_abm({
 	nodenames = {"group:radioactive"},
 	interval = 1,
@@ -578,15 +583,21 @@ minetest.register_abm({
 				local dist = math.sqrt(dist_sq)
 				local dirstep = dist == 0 and vector.new(0,0,0) or vector.divide(rel, dist*4)
 				local intpos = pos
-				local resistance = 0
+				local shielding = 0
 				for intdist = 0.25, dist, 0.25 do
 					intpos = vector.add(intpos, dirstep)
 					local intnodepos = vector.round(intpos)
 					if not vector.equals(intnodepos, pos) then
-						resistance = resistance + node_radiation_resistance(minetest.get_node(intnodepos).name)
+						local sname = minetest.get_node(intnodepos).name
+						local sval = cache_scaled_shielding[sname]
+						if not sval then
+							sval = math.sqrt(node_radiation_resistance(sname)) * -0.025
+							cache_scaled_shielding[sname] = sval
+						end
+						shielding = shielding + sval
 					end
 				end
-				local dmg_rate = 0.25e-6 * strength*strength * math.exp(-0.0025*resistance) / math.max(0.75, dist_sq)
+				local dmg_rate = 0.25e-6 * strength*strength * math.exp(shielding) / math.max(0.75, dist_sq)
 				if dmg_rate >= 0.25 then
 					local dmg_int = math.floor(dmg_rate)
 					if math.random() < dmg_rate-dmg_int then
