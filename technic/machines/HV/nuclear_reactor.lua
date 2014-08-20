@@ -293,7 +293,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, radioactive=7, not_in_creative_inventory=1},
+	groups = {cracky=1, technic_machine=1, radioactive=7000, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop="technic:hv_nuclear_reactor_core",
@@ -541,10 +541,10 @@ end
 --
 -- A radioactive node is identified by being in the "radioactive" group,
 -- and the group value signifies the strength of the radiation source.
--- The group value is the distance in metres from a node at which an
--- unshielded player will be damaged by 0.25 HP/s.  Or, equivalently, it
--- is half the square root of the damage rate in HP/s that an unshielded
--- player 1 m away will take.
+-- The group value is the distance in millimetres from a node at which
+-- an unshielded player will be damaged by 0.25 HP/s.  Or, equivalently,
+-- it is 500 times the square root of the damage rate in HP/s that an
+-- unshielded player 1 m away will take.
 --
 -- Shielding is assessed by sampling every 0.25 m along the path
 -- from the source to the player, ignoring the source node itself.
@@ -571,7 +571,7 @@ minetest.register_abm({
 	chance = 1,
 	action = function (pos, node)
 		local strength = minetest.registered_nodes[node.name].groups.radioactive
-		for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength + assumed_abdomen_offset_length)) do
+		for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*0.001 + assumed_abdomen_offset_length)) do
 			if o:is_player() then
 				local rel = vector.subtract(vector.add(o:getpos(), assumed_abdomen_offset), pos)
 				local dist_sq = vector.length_square(rel)
@@ -586,7 +586,7 @@ minetest.register_abm({
 						resistance = resistance + node_radiation_resistance(minetest.get_node(intnodepos).name)
 					end
 				end
-				local dmg_rate = 0.25 * strength*strength * math.exp(-0.0025*resistance) / math.max(0.75, dist_sq)
+				local dmg_rate = 0.25e-6 * strength*strength * math.exp(-0.0025*resistance) / math.max(0.75, dist_sq)
 				if dmg_rate >= 0.25 then
 					local dmg_int = math.floor(dmg_rate)
 					if math.random() < dmg_rate-dmg_int then
@@ -636,7 +636,7 @@ for _, state in ipairs({ "flowing", "source" }) do
 			liquid = 2,
 			hot = 3,
 			igniter = 1,
-			radioactive = (state == "source" and 32 or 16),
+			radioactive = (state == "source" and 32000 or 16000),
 			not_in_creative_inventory = (state == "flowing" and 1 or nil),
 		},
 	})
@@ -656,7 +656,7 @@ minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
 	tiles = { "technic_chernobylite_block.png" },
 	is_ground_content = true,
-	groups = { cracky=1, radioactive=5, level=2 },
+	groups = { cracky=1, radioactive=5000, level=2 },
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 

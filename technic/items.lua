@@ -197,15 +197,15 @@ for p = 0, 35 do
 	-- linear interpolation of activity along that scale, rooted at
 	-- a natural (0.7%-fissile) uranium block having the activity of
 	-- 9 uranium ore blocks (due to 9 ingots per block).  The group
-	-- value is proportional to the square root of the activity,
-	-- and uranium ore has radioactive=1.  This yields radioactive=2
-	-- for a fully-depleted uranium block and radioactive=5 for a
-	-- 3.5%-fissile uranium block.
+	-- value is proportional to the square root of the activity, and
+	-- uranium ore has radioactive=1000.  This yields radioactive=2065
+	-- for a fully-depleted uranium block and radioactive=5286 for
+	-- a 3.5%-fissile uranium block.
 	(ov or minetest.register_node)(block, {
 		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
 		tiles = {"technic_uranium_block.png"},
 		is_ground_content = true,
-		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(math.sqrt((1+5.55*p/35) * 9 / (1+5.55*7/35)) + 0.5)},
+		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(1000*math.sqrt((1+5.55*p/35) * 9 / (1+5.55*7/35)) + 0.5)},
 		sounds = default.node_sound_stone_defaults(),
 	});
 	if not ov then
