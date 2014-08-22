@@ -93,7 +93,7 @@ wrench:register_node("technic:mv_electric_furnace_active", {
 		src_time = INT},
 })
 wrench:register_node("technic:coal_alloy_furnace", {
-	lists = {"fuel", "src", "src2", "dst"},
+	lists = {"fuel", "src", "dst"},
 	metas = {infotext = STRING,
 		fuel_totaltime = FLOAT,
 		fuel_time = FLOAT,
@@ -101,7 +101,7 @@ wrench:register_node("technic:coal_alloy_furnace", {
 		src_time = FLOAT},
 })
 wrench:register_node("technic:coal_alloy_furnace_active", {
-	lists = {"fuel", "src", "src2", "dst"},
+	lists = {"fuel", "src", "dst"},
 	metas = {infotext = STRING,
 		fuel_totaltime = FLOAT,
 		fuel_time = FLOAT,
@@ -109,7 +109,7 @@ wrench:register_node("technic:coal_alloy_furnace_active", {
 		src_time = FLOAT},
 })
 wrench:register_node("technic:alloy_furnace", {
-	lists = {"src", "src2", "dst"},
+	lists = {"src", "dst"},
 	metas = {infotext = STRING,
 		formspec = STRING,
 		LV_EU_demand = INT,
@@ -118,7 +118,7 @@ wrench:register_node("technic:alloy_furnace", {
 		src_time = INT},
 })
 wrench:register_node("technic:alloy_furnace_active", {
-	lists = {"src", "src2", "dst"},
+	lists = {"src", "dst"},
 	metas = {infotext = STRING,
 		formspec = STRING,
 		LV_EU_demand = INT,
@@ -127,7 +127,7 @@ wrench:register_node("technic:alloy_furnace_active", {
 		src_time = INT},
 })
 wrench:register_node("technic:mv_alloy_furnace", {
-	lists = {"src", "src2", "dst", "upgrade1", "upgrade2"},
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
 	metas = {infotext = STRING,
 		formspec = STRING,
 		MV_EU_demand = INT,
@@ -136,7 +136,7 @@ wrench:register_node("technic:mv_alloy_furnace", {
 		src_time = INT},
 })
 wrench:register_node("technic:mv_alloy_furnace_active", {
-	lists = {"src", "src2", "dst", "upgrade1", "upgrade2"},
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
 	metas = {infotext = STRING,
 		formspec = STRING,
 		MV_EU_demand = INT,
@@ -145,11 +145,12 @@ wrench:register_node("technic:mv_alloy_furnace_active", {
 		src_time = INT},
 })
 wrench:register_node("technic:tool_workshop", {
-	lists = {"src"},
+	lists = {"src", "upgrade1", "upgrade2"},
 	metas = {infotext = STRING,
 		formspec = STRING,
-		LV_EU_demand = INT,
-		LV_EU_input = INT},
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT},
 })
 wrench:register_node("technic:grinder", {
 	lists = {"src", "dst"},
@@ -201,6 +202,24 @@ wrench:register_node("technic:extractor_active", {
 		LV_EU_input = INT,
 		src_time = INT},
 })
+wrench:register_node("technic:mv_extractor", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
+		src_time = INT},
+})
+wrench:register_node("technic:mv_extractor_active", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
+		src_time = INT},
+})
 wrench:register_node("technic:compressor", {
 	lists = {"src", "dst"},
 	metas = {infotext = STRING,
@@ -215,6 +234,24 @@ wrench:register_node("technic:compressor_active", {
 		formspec = STRING,
 		LV_EU_demand = INT,
 		LV_EU_input = INT,
+		src_time = INT},
+})
+wrench:register_node("technic:mv_compressor", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
+		src_time = INT},
+})
+wrench:register_node("technic:mv_compressor_active", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
 		src_time = INT},
 })
 wrench:register_node("technic:cnc", {
@@ -234,6 +271,24 @@ wrench:register_node("technic:cnc_active", {
 		LV_EU_input = INT,
 		src_time = INT,
 		cnc_product = STRING},
+})
+wrench:register_node("technic:mv_centrifuge", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
+		src_time = INT},
+})
+wrench:register_node("technic:mv_centrifuge_active", {
+	lists = {"src", "dst", "upgrade1", "upgrade2"},
+	metas = {infotext = STRING,
+		formspec = STRING,
+		MV_EU_demand = INT,
+		MV_EU_input = INT,
+		tube_time = INT,
+		src_time = INT},
 })
 
 
