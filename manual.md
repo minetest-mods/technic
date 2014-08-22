@@ -499,6 +499,22 @@ pile individually into whatever centrifuge is available: they must be
 input in matched pairs.  Any odd dust pile in a centrifuge will not be
 processed and will prevent that centrifuge from accepting any other input.
 
+### concrete ###
+
+Concrete is a synthetic building material.  The technic modpack implements
+it in the game.
+
+Two forms of concrete are available as building blocks: ordinary
+"concrete" and more advanced "blast-resistant concrete".  Despite its
+name, the latter has no special resistance to explosions or to any other
+means of destruction.
+
+Concrete can also be used to make fences.  They act just like wooden
+fences, but aren't flammable.  Confusingly, the item that corresponds
+to a wooden "fence" is called "concrete post".  Posts placed adjacently
+will implicitly create fence between them.  Fencing also appears between
+a post and adjacent concrete block.
+
 industrial processes
 --------------------
 
@@ -784,8 +800,6 @@ subjects missing from this manual
 
 This manual needs to be extended with sections on:
 
-*   substances
-    *   concrete
 *   powered machines
     *   machine upgrades
     *   how machines interact with tubes
