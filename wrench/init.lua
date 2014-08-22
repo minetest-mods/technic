@@ -6,6 +6,9 @@ with items or metadata that needs perserving.
 The wrench has the same tool capability as the normal hand.
 To pickup a node simply right click on it. If the node contains a formspec,
 you will need to shift+right click instead.
+Because it enables arbitrary nesting of chests, and so allows the player
+to carry an unlimited amount of material at once, this wrench is not
+available to survival-mode players.
 --]]
 
 local LATEST_SERIALIZATION_VERSION = 1
@@ -160,13 +163,4 @@ minetest.register_tool("wrench:wrench", {
 		player_inv:add_item("main", stack)
 		return itemstack
 	end,
-})
-
-minetest.register_craft({
-	output = "wrench:wrench",
-	recipe = {
-		{"technic:carbon_steel_ingot", "",                           "technic:carbon_steel_ingot"},
-		{"",                           "technic:carbon_steel_ingot", ""},
-		{"",                           "technic:carbon_steel_ingot", ""},
-	},
 })
