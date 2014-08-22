@@ -8,10 +8,6 @@ minetest.register_tool("technic:treetap", {
 		if pointed_thing.type ~= "node" then
 			return
 		end
-		local inv = user:get_inventory()
-		if not inv:room_for_item("main", ItemStack("technic:raw_latex")) then
-			return
-		end
 		local pos = pointed_thing.under
 		if minetest.is_protected(pos, user:get_player_name()) then
 			minetest.record_protection_violation(pos, user:get_player_name())
@@ -23,8 +19,8 @@ minetest.register_tool("technic:treetap", {
 			return
 		end
 		node.name = "moretrees:rubber_tree_trunk_empty"
-		inv:add_item("main", ItemStack("technic:raw_latex"))
 		minetest.swap_node(pos, node)
+		minetest.handle_node_drops(pointed_thing.above, {"technic:raw_latex"}, user)
 		local item_wear = tonumber(itemstack:get_wear())
 		item_wear = item_wear + 819
 		if item_wear > 65535 then
