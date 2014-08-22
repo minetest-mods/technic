@@ -150,8 +150,10 @@ end
 --- Iterator over positions to try to saw around a sawed node.
 -- This returns nodes in a 3x2x3 area. It does not return lower (y) positions
 -- to prevent the chainsaw from cutting down nodes below the cutting position.
--- @param pos Reference to sawing position.  Note that this is overridden.
+-- @param pos Sawing position.
 local function iterSawTries(pos)
+	-- Copy position to prevent mangling it
+	local pos = vector.new(pos)
 	-- Shift the position down on the x and z axes
 	pos.x, pos.z = pos.x - 1, pos.z - 1
 	-- Save our starting position for reseting it later
@@ -199,12 +201,12 @@ local function recursive_dig(pos, remaining_charge)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
 
 	-- Check surroundings and run recursively if any charge left
-	for pos in iterSawTries(pos) do
+	for npos in iterSawTries(pos) do
 		if remaining_charge < chainsaw_charge_per_node then
 			break
 		end
-		if timber_nodenames[minetest.get_node(pos).name] then
-			remaining_charge = recursive_dig(pos, remaining_charge)
+		if timber_nodenames[minetest.get_node(npos).name] then
+			remaining_charge = recursive_dig(npos, remaining_charge)
 		end
 	end
 	return remaining_charge
