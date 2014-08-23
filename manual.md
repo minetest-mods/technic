@@ -895,6 +895,165 @@ can accept inputs from tubes.  Items arriving through the bottom of
 the furnace go into the fuel slot, and items arriving from all other
 directions go into the input slot.
 
+### music player ###
+
+The music player is an LV powered machine that plays audio recordings.
+It offers a selection of up to nine tracks.  The technic modpack doesn't
+include specific music tracks for this purpose; they have to be installed
+separately.
+
+The music player gives the impression that the music is being played in
+the Minetest world.  The music only plays as long as the music player
+is in place and is receiving electrical power, and the choice of music
+is controlled by interaction with the machine.  The sound also appears
+to emanate specifically from the music player: the ability to hear it
+depends on the player's distance from the music player.  However, the
+game engine doesn't currently support any other positional cues for
+sound, such as attenuation, panning, or HRTF.  The impression of the
+sound being located in the Minetest world is also compromised by the
+subjective nature of track choice: the specific music that is played to
+a player depends on what media the player has installed.
+
+### CNC machine ###
+
+The CNC machine is an LV powered machine that cuts building blocks into a
+variety of sub-block shapes that are not covered by the crafting recipes
+of the stairs mod and its variants.  Most of the target shapes are not
+rectilinear, involving diagonal or curved surfaces.
+
+Only certain kinds of building material can be processed in the CNC
+machine.
+
+### tool workshop ###
+
+The tool workshop is an MV powered machine that repairs mechanically-worn
+tools, such as pickaxes and the other ordinary digging tools.  It has
+a single slot for a tool to be repaired, and gradually repairs the
+tool while it is powered.  For any single tool, equal amounts of tool
+wear, resulting from equal amounts of tool use, take equal amounts of
+repair effort.  Also, all repairable tools currently take equal effort
+to repair equal percentages of wear.  The amount of tool use enabled by
+equal amounts of repair therefore depends on the tool type.
+
+The mechanical wear that the tool workshop repairs is always indicated in
+inventory displays by a colored bar overlaid on the tool image.  The bar
+can be seen to fill and change color as the tool workshop operates,
+eventually disappearing when the repair is complete.  However, not every
+item that shows such a wear bar is using it to show mechanical wear.
+A wear bar can also be used to indicate charging of a power tool with
+stored electrical energy, or filling of a container, or potentially for
+all sorts of other uses.  The tool workshop won't affect items that use
+wear bars to indicate anything other than mechanical wear.
+
+The tool workshop has upgrade slots.  Energy upgrades reduce its power
+consumption.
+
+It can work with pneumatic tubes.  Tools to be repaired are accepted
+via tubes from any direction.  With a tube upgrade, the tool workshop
+will also eject fully-repaired tools via one side, the choice of side
+depending on the machine's orientation, as for processing machines.  It is
+safe to put into the tool workshop a tool that is already fully repaired:
+assuming the presence of a tube upgrade, the tool will be quickly ejected.
+Furthermore, any item of unrepairable type will also be ejected as if
+fully repaired.  (Due to a historical limitation of the basic Minetest
+game, it is impossible for the tool workshop to distinguish between a
+fully-repaired tool and any item type that never displays a wear bar.)
+
+### quarry ###
+
+The quarry is an HV powered machine that automatically digs out a
+large area.  The region that it digs out is a cuboid with a square
+horizontal cross section, located immediately behind the quarry machine.
+The quarry's action is slow and energy-intensive, but requires little
+player effort.
+
+The size of the quarry's horizontal cross section is configurable through
+the machine's interaction form.  A setting referred to as "radius"
+is an integer number of meters which can vary from 2 to 8 inclusive.
+The horizontal cross section is a square with side length of twice the
+radius plus one meter, thus varying from 5 to 17 inclusive.  Vertically,
+the quarry always digs from 3 m above the machine to 100 m below it,
+inclusive, a total vertical height of 104 m.
+
+Whatever the quarry digs up is ejected through the top of the machine,
+as if from a pneumatic tube.  Normally a tube should be placed there
+to convey the material into a sorting system, processing machines, or
+at least chests.  A chest may be placed directly above the machine to
+capture the output without sorting, but is liable to overflow.
+
+If the quarry encounters something that cannot be dug, such as a liquid,
+a locked chest, or a protected area, it will skip past that and attempt
+to continue digging.  However, anything remaining in the quarry area
+after the machine has attempted to dig there will prevent the machine
+from digging anything directly below it, all the way to the bottom
+of the quarry.  An undiggable block therefore casts a shadow of undug
+blocks below it.  If liquid is encountered, it is quite likely to flow
+across the entire cross section of the quarry, preventing all digging.
+The depth at which the quarry is currently attempting to dig is reported
+in its interaction form, and can be manually reset to the top of the
+quarry, which is useful to do if an undiggable obstruction has been
+manually removed.
+
+The quarry consumes 10 kEU per block dug, which is quite a lot of energy.
+With most of what is dug being mere stone, it is usually not economically
+favorable to power a quarry from anything other than solar power.
+In particular, one cannot expect to power a quarry by burning the coal
+that it digs up.
+
+Given sufficient power, the quarry digs at a rate of one block per second.
+This is rather tedious to wait for.  Unfortunately, leaving the quarry
+unattended normally means that the Minetest server won't keep the machine
+running: it needs a player nearby.  This can be resolved by using a world
+anchor.  The digging is still quite slow, and independently of whether a
+world anchor is used the digging can be speeded up by placing multiple
+quarry machines with overlapping digging areas.  Four can be placed to
+dig identical areas, one on each side of the square cross section.
+
+### forcefield emitter ###
+
+The forcefield emitter is an HV powered machine that generates a
+forcefield remeniscent of those seen in many science-fiction stories.
+
+The emitter can be configured to generate a forcefield of either
+spherical or cubical shape, in either case centered on the emitter.
+The size of the forcefield is configured using a radius parameter that
+is an integer number of meters which can vary from 5 to 20 inclusive.
+For a spherical forcefield this is simply the radius of the forcefield;
+for a cubical forcefield it is the distance from the emitter to the
+center of each square face.
+
+The power drawn by the emitter is proportional to the surface area of
+the forcefield being generated.  A spherical forcefield is therefore the
+cheapest way to enclose a specified volume of space with a forcefield,
+if the shape of the space doesn't matter.  A cubical forcefield is less
+efficient at enclosing volume, but is cheaper than the larger spherical
+forcefield that would be required if it is necessary to enclose a
+cubical space.
+
+The emitter is normally controlled merely through its interaction form,
+which has an enable/disable toggle.  However, it can also (via the form)
+be placed in a mesecon-controlled mode.  If mesecon control is enabled,
+the emitter must be receiving a mesecon signal in addition to being
+manually enabled, in order for it to generate the forcefield.
+
+The forcefield itself behaves largely as if solid, despite being
+immaterial: it cannot be traversed, and prevents access to blocks
+behind it.  It is transparent, but not totally invisible.  It cannot
+be dug by ordinary tools, but (a bug) can be removed by special digging
+tools such as the mining drills.
+
+The forcefield occupies space that would otherwise have been air, but does
+not replace or otherwise interfere with materials that are solid, liquid,
+or otherwise not just air.  If such an object blocking the forcefield is
+removed, the forcefield will quickly extend into the now-available space,
+but it does not do so instantly: there is a brief moment when the space
+is air and can be traversed.
+
+It is possible to have a doorway in a forcefield, by placing in advance,
+in space that the forcefield would otherwise occupy, some non-air blocks
+that can be walked through.  For example, a door suffices, and can be
+opened and closed while the forcefield is in place.
+
 administrative world anchor
 ---------------------------
 
@@ -956,12 +1115,6 @@ subjects missing from this manual
 
 This manual needs to be extended with sections on:
 
-*   powered machines
-    *   CNC machine
-    *   music player
-    *   tool workshop
-    *   forcefield emitter
-    *   quarry
 *   power generators
     *   hydro
     *   geothermal
