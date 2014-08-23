@@ -909,7 +909,7 @@ administrative privileges.  In a single-player world, the single player
 normally has administrative privileges, and can obtain a world anchor
 by entering the chat command "/give singleplayer technic:admin\_anchor".
 
-The world anchor tries to force a cubical area, centred upon the anchor,
+The world anchor tries to force a cubical area, centered upon the anchor,
 to stay loaded.  The distance from the anchor to the most distant map
 nodes that it will keep loaded is referred to as the "radius", and can be
 set in the world anchor's interaction form.  The radius can be set as low
