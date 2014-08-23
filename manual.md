@@ -848,6 +848,53 @@ discharging slot through the top.  Items are not accepted through the
 front, back, or sides.  With a tube upgrade, fully charged/discharged
 tools (as appropriate for their slot) will be ejected through a side.
 
+### processing machines ###
+
+The furnace, alloy furnace, grinder, extractor, compressor, and centrifuge
+have much in common.  Each implements some industrial process that
+transforms items into other items, and they manner in which they present
+these processes as powered machines is essentially identical.
+
+Most of the processing machines operate on inputs of only a single type
+at a time, and correspondingly have only a single input slot.  The alloy
+furnace is an exception: it operates on inputs of two distinct types at
+once, and correspondingly has two input slots.  It doesn't matter which
+way round the alloy furnace's inputs are placed in the two slots.
+
+The processing machines are mostly available in variants for multiple
+tiers.  The furnace and alloy furnace are each available in fuel-fired,
+LV, and MV forms.  The grinder, extractor, and compressor are each
+available in LV and MV forms.  The centrifuge is the only single-tier
+processing machine, being only available in MV form.  The higher-tier
+machines process items faster than the lower-tier ones, but also have
+higher power consumption, usually taking more energy overall to perform
+the same amount of processing.  The MV machines have upgrade slots,
+and energy upgrades reduce their energy consumption.
+
+The MV machines can work with pneumatic tubes.  They accept inputs via
+tubes from any direction.  For most of the machines, having only a single
+input slot, this is perfectly simple behavior.  The alloy furnace is more
+complex: it will put an arriving item in either input slot, preferring to
+stack it with existing items of the same type.  It doesn't matter which
+slot each of the alloy furnace's inputs is in, so it doesn't matter that
+there's no direct control ovar that, but there is a risk that supplying
+a lot of one item type through tubes will result in both slots containing
+the same type of item, leaving no room for the second input.
+
+The MV machines can be given a tube upgrade to make them automatically
+eject output items into pneumatic tubes.  The items are always ejected
+through a side, though which side it is depends on the machine's
+orientation, due to a bug.  Output items are always ejected singly.
+For some machines, such as the grinder, the ejection rate with a
+single tube upgrade doesn't keep up with the rate at which items can
+be processed.  A second tube upgrade increases the ejection rate.
+
+The LV and fuel-fired machines do not work with pneumatic tubes, except
+that the fuel-fired furnace (actually part of the basic Minetest game)
+can accept inputs from tubes.  Items arriving through the bottom of
+the furnace go into the fuel slot, and items arriving from all other
+directions go into the input slot.
+
 administrative world anchor
 ---------------------------
 
@@ -910,7 +957,6 @@ subjects missing from this manual
 This manual needs to be extended with sections on:
 
 *   powered machines
-    *   processing machines
     *   CNC machine
     *   music player
     *   tool workshop
