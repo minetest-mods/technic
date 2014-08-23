@@ -148,36 +148,51 @@ local function handle_drops(drops)
 end
 
 --- Iterator over positions to try to saw around a sawed node.
--- This returns nodes in a 3x2x3 area. It does not return lower (y) positions
--- to prevent the chainsaw from cutting down nodes below the cutting position.
+-- This returns positions in a 3x1x3 area around the position, plus the
+-- position above it.  This does not return the bottom position to prevent
+-- the chainsaw from cutting down nodes below the cutting position.
 -- @param pos Sawing position.
 local function iterSawTries(pos)
 	-- Copy position to prevent mangling it
 	local pos = vector.new(pos)
-	-- Shift the position down on the x and z axes
-	pos.x, pos.z = pos.x - 1, pos.z - 1
-	-- Save our starting position for reseting it later
-	local startx, startz = pos.x, pos.z
-	-- We will move out by one in every direction except -y
-	local endx, endy, endz = pos.x + 2, pos.y + 1, pos.z + 2
-	-- Adjust for initial increment
-	pos.x = pos.x - 1
+	local i = 0
 
 	return function()
-		if pos.x < endx then
+		i = i + 1
+		-- Given a (top view) area like so (where 5 is the starting position):
+		-- X -->
+		-- Z 123
+		-- | 456
+		-- V 789
+		-- This will return positions 1, 4, 7, 2, 8 (skip 5), 3, 6, 9,
+		-- and the position above 5.
+		if i == 1 then
+			-- Move to starting position
+			pos.x = pos.x - 1
+			pos.z = pos.z - 1
+		elseif i == 4 or i == 7 then
+			-- Move to next X and back to start of Z when we reach
+			-- the end of a Z line.
 			pos.x = pos.x + 1
+			pos.z = pos.z - 2
+		elseif i == 5 then
+			-- Skip the middle position (we've already run on it)
+			-- and double-increment the counter.
+			pos.z = pos.z + 2
+			i = i + 1
+		elseif i <= 9 then
+			-- Go to next Z.
+			pos.z = pos.z + 1
+		elseif i == 10 then
+			-- Move back to center and up.
+			-- The Y+ position must be last so that we don't dig
+			-- straight upward and not come down (since the Y-
+			-- position isn't checked).
+			pos.x = pos.x - 1
+			pos.z = pos.z - 1
+			pos.y = pos.y + 1
 		else
-			pos.x = startx
-			if pos.z < endz then
-				pos.z = pos.z + 1
-			else
-				pos.z = startz
-				if pos.y < endy then
-					pos.y = pos.y + 1
-				else
-					return nil
-				end
-			end
+			return nil
 		end
 		return pos
 	end
@@ -195,7 +210,7 @@ local function recursive_dig(pos, remaining_charge)
 		return remaining_charge
 	end
 
-	-- wood found - cut it
+	-- Wood found - cut it
 	handle_drops(minetest.get_node_drops(node.name, ""))
 	minetest.remove_node(pos)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
