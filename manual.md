@@ -739,6 +739,115 @@ the electrical system which is 100% efficient in moving energy around.
 To transfer more than 10000 EU/s between networks, connect multiple
 supply converters in parallel.
 
+powered machines
+----------------
+
+### powered machine tiers ###
+
+Each powered machine takes its power in some specific form, being
+either fuel-fired (burning fuel directly) or electrically powered at
+some specific voltage.  There is a general progression through the
+game from using fuel-fired machines to electrical machines, and to
+higher electrical voltages.  The most important kinds of machine come
+in multiple variants that are powered in different ways, so the earlier
+ones can be superseded.  However, some machines are only available for
+a specific power tier, so the tier can't be entirely superseded.
+
+### powered machine upgrades ###
+
+Some machines have inventory slots that are used to upgrade them in
+some way.  Generally, machines of MV and HV tiers have two upgrade slots,
+and machines of lower tiers (fuel-fired and LV) do not.  Any item can
+be placed in an upgrade slot, but only specific items will have any
+upgrading effect.  It is possible to have multiple upgrades of the same
+type, but this can't be achieved by stacking more than one upgrade item
+in one slot: it is necessary to put the same kind of item in more than one
+upgrade slot.  The ability to upgrade machines is therefore very limited.
+Two kinds of upgrade are currently possible: an energy upgrade and a
+tube upgrade.
+
+An energy upgrade consists of a battery item, the same kind of battery
+that serves as a mobile energy store.  The effect of an energy upgrade
+is to improve in some way the machine's use of electrical energy, most
+often by making it use less energy.  The upgrade effect has no relation
+to energy stored in the battery: the battery's charge level is irrelevant
+and will not be affected.
+
+A tube upgrade consists of a control logic unit item.  The effect of a
+tube upgrade is to make the machine able, or more able, to eject items
+it has finished with into pneumatic tubes.  The machines that can take
+this kind of upgrade are in any case capable of accepting inputs from
+pneumatic tubes.  These upgrades are essential in using powered machines
+as components in larger automated systems.
+
+### tubes with powered machines ###
+
+Generally, powered machines of MV and HV tiers can work with pneumatic
+tubes, and those of lower tiers cannot.  (As an exception, the fuel-fired
+furnace from the basic Minetest game can accept inputs through tubes,
+but can't output into tubes.)
+
+If a machine can accept inputs through tubes at all, then this
+is a capability of the basic machine, not requiring any upgrade.
+Most item-processing machines take only one kind of input, and in that
+case they will accept that input from any direction.  This doesn't match
+how tubes visually connect to the machines: generally tubes will visually
+connect to any face except the front, but an item passing through a tube
+in front of the machine will actually be accepted into the machine.
+
+A minority of machines take more than one kind of input, and in that
+case the input slot into which an arriving item goes is determined by the
+direction from which it arrives.  In this case the machine may be picky
+about the direction of arriving items, associating each input type with
+a single face of the machine and not accepting inputs at all through the
+remaining faces.  Again, the visual connection of tubes doesn't match:
+generally tubes will still visually connect to any face except the front,
+thus connecting to faces that neither accept inputs nor emit outputs.
+
+Machines do not accept items from tubes into non-input inventory slots:
+the output slots or upgrade slots.  Output slots are normally filled
+only by the processing operation of the machine, and upgrade slots must
+be filled manually.
+
+Powered machines generally do not eject outputs into tubes without
+an upgrade.  One tube upgrade will make them eject outputs at a slow
+rate; a second tube upgrade will increase the rate.  Whether the slower
+rate is adequate depends on how it compares to the rate at which the
+machine produces outputs, and on how the machine is being used as part
+of a larger construct.  The machine always ejects its outputs through a
+particular face, usually a side.  Due to a bug, the side through which
+outputs are ejected is not consistent: when the machine is rotated one
+way, the direction of ejection is rotated the other way.  This will
+probably be fixed some day, but because a straightforward fix would
+break half the machines already in use, the fix may be tied to some
+larger change such as free selection of the direction of ejection.
+
+### battery boxes ###
+
+The primary purpose of battery boxes is to temporarily store electrical
+energy to let an electrical network cope with mismatched supply and
+demand.  They have a secondary purpose of charging and discharging
+powered tools.  They are thus a mixture of electrical infrastructure,
+powered machine, and generator.
+
+MV and HV battery boxes have upgrade slots.  Energy upgrades increase
+the capacity of a battery box, each by 10% of the un-upgraded capacity.
+This increase is far in excess of the capacity of the battery that forms
+the upgrade.
+
+For charging and discharging of power tools, rather than having input and
+output slots, each battery box has a charging slot and a discharging slot.
+A fully charged/discharged item stays in its slot.  The rates at which a
+battery box can charge and discharge increase with voltage, so it can
+be worth building a battery box of higher tier before one has other
+infrastructure of that tier, just to get access to faster charging.
+
+MV and HV battery boxes work with pneumatic tubes.  An item can be input
+to the charging slot through the bottom of the battery box, or to the
+discharging slot through the top.  Items are not accepted through the
+front, back, or sides.  With a tube upgrade, fully charged/discharged
+tools (as appropriate for their slot) will be ejected through a side.
+
 administrative world anchor
 ---------------------------
 
@@ -801,9 +910,6 @@ subjects missing from this manual
 This manual needs to be extended with sections on:
 
 *   powered machines
-    *   machine upgrades
-    *   how machines interact with tubes
-    *   battery box
     *   processing machines
     *   CNC machine
     *   music player
