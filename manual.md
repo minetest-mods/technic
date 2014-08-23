@@ -1037,10 +1037,12 @@ the emitter must be receiving a mesecon signal in addition to being
 manually enabled, in order for it to generate the forcefield.
 
 The forcefield itself behaves largely as if solid, despite being
-immaterial: it cannot be traversed, and prevents access to blocks
-behind it.  It is transparent, but not totally invisible.  It cannot
-be dug by ordinary tools, but (a bug) can be removed by special digging
-tools such as the mining drills.
+immaterial: it cannot be traversed, and prevents access to blocks behind
+it.  It is transparent, but not totally invisible.  It cannot be dug.
+Some effects can pass through it, however, such as the beam of a mining
+laser, and explosions.  In fact, explosions as currently implemented by
+the tnt mod actually temporarily destroy the forcefield itself; the tnt
+mod assumes too much about the regularity of node types.
 
 The forcefield occupies space that would otherwise have been air, but does
 not replace or otherwise interfere with materials that are solid, liquid,

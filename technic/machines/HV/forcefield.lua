@@ -218,9 +218,10 @@ minetest.register_node("technic:forcefield", {
 	description = S("%s Forcefield"):format("HV"),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
-	groups = {not_in_creative_inventory=1, unbreakable=1},
+	groups = {not_in_creative_inventory=1},
 	paramtype = "light",
         light_source = 15,
+	diggable = false,
 	drop = '',
 	tiles = {{
 		name = "technic_forcefield_animated.png",
