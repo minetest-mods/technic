@@ -1056,6 +1056,68 @@ in space that the forcefield would otherwise occupy, some non-air blocks
 that can be walked through.  For example, a door suffices, and can be
 opened and closed while the forcefield is in place.
 
+power generators
+----------------
+
+### fuel-fired generators ###
+
+Electrical energy can be generated at any voltage (LV, MV, or HV)
+by fuel-fired generators.  These are all capable of burning any type
+of combustible fuel, such as coal.  They are relatively easy to build,
+and so tend to be the first kind of generator used to power electrical
+machines.  In this role they form an intermediate step between the
+directly fuel-fired machines and a more mature electrical network
+powered by means other than fuel combustion.  They are also, by virtue of
+simplicity and controllability, a useful fallback or peak load generator
+for electrical networks that normally use more sophisticated generators.
+
+The MV and HV fuel-fired generators can accept fuel via pneumatic tube,
+from any direction.
+
+Keeping a fuel-fired generator fully fuelled is usually wasteful, because
+it will burn fuel as long as it has any, even if there is no demand for
+the electrical power that it generates.  This is unlike the directly
+fuel-fired machines, which only burn fuel when they have work to do.
+To satisfy intermittent demand without waste, a fuel-fired generator must
+only be given fuel when there is either demand for the energy or at least
+sufficient battery capacity on the network to soak up the excess energy.
+
+The higher-tier fuel-fired generators get much more energy out of a
+fuel item than the lower-tier ones.  The difference is much more than
+is needed to overcome the inefficiency of supply converters, so it is
+worth operating fuel-fired generators at a higher tier than the machines
+being powered.
+
+### hydro generator ###
+
+The hydro generator is an LV power generator that generates a small amount
+of power from the natural motion of water.  To operate, the generator must
+be horizontally adjacent to water.  It doesn't matter whether the water
+consists of source blocks or flowing blocks.  Having water adjacent on
+more than one side, up to the full four, increases the generator's output.
+The water itself is unaffected by the generator.
+
+### geothermal generator ###
+
+The geothermal generator is an LV power generator that generates a small
+amount of power from the temperature difference between lava and water.
+To operate, the generator must be horizontally adjacent to both lava
+and water.  It doesn't matter whether the liquids consist of source
+blocks or flowing blocks.
+
+Beware that if lava and water blocks are adjacent to each other then the
+lava will be solidified into stone or obsidian.  If the lava adjacent to
+the generator is thus destroyed, the generator will stop producing power.
+Currently, in the default Minetest game, lava is destroyed even if
+it is only diagonally adjacent to water.  Under these circumstances,
+the only way to operate the geothermal generator is with it adjacent
+to one lava block and one water block, which are on opposite sides of
+the generator.  If diagonal adjacency doesn't destroy lava, such as with
+the gloopblocks mod, then it is possible to have more than one lava or
+water block adjacent to the geothermal generator.  This increases the
+generator's output, with the maximum output achieved with two adjacent
+blocks of each liquid.
+
 administrative world anchor
 ---------------------------
 
@@ -1118,23 +1180,20 @@ subjects missing from this manual
 This manual needs to be extended with sections on:
 
 *   power generators
-    *   hydro
-    *   geothermal
-    *   fuel-fired
     *   wind
     *   solar
     *   nuclear
-*   tools
+*   powered tools
     *   tool charging
     *   battery and energy crystals
     *   chainsaw
     *   flashlight
     *   mining lasers
-    *   liquid cans
     *   mining drills
     *   prospector
     *   sonic screwdriver
-    *   wrench
+*   liquid cans
+*   wrench
 *   radioactivity
 *   frames
 *   templates
