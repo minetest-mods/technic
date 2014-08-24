@@ -1061,12 +1061,13 @@ power generators
 
 ### fuel-fired generators ###
 
-Electrical energy can be generated at any voltage (LV, MV, or HV)
-by fuel-fired generators.  These are all capable of burning any type
-of combustible fuel, such as coal.  They are relatively easy to build,
-and so tend to be the first kind of generator used to power electrical
-machines.  In this role they form an intermediate step between the
-directly fuel-fired machines and a more mature electrical network
+The fiel-fired generators are electrical power generators that generate
+power by the combustion of fuel.  Versions of them are available for
+all three voltages (LV, MV, and HV).  These are all capable of burning
+any type of combustible fuel, such as coal.  They are relatively easy
+to build, and so tend to be the first kind of generator used to power
+electrical machines.  In this role they form an intermediate step between
+the directly fuel-fired machines and a more mature electrical network
 powered by means other than fuel combustion.  They are also, by virtue of
 simplicity and controllability, a useful fallback or peak load generator
 for electrical networks that normally use more sophisticated generators.
@@ -1087,6 +1088,25 @@ fuel item than the lower-tier ones.  The difference is much more than
 is needed to overcome the inefficiency of supply converters, so it is
 worth operating fuel-fired generators at a higher tier than the machines
 being powered.
+
+### solar generators ###
+
+The solar generators are electrical power generators that generate power
+from sunlight.  Versions of them are available for all three voltages
+(LV, MV, and HV).  There are four types in total, two LV and one each
+of MV and HV, forming a sequence of four tiers.  The higher-tier ones
+are each built mainly from three solar generators of the next tier down,
+and their outputs scale in rough accordance, tripling at each tier.
+
+To operate, an arrayed solar generator must be at elevation +1 or above
+and have a transparent block (typically air) immediately above it.
+It will generate power only when the block above is well lit during
+daylight hours.  It will generate more power at higher elevation,
+reaching maximum output at elevation +36 or higher when sunlit.  The small
+solar generator has similar rules with slightly different thresholds.
+These rules are an attempt to ensure that the generator will only operate
+from sunlight, but it is actually possible to fool them to some extent
+with light sources such as meselamps.
 
 ### hydro generator ###
 
@@ -1117,6 +1137,15 @@ the gloopblocks mod, then it is possible to have more than one lava or
 water block adjacent to the geothermal generator.  This increases the
 generator's output, with the maximum output achieved with two adjacent
 blocks of each liquid.
+
+### wind generator ###
+
+The wind generator is an MV power generator that generates a moderate
+amount of energy from wind.  To operate, the generator must be placed
+atop a column of at least 20 wind mill frame blocks, and must be at
+an elevation of +30 or higher.  It generates more at higher elevation,
+reaching maximum output at elevation +50 or higher.  Its surroundings
+don't otherwise matter; it doesn't actually need to be in open air.
 
 administrative world anchor
 ---------------------------
@@ -1180,8 +1209,6 @@ subjects missing from this manual
 This manual needs to be extended with sections on:
 
 *   power generators
-    *   wind
-    *   solar
     *   nuclear
 *   powered tools
     *   tool charging
