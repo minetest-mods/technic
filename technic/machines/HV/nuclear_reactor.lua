@@ -543,7 +543,7 @@ end
 -- and the group value signifies the strength of the radiation source.
 -- The group value is the distance in millimetres from a node at which
 -- an unshielded player will be damaged by 0.25 HP/s.  Or, equivalently,
--- it is 500 times the square root of the damage rate in HP/s that an
+-- it is 2000 times the square root of the damage rate in HP/s that an
 -- unshielded player 1 m away will take.
 --
 -- Shielding is assessed by sampling every 0.25 m along the path
