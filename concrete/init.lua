@@ -123,10 +123,10 @@ minetest.register_node(":technic:concrete_post_platform", {
 			return minetest.item_place_node(itemstack, placer, pointed_thing) 
 		end
 		local links = technic.concrete_posts[node.name]
-		if links[5] ~= 0 then -- The post already has a platform
+		if links[6] ~= 0 then -- The post already has a platform
 			return minetest.item_place_node(itemstack, placer, pointed_thing) 
 		end
-		local id = technic.get_post_id({links[1], links[2], links[3], links[4], 1})
+		local id = technic.get_post_id({links[1], links[2], links[3], links[4], links[5], 1})
 		minetest.set_node(pointed_thing.under, {name="technic:concrete_post"..id})
 		itemstack:take_item()
 		placer:set_wielded_item(itemstack)
@@ -134,8 +134,15 @@ minetest.register_node(":technic:concrete_post_platform", {
 	end,
 })
 
-local function gen_post_nodebox(x1, x2, z1, z2, platform)
-	local box = {box_center}
+local function gen_post_nodebox(x1, x2, z1, z2, y, platform)
+	local box
+	local xx = x1 + x2
+	local zz = z1 + z2
+	if ((xx == 2 and zz == 0) or (xx == 0 and zz == 2)) and y == 0 then
+		box = {}
+	else 
+		box = {box_center}
+	end
 	if x1 ~= 0 then
 		table.insert(box, box_x1)
 	end
@@ -170,9 +177,9 @@ function technic.posts_should_connect(pos)
 end
 
 function technic.get_post_id(links)
-	return (links[4] * 1) + (links[3] * 2)
-		+ (links[2] * 4) + (links[1] * 8)
-		+ (links[5] * 16)
+	return (links[1] * 1) + (links[2] * 2)
+		+ (links[3] * 4) + (links[4] * 8)
+		+ (links[5] * 16) + (links[6] * 32)
 end
 
 function technic.update_posts(pos, set, secondrun)
@@ -182,9 +189,11 @@ function technic.update_posts(pos, set, secondrun)
 		{x=pos.x-1, y=pos.y,   z=pos.z},
 		{x=pos.x,   y=pos.y,   z=pos.z+1},
 		{x=pos.x,   y=pos.y,   z=pos.z-1},
+		{x=pos.x,   y=pos.y-1,   z=pos.z},
+		{x=pos.x,   y=pos.y+1,   z=pos.z},
 	}
 
-	local links = {0, 0, 0, 0, 0}
+	local links = {0, 0, 0, 0, 0, 0}
 
 	for i, link_pos in pairs(link_positions) do
 		local connecttype = technic.posts_should_connect(link_pos)
@@ -198,13 +207,19 @@ function technic.update_posts(pos, set, secondrun)
 			end
 		end
 	end
+
+	if links[5] == 1 or links[6] == 1 then
+		links[5] = 1
+		links[6] = 0
+	end
+
 	-- We don't want to set ourselves if we have been removed or we are
 	-- updating a concrete node
 	if set then
 		-- Preserve platform
 		local oldlinks = technic.concrete_posts[node.name]
 		if oldlinks then
-			links[5] = oldlinks[5]
+			links[6] = oldlinks[6]
 		end
 		minetest.set_node(pos, {name="technic:concrete_post"
 				..technic.get_post_id(links)})
@@ -215,8 +230,9 @@ for x1 = 0, 1 do
 for x2 = 0, 1 do
 for z1 = 0, 1 do
 for z2 = 0, 1 do
+for y = 0, 1 do
 for platform = 0, 1 do
-	local links = {x1, x2, z1, z2, platform}
+	local links = {x1, x2, z1, z2, y, platform}
 	local id = technic.get_post_id(links)
 	technic.concrete_posts["technic:concrete_post"..id] = links
 
@@ -247,13 +263,14 @@ for platform = 0, 1 do
 		drawtype = "nodebox", 
 		node_box = {
 			type = "fixed",
-			fixed = gen_post_nodebox(x1, x2, z1, z2, platform),
+			fixed = gen_post_nodebox(x1, x2, z1, z2, y, platform),
 		},
 		after_place_node = function(pos, placer, itemstack)
 			technic.update_posts(pos, true)
 		end,
 		after_dig_node = after_dig_node,
 	})
+end
 end
 end
 end
