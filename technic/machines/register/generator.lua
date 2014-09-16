@@ -59,6 +59,7 @@ function technic.register_generator(data)
 				if not fuel or fuel.time == 0 then
 					meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
 					technic.swap_node(pos, "technic:"..ltier.."_generator")
+					meta:set_int(tier.."_EU_supply", 0)
 					return
 				end
 				meta:set_int("burn_time", fuel.time)
