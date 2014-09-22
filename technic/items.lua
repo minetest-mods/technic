@@ -100,10 +100,6 @@ minetest.register_craftitem("technic:lv_transformer", {
 	inventory_image = "technic_lv_transformer.png",
 })
 
-minetest.register_craftitem("technic:lv_transformer", {
-	description = S("Low Voltage Transformer"),
-	inventory_image = "technic_lv_transformer.png",
-})
 minetest.register_craftitem("technic:mv_transformer", {
 	description = S("Medium Voltage Transformer"),
 	inventory_image = "technic_mv_transformer.png",
