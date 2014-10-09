@@ -129,3 +129,10 @@ minetest.register_craft({
 	burntime = 50,
 })
 
+if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
+	minetest.register_craft({
+		type = "fuel",
+		recipe = "technic:kalite_dust",
+		burntime = 37.5,
+	})
+end
