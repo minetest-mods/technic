@@ -1,24 +1,34 @@
--- Forcefield mod by ShadowNinja
--- Modified by kpoppel
+--- Forcefield generator.
+-- @author ShadowNinja
 --
 -- Forcefields are powerful barriers but they consume huge amounts of power.
--- Forcefield Generator is a HV machine.
+-- The forcefield Generator is an HV machine.
 
 -- How expensive is the generator?
 -- Leaves room for upgrades lowering the power drain?
 local forcefield_power_drain   = 10
-local forcefield_step_interval = 1
 
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:forcefield_emitter_off',
+	output = "technic:forcefield_emitter_off",
 	recipe = {
-			{'default:mese',         'technic:motor',          'default:mese'        },
-			{'technic:deployer_off', 'technic:machine_casing', 'technic:deployer_off'},
-			{'default:mese',         'technic:hv_cable0',      'default:mese'        },
+			{"default:mese",         "technic:motor",          "default:mese"        },
+			{"technic:deployer_off", "technic:machine_casing", "technic:deployer_off"},
+			{"default:mese",         "technic:hv_cable0",      "default:mese"        },
 	}
 })
+
+
+local replaceable_cids = {}
+
+minetest.after(0, function()
+	for name, ndef in pairs(minetest.registered_nodes) do
+		if ndef.buildable_to == true and name ~= "ignore" then
+			replaceable_cids[minetest.get_content_id(name)] = true
+		end
+	end
+end)
 
 
 -- Idea: Let forcefields have different colors by upgrade slot.
@@ -28,28 +38,28 @@ minetest.register_craft({
 --  |          |
 --   \___/\___/
 
-local function update_forcefield(pos, meta, active)
+local function update_forcefield(pos, meta, active, first)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
-	local p1 = {x = pos.x-range, y = pos.y-range, z = pos.z-range}
-	local p2 = {x = pos.x+range, y = pos.y+range, z = pos.z+range}
-	local MinEdge, MaxEdge = vm:read_from_map(p1, p2)
+	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range),
+			vector.add(pos, range))
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
 	local data = vm:get_data()
 
-	local c_air   = minetest.get_content_id("air")
+	local c_air = minetest.get_content_id("air")
 	local c_field = minetest.get_content_id("technic:forcefield")
 
-	for z=-range, range do
-	for y=-range, range do
-	local vi = area:index(pos.x+(-range), pos.y+y, pos.z+z)
-	for x=-range, range do
+	for z = -range, range do
+	for y = -range, range do
+	local vi = area:index(pos.x + (-range), pos.y + y, pos.z + z)
+	for x = -range, range do
 		local relevant
 		if shape == 0 then
+			local squared = x * x + y * y + z * z
 			relevant =
-			   x*x+y*y+z*z <= range     *  range    +  range    and
-			   x*x+y*y+z*z >= (range-1) * (range-1) + (range-1)
+				squared <= range       *  range      +  range and
+				squared >= (range - 1) * (range - 1) + (range - 1)
 		else
 			relevant =
 				x == -range or x == range or
@@ -57,9 +67,10 @@ local function update_forcefield(pos, meta, active)
 				z == -range or z == range
 		end
 		if relevant then
-			if active and data[vi] == c_air then
+			local cid = data[vi]
+			if active and replaceable_cids[cid] then
 				data[vi] = c_field
-			elseif not active and data[vi] == c_field then
+			elseif not active and cid == c_field then
 				data[vi] = c_air
 			end
 		end
@@ -71,7 +82,11 @@ local function update_forcefield(pos, meta, active)
 	vm:set_data(data)
 	vm:update_liquids()
 	vm:write_to_map()
-	vm:update_map()
+	-- update_map is very slow, but if we don't call it we'll
+	-- get phantom blocks on the client.
+	if not active or first then
+		vm:update_map()
+	end
 end
 
 local function set_forcefield_formspec(meta)
@@ -135,7 +150,7 @@ local mesecons = {
 	}
 }
 
-local run = function(pos, node, active_object_count, active_object_count_wider)
+local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local eu_input   = meta:get_int("HV_EU_input")
 	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
@@ -167,11 +182,13 @@ local run = function(pos, node, active_object_count, active_object_count_wider)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
 		end
 	elseif eu_input >= power_requirement then
+		local first = false
 		if node.name == "technic:forcefield_emitter_off" then
+			first = true
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
 		end
-		update_forcefield(pos, meta, true)
+		update_forcefield(pos, meta, true, first)
 	end
 end
 
