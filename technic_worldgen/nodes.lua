@@ -128,36 +128,43 @@ minetest.register_alias("technic:diamond", "default:diamond")
 minetest.register_alias("technic:mineral_diamond", "default:stone_with_diamond")
 
 local function for_each_registered_node(action)
-	local already_reg = {}
-	for k, _ in pairs(minetest.registered_nodes) do
-		table.insert(already_reg, k)
-	end
 	local really_register_node = minetest.register_node
 	minetest.register_node = function(name, def)
 		really_register_node(name, def)
-		action(string.gsub(name, "^:", ""))
+		action(name:gsub("^:", ""), def)
 	end
-	for _, name in ipairs(already_reg) do
-		action(name)
+	for name, def in pairs(minetest.registered_nodes) do
+		action(name, def)
 	end
 end
 
-for_each_registered_node(function(node_name)
-	local node_def = minetest.registered_nodes[node_name]
-	if node_name ~= "default:steelblock" and string.find(node_name, "steelblock") and string.find(node_def.description, "Steel") then
-		minetest.override_item(node_name, { description = string.gsub(node_def.description, "Steel", S("Wrought Iron")) })
+for_each_registered_node(function(node_name, node_def)
+	if node_name ~= "default:steelblock" and
+			node_name:find("steelblock", 1, true) and
+			node_def.description:find("Steel", 1, true) then
+		minetest.override_item(node_name, {
+			description = node_def.description:gsub("Steel", S("Wrought Iron")),
+		})
 	end
-	if node_def.tiles or node_def.tile_images then
-		local tn = node_def.tiles and "tiles" or "tile_images"
-		local tl = {}
-		local ca = false
-		for i, t in ipairs(node_def[tn]) do
+	local tiles = node_def.tiles or node_def.tile_images
+	if tiles then
+		local new_tiles = {}
+		local do_override = false
+		if type(tiles) == "string" then
+			tiles = {tiles}
+		end
+		for i, t in ipairs(tiles) do
 			if type(t) == "string" and t == "default_steel_block.png" then
-				ca = true
+				do_override = true
 				t = "technic_wrought_iron_block.png"
 			end
-			table.insert(tl, t)
+			table.insert(new_tiles, t)
 		end
-		if ca then minetest.override_item(node_name, { [tn] = tl }) end
+		if do_override then
+			minetest.override_item(node_name, {
+				tiles = new_tiles
+			})
+		end
 	end
 end)
+
