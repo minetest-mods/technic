@@ -120,7 +120,7 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	for _, pos in ipairs(poslist) do
 		for _,object in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 			local entity = object:get_luaentity()
-			if not entity or not mesecon:is_mvps_unmov(entity.name) then
+			if not entity or not mesecon.is_mvps_unmov(entity.name) then
 				add_table(objects, object)
 			end
 		end
@@ -465,9 +465,9 @@ minetest.register_entity("technic:damage_entity", {
 	end,
 })
 
-mesecon:register_mvps_unmov("technic:frame_entity")
-mesecon:register_mvps_unmov("technic:damage_entity")
-mesecon:register_on_mvps_move(function(moved_nodes)
+mesecon.register_mvps_unmov("technic:frame_entity")
+mesecon.register_mvps_unmov("technic:damage_entity")
+mesecon.register_on_mvps_move(function(moved_nodes)
 	local to_move = {}
 	for _, n in ipairs(moved_nodes) do
 		if frames_pos[pos_to_string(n.oldpos)] ~= nil then

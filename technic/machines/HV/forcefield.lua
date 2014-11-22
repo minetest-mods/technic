@@ -253,7 +253,7 @@ minetest.register_node("technic:forcefield", {
 
 
 if minetest.get_modpath("mesecons_mvps") then
-	mesecon:register_mvps_stopper("technic:forcefield")
+	mesecon.register_mvps_stopper("technic:forcefield")
 end
 
 technic.register_machine("HV", "technic:forcefield_emitter_on",  technic.receiver)
