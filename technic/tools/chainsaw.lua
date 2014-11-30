@@ -74,6 +74,12 @@ if minetest.get_modpath("moretrees") then
 		timber_nodenames["moretrees:jungletree_leaves_green"]  = true
 		timber_nodenames["moretrees:jungletree_leaves_yellow"] = true
 		timber_nodenames["moretrees:jungletree_leaves_red"]    = true
+		timber_nodenames["moretrees:acorn"]                    = true
+		timber_nodenames["moretrees:coconut"]                  = true
+		timber_nodenames["moretrees:spruce_cone"]              = true
+		timber_nodenames["moretrees:pine_cone"]                = true
+		timber_nodenames["moretrees:fir_cone"]                 = true
+		timber_nodenames["moretrees:apple_blossoms"]           = true
 	end
 end
 
@@ -125,6 +131,12 @@ if minetest.get_modpath("farming_plus") then
 	end
 end
 
+-- Support nature
+if minetest.get_modpath("nature") then
+	if chainsaw_leaves then
+		timber_nodenames["nature:blossom"] = true
+	end
+end
 
 local S = technic.getter
 
