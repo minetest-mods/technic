@@ -149,7 +149,7 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta             = minetest.env:get_meta(pos)
+		local meta             = minetest.get_meta(pos)
 		local eu_input  = meta:get_int("MV_EU_input")
 		local eu_demand = meta:get_int("MV_EU_demand")
 

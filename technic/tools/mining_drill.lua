@@ -51,12 +51,12 @@ local function drill_dig_it0 (pos,player)
 		minetest.record_protection_violation(pos, player:get_player_name())
 		return
 	end
-	local node=minetest.env:get_node(pos)
+	local node=minetest.get_node(pos)
 	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
 	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
+	if node.name == "default:water_source" then minetest.remove_node(pos) return end
+	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
 	minetest.node_dig(pos,node,player)
 end
 
@@ -230,7 +230,7 @@ local function drill_dig_it(pos, player, mode)
 end
 
 local function pos_is_pointable(pos)
-	local node = minetest.env:get_node(pos)
+	local node = minetest.get_node(pos)
 	local nodedef = minetest.registered_nodes[node.name]
 	return nodedef and nodedef.pointable
 end

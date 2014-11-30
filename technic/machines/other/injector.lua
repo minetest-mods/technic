@@ -2,7 +2,7 @@
 local S = technic.getter
 
 local function inject_items (pos)
-		local meta=minetest.env:get_meta(pos) 
+		local meta=minetest.get_meta(pos) 
 		local inv = meta:get_inventory()
 		local mode=meta:get_string("mode")
 		if mode=="single items" then
@@ -69,7 +69,7 @@ minetest.register_node("technic:injector", {
 	tube = {connect_sides={bottom=1}},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Self-Contained Injector"))
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
@@ -77,12 +77,12 @@ minetest.register_node("technic:injector", {
 		set_injector_formspec(meta)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
+		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		if fields.mode_item then meta:set_string("mode", "single items") end
 		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
 		set_injector_formspec(meta)

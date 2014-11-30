@@ -32,7 +32,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec)
 		meta:set_string("infotext", machine_name)
 		local inv = meta:get_inventory()
