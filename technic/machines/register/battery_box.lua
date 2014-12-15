@@ -212,20 +212,19 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 	if inv:is_empty("src") then
 		return batt_charge, false
 	end
-	local srcstack = inv:get_stack("src", 1)
+	local src_stack = inv:get_stack("src", 1)
 
-	local toolname = srcstack:get_name()
-	if not technic.power_tools[toolname] then
+	local tool_name = src_stack:get_name()
+	if not technic.power_tools[tool_name] then
 		return batt_charge, false
 	end
 	-- Set meta data for the tool if it didn't do it itself
-	src_meta = minetest.deserialize(srcstack:get_metadata())
-	src_meta = src_meta or {}
+	local src_meta = minetest.deserialize(src_stack:get_metadata()) or {}
 	if not src_meta.charge then
 		src_meta.charge = 0
 	end
 	-- Do the charging
-	local item_max_charge = technic.power_tools[toolname]
+	local item_max_charge = technic.power_tools[tool_name]
 	local tool_charge     = src_meta.charge
 	if tool_charge >= item_max_charge then
 		return batt_charge, true
@@ -236,10 +235,10 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 	charge_step = math.min(charge_step, item_max_charge - tool_charge)
 	tool_charge = tool_charge + charge_step
 	batt_charge = batt_charge - charge_step
-	technic.set_RE_wear(srcstack, tool_charge, item_max_charge)
+	technic.set_RE_wear(src_stack, tool_charge, item_max_charge)
 	src_meta.charge = tool_charge
-	srcstack:set_metadata(minetest.serialize(src_meta))
-	inv:set_stack("src", 1, srcstack)
+	src_stack:set_metadata(minetest.serialize(src_meta))
+	inv:set_stack("src", 1, src_stack)
 	return batt_charge, (tool_charge == item_max_charge)
 end
 
