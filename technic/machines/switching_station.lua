@@ -371,7 +371,7 @@ local function switching_station_timeout_count(pos, tier)
 	local meta = minetest.get_meta(pos)
 	local timeout = meta:get_int(tier.."_EU_timeout")
 	if timeout <= 0 then
-		--meta:set_int(tier.."_EU_input", 0) -- Not needed anymore
+		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
 		meta:set_int(tier.."_EU_timeout", timeout - 1)
