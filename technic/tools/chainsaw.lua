@@ -33,6 +33,8 @@ end
 
 -- Support moretrees if it is there
 if minetest.get_modpath("moretrees") then
+	timber_nodenames["moretrees:acacia_trunk"]                     = true
+	timber_nodenames["moretrees:acacia_trunk_sideways"]            = true
 	timber_nodenames["moretrees:apple_tree_trunk"]                 = true
 	timber_nodenames["moretrees:apple_tree_trunk_sideways"]        = true
 	timber_nodenames["moretrees:beech_trunk"]                      = true
@@ -59,6 +61,7 @@ if minetest.get_modpath("moretrees") then
 	timber_nodenames["moretrees:jungletree_trunk_sideways"]        = true
 
 	if chainsaw_leaves then
+		timber_nodenames["moretrees:acacia_leaves"]            = true
 		timber_nodenames["moretrees:apple_tree_leaves"]        = true
 		timber_nodenames["moretrees:oak_leaves"]               = true
 		timber_nodenames["moretrees:fir_leaves"]               = true
