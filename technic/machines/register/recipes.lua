@@ -17,6 +17,7 @@ function technic.register_recipe_type(typename, origdata)
 end
 
 local function get_recipe_index(items)
+	if not items or type(items) ~= "table" then return false end
 	local l = {}
 	for i, stack in ipairs(items) do
 		l[i] = ItemStack(stack):get_name()
@@ -40,6 +41,10 @@ local function register_recipe(typename, data)
 	
 	local recipe = {time = data.time, input = {}, output = data.output}
 	local index = get_recipe_index(data.input)
+	if not index then
+		print("[Technic] ignored registration of garbage recipe!")
+		return
+	end
 	for _, stack in ipairs(data.input) do
 		recipe.input[ItemStack(stack):get_name()] = ItemStack(stack):get_count()
 	end
@@ -75,6 +80,10 @@ function technic.get_recipe(typename, items)
 		end
 	end
 	local index = get_recipe_index(items)
+	if not index then
+		print("[Technic] ignored registration of garbage recipe!")
+		return
+	end
 	local recipe = technic.recipes[typename].recipes[index]
 	if recipe then
 		local new_input = {}
