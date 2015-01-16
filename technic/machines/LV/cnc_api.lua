@@ -5,266 +5,126 @@ local S = technic.getter
 
 technic.cnc = {}
 
-technic.cnc.detail_level = 16
-
 -- REGISTER NONCUBIC FORMS, CREATE MODELS AND RECIPES:
 ------------------------------------------------------
-local function cnc_sphere()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	local sehne
-	for i = 1, detail - 1 do
-		sehne = math.sqrt(0.25 - (((i / detail) - 0.5) ^ 2))
-		nodebox[i]={-sehne, (i/detail) - 0.5, -sehne, sehne, (i/detail)+(1/detail)-0.5, sehne}
-	end
-	return nodebox
-end
-
-local function cnc_cylinder_horizontal()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	local sehne
-	for i = 1, detail - 1 do
-		sehne = math.sqrt(0.25 - (((i / detail) - 0.5) ^ 2))
-		nodebox[i]={-0.5, (i/detail)-0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, sehne}
-	end
-	return nodebox
-end
-
-local function cnc_cylinder()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	local sehne
-	for i = 1, detail - 1 do
-		sehne = math.sqrt(0.25 - (((i / detail) - 0.5) ^ 2))
-		nodebox[i]={(i/detail) - 0.5, -0.5, -sehne, (i/detail)+(1/detail)-0.5, 0.5, sehne}
-	end
-	return nodebox
-end
-
-local function cnc_twocurvededge()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level * 2
-	local sehne
-	for i = (detail / 2) - 1, detail - 1 do
-		sehne = math.sqrt(0.25 - (((i / detail) - 0.5) ^ 2))
-		nodebox[i]={-sehne, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_onecurvededge()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level * 2
-	local sehne
-	for i = (detail / 2) - 1, detail - 1 do
-		sehne = math.sqrt(0.25 - (((i / detail) - 0.5) ^ 2))
-		nodebox[i]={-0.5, -0.5, -sehne, 0.5, (i/detail)+(1/detail)-0.5, 0.5}
-	end 
-	return nodebox
-end
-
-local function cnc_spike()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail - 1 do
-		nodebox[i+1] = {(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5,
-				0.5-(i/detail/2), (i/detail)-0.5+(1/detail), 0.5-(i/detail/2)}
-	end
-	return nodebox
-end
-
-local function cnc_pyramid()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level / 2
-	for i = 0, detail - 1 do
-		nodebox[i+1] = {(i/detail/2)-0.5, (i/detail/2)-0.5, (i/detail/2)-0.5, 0.5-(i/detail/2), (i/detail/2)-0.5+(1/detail), 0.5-(i/detail/2)}
-	end
-	return nodebox
-end
-
-local function cnc_slope_inner_edge_upsdown()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {0.5-(i/detail)-(1/detail), (i/detail)-0.5, -0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-		nodebox[i+detail+1] = {-0.5, (i/detail)-0.5, 0.5-(i/detail)-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope_edge_upsdown()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {(-1*(i/detail))+0.5-(1/detail), (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope_inner_edge()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {(i/detail)-0.5, -0.5, -0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-		nodebox[i+detail+1] = {-0.5, -0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope_edge()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {(i/detail)-0.5, -0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope_upsdown()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {-0.5, (i/detail)-0.5, (-1*(i/detail))+0.5-(1/detail), 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope_lying()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {(i/detail)-0.5, -0.5, (i/detail)-0.5, (i/detail)-0.5+(1/detail), 0.5 , 0.5}
-	end
-	return nodebox
-end
-
-local function cnc_slope()
-	local nodebox = {}
-	local detail = technic.cnc.detail_level
-	for i = 0, detail-1 do
-		nodebox[i+1] = {-0.5, (i/detail)-0.5, (i/detail)-0.5, 0.5, (i/detail)-0.5+(1/detail), 0.5}
-	end
-	return nodebox
-end
 
 -- Define slope boxes for the various nodes
 -------------------------------------------
 technic.cnc.programs = {
 	{suffix  = "technic_cnc_stick",
-	nodebox = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
+	model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
 	desc    = S("Stick")},
 
 	{suffix  = "technic_cnc_element_end_double",
-	nodebox = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
+	model = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
 	desc    = S("Element End Double")},
 
 	{suffix  = "technic_cnc_element_cross_double",
-	nodebox = {
+	model = {
 		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
 	desc    = S("Element Cross Double")},
 
 	{suffix  = "technic_cnc_element_t_double",
-	nodebox = {
+	model = {
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
 		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
 	desc    = S("Element T Double")},
 
 	{suffix  = "technic_cnc_element_edge_double",
-	nodebox = {
+	model = {
 		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
 	desc    = S("Element Edge Double")},
 
 	{suffix  = "technic_cnc_element_straight_double",
-	nodebox = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
+	model = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
 	desc    = S("Element Straight Double")},
 
 	{suffix  = "technic_cnc_element_end",
-	nodebox = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
+	model = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
 	desc    = S("Element End")},
 
 	{suffix  = "technic_cnc_element_cross",
-	nodebox = {
+	model = {
 		{0.3, -0.5, -0.3, 0.5, 0, 0.3},
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
 	desc    = S("Element Cross")},
 
 	{suffix  = "technic_cnc_element_t",
-	nodebox = {
+	model = {
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
 		{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
 	desc    = S("Element T")},
 
 	{suffix  = "technic_cnc_element_edge",
-	nodebox = {
+	model = {
 		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
 	desc    = S("Element Edge")},
 
 	{suffix  = "technic_cnc_element_straight",
-	nodebox = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
+	model = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
 	desc    = S("Element Straight")},
 
 	{suffix  = "technic_cnc_sphere",
-	nodebox = cnc_sphere(),
-	desc    = S("Sphere")},
+	model = "technic_oblatesphere.obj",
+	desc    = S("Oblate Sphere")},
 
 	{suffix  = "technic_cnc_cylinder_horizontal",
-	nodebox = cnc_cylinder_horizontal(),
+	model = "technic_cylinder_horizontal.obj",
 	desc    = S("Horizontal Cylinder")},
 
 	{suffix  = "technic_cnc_cylinder",
-	nodebox = cnc_cylinder(),
+	model = "technic_cylinder.obj",
 	desc    = S("Cylinder")},
 
 	{suffix  = "technic_cnc_twocurvededge",
-	nodebox = cnc_twocurvededge(),
-	desc    = S("Two Curved Edge Block")},
+	model = "technic_two_curved_edge.obj",
+	desc    = S("Two Curved Edge/Corner Block")},
 
 	{suffix  = "technic_cnc_onecurvededge",
-	nodebox = cnc_onecurvededge(),
+	model = "technic_one_curved_edge.obj",
 	desc    = S("One Curved Edge Block")},
 
 	{suffix  = "technic_cnc_spike",
-	nodebox = cnc_spike(),
+	model = "technic_pyramid_spike.obj",
 	desc    = S("Spike")},
 
 	{suffix  = "technic_cnc_pyramid",
-	nodebox = cnc_pyramid(),
+	model = "technic_pyramid.obj",
 	desc    = S("Pyramid")},
 
 	{suffix  = "technic_cnc_slope_inner_edge_upsdown",
-	nodebox = cnc_slope_inner_edge_upsdown(),
-	desc    = S("Slope Upside Down Inner Edge")},
+	model = "technic_innercorner_upsdown.obj",
+	desc    = S("Slope Upside Down Inner Edge/Corner")},
 
 	{suffix  = "technic_cnc_slope_edge_upsdown",
-	nodebox = cnc_slope_edge_upsdown(),
-	desc    = S("Slope Upside Down Edge")},
+	model = "technic_outercorner_upsdown.obj",
+	desc    = S("Slope Upside Down Outer Edge/Corner")},
 
 	{suffix  = "technic_cnc_slope_inner_edge",
-	nodebox = cnc_slope_inner_edge(),
-	desc    = S("Slope Inner Edge")},
+	model = "technic_innercorner.obj",
+	desc    = S("Slope Inner Edge/Corner")},
 
 	{suffix  = "technic_cnc_slope_edge",
-	nodebox = cnc_slope_edge(),
-	desc    = S("Slope Edge")},
+	model = "technic_outercorner.obj",
+	desc    = S("Slope Outer Edge/Corner")},
 
 	{suffix  = "technic_cnc_slope_upsdown",
-	nodebox = cnc_slope_upsdown(),
+	model = "technic_slope_upsdown.obj",
 	desc    = S("Slope Upside Down")},
 
 	{suffix  = "technic_cnc_slope_lying",
-	nodebox = cnc_slope_lying(),
+	model = "technic_slope_horizontal.obj",
 	desc    = S("Slope Lying")},
 
 	{suffix  = "technic_cnc_slope",
-	nodebox = cnc_slope(),
+	model = "technic_slope.obj",
 	desc    = S("Slope")},
 }
 
@@ -279,18 +139,32 @@ technic.cnc.programs_disable = {
 }
 
 -- Generic function for registering all the different node types
-function technic.cnc.register_program(recipeitem, suffix, nodebox, groups, images, description)
+function technic.cnc.register_program(recipeitem, suffix, model, groups, images, description)
+
+	local dtype
+	local nodeboxdef
+	local meshdef
+
+	if type(model) ~= "string" then -- assume a nodebox if it's a table or function call
+		dtype = "nodebox"
+		nodeboxdef = {
+			type  = "fixed",
+			fixed = model
+		}
+	else
+		dtype = "mesh"
+		meshdef = model
+	end
+
 	minetest.register_node(":"..recipeitem.."_"..suffix, {
 		description   = description,
-		drawtype      = "nodebox",
+		drawtype      = dtype,
+		node_box      = nodeboxdef,
+		mesh          = meshdef,
 		tiles         = images,
 		paramtype     = "light",
 		paramtype2    = "facedir",
 		walkable      = true,
-		node_box = {
-			type  = "fixed",
-			fixed = nodebox
-		},
 		groups        = groups,
 	})
 end
@@ -309,7 +183,7 @@ function technic.cnc.register_all(recipeitem, groups, images, description)
 		end
 		-- Create the node if it passes the test
 		if do_register then
-			technic.cnc.register_program(recipeitem, data.suffix, data.nodebox, groups, images, description.." "..data.desc)
+			technic.cnc.register_program(recipeitem, data.suffix, data.model, groups, images, description.." "..data.desc)
 		end
 	end
 end
