@@ -1,0 +1,20 @@
+# Blender v2.69 (sub 0) OBJ File: 'slope_test_ocorner_onetexture.blend'
+# www.blender.org
+mtllib technic_outercorner.mtl
+o Cube_Cube.002
+v -0.500000 0.500000 0.500000
+v -0.500000 -0.500000 -0.500000
+v -0.500000 -0.500000 0.500000
+v 0.500000 -0.500000 -0.500000
+v 0.500000 -0.500000 0.500000
+vt 1.000000 1.000000
+vt 0.000000 1.000000
+vt 0.000000 0.000000
+vt 1.000000 0.000000
+usemtl None
+s off
+f 3/1 2/2 4/3 5/4
+f 1/2 3/3 5/4
+f 1/1 2/3 3/4
+f 1/1 4/3 2/4
+f 1/2 5/3 4/4
