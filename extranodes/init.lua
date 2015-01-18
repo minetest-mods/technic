@@ -8,16 +8,19 @@ else
 	S = function(s) return s end
 end
 
---register stairsplus/circular_saw nodes
+-- register stairsplus/circular_saw nodes
+-- we skip blast resistant concrete and uranium intentionally
+-- chrome seems to be too hard of a metal to be actually sawable
+
 stairsplus:register_all("technic", "marble", "technic:marble", {
 	description=S("Marble"),
-	groups={cracky=2, not_in_creative_inventory=1},
+	groups={cracky=3, not_in_creative_inventory=1},
 	tiles={"technic_marble.png"},
 })
 
 stairsplus:register_all("technic", "marble_bricks", "technic:marble_bricks", {
 	description=S("Marble Bricks"),
-	groups={cracky=2, not_in_creative_inventory=1},
+	groups={cracky=3, not_in_creative_inventory=1},
 	tiles={"technic_marble_bricks.png"},
 })
 
@@ -31,6 +34,36 @@ stairsplus:register_all("technic", "concrete", "technic:concrete", {
 	description=S("Concrete"),
 	groups={cracky=3, not_in_creative_inventory=1},
 	tiles={"technic_concrete_block.png"},
+})
+
+stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
+	description=S("Zinc Block"),
+	groups={cracky=1, not_in_creative_inventory=1},
+	tiles={"technic_zinc_block.png"},
+})
+
+stairsplus:register_all("technic", "cast_iron_block", "technic:cast_iron_block", {
+	description=S("Cast Iron Block"),
+	groups={cracky=1, not_in_creative_inventory=1},
+	tiles={"technic_cast_iron_block.png"},
+})
+
+stairsplus:register_all("technic", "carbon_steel_block", "technic:carbon_steel_block", {
+	description=S("Carbon Steel Block"),
+	groups={cracky=1, not_in_creative_inventory=1},
+	tiles={"technic_carbon_steel_block.png"},
+})
+
+stairsplus:register_all("technic", "stainless_steel_block", "technic:stainless_steel_block", {
+	description=S("Stainless Steel Block"),
+	groups={cracky=1, not_in_creative_inventory=1},
+	tiles={"technic_stainless_steel_block.png"},
+})
+
+stairsplus:register_all("technic", "brass_block", "technic:brass_block", {
+	description=S("Brass Block"),
+	groups={cracky=1, not_in_creative_inventory=1},
+	tiles={"technic_brass_block.png"},
 })
 
 function register_technic_stairs_alias(modname, origname, newmod, newname)
