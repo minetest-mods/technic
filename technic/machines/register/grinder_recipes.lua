@@ -25,6 +25,10 @@ local recipes = {
 	{"default:stone",           "default:sand"},
 }
 
+if minetest.get_modpath("farming") then
+	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
+end
+
 if minetest.get_modpath("moreores") then
 	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
 	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
