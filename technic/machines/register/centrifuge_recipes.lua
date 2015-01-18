@@ -33,6 +33,10 @@ if minetest.get_modpath("bushes_classic") then
 	end
 end
 
+if minetest.get_modpath("farming") then
+	table.insert(recipes, { "farming:wheat 4", "farming:seed_wheat 3", "default:dry_shrub 1" })
+end
+
 for _, data in pairs(recipes) do
 	technic.register_separating_recipe({ input = { data[1] }, output = { data[2], data[3] } })
 end
