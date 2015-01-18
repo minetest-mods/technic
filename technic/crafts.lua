@@ -1,3 +1,6 @@
+-- check if we have the necessary dependencies to allow actually using these materials in the crafts
+local mesecons_materials = minetest.get_modpath("mesecons_materials")
+
 -- tubes crafting recipes
 
 minetest.register_craft({
@@ -97,10 +100,12 @@ minetest.register_craft({
 	}
 })
 
+local isolation = mesecons_materials and "mesecons_materials:fiber" or "technic:rubber"
+
 minetest.register_craft({
 	output = 'technic:lv_transformer',
 	recipe = {
-		{'mesecons_materials:fiber',   'technic:wrought_iron_ingot', 'mesecons_materials:fiber'},
+		{isolation,                    'technic:wrought_iron_ingot', isolation},
 		{'technic:copper_coil',        'technic:wrought_iron_ingot', 'technic:copper_coil'},
 		{'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot', 'technic:wrought_iron_ingot'},
 	}
@@ -109,7 +114,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:mv_transformer',
 	recipe = {
-		{'mesecons_materials:fiber',   'technic:carbon_steel_ingot', 'mesecons_materials:fiber'},
+		{isolation,                    'technic:carbon_steel_ingot', isolation},
 		{'technic:copper_coil',        'technic:carbon_steel_ingot', 'technic:copper_coil'},
 		{'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot', 'technic:carbon_steel_ingot'},
 	}
@@ -118,7 +123,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:hv_transformer',
 	recipe = {
-		{'mesecons_materials:fiber',      'technic:stainless_steel_ingot', 'mesecons_materials:fiber'},
+		{isolation,                       'technic:stainless_steel_ingot', isolation},
 		{'technic:copper_coil',           'technic:stainless_steel_ingot', 'technic:copper_coil'},
 		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 	}
