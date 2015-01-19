@@ -11,121 +11,250 @@ technic.cnc = {}
 -- Define slope boxes for the various nodes
 -------------------------------------------
 technic.cnc.programs = {
-	{suffix  = "technic_cnc_stick",
-	model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-	desc    = S("Stick")},
+	{ suffix  = "technic_cnc_stick",
+		model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
+		desc  = S("Stick")
+	},
 
-	{suffix  = "technic_cnc_element_end_double",
-	model = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-	desc    = S("Element End Double")},
+	{ suffix  = "technic_cnc_element_end_double",
+		model = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
+		desc  = S("Element End Double")
+	},
 
-	{suffix  = "technic_cnc_element_cross_double",
-	model = {
-		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
-		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-	desc    = S("Element Cross Double")},
+	{ suffix  = "technic_cnc_element_cross_double",
+		model = {
+			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
+			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
+			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
+		desc  = S("Element Cross Double")
+	},
 
-	{suffix  = "technic_cnc_element_t_double",
-	model = {
-		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
-		{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
-	desc    = S("Element T Double")},
+	{ suffix  = "technic_cnc_element_t_double",
+		model = {
+			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
+			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
+			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
+		desc  = S("Element T Double")
+	},
 
-	{suffix  = "technic_cnc_element_edge_double",
-	model = {
-		{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
-		{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-	desc    = S("Element Edge Double")},
+	{ suffix  = "technic_cnc_element_edge_double",
+		model = {
+			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
+			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
+		desc  = S("Element Edge Double")
+	},
 
-	{suffix  = "technic_cnc_element_straight_double",
-	model = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-	desc    = S("Element Straight Double")},
+	{ suffix  = "technic_cnc_element_straight_double",
+		model = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
+		desc  = S("Element Straight Double")
+	},
 
-	{suffix  = "technic_cnc_element_end",
-	model = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-	desc    = S("Element End")},
+	{ suffix  = "technic_cnc_element_end",
+		model = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
+		desc  = S("Element End")
+	},
 
-	{suffix  = "technic_cnc_element_cross",
-	model = {
-		{0.3, -0.5, -0.3, 0.5, 0, 0.3},
-		{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-	desc    = S("Element Cross")},
+	{ suffix  = "technic_cnc_element_cross",
+		model = {
+			{0.3, -0.5, -0.3, 0.5, 0, 0.3},
+			{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
+			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
+		desc  = S("Element Cross")
+	},
 
-	{suffix  = "technic_cnc_element_t",
-	model = {
-		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-		{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
-		{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
-	desc    = S("Element T")},
+	{ suffix  = "technic_cnc_element_t",
+		model = {
+			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
+			{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
+			{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
+		desc  = S("Element T")
+	},
 
-	{suffix  = "technic_cnc_element_edge",
-	model = {
-		{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
-		{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-	desc    = S("Element Edge")},
+	{ suffix  = "technic_cnc_element_edge",
+		model = {
+			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
+			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
+		desc  = S("Element Edge")
+	},
 
-	{suffix  = "technic_cnc_element_straight",
-	model = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-	desc    = S("Element Straight")},
+	{ suffix  = "technic_cnc_element_straight",
+		model = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
+		desc  = S("Element Straight")
+	},
 
-	{suffix  = "technic_cnc_sphere",
-	model = "technic_oblatesphere.obj",
-	desc    = S("Oblate Sphere")},
+	{ suffix  = "technic_cnc_sphere",
+		model = "technic_oblatesphere.obj",
+		desc  = S("Oblate Sphere"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -6/16,  4/16, -6/16, 6/16,  8/16, 6/16 },
+				{ -8/16, -4/16, -8/16, 8/16,  4/16, 8/16 },
+				{ -6/16, -8/16, -6/16, 6/16, -4/16, 6/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_cylinder_horizontal",
-	model = "technic_cylinder_horizontal.obj",
-	desc    = S("Horizontal Cylinder")},
+	{ suffix  = "technic_cnc_cylinder_horizontal",
+		model = "technic_cylinder_horizontal.obj",
+		desc  = S("Horizontal Cylinder")
+	},
 
-	{suffix  = "technic_cnc_cylinder",
-	model = "technic_cylinder.obj",
-	desc    = S("Cylinder")},
+	{ suffix  = "technic_cnc_cylinder",
+		model = "technic_cylinder.obj",
+		desc  = S("Cylinder")
+	},
 
-	{suffix  = "technic_cnc_twocurvededge",
-	model = "technic_two_curved_edge.obj",
-	desc    = S("Two Curved Edge/Corner Block")},
+	{ suffix  = "technic_cnc_twocurvededge",
+		model = "technic_two_curved_edge.obj",
+		desc  = S("Two Curved Edge/Corner Block")
+	},
 
-	{suffix  = "technic_cnc_onecurvededge",
-	model = "technic_one_curved_edge.obj",
-	desc    = S("One Curved Edge Block")},
+	{ suffix  = "technic_cnc_onecurvededge",
+		model = "technic_one_curved_edge.obj",
+		desc  = S("One Curved Edge Block")
+	},
 
-	{suffix  = "technic_cnc_spike",
-	model = "technic_pyramid_spike.obj",
-	desc    = S("Spike")},
+	{ suffix  = "technic_cnc_spike",
+		model = "technic_pyramid_spike.obj",
+		desc  = S("Spike"),
+		cbox    = {
+			type = "fixed",
+			fixed = {
+				{ -2/16,  4/16, -2/16, 2/16,  8/16, 2/16 },
+				{ -4/16,     0, -4/16, 4/16,  4/16, 4/16 },
+				{ -6/16, -4/16, -6/16, 6/16,     0, 6/16 },
+				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_pyramid",
-	model = "technic_pyramid.obj",
-	desc    = S("Pyramid")},
+	{ suffix  = "technic_cnc_pyramid",
+		model = "technic_pyramid.obj",
+		desc  = S("Pyramid"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -2/16, -2/16, -2/16, 2/16,     0, 2/16 },
+				{ -4/16, -4/16, -4/16, 4/16, -2/16, 4/16 },
+				{ -6/16, -6/16, -6/16, 6/16, -4/16, 6/16 },
+				{ -8/16, -8/16, -8/16, 8/16, -6/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_inner_edge_upsdown",
-	model = "technic_innercorner_upsdown.obj",
-	desc    = S("Slope Upside Down Inner Edge/Corner")},
+	{ suffix  = "technic_cnc_slope_inner_edge_upsdown",
+		model = "technic_innercorner_upsdown.obj",
+		desc  = S("Slope Upside Down Inner Edge/Corner"),
+		sbox  = {
+			type = "fixed",
+			fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
+		},
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{  0.25, -0.25, -0.5,  0.5, -0.5,   0.5  },
+				{ -0.5,  -0.25,  0.25, 0.5, -0.5,   0.5  },
+				{  0,     0,    -0.5,  0.5, -0.25,  0.5  },
+				{ -0.5,   0,     0,    0.5, -0.25,  0.5  },
+				{ -0.25,  0.25, -0.5,  0.5,  0,    -0.25 },
+				{ -0.5,   0.25, -0.25, 0.5,  0,     0.5  },
+				{ -0.5,   0.5,  -0.5,  0.5,  0.25,  0.5  }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_edge_upsdown",
-	model = "technic_outercorner_upsdown.obj",
-	desc    = S("Slope Upside Down Outer Edge/Corner")},
+	{ suffix  = "technic_cnc_slope_edge_upsdown",
+		model = "technic_outercorner_upsdown.obj",
+		desc  = S("Slope Upside Down Outer Edge/Corner"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -8/16,  8/16, -8/16, 8/16,  4/16, 8/16 },
+				{ -4/16,  4/16, -4/16, 8/16,     0, 8/16 },
+				{     0,     0,     0, 8/16, -4/16, 8/16 },
+				{  4/16, -4/16,  4/16, 8/16, -8/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_inner_edge",
-	model = "technic_innercorner.obj",
-	desc    = S("Slope Inner Edge/Corner")},
+	{ suffix  = "technic_cnc_slope_inner_edge",
+		model = "technic_innercorner.obj",
+		desc  = S("Slope Inner Edge/Corner"),
+		sbox  = {
+			type = "fixed",
+			fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
+		},
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -0.5,  -0.5,  -0.5,  0.5, -0.25,  0.5  },
+				{ -0.5,  -0.25, -0.25, 0.5,  0,     0.5  },
+				{ -0.25, -0.25, -0.5,  0.5,  0,    -0.25 },
+				{ -0.5,   0,     0,    0.5,  0.25,  0.5  },
+				{  0,     0,    -0.5,  0.5,  0.25,  0.5  },
+				{ -0.5,   0.25,  0.25, 0.5,  0.5,   0.5  },
+				{  0.25,  0.25, -0.5,  0.5,  0.5,   0.5  }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_edge",
-	model = "technic_outercorner.obj",
-	desc    = S("Slope Outer Edge/Corner")},
+	{ suffix  = "technic_cnc_slope_edge",
+		model = "technic_outercorner.obj",
+		desc  = S("Slope Outer Edge/Corner"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{  4/16,  4/16,  4/16, 8/16,  8/16, 8/16 },
+				{     0,     0,     0, 8/16,  4/16, 8/16 },
+				{ -4/16, -4/16, -4/16, 8/16,     0, 8/16 },
+				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_upsdown",
-	model = "technic_slope_upsdown.obj",
-	desc    = S("Slope Upside Down")},
+	{ suffix  = "technic_cnc_slope_upsdown",
+		model = "technic_slope_upsdown.obj",
+		desc  = S("Slope Upside Down"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -8/16,  8/16, -8/16, 8/16,  4/16, 8/16 },
+				{ -8/16,  4/16, -4/16, 8/16,     0, 8/16 },
+				{ -8/16,     0,     0, 8/16, -4/16, 8/16 },
+				{ -8/16, -4/16,  4/16, 8/16, -8/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope_lying",
-	model = "technic_slope_horizontal.obj",
-	desc    = S("Slope Lying")},
+	{ suffix  = "technic_cnc_slope_lying",
+		model = "technic_slope_horizontal.obj",
+		desc  = S("Slope Lying"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{  4/16, -8/16,  4/16,  8/16, 8/16, 8/16 },
+				{     0, -8/16,     0,  4/16, 8/16, 8/16 },				
+				{ -4/16, -8/16, -4/16,     0, 8/16, 8/16 },
+				{ -8/16, -8/16, -8/16, -4/16, 8/16, 8/16 }
+			}
+		}
+	},
 
-	{suffix  = "technic_cnc_slope",
-	model = "technic_slope.obj",
-	desc    = S("Slope")},
+	{ suffix  = "technic_cnc_slope",
+		model = "technic_slope.obj",
+		desc  = S("Slope"),
+		cbox  = {
+			type = "fixed",
+			fixed = {
+				{ -8/16,  4/16,  4/16, 8/16,  8/16, 8/16 },
+				{ -8/16,     0,     0, 8/16,  4/16, 8/16 },
+				{ -8/16, -4/16, -4/16, 8/16,     0, 8/16 },
+				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
+			}
+		}
+	},
+	
 }
 
 -- Allow disabling certain programs for some node. Default is allowing all types for all nodes
@@ -139,7 +268,7 @@ technic.cnc.programs_disable = {
 }
 
 -- Generic function for registering all the different node types
-function technic.cnc.register_program(recipeitem, suffix, model, groups, images, description)
+function technic.cnc.register_program(recipeitem, suffix, model, groups, images, description, cbox, sbox)
 
 	local dtype
 	local nodeboxdef
@@ -156,6 +285,8 @@ function technic.cnc.register_program(recipeitem, suffix, model, groups, images,
 		meshdef = model
 	end
 
+	if cbox and not sbox then sbox = cbox end
+
 	minetest.register_node(":"..recipeitem.."_"..suffix, {
 		description   = description,
 		drawtype      = dtype,
@@ -166,6 +297,8 @@ function technic.cnc.register_program(recipeitem, suffix, model, groups, images,
 		paramtype2    = "facedir",
 		walkable      = true,
 		groups        = groups,
+		selection_box = sbox,
+		collision_box = cbox
 	})
 end
 
@@ -183,7 +316,8 @@ function technic.cnc.register_all(recipeitem, groups, images, description)
 		end
 		-- Create the node if it passes the test
 		if do_register then
-			technic.cnc.register_program(recipeitem, data.suffix, data.model, groups, images, description.." "..data.desc)
+			technic.cnc.register_program(recipeitem, data.suffix, data.model,
+			    groups, images, description.." "..data.desc, data.cbox, data.sbox)
 		end
 	end
 end
