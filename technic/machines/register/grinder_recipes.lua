@@ -51,6 +51,13 @@ for _, data in pairs(recipes) do
 	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
 end
 
+-- defuse common grinder unfriendly recipes
+if minetest.get_modpath("fake_fire") then -- from homedecor_modpack
+	minetest.register_craft({ output='default:cobble', recipe={{'default:cobble'}}})
+	minetest.register_craft({ output='default:gravel', recipe={{'default:gravel'}}})
+end
+
+-- dusts
 local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
