@@ -209,6 +209,9 @@ minetest.register_node("technic:quarry", {
 	tiles = {"technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png^default_tool_mesepick.png", "technic_carbon_steel_block.png"},
+	inventory_image = minetest.inventorycube("technic_carbon_steel_block.png",
+	         "technic_carbon_steel_block.png^default_tool_mesepick.png",
+	         "technic_carbon_steel_block.png"),
 	paramtype2 = "facedir",
 	groups = {cracky=2, tubedevice=1, technic_machine = 1},
 	tube = {
