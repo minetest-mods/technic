@@ -36,3 +36,11 @@ function technic.function_exists(function_name)
 	return type(resolve_name(function_name)) == 'function'
 end
 
+-- if the node is loaded, returns it. If it isn't loaded, load it and return nil.
+function technic.get_or_load_node(pos)
+	local node_or_nil = minetest.get_node_or_nil(pos)
+	if node_or_nil then return node_or_nil end
+	local vm = VoxelManip()
+	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
+	return nil
+end

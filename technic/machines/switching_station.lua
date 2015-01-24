@@ -82,15 +82,9 @@ local add_new_cable_node = function(nodes, pos)
 	return true
 end
 
-local load_position = function(pos)
-	if minetest.get_node_or_nil(pos) then return end
-	local vm = VoxelManip()
-	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
-end
-
 -- Generic function to add found connected nodes to the right classification array
 local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos)
-	load_position(pos)
+	technic.get_or_load_node(pos)
 	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
 
@@ -219,7 +213,7 @@ minetest.register_abm({
 		-- Run all the nodes
 		local function run_nodes(list)
 			for _, pos2 in ipairs(list) do
-				load_position(pos2)
+				technic.get_or_load_node(pos2)
 				local node2 = minetest.get_node(pos2)
 				local nodedef
 				if node2 and node2.name then

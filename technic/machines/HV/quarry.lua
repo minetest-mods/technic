@@ -108,21 +108,26 @@ local function quarry_run(pos, node)
 				vector.multiply(pdir, rp)),
 				vector.multiply(qdir, rq))
 			local can_dig = true
-			for ay = startpos.y, digpos.y+1, -1 do
-				if data[area:index(digpos.x, ay, digpos.z)] ~= c_air then
-					can_dig = false
-					break
-				end
-			end
 			if can_dig and minetest.is_protected and minetest.is_protected(digpos, owner) then
 				can_dig = false
 			end
 			local dignode
 			if can_dig then
-				dignode = minetest.get_node(digpos)
+				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
 				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
 				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, nil)) then
 					can_dig = false
+				end
+			end
+
+			if can_dig then
+				for ay = startpos.y, digpos.y+1, -1 do
+					local checkpos = {x=digpos.x, y=ay, z=digpos.z}
+					local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
+					if checknode.name ~= "air" then
+						can_dig = false
+						break
+					end
 				end
 			end
 			nd = nd + 1
