@@ -15,23 +15,25 @@ local quarry_demand = 10000
 
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
-	local formspec = "size[6,2.5]"..
-		"item_image[0,0;1,1;technic:quarry]"..
-		"label[1,0;"..S("%s Quarry"):format("HV").."]"..
-		"field[0.3,1.5;2,1;size;"..S("Radius:")..";"..radius.."]"
+	local formspec = "size[6,4.3]"..
+		"list[context;cache;0,1;4,3;]"..
+		"item_image[4.8,0;1,1;technic:quarry]"..
+		"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
+		"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[4,1.2;2,1;enable;"..S("Disabled").."]"
+		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
 	else
-		formspec = formspec.."button[4,1.2;2,1;disable;"..S("Enabled").."]"
+		formspec = formspec.."button[4,1;2,1;disable;"..S("Enabled").."]"
 	end
 	local diameter = radius*2 + 1
 	local nd = meta:get_int("dug")
 	local rel_y = quarry_dig_above_nodes - math.floor(nd / (diameter*diameter))
-	formspec = formspec.."label[0,2;"..minetest.formspec_escape(
+	formspec = formspec.."label[0,4;"..minetest.formspec_escape(
 			nd == 0 and S("Digging not started") or
 			(rel_y < -quarry_max_depth and S("Digging finished") or
+				(meta:get_int("purge_on") == 1 and S("Purging cache") or
 				S("Digging %d m "..(rel_y > 0 and "above" or "below").." machine")
-					:format(math.abs(rel_y)))
+					:format(math.abs(rel_y))))
 			).."]"
 	formspec = formspec.."button[4,2;2,1;restart;"..S("Restart").."]"
 	meta:set_string("formspec", formspec)
@@ -41,8 +43,8 @@ local function set_quarry_demand(meta)
 	local radius = meta:get_int("size")
 	local diameter = radius*2 + 1
 	local machine_name = S("%s Quarry"):format("HV")
-	if meta:get_int("enabled") == 0 then
-		meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+	if meta:get_int("enabled") == 0 or meta:get_int("purge_on") == 1 then
+		meta:set_string("infotext", S(meta:get_int("purge_on") == 1 and "%s purging cache" or "%s Disabled"):format(machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	elseif meta:get_int("dug") == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
 		meta:set_string("infotext", S("%s Finished"):format(machine_name))
@@ -64,14 +66,47 @@ local function quarry_receive_fields(pos, formname, fields, sender)
 	end
 	if fields.enable then meta:set_int("enabled", 1) end
 	if fields.disable then meta:set_int("enabled", 0) end
-	if fields.restart then meta:set_int("dug", 0) end
+	if fields.restart then
+		meta:set_int("dug", 0)
+		meta:set_int("purge_on", 1)
+	end
 	set_quarry_formspec(meta)
 	set_quarry_demand(meta)
 end
 
+local function quarry_handle_purge(pos)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	local i = 0
+	for _,stack in ipairs(inv:get_list("cache")) do
+		i = i + 1
+		if stack then
+			local item = stack:to_table()
+			if item then
+				technic.tube_inject_item(pos, pos, vector.new(0, 1, 0), item)
+				stack:clear()
+				inv:set_stack("cache", i, stack)
+				break
+			end
+		end
+	end
+	if inv:is_empty("cache") then
+		meta:set_int("purge_on", 0)
+	end
+end
+
 local function quarry_run(pos, node)
 	local meta = minetest.get_meta(pos)
-	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand then
+	local inv = meta:get_inventory()
+	-- initialize cache for the case we load an older world
+	inv:set_size("cache", 12)
+	-- toss a coin whether we do an automatic purge. Chance 1:200
+	local purge_rand = math.random()
+	if purge_rand <= 0.005 then
+		meta:set_int("purge_on", 1)
+	end
+
+	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
 		local pdir = minetest.facedir_to_dir(node.param2)
 		local qdir = pdir.x == 1 and vector.new(0,0,-1) or
 			(pdir.z == -1 and vector.new(-1,0,0) or
@@ -133,16 +168,40 @@ local function quarry_run(pos, node)
 			nd = nd + 1
 			if can_dig then
 				minetest.remove_node(digpos)
-				for _, item in ipairs(minetest.get_node_drops(dignode.name, "")) do
-					technic.tube_inject_item(pos, pos, vector.new(0, 1, 0), item)
+				local drops = minetest.get_node_drops(dignode.name, "")
+				for _, dropped_item in ipairs(drops) do
+					local left = inv:add_item("cache", dropped_item)
+					while not left:is_empty() do
+						meta:set_int("purge_on", 1)
+						quarry_handle_purge(pos)
+						left = inv:add_item("cache", left)
+					end
 				end
 				break
 			end
 		end
+		if nd == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
+			-- if a quarry is finished, we enable purge mode
+			meta:set_int("purge_on", 1)
+		end
 		meta:set_int("dug", nd)
+	else
+		-- if a quarry is disabled or has no power, we enable purge mode
+		meta:set_int("purge_on", 1)
+	end
+	-- if something triggered a purge, we handle it
+	if meta:get_int("purge_on") == 1 then
+		quarry_handle_purge(pos)
 	end
 	set_quarry_formspec(meta)
 	set_quarry_demand(meta)
+end
+
+local function send_move_error(player)
+	minetest.chat_send_player(player:get_player_name(),
+		S("Manually taking/removing from cache by hand is not possible. "..
+		"If you can't wait, restart or disable the quarry to start automatic purge."))
+	return 0
 end
 
 minetest.register_node("technic:quarry", {
@@ -167,10 +226,23 @@ minetest.register_node("technic:quarry", {
 		meta:set_string("owner", placer:get_player_name())
 		pipeworks.scan_for_tube_objects(pos)
 	end,
+	can_dig = function(pos,player)
+		local meta = minetest.get_meta(pos);
+		local inv = meta:get_inventory()
+		return inv:is_empty("cache")
+	end,
 	after_dig_node = pipeworks.scan_for_tube_objects,
 	on_receive_fields = quarry_receive_fields,
 	technic_run = quarry_run,
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		return send_move_error(player)
+	end,
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		return send_move_error(player)
+	end,
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		return send_move_error(player)
+	end
 })
 
 technic.register_machine("HV", "technic:quarry", technic.receiver)
-
