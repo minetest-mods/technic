@@ -319,7 +319,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		local meta = minetest.get_meta(pos)
 		
 		-- Connected back?
-		if meta:get_int("HV_EU_timeout") > 0 then return end	
+		if meta:get_int("HV_EU_timeout") > 0 then return false end
 		
 		local burn_time = meta:get_int("burn_time") or 0
 
@@ -329,12 +329,11 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 			meta:set_int("structure_accumulated_badness", 0)
 			siren_clear(pos, meta)
-			return
+			return false
 		end
 		
 		meta:set_int("burn_time", burn_time + 1)
-		local timer = minetest.get_node_timer(pos)
-        	timer:start(1)
+		return true
 	end,
 })
 
