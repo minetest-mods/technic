@@ -23,7 +23,16 @@ local recipes = {
 	{"default:cobble",          "default:gravel"},
 	{"default:gravel",          "default:dirt"},
 	{"default:stone",           "default:sand"},
+	{"default:sandstone",       "default:sand 2"}, -- reverse recipe can be found in the compressor
 }
+
+-- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
+minetest.register_craft({
+	output = "default:sandstone",
+	recipe = {
+		{'default:sandstone'}
+	},
+})
 
 if minetest.get_modpath("farming") then
 	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
