@@ -44,7 +44,7 @@ minetest.register_craft({
 	recipe = {
 		{'', 'technic:control_logic_unit',''},
 		{'', 'default:chest',''},
-		{'', 'pipeworks:tube_1',''},
+		{'', 'pipeworks:tube',''},
 	}
 })
 
