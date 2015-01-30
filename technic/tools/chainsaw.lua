@@ -36,31 +36,17 @@ end
 -- Support moretrees if it is there
 if minetest.get_modpath("moretrees") then
 	timber_nodenames["moretrees:acacia_trunk"]                = true
-	timber_nodenames["moretrees:acacia_trunk_sideways"]       = true
 	timber_nodenames["moretrees:apple_tree_trunk"]                 = true
-	timber_nodenames["moretrees:apple_tree_trunk_sideways"]        = true
 	timber_nodenames["moretrees:beech_trunk"]                      = true
-	timber_nodenames["moretrees:beech_trunk_sideways"]             = true
 	timber_nodenames["moretrees:birch_trunk"]                      = true
-	timber_nodenames["moretrees:birch_trunk_sideways"]             = true
 	timber_nodenames["moretrees:fir_trunk"]                        = true
-	timber_nodenames["moretrees:fir_trunk_sideways"]               = true
 	timber_nodenames["moretrees:oak_trunk"]                        = true
-	timber_nodenames["moretrees:oak_trunk_sideways"]               = true
 	timber_nodenames["moretrees:palm_trunk"]                       = true
-	timber_nodenames["moretrees:palm_trunk_sideways"]              = true
 	timber_nodenames["moretrees:pine_trunk"]                       = true
-	timber_nodenames["moretrees:pine_trunk_sideways"]              = true
-	timber_nodenames["moretrees:rubber_tree_trunk_sideways"]       = true
-	timber_nodenames["moretrees:rubber_tree_trunk_sideways_empty"] = true
 	timber_nodenames["moretrees:sequoia_trunk"]                    = true
-	timber_nodenames["moretrees:sequoia_trunk_sideways"]           = true
 	timber_nodenames["moretrees:spruce_trunk"]                     = true
-	timber_nodenames["moretrees:spruce_trunk_sideways"]            = true
 	timber_nodenames["moretrees:willow_trunk"]                     = true
-	timber_nodenames["moretrees:willow_trunk_sideways"]            = true
 	timber_nodenames["moretrees:jungletree_trunk"]                 = true
-	timber_nodenames["moretrees:jungletree_trunk_sideways"]        = true
 
 	if chainsaw_leaves then
 		timber_nodenames["moretrees:acacia_leaves"]            = true
