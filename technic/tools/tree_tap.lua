@@ -1,5 +1,6 @@
 
 local S = technic.getter
+local mesecons_materials = minetest.get_modpath("mesecons_materials")
 
 minetest.register_tool("technic:treetap", {
 	description = S("Tree Tap"),
@@ -39,17 +40,19 @@ minetest.register_craft({
 		{"",               "default:stick", "default:stick"}
 	},
 })
-     
+
 minetest.register_craftitem("technic:raw_latex", {
 	description = S("Raw Latex"),
 	inventory_image = "technic_raw_latex.png",
 })
-     
-minetest.register_craft({
-	type = "cooking",
-	output = "technic:rubber",
-	recipe = "technic:raw_latex",
-})
+
+if mesecons_materials then
+	minetest.register_craft({
+		type = "cooking",
+		recipe = "technic:raw_latex",
+		output = "mesecons_materials:glue",
+	})
+end
 
 minetest.register_craftitem("technic:rubber", {
 	description = S("Rubber Fiber"),
