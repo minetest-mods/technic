@@ -28,7 +28,7 @@ local recipes = {
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.register_craft({
-	output = "default:sandstone",
+	output = "default:sandstone 0",
 	recipe = {
 		{'default:sandstone'}
 	},
@@ -62,8 +62,8 @@ end
 
 -- defuse common grinder unfriendly recipes
 if minetest.get_modpath("fake_fire") then -- from homedecor_modpack
-	minetest.register_craft({ output='default:cobble', recipe={{'default:cobble'}}})
-	minetest.register_craft({ output='default:gravel', recipe={{'default:gravel'}}})
+	minetest.register_craft({ output='default:cobble', recipe={{'default:cobble 0'}}})
+	minetest.register_craft({ output='default:gravel', recipe={{'default:gravel 0'}}})
 end
 
 -- dusts
