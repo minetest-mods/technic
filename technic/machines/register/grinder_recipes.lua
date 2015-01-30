@@ -62,8 +62,8 @@ end
 
 -- defuse common grinder unfriendly recipes
 if minetest.get_modpath("fake_fire") then -- from homedecor_modpack
-	minetest.register_craft({ output='default:cobble', recipe={{'default:cobble 0'}}})
-	minetest.register_craft({ output='default:gravel', recipe={{'default:gravel 0'}}})
+	minetest.register_craft({ output='default:cobble 0', recipe={{'default:cobble'}}})
+	minetest.register_craft({ output='default:gravel 0', recipe={{'default:gravel'}}})
 end
 
 -- dusts
