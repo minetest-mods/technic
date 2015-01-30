@@ -24,6 +24,9 @@ local recipes = {
 	{"default:copper_ingot 2",        "technic:zinc_ingot",         "technic:brass_ingot 3"},
 	{"default:sand 2",                "technic:coal_dust 2",        "technic:silicon_wafer"},
 	{"technic:silicon_wafer",         "technic:gold_dust",          "technic:doped_silicon_wafer"},
+	-- latex is being refined to rubber by drying and adding carbon pigments to strengthen the material (which also turns it black)
+	-- it should not yield more rubber than its latex input, but it may be processed faster than ores
+	{"technic:raw_latex 3",           "technic:coal_dust 3",        "technic:rubber 3", 2},
 }
 
 for _, data in pairs(recipes) do

@@ -8,15 +8,6 @@ function technic.register_extractor_recipe(data)
 	technic.register_recipe("extracting", data)
 end
 
-local recipes = {
-	-- Rubber
-	{"technic:raw_latex",                 "technic:rubber 3"},
-}
-
-for _, data in pairs(recipes) do
-	technic.register_extractor_recipe({input = {data[1]}, output = data[2]})
-end
-
 if minetest.get_modpath("dye") then
 	-- check if we are using dye or unifieddyes
 	local unifieddyes = minetest.get_modpath("unifieddyes")
