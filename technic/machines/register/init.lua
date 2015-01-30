@@ -21,6 +21,9 @@ dofile(path.."/extractor_recipes.lua")
 dofile(path.."/compressor_recipes.lua")
 dofile(path.."/centrifuge_recipes.lua")
 
+-- Multi-Machine Recipes
+dofile(path.."/grindings.lua")
+
 -- Machines
 dofile(path.."/alloy_furnace.lua")
 dofile(path.."/electric_furnace.lua")

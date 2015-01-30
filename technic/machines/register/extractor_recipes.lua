@@ -11,8 +11,6 @@ end
 local recipes = {
 	-- Rubber
 	{"technic:raw_latex",                 "technic:rubber 3"},
-	{"moretrees:rubber_tree_trunk_empty", "technic:rubber"},
-	{"moretrees:rubber_tree_trunk",       "technic:rubber"},
 }
 
 for _, data in pairs(recipes) do
@@ -38,8 +36,6 @@ if minetest.get_modpath("dye") then
 		{"flowers:viola",                     "dye:violet 4"},
 		{"bushes:blackberry",                 unifieddyes and "unifieddyes:magenta_s50 4" or "dye:violet 4"},
 		{"bushes:blueberry",                  unifieddyes and "unifieddyes:magenta_s50 4" or "dye:magenta 4"},
-		-- https://en.wikipedia.org/wiki/Catechu ancient brown dye from the wood of acacia trees
-		{"moretrees:acacia_trunk",            "dye:brown 8"},
 	}
 
 	for _, data in ipairs(dye_recipes) do
