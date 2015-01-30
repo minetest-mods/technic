@@ -8,7 +8,6 @@ local sawdust = "technic:sawdust"
 minetest.register_craftitem(sawdust, {
 	description = S("Sawdust"),
 	inventory_image = "technic_sawdust.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 })
 minetest.register_craft({ type = "fuel", recipe = sawdust, burntime = 6 })
 technic.register_compressor_recipe({ input = {sawdust .. " 4"}, output = "default:wood" })
@@ -25,7 +24,6 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 	minetest.register_craftitem(grindings_name, {
 		description = S("%s Grinding"):format(S(name)),
 		inventory_image = inventory_image,
-		on_place_on_ground = minetest.craftitem_place_item,
 	})
 	minetest.register_craft({
 		type = "fuel",

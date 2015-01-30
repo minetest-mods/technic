@@ -73,7 +73,6 @@ local function register_dust(name, ingot)
 	minetest.register_craftitem("technic:"..lname.."_dust", {
 		description = S("%s Dust"):format(S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",
-		on_place_on_ground = minetest.craftitem_place_item,
 	})
 	if ingot then
 		minetest.register_craft({
