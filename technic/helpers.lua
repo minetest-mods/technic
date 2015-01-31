@@ -44,3 +44,39 @@ function technic.get_or_load_node(pos)
 	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
 	return nil
 end
+
+function technic.format(str, ...)
+	local arg={...}
+	local param = nil
+	local percent = false
+	local res = ""
+	local i = 1
+	for c in str:gmatch"." do
+		if percent then
+			assert(c ~= "%") --syntax error
+			if c == "e" then
+				-- use enhanced number formatting, SI style
+				-- only works for unsigned numbers
+				local numstr = tostring(math.abs(arg[i]))
+				local a, b, body, frac = numstr:find("^(%d+)([.]?.-)$")
+				a = 1
+				body = body.." "
+				while a ~= 0 do
+					body, a = body:gsub("(%d)(%d%d%d) ", "%1 %2 ", 1)
+				end
+				body = body:gsub(" $", "")
+				res = res .. body .. frac
+			else
+				--use traditional string:format
+				res = res .. (string.format(("%"..c), arg[i]))
+				i = i + 1
+			end
+			percent = false
+		elseif c == "%" then
+			percent = true
+		else
+			res = res .. c
+		end
+	end
+	return res
+end
