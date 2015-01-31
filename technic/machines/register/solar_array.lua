@@ -28,7 +28,7 @@ function technic.register_solar_array(data)
 			local charge_to_give = math.floor((light + pos.y) * data.power)
 			charge_to_give = math.max(charge_to_give, 0)
 			charge_to_give = math.min(charge_to_give, data.power * 50)
-			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..charge_to_give.."EU)")
+			meta:set_string("infotext", technic.format(S("%s Active (%e EU)"), machine_name, charge_to_give))
 			meta:set_int(tier.."_EU_supply", charge_to_give)
 		else
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
