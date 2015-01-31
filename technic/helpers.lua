@@ -82,8 +82,8 @@ function technic.format(str, ...)
 			else
 				--use traditional string:format
 				res = res .. (string.format(("%"..c), arg[i]))
-				i = i + 1
 			end
+			i = i + 1
 			percent = false
 		elseif c == "%" then
 			percent = true
