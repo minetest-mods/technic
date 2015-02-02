@@ -83,7 +83,7 @@ local add_new_cable_node = function(nodes, pos)
 end
 
 -- Generic function to add found connected nodes to the right classification array
-local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos)
+local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below)
 	technic.get_or_load_node(pos)
 	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
@@ -100,7 +100,8 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 			add_new_cable_node(PR_nodes, pos)
 			add_new_cable_node(RE_nodes, pos)
 		elseif machines[name] == "SPECIAL" and
-				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) then
+				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
+				from_below then
 			-- Another switching station -> disable it
 			add_new_cable_node(SP_nodes, pos)
 			meta:set_int("active", 0)
@@ -125,7 +126,7 @@ local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_no
 		{x=pos.x,   y=pos.y,   z=pos.z-1}}
 	--print("ON")
 	for i, cur_pos in pairs(positions) do
-		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos)
+		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3)
 	end
 end
 
