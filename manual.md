@@ -179,10 +179,7 @@ whether it is currently ripe for tapping.  Each tree has several trunk
 blocks, so several latex lumps can be extracted from a tree in one visit.
 
 Raw latex isn't used directly.  It must be vulcanized to produce finished
-rubber.  This can be performed by simply cooking the latex, with each
-latex lump producing one lump of rubber.  If you have an extractor,
-however, the latex is better processed there: each latex lump will
-produce three lumps of rubber.
+rubber.  This can be performed by alloying the latex with coal dust.
 
 ### metal ###
 
