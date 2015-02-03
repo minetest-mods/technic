@@ -197,9 +197,9 @@ function technic.chests:definition(name, data)
 			"label[0,0;"..S("%s Chest"):format(name).."]"..
 			"list[current_name;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
 			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
-			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";ui_form_bg.png]"..
+			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";technic_form_bg.png]"..
 			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
-			"background["..data.loleft..","..data.lotop..";8,4;ui_main_inventory.png]"
+			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]"
 	if data.sort then
 		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
 	end
