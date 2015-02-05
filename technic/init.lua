@@ -16,12 +16,8 @@ local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
 -- Boilerplate to support intllib
-if rawget(_G, "intllib") then
-	technic.getter = intllib.Getter()
-else
-	technic.getter = function(s) return s end
-end
-local S = technic.getter
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+technic.getter = S
 
 -- Read configuration file
 dofile(modpath.."/config.lua")

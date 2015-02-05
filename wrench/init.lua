@@ -20,12 +20,7 @@ dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
 -- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if rawget(_G, "intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]

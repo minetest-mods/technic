@@ -1,11 +1,4 @@
-
-
-local S
-if rawget(_G, "intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local chest_mark_colors = {
 	{"black", S("Black")},
