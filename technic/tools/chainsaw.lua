@@ -14,7 +14,7 @@ local timber_nodenames = {
 	["default:cactus"]     = true,
 	["default:tree"]       = true,
 	["default:apple"]      = true,
-	["default:pine"]       = true,
+	["default:pinetree"]   = true,
 }
 
 if chainsaw_leaves then
