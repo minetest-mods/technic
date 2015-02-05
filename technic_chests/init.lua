@@ -4,7 +4,7 @@
 
 modpath = minetest.get_modpath("technic_chests")
 
-technic = technic or {}
+technic = rawget(_G, "technic") or {}
 technic.chests = {}
 
 dofile(modpath.."/common.lua")

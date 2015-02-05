@@ -1,8 +1,8 @@
 local modpath = minetest.get_modpath("technic_worldgen")
 
-technic = technic or {}
+technic = rawget(_G, "technic") or {}
 technic.worldgen = {}
-if intllib then
+if rawget(_G, "intllib") then
 	technic.worldgen.gettext = intllib.Getter()
 else
 	technic.worldgen.gettext = function(s) return s end
