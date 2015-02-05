@@ -131,25 +131,30 @@ function technic.machine_can_dig(pos, player)
 	end
 end
 
-local function inv_change(pos, player, count)
+local function inv_change(pos, player, count, from_list, to_list)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		minetest.chat_send_player(player:get_player_name(),
 			S("Inventory move disallowed due to protection"))
 		return 0
 	end
+	if to_list == "upgrade1" or to_list == "upgrade2" then
+		-- only place a single item into it, if it's empty
+		local empty = minetest.get_meta(pos):get_inventory():is_empty(to_list)
+		return empty and 1 or 0
+	end
 	return count
 end
 
 function technic.machine_inventory_put(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count())
+	return inv_change(pos, player, stack:get_count(), nil, listname)
 end
 
 function technic.machine_inventory_take(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count())
+	return inv_change(pos, player, stack:get_count(), listname, nil)
 end
 
 function technic.machine_inventory_move(pos, from_list, from_index,
 		to_list, to_index, count, player)
-	return inv_change(pos, player, count)
+	return inv_change(pos, player, count, from_list, to_list)
 end
 
