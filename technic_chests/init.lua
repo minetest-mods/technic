@@ -2,7 +2,7 @@
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
-modpath = minetest.get_modpath("technic_chests")
+local modpath = minetest.get_modpath("technic_chests")
 
 technic = rawget(_G, "technic") or {}
 technic.chests = {}
