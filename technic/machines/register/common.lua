@@ -1,39 +1,46 @@
 
 local S = technic.getter
 
+-- handles the machine upgrades every tick
 function technic.handle_machine_upgrades(meta)
 	-- Get the names of the upgrades
 	local inv = meta:get_inventory()
-	local upg_item1
-	local upg_item2
+
 	local srcstack = inv:get_stack("upgrade1", 1)
-	if srcstack then
-		upg_item1 = srcstack:to_table()
-	end
+	local upg_item1 = srcstack and srcstack:get_name()
+
 	srcstack = inv:get_stack("upgrade2", 1)
-	if srcstack then
-		upg_item2 = srcstack:to_table()
-	end
+	local upg_item2 = srcstack and srcstack:get_name()
 
 	-- Save some power by installing battery upgrades.
 	-- Tube loading speed can be upgraded using control logic units.
 	local EU_upgrade = 0
 	local tube_upgrade = 0
-	if upg_item1 then
-		if     upg_item1.name == "technic:battery" then
-			EU_upgrade = EU_upgrade + 1
-		elseif upg_item1.name == "technic:control_logic_unit" then
-			tube_upgrade = tube_upgrade + 1
-		end
+
+	if upg_item1 == "technic:control_logic_unit" then
+		tube_upgrade = tube_upgrade + 1
+	elseif upg_item1 == "technic:battery" then
+		EU_upgrade = EU_upgrade + 1
 	end
-	if upg_item2 then
-		if     upg_item2.name == "technic:battery" then
-			EU_upgrade = EU_upgrade + 1
-		elseif upg_item2.name == "technic:control_logic_unit" then
-			tube_upgrade = tube_upgrade + 1
-		end
+
+	if upg_item2 == "technic:control_logic_unit" then
+		tube_upgrade = tube_upgrade + 1
+	elseif  upg_item2 == "technic:battery" then
+		EU_upgrade = EU_upgrade + 1
 	end
+
 	return EU_upgrade, tube_upgrade
+end
+
+-- handles the machine upgrades when set or removed
+local function on_machine_upgrade(meta, stack)
+	local stack_name = stack and stack:get_name()
+	if stack_name ~= "technic:control_logic_unit"
+	and stack_name ~= "technic:battery" then
+		return 0
+	end
+
+	return 1
 end
 
 
@@ -131,30 +138,37 @@ function technic.machine_can_dig(pos, player)
 	end
 end
 
-local function inv_change(pos, player, count, from_list, to_list)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		minetest.chat_send_player(player:get_player_name(),
-			S("Inventory move disallowed due to protection"))
+local function inv_change(pos, player, count, from_list, to_list, stack)
+	local playername = player:get_player_name()
+	if minetest.is_protected(pos, playername) then
+		minetest.chat_send_player(playername, S("Inventory move disallowed due to protection"))
 		return 0
 	end
 	if to_list == "upgrade1" or to_list == "upgrade2" then
 		-- only place a single item into it, if it's empty
-		local empty = minetest.get_meta(pos):get_inventory():is_empty(to_list)
-		return empty and 1 or 0
+		local meta = minetest.get_meta(pos);
+		local empty = meta:get_inventory():is_empty(to_list)
+		if empty then
+			return on_machine_upgrade(meta, stack)
+		end
+		return 0
+	elseif from_list == "upgrade1" or from_list == "upgrade2" then
+		on_machine_upgrade(meta, nil)
 	end
 	return count
 end
 
 function technic.machine_inventory_put(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count(), nil, listname)
+	return inv_change(pos, player, stack:get_count(), nil, listname, stack)
 end
 
 function technic.machine_inventory_take(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count(), listname, nil)
+	return inv_change(pos, player, stack:get_count(), listname, nil, stack)
 end
 
 function technic.machine_inventory_move(pos, from_list, from_index,
 		to_list, to_index, count, player)
-	return inv_change(pos, player, count, from_list, to_list)
+	local stack = minetest.get_meta(pos):get_inventory():get_stack(from_list, from_index)
+	return inv_change(pos, player, count, from_list, to_list, stack)
 end
 
