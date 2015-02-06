@@ -148,6 +148,14 @@ if minetest.get_modpath("vines") then
 	end
 end
 
+if minetest.get_modpath("trunks") then
+	if chainsaw_leaves then
+		timber_nodenames["trunks:moss"] = true
+		timber_nodenames["trunks:moss_fungus"] = true
+		timber_nodenames["trunks:treeroot"] = true
+	end
+end
+
 local S = technic.getter
 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
