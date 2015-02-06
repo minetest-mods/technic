@@ -138,18 +138,22 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	meta:set_int("tube_time", tube_time)
 end
 
-
 function technic.machine_can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	if not inv:is_empty("src") or not inv:is_empty("dst") or
-	   not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
+	if not inv:is_empty("src") or not inv:is_empty("dst") then
 		if player then
 			minetest.chat_send_player(player:get_player_name(),
 				S("Machine cannot be removed because it is not empty"))
 		end
 		return false
 	else
+		if not inv:is_empty("upgrade1") then
+			minetest.item_drop(inv:get_stack("upgrade1", 1), "", pos)
+		end
+		if not inv:is_empty("upgrade2") then
+			minetest.item_drop(inv:get_stack("upgrade2", 1), "", pos)
+		end
 		return true
 	end
 end
