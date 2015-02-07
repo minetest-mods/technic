@@ -323,19 +323,21 @@ for i = 1, 15 do
 	})
 end
 
-for tier, _ in pairs(technic.machines) do
-	local ltier = tier:lower()
-	for i = 0, 8 do
-		wrench:register_node("technic:"..ltier.."_battery_box"..i, {
-			lists = {"src", "dst"},
-			metas = {infotext = STRING,
-				formspec = STRING,
-				[tier.."_EU_demand"] = INT,
-				[tier.."_EU_supply"] = INT,
-				[tier.."_EU_input"] = INT,
-				internal_EU_charge = INT,
-				last_side_shown = INT},
-		})
+if minetest.get_modpath("technic") then
+    for tier, _ in pairs(technic.machines) do
+		local ltier = tier:lower()
+		for i = 0, 8 do
+			wrench:register_node("technic:"..ltier.."_battery_box"..i, {
+				lists = {"src", "dst"},
+				metas = {infotext = STRING,
+					formspec = STRING,
+					[tier.."_EU_demand"] = INT,
+					[tier.."_EU_supply"] = INT,
+					[tier.."_EU_input"] = INT,
+					internal_EU_charge = INT,
+					last_side_shown = INT},
+			})
+		end
 	end
 end
 

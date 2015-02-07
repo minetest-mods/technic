@@ -66,6 +66,8 @@ function wrench:original_name(name)
 end
 
 function wrench:register_node(name, def)
-	self.registered_nodes[name] = def
+	if minetest.registered_nodes[name] then
+	    self.registered_nodes[name] = def
+	end
 end
 
