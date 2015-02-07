@@ -101,6 +101,8 @@ minetest.register_node("technic:tool_workshop", {
 		connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
 	},
 	technic_run = run,
+	after_place_node = pipeworks.after_place,
+	after_dig_node = pipeworks.after_dig
 })
 
 technic.register_machine("MV", "technic:tool_workshop", technic.receiver)

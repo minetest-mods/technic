@@ -90,6 +90,8 @@ minetest.register_node("technic:injector", {
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
+	after_place_node = pipeworks.after_place,
+	after_dig_node = pipeworks.after_dig
 })
 
 minetest.register_abm({
