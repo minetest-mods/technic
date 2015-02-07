@@ -1,5 +1,22 @@
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
+local pipeworks = rawget(_G, "pipeworks")
+if not minetest.get_modpath("pipeworks") then
+	-- Pipeworks is not installed. Simulate using a dummy table...
+	pipeworks = {}
+	local pipeworks_meta = {}
+	setmetatable(pipeworks, pipeworks_meta)
+	local dummy = function()
+		end
+	pipeworks_meta.__index = function(table, key)
+			print("[technic_chests] WARNING: variable or method '"..key.."' not present in dummy pipeworks table - assuming it is a method...")
+			pipeworks[key] = dummy
+			return dummy
+		end
+	pipeworks.after_place = dummy
+	pipeworks.after_dig = dummy
+end
+
 local chest_mark_colors = {
 	{"black", S("Black")},
 	{"blue", S("Blue")},
