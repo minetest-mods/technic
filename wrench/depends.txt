@@ -1,6 +1,6 @@
 default
-technic
-technic_chests
-technic_worldgen
+technic?
+technic_chests?
+technic_worldgen?
 intllib?
 
