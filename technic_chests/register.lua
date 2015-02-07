@@ -207,8 +207,11 @@ function technic.chests:definition(name, data)
 			meta:set_string("infotext",
 					S("%s Locked Chest (owned by %s)")
 					:format(name, meta:get_string("owner")))
+			pipeworks.after_place(pos)
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
+	else
+		locked_after_place = pipeworks.after_place
 	end
 
 	local desc
@@ -228,10 +231,7 @@ function technic.chests:definition(name, data)
 		tube = self.tube,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
-		after_place_node = function(pos)
-			if locked_after_place then locked_after_place(pos, placer) end
-			pipeworks.after_place(pos)
-		end,
+		after_place_node = locked_after_place,
 		after_dig_node = pipeworks.after_dig,
 
 		on_construct = function(pos)
