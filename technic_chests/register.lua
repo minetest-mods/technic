@@ -228,7 +228,12 @@ function technic.chests:definition(name, data)
 		tube = self.tube,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
-		after_place_node = locked_after_place,
+		after_place_node = function(pos)
+			if locked_after_place then locked_after_place(pos, placer) end
+			pipeworks.after_place(pos)
+		end,
+		after_dig_node = pipeworks.after_dig,
+
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", S("%s Chest"):format(name))
