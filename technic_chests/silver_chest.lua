@@ -1,20 +1,22 @@
-minetest.register_craft({
-	output = 'technic:silver_chest',
-	recipe = {
-		{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
-		{'moreores:silver_ingot','technic:copper_chest','moreores:silver_ingot'},
-		{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
-	}
-})
+if minetest.get_modpath("moreores") then
+	minetest.register_craft({
+		output = 'technic:silver_chest',
+		recipe = {
+			{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
+			{'moreores:silver_ingot','technic:copper_chest','moreores:silver_ingot'},
+			{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
+		}
+	})
 
-minetest.register_craft({
-	output = 'technic:silver_locked_chest',
-	recipe = {
-		{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
-		{'moreores:silver_ingot','technic:copper_locked_chest','moreores:silver_ingot'},
-		{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
-	}
-})
+	minetest.register_craft({
+		output = 'technic:silver_locked_chest',
+		recipe = {
+			{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
+			{'moreores:silver_ingot','technic:copper_locked_chest','moreores:silver_ingot'},
+			{'moreores:silver_ingot','moreores:silver_ingot','moreores:silver_ingot'},
+		}
+	})
+end
 
 minetest.register_craft({
 	output = 'technic:silver_locked_chest',
