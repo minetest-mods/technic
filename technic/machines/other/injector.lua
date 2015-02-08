@@ -65,7 +65,7 @@ minetest.register_node("technic:injector", {
 	description = S("Self-Contained Injector"),
 	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
 		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
 	tube = {connect_sides={bottom=1}},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
