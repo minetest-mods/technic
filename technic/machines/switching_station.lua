@@ -292,8 +292,8 @@ minetest.register_abm({
 		--dprint("Total BA demand:"..BA_eu_demand)
 
 		meta:set_string("infotext",
-				technic.format(S("%s. Supply: %e Demand: %e"),
-				machine_name, PR_eu_supply, RE_eu_demand))
+				S("@1. Supply: @2 Demand: @3",
+				machine_name, technic.prettynum(PR_eu_supply), technic.prettynum(RE_eu_demand)))
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then

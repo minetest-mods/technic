@@ -36,6 +36,7 @@ Rubber Fiber =
 Machine cannot be removed because it is not empty =
 Inventory move disallowed due to protection =
 # $1: Machine name (Includes tier)
+@1 Active (@2 EU) =
 %s Active =
 %s Disabled =
 %s Enabled =
@@ -68,7 +69,7 @@ Disabled =
 ## Machine names
 # $1: Tier
 %s Alloy Furnace =
-%s Battery Box = 
+%s Battery Box =
 %s Cable =
 %s CNC Machine =
 %s Centrifuge =
@@ -111,9 +112,9 @@ Charge =
 Discharge =
 Power level =
 # $1: Tier $2: current_charge $3: max_charge 
-%s Battery Box: %d/%d =
+@1 Battery Box: @2/@3 =
 # $1: Machine name $2: Supply $3: Demand
-%s. Supply: %d Demand: %d =
+@1. Supply: @2 Demand: @3 =
 Production at %d%% =
 Choose Milling Program: =
 Slim Elements half / normal height: =
@@ -124,6 +125,7 @@ Digging not started =
 Digging finished =
 Digging %d m above machine =
 Digging %d m below machine =
+@1 (@2 @3 -> @4 @5) =
 
 ## CNC
 Cylinder =

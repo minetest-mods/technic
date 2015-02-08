@@ -1,5 +1,5 @@
 --load config
-local sepchar, baresepchar = nil, nil
+local sepchar = nil
 do
 	local sepcode = technic.config:get("thousand_separator")
 	--default is SI style
@@ -58,38 +58,10 @@ function technic.get_or_load_node(pos)
 	return nil
 end
 
-function technic.format(str, ...)
-	local arg={...}
-	local param = nil
-	local percent = false
-	local res = ""
-	local i = 1
-	for c in str:gmatch"." do
-		if percent then
-			assert(c ~= "%") --syntax error
-			if c == "e" then
-				-- use enhanced number formatting
-				-- only works for unsigned numbers
-				local numstr = tostring(math.abs(arg[i]))
-				local a, b, body, frac = numstr:find("^(%d+)([.]?.-)$")
-				a = 1
-				body = body..baresepchar
-				while a ~= 0 do
-					body, a = body:gsub("(%d)(%d%d%d)"..sepchar, "%1"..sepchar.."%2"..sepchar, 1)
-				end
-				body = body:gsub(sepchar.."$", "")
-				res = res .. body .. frac
-			else
-				--use traditional string:format
-				res = res .. (string.format(("%"..c), arg[i]))
-			end
-			i = i + 1
-			percent = false
-		elseif c == "%" then
-			percent = true
-		else
-			res = res .. c
-		end
-	end
-	return res
+function technic.prettynum(num)
+	local str, k = tostring(num), nil
+	repeat
+		str, k = str:gsub("^(-?%d+)(%d%d%d)", "%1"..sepchar.."%2")
+	until k == 0
+	return str
 end

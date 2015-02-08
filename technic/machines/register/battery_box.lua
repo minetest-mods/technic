@@ -142,8 +142,8 @@ function technic.register_battery_box(data)
 			.."^[lowpart:"..charge_percent
 			..":technic_power_meter_fg.png]")
 
-		local infotext = technic.format(S("%s Battery Box: %e/%e"), tier,
-				current_charge, max_charge)
+		local infotext = S("@1 Battery Box: @2/@3", tier,
+				technic.prettynum(current_charge), technic.prettynum(max_charge))
 		if eu_input == 0 then
 			infotext = S("%s Idle"):format(infotext)
 		end

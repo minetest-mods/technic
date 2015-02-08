@@ -33,6 +33,7 @@ Rubber Fiber = Fibra di gomma
 Machine cannot be removed because it is not empty = La macchina non può essere rimossa perchè non è vuota
 Inventory move disallowed due to protection = Impossibile muovere l'inventario a causa della protezione
 # $1: Machine name (Includes tier)
+@1 Active (@2 EU) = @1 Attivo (@2 EU)
 %s Active = %s Attivo
 %s Disabled = %s Disabilitato
 %s Enabled =
@@ -103,9 +104,9 @@ Charge = Carica
 Discharge = Scarica
 Power level = Livello di potenza
 # $1: Tier $2: current_charge $3: max_charge
-%s Battery Box: %d/%d = %s Box Batterie: %d/%d
+@1 Battery Box: @2/@3 = @1 Box Batterie: @2/@3
 # $1: Machine name $2: Supply $3: Demand
-%s. Supply: %d Demand: %d = %s. Prodotto: %d Consumato: %d
+@1. Supply: @2 Demand: @3 = @1. Prodotto: @2 Consumato: @3
 Production at %d%% = Produzione a %d%%
 Choose Milling Program: = Scegliere un programma di Fresatura
 Slim Elements half / normal height: = Metà elementi sottili / altezza normale:

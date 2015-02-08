@@ -36,6 +36,7 @@ Rubber Fiber = Gummifaser
 Machine cannot be removed because it is not empty = Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
 Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugriff verweigert.
 # $1: Machine name (Includes tier)
+@1 Active (@2 EU) = @1 ist eingeschaltet (@2 EU)
 %s Active = %s ist eingeschaltet
 %s Disabled = %s ist ausgeschaltet
 %s Enabled =
@@ -106,9 +107,9 @@ Charge = Aufladen
 Discharge = Entladen
 Power level = Energiestufe
 # $1: Tier $2: current_charge $3: max_charge 
-%s Battery Box: %d/%d = %s Batteriebox: %d/%d
+@1 Battery Box: @2/@3 = @1 Batteriebox: @2/@3
 # $1: Machine name $2: Supply $3: Demand
-%s. Supply: %d Demand: %d = %s. Versorgung: %d Bedarf: %d
+@1. Supply: @2 Demand: @3 = @1. Versorgung: @2 Bedarf: @3
 Production at %d%% = Produktion bei %d%%
 Choose Milling Program: = Waehle ein Fraesprogramm:
 Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
