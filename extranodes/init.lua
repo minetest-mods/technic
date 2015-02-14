@@ -1,3 +1,7 @@
+if not rawget(_G, "stairsplus") then
+	error("[technic/extranodes] stairsplus not found")
+end
+
 -- Minetest 0.4.6 mod: extranodes
 -- namespace: technic
 -- Boilerplate to support localized strings if intllib mod is installed.
