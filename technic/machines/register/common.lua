@@ -51,7 +51,7 @@ local function on_machine_downgrade(meta, stack, list)
 		local inv = meta:get_inventory()
 		local upg1, upg2 = inv:get_stack("upgrade1", 1), inv:get_stack("upgrade2", 1)
 
-		-- only set 0 if theres not a nother chest in the other list too
+		-- only set 0 if theres not another chest in the other list too
 		if (not upg1 or not upg2 or upg1:get_name() ~= upg2:get_name()) then
 			meta:set_int("public", 0)
 		end
@@ -60,12 +60,12 @@ local function on_machine_downgrade(meta, stack, list)
 end
 
 
-function technic.send_items(pos, x_velocity, z_velocity, output_name)
+function technic.send_items(pos, x_velocity, z_velocity, output_name, item_count)
 	-- Send items on their way in the pipe system.
 	if output_name == nil then
 		output_name = "dst"
 	end
-	
+
 	local meta = minetest.get_meta(pos) 
 	local inv = meta:get_inventory()
 	local i = 0
@@ -74,16 +74,20 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 		if stack then
 			local item0 = stack:to_table()
 			if item0 then 
-				item0["count"] = "1"
+				-- Calculate how many items to move. Don't move more items than exist.
+				-- Basically, 'item_count' is the maximum number of items to move.
+				local num_items = item_count or 1
+				if stack:get_count() < num_items then num_items = stack:get_count() end
+
+				item0["count"] = tostring(num_items)
 				technic.tube_inject_item(pos, pos, vector.new(x_velocity, 0, z_velocity), item0)
-				stack:take_item(1)
+				stack:take_item(num_items)
 				inv:set_stack(output_name, i, stack)
 				return
 			end
 		end
 	end
 end
-
 
 function technic.smelt_item(meta, result, speed)
 	local inv = meta:get_inventory()
@@ -105,11 +109,11 @@ function technic.smelt_item(meta, result, speed)
 	end
 end
 
-function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
+function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function, items_processed_this_cycle)
 	if send_function == nil then
 		send_function = technic.send_items
 	end
-	
+
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -117,7 +121,6 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	local x_velocity = 0
 	local z_velocity = 0
 
-	-- Output is on the left side of the furnace
 	if node.param2 == 3 then pos1.z = pos1.z - 1  z_velocity = -1 end
 	if node.param2 == 2 then pos1.x = pos1.x - 1  x_velocity = -1 end
 	if node.param2 == 1 then pos1.z = pos1.z + 1  z_velocity =  1 end
@@ -128,13 +131,43 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	if minetest.get_item_group(node1.name, "tubedevice") > 0 then
 		output_tube_connected = true
 	end
-	local tube_time = meta:get_int("tube_time") + tube_upgrade
-	if tube_time >= 2 then
+
+	items_processed_this_cycle = items_processed_this_cycle or 1
+	local eject_count = meta:get_int("eject_count") + items_processed_this_cycle
+	meta:set_int("eject_count", eject_count)
+
+	local tube_upgrade_max = 2
+	local norm_tube_upgrade = tube_upgrade / tube_upgrade_max
+	local stack_size = 11
+	local tube_time = meta:get_int("tube_time") + 1
+
+	if tube_time >= 10 then
 		tube_time = 0
+
 		if output_tube_connected then
-			send_function(pos, x_velocity, z_velocity)
+			-- Calculate how many items to eject during this run. Eject none if no
+			-- tube upgrades exist, and eject as many as were produced if the max
+			-- number of tube upgrades exist.
+			-- Always try to eject at least 5 to 10 items per execution. This is the
+			-- fallback behavior for when the machine isn't producing anything (and
+			-- thus 'eject_count' is 0).
+			if eject_count < 10 then eject_count = 10 end
+			eject_count = eject_count * norm_tube_upgrade
+
+			if eject_count > 0 then
+				-- Eject items. Use multiple stacks if needed, to avoid ejecting a
+				-- monolithic stack.
+				while eject_count >= stack_size do
+					send_function(pos, x_velocity, z_velocity, nil, stack_size)
+					eject_count = eject_count - stack_size
+				end
+				send_function(pos, x_velocity, z_velocity, nil, eject_count)
+			end
 		end
+
+		meta:set_int("eject_count", 0)
 	end
+
 	meta:set_int("tube_time", tube_time)
 end
 

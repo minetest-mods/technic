@@ -78,22 +78,22 @@ function technic.register_base_machine(data)
 		if data.upgrade then
 			EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
 		end
-		if data.tube then
-			technic.handle_machine_pipeworks(pos, tube_upgrade)
-		end
 
 		local powered = eu_input >= machine_demand[EU_upgrade+1]
 		if powered then
 			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
-		while true do
+
+		local items_processed_this_cycle = 0
+
+		while true do -- Begin recipe processing.
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
-				return
+				break
 			end
 			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
@@ -103,7 +103,7 @@ function technic.register_base_machine(data)
 					technic.swap_node(pos, machine_node)
 					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
 				end
-				return
+				break
 			end
 			local output = result.output
 			if type(output) ~= "table" then output = { output } end
@@ -120,14 +120,19 @@ function technic.register_base_machine(data)
 					break
 				end
 				inv:add_item("dst_tmp", o)
+				items_processed_this_cycle = items_processed_this_cycle + o:get_count()
 			end
 			if not room_for_output then
 				meta:set_int("src_time", round(result.time*10))
-				return
+				break
 			end
 			meta:set_int("src_time", meta:get_int("src_time") - round(result.time*10))
 			inv:set_list("src", result.new_input)
 			inv:set_list("dst", inv:get_list("dst_tmp"))
+		end -- End of recipe processing.
+
+		if data.tube then
+			technic.handle_machine_pipeworks(pos, tube_upgrade, nil, items_processed_this_cycle)
 		end
 	end
 	
