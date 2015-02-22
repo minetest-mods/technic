@@ -48,6 +48,21 @@ mg.register_ore({
 	numperblock = 2
 })
 
+mg.register_ore({
+	name = "technic:mineral_lead",
+	wherein = "default:stone",
+	seeddiff = 13,
+	maxvdistance = 10.5,
+	maxheight = 16,
+	seglenghtn = 15,
+	seglenghtdev = 6,
+	segincln = 0,
+	segincldev = 0.6,
+	turnangle = 57,
+	forkturnangle = 57,
+	numperblock = 3
+})
+
 if technic.config:get_bool("enable_granite_generation") then
 	mg.register_ore_sheet({
 		name = "technic:granite",

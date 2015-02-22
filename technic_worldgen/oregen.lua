@@ -7,6 +7,9 @@ local chromium_threshhold = 0.55
 local zinc_params = {offset = 0, scale = 1, spread = {x = 100, y = 100, z = 100}, seed = 422, octaves = 3, persist = 0.7}
 local zinc_threshhold = 0.5
 
+local lead_params = {offset = 0, scale = 1, spread = {x = 100, y = 100, z = 100}, seed = 423, octaves = 3, persist = 0.7}
+local lead_threshhold = 0.3
+
 minetest.register_ore({
 	ore_type         = "scatter",
 	ore              = "technic:mineral_uranium",
@@ -73,6 +76,88 @@ minetest.register_ore({
 	noise_params     = zinc_params,
 	noise_threshhold = zinc_threshhold,
 })
+
+minetest.register_ore({
+	ore_type         = "scatter",
+	ore              = "technic:mineral_lead",
+	wherein          = "default:stone",
+	clust_scarcity   = 9*9*9,
+	clust_num_ores   = 5,
+	clust_size       = 3,
+	height_min       = -16,
+	height_max       = 16,
+	noise_params     = lead_params,
+	noise_threshhold = lead_threshhold,
+})
+
+minetest.register_ore({
+	ore_type         = "scatter",
+	ore              = "technic:mineral_lead",
+	wherein          = "default:stone",
+	clust_scarcity   = 8*8*8,
+	clust_num_ores   = 5,
+	clust_size       = 3,
+	height_min       = -128,
+	height_max       = -16,
+	noise_params     = lead_params,
+	noise_threshhold = lead_threshhold,
+})
+
+minetest.register_ore({
+	ore_type         = "scatter",
+	ore              = "technic:mineral_lead",
+	wherein          = "default:stone",
+	clust_scarcity   = 6*6*6,
+	clust_num_ores   = 5,
+	clust_size       = 3,
+	height_min       = -31000,
+	height_max       = -128,
+	flags            = "absheight",
+	noise_params     = lead_params,
+	noise_threshhold = lead_threshhold,
+})
+
+-- Sulfur
+minetest.register_on_generated(function(minp, maxp, seed)
+	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+	local a = VoxelArea:new{
+		MinEdge = {x = emin.x, y = emin.y, z = emin.z},
+		MaxEdge = {x = emax.x, y = emax.y, z = emax.z},
+	}
+	local data = vm:get_data()
+	local pr = PseudoRandom(17 * minp.x + 42 * minp.y + 101 * minp.z)
+	local noise = minetest.get_perlin(9876, 3, 0.5, 100)
+	
+	local c_lava = minetest.get_content_id("default:lava_source")
+	local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
+	local c_stone = minetest.get_content_id("default:stone")
+	local c_sulfur = minetest.get_content_id("technic:mineral_sulfur")
+	
+	local grid_size = 5
+	for x = minp.x + math.floor(grid_size / 2), maxp.x, grid_size do
+	for y = minp.y + math.floor(grid_size / 2), maxp.y, grid_size do
+	for z = minp.z + math.floor(grid_size / 2), maxp.z, grid_size do
+		local c = data[a:index(x, y, z)]
+		if (c == c_lava or c == c_lava_flowing) and noise:get3d({x = x, y = z, z = z}) >= 0.4 then
+			for xx = math.max(minp.x, x - grid_size), math.min(maxp.x, x + grid_size) do
+			for yy = math.max(minp.y, y - grid_size), math.min(maxp.y, y + grid_size) do
+			for zz = math.max(minp.z, z - grid_size), math.min(maxp.z, z + grid_size) do
+				local i = a:index(xx, yy, zz)
+				if data[i] == c_stone and pr:next(1, 10) <= 7 then
+					data[i] = c_sulfur
+				end
+			end
+			end
+			end
+		end
+	end
+	end
+	end
+	
+	vm:set_data(data)
+	vm:write_to_map(data)
+end)
+
 
 if technic.config:get_bool("enable_marble_generation") then
 minetest.register_ore({

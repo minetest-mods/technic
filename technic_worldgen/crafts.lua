@@ -4,27 +4,23 @@ local S = technic.worldgen.gettext
 minetest.register_craftitem(":technic:uranium_lump", {
 	description = S("Uranium Lump"),
 	inventory_image = "technic_uranium_lump.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 })
 minetest.register_alias("technic:uranium", "technic:uranium_lump")
 
 minetest.register_craftitem(":technic:uranium_ingot", {
 	description = S("Uranium Ingot"),
 	inventory_image = "technic_uranium_ingot.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 	groups = {uranium_ingot=1},
 })
 
 minetest.register_craftitem(":technic:chromium_lump", {
 	description = S("Chromium Lump"),
 	inventory_image = "technic_chromium_lump.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craftitem(":technic:chromium_ingot", {
 	description = S("Chromium Ingot"),
 	inventory_image = "technic_chromium_ingot.png",
-	on_place_on_ground = minetest.craftitem_place_item,
 })
 
 minetest.register_craftitem(":technic:zinc_lump", {
@@ -35,6 +31,16 @@ minetest.register_craftitem(":technic:zinc_lump", {
 minetest.register_craftitem(":technic:zinc_ingot", {
 	description = S("Zinc Ingot"),
 	inventory_image = "technic_zinc_ingot.png",
+})
+
+minetest.register_craftitem(":technic:lead_lump", {
+	description = S("Lead Lump"),
+	inventory_image = "technic_lead_lump.png",
+})
+
+minetest.register_craftitem(":technic:sulfur_lump", {
+	description = S("Sulfur Lump"),
+	inventory_image = "technic_sulfur_lump.png",
 })
 
 minetest.register_craftitem(":technic:brass_ingot", {
