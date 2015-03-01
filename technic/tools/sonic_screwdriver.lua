@@ -63,7 +63,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	node.param2 = preservePart + rotationPart
 	minetest.swap_node(pos, node)
 
-	if not minetest.setting_getbool("creative_mode") then
+	if not technic.creative_mode then
 		meta1.charge = meta1.charge - 100
 		itemstack:set_metadata(minetest.serialize(meta1))
 		technic.set_RE_wear(itemstack, meta1.charge, sonic_screwdriver_max_charge)

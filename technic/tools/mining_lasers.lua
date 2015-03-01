@@ -164,10 +164,12 @@ for _, m in pairs(mining_lasers_list) do
 
 			-- If there's enough charge left, fire the laser
 			if meta.charge >= m[4] then
-				meta.charge = meta.charge - m[4]
 				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				technic.set_RE_wear(itemstack, meta.charge, m[3])
-				itemstack:set_metadata(minetest.serialize(meta))
+				if not technic.creative_mode then
+					meta.charge = meta.charge - m[4]
+					technic.set_RE_wear(itemstack, meta.charge, m[3])
+					itemstack:set_metadata(minetest.serialize(meta))
+				end
 			end
 			return itemstack
 		end,

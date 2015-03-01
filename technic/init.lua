@@ -3,6 +3,7 @@
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
 technic = rawget(_G, "technic") or {}
+technic.creative_mode = minetest.setting_getbool("creative_mode")
 
 technic.tube_inject_item = pipeworks.tube_inject_item or function (pos, start_pos, velocity, item)
 	local tubed = pipeworks.tube_item(vector.new(pos), item)
