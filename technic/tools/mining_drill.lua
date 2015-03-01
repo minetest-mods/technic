@@ -298,9 +298,11 @@ local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
 	if meta.charge >= charge_to_take then
 		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
 		drill_dig_it(pos, user, meta.mode)
-		meta.charge = meta.charge - charge_to_take
-		itemstack:set_metadata(minetest.serialize(meta))
-		technic.set_RE_wear(itemstack, meta.charge, max_charge[2])
+		if not technic.creative_mode then
+			meta.charge = meta.charge - charge_to_take
+			itemstack:set_metadata(minetest.serialize(meta))
+			technic.set_RE_wear(itemstack, meta.charge, max_charge[2])
+		end
 	end
 	return itemstack
 end
@@ -319,9 +321,11 @@ local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
 	if meta.charge >= charge_to_take then
 		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
 		drill_dig_it(pos, user, meta.mode)
-		meta.charge = meta.charge - charge_to_take
-		itemstack:set_metadata(minetest.serialize(meta))
-		technic.set_RE_wear(itemstack, meta.charge, max_charge[3])
+		if not technic.creative_mode then
+			meta.charge = meta.charge - charge_to_take
+			itemstack:set_metadata(minetest.serialize(meta))
+			technic.set_RE_wear(itemstack, meta.charge, max_charge[3])
+		end
 	end
 	return itemstack
 end
@@ -346,9 +350,11 @@ minetest.register_tool("technic:mining_drill", {
 		if meta.charge >= charge_to_take then
 			local pos = minetest.get_pointed_thing_position(pointed_thing, above)
 			drill_dig_it(pos, user, 1)
-			meta.charge = meta.charge - charge_to_take
-			itemstack:set_metadata(minetest.serialize(meta))
-			technic.set_RE_wear(itemstack, meta.charge, max_charge[1])
+			if not technic.creative_mode then
+				meta.charge = meta.charge - charge_to_take
+				itemstack:set_metadata(minetest.serialize(meta))
+				technic.set_RE_wear(itemstack, meta.charge, max_charge[1])
+			end
 		end
 		return itemstack
 	end,

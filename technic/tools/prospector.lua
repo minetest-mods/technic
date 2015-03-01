@@ -28,9 +28,11 @@ minetest.register_tool("technic:prospector", {
 			minetest.chat_send_player(user:get_player_name(), "Right-click to set target block type")
 			return
 		end
-		toolmeta.charge = toolmeta.charge - charge_to_take
-		toolstack:set_metadata(minetest.serialize(toolmeta))
-		technic.set_RE_wear(toolstack, toolmeta.charge, technic.power_tools[toolstack:get_name()])
+		if not technic.creative_mode then
+			toolmeta.charge = toolmeta.charge - charge_to_take
+			toolstack:set_metadata(minetest.serialize(toolmeta))
+			technic.set_RE_wear(toolstack, toolmeta.charge, technic.power_tools[toolstack:get_name()])
+		end
 		local start_pos = pointed_thing.under
 		local forward = minetest.facedir_to_dir(minetest.dir_to_facedir(user:get_look_dir(), true))
 		local right = forward.x ~= 0 and { x=0, y=1, z=0 } or (forward.y ~= 0 and { x=0, y=0, z=1 } or { x=1, y=0, z=0 })
