@@ -344,9 +344,10 @@ minetest.register_tool("technic:chainsaw", {
 		-- Send current charge to digging function so that the
 		-- chainsaw will stop after digging a number of nodes
 		meta.charge = chainsaw_dig(pointed_thing.under, meta.charge)
-
-		technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
-		itemstack:set_metadata(minetest.serialize(meta))
+		if not minetest.setting_getbool("creative_mode") then
+			technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
+			itemstack:set_metadata(minetest.serialize(meta))
+		end
 		return itemstack
 	end,
 })
