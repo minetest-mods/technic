@@ -64,9 +64,11 @@ function technic.register_can(d)
 				return
 			end
 			minetest.set_node(pos, {name=data.liquid_source_name})
-			charge = charge - 1
-			itemstack:set_metadata(tostring(charge))
-			set_can_wear(itemstack, charge, data.can_capacity)
+			if not minetest.setting_getbool("creative_mode") then
+				charge = charge - 1
+				itemstack:set_metadata(tostring(charge))
+				set_can_wear(itemstack, charge, data.can_capacity)
+			end
 			return itemstack
 		end,
 		on_refill = function(stack)

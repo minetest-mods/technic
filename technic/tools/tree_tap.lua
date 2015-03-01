@@ -22,13 +22,15 @@ minetest.register_tool("technic:treetap", {
 		node.name = "moretrees:rubber_tree_trunk_empty"
 		minetest.swap_node(pos, node)
 		minetest.handle_node_drops(pointed_thing.above, {"technic:raw_latex"}, user)
-		local item_wear = tonumber(itemstack:get_wear())
-		item_wear = item_wear + 819
-		if item_wear > 65535 then
-			itemstack:clear()
-			return itemstack
+		if not minetest.setting_getbool("creative_mode") then
+			local item_wear = tonumber(itemstack:get_wear())
+			item_wear = item_wear + 819
+			if item_wear > 65535 then
+				itemstack:clear()
+				return itemstack
+			end
+			itemstack:set_wear(item_wear)
 		end
-		itemstack:set_wear(item_wear)
 		return itemstack
 	end,
 })
