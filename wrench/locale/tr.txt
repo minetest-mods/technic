@@ -1,0 +1,5 @@
+# Turkish translation by mahmutelmas06
+#  mahmutelmas06@hotmail.com
+
+Wrench = İngiliz anahtarı
+%s with items = Araçlarla birlikte %s
