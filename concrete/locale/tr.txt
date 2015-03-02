@@ -1,0 +1,7 @@
+# turkish translation by mahmutelmas06
+
+Rebar = Beton demiri
+Concrete Block = Beton blok
+Blast-resistant Concrete Block = Patlamaya dayanıklı beton blok
+Concrete Post Platform = Beton direk platformu
+Concrete Post = Beton direk
