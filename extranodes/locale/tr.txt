@@ -1,0 +1,6 @@
+# turkish translation by mahmutelmas06
+
+Marble = Mermer
+Marble Bricks = Mermer tuğla
+Granite = Granit
+Concrete = Beton
