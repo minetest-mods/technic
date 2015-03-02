@@ -1,0 +1,41 @@
+# Turkish translation
+# mahmutelmas06@hotmail.com 
+# Türkçe çeviri
+
+%s Chest = %s Sandık
+%s Locked Chest = %s Kilitli sandık
+%s Locked Chest (owned by %s) = %s Kilitli sandık (Sahibi %s)
+Color Filter: %s = Renk süzgeci: %s
+Edit chest description: = Sandık bilgilerini düzenle
+
+# Colors - Renkler
+Black = Siyah
+Blue = Mavi
+Brown = Kahverengi
+Cyan = Cam göbeği
+Dark Green = Koyu yeşil
+Dark Grey = Koyu gri
+Green = Yeşil
+Grey = Gri
+Magenta = Mor
+Orange = Turuncu
+Pink = Pembe
+Red = Kırmızı
+Violet = Koyu mor
+White = Beyaz
+Yellow = Sarı
+None = Hiç
+
+# Materials - Metaryeller
+Copper = Bakır
+Gold = Altın
+Iron = Demir
+Mithril = Mithril
+Silver = Gümüş
+Wooden = Ahşap
+
+# Sorting  - Sıralama
+Sort = Sırala
+Auto-sort is %s = Otomatik sıralama %s
+Off = Kapalı
+On =  Açık
