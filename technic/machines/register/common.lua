@@ -147,14 +147,29 @@ function technic.machine_can_dig(pos, player)
 				S("Machine cannot be removed because it is not empty"))
 		end
 		return false
-	else
-		if not inv:is_empty("upgrade1") then
-			minetest.item_drop(inv:get_stack("upgrade1", 1), "", pos)
+	end
+
+	return true
+end
+
+function technic.machine_after_dig_node(pos, oldnode, oldmetadata, player)
+	if oldmetadata.inventory then
+		if oldmetadata.inventory.upgrade1 and oldmetadata.inventory.upgrade1[1] then
+			local stack = ItemStack(oldmetadata.inventory.upgrade1[1])
+			if not stack:is_empty() then
+				minetest.item_drop(stack, "", pos)
+			end
 		end
-		if not inv:is_empty("upgrade2") then
-			minetest.item_drop(inv:get_stack("upgrade2", 1), "", pos)
+		if oldmetadata.inventory.upgrade2 and oldmetadata.inventory.upgrade2[1] then
+			local stack = ItemStack(oldmetadata.inventory.upgrade2[1])
+			if not stack:is_empty() then
+				minetest.item_drop(stack, "", pos)
+			end
 		end
-		return true
+	end
+
+	if minetest.registered_nodes[oldnode.name].tube then
+		pipeworks.after_dig(pos, oldnode, oldmetadata, player)
 	end
 end
 
