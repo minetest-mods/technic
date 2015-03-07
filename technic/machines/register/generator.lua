@@ -110,7 +110,7 @@ function technic.register_generator(data)
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
 		after_place_node = tube and pipeworks.after_place,
-		after_dig_node = tube and pipeworks.after_dig
+		after_dig_node = technic.machine_after_dig_node
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
