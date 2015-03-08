@@ -18,6 +18,8 @@ local recipes = {
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
 	{"technic:uranium_lump",    "technic:uranium_dust 2"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
+	{"technic:lead_lump",       "technic:lead_dust 2"},
+	{"technic:sulfur_lump",     "technic:sulfur_dust 2"},
 	
 	-- Other
 	{"default:cobble",          "default:gravel"},
@@ -92,10 +94,12 @@ register_dust("Cast Iron",       "technic:cast_iron_ingot")
 register_dust("Chromium",        "technic:chromium_ingot")
 register_dust("Coal",            nil)
 register_dust("Copper",          "default:copper_ingot")
+register_dust("Lead",            "technic:lead_ingot")
 register_dust("Gold",            "default:gold_ingot")
 register_dust("Mithril",         "moreores:mithril_ingot")
 register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
+register_dust("Sulfur",          nil)
 register_dust("Tin",             "moreores:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")

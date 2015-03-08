@@ -38,6 +38,11 @@ minetest.register_craftitem(":technic:lead_lump", {
 	inventory_image = "technic_lead_lump.png",
 })
 
+minetest.register_craftitem(":technic:lead_ingot", {
+	description = S("Lead Ingot"),
+	inventory_image = "technic_lead_ingot.png",
+})
+
 minetest.register_craftitem(":technic:sulfur_lump", {
 	description = S("Sulfur Lump"),
 	inventory_image = "technic_sulfur_lump.png",
@@ -91,6 +96,7 @@ end
 register_block("technic:uranium_block", "technic:uranium_ingot")
 register_block("technic:chromium_block", "technic:chromium_ingot")
 register_block("technic:zinc_block", "technic:zinc_ingot")
+register_block("technic:lead_block", "technic:lead_ingot")
 register_block("technic:brass_block", "technic:brass_ingot")
 register_block("technic:cast_iron_block", "technic:cast_iron_ingot")
 register_block("technic:carbon_steel_block", "technic:carbon_steel_ingot")
@@ -113,6 +119,13 @@ minetest.register_craft({
 	recipe = "technic:uranium_lump",
 	output = "technic:uranium_ingot",
 })
+
+minetest.register_craft({
+	type = 'cooking',
+	recipe = "technic:lead_lump",
+	output = "technic:lead_ingot",
+})
+
 
 minetest.register_craft({
 	type = 'cooking',
