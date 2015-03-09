@@ -12,8 +12,7 @@ technic.networks = {}
 
 
 function technic.register_tier(tier, description)
-	technic.machines[tier]    = {}
-	technic.cables[tier]      = {}
+	technic.machines[tier] = {}
 end
 
 function technic.register_machine(tier, nodename, machine_type)

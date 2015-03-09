@@ -1,7 +1,7 @@
 
 local S = technic.getter
 
-technic.cables = {}
+local cable_itstr_to_tier = {}
 
 function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
@@ -14,7 +14,7 @@ function technic.register_cable(tier, size)
 	for z2 = 0, 1 do
 		local id = technic.get_cable_id({x1, x2, y1, y2, z1, z2})
 
-		technic.cables["technic:"..ltier.."_cable"..id] = tier
+		cable_itstr_to_tier["technic:"..ltier.."_cable"..id] = tier
 
 		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2}
 		if id ~= 0 then
@@ -118,12 +118,12 @@ end
 
 
 function technic.is_tier_cable(name, tier)
-	return technic.cables[name] and technic.cables[name] == tier
+	return cable_itstr_to_tier[name] and cable_itstr_to_tier[name] == tier
 end
 
 
 function technic.get_cable_tier(name)
-	return technic.cables[name]
+	return cable_itstr_to_tier[name]
 end
 
 
