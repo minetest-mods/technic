@@ -9,4 +9,4 @@ minetest.register_craft({
 	}
 })
 
-technic.register_extractor({tier = "MV", demand = {800, 600, 400}, speed = 2, upgrade = 1, tube = 1})
+technic.register_extractor({tier = "MV", demand = 800, demand_reduction_factor=0.5, speed = 2, upgrade = 1, tube = 1})

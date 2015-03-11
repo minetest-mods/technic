@@ -9,10 +9,10 @@ minetest.register_craft({
 	output = 'technic:mv_electric_furnace',
 	recipe = {
 		{'technic:stainless_steel_ingot', 'technic:lv_electric_furnace', 'technic:stainless_steel_ingot'},
-		{'pipeworks:tube_1',         'technic:mv_transformer',      'pipeworks:tube_1'},
+		{'pipeworks:tube_1',              'technic:mv_transformer',      'pipeworks:tube_1'},
 		{'technic:stainless_steel_ingot', 'technic:mv_cable0',           'technic:stainless_steel_ingot'},
 	}
 })
 
-technic.register_electric_furnace({tier="MV", upgrade=1, tube=1, demand={2000, 1000, 500}, speed=4})
+technic.register_electric_furnace({tier="MV", upgrade=1, tube=1, demand=2000, demand_reduction_factor=0.75, speed=4})
 

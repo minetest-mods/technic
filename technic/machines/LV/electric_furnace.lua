@@ -11,6 +11,6 @@ minetest.register_craft({
 	}
 })
 
-technic.register_electric_furnace({tier="LV", demand={300}, speed = 2})
+technic.register_electric_furnace({tier="LV", demand=300, speed = 2})
 
 

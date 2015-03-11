@@ -14,14 +14,15 @@ minetest.register_craft({
 	}
 })
 
-local workshop_demand = {5000, 3500, 2000}
+local workshop_demand = 5000
+local workshop_demand_reduction_factor = 0.6
+local num_upgrade_slots = 2
 
 local workshop_formspec =
 	"invsize[8,9;]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"label[0,0;"..S("%s Tool Workshop"):format("MV").."]"..
-	"list[current_name;upgrade1;1,3;1,1;]"..
-	"list[current_name;upgrade2;2,3;1,1;]"..
+	"list[current_name;upgrades;1,3;" .. num_upgrade_slots .. ",1;]"..
 	"label[1,4;"..S("Upgrade Slots").."]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[current_player;main]"..
@@ -41,12 +42,19 @@ local run = function(pos, node)
 
 	-- Setup meta data if it does not exist.
 	if not eu_input then
-		meta:set_int("MV_EU_demand", workshop_demand[1])
+		meta:set_int("MV_EU_demand", workshop_demand)
 		meta:set_int("MV_EU_input", 0)
 		return
 	end
 
+	-- Do compatibility updates if needed.
+	technic.transfer_upgrades_to_new_upgrade_inventory(meta, formspec, num_upgrade_slots)
+
 	local EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+
+	-- Calculate the required EUs based on the normalized number of battery upgrades.
+	local norm_eu_upgrade = technic.normalize_value(EU_upgrade, 0, num_upgrade_slots)
+	local total_required_power = workshop_demand - ((workshop_demand * workshop_demand_reduction_factor) * norm_eu_upgrade)
 
 	local repairable = false
 	local srcstack = inv:get_stack("src", 1)
@@ -70,14 +78,14 @@ local run = function(pos, node)
 		return
 	end
 	
-	if eu_input < workshop_demand[EU_upgrade+1] then
+	if eu_input < total_required_power then
 		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-	elseif eu_input >= workshop_demand[EU_upgrade+1] then
+	elseif eu_input >= total_required_power then
 		meta:set_string("infotext", S("%s Active"):format(machine_name))
 		srcstack:add_wear(-1000)
 		inv:set_stack("src", 1, srcstack)
 	end
-	meta:set_int("MV_EU_demand", workshop_demand[EU_upgrade+1])
+	meta:set_int("MV_EU_demand", total_required_power)
 end
 
 minetest.register_node("technic:tool_workshop", {
@@ -92,8 +100,7 @@ minetest.register_node("technic:tool_workshop", {
 		meta:set_string("formspec", workshop_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
-		inv:set_size("upgrade1", 1)
-		inv:set_size("upgrade2", 1)
+		inv:set_size("upgrades", num_upgrade_slots)
 	end,	
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,

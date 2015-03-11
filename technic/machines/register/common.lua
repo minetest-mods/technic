@@ -1,63 +1,132 @@
 
 local S = technic.getter
 
--- handles the machine upgrades every tick
-function technic.handle_machine_upgrades(meta)
-	-- Get the names of the upgrades
+
+
+-- A function to normalize a value. The output floating-point value should
+-- always be in the range [0, 1].
+function technic.normalize_value(value, lower, upper)
+	value = value - lower
+	upper = upper - lower
+	return value / upper
+end
+
+
+
+-- This function is defined because the same compatibility code needs to be run
+-- in three different places. This function can be removed once we are
+-- reasonably sure that everyone is updated.
+function technic.transfer_upgrades_to_new_upgrade_inventory(meta, new_formspec, new_inv_size)
 	local inv = meta:get_inventory()
 
-	local srcstack = inv:get_stack("upgrade1", 1)
-	local upg_item1 = srcstack and srcstack:get_name()
-
-	srcstack = inv:get_stack("upgrade2", 1)
-	local upg_item2 = srcstack and srcstack:get_name()
-
-	-- Save some power by installing battery upgrades.
-	-- Tube loading speed can be upgraded using control logic units.
-	local EU_upgrade = 0
-	local tube_upgrade = 0
-
-	if upg_item1 == "technic:control_logic_unit" then
-		tube_upgrade = tube_upgrade + 1
-	elseif upg_item1 == "technic:battery" then
-		EU_upgrade = EU_upgrade + 1
+	-- Compatibility code. Move upgrade items from the (now depreciated)
+	-- upgrade inventory lists into the new unified upgrade list. This code
+	-- assumes that the new upgrade inventory size is at least 2.
+	if inv:get_size("upgrade1") > 0 then
+		assert(new_inv_size >= 2)
+		local upg1 = "upgrade1"
+		local upg2 = "upgrade2"
+		local new_list = "upgrades"
+		inv:set_size(new_list, new_inv_size)
+		local stack1 = inv:get_stack(upg1, 1)
+		local stack2 = inv:get_stack(upg2, 1)
+		if stack1 and stack1:get_count() > 0 then
+			inv:set_stack(new_list, 1, stack1)
+			inv:remove_item(upg1, stack1)
+		end
+		if stack2 and stack2:get_count() > 0 then
+			inv:set_stack(new_list, 2, stack2)
+			inv:remove_item(upg2, stack2)
+		end
+		-- Update the formspec.
+		meta:set_string("formspec", new_formspec)
+		inv:set_size(upg1, 0)
+		inv:set_size(upg2, 0)
 	end
-
-	if upg_item2 == "technic:control_logic_unit" then
-		tube_upgrade = tube_upgrade + 1
-	elseif  upg_item2 == "technic:battery" then
-		EU_upgrade = EU_upgrade + 1
-	end
-
-	return EU_upgrade, tube_upgrade
 end
 
--- handles the machine upgrades when set or removed
-local function on_machine_upgrade(meta, stack)
-	local stack_name = stack:get_name()
-	if stack_name == "default:chest" then
-		meta:set_int("public", 1)
-		return 1
-	elseif stack_name ~= "technic:control_logic_unit"
-	   and stack_name ~= "technic:battery" then
-		return 0
-	end
-	return 1
-end
 
--- something is about to be removed
-local function on_machine_downgrade(meta, stack, list)
-	if stack:get_name() == "default:chest" then
-		local inv = meta:get_inventory()
-		local upg1, upg2 = inv:get_stack("upgrade1", 1), inv:get_stack("upgrade2", 1)
 
-		-- only set 0 if theres not another chest in the other list too
-		if (not upg1 or not upg2 or upg1:get_name() ~= upg2:get_name()) then
-			meta:set_int("public", 0)
+-- Calculates the number & type of machine upgrades.
+function technic.handle_machine_upgrades(meta)
+	local inv = meta:get_inventory()
+	local clu = "technic:control_logic_unit"
+	local bat = "technic:battery"
+	local bat_upgrades = 0
+	local clu_upgrades = 0
+	local upgrade_list = "upgrades"
+	local num_upgrade_slots = inv:get_size(upgrade_list)
+
+	for i = 1, num_upgrade_slots, 1 do
+		local stack = inv:get_stack(upgrade_list, i)
+		if stack then
+			local item = stack:get_name()
+			-- Assume that each inv slot cannot have more than 1 upgrade item.
+			if item == bat then bat_upgrades = bat_upgrades + 1 end
+			if item == clu then clu_upgrades = clu_upgrades + 1 end
 		end
 	end
-	return 1
+
+	return bat_upgrades, clu_upgrades
 end
+
+
+
+-- Machine upgrade callback. Called when something is about to be added. Returns
+-- 'true' if the upgrade can be added, 'false' if not.
+local function on_machine_upgrade(player, meta, to_index, stack)
+	local clu = "technic:control_logic_unit"
+	local bat = "technic:battery"
+	local chest = "default:chest"
+	local player_name = player:get_player_name()
+	local inv = meta:get_inventory()
+
+	local item = stack:get_name()
+	if item == chest then
+		meta:set_int("public", 1)
+		return true
+	elseif item == clu then 
+		return true
+	elseif item == bat then 
+		return true
+	end
+
+	minetest.chat_send_player(player_name, S("That is not a valid upgrade item!"))
+	return false
+end
+
+
+
+-- Machine downgrade callback. Called just before something is removed.
+local function on_machine_downgrade(player, meta, from_index, stack)
+	local chest = "default:chest"
+	if stack:get_name() == chest then
+		local inv = meta:get_inventory()
+
+		local upgrade_list = "upgrades"
+		local num_upgrade_slots = inv:get_size(upgrade_list)
+
+		-- Check if any of the upgrade slots contain a chest.
+		local has_chest = false
+		for i = 1, num_upgrade_slots, 1 do
+			if i ~= from_index then -- Skip the chest that's about to be removed.
+				local stack = inv:get_stack(upgrade_list, i)
+				if stack then
+					local item = stack:get_name()
+					if item == chest then 
+						has_chest = true
+						break -- If one chest is found, we don't need to look for more.
+					end
+				end
+			end
+		end
+
+		-- If none of the upgrade slots contains a chest, the machine is no longer
+		-- publicly accessible.
+		if has_chest == false then meta:set_int("public", 0) end
+	end
+end
+
 
 
 function technic.send_items(pos, x_velocity, z_velocity, output_name, item_count)
@@ -136,8 +205,8 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function, item
 	local eject_count = meta:get_int("eject_count") + items_processed_this_cycle
 	meta:set_int("eject_count", eject_count)
 
-	local tube_upgrade_max = 2
-	local norm_tube_upgrade = tube_upgrade / tube_upgrade_max
+	local num_upgrade_slots = inv:get_size("upgrades")
+	local norm_tube_upgrade = technic.normalize_value(tube_upgrade, 0, num_upgrade_slots)
 	local stack_size = 11
 	local tube_time = meta:get_int("tube_time") + 1
 
@@ -174,10 +243,12 @@ end
 function technic.machine_can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
+
 	if not inv:is_empty("src") or not inv:is_empty("dst") then
 		if player then
-			minetest.chat_send_player(player:get_player_name(),
-				S("Machine cannot be removed because it is not empty"))
+			local name = player:get_player_name()
+			minetest.chat_send_player(
+				name, S("Machine cannot be removed because it is not empty"))
 		end
 		return false
 	end
@@ -187,16 +258,15 @@ end
 
 function technic.machine_after_dig_node(pos, oldnode, oldmetadata, player)
 	if oldmetadata.inventory then
-		if oldmetadata.inventory.upgrade1 and oldmetadata.inventory.upgrade1[1] then
-			local stack = ItemStack(oldmetadata.inventory.upgrade1[1])
-			if not stack:is_empty() then
-				minetest.item_drop(stack, "", pos)
-			end
-		end
-		if oldmetadata.inventory.upgrade2 and oldmetadata.inventory.upgrade2[1] then
-			local stack = ItemStack(oldmetadata.inventory.upgrade2[1])
-			if not stack:is_empty() then
-				minetest.item_drop(stack, "", pos)
+		if oldmetadata.inventory.upgrades then
+			local num_upgrade_slots = #(oldmetadata.inventory.upgrades)
+			for i = 1, num_upgrade_slots, 1 do
+				if oldmetadata.inventory.upgrades[i] then
+					local stack = ItemStack(oldmetadata.inventory.upgrades[i])
+					if not stack:is_empty() then
+						minetest.add_item(pos, stack)
+					end
+				end
 			end
 		end
 	end
@@ -206,42 +276,52 @@ function technic.machine_after_dig_node(pos, oldnode, oldmetadata, player)
 	end
 end
 
-local function inv_change(pos, player, count, from_list, to_list, stack)
-	local playername = player:get_player_name()
-	local meta = minetest.get_meta(pos);
-	local public = (meta:get_int("public") == 1)
-	local to_upgrade = to_list == "upgrade1" or to_list == "upgrade2"
-	local from_upgrade = from_list == "upgrade1" or from_list == "upgrade2"
 
-	if (not public or to_upgrade or from_upgrade) and minetest.is_protected(pos, playername) then
-		minetest.chat_send_player(playername, S("Inventory move disallowed due to protection"))
+
+local function inv_change(pos, player, count, from_list, from_index, to_list, to_index, stack)
+	local player_name = player:get_player_name()
+	local meta = minetest.get_meta(pos)
+	local public = (meta:get_int("public") == 1)
+	local is_upgrade = (to_list == "upgrades")
+	local is_downgrade = (from_list == "upgrades")
+
+	if (not public or is_upgrade or is_downgrade) and minetest.is_protected(pos, player_name) then
+		minetest.chat_send_player(player_name, S("Inventory move disallowed due to protection"))
 		return 0
 	end
-	if to_upgrade then
-		-- only place a single item into it, if it's empty
-		local empty = meta:get_inventory():is_empty(to_list)
-		if empty then
-			return on_machine_upgrade(meta, stack)
+
+	if is_upgrade then
+		local previous_stack = meta:get_inventory():get_stack("upgrades", to_index)
+		-- Only place a single item into the upgrade slot, if it is empty.
+		if previous_stack:get_count() == 0 then
+			if on_machine_upgrade(player, meta, to_index, stack) then
+				count = 1
+			else
+				count = 0
+			end
+		else
+			count = 0
 		end
-		return 0
-	elseif from_upgrade then
-		-- only called on take (not move)
-		on_machine_downgrade(meta, stack, from_list)
+	elseif is_downgrade then
+		-- Only called on take (not move).
+		on_machine_downgrade(player, meta, from_index, stack)
 	end
+
 	return count
 end
 
-function technic.machine_inventory_put(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count(), nil, listname, stack)
+
+
+function technic.machine_inventory_put(pos, to_list, to_index, stack, player)
+	return inv_change(pos, player, stack:get_count(), nil, nil, to_list, to_index, stack)
 end
 
-function technic.machine_inventory_take(pos, listname, index, stack, player)
-	return inv_change(pos, player, stack:get_count(), listname, nil, stack)
+function technic.machine_inventory_take(pos, from_list, from_index, stack, player)
+	return inv_change(pos, player, stack:get_count(), from_list, from_index, nil, nil, stack)
 end
 
-function technic.machine_inventory_move(pos, from_list, from_index,
-		to_list, to_index, count, player)
+function technic.machine_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
 	local stack = minetest.get_meta(pos):get_inventory():get_stack(from_list, from_index)
-	return inv_change(pos, player, count, from_list, to_list, stack)
+	return inv_change(pos, player, count, from_list, from_index, to_list, to_index, stack)
 end
 
