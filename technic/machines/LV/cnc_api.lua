@@ -82,9 +82,9 @@ technic.cnc.programs = {
 		desc  = S("Element Straight")
 	},
 
-	{ suffix  = "technic_cnc_sphere",
-		model = "technic_oblatesphere.obj",
-		desc  = S("Oblate Sphere"),
+	{ suffix  = "technic_cnc_oblate_spheroid",
+		model = "technic_oblate_spheroid.obj",
+		desc  = S("Oblate spheroid"),
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -93,6 +93,11 @@ technic.cnc.programs = {
 				{ -6/16, -8/16, -6/16, 6/16, -4/16, 6/16 }
 			}
 		}
+	},
+
+	{ suffix  = "technic_cnc_sphere",
+		model = "technic_sphere.obj",
+		desc  = S("Sphere")
 	},
 
 	{ suffix  = "technic_cnc_cylinder_horizontal",
@@ -261,7 +266,7 @@ technic.cnc.programs = {
 technic.cnc.programs_disable = {
 	-- ["default:brick"] = {"technic_cnc_stick"}, -- Example: Disallow the stick for brick
 	-- ...
-	["default:dirt"] = {"technic_cnc_sphere", "technic_cnc_slope_upsdown", "technic_cnc_edge",
+	["default:dirt"] = {"technic_cnc_oblate_spheroid", "technic_cnc_slope_upsdown", "technic_cnc_edge",
 	                    "technic_cnc_inner_edge", "technic_cnc_slope_edge_upsdown",
 	                    "technic_cnc_slope_inner_edge_upsdown", "technic_cnc_stick",
 	                    "technic_cnc_cylinder_horizontal"}
@@ -325,7 +330,7 @@ end
 
 -- REGISTER NEW TECHNIC_CNC_API's PART 2: technic.cnc..register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
 -----------------------------------------------------------------------------------------------------------------------
-function technic.cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_sphere, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
+function technic.cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_spheroid, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
 
          technic.cnc.register_slope(recipeitem, groups, images, desc_slope)
          technic.cnc.register_slope_lying(recipeitem, groups, images, desc_slope_lying)
@@ -340,7 +345,7 @@ function technic.cnc.register_slope_edge_etc(recipeitem, groups, images, desc_sl
          technic.cnc.register_twocurvededge(recipeitem, groups, images, desc_twocurvededge)
          technic.cnc.register_cylinder(recipeitem, groups, images, desc_cylinder)
          technic.cnc.register_cylinder_horizontal(recipeitem, groups, images, desc_cylinder_horizontal)
-         technic.cnc.register_sphere(recipeitem, groups, images, desc_sphere)
+         technic.cnc.register_spheroid(recipeitem, groups, images, desc_spheroid)
          technic.cnc.register_element_straight(recipeitem, groups, images, desc_element_straight)
          technic.cnc.register_element_edge(recipeitem, groups, images, desc_element_edge)
          technic.cnc.register_element_t(recipeitem, groups, images, desc_element_t)

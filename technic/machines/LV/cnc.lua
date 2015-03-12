@@ -17,6 +17,7 @@ local onesize_products = {
 	pyramid                  = 2,
 	spike                    = 1,
 	cylinder                 = 2,
+	oblate_spheroid          = 1,
 	sphere                   = 1,
 	stick                    = 8,
 	slope_upsdown            = 2,
@@ -44,13 +45,14 @@ local cnc_formspec =
 	"image_button[4,0.5;1,1;technic_cnc_pyramid.png;pyramid; ]"..
 	"image_button[5,0.5;1,1;technic_cnc_spike.png;spike; ]"..
 	"image_button[6,0.5;1,1;technic_cnc_cylinder.png;cylinder; ]"..
-	"image_button[7,0.5;1,1;technic_cnc_sphere.png;sphere; ]"..
+	"image_button[7,0.5;1,1;technic_cnc_oblate_spheroid.png;oblate_spheroid; ]"..
 	"image_button[8,0.5;1,1;technic_cnc_stick.png;stick; ]"..
 
 	"image_button[1,1.5;1,1;technic_cnc_slope_upsdwn.png;slope_upsdown; ]"..
 	"image_button[2,1.5;1,1;technic_cnc_slope_edge_upsdwn.png;slope_edge_upsdown; ]"..
 	"image_button[3,1.5;1,1;technic_cnc_slope_inner_edge_upsdwn.png;slope_inner_edge_upsdown; ]"..
 	"image_button[4,1.5;1,1;technic_cnc_cylinder_horizontal.png;cylinder_horizontal; ]"..
+	"image_button[5,1.5;1,1;technic_cnc_sphere.png;sphere; ]"..
 
 	"image_button[1,2.5;1,1;technic_cnc_slope_lying.png;slope_lying; ]"..
 	"image_button[2,2.5;1,1;technic_cnc_onecurvededge.png;onecurvededge; ]"..
