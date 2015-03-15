@@ -569,47 +569,52 @@ end
 local assumed_abdomen_offset = vector.new(0, 1, 0)
 local assumed_abdomen_offset_length = vector.length(assumed_abdomen_offset)
 local cache_scaled_shielding = {}
-minetest.register_abm({
-	nodenames = {"group:radioactive"},
-	interval = 1,
-	chance = 1,
-	action = function (pos, node)
-		local strength = minetest.registered_nodes[node.name].groups.radioactive
-		for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*0.001 + assumed_abdomen_offset_length)) do
-			if o:is_player() then
-				local rel = vector.subtract(vector.add(o:getpos(), assumed_abdomen_offset), pos)
-				local dist_sq = vector.length_square(rel)
-				local dist = math.sqrt(dist_sq)
-				local dirstep = dist == 0 and vector.new(0,0,0) or vector.divide(rel, dist*4)
-				local intpos = pos
-				local shielding = 0
-				for intdist = 0.25, dist, 0.25 do
-					intpos = vector.add(intpos, dirstep)
-					local intnodepos = vector.round(intpos)
-					if not vector.equals(intnodepos, pos) then
-						local sname = minetest.get_node(intnodepos).name
-						local sval = cache_scaled_shielding[sname]
-						if not sval then
-							sval = math.sqrt(node_radiation_resistance(sname)) * -0.025
-							cache_scaled_shielding[sname] = sval
+
+local damage_enabled = minetest.setting_getbool("enable_damage")
+
+if damage_enabled then
+	minetest.register_abm({
+		nodenames = {"group:radioactive"},
+		interval = 1,
+		chance = 1,
+		action = function (pos, node)
+			local strength = minetest.registered_nodes[node.name].groups.radioactive
+			for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*0.001 + assumed_abdomen_offset_length)) do
+				if o:is_player() then
+					local rel = vector.subtract(vector.add(o:getpos(), assumed_abdomen_offset), pos)
+					local dist_sq = vector.length_square(rel)
+					local dist = math.sqrt(dist_sq)
+					local dirstep = dist == 0 and vector.new(0,0,0) or vector.divide(rel, dist*4)
+					local intpos = pos
+					local shielding = 0
+					for intdist = 0.25, dist, 0.25 do
+						intpos = vector.add(intpos, dirstep)
+						local intnodepos = vector.round(intpos)
+						if not vector.equals(intnodepos, pos) then
+							local sname = minetest.get_node(intnodepos).name
+							local sval = cache_scaled_shielding[sname]
+							if not sval then
+								sval = math.sqrt(node_radiation_resistance(sname)) * -0.025
+								cache_scaled_shielding[sname] = sval
+							end
+							shielding = shielding + sval
 						end
-						shielding = shielding + sval
 					end
-				end
-				local dmg_rate = 0.25e-6 * strength*strength * math.exp(shielding) / math.max(0.75, dist_sq)
-				if dmg_rate >= 0.25 then
-					local dmg_int = math.floor(dmg_rate)
-					if math.random() < dmg_rate-dmg_int then
-						dmg_int = dmg_int + 1
-					end
-					if dmg_int > 0 then
-						o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+					local dmg_rate = 0.25e-6 * strength*strength * math.exp(shielding) / math.max(0.75, dist_sq)
+					if dmg_rate >= 0.25 then
+						local dmg_int = math.floor(dmg_rate)
+						if math.random() < dmg_rate-dmg_int then
+							dmg_int = dmg_int + 1
+						end
+						if dmg_int > 0 then
+							o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+						end
 					end
 				end
 			end
-		end
-	end,
-})
+		end,
+	})
+end
 
 -- radioactive materials that can result from destroying a reactor
 
