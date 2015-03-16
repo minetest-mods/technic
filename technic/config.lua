@@ -7,6 +7,7 @@ local defaults = {
 	enable_mining_laser = "true",
 	enable_flashlight = "false",
 	enable_wind_mill = "false",
+	enable_frames = "false",
 	enable_corium_griefing = "true",
 }
 
