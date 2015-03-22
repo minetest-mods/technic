@@ -48,7 +48,11 @@ minetest.register_node(":moretrees:rubber_tree_leaves", {
 		items = {{
 			items = {"moretrees:rubber_tree_sapling"},
 			rarity = 20,
-		}}
+		},
+		{
+			items = {"moretrees:rubber_tree_leaves"},
+		}
+		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
 })
