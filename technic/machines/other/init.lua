@@ -9,3 +9,4 @@ if technic.config:get_bool("enable_frames") and minetest.get_modpath("mesecons_m
 end
 
 dofile(path.."/anchor.lua")
+dofile(path.."/powernode.lua")
