@@ -58,7 +58,7 @@ minetest.register_node( ":technic:marble", {
 	description = S("Marble"),
 	tiles = { "technic_marble.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, marble=1},
 	sounds = default.node_sound_stone_defaults(),
 }) 
 
