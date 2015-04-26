@@ -1,7 +1,7 @@
 
-minetest.register_alias("grinder", "technic:grinder")
+minetest.register_alias("grinder", "technic:lv_grinder")
 minetest.register_craft({
-	output = 'technic:grinder',
+	output = 'technic:lv_grinder',
 	recipe = {
 		{'default:desert_stone', 'default:diamond',        'default:desert_stone'},
 		{'default:desert_stone', 'technic:machine_casing', 'default:desert_stone'},
