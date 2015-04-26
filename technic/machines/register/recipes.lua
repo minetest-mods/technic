@@ -1,3 +1,4 @@
+local have_ui = minetest.get_modpath("unified_inventory")
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
 function technic.register_recipe_type(typename, origdata)
@@ -5,7 +6,7 @@ function technic.register_recipe_type(typename, origdata)
 	for k, v in pairs(origdata) do data[k] = v end
 	data.input_size = data.input_size or 1
 	data.output_size = data.output_size or 1
-	if unified_inventory and unified_inventory.register_craft_type and data.output_size == 1 then
+	if have_ui and unified_inventory.register_craft_type and data.output_size == 1 then
 		unified_inventory.register_craft_type(typename, {
 			description = data.description,
 			width = data.input_size,
