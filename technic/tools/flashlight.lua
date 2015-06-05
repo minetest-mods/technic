@@ -8,7 +8,7 @@ local S = technic.getter
 technic.register_power_tool("technic:flashlight", flashlight_max_charge)
 
 minetest.register_alias("technic:light_off", "air")
-      
+
 minetest.register_tool("technic:flashlight", {
 	description = S("Flashlight"),
 	inventory_image = "technic_flashlight.png",

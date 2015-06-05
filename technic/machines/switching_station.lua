@@ -198,7 +198,7 @@ minetest.register_abm({
 			end
 			return
 		end
-		
+
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
@@ -211,7 +211,7 @@ minetest.register_abm({
 			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
 			return
 		end
-		
+
 		-- Run all the nodes
 		local function run_nodes(list)
 			for _, pos2 in ipairs(list) do
@@ -226,7 +226,7 @@ minetest.register_abm({
 				end
 			end
 		end
-		
+
 		run_nodes(PR_nodes)
 		run_nodes(RE_nodes)
 		run_nodes(BA_nodes)
