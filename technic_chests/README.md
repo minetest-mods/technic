@@ -16,6 +16,9 @@ VanessaE: (WTFPL)
   * technic\_chest\_overlay\_*.png
   * technic\_*\_chest\_lock\_overlay.png
 
+sdzen (Elise Staudter) modified by VanessaE (CC BY-SA 3.0):
+  * copper, iron, silver, gold, mithril chest textures 16x16
+ 
 RealBadAngel: (WTFPL)
   * Everything else.
 
