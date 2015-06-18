@@ -58,7 +58,8 @@ local function set_injector_formspec(meta)
 				"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
 				"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
 			"list[current_name;main;0,2;8,2;]"..
-			"list[current_player;main;0,5;8,4;]")
+			"list[current_player;main;0,5;8,4;]"..
+			"listring[]")
 end
 
 minetest.register_node("technic:injector", {

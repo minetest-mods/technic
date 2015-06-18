@@ -73,7 +73,10 @@ local cnc_formspec =
 	"label[4, 5.5;"..S("Out:").."]"..
 	"list[current_name;dst;5,5.5;4,1;]"..
 
-	"list[current_player;main;0,7;8,4;]"
+	"listring[current_name;dst]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src]"..
+	"listring[current_player;main]"
 
 local size = 1;
 

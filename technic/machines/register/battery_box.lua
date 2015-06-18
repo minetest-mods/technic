@@ -71,13 +71,21 @@ function technic.register_battery_box(data)
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
-		"list[current_player;main;0,5;8,4;]"
-	
+		"list[current_player;main;0,5;8,4;]"..
+		"listring[current_name;dst]"..
+		"listring[current_player;main]"..
+		"listring[current_name;src]"..
+		"listring[current_player;main]"
+
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;3.5,3;1,1;]"..
 			"list[current_name;upgrade2;4.5,3;1,1;]"..
-			"label[3.5,4;"..S("Upgrade Slots").."]"
+			"label[3.5,4;"..S("Upgrade Slots").."]"..
+			"listring[current_name;upgrade1]"..
+			"listring[current_player;main]"..
+			"listring[current_name;upgrade2]"..
+			"listring[current_player;main]"
 	end
 
 	local run = function(pos, node)
