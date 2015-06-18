@@ -14,10 +14,6 @@ dofile(path.."/geothermal.lua")
 dofile(path.."/water_mill.lua")
 dofile(path.."/generator.lua")
 
--- Coal-powered machines (TODO -> move to somewhere else?)
-dofile(path.."/coal_alloy_furnace.lua")
-dofile(path.."/coal_furnace.lua")
-
 -- Machines
 dofile(path.."/alloy_furnace.lua")
 dofile(path.."/electric_furnace.lua")
