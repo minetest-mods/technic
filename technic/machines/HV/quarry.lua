@@ -147,23 +147,35 @@ local function quarry_run(pos, node)
 				can_dig = false
 			end
 			local dignode
-			if can_dig then
-				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
-				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
-				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, nil)) then
-					can_dig = false
-				end
-			end
-
-			if can_dig then
-				for ay = startpos.y, digpos.y+1, -1 do
-					local checkpos = {x=digpos.x, y=ay, z=digpos.z}
-					local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
-					if checknode.name ~= "air" then
-						can_dig = false
-						break
+			if not pcall(
+				function () 
+					if can_dig then
+						dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
+						local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
+						if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, nil)) then
+							can_dig = false
+						end
 					end
-				end
+
+					if can_dig then
+						for ay = startpos.y, digpos.y+1, -1 do
+							local checkpos = {x=digpos.x, y=ay, z=digpos.z}
+							local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
+							if checknode.name ~= "air" then
+								can_dig = false
+								break
+							end
+						end
+					end
+				end)
+			then
+				-- handle exception caused by nil player - issue 172 & 231
+				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
+				message = "ERROR: technic/machines/HV/quarry.lua: unhandled exception digging... skipping block: "
+				message = message .. "digpos = (" .. digpos.x .. "," .. digpos.y .. "," .. digpos.z .. ")"
+				message = message .. ", name = " .. dignode.name
+				print(message)
+				can_dig = false
 			end
 			nd = nd + 1
 			if can_dig then
