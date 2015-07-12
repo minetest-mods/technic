@@ -122,6 +122,9 @@ function technic.register_base_machine(data)
 				inv:add_item("dst_tmp", o)
 			end
 			if not room_for_output then
+				technic.swap_node(pos, machine_node)
+				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
 				return
 			end
