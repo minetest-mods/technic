@@ -9,6 +9,7 @@ dofile(path.."/battery_box.lua")
 -- Generators
 dofile(path.."/solar_array.lua")
 dofile(path.."/generator.lua")
+dofile(path.."/geothermal.lua")
 
 -- API for machines
 dofile(path.."/recipes.lua")
