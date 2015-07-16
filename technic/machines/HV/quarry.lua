@@ -27,7 +27,7 @@ local function forceload_dig(pos, pos1, pos2)
 
 	flpos = technic.compute_forceload_positions_between_points(minpos, maxpos)
 	technic.forceload_on_flposes(flpos, meta)
-	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
+--	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
 end
 
 -- keeps only the quarry loaded
@@ -38,7 +38,7 @@ local function forceload_purge(pos)
 	local meta = minetest.get_meta(pos)
 	flpos = technic.compute_forceload_positions_between_points(pos, pos)
 	technic.forceload_on_flposes(flpos, meta)
-	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
+--	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
 end
 
 local function forceload_off(meta)
