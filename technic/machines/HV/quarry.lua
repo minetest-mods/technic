@@ -13,6 +13,41 @@ local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
 local quarry_max_depth       = 100
 local quarry_demand = 10000
 
+-- keeps the quarry and the full dig zone loaded
+-- pos - the position of the quarry
+-- pos1,pos2 - two opposite corner positions that mark the zone to force load
+local function forceload_dig(pos, pos1, pos2)
+	if not technic.auto_forceloading_enabled then
+        return
+    end
+	local meta = minetest.get_meta(pos)
+
+	minpos = vector.new(math.min(pos.x, pos1.x, pos2.x), math.min(pos.y, pos1.y, pos2.y), math.min(pos.z, pos1.z, pos2.z))
+	maxpos = vector.new(math.max(pos.x, pos1.x, pos2.x), math.max(pos.y, pos1.y, pos2.y), math.max(pos.z, pos1.z, pos2.z))
+
+	flpos = technic.compute_forceload_positions_between_points(minpos, maxpos)
+	technic.forceload_on_flposes(flpos, meta)
+	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
+end
+
+-- keeps only the quarry loaded
+local function forceload_purge(pos)
+	if not technic.auto_forceloading_enabled then
+        return
+    end
+	local meta = minetest.get_meta(pos)
+	flpos = technic.compute_forceload_positions_between_points(pos, pos)
+	technic.forceload_on_flposes(flpos, meta)
+	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
+end
+
+local function forceload_off(meta)
+	if not technic.auto_forceloading_enabled then
+        return
+    end
+    technic.forceload_off(meta)
+end
+
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
 	local formspec = "size[6,4.3]"..
@@ -78,6 +113,7 @@ local function quarry_handle_purge(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local i = 0
+	forceload_purge(pos)
 	for _,stack in ipairs(inv:get_list("cache")) do
 		i = i + 1
 		if stack then
@@ -107,21 +143,43 @@ local function quarry_run(pos, node)
 	end
 
 	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
+		-- the direction the quarry faces
 		local pdir = minetest.facedir_to_dir(node.param2)
+		-- the direction to the right of where the quarry faces
 		local qdir = pdir.x == 1 and vector.new(0,0,-1) or
 			(pdir.z == -1 and vector.new(-1,0,0) or
 			(pdir.x == -1 and vector.new(0,0,1) or
 			vector.new(1,0,0)))
 		local radius = meta:get_int("size")
 		local diameter = radius*2 + 1
-		local startpos = vector.add(vector.add(vector.add(pos,
-			vector.new(0, quarry_dig_above_nodes, 0)),
-			pdir),
-			vector.multiply(qdir, -radius))
-		local endpos = vector.add(vector.add(vector.add(startpos,
-			vector.new(0, -quarry_dig_above_nodes-quarry_max_depth, 0)),
-			vector.multiply(pdir, diameter-1)),
-			vector.multiply(qdir, diameter-1))
+		-- the back left top corner of the digging zone
+		local startpos = vector.add(
+			vector.add(
+				vector.add(
+					pos,
+					vector.new(0, quarry_dig_above_nodes, 0)
+				),
+				pdir
+			),
+			vector.multiply(qdir, -radius)
+		)
+		-- the forward right bottom corner of the digging zone
+		local endpos = vector.add(
+			vector.add(
+				vector.add(
+					startpos,
+					vector.new(0, -quarry_dig_above_nodes-quarry_max_depth, 0)
+				),
+				vector.multiply(pdir, diameter-1)
+			),
+			vector.multiply(qdir, diameter-1)
+		)
+
+		--TEST
+--		print("DEBUG: startpos = (" .. startpos.x .. "," .. startpos.y .. "," .. startpos.z .. ")")
+--		print("DEBUG: endpos = (" .. endpos.x .. "," .. endpos.y .. "," .. endpos.z .. ")")
+		forceload_dig(pos, startpos, endpos)
+
 		local vm = VoxelManip()
 		local minpos, maxpos = vm:read_from_map(startpos, endpos)
 		local area = VoxelArea:new({MinEdge=minpos, MaxEdge=maxpos})
@@ -235,6 +293,10 @@ minetest.register_node("technic:quarry", {
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		set_quarry_demand(meta)
+	end,
+	on_destruct = function (pos)
+		local meta = minetest.get_meta(pos)
+		forceload_off(meta)
 	end,
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
