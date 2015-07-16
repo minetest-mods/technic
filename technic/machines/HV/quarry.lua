@@ -22,10 +22,10 @@ local function forceload_dig(pos, pos1, pos2)
     end
 	local meta = minetest.get_meta(pos)
 
-	minpos = vector.new(math.min(pos.x, pos1.x, pos2.x), math.min(pos.y, pos1.y, pos2.y), math.min(pos.z, pos1.z, pos2.z))
-	maxpos = vector.new(math.max(pos.x, pos1.x, pos2.x), math.max(pos.y, pos1.y, pos2.y), math.max(pos.z, pos1.z, pos2.z))
+	local minpos = vector.new(math.min(pos.x, pos1.x, pos2.x), math.min(pos.y, pos1.y, pos2.y), math.min(pos.z, pos1.z, pos2.z))
+	local maxpos = vector.new(math.max(pos.x, pos1.x, pos2.x), math.max(pos.y, pos1.y, pos2.y), math.max(pos.z, pos1.z, pos2.z))
 
-	flpos = technic.compute_forceload_positions_between_points(minpos, maxpos)
+	local flpos = technic.compute_forceload_positions_between_points(minpos, maxpos)
 	technic.forceload_on_flposes(flpos, meta)
 --	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
 end
@@ -36,7 +36,7 @@ local function forceload_purge(pos)
         return
     end
 	local meta = minetest.get_meta(pos)
-	flpos = technic.compute_forceload_positions_between_points(pos, pos)
+	local flpos = technic.compute_forceload_positions_between_points(pos, pos)
 	technic.forceload_on_flposes(flpos, meta)
 --	print("DEBUG: forceload_dig(), currently forceloaded = " .. dump(technic.currently_forceloaded_positions(meta)))
 end
