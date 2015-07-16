@@ -8,6 +8,12 @@ technic.auto_forceloading_enabled = true
 -- minpos,maxpos - two opposite corner positions that mark the zone to force load; all coordinates in minpos have to be lower than the ones in maxpos
 -- return table of positions, one position per block
 local function compute_forceload_positions_between_points(minpos, maxpos)
+    return compute_forceload_positions_between_points(minpos, maxpos)
+end
+
+-- minpos,maxpos - two opposite corner positions that mark the zone to force load; all coordinates in minpos have to be lower than the ones in maxpos
+-- return table of positions, one position per block
+local function compute_forceload_positions_between_points(minpos, maxpos)
 	local minbpos = {}
 	local maxbpos = {}
 	for _, coord in ipairs({"x","y","z"}) do
@@ -74,6 +80,7 @@ local function forceload_on(pos, meta)
     forceload_on_flposes(want_flposes, meta)
     return 
 end
+technic.forceload_on_flposes = forceload_on_flposes
 
 local function set_display(pos, meta)
 	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
