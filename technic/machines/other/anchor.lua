@@ -2,6 +2,9 @@ local S = technic.getter
 
 local desc = S("Administrative World Anchor")
 
+-- pos - position of the anchor node
+-- meta - contains "radius"
+-- return table of positions, one position per block
 local function compute_forceload_positions(pos, meta)
 	local radius = meta:get_int("radius")
 	local minpos = vector.subtract(pos, vector.new(radius, radius, radius))
@@ -23,11 +26,15 @@ local function compute_forceload_positions(pos, meta)
 	return flposes
 end
 
+-- meta - contains "forceloaded", which is a serialized table of positions that are currently forceloaded
+-- return table of positions that are currently forceloaded
 local function currently_forceloaded_positions(meta)
 	local ser = meta:get_string("forceloaded")
 	return ser == "" and {} or minetest.deserialize(ser)
 end
 
+-- turns off forceloading for all positions in the table
+-- meta - contains "forceloaded" (used by currently_forceloaded_positions)
 local function forceload_off(meta)
 	local flposes = currently_forceloaded_positions(meta)
 	meta:set_string("forceloaded", "")
@@ -36,6 +43,9 @@ local function forceload_off(meta)
 	end
 end
 
+-- computes the forceload positions (using compute_forceload_positions) and tries to force load all of them, and records them in meta "forcedloaded"
+-- pos - position of the anchor node
+-- meta - contains "radius" (to be read) and "forceloaded" (to be written)
 local function forceload_on(pos, meta)
 	local want_flposes = compute_forceload_positions(pos, meta)
 	local have_flposes = {}
