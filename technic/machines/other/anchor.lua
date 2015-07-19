@@ -55,15 +55,6 @@ local function forceload_off(meta)
 end
 technic.forceload_off = forceload_off
 
--- computes the forceload positions (using compute_forceload_positions) and tries to force load all of them, and records them in meta "forceloaded"
--- pos - position of the anchor node
--- meta - contains "radius" (to be read) and "forceloaded" (to be written)
-local function forceload_on(pos, meta)
-	local want_flposes = compute_forceload_positions(pos, meta)
-    forceload_on_flposes(want_flposes, meta)
-    return 
-end
-
 local function forceload_on_flposes(want_flposes, meta)
 	local have_flposes = {}
 	for _, p in ipairs(want_flposes) do
@@ -74,6 +65,15 @@ local function forceload_on_flposes(want_flposes, meta)
 	meta:set_string("forceloaded", #have_flposes == 0 and "" or minetest.serialize(have_flposes))
 end
 technic.forceload_on_flposes = forceload_on_flposes
+
+-- computes the forceload positions (using compute_forceload_positions) and tries to force load all of them, and records them in meta "forceloaded"
+-- pos - position of the anchor node
+-- meta - contains "radius" (to be read) and "forceloaded" (to be written)
+local function forceload_on(pos, meta)
+	local want_flposes = compute_forceload_positions(pos, meta)
+    forceload_on_flposes(want_flposes, meta)
+    return 
+end
 
 local function set_display(pos, meta)
 	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
