@@ -5,16 +5,6 @@ local desc = S("Administrative World Anchor")
 -- set to false to disable autoforceloading in other files, such as the quarry force loading itself and dig area
 technic.auto_forceloading_enabled = true
 
--- pos - position of the anchor node
--- meta - contains "radius"
--- return table of positions, one position per block
-local function compute_forceload_positions(pos, meta)
-	local radius = meta:get_int("radius")
-	local minpos = vector.subtract(pos, vector.new(radius, radius, radius))
-	local maxpos = vector.add(pos, vector.new(radius, radius, radius))
-    return compute_forceload_positions_between_points(minpos, maxpos)
-end
-
 -- minpos,maxpos - two opposite corner positions that mark the zone to force load; all coordinates in minpos have to be lower than the ones in maxpos
 -- return table of positions, one position per block
 local function compute_forceload_positions_between_points(minpos, maxpos)
@@ -35,6 +25,16 @@ local function compute_forceload_positions_between_points(minpos, maxpos)
 	return flposes
 end
 technic.compute_forceload_positions_between_points = compute_forceload_positions_between_points
+
+-- pos - position of the anchor node
+-- meta - contains "radius"
+-- return table of positions, one position per block
+local function compute_forceload_positions(pos, meta)
+	local radius = meta:get_int("radius")
+	local minpos = vector.subtract(pos, vector.new(radius, radius, radius))
+	local maxpos = vector.add(pos, vector.new(radius, radius, radius))
+    return compute_forceload_positions_between_points(minpos, maxpos)
+end
 
 -- meta - contains "forceloaded", which is a serialized table of positions that are currently forceloaded
 -- return table of positions that are currently forceloaded
