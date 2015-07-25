@@ -40,9 +40,10 @@ minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
 
 minetest.register_node(":moretrees:rubber_tree_leaves", {
 	drawtype = "allfaces_optional",
+	description = S("Rubber Tree Leaves"),
 	tiles = {"technic_rubber_leaves.png"},
 	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
+	groups = {snappy=3, leafdecay=3, flammable=2, leaves=1},
 	drop = {
 		max_items = 1,
 		items = {{
