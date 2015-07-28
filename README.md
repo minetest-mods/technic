@@ -4,7 +4,7 @@ Technic
 Credits for contributing to the project (in alphabetical order):
   * kpoppel
   * Nekogloop
-  * Nore/Novatux
+  * Nore/Ekdohibs
   * ShadowNinja
   * VanessaE
   * And many others...
