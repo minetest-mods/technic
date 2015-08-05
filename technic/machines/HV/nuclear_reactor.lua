@@ -216,7 +216,7 @@ local run = function(pos, node)
 
 	if burn_time >= burn_ticks or burn_time == 0 then
 		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then 
+		if not inv:is_empty("src") then
 			local srclist = inv:get_list("src")
 			local correct_fuel_count = 0
 			for _, srcstack in pairs(srclist) do
@@ -231,7 +231,7 @@ local run = function(pos, node)
 			if correct_fuel_count == 6 and
 			   reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
-				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
 				meta:set_int("HV_EU_supply", power_supply)
 				for idx, srcstack in pairs(srclist) do
 					srcstack:take_item()
@@ -281,7 +281,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		meta:set_string("formspec", generator_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
-	end,	
+	end,
 	can_dig = technic.machine_can_dig,
 	on_destruct = function(pos) siren_set_state(pos, "off") end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -318,10 +318,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
         end,
 	on_timer = function(pos, node)
 		local meta = minetest.get_meta(pos)
-		
+
 		-- Connected back?
 		if meta:get_int("HV_EU_timeout") > 0 then return false end
-		
+
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then
@@ -332,7 +332,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			siren_clear(pos, meta)
 			return false
 		end
-		
+
 		meta:set_int("burn_time", burn_time + 1)
 		return true
 	end,
@@ -683,7 +683,7 @@ minetest.register_abm({
 	neighbors = {"technic:corium_source"},
 	interval = 1,
 	chance = 1,
-	action = function (pos, node)
+	action = function(pos)
 		minetest.remove_node(pos)
 	end,
 })
@@ -693,7 +693,7 @@ minetest.register_abm({
 	neighbors = {"group:water"},
 	interval = 1,
 	chance = 1,
-	action = function (pos, node)
+	action = function(pos)
 		minetest.set_node(pos, {name="technic:chernobylite_block"})
 	end,
 })
@@ -704,28 +704,35 @@ minetest.register_abm({
 	nodenames = {"technic:corium_flowing"},
 	interval = 5,
 	chance = (griefing and 10 or 1),
-	action = function (pos, node)
+	action = function (pos)
 		minetest.set_node(pos, {name="technic:chernobylite_block"})
 	end,
 })
 
-if griefing then
-	minetest.register_abm({
-		nodenames = { "technic:corium_source", "technic:corium_flowing" },
-		interval = 4,
-		chance = 4,
-		action = function (pos, node)
-			for _, offset in ipairs({
-				vector.new(1,0,0),
-				vector.new(-1,0,0),
-				vector.new(0,0,1),
-				vector.new(0,0,-1),
-				vector.new(0,-1,0),
-			}) do
-				if math.random(8) == 1 then
-					minetest.dig_node(vector.add(pos, offset))
+if not griefing then
+	return
+end
+
+local offsets = {
+	vector.new(1,0,0),
+	vector.new(-1,0,0),
+	vector.new(0,0,1),
+	vector.new(0,0,-1),
+	vector.new(0,-1,0),
+}
+
+minetest.register_abm({
+	nodenames = {"technic:corium_source", "technic:corium_flowing"},
+	interval = 4,
+	chance = 4,
+	action = function(pos)
+		for _,offset in pairs(offsets) do
+			if math.random(8) == 1 then
+				local pos = vector.add(pos, offset)
+				if minetest.get_node(pos).name ~= "air" then
+					minetest.remove_node(pos)
 				end
 			end
-		end,
-	})
-end
+		end
+	end,
+})
