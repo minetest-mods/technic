@@ -584,11 +584,26 @@ local cache_scaled_shielding = {}
 local damage_enabled = minetest.setting_getbool("enable_damage")
 
 if damage_enabled then
-	local registered_on_radiation_damaging = {}
-	function technic.register_on_radiation_damaging(func)
-		registered_on_radiation_damaging[#registered_on_radiation_damaging+1] = func
+	local function change_radiation_damage(dmg, ...)
+		return dmg
 	end
-	--[[technic.register_on_radiation_damaging(function(dmg, player, pos, node, strength)
+	function technic.register_on_radiation_damage(func)
+		local old_changing = change_radiation_damage
+		function change_radiation_damage(dmg, ...)
+			dmg = old_changing(dmg, ...)
+			if not dmg then
+				return
+			end
+			local newdmg = func(dmg, ...)
+			if newdmg == false then
+				dmg = false
+			elseif newdmg then
+				dmg = newdmg > 0 and newdmg
+			end
+			return dmg
+		end
+	end
+	--[[technic.register_on_radiation_damage(function(dmg, player, pos, node, strength)
 		return -- do nothing
 		return dmg*2 -- change damage
 		return false -- do not damage player
@@ -628,20 +643,8 @@ if damage_enabled then
 							dmg_int = dmg_int + 1
 						end
 						if dmg_int > 0 then
-							for _,func in ipairs(registered_on_radiation_damaging) do
-								local newdmg = func(dmg_int, o, pos, node, strength)
-								if newdmg == false then
-									dmg_int = 0
-									break
-								elseif newdmg then
-									if newdmg <= 0 then
-										dmg_int = 0
-										break
-									end
-									dmg_int = newdmg
-								end
-							end
-							if dmg_int ~= 0 then
+							dmg_int = change_radiation_damage(dmg_int, o, pos, node, strength)
+							if dmg_int then
 								o:set_hp(math.max(o:get_hp() - dmg_int, 0))
 							end
 						end
