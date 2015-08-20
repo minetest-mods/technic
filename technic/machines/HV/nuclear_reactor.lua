@@ -216,7 +216,7 @@ local run = function(pos, node)
 
 	if burn_time >= burn_ticks or burn_time == 0 then
 		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then 
+		if not inv:is_empty("src") then
 			local srclist = inv:get_list("src")
 			local correct_fuel_count = 0
 			for _, srcstack in pairs(srclist) do
@@ -231,7 +231,7 @@ local run = function(pos, node)
 			if correct_fuel_count == 6 and
 			   reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
-				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
 				meta:set_int("HV_EU_supply", power_supply)
 				for idx, srcstack in pairs(srclist) do
 					srcstack:take_item()
@@ -281,7 +281,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		meta:set_string("formspec", generator_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
-	end,	
+	end,
 	can_dig = technic.machine_can_dig,
 	on_destruct = function(pos) siren_set_state(pos, "off") end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -318,10 +318,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
         end,
 	on_timer = function(pos, node)
 		local meta = minetest.get_meta(pos)
-		
+
 		-- Connected back?
 		if meta:get_int("HV_EU_timeout") > 0 then return false end
-		
+
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then
@@ -332,7 +332,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			siren_clear(pos, meta)
 			return false
 		end
-		
+
 		meta:set_int("burn_time", burn_time + 1)
 		return true
 	end,
@@ -507,20 +507,29 @@ local default_radiation_resistance_per_group = {
 local cache_radiation_resistance = {}
 local function node_radiation_resistance(nodename)
 	local eff = cache_radiation_resistance[nodename]
-	if eff then return eff end
+	if eff then
+		return eff
+	end
 	local def = minetest.registered_nodes[nodename] or {groups={}}
 	eff = def.radiation_resistance or default_radiation_resistance_per_node[nodename]
 	if not eff then
 		for g, v in pairs(def.groups) do
-			if v > 0 and default_radiation_resistance_per_group[g] then
+			if v > 0
+			and default_radiation_resistance_per_group[g] then
 				eff = default_radiation_resistance_per_group[g]
 				break
 			end
 		end
 	end
-	if not eff then eff = 0 end
+	if not eff then
+		eff = 0
+	end
 	cache_radiation_resistance[nodename] = eff
 	return eff
+end
+
+function technic.get_node_radiation_resistance(...)
+	return node_radiation_resistance(...)
 end
 
 -- Radioactive nodes cause damage to nearby players.  The damage
@@ -575,11 +584,21 @@ local cache_scaled_shielding = {}
 local damage_enabled = minetest.setting_getbool("enable_damage")
 
 if damage_enabled then
+	local registered_on_radiation_damaging = {}
+	function technic.register_on_radiation_damaging(func)
+		registered_on_radiation_damaging[#registered_on_radiation_damaging+1] = func
+	end
+	--[[technic.register_on_radiation_damaging(function(dmg, player, pos, node, strength)
+		return -- do nothing
+		return dmg*2 -- change damage
+		return false -- do not damage player
+	end)]]
+
 	minetest.register_abm({
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 1,
-		action = function (pos, node)
+		action = function(pos, node)
 			local strength = minetest.registered_nodes[node.name].groups.radioactive
 			for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*0.001 + assumed_abdomen_offset_length)) do
 				if o:is_player() then
@@ -609,7 +628,22 @@ if damage_enabled then
 							dmg_int = dmg_int + 1
 						end
 						if dmg_int > 0 then
-							o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+							for _,func in ipairs(registered_on_radiation_damaging) do
+								local newdmg = func(dmg_int, o, pos, node, strength)
+								if newdmg == false then
+									dmg_int = 0
+									break
+								elseif newdmg then
+									if newdmg <= 0 then
+										dmg_int = 0
+										break
+									end
+									dmg_int = newdmg
+								end
+							end
+							if dmg_int ~= 0 then
+								o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+							end
 						end
 					end
 				end

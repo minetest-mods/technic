@@ -99,7 +99,8 @@ minetest.register_node(":technic:lead_block", {
 	tiles = { "technic_lead_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = default.node_sound_stone_defaults(),
+	radiation_resistance = 500
 })
 
 minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
