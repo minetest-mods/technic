@@ -196,10 +196,16 @@ local function quarry_run(pos, node)
 			local rq = math.floor(ndl / diameter)
 			local rp = ndl % diameter
 			if rq % 2 == 1 then rp = diameter - 1 - rp end
-			local digpos = vector.add(vector.add(vector.add(startpos,
-				vector.new(0, -ry, 0)),
-				vector.multiply(pdir, rp)),
-				vector.multiply(qdir, rq))
+			local digpos = vector.add(
+				vector.add(
+					vector.add(
+						startpos,
+						vector.new(0, -ry, 0)
+					),
+					vector.multiply(pdir, rp)
+				),
+				vector.multiply(qdir, rq)
+			)
 			local can_dig = true
 			if can_dig and minetest.is_protected and minetest.is_protected(digpos, owner) then
 				can_dig = false
