@@ -18,5 +18,6 @@ FAQ
 License
 -------
 
-See mod folders for their licences
-
+Unless otherwise stated, all components of this modpack are licensed under the 
+LGPL, V2 or later.  See also the individual mod folders for their
+secondary/alternate licenses, if any.
