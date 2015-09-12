@@ -73,6 +73,7 @@ local cnc_formspec =
 	"label[4, 5.5;"..S("Out:").."]"..
 	"list[current_name;dst;5,5.5;4,1;]"..
 
+	"list[current_player;main;0,7;8,4;]"..
 	"listring[current_name;dst]"..
 	"listring[current_player;main]"..
 	"listring[current_name;src]"..
@@ -140,7 +141,7 @@ local run = function(pos, node)
 	local demand       = 450
 
 	local result = meta:get_string("cnc_product")
-	if inv:is_empty("src") or 
+	if inv:is_empty("src") or
 	   (not minetest.registered_nodes[result]) or
 	   (not inv:room_for_item("dst", result)) then
 		technic.swap_node(pos, machine_node)
@@ -230,7 +231,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
 		{'technic:control_logic_unit', 'technic:machine_casing',     'technic:motor'},
-		{'technic:carbon_steel_ingot', 'technic:lv_cable0',          'technic:carbon_steel_ingot'},         
+		{'technic:carbon_steel_ingot', 'technic:lv_cable0',          'technic:carbon_steel_ingot'},
 	},
 })
 
