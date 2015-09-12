@@ -487,6 +487,7 @@ local default_radiation_resistance_per_node = {
 	["technic:corium_flowing"] = 40,
 	["technic:corium_source"] = 80,
 	["technic:granite"] = 18,
+	["technic:lead_block"] = 80,
 	["technic:marble"] = 18,
 	["technic:marble_bricks"] = 18,
 	["technic:mineral_chromium"] = 19,
