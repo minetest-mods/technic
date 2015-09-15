@@ -644,7 +644,7 @@ local function template_connected(pos,c,connectors)
 	for _,vect in ipairs({{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}}) do
 		local pos1=vector.add(pos,vect)
 		local nodename=minetest.get_node(pos1).name
-		if not(pos_in_list(c,pos1))
+		if not pos_in_list(c,pos1)
 		and (nodename=="technic:template" or nodename == "technic:template_connector")then
 			local meta = minetest.get_meta(pos1)
 			if meta:get_string("connected") == "" then
