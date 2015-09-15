@@ -207,7 +207,12 @@ end
 
 -- tells if it's a node which could be put into a frame
 local function is_supported_node(name)
-	return string.find(name, "tube") ~= nil and string.find(name, "pipeworks") ~= nil
+	local def = minetest.registered_nodes[name]
+	if not def
+	or not def.tube then
+		return false
+	end
+	return string.find(name, "tube") and string.find(name, "pipeworks") ~= nil
 end
 
 
@@ -240,11 +245,12 @@ local function punch_frame(pos, node, puncher)
 	minetest.set_node(pos,node)
 end
 
-local function place_frame(itemstack, placer, pointed_thing)
-	local pos = pointed_thing.above
+local function place_frame(itemstack, placer, pt)
+	local pos = pt.above
 	if not pos then
 		return itemstack
 	end
+
 	local pname = placer:get_player_name()
 	local nodename = itemstack:get_name()
 	if minetest.is_protected(pos, pname) then
@@ -255,8 +261,14 @@ local function place_frame(itemstack, placer, pointed_thing)
 		minetest.record_protection_violation(pos, pname)
 		return itemstack
 	end
+
 	local name = minetest.get_node(pos).name
-	if name == "air" then
+	local def = minetest.registered_nodes[name]
+	if not def then
+		return itemstack
+	end
+
+	if def.buildable_to then
 		minetest.set_node(pos, {name = nodename})
 	elseif is_supported_node(name) then
 		obj = minetest.add_entity(pos, "technic:frame_entity")
@@ -357,9 +369,7 @@ for zp=0,1 do
 	if nameext ~= "111111" then
 		groups.not_in_creative_inventory = 1
 	else
-		function place_function(...)
-			return place_frame(...)
-		end
+		place_function = place_frame
 	end
 
 
@@ -377,16 +387,10 @@ for zp=0,1 do
 			fixed = nodeboxes,
 		},
 		groups = groups,
-		frame_connect_all = function(nodename)
-			return connect_frame(nodename)
-		end,
-		on_punch = function(...)
-			return punch_frame(...)
-		end,
+		frame_connect_all = connect_frame,
+		on_punch = punch_frame,
 		on_place = place_function,
-		on_rightclick = function(...)
-			return rightclick_frame(...)
-		end,
+		on_rightclick = rightclick_frame,
 	})
 
 end
