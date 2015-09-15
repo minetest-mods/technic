@@ -89,73 +89,123 @@ local function add_table(table,toadd)
 	table[i] = toadd
 end
 
+-- don't use minetest. Get node more times at the same position
+local nodes_cache = {}
+
+local function get_node(pos)
+	local node = get(nodes_cache, pos.z,pos.y,pos.x)
+	if node then
+		return node
+	end
+	node = minetest.get_node(pos)
+	set(nodes_cache, pos.z,pos.y,pos.x, node)
+	return node
+end
+
+local function set_node(pos, node)
+	set(nodes_cache, pos.z,pos.y,pos.x, node)
+	minetest.set_node(pos, node)
+end
+
+local function remove_node(pos)
+	set(nodes_cache, pos.z,pos.y,pos.x, {name="air", param1=0, param2=0})
+	minetest.remove_node(pos)
+end
+
 local function move_nodes_vect(poslist, vect, must_not_move, owner)
 	local dones = {}
-	for _,pos in ipairs(poslist) do
+	local oldps = {}
+	for _,pos in pairs(poslist) do
 		if not get(dones, pos.z,pos.y,pos.x) then
 			if minetest.is_protected(pos, owner) then
+				nodes_cache = {}
 				return
 			end
 			set(dones, pos.z,pos.y,pos.x, true)
+			set(oldps, pos.z,pos.y,pos.x, true)
 		end
 		local pos = vector.add(pos, vect)
 		if not get(dones, pos.z,pos.y,pos.x) then
 			if minetest.is_protected(pos, owner) then
+				nodes_cache = {}
 				return
 			end
 			set(dones, pos.z,pos.y,pos.x, true)
 		end
 	end
 	dones = nil
-	for _,pos in ipairs(poslist) do
+
+	-- search for blocking at the new positions where it moves to
+	for _,pos in pairs(poslist) do
 		local npos = vector.add(pos,vect)
-		local name = minetest.get_node(npos).name
-		if (
-			(name ~= "air" and minetest.registered_nodes[name].liquidtype == "none")
-			or get_frame(npos)
-		) and not pos_in_list(poslist,npos) then
-			return
+		if not get(oldps, npos.z,npos.y,npos.x) then
+			if get_frame(npos) then
+				-- blocking alien frame
+				nodes_cache = {}
+				return
+			end
+			local name = get_node(npos).name
+			if name ~= "air" then
+				name = minetest.registered_nodes[name]
+				if not name
+				or not name.buildable_to then
+					-- another blocking node
+					nodes_cache = {}
+					return
+				end
+			end
 		end
-		--[[if pos.x==must_not_move.x and pos.y==must_not_move.y and pos.z==must_not_move.z then
-			return
-		end]]
 	end
-	local nodelist = {}
-	for _, pos in ipairs(poslist) do
-		nodelist[#(nodelist)+1] = {oldpos=pos, pos=vector.add(pos, vect), node=minetest.get_node(pos), meta=minetest.get_meta(pos):to_table()}
-	end
-	local objects = {}
-	for _, pos in ipairs(poslist) do
-		for _,object in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
-			local entity = object:get_luaentity()
+	oldps = nil
+
+	-- move objects
+	for _,pos in pairs(poslist) do
+		for _,obj in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+			local entity = obj:get_luaentity()
 			if not entity
 			or not mesecon.is_mvps_unmov(entity.name) then
-				add_table(objects, object)
+				obj:moveto(vector.add(obj:getpos(), vect))
 			end
 		end
 	end
-	for _, obj in ipairs(objects) do
-		obj:setpos(vector.add(obj:getpos(), vect))
+
+	-- store current node information
+	local nodelist = {}
+	for n,pos in pairs(poslist) do
+		nodelist[n] = {oldpos=pos, pos=vector.add(pos, vect), node=get_node(pos), meta=minetest.get_meta(pos):to_table()}
 	end
-	for _,n in ipairs(nodelist) do
+
+	-- set new nodes
+	local newps = {}
+	for _,n in pairs(nodelist) do
 		local npos = n.pos
-		minetest.set_node(npos, n.node)
+		local current_node = get_node(npos)
+		local node = n.node
+		if current_node.name ~= node.name
+		or current_node.param1 ~= node.param1
+		or current_node.param2 ~= node.param2 then
+			set_node(npos, n.node)
+		end
 		minetest.get_meta(npos):from_table(n.meta)
-		for i,pos in ipairs(poslist) do
-			if vector.equals(nops, pos) then
-				table.remove(poslist, i)
-				break
-			end
+		set(newps, npos.z,npos.y,npos.x, true)
+	end
+
+	-- remove old ones
+	for _,pos in pairs(poslist) do
+		if not get(newps, pos.z,pos.y,pos.x)
+		and get_node(pos).name ~= "air" then
+			remove_node(pos)
 		end
 	end
-	for _, pos in ipairs(poslist) do
-		minetest.remove_node(pos)
-	end
-	for _, callback in ipairs(mesecon.on_mvps_move) do
+	nodes_cache = {}
+
+	-- update mesecons
+	for _,callback in ipairs(mesecon.on_mvps_move) do
 		callback(nodelist)
 	end
 end
 
+-- tells if it's a node which could be put into a frame
 local function is_supported_node(name)
 	return string.find(name, "tube") ~= nil and string.find(name, "pipeworks") ~= nil
 end
@@ -193,7 +243,7 @@ end
 local function place_frame(itemstack, placer, pointed_thing)
 	local pos = pointed_thing.above
 	if not pos then
-		return
+		return itemstack
 	end
 	local pname = placer:get_player_name()
 	local nodename = itemstack:get_name()
@@ -205,12 +255,15 @@ local function place_frame(itemstack, placer, pointed_thing)
 		minetest.record_protection_violation(pos, pname)
 		return itemstack
 	end
-	local node = minetest.get_node(pos)
-	if node.name == "air" then
+	local name = minetest.get_node(pos).name
+	if name == "air" then
 		minetest.set_node(pos, {name = nodename})
-	elseif is_supported_node(node.name) then
+	elseif is_supported_node(name) then
 		obj = minetest.add_entity(pos, "technic:frame_entity")
 		obj:get_luaentity():set_node({name=nodename})
+	else
+		-- don't take an item when no frame is placed
+		return itemstack
 	end
 	if not infinite_stacks then
 		itemstack:take_item()
@@ -220,51 +273,34 @@ end
 
 local function rightclick_frame(pos, node, placer, itemstack, pointed_thing)
 	local nodename = itemstack:get_name()
-	if is_supported_node(nodename) then
-		local pname = placer:get_player_name()
-		if minetest.is_protected(pos, pname) then
-			minetest.log("action", pname
-				.. " tried to rightglick with " .. nodename
-				.. " at protected position "
-				.. minetest.pos_to_string(pos))
-			minetest.record_protection_violation(pos, pname)
-			return itemstack
-		end
-
-		minetest.set_node(pos, {name = nodename})
-
-		local take_item = true
-		local def = minetest.registered_items[nodename]
-		-- Run callback
-		if def.after_place_node then
-			if def.after_place_node(vector.new(pos), placer, itemstack) then
-				take_item = false
-			end
-		end
-
-		-- Run script hook
-		for _, callback in ipairs(minetest.registered_on_placenodes) do
-			local newnode_copy = {name=def.name, param1=0, param2=0}
-			local oldnode_copy = {name="air", param1=0, param2=0}
-			if callback(vector.new(pos), newnode_copy, placer, oldnode_copy, itemstack) then
-				take_item = false
-			end
-		end
-
-		if take_item then
-			itemstack:take_item()
-		end
-
-		obj = minetest.add_entity(pos, "technic:frame_entity")
-		obj:get_luaentity():set_node({name=node.name})
-
-		return itemstack
-	else
-		--local pointed_thing = {type = "node", under = pos}
+	if not is_supported_node(nodename) then
 		if pointed_thing then
-			minetest.item_place_node(itemstack, placer, pointed_thing)
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end
 	end
+
+	local pname = placer:get_player_name()
+	if minetest.is_protected(pos, pname) then
+		minetest.log("action", pname
+			.. " tried to rightglick with " .. nodename
+			.. " at protected position "
+			.. minetest.pos_to_string(pos))
+		minetest.record_protection_violation(pos, pname)
+		return itemstack
+	end
+
+	minetest.remove_node(pos)
+	itemstack,success = minetest.item_place_node(itemstack, placer, pointed_thing)
+
+	if not success then
+		-- this shouldn't happen
+		minetest.set_node(pos, node)
+		return itemstack
+	end
+
+	minetest.add_entity(pos, "technic:frame_entity"):get_luaentity():set_node(node)
+
+	return itemstack
 end
 
 
@@ -315,10 +351,15 @@ for zp=0,1 do
 		table.insert(nodeboxes, {-b,-b,-a, b,b,-b})
 	end
 
-	local nameext = tostring(xm)..tostring(xp)..tostring(ym)..tostring(yp)..tostring(zm)..tostring(zp)
+	local nameext = string.format("%01o/%01o/%01o/%01o/%01o/%01o", xm, xp, ym, yp, zm, zp))
 	local groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2}
+	local place_function
 	if nameext ~= "111111" then
 		groups.not_in_creative_inventory = 1
+	else
+		function place_function(...)
+			return place_frame(...)
+		end
 	end
 
 
@@ -342,9 +383,7 @@ for zp=0,1 do
 		on_punch = function(...)
 			return punch_frame(...)
 		end,
-		on_place = function(...)
-			return place_frame(...)
-		end,
+		on_place = place_function,
 		on_rightclick = function(...)
 			return rightclick_frame(...)
 		end,
@@ -516,8 +555,7 @@ minetest.register_on_dignode(function(pos, node)
 	end
 	minetest.set_node(pos, {name = name})
 	remove_frame(pos)
-	local objects = minetest.get_objects_inside_radius(pos, 0.1)
-	for _, obj in ipairs(objects) do
+	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 0.1)) do
 		local entity = obj:get_luaentity()
 		if entity
 		and (entity.name == "technic:frame_entity" or entity.name == "technic:damage_entity") then
@@ -527,38 +565,49 @@ minetest.register_on_dignode(function(pos, node)
 end)
 
 -- Frame motor
-local function connected(pos, c, adj)
-	for _,vect in ipairs(adj) do
-		local pos1 = vector.add(pos,vect)
-		local nodename = get_frame(pos1) or minetest.get_node(pos1).name
-		if not pos_in_list(c,pos1)
-		and nodename~="air"
-		and (
-			minetest.registered_nodes[nodename].frames_can_connect == nil
-			or minetest.registered_nodes[nodename].frames_can_connect(pos1,vect)
-		) then
-			c[#(c)+1] = pos1
-			if minetest.registered_nodes[nodename].frame == 1 then
-				local adj = minetest.registered_nodes[nodename].frame_connect_all(nodename)
-				connected(pos1,c,adj)
+local function get_connected_nodes(pos)
+	local nodename = get_frame(pos) or get_node(pos).name
+	local poslist,num = {},1
+	local dones = {}
+	local todo = {{pos, minetest.registered_nodes[nodename].frame_connect_all(nodename)}}
+	while next(todo) do
+		for n,data in pairs(todo) do
+			local pos, adj = unpack(data)
+			for _,vect in pairs(adj) do
+				local p = vector.add(pos, vect)
+				if not get(dones, p.z,p.y,p.x) then
+					local nodename = get_frame(p) or get_node(p).name
+					if nodename ~= "air" then
+						local def = minetest.registered_nodes[nodename]
+						if not def then
+							-- unknown nodes found
+							return {}
+						end
+						local frame_can_connect = def.frames_can_connect
+						if not frame_can_connect -- ← no frame node
+						or frame_can_connect(p, vect) then
+							poslist[num] = p
+							num = num+1
+							if minetest.registered_nodes[nodename].frame == 1 then
+								table.insert(todo, {p, minetest.registered_nodes[nodename].frame_connect_all(nodename)})
+							end
+						end
+					end
+				end
 			end
+			todo[n] = nil
 		end
 	end
+	return poslist
 end
 
-local function get_connected_nodes(pos)
-	c={pos}
-	local nodename = get_frame(pos) or minetest.get_node(pos).name
-	connected(pos,c,minetest.registered_nodes[nodename].frame_connect_all(nodename))
-	return c
-end
-
+local motor_dirs = {{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}}
 local function frame_motor_on(pos, node)
 	local meta = minetest.get_meta(pos)
 	if meta:get_int("last_moved") == minetest.get_gametime() then
 		return
 	end
-	local dirs = {{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}}
+	local dirs = motor_dirs
 	local nnodepos = vector.add(pos, dirs[math.floor(node.param2/4)+1])
 	local name = get_frame(nnodepos) or minetest.get_node(nnodepos).name
 	local dir = minetest.facedir_to_dir(node.param2)
@@ -579,7 +628,7 @@ minetest.register_node("technic:frame_motor",{
 		minetest.get_meta(pos):set_string("owner", placer:get_player_name())
 	end,
 	frames_can_connect = function(pos, dir)
-		local dir2 = ({{x=0,y=1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=-1,z=0}})[math.floor(minetest.get_node(pos).param2/4)+1]
+		local dir2 = motor_dirs[math.floor(minetest.get_node(pos).param2/4)+1]
 		return dir2.x~=-dir.x or dir2.y~=-dir.y or dir2.z~=-dir.z
 	end
 })
