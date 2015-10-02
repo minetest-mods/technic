@@ -77,7 +77,7 @@ minetest.register_craftitem(":technic:rebar", {
 
 minetest.register_node(":technic:concrete", {
 	description = S("Concrete Block"),
-	tile_images = {"technic_concrete_block.png",},
+	tiles = {"technic_concrete_block.png",},
 	groups = {cracky=1, level=2, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
 	after_place_node = function(pos, placer, itemstack)
@@ -90,7 +90,7 @@ minetest.register_node(":technic:concrete", {
 
 minetest.register_node(":technic:blast_resistant_concrete", {
 	description = S("Blast-resistant Concrete Block"),
-	tile_images = {"technic_blast_resistant_concrete_block.png",},
+	tiles = {"technic_blast_resistant_concrete_block.png",},
 	groups={cracky=1, level=3, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
 	after_place_node = function(pos, player, itemstack)
@@ -103,7 +103,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 
 minetest.register_node(":technic:concrete_post_platform", {
 	description = S("Concrete Post Platform"),
-	tile_images = {"technic_concrete_block.png",},
+	tiles = {"technic_concrete_block.png",},
 	groups={cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
