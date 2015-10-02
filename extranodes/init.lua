@@ -3,6 +3,14 @@
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
+if minetest.get_modpath("xdecor") then
+	xdecor.worktable_nodes.technic = {
+		"marble", "marble_bricks", "granite", "concrete", "zinc_block",
+		"cast_iron_block", "carbon_steel_block", "stainless_steel_block",
+		"brass_block"
+	}
+end
+
 if minetest.get_modpath("moreblocks") then
 
 	-- register stairsplus/circular_saw nodes
