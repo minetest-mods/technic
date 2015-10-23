@@ -21,7 +21,7 @@ minetest.register_node( ":technic:mineral_chromium", {
 
 minetest.register_node( ":technic:mineral_zinc", {
 	description = S("Zinc Ore"),
-	tile_images = { "default_stone.png^technic_mineral_zinc.png" },
+	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -30,7 +30,7 @@ minetest.register_node( ":technic:mineral_zinc", {
 
 minetest.register_node( ":technic:mineral_lead", {
 	description = S("Lead Ore"),
-	tile_images = { "default_stone.png^technic_mineral_lead.png" },
+	tiles = { "default_stone.png^technic_mineral_lead.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -39,7 +39,7 @@ minetest.register_node( ":technic:mineral_lead", {
 
 minetest.register_node( ":technic:mineral_sulfur", {
 	description = S("Sulfur Ore"),
-	tile_images = { "default_stone.png^technic_mineral_sulfur.png" },
+	tiles = { "default_stone.png^technic_mineral_sulfur.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),

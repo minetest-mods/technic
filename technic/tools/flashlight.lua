@@ -111,7 +111,7 @@ end)
 
 minetest.register_node("technic:light", {
 	drawtype = "glasslike",
-	tile_images = {"technic_light.png"},
+	tiles = {"technic_light.png"},
 	paramtype = "light",
 	groups = {not_in_creative_inventory=1},
 	drop = "",
