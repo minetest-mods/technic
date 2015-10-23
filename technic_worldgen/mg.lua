@@ -67,8 +67,8 @@ if technic.config:get_bool("enable_granite_generation") then
 	mg.register_ore_sheet({
 		name = "technic:granite",
 		wherein = "default:stone",
-		height_min = -31000,
-		height_max = -150,
+		y_min = -31000,
+		y_max = -150,
 		tmin = 3,
 		tmax = 6,
 		threshhold = 0.4,
@@ -80,8 +80,8 @@ if technic.config:get_bool("enable_marble_generation") then
 	mg.register_ore_sheet({
 		name = "technic:marble",
 		wherein = "default:stone",
-		height_min = -31000,
-		height_max = -50,
+		y_min = -31000,
+		y_max = -50,
 		tmin = 3,
 		tmax = 6,
 		threshhold = 0.4,
