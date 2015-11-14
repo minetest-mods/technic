@@ -619,6 +619,10 @@ if damage_enabled then
 end
 
 -- radioactive materials that can result from destroying a reactor
+local corium_griefing = 1 
+if (not technic.config:get_bool("enable_corium_griefing")) then
+	corium_griefing = 0
+end
 
 for _, state in ipairs({ "flowing", "source" }) do
 	minetest.register_node("technic:corium_"..state, {
@@ -652,7 +656,7 @@ for _, state in ipairs({ "flowing", "source" }) do
 		groups = {
 			liquid = 2,
 			hot = 3,
-			igniter = 1,
+			igniter = corium_griefing,
 			radioactive = (state == "source" and 32000 or 16000),
 			not_in_creative_inventory = (state == "flowing" and 1 or nil),
 		},
@@ -689,28 +693,15 @@ minetest.register_abm({
 	end,
 })
 
-minetest.register_abm({
-	nodenames = {"technic:corium_flowing"},
-	neighbors = {"group:water"},
-	interval = 1,
-	chance = 1,
-	action = function (pos, node)
-		minetest.set_node(pos, {name="technic:chernobylite_block"})
-	end,
-})
-
-local griefing = technic.config:get_bool("enable_corium_griefing")
-
-minetest.register_abm({
-	nodenames = {"technic:corium_flowing"},
-	interval = 5,
-	chance = (griefing and 10 or 1),
-	action = function (pos, node)
-		minetest.set_node(pos, {name="technic:chernobylite_block"})
-	end,
-})
-
-if griefing then
+if (corium_griefing == 1) then
+	minetest.register_abm({
+		nodenames = {"technic:corium_flowing"},
+		interval = 5,
+		chance = (10 or 1),
+		action = function (pos, node)
+			minetest.set_node(pos, {name="technic:chernobylite_block"})
+		end,
+	})
 	minetest.register_abm({
 		nodenames = { "technic:corium_source", "technic:corium_flowing" },
 		interval = 4,
