@@ -1,4 +1,4 @@
---Minetest 0.4.7 mod: concrete 
+--Minetest 0.4.7 mod: concrete
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
 local technic = rawget(_G, "technic") or {}
@@ -107,19 +107,19 @@ minetest.register_node(":technic:concrete_post_platform", {
 	groups={cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
-	drawtype = "nodebox", 
+	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
 		fixed = {box_platform}
 	},
 	on_place = function (itemstack, placer, pointed_thing)
 		local node = minetest.get_node(pointed_thing.under)
-		if not technic.concrete_posts[node.name] then 
-			return minetest.item_place_node(itemstack, placer, pointed_thing) 
+		if not technic.concrete_posts[node.name] then
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end
 		local links = technic.concrete_posts[node.name]
 		if links[6] ~= 0 then -- The post already has a platform
-			return minetest.item_place_node(itemstack, placer, pointed_thing) 
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end
 		local id = technic.get_post_id({links[1], links[2], links[3], links[4], links[5], 1})
 		minetest.set_node(pointed_thing.under, {name="technic:concrete_post"..id})
@@ -135,7 +135,7 @@ local function gen_post_nodebox(x1, x2, z1, z2, y, platform)
 	local zz = z1 + z2
 	if ((xx == 2 and zz == 0) or (xx == 0 and zz == 2)) and y == 0 then
 		box = {}
-	else 
+	else
 		box = {box_center}
 	end
 	if x1 ~= 0 then
@@ -235,7 +235,7 @@ for platform = 0, 1 do
 	if id ~= 0 then
 		groups.not_in_creative_inventory = 1
 	end
-	
+
 	local drop = "technic:concrete_post0"
 	local after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		technic.update_posts(pos, false)
@@ -255,7 +255,7 @@ for platform = 0, 1 do
 		drop = drop,
 		paramtype = "light",
 		sunlight_propagates = true,
-		drawtype = "nodebox", 
+		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
 			fixed = gen_post_nodebox(x1, x2, z1, z2, y, platform),

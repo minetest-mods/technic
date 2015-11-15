@@ -140,7 +140,7 @@ minetest.register_tool("wrench:wrench", {
 			lists[listname] = list
 		end
 		metadata.lists = lists
-		
+
 		local metas = {}
 		for name, meta_type in pairs(def.metas or {}) do
 			if meta_type == wrench.META_TYPE_INT then
@@ -152,7 +152,7 @@ minetest.register_tool("wrench:wrench", {
 			end
 		end
 		metadata.metas = metas
-		
+
 		stack:set_metadata(minetest.serialize(metadata))
 		minetest.remove_node(pos)
 		itemstack:add_wear(65535 / 20)

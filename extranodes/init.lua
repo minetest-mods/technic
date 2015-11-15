@@ -1,3 +1,8 @@
+if not rawget(_G, "stairsplus") then
+	minetest.log("info", "[technic/extranodes] stairsplus not found")
+	return
+end
+
 -- Minetest 0.4.6 mod: extranodes
 -- namespace: technic
 -- Boilerplate to support localized strings if intllib mod is installed.
@@ -93,7 +98,7 @@ if minetest.get_modpath("moreblocks") then
 		minetest.register_alias(modname .. ":panel_" .. origname .. "_vertical", newmod..":panel_" .. newname .. "_vertical")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_bottom", newmod..":micro_" .. newname .. "_bottom")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_top", newmod..":micro_" .. newname .. "_top")
-	end 
+	end
 
 	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
 	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
