@@ -128,6 +128,7 @@ local function quarry_run(pos, node)
 		local data = vm:get_data()
 		local c_air = minetest.get_content_id("air")
 		local owner = meta:get_string("owner")
+                local player = minetest.get_player_by_name(owner)
 		local nd = meta:get_int("dug")
 		while nd ~= diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
 			local ry = math.floor(nd / (diameter*diameter))
@@ -150,7 +151,7 @@ local function quarry_run(pos, node)
 			if can_dig then
 				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
 				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
-				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, nil)) then
+				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, player)) then
 					can_dig = false
 				end
 			end
