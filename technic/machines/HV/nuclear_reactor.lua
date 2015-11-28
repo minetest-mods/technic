@@ -697,7 +697,7 @@ if (corium_griefing == 1) then
 	minetest.register_abm({
 		nodenames = {"technic:corium_flowing"},
 		interval = 5,
-		chance = (10 or 1),
+		chance = 10,
 		action = function (pos, node)
 			minetest.set_node(pos, {name="technic:chernobylite_block"})
 		end,
