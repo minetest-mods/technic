@@ -77,14 +77,13 @@ function technic.register_battery_box(data)
 		"listring[current_name;src]"..
 		"listring[current_player;main]"
 
+	local num_upgrade_slots = 2
+
 	if data.upgrade then
 		formspec = formspec..
-			"list[current_name;upgrade1;3.5,3;1,1;]"..
-			"list[current_name;upgrade2;4.5,3;1,1;]"..
-			"label[3.5,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
-			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
+			"list[current_name;upgrades;3,3;"..num_upgrade_slots..",1;]"..
+			"label[3,4;"..S("Upgrade Slots").."]"..
+			"listring[current_name;upgrades]"..
 			"listring[current_player;main]"
 	end
 
@@ -93,12 +92,15 @@ function technic.register_battery_box(data)
 		local eu_input       = meta:get_int(tier.."_EU_input")
 		local current_charge = meta:get_int("internal_EU_charge")
 
+		-- Do compatibility updates if needed.
+		technic.transfer_upgrades_to_new_upgrade_inventory(meta, formspec, num_upgrade_slots)
+
 		local EU_upgrade, tube_upgrade = 0, 0
 		if data.upgrade then
 			EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
 		end
 		local max_charge = data.max_charge * (1 + EU_upgrade / 10)
-			
+
 		-- Charge/discharge the battery with the input EUs
 		if eu_input >= 0 then
 			current_charge = math.min(current_charge + eu_input, max_charge)
@@ -113,7 +115,7 @@ function technic.register_battery_box(data)
 		current_charge, tool_empty = technic.discharge_tools(meta,
 				current_charge, data.discharge_step,
 				max_charge)
-			
+
 		if data.tube then
 			local inv = meta:get_inventory()
 			technic.handle_machine_pipeworks(pos, tube_upgrade,
@@ -173,10 +175,10 @@ function technic.register_battery_box(data)
 			description = S("%s Battery Box"):format(tier),
 			tiles = {"technic_"..ltier.."_battery_box_top.png",
 			         "technic_"..ltier.."_battery_box_bottom.png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
+			         "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+			         "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+			         "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+			         "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
 			groups = groups,
 			tube = data.tube and tube or nil,
 			paramtype2 = "facedir",
@@ -195,8 +197,7 @@ function technic.register_battery_box(data)
 				meta:set_float("internal_EU_charge", 0)
 				inv:set_size("src", 1)
 				inv:set_size("dst", 1)
-				inv:set_size("upgrade1", 1)
-				inv:set_size("upgrade2", 1)
+				inv:set_size("upgrades", num_upgrade_slots)
 			end,
 			can_dig = technic.machine_can_dig,
 			allow_metadata_inventory_put = technic.machine_inventory_put,

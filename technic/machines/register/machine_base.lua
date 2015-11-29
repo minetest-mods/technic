@@ -26,6 +26,7 @@ function technic.register_base_machine(data)
 	local machine_desc = data.machine_desc
 	local tier = data.tier
 	local ltier = string.lower(tier)
+	local num_upgrade_slots = data.upgrade_slots or 2
 
 	local groups = {cracky = 2, technic_machine = 1}
 	local active_groups = {cracky = 2, technic_machine = 1, not_in_creative_inventory = 1}
@@ -35,7 +36,6 @@ function technic.register_base_machine(data)
 		active_groups.tubedevice = 1
 		active_groups.tubedevice_receiver = 1
 	end
-
 
 	local formspec =
 		"invsize[8,9;]"..
@@ -49,12 +49,9 @@ function technic.register_base_machine(data)
 		"listring[current_player;main]"
 	if data.upgrade then
 		formspec = formspec..
-			"list[current_name;upgrade1;1,3;1,1;]"..
-			"list[current_name;upgrade2;2,3;1,1;]"..
-			"label[1,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
-			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
+			"list[current_name;upgrades;0,3;"..num_upgrade_slots..",1;]"..
+			"label[0,4;"..S("Upgrade Slots").."]"..
+			"listring[current_name;upgrades]"..
 			"listring[current_player;main]"
 	end
 
@@ -67,35 +64,47 @@ function technic.register_base_machine(data)
 		local machine_node      = "technic:"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
+		-- This is the percentage by which the base demand may be reduced by a
+		-- complete complement of battery upgrades. Fewer battery upgrades than the
+		-- maximum possible will reduce the total demand by less than this.
+		local machine_demand_reduction_factor = data.demand_reduction_factor or 0.0
+
 		-- Setup meta data if it does not exist.
 		if not eu_input then
-			meta:set_int(tier.."_EU_demand", machine_demand[1])
+			meta:set_int(tier.."_EU_demand", machine_demand)
 			meta:set_int(tier.."_EU_input", 0)
 			return
 		end
+
+		-- Do compatibility updates if needed.
+		technic.transfer_upgrades_to_new_upgrade_inventory(meta, formspec, num_upgrade_slots)
 
 		local EU_upgrade, tube_upgrade = 0, 0
 		if data.upgrade then
 			EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
 		end
-		if data.tube then
-			technic.handle_machine_pipeworks(pos, tube_upgrade)
-		end
 
-		local powered = eu_input >= machine_demand[EU_upgrade+1]
+		-- Calculate the required EUs based on the normalized number of battery upgrades.
+		local norm_eu_upgrade = technic.normalize_value(EU_upgrade, 0, num_upgrade_slots)
+		local total_required_power = machine_demand - ((machine_demand * machine_demand_reduction_factor) * norm_eu_upgrade)
+
+		local powered = eu_input >= total_required_power
 		if powered then
 			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
-		while true do
+
+		local items_processed_this_cycle = 0
+
+		while true do -- Begin recipe processing.
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
-				return
+				break
 			end
-			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
+			meta:set_int(tier.."_EU_demand", total_required_power)
 			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
 			if meta:get_int("src_time") < round(result.time*10) then
@@ -103,7 +112,7 @@ function technic.register_base_machine(data)
 					technic.swap_node(pos, machine_node)
 					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
 				end
-				return
+				break
 			end
 			local output = result.output
 			if type(output) ~= "table" then output = { output } end
@@ -120,17 +129,22 @@ function technic.register_base_machine(data)
 					break
 				end
 				inv:add_item("dst_tmp", o)
+				items_processed_this_cycle = items_processed_this_cycle + o:get_count()
 			end
 			if not room_for_output then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
-				return
+				break
 			end
 			meta:set_int("src_time", meta:get_int("src_time") - round(result.time*10))
 			inv:set_list("src", result.new_input)
 			inv:set_list("dst", inv:get_list("dst_tmp"))
+		end -- End of recipe processing.
+
+		if data.tube then
+			technic.handle_machine_pipeworks(pos, tube_upgrade, nil, items_processed_this_cycle)
 		end
 	end
 	
@@ -156,8 +170,7 @@ function technic.register_base_machine(data)
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
-			inv:set_size("upgrade1", 1)
-			inv:set_size("upgrade2", 1)
+			inv:set_size("upgrades", num_upgrade_slots)
 		end,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
