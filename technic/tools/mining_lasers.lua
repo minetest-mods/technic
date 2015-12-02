@@ -132,7 +132,11 @@ local function laser_shoot(player, range, particle_texture, sound)
 		texture = particle_texture .. "^[transform" .. math.random(0, 7),
 	})
 	minetest.sound_play(sound, {pos = player_pos, max_hear_distance = range})
-	for pos in rayIter(start_pos, dir, range) do
+	--rayIter is integer math... so make it more precise by multiplying pos and range here
+	start_pos_10x = vector.multiply(start_pos, 10)
+	for pos in rayIter(start_pos_10x, dir, range*10) do
+		--reverse the above multiplying here
+		pos = vector.multiply(pos, 0.1)
 		if minetest.is_protected(pos, player_name) then
 			minetest.record_protection_violation(pos, player_name)
 			break

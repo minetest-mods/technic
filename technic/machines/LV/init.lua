@@ -13,6 +13,7 @@ dofile(path.."/solar_array.lua")
 dofile(path.."/geothermal.lua")
 dofile(path.."/water_mill.lua")
 dofile(path.."/generator.lua")
+dofile(path.."/oldgeo.lua")
 
 -- Machines
 dofile(path.."/alloy_furnace.lua")

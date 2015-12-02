@@ -2,10 +2,12 @@ local S = technic.getter
 
 local desc = S("Administrative World Anchor")
 
-local function compute_forceload_positions(pos, meta)
-	local radius = meta:get_int("radius")
-	local minpos = vector.subtract(pos, vector.new(radius, radius, radius))
-	local maxpos = vector.add(pos, vector.new(radius, radius, radius))
+-- set to false to disable autoforceloading in other files, such as the quarry force loading itself and dig area
+technic.auto_forceloading_enabled = true
+
+-- minpos,maxpos - two opposite corner positions that mark the zone to force load; all coordinates in minpos have to be lower than the ones in maxpos
+-- return table of positions, one position per block
+local function compute_forceload_positions_between_points(minpos, maxpos)
 	local minbpos = {}
 	local maxbpos = {}
 	for _, coord in ipairs({"x","y","z"}) do
@@ -22,12 +24,28 @@ local function compute_forceload_positions(pos, meta)
 	end
 	return flposes
 end
+technic.compute_forceload_positions_between_points = compute_forceload_positions_between_points
 
+-- pos - position of the anchor node
+-- meta - contains "radius"
+-- return table of positions, one position per block
+local function compute_forceload_positions(pos, meta)
+	local radius = meta:get_int("radius")
+	local minpos = vector.subtract(pos, vector.new(radius, radius, radius))
+	local maxpos = vector.add(pos, vector.new(radius, radius, radius))
+    return compute_forceload_positions_between_points(minpos, maxpos)
+end
+
+-- meta - contains "forceloaded", which is a serialized table of positions that are currently forceloaded
+-- return table of positions that are currently forceloaded
 local function currently_forceloaded_positions(meta)
 	local ser = meta:get_string("forceloaded")
 	return ser == "" and {} or minetest.deserialize(ser)
 end
+technic.currently_forceloaded_positions = currently_forceloaded_positions
 
+-- turns off forceloading for all positions in the table
+-- meta - contains "forceloaded" (used by currently_forceloaded_positions)
 local function forceload_off(meta)
 	local flposes = currently_forceloaded_positions(meta)
 	meta:set_string("forceloaded", "")
@@ -35,9 +53,9 @@ local function forceload_off(meta)
 		minetest.forceload_free_block(p)
 	end
 end
+technic.forceload_off = forceload_off
 
-local function forceload_on(pos, meta)
-	local want_flposes = compute_forceload_positions(pos, meta)
+local function forceload_on_flposes(want_flposes, meta)
 	local have_flposes = {}
 	for _, p in ipairs(want_flposes) do
 		if minetest.forceload_block(p) then
@@ -45,6 +63,16 @@ local function forceload_on(pos, meta)
 		end
 	end
 	meta:set_string("forceloaded", #have_flposes == 0 and "" or minetest.serialize(have_flposes))
+end
+technic.forceload_on_flposes = forceload_on_flposes
+
+-- computes the forceload positions (using compute_forceload_positions) and tries to force load all of them, and records them in meta "forceloaded"
+-- pos - position of the anchor node
+-- meta - contains "radius" (to be read) and "forceloaded" (to be written)
+local function forceload_on(pos, meta)
+	local want_flposes = compute_forceload_positions(pos, meta)
+    forceload_on_flposes(want_flposes, meta)
+    return 
 end
 
 local function set_display(pos, meta)
