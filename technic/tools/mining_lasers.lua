@@ -122,7 +122,7 @@ local function laser_shoot(player, range, particle_texture, sound)
 		pos = start_pos,
 		velocity = dir,
 		acceleration = vector.multiply(dir, 50),
-		expirationtime = range / 11,
+		expirationtime = (math.sqrt(1+100*(range+0.4))-1)/50,
 		size = 1,
 		texture = particle_texture .. "^[transform" .. math.random(0, 7),
 	})
