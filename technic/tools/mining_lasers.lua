@@ -4,31 +4,32 @@ local mining_lasers_list = {
 	{"2", 14, 200000, 2000},
 	{"3", 21, 650000, 3000},
 }
+local allow_entire_discharging = true
 
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:laser_mk1',
+	output = "technic:laser_mk1",
 	recipe = {
-		{'default:diamond', 'technic:brass_ingot',        'default:obsidian_glass'},
-		{'',                'technic:brass_ingot',        'technic:red_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:brass_ingot",        "default:obsidian_glass"},
+		{"",                "technic:brass_ingot",        "technic:red_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk2',
+	output = "technic:laser_mk2",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk1'},
-		{'',                'technic:carbon_steel_ingot', 'technic:green_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk1"},
+		{"",                "technic:carbon_steel_ingot", "technic:green_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk3',
+	output = "technic:laser_mk3",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk2'},
-		{'',                'technic:carbon_steel_ingot', 'technic:blue_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk2"},
+		{"",                "technic:carbon_steel_ingot", "technic:blue_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 
@@ -90,7 +91,6 @@ local function laser_shoot(player, range, particle_texture, sound)
 	end
 end
 
-
 for _, m in pairs(mining_lasers_list) do
 	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
 	minetest.register_tool("technic:laser_mk"..m[1], {
@@ -101,21 +101,25 @@ for _, m in pairs(mining_lasers_list) do
 		on_refill = technic.refill_RE_charge,
 		on_use = function(itemstack, user)
 			local meta = minetest.deserialize(itemstack:get_metadata())
-			if not meta or not meta.charge then
+			if not meta or not meta.charge or meta.charge == 0 then
 				return
 			end
 
-			-- If there's enough charge left, fire the laser
-			if meta.charge >= m[4] then
-				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				if not technic.creative_mode then
-					meta.charge = meta.charge - m[4]
-					technic.set_RE_wear(itemstack, meta.charge, m[3])
-					itemstack:set_metadata(minetest.serialize(meta))
+			local range = m[2]
+			if meta.charge < m[4] then
+				if not allow_entire_discharging then
+					return
 				end
+				-- If charge is too low, give the laser a shorter range
+				range = range * meta.charge / m[4]
+			end
+			laser_shoot(user, range, "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
+			if not technic.creative_mode then
+				meta.charge = math.max(meta.charge - m[4], 0)
+				technic.set_RE_wear(itemstack, meta.charge, m[3])
+				itemstack:set_metadata(minetest.serialize(meta))
 			end
 			return itemstack
 		end,
 	})
 end
-
