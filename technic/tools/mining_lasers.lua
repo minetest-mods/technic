@@ -32,7 +32,7 @@ minetest.register_craft({
 	}
 })
 
-local scalar = vector.scalar or vector.dot or function vector.scalar(v1, v2)
+local scalar = vector.scalar or vector.dot or function(v1, v2)
 	return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z
 end
 
@@ -85,11 +85,12 @@ end
 
 local function laser_node(pos, node, player)
 	local def = minetest.registered_nodes[node.name]
-	if def and def.liquidtype ~= "none" then
+	if def.liquidtype ~= "none"
+	and def.buildable_to then
 		minetest.remove_node(pos)
 		minetest.add_particle({
 			pos = pos,
-			vel = {x=0, y=2, z=0},
+			vel = {x=0, y=1.5+math.random(), z=0},
 			acc = {x=0, y=-1, z=0},
 			expirationtime = 1.5,
 			size = 6 + math.random() * 2,
@@ -100,11 +101,15 @@ local function laser_node(pos, node, player)
 	minetest.node_dig(pos, node, player)
 end
 
-local no_destroy = {
-	["air"] = true,
-	["default:lava_source"] = true,
-	["default:lava_flowing"] = true,
-}
+local no_destroy = {air = true}
+local function keep_node(name)
+	if no_destroy[name] ~= nil then
+		return no_destroy[name]
+	end
+	no_destroy[name] = minetest.get_item_group(name, "hot") ~= 0
+	return no_destroy[name]
+end
+
 local function laser_shoot(player, range, particle_texture, sound)
 	local player_pos = player:getpos()
 	local player_name = player:get_player_name()
@@ -128,10 +133,11 @@ local function laser_shoot(player, range, particle_texture, sound)
 			break
 		end
 		local node = minetest.get_node_or_nil(pos)
-		if not node then
+		if not node
+		or not minetest.registered_nodes[node.name] then
 			break
 		end
-		if not no_destroy[node.name] then
+		if not keep_node(node.name) then
 			laser_node(pos, node, player)
 		end
 	end
