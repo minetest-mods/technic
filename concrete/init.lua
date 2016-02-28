@@ -99,6 +99,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	after_dig_node = function (pos, oldnode, oldmetadata, digger)
 		technic.update_posts(pos, false)
 	end,
+	on_blast = function() end,
 })
 
 minetest.register_node(":technic:concrete_post_platform", {
