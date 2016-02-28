@@ -4,102 +4,94 @@ local mining_lasers_list = {
 	{"2", 14, 200000, 2000},
 	{"3", 21, 650000, 3000},
 }
+local allow_entire_discharging = true
 
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:laser_mk1',
+	output = "technic:laser_mk1",
 	recipe = {
-		{'default:diamond', 'technic:brass_ingot',        'default:obsidian_glass'},
-		{'',                'technic:brass_ingot',        'technic:red_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:brass_ingot",        "default:obsidian_glass"},
+		{"",                "technic:brass_ingot",        "technic:red_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk2',
+	output = "technic:laser_mk2",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk1'},
-		{'',                'technic:carbon_steel_ingot', 'technic:green_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk1"},
+		{"",                "technic:carbon_steel_ingot", "technic:green_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk3',
+	output = "technic:laser_mk3",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk2'},
-		{'',                'technic:carbon_steel_ingot', 'technic:blue_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{"default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk2"},
+		{"",                "technic:carbon_steel_ingot", "technic:blue_energy_crystal"},
+		{"",                "",                           "default:copper_ingot"},
 	}
 })
 
--- Based on code by Uberi: https://gist.github.com/Uberi/3125280
+local scalar = vector.scalar or vector.dot or function(v1, v2)
+	return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z
+end
+
+local function biggest_of_vec(vec)
+	if vec.x < vec.y then
+		if vec.y < vec.z then
+			return "z"
+		end
+		return "y"
+	end
+	if vec.x < vec.z then
+		return "z"
+	end
+	return "x"
+end
+
 local function rayIter(pos, dir, range)
-	local p = vector.round(pos)
-	local x_step,      y_step,      z_step      = 0, 0, 0
-	local x_component, y_component, z_component = 0, 0, 0
-	local x_intersect, y_intersect, z_intersect = 0, 0, 0
-
-	if dir.x == 0 then
-		x_intersect = math.huge
-	elseif dir.x > 0 then
-		x_step = 1
-		x_component = 1 / dir.x
-		x_intersect = x_component
-	else
-		x_step = -1
-		x_component = 1 / -dir.x
-	end
-	if dir.y == 0 then
-		y_intersect = math.huge
-	elseif dir.y > 0 then
-		y_step = 1
-		y_component = 1 / dir.y
-		y_intersect = y_component
-	else
-		y_step = -1
-		y_component = 1 / -dir.y
-	end
-	if dir.z == 0 then
-		z_intersect = math.huge
-	elseif dir.z > 0 then
-		z_step = 1
-		z_component = 1 / dir.z
-		z_intersect = z_component
-	else
-		z_step = -1
-		z_component = 1 / -dir.z
+	-- make a table of possible movements
+	local step = {}
+	for i in pairs(pos) do
+		local v = math.sign(dir[i])
+		if v ~= 0 then
+			step[i] = v
+		end
 	end
 
+	local p
 	return function()
-		if x_intersect < y_intersect then
-			if x_intersect < z_intersect then
-				p.x = p.x + x_step
-				x_intersect = x_intersect + x_component
-			else
-				p.z = p.z + z_step
-				z_intersect = z_intersect + z_component
-			end
-		elseif y_intersect < z_intersect then
-			p.y = p.y + y_step
-			y_intersect = y_intersect + y_component
-		else
-			p.z = p.z + z_step
-			z_intersect = z_intersect + z_component
+		if not p then
+			-- avoid skipping the first position
+			p = vector.round(pos)
+			return vector.new(p)
 		end
-		if vector.distance(pos, p) > range then
-			return nil
+
+		-- find the position which has the smallest distance to the line
+		local choose = {}
+		local choosefit = vector.new()
+		for i in pairs(step) do
+			choose[i] = vector.new(p)
+			choose[i][i] = choose[i][i] + step[i]
+			choosefit[i] = scalar(vector.normalize(vector.subtract(choose[i], pos)), dir)
 		end
-		return p
+		p = choose[biggest_of_vec(choosefit)]
+
+		if vector.distance(pos, p) <= range then
+			return vector.new(p)
+		end
 	end
 end
 
 local function laser_node(pos, node, player)
 	local def = minetest.registered_nodes[node.name]
-	if def and def.liquidtype ~= "none" then
+	if def.liquidtype ~= "none"
+	and def.buildable_to then
 		minetest.remove_node(pos)
 		minetest.add_particle({
 			pos = pos,
-			vel = {x=0, y=2, z=0},
+			vel = {x=0, y=1.5+math.random(), z=0},
 			acc = {x=0, y=-1, z=0},
 			expirationtime = 1.5,
 			size = 6 + math.random() * 2,
@@ -110,11 +102,15 @@ local function laser_node(pos, node, player)
 	minetest.node_dig(pos, node, player)
 end
 
-local no_destroy = {
-	["air"] = true,
-	["default:lava_source"] = true,
-	["default:lava_flowing"] = true,
-}
+local no_destroy = {air = true}
+local function keep_node(name)
+	if no_destroy[name] ~= nil then
+		return no_destroy[name]
+	end
+	no_destroy[name] = minetest.get_item_group(name, "hot") ~= 0
+	return no_destroy[name]
+end
+
 local function laser_shoot(player, range, particle_texture, sound)
 	local player_pos = player:getpos()
 	local player_name = player:get_player_name()
@@ -122,12 +118,12 @@ local function laser_shoot(player, range, particle_texture, sound)
 
 	local start_pos = vector.new(player_pos)
 	-- Adjust to head height
-	start_pos.y = start_pos.y + 1.9
+	start_pos.y = start_pos.y + 1.625
 	minetest.add_particle({
-		pos = startpos,
-		vel = dir,
-		acc = vector.multiply(dir, 50),
-		expirationtime = range / 11,
+		pos = start_pos,
+		velocity = dir,
+		acceleration = vector.multiply(dir, 50),
+		expirationtime = (math.sqrt(1+100*(range+0.4))-1)/50,
 		size = 1,
 		texture = particle_texture .. "^[transform" .. math.random(0, 7),
 	})
@@ -138,15 +134,15 @@ local function laser_shoot(player, range, particle_texture, sound)
 			break
 		end
 		local node = minetest.get_node_or_nil(pos)
-		if not node then
+		if not node
+		or not minetest.registered_nodes[node.name] then
 			break
 		end
-		if not no_destroy[node.name] then
+		if not keep_node(node.name) then
 			laser_node(pos, node, player)
 		end
 	end
 end
-
 
 for _, m in pairs(mining_lasers_list) do
 	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
@@ -158,21 +154,27 @@ for _, m in pairs(mining_lasers_list) do
 		on_refill = technic.refill_RE_charge,
 		on_use = function(itemstack, user)
 			local meta = minetest.deserialize(itemstack:get_metadata())
-			if not meta or not meta.charge then
+			if not meta
+			or not meta.charge
+			or meta.charge == 0 then
 				return
 			end
 
-			-- If there's enough charge left, fire the laser
-			if meta.charge >= m[4] then
-				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
-				if not technic.creative_mode then
-					meta.charge = meta.charge - m[4]
-					technic.set_RE_wear(itemstack, meta.charge, m[3])
-					itemstack:set_metadata(minetest.serialize(meta))
+			local range = m[2]
+			if meta.charge < m[4] then
+				if not allow_entire_discharging then
+					return
 				end
+				-- If charge is too low, give the laser a shorter range
+				range = range * meta.charge / m[4]
+			end
+			laser_shoot(user, range, "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
+			if not technic.creative_mode then
+				meta.charge = math.max(meta.charge - m[4], 0)
+				technic.set_RE_wear(itemstack, meta.charge, m[3])
+				itemstack:set_metadata(minetest.serialize(meta))
 			end
 			return itemstack
 		end,
 	})
 end
-
