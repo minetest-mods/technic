@@ -34,13 +34,12 @@ minetest.register_craft({
 
 local function laser_node(pos, node, player)
 	local def = minetest.registered_nodes[node.name]
-	if def and def.liquidtype ~= "none" then
+	if def.liquidtype ~= "none" and def.buildable_to then
 		minetest.remove_node(pos)
 		minetest.add_particle({
 			pos = pos,
-			velocity = {x=0, y=2, z=0},
-			acceleration = {x=0, y=-1, z=0},
-			expirationtime = 1.5,
+			velocity = {x = 0, y = 1.5 + math.random(), z = 0},
+			acceleration = {x = 0, y = -1, z = 0},
 			size = 6 + math.random() * 2,
 			texture = "smoke_puff.png^[transform" .. math.random(0, 7),
 		})
@@ -49,11 +48,15 @@ local function laser_node(pos, node, player)
 	minetest.node_dig(pos, node, player)
 end
 
-local no_destroy = {
-	["air"] = true,
-	["default:lava_source"] = true,
-	["default:lava_flowing"] = true,
-}
+local keep_node = {air = true}
+local function can_keep_node(name)
+	if keep_node[name] ~= nil then
+		return keep_node[name]
+	end
+	keep_node[name] = minetest.get_item_group(name, "hot") ~= 0
+	return keep_node[name]
+end
+
 local function laser_shoot(player, range, particle_texture, sound)
 	local player_pos = player:getpos()
 	local player_name = player:get_player_name()
@@ -76,11 +79,12 @@ local function laser_shoot(player, range, particle_texture, sound)
 			minetest.record_protection_violation(pos, player_name)
 			break
 		end
-		local node = minetest.get_node_or_nil(pos)
-		if not node then
+		local node = minetest.get_node(pos)
+		if node.name == "ignore"
+				or not minetest.registered_nodes[node.name] then
 			break
 		end
-		if not no_destroy[node.name] then
+		if not can_keep_node(node.name) then
 			laser_node(pos, node, player)
 		end
 	end
