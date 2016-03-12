@@ -35,7 +35,7 @@ local run = function(pos, node)
 		local charge_to_give = math.floor((light + pos1.y) * 3)
 		charge_to_give = math.max(charge_to_give, 0)
 		charge_to_give = math.min(charge_to_give, 200)
-		meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.prettynum(charge_to_give)))
+		meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.pretty_num(charge_to_give)))
 		meta:set_int("LV_EU_supply", charge_to_give)
 	else
 		meta:set_string("infotext", S("%s Idle"):format(machine_name))

@@ -55,7 +55,7 @@ local run = function(pos, node)
 		meta:set_int("MV_EU_supply", power)
 	end
 
-	meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.prettynum(power)))
+	meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.pretty_num(power)))
 end
 
 minetest.register_node("technic:wind_mill", {

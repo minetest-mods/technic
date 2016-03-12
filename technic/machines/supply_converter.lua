@@ -30,7 +30,7 @@ local run = function(pos, node)
 		meta:set_int(from.."_EU_supply", 0)
 		meta:set_int(to.."_EU_demand", 0)
 		meta:set_int(to.."_EU_supply", input * remain)
-		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.prettynum(input), from, technic.prettynum(input * remain), to))
+		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.pretty_num(input), from, technic.pretty_num(input * remain), to))
 	else
 		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 		if to then

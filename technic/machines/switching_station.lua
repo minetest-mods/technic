@@ -289,7 +289,7 @@ minetest.register_abm({
 
 		meta:set_string("infotext",
 				S("@1. Supply: @2 Demand: @3",
-				machine_name, technic.prettynum(PR_eu_supply), technic.prettynum(RE_eu_demand)))
+				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then

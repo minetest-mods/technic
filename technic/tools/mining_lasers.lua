@@ -32,67 +32,6 @@ minetest.register_craft({
 	}
 })
 
--- Based on code by Uberi: https://gist.github.com/Uberi/3125280
-local function rayIter(pos, dir, range)
-	local p = vector.round(pos)
-	local x_step,      y_step,      z_step      = 0, 0, 0
-	local x_component, y_component, z_component = 0, 0, 0
-	local x_intersect, y_intersect, z_intersect = 0, 0, 0
-
-	if dir.x == 0 then
-		x_intersect = math.huge
-	elseif dir.x > 0 then
-		x_step = 1
-		x_component = 1 / dir.x
-		x_intersect = x_component
-	else
-		x_step = -1
-		x_component = 1 / -dir.x
-	end
-	if dir.y == 0 then
-		y_intersect = math.huge
-	elseif dir.y > 0 then
-		y_step = 1
-		y_component = 1 / dir.y
-		y_intersect = y_component
-	else
-		y_step = -1
-		y_component = 1 / -dir.y
-	end
-	if dir.z == 0 then
-		z_intersect = math.huge
-	elseif dir.z > 0 then
-		z_step = 1
-		z_component = 1 / dir.z
-		z_intersect = z_component
-	else
-		z_step = -1
-		z_component = 1 / -dir.z
-	end
-
-	return function()
-		if x_intersect < y_intersect then
-			if x_intersect < z_intersect then
-				p.x = p.x + x_step
-				x_intersect = x_intersect + x_component
-			else
-				p.z = p.z + z_step
-				z_intersect = z_intersect + z_component
-			end
-		elseif y_intersect < z_intersect then
-			p.y = p.y + y_step
-			y_intersect = y_intersect + y_component
-		else
-			p.z = p.z + z_step
-			z_intersect = z_intersect + z_component
-		end
-		if vector.distance(pos, p) > range then
-			return nil
-		end
-		return p
-	end
-end
-
 local function laser_node(pos, node, player)
 	local def = minetest.registered_nodes[node.name]
 	if def and def.liquidtype ~= "none" then
@@ -132,7 +71,7 @@ local function laser_shoot(player, range, particle_texture, sound)
 		texture = particle_texture .. "^[transform" .. math.random(0, 7),
 	})
 	minetest.sound_play(sound, {pos = player_pos, max_hear_distance = range})
-	for pos in rayIter(start_pos, dir, range) do
+	for pos in technic.trace_node_ray(start_pos, dir, range) do
 		if minetest.is_protected(pos, player_name) then
 			minetest.record_protection_violation(pos, player_name)
 			break

@@ -2,22 +2,18 @@
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
+local load_start = os.clock()
+
 technic = rawget(_G, "technic") or {}
 technic.creative_mode = minetest.setting_getbool("creative_mode")
 
-technic.tube_inject_item = pipeworks.tube_inject_item or function (pos, start_pos, velocity, item)
-	local tubed = pipeworks.tube_item(vector.new(pos), item)
-	tubed:get_luaentity().start_pos = vector.new(start_pos)
-	tubed:setvelocity(velocity)
-	tubed:setacceleration(vector.new(0, 0, 0))
-end
 
-local load_start = os.clock()
 local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
+
 -- Boilerplate to support intllib
-if minetest.get_modpath("intllib") then
+if rawget(_G, "intllib") then
 	technic.getter = intllib.Getter()
 else
 	technic.getter = function(s,a,...)if a==nil then return s end a={a,...}return s:gsub("(@?)@(%(?)(%d+)(%)?)",function(e,o,n,c)if e==""then return a[tonumber(n)]..(o==""and c or"")else return"@"..o..n..c end end) end
