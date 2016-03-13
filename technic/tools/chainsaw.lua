@@ -9,15 +9,19 @@ local chainsaw_leaves = true
 
 -- The default trees
 local timber_nodenames = {
-	["default:jungletree"] = true,
-	["default:papyrus"]    = true,
-	["default:cactus"]     = true,
-	["default:tree"]       = true,
-	["default:apple"]      = true,
-	["default:pinetree"]   = true,
+	["default:acacia_tree"] = true,
+	["default:aspen_tree"]  = true,
+	["default:jungletree"]  = true,
+	["default:papyrus"]     = true,
+	["default:cactus"]      = true,
+	["default:tree"]        = true,
+	["default:apple"]       = true,
+	["default:pine_tree"]    = true,
 }
 
 if chainsaw_leaves then
+	timber_nodenames["default:acacia_leaves"] = true
+	timber_nodenames["default:aspen_leaves"] = true
 	timber_nodenames["default:leaves"] = true
 	timber_nodenames["default:jungleleaves"] = true
 	timber_nodenames["default:pine_needles"] = true
