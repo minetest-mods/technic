@@ -99,7 +99,12 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	after_dig_node = function (pos, oldnode, oldmetadata, digger)
 		technic.update_posts(pos, false)
 	end,
-	on_blast = function() end,
+	on_blast = function(pos, intensity)
+		if intensity > 1 then
+			minetest.remove_node(pos)
+			minetest.add_item(pos, "technic:blast_resistant_concrete")
+		end
+	end,
 })
 
 minetest.register_node(":technic:concrete_post_platform", {
