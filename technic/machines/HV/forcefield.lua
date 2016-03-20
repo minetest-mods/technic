@@ -15,7 +15,7 @@ minetest.register_craft({
 	recipe = {
 			{"default:mese",         "technic:motor",          "default:mese"        },
 			{"technic:deployer_off", "technic:machine_casing", "technic:deployer_off"},
-			{"default:mese",         "technic:hv_cable0",      "default:mese"        },
+			{"default:mese",         "technic:hv_cable",       "default:mese"        },
 	}
 })
 
@@ -195,7 +195,7 @@ end
 minetest.register_node("technic:forcefield_emitter_off", {
 	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_off.png"},
-	groups = {cracky = 1, technic_machine = 1},
+	groups = {cracky = 1, technic_machine = 1, technic_hv = 1},
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -215,7 +215,8 @@ minetest.register_node("technic:forcefield_emitter_off", {
 minetest.register_node("technic:forcefield_emitter_on", {
 	description = S("%s Forcefield Emitter"):format("HV"),
 	tiles = {"technic_forcefield_emitter_on.png"},
-	groups = {cracky = 1, technic_machine = 1, not_in_creative_inventory=1},
+	groups = {cracky = 1, technic_machine = 1, technic_hv = 1,
+			not_in_creative_inventory=1},
 	drop = "technic:forcefield_emitter_off",
 	on_receive_fields = forcefield_receive_fields,
 	on_destruct = function(pos)

@@ -7,7 +7,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:cobble', 'default:cobble',         'default:cobble'},
 		{'default:cobble', 'technic:machine_casing', 'default:cobble'},
-		{'default:cobble', 'technic:lv_cable0',      'default:cobble'},
+		{'default:cobble', 'technic:lv_cable',       'default:cobble'},
 	}
 })
 

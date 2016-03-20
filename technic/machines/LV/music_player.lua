@@ -9,7 +9,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:chromium_ingot', 'default:diamond',        'technic:chromium_ingot'},
 		{'default:diamond',        'technic:machine_casing', 'default:diamond'},
-		{'default:mossycobble',    'technic:lv_cable0',      'default:mossycobble'},
+		{'default:mossycobble',    'technic:lv_cable',       'default:mossycobble'},
 	}
 })
 
@@ -94,7 +94,9 @@ minetest.register_node("technic:music_player", {
 	description = S("%s Music Player"):format("LV"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_lv=1},
+	connect_sides = {"bottom"},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

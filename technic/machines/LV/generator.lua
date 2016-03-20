@@ -10,7 +10,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:stone', 'default:furnace',        'default:stone'},
 		{'default:stone', 'technic:machine_casing', 'default:stone'},
-		{'default:stone', 'technic:lv_cable0',      'default:stone'},
+		{'default:stone', 'technic:lv_cable',       'default:stone'},
 	}
 })
 

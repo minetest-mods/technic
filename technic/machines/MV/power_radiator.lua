@@ -12,6 +12,16 @@
 
 local power_radius = 12
 
+
+minetest.register_craft({
+	output = 'technic:power_radiator 1',
+	recipe = {
+		{'technic:stainless_steel_ingot', 'technic:mv_transformer', 'technic:stainless_steel_ingot'},
+		{'technic:copper_coil',           'technic:machine_casing', 'technic:copper_coil'},
+		{'technic:rubber',                'technic:mv_cable',       'technic:rubber'},
+	}
+})
+
 ------------------------------------------------------------------
 -- API for inductive powered nodes:
 -- Use the functions below to set the corresponding callbacks
@@ -133,15 +143,6 @@ minetest.register_node("technic:power_radiator", {
 	on_punch = function(pos, node, puncher)
 		toggle_on_off_inductive_appliances(pos, node, puncher)
 	end
-})
-
-minetest.register_craft({
-	output = 'technic:power_radiator 1',
-	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:mv_transformer', 'technic:stainless_steel_ingot'},
-		{'technic:copper_coil',           'technic:machine_casing', 'technic:copper_coil'},
-		{'technic:rubber',                'technic:mv_cable0',      'technic:rubber'},
-	}
 })
 
 minetest.register_abm({

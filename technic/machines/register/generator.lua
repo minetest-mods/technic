@@ -18,14 +18,14 @@ function technic.register_generator(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1}
-	local active_groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, not_in_creative_inventory=1}
+	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, ["technic_"..ltier]=1}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
-		active_groups.tubedevice = 1
-		active_groups.tubedevice_receiver = 1
 	end
+	local active_groups = {not_in_creative_inventory = 1}
+	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local generator_formspec =
 		"invsize[8,9;]"..
@@ -93,6 +93,7 @@ function technic.register_generator(data)
 		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front.png"}, 
 		paramtype2 = "facedir",
 		groups = groups,
+		connect_sides = {"bottom", "back", "left", "right"},
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		tube = data.tube and tube or nil,
@@ -122,6 +123,7 @@ function technic.register_generator(data)
 		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front_active.png"},
 		paramtype2 = "facedir",
 		groups = active_groups,
+		connect_sides = {"bottom"},
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		tube = data.tube and tube or nil,

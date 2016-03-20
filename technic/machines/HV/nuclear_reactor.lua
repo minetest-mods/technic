@@ -24,7 +24,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:carbon_plate',          'default:obsidian_glass', 'technic:carbon_plate'},
 		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
-		{'technic:stainless_steel_ingot',      'technic:hv_cable0', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:hv_cable',       'technic:stainless_steel_ingot'},
 	}
 })
 
@@ -260,7 +260,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1},
+	groups = {cracky=1, technic_machine=1, technic_hv=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drawtype="nodebox",
@@ -294,7 +294,8 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
 		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, radioactive=11000, not_in_creative_inventory=1},
+	groups = {cracky=1, technic_machine=1, technic_hv=1,
+		radioactive=11000, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop="technic:hv_nuclear_reactor_core",

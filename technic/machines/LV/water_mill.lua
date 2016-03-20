@@ -11,7 +11,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:marble', 'default:diamond',        'technic:marble'},
 		{'group:wood',     'technic:machine_casing', 'group:wood'},
-		{'technic:marble', 'technic:lv_cable0',      'technic:marble'},
+		{'technic:marble', 'technic:lv_cable',       'technic:marble'},
 	}
 })
 
@@ -72,7 +72,8 @@ minetest.register_node("technic:water_mill", {
 	         "technic_water_mill_side.png", "technic_water_mill_side.png",
 	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_lv=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
@@ -89,7 +90,8 @@ minetest.register_node("technic:water_mill_active", {
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png"},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, not_in_creative_inventory=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:water_mill",

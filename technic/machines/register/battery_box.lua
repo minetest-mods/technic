@@ -159,7 +159,8 @@ function technic.register_battery_box(data)
 	end
 	
 	for i = 0, 8 do
-		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1}
+		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+				technic_machine=1, ["technic_"..ltier]=1}
 		if i ~= 0 then
 			groups.not_in_creative_inventory = 1
 		end
@@ -178,6 +179,7 @@ function technic.register_battery_box(data)
 				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
 				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
 			groups = groups,
+			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
 			paramtype2 = "facedir",
 			sounds = default.node_sound_wood_defaults(),

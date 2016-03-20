@@ -10,7 +10,7 @@ minetest.register_craft({
 	recipe = {
 		{'group:wood',                         'default:diamond',        'group:wood'},
 		{'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth'},
-		{'default:obsidian',                   'technic:mv_cable0',      'default:obsidian'},
+		{'default:obsidian',                   'technic:mv_cable',       'default:obsidian'},
 	}
 })
 
@@ -85,7 +85,9 @@ minetest.register_node("technic:tool_workshop", {
 	paramtype2 = "facedir",
 	tiles = {"technic_workshop_top.png", "technic_machine_bottom.png", "technic_workshop_side.png",
 	         "technic_workshop_side.png", "technic_workshop_side.png", "technic_workshop_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, tubedevice=1, tubedevice_receiver=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
+	connect_sides = {"bottom", "back", "left", "right"},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

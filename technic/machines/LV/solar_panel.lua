@@ -4,6 +4,17 @@
 
 local S = technic.getter
 
+
+minetest.register_craft({
+	output = 'technic:solar_panel',
+	recipe = {
+		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer'},
+		{'technic:fine_silver_wire',    'technic:lv_cable',            'mesecons_materials:glue'},
+
+	}
+})
+
+
 local run = function(pos, node)
 	-- The action here is to make the solar panel prodice power
 	-- Power is dependent on the light level and the height above ground
@@ -35,7 +46,9 @@ end
 minetest.register_node("technic:solar_panel", {
 	tiles = {"technic_solar_panel_top.png",  "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
 	         "technic_solar_panel_side.png", "technic_solar_panel_side.png",   "technic_solar_panel_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_lv=1},
+	connect_sides = {"bottom"},
 	sounds = default.node_sound_wood_defaults(),
     	description = S("Small Solar %s Generator"):format("LV"),
 	active = false,
@@ -52,15 +65,6 @@ minetest.register_node("technic:solar_panel", {
 		meta:set_string("infotext", S("Small Solar %s Generator"):format("LV"))
 	end,
 	technic_run = run,
-})
-
-minetest.register_craft({
-	output = 'technic:solar_panel',
-	recipe = {
-		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer'},
-		{'technic:fine_silver_wire',    'technic:lv_cable0',           'mesecons_materials:glue'},
-
-	}
 })
 
 technic.register_machine("LV", "technic:solar_panel", technic.producer)

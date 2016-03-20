@@ -22,9 +22,6 @@ technic.legacy_nodenames = {
 	["technic:compressor"]        = "technic:lv_compressor",
 	["technic:compressor_active"] = "technic:lv_compressor_active",
 	["technic:hv_battery_box"] = "technic:hv_battery_box0",
-	["technic:hv_cable"] = "technic:hv_cable0",
-	["technic:lv_cable"] = "technic:lv_cable0",
-	["technic:mv_cable"] = "technic:mv_cable0",
 	["technic:mv_battery_box"] = "technic:mv_battery_box0",
 	["technic:generator"]        = "technic:lv_generator",
 	["technic:generator_active"] = "technic:lv_generator_active",
@@ -34,5 +31,11 @@ technic.legacy_nodenames = {
 
 for old, new in pairs(technic.legacy_nodenames) do
 	minetest.register_alias(old, new)
+end
+
+for i = 0, 63 do
+	minetest.register_alias("technic:hv_cable"..i, "technic:hv_cable")
+	minetest.register_alias("technic:mv_cable"..i, "technic:mv_cable")
+	minetest.register_alias("technic:lv_cable"..i, "technic:lv_cable")
 end
 
