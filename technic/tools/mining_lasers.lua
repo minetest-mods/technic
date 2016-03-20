@@ -96,6 +96,7 @@ for _, m in pairs(mining_lasers_list) do
 	minetest.register_tool("technic:laser_mk"..m[1], {
 		description = S("Mining Laser Mk%d"):format(m[1]),
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
+		range = 0,
 		stack_max = 1,
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
