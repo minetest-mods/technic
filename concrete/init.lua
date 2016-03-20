@@ -86,7 +86,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	on_blast = function(pos, intensity)
 		if intensity > 1 then
 			minetest.remove_node(pos)
-			minetest.add_item(pos, "technic:blast_resistant_concrete")
+			return {"technic:blast_resistant_concrete"}
 		end
 	end,
 })
