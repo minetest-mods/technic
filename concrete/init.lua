@@ -83,6 +83,12 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	tiles = {"technic_blast_resistant_concrete_block.png",},
 	groups = {cracky=1, level=3, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
+	on_blast = function(pos, intensity)
+		if intensity > 1 then
+			minetest.remove_node(pos)
+			minetest.add_item(pos, "technic:blast_resistant_concrete")
+		end
+	end,
 })
 
 
