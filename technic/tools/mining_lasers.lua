@@ -38,8 +38,8 @@ local function laser_node(pos, node, player)
 		minetest.remove_node(pos)
 		minetest.add_particle({
 			pos = pos,
-			vel = {x=0, y=2, z=0},
-			acc = {x=0, y=-1, z=0},
+			velocity = {x=0, y=2, z=0},
+			acceleration = {x=0, y=-1, z=0},
 			expirationtime = 1.5,
 			size = 6 + math.random() * 2,
 			texture = "smoke_puff.png^[transform" .. math.random(0, 7),
@@ -64,8 +64,8 @@ local function laser_shoot(player, range, particle_texture, sound)
 	start_pos.y = start_pos.y + 1.6
 	minetest.add_particle({
 		pos = startpos,
-		vel = dir,
-		acc = vector.multiply(dir, 50),
+		velocity = dir,
+		acceleration = vector.multiply(dir, 50),
 		expirationtime = range / 11,
 		size = 1,
 		texture = particle_texture .. "^[transform" .. math.random(0, 7),
