@@ -110,18 +110,17 @@ section through the middle:
 
 	CCCC CCCC
 	CBBB BBBC
-	CBSS SSBC
-	CBSWWWSBC
-	CBSW#WSBC
-	CBSW|WSBC
-	CBSS|SSBC
+	CBLL LLBC
+	CBLWWWLBC
+	CBLW#WLBC
+	CBLW|WLBC
+	CBLL|LLBC
 	CBBB|BBBC
 	CCCC|CCCC
-	C = Concrete, B = Blast-resistant concrete, S = Stainless Steel,
+	C = Concrete, B = Blast-resistant concrete, L = Lead,
 	W = water node, # = reactor core, | = HV cable
 
-The man-hole and the HV cable are only in the middle, and the man-hole
-is optional.
+The man-hole is optional (but necessary for refueling).
 
 For the reactor to operate and not melt down, it insists on the inner
 7x7x7 portion (from the core out to the blast-resistant concrete)
@@ -139,6 +138,9 @@ be mandatory, and for historical reasons (that it predates the
 implementation of radiation) it needs to continue being adequate
 shielding of legacy reactors.  If it ever ceases to be adequate
 shielding for new reactors, legacy ones should be grandfathered.
+
+For legacy reasons, if the reactor has a stainless steel layer instead
+of a lead layer it will be converted to a lead layer.
 --]]
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
@@ -149,11 +151,12 @@ local function reactor_structure_badness(pos)
 	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
 
 	local c_blast_concrete = minetest.get_content_id("technic:blast_resistant_concrete")
-	local c_stainless_steel = minetest.get_content_id("technic:stainless_steel_block")
+	local c_lead = minetest.get_content_id("technic:lead_block")
+	local c_steel = minetest.get_content_id("technic:stainless_steel_block")
 	local c_water_source = minetest.get_content_id("default:water_source")
 	local c_water_flowing = minetest.get_content_id("default:water_flowing")
 
-	local blastlayer, steellayer, waterlayer = 0, 0, 0
+	local blast_layer, steel_layer, lead_layer, water_layer = 0, 0, 0, 0
 
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
@@ -163,28 +166,51 @@ local function reactor_structure_badness(pos)
 		   y == pos1.y or y == pos2.y or
 		   z == pos1.z or z == pos2.z then
 			if cid == c_blast_concrete then
-				blastlayer = blastlayer + 1
+				blast_layer = blast_layer + 1
 			end
 		elseif x == pos1.x+1 or x == pos2.x-1 or
-		   y == pos1.y+1 or y == pos2.y-1 or
-		   z == pos1.z+1 or z == pos2.z-1 then
-			if cid == c_stainless_steel then
-				steellayer = steellayer + 1
+		       y == pos1.y+1 or y == pos2.y-1 or
+		       z == pos1.z+1 or z == pos2.z-1 then
+			if cid == c_lead then
+				lead_layer = lead_layer + 1
+			elseif cid == c_steel then
+				steel_layer = steel_layer + 1
 			end
 		elseif x == pos1.x+2 or x == pos2.x-2 or
-		   y == pos1.y+2 or y == pos2.y-2 or
-		   z == pos1.z+2 or z == pos2.z-2 then
+		       y == pos1.y+2 or y == pos2.y-2 or
+		       z == pos1.z+2 or z == pos2.z-2 then
 			if cid == c_water_source or cid == c_water_flowing then
-				waterlayer = waterlayer + 1
+				water_layer = water_layer + 1
 			end
 		end
 	end
 	end
 	end
-	if waterlayer > 25 then waterlayer = 25 end
-	if steellayer > 96 then steellayer = 96 end
-	if blastlayer > 216 then blastlayer = 216 end
-	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer)
+
+	if steel_layer >= 96 then
+		for z = pos1.z+1, pos2.z-1 do
+		for y = pos1.y+1, pos2.y-1 do
+		for x = pos1.x+1, pos2.x-1 do
+			local vi = area:index(x, y, z)
+			if x == pos1.x+1 or x == pos2.x-1 or
+			   y == pos1.y+1 or y == pos2.y-1 or
+			   z == pos1.z+1 or z == pos2.z-1 then
+				if data[vi] == c_steel then
+					data[vi] = c_lead
+				end
+			end
+		end
+		end
+		end
+		vm:set_data(data)
+		vm:write_to_map()
+		lead_layer = steel_layer
+	end
+
+	if water_layer > 25 then water_layer = 25 end
+	if lead_layer > 96 then lead_layer = 96 end
+	if blast_layer > 216 then blast_layer = 216 end
+	return (25 - water_layer) + (96 - lead_layer) + (216 - blast_layer)
 end
 
 
