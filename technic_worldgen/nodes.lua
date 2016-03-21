@@ -5,7 +5,7 @@ minetest.register_node( ":technic:mineral_uranium", {
 	description = S("Uranium Ore"),
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
-	groups = {cracky=3, radioactive=1000},
+	groups = {cracky=3, radioactive=1},
 	sounds = default.node_sound_stone_defaults(),
 	drop = "technic:uranium_lump",
 }) 
@@ -74,7 +74,7 @@ minetest.register_node(":technic:uranium_block", {
 	description = S("Uranium Block"),
 	tiles = { "technic_uranium_block.png" },
 	is_ground_content = true,
-	groups = {uranium_block=1, cracky=1, level=2, radioactive=3000},
+	groups = {uranium_block=1, cracky=1, level=2, radioactive=2},
 	sounds = default.node_sound_stone_defaults()
 })
 
