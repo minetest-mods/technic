@@ -63,64 +63,50 @@ technic.tube_inject_item = pipeworks.tube_inject_item or function(pos, start_pos
 end
 
 
--- Based on code by Uberi: https://gist.github.com/Uberi/3125280
+--- Iterates over the node positions along the specified ray.
+-- The returned positions will not include the starting position.
 function technic.trace_node_ray(pos, dir, range)
-	local p = vector.round(pos)
-	local x_step,      y_step,      z_step      = 0, 0, 0
-	local x_component, y_component, z_component = 0, 0, 0
-	local x_intersect, y_intersect, z_intersect = 0, 0, 0
+	local x_step = dir.x > 0 and 1 or -1
+	local y_step = dir.y > 0 and 1 or -1
+	local z_step = dir.z > 0 and 1 or -1
 
-	if dir.x == 0 then
-		x_intersect = math.huge
-	elseif dir.x > 0 then
-		x_step = 1
-		x_component = 1 / dir.x
-		x_intersect = x_component
-	else
-		x_step = -1
-		x_component = 1 / -dir.x
-	end
-	if dir.y == 0 then
-		y_intersect = math.huge
-	elseif dir.y > 0 then
-		y_step = 1
-		y_component = 1 / dir.y
-		y_intersect = y_component
-	else
-		y_step = -1
-		y_component = 1 / -dir.y
-	end
-	if dir.z == 0 then
-		z_intersect = math.huge
-	elseif dir.z > 0 then
-		z_step = 1
-		z_component = 1 / dir.z
-		z_intersect = z_component
-	else
-		z_step = -1
-		z_component = 1 / -dir.z
-	end
+	local i = 1
+	return function(p)
+		-- Approximation of where we should be if we weren't rounding
+		-- to nodes.  This moves forward a bit faster then we do.
+		-- A correction is done below.
+		local real_x = pos.x + (dir.x * i)
+		local real_y = pos.y + (dir.y * i)
+		local real_z = pos.z + (dir.z * i)
 
-	return function()
-		if x_intersect < y_intersect then
-			if x_intersect < z_intersect then
+		-- How far off we've gotten from where we should be.
+		local dx = math.abs(real_x - p.x)
+		local dy = math.abs(real_y - p.y)
+		local dz = math.abs(real_z - p.z)
+
+		-- If the real position moves ahead too fast, stop it so we
+		-- can catch up.  If it gets too far ahead it will smooth
+		-- out our movement too much and we won't turn fast enough.
+		if dx + dy + dz < 2 then
+			i = i + 1
+		end
+
+		-- Step in whichever direction we're most off course in.
+		if dx > dy then
+			if dx > dz then
 				p.x = p.x + x_step
-				x_intersect = x_intersect + x_component
 			else
 				p.z = p.z + z_step
-				z_intersect = z_intersect + z_component
 			end
-		elseif y_intersect < z_intersect then
+		elseif dy > dz then
 			p.y = p.y + y_step
-			y_intersect = y_intersect + y_component
 		else
 			p.z = p.z + z_step
-			z_intersect = z_intersect + z_component
 		end
 		if vector.distance(pos, p) > range then
 			return nil
 		end
 		return p
-	end
+	end, vector.round(pos)
 end
 
