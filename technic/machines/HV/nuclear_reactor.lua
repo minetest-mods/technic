@@ -573,23 +573,24 @@ local abdomen_offset = vector.new(0, 1, 0)
 local abdomen_offset_length = vector.length(abdomen_offset)
 local cache_scaled_shielding = {}
 
-local function dmg_player(pos, o)
+local function dmg_player(pos, o, strength)
 	local pl_pos = vector.add(o:getpos(), abdomen_offset)
 	local shielding = 0
+	local dist = vector.distance(pos, pl_pos)
 	for ray_pos in technic.trace_node_ray(pos,
-			vector.direction(pos, pl_pos),
-			vector.distance(pos, pl_pos)) do
+			vector.direction(pos, pl_pos), dist) do
 		if not vector.equals(ray_pos, pos) then
 			local shield_name = minetest.get_node(ray_pos).name
 			local shield_val = cache_scaled_shielding[sname]
 			if not shield_val then
-				shield_val = math.sqrt(node_radiation_resistance(shield_name)) * -0.025
+				shield_val = math.sqrt(node_radiation_resistance(shield_name)) * 0.025
 				cache_scaled_shielding[shield_name] = shield_val
 			end
-			shielding = shielding + sval
+			shielding = shielding + shield_val
 		end
 	end
-	local dmg = (0.25e-6 * strength * strength * math.exp(shielding)) / math.max(0.75, dist_sq)
+	local dmg = (0.25e-6 * strength * strength) /
+		(math.max(0.75, dist * dist) * math.exp(shielding))
 	if dmg >= 0.25 then
 		local dmg_int = math.floor(dmg)
 		-- The closer you are to getting one more damage point,
@@ -608,7 +609,7 @@ local function dmg_abm(pos, node)
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
 			strength * 0.001 + abdomen_offset_length)) do
 		if o:is_player() then
-			dmg_player(pos, o)
+			dmg_player(pos, o, strength)
 		end
 	end
 end
