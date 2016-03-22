@@ -318,7 +318,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png"},
 	groups = {cracky=1, technic_machine=1, technic_hv=1,
-		radioactive=6, not_in_creative_inventory=1},
+		radioactive=4, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hv_nuclear_reactor_core",
