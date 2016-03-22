@@ -230,30 +230,19 @@ readily available in cubes.  The multiplicative factor in the
 formula scales down the difference between shielded and unshielded
 safe distances, avoiding the latter becoming impractically large.
 
-Damage is processed at rates down to 0.25 HP/s, which in the absence of
+Damage is processed at rates down to 0.2 HP/s, which in the absence of
 shielding is attained at the distance specified by the "radioactive"
-group value.  Computed damage rates below 0.25 HP/s result in no
+group value.  Computed damage rates below 0.2 HP/s result in no
 damage at all to the player.  This gives the player an opportunity
 to be safe, and limits the range at which source/player interactions
 need to be considered.
 --]]
 local abdomen_offset = 1
 local cache_scaled_shielding = {}
-local rad_dmg_cutoff = 0.25
+local rad_dmg_cutoff = 0.2
+local radiated_players = {}
 
-local function dmg_player(pos, o, strength)
-	local pl_pos = o:getpos()
-	pl_pos.y = pl_pos.y + abdomen_offset
-	local shielding = 0
-	local dist = vector.distance(pos, pl_pos)
-	for ray_pos in technic.trace_node_ray(pos,
-			vector.direction(pos, pl_pos), dist) do
-		local shield_name = minetest.get_node(ray_pos).name
-		shielding = shielding + node_radiation_resistance(shield_name) * 0.1
-	end
-	local dmg = (strength * strength) /
-		(math.max(0.75, dist * dist) * math.exp(shielding))
-	if dmg < rad_dmg_cutoff then return end
+local function apply_fractional_damage(o, dmg)
 	local dmg_int = math.floor(dmg)
 	-- The closer you are to getting one more damage point,
 	-- the more likely it will be added.
@@ -261,8 +250,33 @@ local function dmg_player(pos, o, strength)
 		dmg_int = dmg_int + 1
 	end
 	if dmg_int > 0 then
-		o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+		local new_hp = math.max(o:get_hp() - dmg_int, 0)
+		o:set_hp(new_hp)
+		return new_hp == 0
 	end
+	return false
+end
+
+local function dmg_player(pos, player, strength)
+	local pl_pos = player:getpos()
+	pl_pos.y = pl_pos.y + abdomen_offset
+	local shielding = 0
+	local dist = vector.distance(pos, pl_pos)
+
+	for ray_pos in technic.trace_node_ray(pos,
+			vector.direction(pos, pl_pos), dist) do
+		local shield_name = minetest.get_node(ray_pos).name
+		shielding = shielding + node_radiation_resistance(shield_name) * 0.1
+	end
+
+	local dmg = (strength * strength) /
+		(math.max(0.75, dist * dist) * math.exp(shielding))
+
+	if dmg < rad_dmg_cutoff then return end
+	apply_fractional_damage(player, dmg)
+
+	local pn = player:get_player_name()
+	radiated_players[pn] = (radiated_players[pn] or 0) + dmg
 end
 
 local rad_dmg_mult_sqrt = math.sqrt(1 / rad_dmg_cutoff)
@@ -277,7 +291,6 @@ local function dmg_abm(pos, node)
 	end
 end
 
-
 if minetest.setting_getbool("enable_damage") then
 	minetest.register_abm({
 		nodenames = {"group:radioactive"},
@@ -285,6 +298,27 @@ if minetest.setting_getbool("enable_damage") then
 		chance = 1,
 		action = dmg_abm,
 	})
+
+	minetest.register_globalstep(function(dtime)
+		for pn, dmg in pairs(radiated_players) do
+			dmg = dmg - (dtime / 8)
+			local player = minetest.get_player_by_name(pn)
+			local killed
+			if player and dmg > rad_dmg_cutoff then
+				killed = apply_fractional_damage(player, (dmg * dtime) / 8)
+			else
+				dmg = nil
+			end
+			-- on_dieplayer will have already set this if the player died
+			if not killed then
+				radiated_players[pn] = dmg
+			end
+		end
+	end)
+
+	minetest.register_on_dieplayer(function(player)
+		radiated_players[player:get_player_name()] = nil
+	end)
 end
 
 -- Radioactive materials that can result from destroying a reactor
@@ -323,7 +357,7 @@ for _, state in pairs({"flowing", "source"}) do
 			liquid = 2,
 			hot = 3,
 			igniter = (griefing and 1 or 0),
-			radioactive = (state == "source" and 16 or 8),
+			radioactive = (state == "source" and 12 or 6),
 			not_in_creative_inventory = (state == "flowing" and 1 or nil),
 		},
 	})
@@ -343,7 +377,7 @@ minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
 	tiles = {"technic_chernobylite_block.png"},
 	is_ground_content = true,
-	groups = {cracky=1, radioactive=6, level=2},
+	groups = {cracky=1, radioactive=4, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 })
