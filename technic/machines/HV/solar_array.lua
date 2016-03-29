@@ -6,7 +6,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:solar_array_mv',     'technic:solar_array_mv', 'technic:solar_array_mv'},
 		{'technic:carbon_plate',       'technic:hv_transformer', 'technic:composite_plate'},
-		{'',                           'technic:hv_cable0',      ''},
+		{'',                           'technic:hv_cable',       ''},
 	}
 })
 

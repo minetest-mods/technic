@@ -15,7 +15,7 @@ minetest.register_craft({
 	recipe = {
 		{'',                           'technic:motor',              ''},
 		{'technic:carbon_steel_ingot', 'technic:carbon_steel_block', 'technic:carbon_steel_ingot'},
-		{'',                           'technic:mv_cable0',          ''},
+		{'',                           'technic:mv_cable',           ''},
 	}
 })
 
@@ -55,14 +55,15 @@ local run = function(pos, node)
 		meta:set_int("MV_EU_supply", power)
 	end
 
-	meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.prettynum(power)))
+	meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.pretty_num(power)))
 end
 
 minetest.register_node("technic:wind_mill", {
 	description = S("Wind %s Generator"):format("MV"),
 	tiles = {"technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=1, technic_machine=1},
+	groups = {cracky=1, technic_machine=1, technic_mv=1},
+	connect_sides = {"top", "bottom", "back", "left", "right"},
 	sounds = default.node_sound_stone_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",

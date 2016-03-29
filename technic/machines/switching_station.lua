@@ -38,9 +38,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = "technic:switching_station",
 	recipe = {
-		{"",                        "technic:lv_transformer", ""},
-		{"default:copper_ingot",    "technic:machine_casing", "default:copper_ingot"},
-		{"technic:lv_cable0",       "technic:lv_cable0",      "technic:lv_cable0"}
+		{"",                     "technic:lv_transformer", ""},
+		{"default:copper_ingot", "technic:machine_casing", "default:copper_ingot"},
+		{"technic:lv_cable",     "technic:lv_cable",       "technic:lv_cable"}
 	}
 })
 
@@ -49,14 +49,9 @@ minetest.register_node("technic:switching_station",{
 	tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
                   "technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
 	          "technic_water_mill_top_active.png", "technic_water_mill_top_active.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1},
+	connect_sides = {"bottom"},
 	sounds = default.node_sound_wood_defaults(),
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
@@ -294,7 +289,7 @@ minetest.register_abm({
 
 		meta:set_string("infotext",
 				S("@1. Supply: @2 Demand: @3",
-				machine_name, technic.prettynum(PR_eu_supply), technic.prettynum(RE_eu_demand)))
+				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then

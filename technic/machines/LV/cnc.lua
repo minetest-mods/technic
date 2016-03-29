@@ -9,6 +9,17 @@
 
 local S = technic.getter
 
+
+minetest.register_craft({
+	output = 'technic:cnc',
+	recipe = {
+		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
+		{'technic:control_logic_unit', 'technic:machine_casing',     'technic:motor'},
+		{'technic:carbon_steel_ingot', 'technic:lv_cable',           'technic:carbon_steel_ingot'},
+	},
+})
+
+
 local shape = {}
 local onesize_products = {
 	slope                    = 2,
@@ -174,16 +185,9 @@ minetest.register_node("technic:cnc", {
 	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
-	drawtype    = "nodebox",
-	paramtype   = "light",
+	groups = {cracky=2, technic_machine=1, technic_lv=1},
+	connect_sides = {"bottom", "back", "left", "right"},
 	paramtype2  = "facedir",
-	node_box    = {
-		type  = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-		},
-	},
-	groups = {cracky=2, technic_machine=1},
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -207,9 +211,10 @@ minetest.register_node("technic:cnc_active", {
 	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
+	groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
+	connect_sides = {"bottom", "back", "left", "right"},
 	paramtype2 = "facedir",
 	drop = "technic:cnc",
-	groups = {cracky=2, technic_machine=1, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -222,16 +227,4 @@ minetest.register_node("technic:cnc_active", {
 
 technic.register_machine("LV", "technic:cnc",        technic.receiver)
 technic.register_machine("LV", "technic:cnc_active", technic.receiver)
-
--------------------------
--- CNC Machine Recipe
--------------------------
-minetest.register_craft({
-	output = 'technic:cnc',
-	recipe = {
-		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
-		{'technic:control_logic_unit', 'technic:machine_casing',     'technic:motor'},
-		{'technic:carbon_steel_ingot', 'technic:lv_cable0',          'technic:carbon_steel_ingot'},
-	},
-})
 

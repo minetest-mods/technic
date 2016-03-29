@@ -6,7 +6,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:treetap', 'technic:motor',          'technic:treetap'},
 		{'technic:treetap', 'technic:machine_casing', 'technic:treetap'},
-		{'',                'technic:lv_cable0',      ''},
+		{'',                'technic:lv_cable',       ''},
 	}
 })
 

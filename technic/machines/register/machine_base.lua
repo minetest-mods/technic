@@ -15,6 +15,8 @@ local tube = {
 	connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
 }
 
+local connect_default = {"bottom", "back", "left", "right"}
+
 local function round(v)
 	return math.floor(v + 0.5)
 end
@@ -27,15 +29,13 @@ function technic.register_base_machine(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = {cracky = 2, technic_machine = 1}
-	local active_groups = {cracky = 2, technic_machine = 1, not_in_creative_inventory = 1}
+	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
-		active_groups.tubedevice = 1
-		active_groups.tubedevice_receiver = 1
 	end
-
+	local active_groups = {not_in_creative_inventory = 1}
+	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
 		"invsize[8,9;]"..
@@ -145,6 +145,7 @@ function technic.register_base_machine(data)
 		paramtype2 = "facedir",
 		groups = groups,
 		tube = data.tube and tube or nil,
+		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
@@ -179,6 +180,7 @@ function technic.register_base_machine(data)
 		paramtype2 = "facedir",
 		drop = "technic:"..ltier.."_"..machine_name,
 		groups = active_groups,
+		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		tube = data.tube and tube or nil,

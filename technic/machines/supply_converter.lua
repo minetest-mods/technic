@@ -30,7 +30,7 @@ local run = function(pos, node)
 		meta:set_int(from.."_EU_supply", 0)
 		meta:set_int(to.."_EU_demand", 0)
 		meta:set_int(to.."_EU_supply", input * remain)
-		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.prettynum(input), from, technic.prettynum(input * remain), to))
+		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.pretty_num(input), from, technic.pretty_num(input * remain), to))
 	else
 		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 		if to then
@@ -49,14 +49,10 @@ minetest.register_node("technic:supply_converter", {
 	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+		technic_machine=1, technic_all_tiers=1},
+	connect_sides = {"top", "bottom"},
 	sounds = default.node_sound_wood_defaults(),
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Supply Converter"))
@@ -68,9 +64,9 @@ minetest.register_node("technic:supply_converter", {
 minetest.register_craft({
 	output = 'technic:supply_converter 1',
 	recipe = {
-		{'technic:fine_gold_wire',        'technic:rubber',         'technic:doped_silicon_wafer'},
-		{'technic:mv_transformer',        'technic:machine_casing', 'technic:lv_transformer'},
-		{'technic:mv_cable0',             'technic:rubber',         'technic:lv_cable0'},
+		{'technic:fine_gold_wire', 'technic:rubber',         'technic:doped_silicon_wafer'},
+		{'technic:mv_transformer', 'technic:machine_casing', 'technic:lv_transformer'},
+		{'technic:mv_cable',       'technic:rubber',         'technic:lv_cable'},
 	}
 })
 

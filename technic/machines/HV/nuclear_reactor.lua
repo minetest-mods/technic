@@ -1,34 +1,34 @@
--- The enriched uranium rod driven EU generator.
--- A very large and advanced machine providing vast amounts of power.
--- Very efficient but also expensive to run as it needs uranium. (10000EU 86400 ticks (one week))
--- Provides HV EUs that can be down converted as needed.
---
--- The nuclear reactor core needs water and a protective shield to work.
--- This is checked now and then and if the machine is tampered with... BOOM!
+--[[
+ The enriched uranium rod driven EU generator.
+A very large and advanced machine providing vast amounts of power.
+Very efficient but also expensive to run as it needs uranium.
+Provides 10000 HV EUs for one week (only counted when loaded).
 
-local burn_ticks   = 7 * 24 * 60 * 60       -- (seconds).
-local power_supply = 100000                 -- EUs
-local fuel_type    = "technic:uranium_fuel" -- The reactor burns this stuff
+The nuclear reactor core requires a casing of water and a protective
+shield to work.  This is checked now and then and if the casing is not
+intact the reactor will melt down!
+--]]
+
+local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
+local power_supply = 100000  -- EUs
+local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 
 local S = technic.getter
 
-if not vector.length_square then
-	vector.length_square = function (v)
-		return v.x*v.x + v.y*v.y + v.z*v.z
-	end
-end
+local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
 
--- FIXME: recipe must make more sense like a rod recepticle, steam chamber, HV generator?
+
+-- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
 	recipe = {
 		{'technic:carbon_plate',          'default:obsidian_glass', 'technic:carbon_plate'},
 		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
-		{'technic:stainless_steel_ingot',      'technic:hv_cable0', 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:hv_cable',       'technic:stainless_steel_ingot'},
 	}
 })
 
-local generator_formspec =
+local reactor_formspec =
 	"invsize[8,9;]"..
 	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
 	"list[current_name;src;2,1;3,2;]"..
@@ -36,103 +36,111 @@ local generator_formspec =
 	"listring[]"
 
 -- "Boxy sphere"
-local nodebox = {
-	{ -0.353, -0.353, -0.353, 0.353, 0.353, 0.353 }, -- Box
-	{ -0.495, -0.064, -0.064, 0.495, 0.064, 0.064 }, -- Circle +-x
-	{ -0.483, -0.128, -0.128, 0.483, 0.128, 0.128 },
-	{ -0.462, -0.191, -0.191, 0.462, 0.191, 0.191 },
-	{ -0.433, -0.249, -0.249, 0.433, 0.249, 0.249 },
-	{ -0.397, -0.303, -0.303, 0.397, 0.303, 0.303 },
-	{ -0.305, -0.396, -0.305, 0.305, 0.396, 0.305 }, -- Circle +-y
-	{ -0.250, -0.432, -0.250, 0.250, 0.432, 0.250 },
-	{ -0.191, -0.461, -0.191, 0.191, 0.461, 0.191 },
-	{ -0.130, -0.482, -0.130, 0.130, 0.482, 0.130 },
-	{ -0.066, -0.495, -0.066, 0.066, 0.495, 0.066 },
-	{ -0.064, -0.064, -0.495, 0.064, 0.064, 0.495 }, -- Circle +-z
-	{ -0.128, -0.128, -0.483, 0.128, 0.128, 0.483 },
-	{ -0.191, -0.191, -0.462, 0.191, 0.191, 0.462 },
-	{ -0.249, -0.249, -0.433, 0.249, 0.249, 0.433 },
-	{ -0.303, -0.303, -0.397, 0.303, 0.303, 0.397 },
+local node_box = {
+	{-0.353, -0.353, -0.353, 0.353, 0.353, 0.353}, -- Box
+	{-0.495, -0.064, -0.064, 0.495, 0.064, 0.064}, -- Circle +-x
+	{-0.483, -0.128, -0.128, 0.483, 0.128, 0.128},
+	{-0.462, -0.191, -0.191, 0.462, 0.191, 0.191},
+	{-0.433, -0.249, -0.249, 0.433, 0.249, 0.249},
+	{-0.397, -0.303, -0.303, 0.397, 0.303, 0.303},
+	{-0.305, -0.396, -0.305, 0.305, 0.396, 0.305}, -- Circle +-y
+	{-0.250, -0.432, -0.250, 0.250, 0.432, 0.250},
+	{-0.191, -0.461, -0.191, 0.191, 0.461, 0.191},
+	{-0.130, -0.482, -0.130, 0.130, 0.482, 0.130},
+	{-0.066, -0.495, -0.066, 0.066, 0.495, 0.066},
+	{-0.064, -0.064, -0.495, 0.064, 0.064, 0.495}, -- Circle +-z
+	{-0.128, -0.128, -0.483, 0.128, 0.128, 0.483},
+	{-0.191, -0.191, -0.462, 0.191, 0.191, 0.462},
+	{-0.249, -0.249, -0.433, 0.249, 0.249, 0.433},
+	{-0.303, -0.303, -0.397, 0.303, 0.303, 0.397},
 }
 
+local SS_OFF = 0
+local SS_DANGER = 1
+local SS_CLEAR = 2
+
 local reactor_siren = {}
-local function siren_set_state(pos, newstate)
+local function siren_set_state(pos, state)
 	local hpos = minetest.hash_node_position(pos)
 	local siren = reactor_siren[hpos]
 	if not siren then
-		if newstate == "off" then return end
-		siren = {state="off"}
+		if state == SS_OFF then return end
+		siren = {state=SS_OFF}
 		reactor_siren[hpos] = siren
 	end
-	if newstate == "danger" and siren.state ~= "danger" then
+	if state == SS_DANGER and siren.state ~= SS_DANGER then
 		if siren.handle then minetest.sound_stop(siren.handle) end
-		siren.handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_danger_loop", {pos=pos, gain=1.5, loop=true, max_hear_distance=48})
-		siren.state = "danger"
-	elseif newstate == "clear" then
+		siren.handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_danger_loop",
+				{pos=pos, gain=1.5, loop=true, max_hear_distance=48})
+		siren.state = SS_DANGER
+	elseif state == SS_CLEAR then
 		if siren.handle then minetest.sound_stop(siren.handle) end
-		local clear_handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_clear", {pos=pos, gain=1.5, loop=false, max_hear_distance=48})
+		local clear_handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_clear",
+				{pos=pos, gain=1.5, loop=false, max_hear_distance=48})
 		siren.handle = clear_handle
-		siren.state = "clear"
-		minetest.after(10, function ()
-			if siren.handle == clear_handle then
-				minetest.sound_stop(clear_handle)
-				if reactor_siren[hpos] == siren then
-					reactor_siren[hpos] = nil
-				end
+		siren.state = SS_CLEAR
+		minetest.after(10, function()
+			if siren.handle ~= clear_handle then return end
+			minetest.sound_stop(clear_handle)
+			if reactor_siren[hpos] == siren then
+				reactor_siren[hpos] = nil
 			end
 		end)
-	elseif newstate == "off" and siren.state ~= "off" then
+	elseif state == SS_OFF and siren.state ~= SS_OFF then
 		if siren.handle then minetest.sound_stop(siren.handle) end
-		siren.handle = nil
 		reactor_siren[hpos] = nil
 	end
 end
+
 local function siren_danger(pos, meta)
 	meta:set_int("siren", 1)
-	siren_set_state(pos, "danger")
+	siren_set_state(pos, SS_DANGER)
 end
+
 local function siren_clear(pos, meta)
 	if meta:get_int("siren") ~= 0 then
-		siren_set_state(pos, "clear")
+		siren_set_state(pos, SS_CLEAR)
 		meta:set_int("siren", 0)
 	end
 end
 
--- The standard reactor structure consists of a 9x9x9 cube.  A cross
--- section through the middle:
---
---     CCCC CCCC
---     CBBB BBBC
---     CBSS SSBC
---     CBSWWWSBC
---     CBSW#WSBC
---     CBSW|WSBC
---     CBSS|SSBC
---     CBBB|BBBC
---     CCCC|CCCC
---     C = Concrete, B = Blast-resistant concrete, S = Stainless Steel,
---     W = water node, # = reactor core, | = HV cable
---
--- The man-hole and the HV cable are only in the middle, and the man-hole
--- is optional.
---
--- For the reactor to operate and not melt down, it insists on the inner
--- 7x7x7 portion (from the core out to the blast-resistant concrete)
--- being intact.  Intactness only depends on the number of nodes of the
--- right type in each layer.  The water layer must have water in all but
--- at most one node; the steel and blast-resistant concrete layers must
--- have the right material in all but at most two nodes.  The permitted
--- gaps are meant for the cable and man-hole, but can actually be anywhere
--- and contain anything.  For the reactor to be useful, a cable must
--- connect to the core, but it can go in any direction.
---
--- The outer concrete layer of the standard structure is not required
--- for the reactor to operate.  It is noted here because it used to
--- be mandatory, and for historical reasons (that it predates the
--- implementation of radiation) it needs to continue being adequate
--- shielding of legacy reactors.  If it ever ceases to be adequate
--- shielding for new reactors, legacy ones should be grandfathered.
-local reactor_structure_badness = function(pos)
+--[[
+The standard reactor structure consists of a 9x9x9 cube.  A cross
+section through the middle:
+
+	CCCC CCCC
+	CBBB BBBC
+	CBSS SSBC
+	CBSWWWSBC
+	CBSW#WSBC
+	CBSW|WSBC
+	CBSS|SSBC
+	CBBB|BBBC
+	CCCC|CCCC
+	C = Concrete, B = Blast-resistant concrete, S = Stainless Steel,
+	W = water node, # = reactor core, | = HV cable
+
+The man-hole and the HV cable are only in the middle, and the man-hole
+is optional.
+
+For the reactor to operate and not melt down, it insists on the inner
+7x7x7 portion (from the core out to the blast-resistant concrete)
+being intact.  Intactness only depends on the number of nodes of the
+right type in each layer.  The water layer must have water in all but
+at most one node; the steel and blast-resistant concrete layers must
+have the right material in all but at most two nodes.  The permitted
+gaps are meant for the cable and man-hole, but can actually be anywhere
+and contain anything.  For the reactor to be useful, a cable must
+connect to the core, but it can go in any direction.
+
+The outer concrete layer of the standard structure is not required
+for the reactor to operate.  It is noted here because it used to
+be mandatory, and for historical reasons (that it predates the
+implementation of radiation) it needs to continue being adequate
+shielding of legacy reactors.  If it ever ceases to be adequate
+shielding for new reactors, legacy ones should be grandfathered.
+--]]
+local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
 	local pos1 = vector.subtract(pos, 3)
 	local pos2 = vector.add(pos, 3)
@@ -179,14 +187,16 @@ local reactor_structure_badness = function(pos)
 	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer)
 end
 
-local function meltdown_reactor(pos)
-	print("A reactor melted down at "..minetest.pos_to_string(pos))
+
+local function melt_down_reactor(pos)
+	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
 	minetest.set_node(pos, {name="technic:corium_source"})
 end
 
+
 minetest.register_abm({
 	nodenames = {"technic:hv_nuclear_reactor_core_active"},
-	interval = 1,
+	interval = 4,
 	chance = 1,
 	action = function (pos, node)
 		local meta = minetest.get_meta(pos)
@@ -194,14 +204,14 @@ minetest.register_abm({
 		local accum_badness = meta:get_int("structure_accumulated_badness")
 		if badness == 0 then
 			if accum_badness ~= 0 then
-				meta:set_int("structure_accumulated_badness", accum_badness - 1)
+				meta:set_int("structure_accumulated_badness", accum_badness - 4)
 				siren_clear(pos, meta)
 			end
 		else
 			siren_danger(pos, meta)
 			accum_badness = accum_badness + badness
-			if accum_badness >= 100 then
-				meltdown_reactor(pos)
+			if accum_badness >= 25 then
+				melt_down_reactor(pos)
 			else
 				meta:set_int("structure_accumulated_badness", accum_badness)
 			end
@@ -209,40 +219,36 @@ minetest.register_abm({
 	end,
 })
 
-local run = function(pos, node)
+local function run(pos, node)
 	local meta = minetest.get_meta(pos)
-	local machine_name = S("Nuclear %s Generator Core"):format("HV")
 	local burn_time = meta:get_int("burn_time") or 0
 
 	if burn_time >= burn_ticks or burn_time == 0 then
 		local inv = meta:get_inventory()
 		if not inv:is_empty("src") then 
-			local srclist = inv:get_list("src")
+			local src_list = inv:get_list("src")
 			local correct_fuel_count = 0
-			for _, srcstack in pairs(srclist) do
-				if srcstack then
-					if  srcstack:get_name() == fuel_type then
-						correct_fuel_count = correct_fuel_count + 1
-					end
+			for _, src_stack in pairs(src_list) do
+				if src_stack and src_stack:get_name() == fuel_type then
+					correct_fuel_count = correct_fuel_count + 1
 				end
 			end
-			-- Check that the reactor is complete as well
-			-- as the correct number of correct fuel
+			-- Check that the reactor is complete and has the correct fuel
 			if correct_fuel_count == 6 and
-			   reactor_structure_badness(pos) == 0 then
+					reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
 				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
 				meta:set_int("HV_EU_supply", power_supply)
-				for idx, srcstack in pairs(srclist) do
-					srcstack:take_item()
-					inv:set_stack("src", idx, srcstack)
+				for idx, src_stack in pairs(src_list) do
+					src_stack:take_item()
+					inv:set_stack("src", idx, src_stack)
 				end
 				return
 			end
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_string("infotext", S("%s Idle"):format(reactor_desc))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)
@@ -250,40 +256,33 @@ local run = function(pos, node)
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
-		meta:set_string("infotext", machine_name.." ("..percent.."%)")
+		meta:set_string("infotext", reactor_desc.." ("..percent.."%)")
 		meta:set_int("HV_EU_supply", power_supply)
 	end
 end
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = S("Nuclear %s Generator Core"):format("HV"),
-	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1},
+	description = reactor_desc,
+	tiles = {"technic_hv_nuclear_reactor_core.png"},
+	groups = {cracky=1, technic_machine=1, technic_hv=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	drawtype="nodebox",
+	drawtype = "nodebox",
 	paramtype = "light",
 	stack_max = 1,
 	node_box = {
 		type = "fixed",
-		fixed = nodebox
+		fixed = node_box
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Nuclear %s Generator Core"):format("HV"))
-		meta:set_int("HV_EU_supply", 0)
-		-- Signal to the switching station that this device burns some
-		-- sort of fuel and needs special handling
-		meta:set_int("HV_EU_from_fuel", 1)
-		meta:set_int("burn_time", 0)
-		meta:set_string("formspec", generator_formspec)
+		meta:set_string("infotext", reactor_desc)
+		meta:set_string("formspec", reactor_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
-	end,	
+	end,
 	can_dig = technic.machine_can_dig,
-	on_destruct = function(pos) siren_set_state(pos, "off") end,
+	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
@@ -291,23 +290,22 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 })
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
-	tiles = {"technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-	         "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png",
-		 "technic_hv_nuclear_reactor_core.png", "technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, radioactive=11000, not_in_creative_inventory=1},
+	tiles = {"technic_hv_nuclear_reactor_core.png"},
+	groups = {cracky=1, technic_machine=1, technic_hv=1,
+		radioactive=11000, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	drop="technic:hv_nuclear_reactor_core",
-	drawtype="nodebox",
-	light_source = 15,
+	drop = "technic:hv_nuclear_reactor_core",
+	drawtype = "nodebox",
+	light_source = 14,
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
-		fixed = nodebox
+		fixed = node_box
 	},
 	can_dig = technic.machine_can_dig,
-	after_dig_node = meltdown_reactor,
-	on_destruct = function(pos) siren_set_state(pos, "off") end,
+	after_dig_node = melt_down_reactor,
+	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
@@ -318,10 +316,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
         end,
 	on_timer = function(pos, node)
 		local meta = minetest.get_meta(pos)
-		
+
 		-- Connected back?
 		if meta:get_int("HV_EU_timeout") > 0 then return false end
-		
+
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then
@@ -332,7 +330,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 			siren_clear(pos, meta)
 			return false
 		end
-		
+
 		meta:set_int("burn_time", burn_time + 1)
 		return true
 	end,
@@ -341,34 +339,36 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core",        technic.producer)
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core_active", technic.producer)
 
--- radioactivity
+--[[
+Radioactivity
 
--- Radiation resistance represents the extent to which a material
--- attenuates radiation passing through it; i.e., how good a radiation
--- shield it is.  This is identified per node type.  For materials that
--- exist in real life, the radiation resistance value that this system
--- uses for a node type consisting of a solid cube of that material is the
--- (approximate) number of halvings of ionising radiation that is achieved
--- by a metre of the material in real life.  This is approximately
--- proportional to density, which provides a good way to estimate it.
--- Homogeneous mixtures of materials have radiation resistance computed
--- by a simple weighted mean.  Note that the amount of attenuation that
--- a material achieves in-game is not required to be (and is not) the
--- same as the attenuation achieved in real life.
---
--- Radiation resistance for a node type may be specified in the node
--- definition, under the key "radiation_resistance".  As an interim
--- measure, until node definitions widely include this, this code
--- knows a bunch of values for particular node types in several mods,
--- and values for groups of node types.  The node definition takes
--- precedence if it specifies a value.  Nodes for which no value at
--- all is known are taken to provide no radiation resistance at all;
--- this is appropriate for the majority of node types.  Only node types
--- consisting of a fairly homogeneous mass of material should report
--- non-zero radiation resistance; anything with non-uniform geometry
--- or complex internal structure should show no radiation resistance.
--- Fractional resistance values are permitted; two significant figures
--- is the recommended precision.
+Radiation resistance represents the extent to which a material
+attenuates radiation passing through it; i.e., how good a radiation
+shield it is.  This is identified per node type.  For materials that
+exist in real life, the radiation resistance value that this system
+uses for a node type consisting of a solid cube of that material is the
+(approximate) number of halvings of ionising radiation that is achieved
+by a meter of the material in real life.  This is approximately
+proportional to density, which provides a good way to estimate it.
+Homogeneous mixtures of materials have radiation resistance computed
+by a simple weighted mean.  Note that the amount of attenuation that
+a material achieves in-game is not required to be (and is not) the
+same as the attenuation achieved in real life.
+
+Radiation resistance for a node type may be specified in the node
+definition, under the key "radiation_resistance".  As an interim
+measure, until node definitions widely include this, this code
+knows a bunch of values for particular node types in several mods,
+and values for groups of node types.  The node definition takes
+precedence if it specifies a value.  Nodes for which no value at
+all is known are taken to provide no radiation resistance at all;
+this is appropriate for the majority of node types.  Only node types
+consisting of a fairly homogeneous mass of material should report
+non-zero radiation resistance; anything with non-uniform geometry
+or complex internal structure should show no radiation resistance.
+Fractional resistance values are permitted.
+--]]
+
 local default_radiation_resistance_per_node = {
 	["default:brick"] = 13,
 	["default:bronzeblock"] = 45,
@@ -505,12 +505,13 @@ local default_radiation_resistance_per_group = {
 	wood = 1.7,
 }
 local cache_radiation_resistance = {}
-local function node_radiation_resistance(nodename)
-	local eff = cache_radiation_resistance[nodename]
+local function node_radiation_resistance(node_name)
+	local eff = cache_radiation_resistance[node_name]
 	if eff then return eff end
-	local def = minetest.registered_nodes[nodename] or {groups={}}
-	eff = def.radiation_resistance or default_radiation_resistance_per_node[nodename]
-	if not eff then
+	local def = minetest.registered_nodes[node_name]
+	eff = def and def.radiation_resistance or
+			default_radiation_resistance_per_node[node_name]
+	if def and not eff then
 		for g, v in pairs(def.groups) do
 			if v > 0 and default_radiation_resistance_per_group[g] then
 				eff = default_radiation_resistance_per_group[g]
@@ -519,112 +520,114 @@ local function node_radiation_resistance(nodename)
 		end
 	end
 	if not eff then eff = 0 end
-	cache_radiation_resistance[nodename] = eff
+	cache_radiation_resistance[node_name] = eff
 	return eff
 end
 
--- Radioactive nodes cause damage to nearby players.  The damage
--- effect depends on the intrinsic strength of the radiation source,
--- the distance between the source and the player, and the shielding
--- effect of the intervening material.  These determine a rate of damage;
--- total damage caused is the integral of this over time.
---
--- In the absence of effective shielding, for a specific source the
--- damage rate varies realistically in inverse proportion to the square
--- of the distance.  (Distance is measured to the player's abdomen,
--- not to the nominal player position which corresponds to the foot.)
--- However, if the player is inside a non-walkable (liquid or gaseous)
--- radioactive node, the nominal distance could go to zero, yielding
--- infinite damage.  In that case, the player's body is displacing the
--- radioactive material, so the effective distance should remain non-zero.
--- We therefore apply a lower distance bound of sqrt(0.75) m, which is
--- the maximum distance one can get from the node centre within the node.
---
--- A radioactive node is identified by being in the "radioactive" group,
--- and the group value signifies the strength of the radiation source.
--- The group value is the distance in millimetres from a node at which
--- an unshielded player will be damaged by 0.25 HP/s.  Or, equivalently,
--- it is 2000 times the square root of the damage rate in HP/s that an
--- unshielded player 1 m away will take.
---
--- Shielding is assessed by sampling every 0.25 m along the path
--- from the source to the player, ignoring the source node itself.
--- The summed shielding values from the sampled nodes yield a measure
--- of the total amount of shielding on the path.  As in reality,
--- shielding causes exponential attenuation of radiation.  However, the
--- effect is scaled down relative to real life.  A metre of a node with
--- radiation resistance value R yields attenuation of sqrt(R)*0.1 nepers.
--- (In real life it would be about R*0.69 nepers, by the definition
--- of the radiation resistance values.)  The sqrt part of this formula
--- scales down the differences between shielding types, reflecting the
--- game's simplification of making expensive materials such as gold
--- readily available in cubic metres.  The multiplicative factor in the
--- formula scales down the difference between shielded and unshielded
--- safe distances, avoiding the latter becoming impractically large.
---
--- Damage is processed at rates down to 0.25 HP/s, which in the absence of
--- shielding is attained at the distance specified by the "radioactive"
--- group value.  Computed damage rates below 0.25 HP/s result in no
--- damage at all to the player.  This gives the player an opportunity
--- to be safe, and limits the range at which source/player interactions
--- need to be considered.
-local assumed_abdomen_offset = vector.new(0, 1, 0)
-local assumed_abdomen_offset_length = vector.length(assumed_abdomen_offset)
+--[[
+Radioactive nodes cause damage to nearby players.  The damage
+effect depends on the intrinsic strength of the radiation source,
+the distance between the source and the player, and the shielding
+effect of the intervening material.  These determine a rate of damage;
+total damage caused is the integral of this over time.
+
+In the absence of effective shielding, for a specific source the
+damage rate varies realistically in inverse proportion to the square
+of the distance.  (Distance is measured to the player's abdomen,
+not to the nominal player position which corresponds to the foot.)
+However, if the player is inside a non-walkable (liquid or gaseous)
+radioactive node, the nominal distance could go to zero, yielding
+infinite damage.  In that case, the player's body is displacing the
+radioactive material, so the effective distance should remain non-zero.
+We therefore apply a lower distance bound of sqrt(0.75), which is
+the maximum distance one can get from the node center within the node.
+
+A radioactive node is identified by being in the "radioactive" group,
+and the group value signifies the strength of the radiation source.
+The group value is 1000 times the distance from a node at which
+an unshielded player will be damaged by 0.25 HP/s.  Or, equivalently,
+it is 2000 times the square root of the damage rate in HP/s that an
+unshielded player 1 node away will take.
+
+Shielding is assessed by adding the shielding values of all nodes
+between the source node and the player, ignoring the source node itself.
+As in reality, shielding causes exponential attenuation of radiation.
+However, the effect is scaled down relative to real life.  A node with
+radiation resistance value R yields attenuation of sqrt(R) * 0.1 nepers.
+(In real life it would be about R * 0.69 nepers, by the definition
+of the radiation resistance values.)  The sqrt part of this formula
+scales down the differences between shielding types, reflecting the
+game's simplification of making expensive materials such as gold
+readily available in cubes.  The multiplicative factor in the
+formula scales down the difference between shielded and unshielded
+safe distances, avoiding the latter becoming impractically large.
+
+Damage is processed at rates down to 0.25 HP/s, which in the absence of
+shielding is attained at the distance specified by the "radioactive"
+group value.  Computed damage rates below 0.25 HP/s result in no
+damage at all to the player.  This gives the player an opportunity
+to be safe, and limits the range at which source/player interactions
+need to be considered.
+--]]
+local abdomen_offset = vector.new(0, 1, 0)
+local abdomen_offset_length = vector.length(abdomen_offset)
 local cache_scaled_shielding = {}
 
-local damage_enabled = minetest.setting_getbool("enable_damage")
+local function dmg_player(pos, o, strength)
+	local pl_pos = vector.add(o:getpos(), abdomen_offset)
+	local shielding = 0
+	local dist = vector.distance(pos, pl_pos)
+	for ray_pos in technic.trace_node_ray(pos,
+			vector.direction(pos, pl_pos), dist) do
+		if not vector.equals(ray_pos, pos) then
+			local shield_name = minetest.get_node(ray_pos).name
+			local shield_val = cache_scaled_shielding[sname]
+			if not shield_val then
+				shield_val = math.sqrt(node_radiation_resistance(shield_name)) * 0.025
+				cache_scaled_shielding[shield_name] = shield_val
+			end
+			shielding = shielding + shield_val
+		end
+	end
+	local dmg = (0.25e-6 * strength * strength) /
+		(math.max(0.75, dist * dist) * math.exp(shielding))
+	if dmg >= 0.25 then
+		local dmg_int = math.floor(dmg)
+		-- The closer you are to getting one more damage point,
+		-- the more likely it will be added.
+		if math.random() < dmg - dmg_int then
+			dmg_int = dmg_int + 1
+		end
+		if dmg_int > 0 then
+			o:set_hp(math.max(o:get_hp() - dmg_int, 0))
+		end
+	end
+end
 
-if damage_enabled then
+local function dmg_abm(pos, node)
+	local strength = minetest.get_item_group(node.name, "radioactive")
+	for _, o in pairs(minetest.get_objects_inside_radius(pos,
+			strength * 0.001 + abdomen_offset_length)) do
+		if o:is_player() then
+			dmg_player(pos, o, strength)
+		end
+	end
+end
+
+
+if minetest.setting_getbool("enable_damage") then
 	minetest.register_abm({
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 1,
-		action = function (pos, node)
-			local strength = minetest.registered_nodes[node.name].groups.radioactive
-			for _, o in ipairs(minetest.get_objects_inside_radius(pos, strength*0.001 + assumed_abdomen_offset_length)) do
-				if o:is_player() then
-					local rel = vector.subtract(vector.add(o:getpos(), assumed_abdomen_offset), pos)
-					local dist_sq = vector.length_square(rel)
-					local dist = math.sqrt(dist_sq)
-					local dirstep = dist == 0 and vector.new(0,0,0) or vector.divide(rel, dist*4)
-					local intpos = pos
-					local shielding = 0
-					for intdist = 0.25, dist, 0.25 do
-						intpos = vector.add(intpos, dirstep)
-						local intnodepos = vector.round(intpos)
-						if not vector.equals(intnodepos, pos) then
-							local sname = minetest.get_node(intnodepos).name
-							local sval = cache_scaled_shielding[sname]
-							if not sval then
-								sval = math.sqrt(node_radiation_resistance(sname)) * -0.025
-								cache_scaled_shielding[sname] = sval
-							end
-							shielding = shielding + sval
-						end
-					end
-					local dmg_rate = 0.25e-6 * strength*strength * math.exp(shielding) / math.max(0.75, dist_sq)
-					if dmg_rate >= 0.25 then
-						local dmg_int = math.floor(dmg_rate)
-						if math.random() < dmg_rate-dmg_int then
-							dmg_int = dmg_int + 1
-						end
-						if dmg_int > 0 then
-							o:set_hp(math.max(o:get_hp() - dmg_int, 0))
-						end
-					end
-				end
-			end
-		end,
+		action = dmg_abm,
 	})
 end
 
--- radioactive materials that can result from destroying a reactor
-local corium_griefing = 1 
-if (not technic.config:get_bool("enable_corium_griefing")) then
-	corium_griefing = 0
-end
+-- Radioactive materials that can result from destroying a reactor
+local griefing = technic.config:get_bool("enable_corium_griefing")
 
-for _, state in ipairs({ "flowing", "source" }) do
+for _, state in pairs({"flowing", "source"}) do
 	minetest.register_node("technic:corium_"..state, {
 		description = S(state == "source" and "Corium Source" or "Flowing Corium"),
 		drawtype = (state == "source" and "liquid" or "flowingliquid"),
@@ -652,18 +655,18 @@ for _, state in ipairs({ "flowing", "source" }) do
 		liquid_viscosity = LAVA_VISC,
 		liquid_renewable = false,
 		damage_per_second = 6,
-		post_effect_color = { a=192, r=80, g=160, b=80 },
+		post_effect_color = {a=192, r=80, g=160, b=80},
 		groups = {
 			liquid = 2,
 			hot = 3,
-			igniter = corium_griefing,
+			igniter = (griefing and 1 or 0),
 			radioactive = (state == "source" and 32000 or 16000),
 			not_in_creative_inventory = (state == "flowing" and 1 or nil),
 		},
 	})
 end
 
-if bucket and bucket.register_liquid then
+if rawget(_G, "bucket") and bucket.register_liquid then
 	bucket.register_liquid(
 		"technic:corium_source",
 		"technic:corium_flowing",
@@ -675,12 +678,11 @@ end
 
 minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
-	tiles = { "technic_chernobylite_block.png" },
+	tiles = {"technic_chernobylite_block.png"},
 	is_ground_content = true,
-	groups = { cracky=1, radioactive=5000, level=2 },
+	groups = {cracky=1, radioactive=5000, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
-
 })
 
 minetest.register_abm({
@@ -688,25 +690,36 @@ minetest.register_abm({
 	neighbors = {"technic:corium_source"},
 	interval = 1,
 	chance = 1,
-	action = function (pos, node)
+	action = function(pos, node)
 		minetest.remove_node(pos)
 	end,
 })
 
-if (corium_griefing == 1) then
+minetest.register_abm({
+	nodenames = {"technic:corium_flowing"},
+	neighbors = {"group:water"},
+	interval = 1,
+	chance = 1,
+	action = function(pos, node)
+		minetest.set_node(pos, {name="technic:chernobylite_block"})
+	end,
+})
+
+minetest.register_abm({
+	nodenames = {"technic:corium_flowing"},
+	interval = 5,
+	chance = (griefing and 10 or 1),
+	action = function(pos, node)
+		minetest.set_node(pos, {name="technic:chernobylite_block"})
+	end,
+})
+
+if griefing then
 	minetest.register_abm({
-		nodenames = {"technic:corium_flowing"},
-		interval = 5,
-		chance = 10,
-		action = function (pos, node)
-			minetest.set_node(pos, {name="technic:chernobylite_block"})
-		end,
-	})
-	minetest.register_abm({
-		nodenames = { "technic:corium_source", "technic:corium_flowing" },
+		nodenames = {"technic:corium_source", "technic:corium_flowing"},
 		interval = 4,
 		chance = 4,
-		action = function (pos, node)
+		action = function(pos, node)
 			for _, offset in ipairs({
 				vector.new(1,0,0),
 				vector.new(-1,0,0),
@@ -721,3 +734,4 @@ if (corium_griefing == 1) then
 		end,
 	})
 end
+

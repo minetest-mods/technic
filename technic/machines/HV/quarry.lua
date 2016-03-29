@@ -5,7 +5,7 @@ minetest.register_craft({
 	recipe = {
 		{"technic:carbon_plate",       "pipeworks:filter",       "technic:composite_plate"},
 		{"technic:motor",              "technic:machine_casing", "technic:diamond_drill_head"},
-		{"technic:carbon_steel_block", "technic:hv_cable0",      "technic:carbon_steel_block"}},
+		{"technic:carbon_steel_block", "technic:hv_cable",       "technic:carbon_steel_block"}},
 	output = "technic:quarry",
 })
 
@@ -213,7 +213,8 @@ minetest.register_node("technic:quarry", {
 	         "technic_carbon_steel_block.png^default_tool_mesepick.png",
 	         "technic_carbon_steel_block.png"),
 	paramtype2 = "facedir",
-	groups = {cracky=2, tubedevice=1, technic_machine = 1},
+	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1},
+	connect_sides = {"bottom", "front", "left", "right"},
 	tube = {
 		connect_sides = {top = 1},
 	},
