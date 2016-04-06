@@ -157,13 +157,13 @@ function technic.machine_after_dig_node(pos, oldnode, oldmetadata, player)
 		if oldmetadata.inventory.upgrade1 and oldmetadata.inventory.upgrade1[1] then
 			local stack = ItemStack(oldmetadata.inventory.upgrade1[1])
 			if not stack:is_empty() then
-				minetest.item_drop(stack, "", pos)
+				minetest.add_item(pos, stack)
 			end
 		end
 		if oldmetadata.inventory.upgrade2 and oldmetadata.inventory.upgrade2[1] then
 			local stack = ItemStack(oldmetadata.inventory.upgrade2[1])
 			if not stack:is_empty() then
-				minetest.item_drop(stack, "", pos)
+				minetest.add_item(pos, stack)
 			end
 		end
 	end
