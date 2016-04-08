@@ -257,14 +257,12 @@ local function apply_fractional_damage(o, dmg)
 	return false
 end
 
-local function dmg_player(pos, player, strength)
-	local pl_pos = player:getpos()
-	pl_pos.y = pl_pos.y + abdomen_offset
+local function calculate_base_damage(node_pos, object_pos, strength)
 	local shielding = 0
-	local dist = vector.distance(pos, pl_pos)
+	local dist = vector.distance(node_pos, object_pos)
 
-	for ray_pos in technic.trace_node_ray(pos,
-			vector.direction(pos, pl_pos), dist) do
+	for ray_pos in technic.trace_node_ray(node_pos,
+			vector.direction(node_pos, object_pos), dist) do
 		local shield_name = minetest.get_node(ray_pos).name
 		shielding = shielding + node_radiation_resistance(shield_name) * 0.1
 	end
@@ -273,10 +271,46 @@ local function dmg_player(pos, player, strength)
 		(math.max(0.75, dist * dist) * math.exp(shielding))
 
 	if dmg < rad_dmg_cutoff then return end
-	apply_fractional_damage(player, dmg)
+	return dmg
+end
 
-	local pn = player:get_player_name()
-	radiated_players[pn] = (radiated_players[pn] or 0) + dmg
+local function calculate_damage_multiplier(object)
+	local ag = object.get_armor_groups and object:get_armor_groups()
+	if not ag then
+		return 0
+	end
+	if ag.radiation then
+		return 0.01 * ag.radiation
+	end
+	if ag.fleshy then
+		return math.sqrt(0.01 * ag.fleshy)
+	end
+	return 0
+end
+
+local function calculate_object_center(object)
+	if object:is_player() then
+		return {x=0, y=abdomen_offset, z=0}
+	end
+	return {x=0, y=0, z=0}
+end
+
+local function dmg_object(pos, object, strength)
+	local obj_pos = vector.add(object:getpos(), calculate_object_center(object))
+	local dmg = calculate_base_damage(pos, obj_pos, strength)
+	if not dmg then
+		return
+	end
+	local mul = calculate_damage_multiplier(object)
+	if mul == 0 then
+		return
+	end
+	dmg = dmg * mul
+	apply_fractional_damage(object, dmg)
+	if object:is_player() then
+		local pn = object:get_player_name()
+		radiated_players[pn] = (radiated_players[pn] or 0) + dmg
+	end
 end
 
 local rad_dmg_mult_sqrt = math.sqrt(1 / rad_dmg_cutoff)
@@ -285,9 +319,7 @@ local function dmg_abm(pos, node)
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
 			max_dist + abdomen_offset)) do
-		if o:is_player() then
-			dmg_player(pos, o, strength)
-		end
+		dmg_object(pos, o, strength)
 	end
 end
 
