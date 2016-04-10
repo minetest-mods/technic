@@ -9,6 +9,8 @@ local defaults = {
 	enable_wind_mill = "false",
 	enable_frames = "false",
 	enable_corium_griefing = "true",
+	enable_entity_radiation_damage = "true",
+	enable_longterm_radiation_damage = "true",
 }
 
 for k, v in pairs(defaults) do

@@ -242,6 +242,9 @@ local cache_scaled_shielding = {}
 local rad_dmg_cutoff = 0.2
 local radiated_players = {}
 
+local entity_damage = technic.config:get_bool("enable_entity_radiation_damage")
+local longterm_damage = technic.config:get_bool("enable_longterm_radiation_damage")
+
 local function apply_fractional_damage(o, dmg)
 	local dmg_int = math.floor(dmg)
 	-- The closer you are to getting one more damage point,
@@ -297,17 +300,17 @@ end
 
 local function dmg_object(pos, object, strength)
 	local obj_pos = vector.add(object:getpos(), calculate_object_center(object))
-	local dmg = calculate_base_damage(pos, obj_pos, strength)
-	if not dmg then
-		return
-	end
 	local mul = calculate_damage_multiplier(object)
 	if mul == 0 then
 		return
 	end
+	local dmg = calculate_base_damage(pos, obj_pos, strength)
+	if not dmg then
+		return
+	end
 	dmg = dmg * mul
 	apply_fractional_damage(object, dmg)
-	if object:is_player() then
+	if longterm_damage and object:is_player() then
 		local pn = object:get_player_name()
 		radiated_players[pn] = (radiated_players[pn] or 0) + dmg
 	end
@@ -319,7 +322,9 @@ local function dmg_abm(pos, node)
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
 			max_dist + abdomen_offset)) do
-		dmg_object(pos, o, strength)
+		if entity_damage or o:is_player() then
+			dmg_object(pos, o, strength)
+		end
 	end
 end
 
@@ -331,26 +336,28 @@ if minetest.setting_getbool("enable_damage") then
 		action = dmg_abm,
 	})
 
-	minetest.register_globalstep(function(dtime)
-		for pn, dmg in pairs(radiated_players) do
-			dmg = dmg - (dtime / 8)
-			local player = minetest.get_player_by_name(pn)
-			local killed
-			if player and dmg > rad_dmg_cutoff then
-				killed = apply_fractional_damage(player, (dmg * dtime) / 8)
-			else
-				dmg = nil
+	if longterm_damage then
+		minetest.register_globalstep(function(dtime)
+			for pn, dmg in pairs(radiated_players) do
+				dmg = dmg - (dtime / 8)
+				local player = minetest.get_player_by_name(pn)
+				local killed
+				if player and dmg > rad_dmg_cutoff then
+					killed = apply_fractional_damage(player, (dmg * dtime) / 8)
+				else
+					dmg = nil
+				end
+				-- on_dieplayer will have already set this if the player died
+				if not killed then
+					radiated_players[pn] = dmg
+				end
 			end
-			-- on_dieplayer will have already set this if the player died
-			if not killed then
-				radiated_players[pn] = dmg
-			end
-		end
-	end)
+		end)
 
-	minetest.register_on_dieplayer(function(player)
-		radiated_players[player:get_player_name()] = nil
-	end)
+		minetest.register_on_dieplayer(function(player)
+			radiated_players[player:get_player_name()] = nil
+		end)
+	end
 end
 
 -- Radioactive materials that can result from destroying a reactor
