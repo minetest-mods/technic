@@ -242,6 +242,7 @@ local cache_scaled_shielding = {}
 local rad_dmg_cutoff = 0.2
 local radiated_players = {}
 
+local armor_enabled = technic.config:get_bool("enable_radiation_protection")
 local entity_damage = technic.config:get_bool("enable_entity_radiation_damage")
 local longterm_damage = technic.config:get_bool("enable_longterm_radiation_damage")
 
@@ -303,15 +304,21 @@ end
 
 local function dmg_object(pos, object, strength)
 	local obj_pos = vector.add(object:getpos(), calculate_object_center(object))
-	local mul = calculate_damage_multiplier(object)
-	if mul == 0 then
-		return
+	local mul
+	if armor_enabled or entity_damage then
+		-- we need to check may the object be damaged even if armor is disabled
+		mul = calculate_damage_multiplier(object)
+		if mul == 0 then
+			return
+		end
 	end
 	local dmg = calculate_base_damage(pos, obj_pos, strength)
 	if not dmg then
 		return
 	end
-	dmg = dmg * mul
+	if armor_enabled then
+		dmg = dmg * mul
+	end
 	apply_fractional_damage(object, dmg)
 	if longterm_damage and object:is_player() then
 		local pn = object:get_player_name()
