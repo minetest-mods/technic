@@ -264,7 +264,7 @@ local function calculate_base_damage(node_pos, object_pos, strength)
 	for ray_pos in technic.trace_node_ray(node_pos,
 			vector.direction(node_pos, object_pos), dist) do
 		local shield_name = minetest.get_node(ray_pos).name
-		shielding = shielding + node_radiation_resistance(shield_name) * 0.1
+		shielding = shielding + node_radiation_resistance(shield_name) * 0.025
 	end
 
 	local dmg = (strength * strength) /
