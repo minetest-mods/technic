@@ -282,6 +282,9 @@ local function calculate_damage_multiplier(object)
 	if not ag then
 		return 0
 	end
+	if ag.immortal then
+		return 0
+	end
 	if ag.radiation then
 		return 0.01 * ag.radiation
 	end
