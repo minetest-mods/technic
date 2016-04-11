@@ -304,9 +304,10 @@ end
 
 local function dmg_object(pos, object, strength)
 	local obj_pos = vector.add(object:getpos(), calculate_object_center(object))
+	local mul
 	if armor_enabled or entity_damage then
 		-- we need to check may the object be damaged even if armor is disabled
-		local mul = calculate_damage_multiplier(object)
+		mul = calculate_damage_multiplier(object)
 		if mul == 0 then
 			return
 		end
