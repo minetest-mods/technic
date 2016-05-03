@@ -84,7 +84,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	groups = {cracky=1, level=3, concrete=1},
 	sounds = default.node_sound_stone_defaults(),
 	on_blast = function(pos, intensity)
-		if intensity > 1 then
+		if intensity > 9 then
 			minetest.remove_node(pos)
 			return {"technic:blast_resistant_concrete"}
 		end
