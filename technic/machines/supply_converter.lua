@@ -10,26 +10,36 @@
 local S = technic.getter
 
 local function set_supply_converter_formspec(meta)
-	local formspec = "size[5,1.5]"
+	local formspec = "size[5,2.25]"..
+		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
 	-- the single change that the user expects.
 	if meta:get_int("mesecon_mode") == 0 then
-		formspec = formspec.."button[0,0;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
 	else
-		formspec = formspec.."button[0,0;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,0.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
 	else
-		formspec = formspec.."button[0,0.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
 
 local supply_converter_receive_fields = function(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
+	local power = nil
+	if fields.power then
+		power = tonumber(fields.power) or 0
+		power = 100 * math.floor(power / 100)
+		power = math.max(power, 0)
+		power = math.min(power, 10000)
+		if power == meta:get_int("power") then power = nil end
+	end
+	if power then meta:set_int("power", power) end
 	if fields.enable then meta:set_int("enabled", 1) end
 	if fields.disable then meta:set_int("enabled", 0) end
 	if fields.mesecon_mode_0 then meta:set_int("mesecon_mode", 0) end
@@ -49,15 +59,12 @@ local mesecons = {
 }
 
 local run = function(pos, node)
-	local demand = 10000
 	local remain = 0.9
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
-	local enabled       = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
-	if not enabled then
-		demand = 0
-	end
+	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
+	local demand = enabled and meta:get_int("power") or 10000
 
 	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
 	local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -100,6 +107,7 @@ minetest.register_node("technic:supply_converter", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Supply Converter"))
+		meta:set_int("power", 10000)
 		meta:set_int("enabled", 1)
 		meta:set_int("mesecon_mode", 0)
 		meta:set_int("mesecon_effect", 0)
