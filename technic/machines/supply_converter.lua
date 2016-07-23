@@ -9,12 +9,55 @@
 
 local S = technic.getter
 
+local function set_supply_converter_formspec(meta)
+	local formspec = "size[5,1.5]"
+	-- The names for these toggle buttons are explicit about which
+	-- state they'll switch to, so that multiple presses (arising
+	-- from the ambiguity between lag and a missed press) only make
+	-- the single change that the user expects.
+	if meta:get_int("mesecon_mode") == 0 then
+		formspec = formspec.."button[0,0;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
+	else
+		formspec = formspec.."button[0,0;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
+	end
+	if meta:get_int("enabled") == 0 then
+		formspec = formspec.."button[0,0.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
+	else
+		formspec = formspec.."button[0,0.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
+	end
+	meta:set_string("formspec", formspec)
+end
+
+local supply_converter_receive_fields = function(pos, formname, fields, sender)
+	local meta = minetest.get_meta(pos)
+	if fields.enable then meta:set_int("enabled", 1) end
+	if fields.disable then meta:set_int("enabled", 0) end
+	if fields.mesecon_mode_0 then meta:set_int("mesecon_mode", 0) end
+	if fields.mesecon_mode_1 then meta:set_int("mesecon_mode", 1) end
+	set_supply_converter_formspec(meta)
+end
+
+local mesecons = {
+	effector = {
+		action_on = function(pos, node)
+			minetest.get_meta(pos):set_int("mesecon_effect", 1)
+		end,
+		action_off = function(pos, node)
+			minetest.get_meta(pos):set_int("mesecon_effect", 0)
+		end
+	}
+}
+
 local run = function(pos, node)
 	local demand = 10000
 	local remain = 0.9
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
+	local enabled       = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
+	if not enabled then
+		demand = 0
+	end
 
 	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
 	local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -53,11 +96,16 @@ minetest.register_node("technic:supply_converter", {
 		technic_machine=1, technic_all_tiers=1},
 	connect_sides = {"top", "bottom"},
 	sounds = default.node_sound_wood_defaults(),
+	on_receive_fields = supply_converter_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Supply Converter"))
-		meta:set_float("active", false)
+		meta:set_int("enabled", 1)
+		meta:set_int("mesecon_mode", 0)
+		meta:set_int("mesecon_effect", 0)
+		set_supply_converter_formspec(meta)
 	end,
+	mesecons = mesecons,
 	technic_run = run,
 })
 
