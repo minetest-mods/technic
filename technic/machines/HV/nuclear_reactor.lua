@@ -262,6 +262,24 @@ local function run(pos, node)
 	end
 end
 
+-- find least inventory size from inventory
+local function least_inventory_size_index(inv)
+	local least = 100
+	local index = 1
+
+	for i=1, inv:get_size("src"), 1 do
+		local stack = inv:get_stack("src", i)
+
+		
+		if stack:get_count() < least then 
+			least = stack:get_count() 
+			index = i
+		end
+	end
+	return index
+end
+
+
 -- sort fuel rods in equal stacks
 local function sort_fuel_rods(pos, node, stack, direction)
 	local meta = minetest.get_meta(pos)
@@ -281,6 +299,10 @@ local function sort_fuel_rods(pos, node, stack, direction)
 		
 	return stack
 end
+
+
+
+
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
