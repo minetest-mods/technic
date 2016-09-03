@@ -33,8 +33,15 @@ local function check_wind_mill(pos)
 	if pos.y < 30 then
 		return false
 	end
+	pos = {x=pos.x, y=pos.y, z=pos.z}
 	for i = 1, 20 do
-		local node = minetest.get_node({x=pos.x, y=pos.y-i, z=pos.z})
+		pos.y = pos.y - 1
+		local node = minetest.get_node_or_nil(pos)
+		if not node then
+			-- we reached CONTENT_IGNORE, we can assume, that nothing changed
+			-- as the user will have to load the block to change it
+			return
+		end
 		if node.name ~= "technic:wind_mill_frame" then
 			return false
 		end
@@ -45,17 +52,17 @@ end
 local run = function(pos, node)
 	local meta = minetest.get_meta(pos)
 	local machine_name = S("Wind %s Generator"):format("MV")
-	local power = math.min(pos.y * 100, 5000)
 
-	if not check_wind_mill(pos) then
+	local check = check_wind_mill(pos)
+	if check == false then
 		meta:set_int("MV_EU_supply", 0)
 		meta:set_string("infotext", S("%s Improperly Placed"):format(machine_name))
-		return
-	else
+	elseif check == true then
+		local power = math.min(pos.y * 100, 5000)
 		meta:set_int("MV_EU_supply", power)
+		meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.pretty_num(power)))
 	end
-
-	meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.pretty_num(power)))
+	-- check == nil: assume nothing has changed
 end
 
 minetest.register_node("technic:wind_mill", {
