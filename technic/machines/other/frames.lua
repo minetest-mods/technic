@@ -320,7 +320,7 @@ local nodeboxes= {
 			else
 				--local pointed_thing = {type = "node", under = pos}
 				if pointed_thing then
-					minetest.item_place_node(itemstack, placer, pointed_thing)
+					return minetest.item_place_node(itemstack, placer, pointed_thing)
 				end
 			end
 		end,
