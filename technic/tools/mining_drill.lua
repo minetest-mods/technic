@@ -296,7 +296,7 @@ local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
 	end
 	local charge_to_take = cost_to_use(2, meta.mode)
 	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 		drill_dig_it(pos, user, meta.mode)
 		if not technic.creative_mode then
 			meta.charge = meta.charge - charge_to_take
@@ -319,7 +319,7 @@ local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
 	end
 	local charge_to_take = cost_to_use(3, meta.mode)
 	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 		drill_dig_it(pos, user, meta.mode)
 		if not technic.creative_mode then
 			meta.charge = meta.charge - charge_to_take
@@ -348,7 +348,7 @@ minetest.register_tool("technic:mining_drill", {
 		end
 		local charge_to_take = cost_to_use(1, 1)
 		if meta.charge >= charge_to_take then
-			local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+			local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 			drill_dig_it(pos, user, 1)
 			if not technic.creative_mode then
 				meta.charge = meta.charge - charge_to_take
