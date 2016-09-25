@@ -12,6 +12,7 @@ minetest.register_craft({
 local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
 local quarry_max_depth       = 100
 local quarry_demand = 10000
+local quarry_eject_dir = vector.new(0, 1, 0)
 
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
@@ -83,7 +84,7 @@ local function quarry_handle_purge(pos)
 		if stack then
 			local item = stack:to_table()
 			if item then
-				technic.tube_inject_item(pos, pos, vector.new(0, 1, 0), item)
+				technic.tube_inject_item(pos, pos, quarry_eject_dir, item)
 				stack:clear()
 				inv:set_stack("cache", i, stack)
 				break
@@ -217,6 +218,16 @@ minetest.register_node("technic:quarry", {
 	connect_sides = {"bottom", "front", "left", "right"},
 	tube = {
 		connect_sides = {top = 1},
+		-- lower priority than other tubes, so that quarries will prefer any
+		-- other tube to another quarry, which could lead to server freezes
+		-- in certain quarry placements (2x2 for example would never eject)
+		priority = 10,
+		can_go = function(pos, node, velocity, stack)
+			-- always eject the same, even if items came in another way
+			-- this further mitigates loops and generally avoids random sideway movement
+			-- that can be expected in certain quarry placements
+			return { quarry_eject_dir }
+		end
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
