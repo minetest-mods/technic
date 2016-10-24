@@ -1282,6 +1282,8 @@ an elevation of +30 or higher.  It generates more at higher elevation,
 reaching maximum output at elevation +50 or higher.  Its surroundings
 don't otherwise matter; it doesn't actually need to be in open air.
 
+It is disabled by default and can be enabled by setting `enable_wind_mill` to true in config.lua
+
 ### nuclear generator ###
 
 The nuclear generator (nuclear reactor) is an HV power generator that
