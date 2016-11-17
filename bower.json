@@ -1,20 +1,20 @@
 {
-    "name": "technic",
-    "description": "Technic mod for Minetest game",
-    "homepage": "https://github.com/minetest-technic/technic",
-    "license": "LGPL",
-    "authors": [
-        "kaeza <kaeza@users.sf.net> Diego Martínez <kaeza@users.sf.net>",
-        "RealBadAngel <maciej.kasatkin@o2.pl> <mk@realbadangel.pl>",
-        "Vanessa Ezekowitz <vanessaezekowitz@gmail.com> <vanessa@rainbird.(none)>"
-    ],
-    "forum": "https://forum.minetest.net/viewtopic.php?f=11&t=2538",
-    "keywords": [
-        "technic",
-        "minetest"
-    ],
-    "dependencies": {
-    "moreblocks": "*",
-    "pipeworks": "*"
-  }
+	"name": "technic",
+	"description": "Technic mod for Minetest game",
+	"homepage": "https://github.com/minetest-technic/technic",
+	"license": "LGPL",
+	"authors": [
+		"kaeza <kaeza@users.sf.net> Diego Martínez <kaeza@users.sf.net>",
+		"RealBadAngel <maciej.kasatkin@o2.pl> <mk@realbadangel.pl>",
+		"Vanessa Ezekowitz <vanessaezekowitz@gmail.com> <vanessa@rainbird.(none)>"
+	],
+	"forum": "https://forum.minetest.net/viewtopic.php?f=11&t=2538",
+	"keywords": [
+		"technic",
+		"minetest"
+	],
+	"dependencies": {
+		"moreblocks": "*",
+		"pipeworks": "*"
+	}
 }
