@@ -111,7 +111,7 @@ section through the middle:
 	CCCC CCCC
 	CBBB BBBC
 	CBSS SSBC
-	CBSWWWSBC
+	CBSWTWSBC
 	CBSW#WSBC
 	CBSW|WSBC
 	CBSS|SSBC
@@ -119,6 +119,7 @@ section through the middle:
 	CCCC|CCCC
 	C = Concrete, B = Blast-resistant concrete, S = Stainless Steel,
 	W = water node, # = reactor core, | = HV cable
+	T = tube (or water)
 
 The man-hole and the HV cable are only in the middle, and the man-hole
 is optional.
@@ -127,7 +128,7 @@ For the reactor to operate and not melt down, it insists on the inner
 7x7x7 portion (from the core out to the blast-resistant concrete)
 being intact.  Intactness only depends on the number of nodes of the
 right type in each layer.  The water layer must have water in all but
-at most one node; the steel and blast-resistant concrete layers must
+at most two nodes; the steel and blast-resistant concrete layers must
 have the right material in all but at most two nodes.  The permitted
 gaps are meant for the cable and man-hole, but can actually be anywhere
 and contain anything.  For the reactor to be useful, a cable must
@@ -181,7 +182,7 @@ local function reactor_structure_badness(pos)
 	end
 	end
 	end
-	if waterlayer > 25 then waterlayer = 25 end
+	if waterlayer > 24 then waterlayer = 24 end
 	if steellayer > 96 then steellayer = 96 end
 	if blastlayer > 216 then blastlayer = 216 end
 	return (25 - waterlayer) + (96 - steellayer) + (216 - blastlayer)
@@ -261,10 +262,30 @@ local function run(pos, node)
 	end
 end
 
+-- sort fuel rods in equal stacks
+local function sort_fuel_rods(pos, node, stack, direction)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+		-- don't accept anything but technic:uranium_fuel
+		if stack:get_name() ~= "technic:uranium_fuel" then return stack else					
+			-- clear stack one by one
+			while stack:get_count() > 0 do
+				local index = least_inventory_size_index(inv)
+				local oldstack = inv:get_stack("src", index)
+				local size = oldstack:get_count() + 1
+							
+				inv:set_stack("src", index, ItemStack(stack:get_name() .. " "..size))
+				stack:take_item(1)
+			end
+		end
+		
+	return stack
+end
+
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
 	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1},
+	groups = {cracky=1, technic_machine=1, technic_hv=1, tubedevice=1, tubedevice_receiver=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drawtype = "nodebox",
@@ -273,6 +294,16 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	node_box = {
 		type = "fixed",
 		fixed = node_box
+	},
+	tube = {
+		insert_object = sort_fuel_rods,
+		can_insert = function(pos, node, stack, direction)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return inv:room_for_item("src", stack)
+		end,
+		input_inventory = "src",
+		connect_sides = {left = 1, right = 1, back = 1, front = 1, bottom = 1, top = 1}
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -291,7 +322,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1,
+	groups = {cracky=1, technic_machine=1, technic_hv=1, tubedevice=1, tubedevice_receiver=1,
 		radioactive=11000, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
@@ -302,6 +333,16 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	node_box = {
 		type = "fixed",
 		fixed = node_box
+	},
+	tube = {
+		insert_object = sort_fuel_rods,
+		can_insert = function(pos, node, stack, direction)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return inv:room_for_item("src", stack)
+		end,
+		input_inventory = "src",
+		connect_sides = {left = 1, right = 1, back = 1, front = 1, bottom = 1, top = 1}
 	},
 	can_dig = technic.machine_can_dig,
 	after_dig_node = melt_down_reactor,
