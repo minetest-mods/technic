@@ -783,7 +783,7 @@ minetest.register_node("technic:template_connector",{
 
 minetest.register_craftitem("technic:template_replacer",{
 	description = S("Template (replacing)"),
-	inventory_image = "technic_template_replacer.png",
+	inventory_image = "technic_flashlight.png^[mask:technic_mv_cable.png^[transformR180", --"technic_template_replacer.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local p = pointed_thing.under
 		if minetest.is_protected and minetest.is_protected(p, placer:get_player_name()) then
@@ -803,7 +803,7 @@ minetest.register_craftitem("technic:template_replacer",{
 
 minetest.register_tool("technic:template_tool",{
 	description = S("Template Tool"),
-	inventory_image = "technic_template_tool.png",
+	inventory_image = "technic_screwdriver.png^[mask:technic_mv_cable.png", --"technic_template_tool.png",
 	on_use = function(itemstack, puncher, pointed_thing)
 		local pos = pointed_thing.under
 		if pos == nil or (minetest.is_protected and minetest.is_protected(pos, puncher:get_player_name())) then
