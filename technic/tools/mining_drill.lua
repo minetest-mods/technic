@@ -71,12 +71,6 @@ local function drill_dig_it1 (player)
 end
 
 local function drill_dig_it2 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
 	pos.y=pos.y+1
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
@@ -84,7 +78,14 @@ local function drill_dig_it2 (pos,player)
 	pos.z=pos.z-2
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
-	pos.y=pos.y-2
+	pos.y=pos.y-1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	pos.y=pos.y-1
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
 	drill_dig_it0 (pos,player)
@@ -93,12 +94,6 @@ local function drill_dig_it2 (pos,player)
 end
 
 local function drill_dig_it3 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
 	pos.y=pos.y+1
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
@@ -106,7 +101,14 @@ local function drill_dig_it3 (pos,player)
 	pos.x=pos.x-2
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
-	pos.y=pos.y-2
+	pos.y=pos.y-1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.y=pos.y-1
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
 	drill_dig_it0 (pos,player)
