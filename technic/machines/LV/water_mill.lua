@@ -26,10 +26,12 @@ end
 
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
-	local water_nodes      = 0
+	local water_flow       = 0
 	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
+	local max_output       = 50 * 45 -- four param2's at 15 makes 60, cap it lower for "overload protection"
+									 -- (plus we want the gen to report 100% if three sides have full flow)
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
@@ -41,12 +43,12 @@ local run = function(pos, node)
 	for _, p in pairs(positions) do
 		local check = check_node_around_mill(p)
 		if check then
-			water_nodes = water_nodes + 1
+			water_flow = water_flow + check
 		end
 	end
 
-	production_level = 25 * water_nodes
-	eu_supply = 30 * water_nodes
+	eu_supply = 50 * water_flow
+	production_level = math.floor(100 * eu_supply / max_output)
 
 	if production_level > 0 then
 		meta:set_int("LV_EU_supply", eu_supply)
