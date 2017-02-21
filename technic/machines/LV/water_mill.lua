@@ -17,9 +17,9 @@ minetest.register_craft({
 
 local function check_node_around_mill(pos)
 	local node = minetest.get_node(pos)
-	if node.name == "default:water_flowing" or
-	   node.name == "default:water_source" then
-		return true
+	if node.name == "default:water_flowing"
+	  or node.name == "default:river_water_flowing" then
+		return node.param2 -- returns approx. water flow, if any
 	end
 	return false
 end
