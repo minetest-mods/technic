@@ -208,7 +208,7 @@ minetest.register_abm({
 		end
 		
 		-- Run all the nodes
-		local function run_nodes(list)
+		local function run_nodes(list, run_name)
 			for _, pos2 in ipairs(list) do
 				technic.get_or_load_node(pos2)
 				local node2 = minetest.get_node(pos2)
@@ -217,14 +217,14 @@ minetest.register_abm({
 					nodedef = minetest.registered_nodes[node2.name]
 				end
 				if nodedef and nodedef.technic_run then
-					nodedef.technic_run(pos2, node2)
+					nodedef.technic_run(pos2, node2, run_name)
 				end
 			end
 		end
 		
-		run_nodes(PR_nodes)
-		run_nodes(RE_nodes)
-		run_nodes(BA_nodes)
+		run_nodes(PR_nodes, "PR")
+		run_nodes(RE_nodes, "RE")
+		run_nodes(BA_nodes, "BA")
 
 		-- Strings for the meta data
 		local eu_demand_str    = tier.."_EU_demand"

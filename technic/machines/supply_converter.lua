@@ -9,9 +9,12 @@
 
 local S = technic.getter
 
-local run = function(pos, node)
+local run = function(pos, node, run_name)
 	local demand = 10000
 	local remain = 0.9
+
+	if run_name == "RE" then return end -- do not run TWICE (it is PR-RE machine), save lua cycles
+
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
