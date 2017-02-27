@@ -191,3 +191,14 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = "default:dirt 2",
+	type = "shapeless",
+	replacements = {{"bucket:bucket_water","bucket:bucket_empty"}},
+	recipe = {
+		"technic:stone_dust",
+		"group:leaves",
+		"bucket:bucket_water",
+		"group:sand",
+	},
+})
