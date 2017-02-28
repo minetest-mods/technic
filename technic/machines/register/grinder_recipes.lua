@@ -20,11 +20,12 @@ local recipes = {
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
 	{"technic:lead_lump",       "technic:lead_dust 2"},
 	{"technic:sulfur_lump",     "technic:sulfur_dust 2"},
+	{"default:stone",           "technic:stone_dust"},
+	{"default:sand",            "technic:stone_dust"},
 	
 	-- Other
 	{"default:cobble",          "default:gravel"},
-	{"default:gravel",          "default:dirt"},
-	{"default:stone",           "default:sand"},
+	{"default:gravel",          "default:sand"},
 	{"default:sandstone",       "default:sand 2"}, -- reverse recipe can be found in the compressor
 }
 
@@ -103,6 +104,7 @@ register_dust("Sulfur",          nil)
 register_dust("Tin",             "moreores:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
+register_dust("Stone",            "default:stone")
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	register_dust("Akalin",          "glooptest:akalin_ingot")
 	register_dust("Alatro",          "glooptest:alatro_ingot")
