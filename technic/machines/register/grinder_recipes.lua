@@ -25,6 +25,7 @@ local recipes = {
 	
 	-- Other
 	{"default:cobble",          "default:gravel"},
+	{"default:gravel",          "default:sand"},
 	{"default:sandstone",       "default:sand 2"}, -- reverse recipe can be found in the compressor
 }
 
