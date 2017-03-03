@@ -30,7 +30,7 @@ local run = function(pos, node)
 	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
-	local max_output       = 50 * 45 -- four param2's at 15 makes 60, cap it lower for "overload protection"
+	local max_output       = 35 * 45 -- four param2's at 15 makes 60, cap it lower for "overload protection"
 									 -- (plus we want the gen to report 100% if three sides have full flow)
 
 	local positions = {
@@ -47,7 +47,7 @@ local run = function(pos, node)
 		end
 	end
 
-	eu_supply = math.min(50 * water_flow, max_output)
+	eu_supply = math.min(35 * water_flow, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
 	if production_level > 0 then
