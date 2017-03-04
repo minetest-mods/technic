@@ -222,9 +222,9 @@ minetest.register_abm({
 			end
 		end
 		
-		run_nodes(PR_nodes, "PR")
-		run_nodes(RE_nodes, "RE")
-		run_nodes(BA_nodes, "BA")
+		run_nodes(PR_nodes, technic.producer)
+		run_nodes(RE_nodes, technic.receiver)
+		run_nodes(BA_nodes, technic.battery)
 
 		-- Strings for the meta data
 		local eu_demand_str    = tier.."_EU_demand"
