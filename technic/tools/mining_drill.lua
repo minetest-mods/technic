@@ -252,7 +252,7 @@ local function mining_drill_mk2_setmode(user,itemstack)
 	mode=mode+1
 	if mode>=5 then mode=1 end
 	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk2_"..mode
+    itemstack:set_name("technic:mining_drill_mk2_"..mode);
 	meta["mode"]=mode
     itemstack:set_metadata(minetest.serialize(meta))
 	return itemstack
@@ -275,7 +275,7 @@ local function mining_drill_mk3_setmode(user,itemstack)
 	mode=mode+1
 	if mode>=6 then mode=1 end
 	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk3_"..mode
+    itemstack:set_name("technic:mining_drill_mk3_"..mode);
 	meta["mode"]=mode
     itemstack:set_metadata(minetest.serialize(meta))
 	return itemstack
