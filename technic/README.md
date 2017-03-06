@@ -25,3 +25,11 @@ RealBadAngel: (WTFPL)
   * Everything else.
 
 CC BY-SA 3.0: <http://creativecommons.org/licenses/by-sa/3.0/>
+
+Sound licenses:
+
+veikk0 (Veikko Mäkelä) (CC BY-SA 4.0):
+  * technic_hv_nuclear_reactor_siren_danger_loop.ogg
+    * Derived from "Nuclear alarm.wav" by Freesound.org user rene___ from <https://freesound.org/people/rene___/sounds/56778/>. Originally licensed under CC0 1.0 <https://creativecommons.org/publicdomain/zero/1.0/>
+
+CC BY-SA 4.0: <https://creativecommons.org/licenses/by-sa/4.0/>
