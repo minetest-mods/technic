@@ -263,12 +263,55 @@ function technic.chests:definition(name, data)
 		on_receive_fields = get_receive_fields(name, data),
 		on_metadata_inventory_move = self.on_inv_move,
 		on_metadata_inventory_put = self.on_inv_put,
-		on_metadata_inventory_take = self.on_inv_take,
+		on_metadata_inventory_take = self.on_inv_take,		
+		on_blast = function(pos)
+			local drops = {}
+			default.get_inventory_drops(pos, "main", drops)
+			drops[#drops+1] = "default:chest"
+			minetest.remove_node(pos)
+			return drops
+		end,
 	}
 	if data.locked then
 		def.allow_metadata_inventory_move = self.inv_move
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
+		def.on_blast = function() end,
+		def.on_key_use = function(pos, player)
+			local secret = minetest.get_meta(pos):get_string("key_lock_secret")
+			local itemstack = player:get_wielded_item()
+			local key_meta = minetest.parse_json(itemstack:get_metadata())
+
+			if secret ~= key_meta.secret then
+				return
+			end
+
+			minetest.show_formspec(
+				player:get_player_name(),
+				"default:chest_locked",
+				get_locked_chest_formspec(pos)
+			)
+		end,
+		def.on_skeleton_key_use = function(pos, player, newsecret)
+			local meta = minetest.get_meta(pos)
+			local owner = meta:get_string("owner")
+			local name = player:get_player_name()
+
+			-- verify placer is owner of lockable chest
+			if owner ~= name then
+				minetest.record_protection_violation(pos, name)
+				minetest.chat_send_player(name, "You do not own this chest.")
+				return nil
+			end
+
+			local secret = meta:get_string("key_lock_secret")
+			if secret == "" then
+				secret = newsecret
+				meta:set_string("key_lock_secret", secret)
+			end
+
+			return secret, "a locked chest", owner
+		end,
 	end
 	return def
 end
