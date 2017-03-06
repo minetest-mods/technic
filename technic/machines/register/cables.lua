@@ -11,8 +11,19 @@ function technic.get_cable_tier(name)
 	return cable_tier[name]
 end
 
-local function clear_networks()
-	technic.networks = {}
+local function clear_networks(pos)
+	local positions = {
+		{x=pos.x+1, y=pos.y,   z=pos.z},
+		{x=pos.x-1, y=pos.y,   z=pos.z},
+		{x=pos.x,   y=pos.y+1, z=pos.z},
+		{x=pos.x,   y=pos.y-1, z=pos.z},
+		{x=pos.x,   y=pos.y,   z=pos.z+1},
+		{x=pos.x,   y=pos.y,   z=pos.z-1}}
+	for _,connected_pos in pairs(positions) do
+		if technic.cables[minetest.hash_node_position(connected_pos)] then
+			technic.networks[technic.cables[minetest.hash_node_position(connected_pos)]] = nil
+		end
+	end
 end
 
 function technic.register_cable(tier, size)
@@ -55,7 +66,7 @@ end
 local function clear_nets_if_machine(pos, node)
 	for tier, machine_list in pairs(technic.machines) do
 		if machine_list[node.name] ~= nil then
-			return clear_networks()
+			return clear_networks(pos)
 		end
 	end
 end

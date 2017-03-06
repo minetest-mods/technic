@@ -59,6 +59,7 @@ minetest.register_node("technic:supply_converter", {
 		meta:set_float("active", false)
 	end,
 	technic_run = run,
+	technic_on_disable = run,
 })
 
 minetest.register_craft({
