@@ -276,7 +276,7 @@ function technic.chests:definition(name, data)
 		def.allow_metadata_inventory_move = self.inv_move
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
-		def.on_blast = function() end,
+		def.on_blast = function() end
 		def.on_key_use = function(pos, player)
 			local secret = minetest.get_meta(pos):get_string("key_lock_secret")
 			local itemstack = player:get_wielded_item()
@@ -291,7 +291,7 @@ function technic.chests:definition(name, data)
 				"default:chest_locked",
 				get_locked_chest_formspec(pos)
 			)
-		end,
+		end
 		def.on_skeleton_key_use = function(pos, player, newsecret)
 			local meta = minetest.get_meta(pos)
 			local owner = meta:get_string("owner")
@@ -311,7 +311,7 @@ function technic.chests:definition(name, data)
 			end
 
 			return secret, "a locked chest", owner
-		end,
+		end
 	end
 	return def
 end
