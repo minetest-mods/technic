@@ -26,12 +26,7 @@ technic.chests.can_dig = function(pos, player)
 end
 
 local function inv_change(pos, count, player)
-	local meta = minetest.get_meta(pos)
-	if not has_locked_chest_privilege(meta, player) then
-		minetest.log("action", player:get_player_name()..
-			" tried to access a locked chest belonging to "..
-			meta:get_string("owner").." at "..
-			minetest.pos_to_string(pos))
+	if not default.can_interact_with_node(player, pos) then
 		return 0
 	end
 	return count
@@ -54,42 +49,14 @@ function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_inde
 end
 
 function technic.chests.on_inv_put(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name()..
-		" puts stuff in to chest at "
-		..minetest.pos_to_string(pos))
+	minetest.log("action", player:get_player_name() ..
+			" moves " .. stack:get_name() ..
+			" to chest at " .. minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_take(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name()..
-		" takes stuff from chest at "
-		..minetest.pos_to_string(pos))
-end
-
-local function has_locked_chest_privilege(meta, player)
-	if player then
-		if minetest.check_player_privs(player, "protection_bypass") then
-			return true
-		end
-	else
-		return false
-	end
-
-	-- is player wielding the right key?
-	local item = player:get_wielded_item()
-	if item:get_name() == "default:key" then
-		local key_meta = minetest.parse_json(item:get_metadata())
-		local secret = meta:get_string("key_lock_secret")
-		if secret ~= key_meta.secret then
-			return false
-		end
-
-		return true
-	end
-
-	if player:get_player_name() ~= meta:get_string("owner") then
-		return false
-	end
-
-	return true
+	minetest.log("action", player:get_player_name() ..
+			" takes " .. stack:get_name()  ..
+			" from chest at " .. minetest.pos_to_string(pos))
 end
 

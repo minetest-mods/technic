@@ -267,7 +267,7 @@ function technic.chests:definition(name, data)
 		on_blast = function(pos)
 			local drops = {}
 			default.get_inventory_drops(pos, "main", drops)
-			drops[#drops+1] = "default:chest"
+			drops[#drops+1] = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
 			minetest.remove_node(pos)
 			return drops
 		end,
@@ -277,20 +277,10 @@ function technic.chests:definition(name, data)
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
 		def.on_blast = function() end
-		def.on_key_use = function(pos, player)
-			local secret = minetest.get_meta(pos):get_string("key_lock_secret")
-			local itemstack = player:get_wielded_item()
-			local key_meta = minetest.parse_json(itemstack:get_metadata())
-
-			if secret ~= key_meta.secret then
-				return
-			end
-
-			minetest.show_formspec(
-				player:get_player_name(),
-				"default:chest_locked",
-				get_locked_chest_formspec(pos)
-			)
+		def.can_dig = function(pos,player)
+			local meta = minetest.get_meta(pos);
+			local inv = meta:get_inventory()
+			return inv:is_empty("main") and default.can_interact_with_node(player, pos)
 		end
 		def.on_skeleton_key_use = function(pos, player, newsecret)
 			local meta = minetest.get_meta(pos)
