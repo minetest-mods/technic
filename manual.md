@@ -766,14 +766,12 @@ source than by actual attenuation.  Dirt halves radiation in 2.4 m,
 and stone in 1.7 m.  When a shield must be deliberately constructed,
 the preferred materials are metals, the denser the better.  Iron and
 steel halve radiation in 1.1 m, copper in 1.0 m, and silver in 0.95 m.
-Lead would halve in 0.69 m if it were in the game, but it's not, which
-poses a bit of a problem due to the drawbacks of the three materials in
-the game that are better shielding than silver.  Gold halves radiation
+Lead would halve in 0.69 m (its in-game shielding value is 80).  Gold halves radiation
 in 0.53 m (factor of 3.7 per meter), but is a bit scarce to use for
 this purpose.  Uranium halves radiation in 0.31 m (factor of 9.4 per
 meter), but is itself radioactive.  The very best shielding in the game
 is nyancat material (nyancats and their rainbow blocks), which halves
-radiation in 0.22 m (factor of 24 per meter), but is extremely scarce.
+radiation in 0.22 m (factor of 24 per meter), but is extremely scarce. See [technic/technic/radiation.lua]: https://github.com/minetest-technic/technic/blob/master/technic/radiation.lua for the in-game shielding values, which are different from real-life values.
 
 If the theoretical radiation damage from a particular source is
 sufficiently small, due to distance and shielding, then no damage at all
