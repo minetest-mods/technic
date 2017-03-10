@@ -15,11 +15,17 @@ minetest.register_craft({
 
 minetest.register_node("technic:power_monitor",{
 	description = S("Power Monitor"),
-	tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
-                  "technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
-	          "technic_water_mill_top_active.png", "technic_water_mill_top_active.png"},
+	tiles  = {
+		"technic_power_monitor_sides.png",
+		"technic_power_monitor_bottom_back.png",
+		"technic_power_monitor_sides.png",
+		"technic_power_monitor_sides.png",
+		"technic_power_monitor_bottom_back.png",
+		"technic_power_monitor_front.png"
+	},
+	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1, technic_machine=1},
-	connect_sides = {"bottom"},
+	connect_sides = {"bottom", "back"},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
