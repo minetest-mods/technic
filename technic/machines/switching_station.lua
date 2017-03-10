@@ -58,6 +58,11 @@ minetest.register_node("technic:switching_station",{
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
 	end,
+	after_dig_node = function(pos)
+		minetest.forceload_free_block(pos)
+		pos.y = pos.y - 1
+		minetest.forceload_free_block(pos)
+	end,
 })
 
 --------------------------------------------------
@@ -89,6 +94,7 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 		add_new_cable_node(all_nodes, pos,network_id)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
+		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 		if     machines[name] == technic.producer then
 			add_new_cable_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
@@ -102,7 +108,6 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 			-- Another switching station -> disable it
 			add_new_cable_node(SP_nodes, pos, network_id)
 			meta:set_int("active", 0)
-			meta:set_string("active_pos", minetest.serialize(sw_pos))
 		elseif machines[name] == technic.battery then
 			add_new_cable_node(BA_nodes, pos, network_id)
 		end
@@ -159,7 +164,7 @@ local get_network = function(sw_pos, pos1, tier)
 		i = i + 1
 	until all_nodes[i] == nil
 	technic.networks[minetest.hash_node_position(pos1)] = {tier = tier, PR_nodes = PR_nodes,
-			RE_nodes = RE_nodes, BA_nodes = BA_nodes, SP_nodes = SP_nodes}
+			RE_nodes = RE_nodes, BA_nodes = BA_nodes, SP_nodes = SP_nodes, all_nodes = all_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
 
@@ -185,27 +190,30 @@ minetest.register_abm({
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
-
-		if meta:get_int("active") ~= 1 then
-			meta:set_int("active", 1)
-			local active_pos = minetest.deserialize(meta:get_string("active_pos"))
-			if active_pos then
-				local meta1 = minetest.get_meta(active_pos)
-				meta:set_string("infotext", S("%s (Slave)"):format(meta1:get_string("infotext")))
-			end
-			return
-		end
 		
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
+		--Disable if necessary
+		if meta:get_int("active") ~= 1 then
+			minetest.forceload_free_block(pos)
+			minetest.forceload_free_block(pos1)
+			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+			return
+		end
+
 		local name = minetest.get_node(pos1).name
 		local tier = technic.get_cable_tier(name)
 		if tier then
+			-- Forceload switching station
+			minetest.forceload_block(pos)
+			minetest.forceload_block(pos1)
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
 		else
 			--dprint("Not connected to a network")
 			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+			minetest.forceload_free_block(pos)
+			minetest.forceload_free_block(pos1)
 			return
 		end
 		
@@ -293,6 +301,10 @@ minetest.register_abm({
 				S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
+		-- Data that will be used by the power monitor
+		meta:set_int("supply",PR_eu_supply)
+		meta:set_int("demand",RE_eu_demand)
+
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then
 		--dprint("PR_eu_supply"..PR_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
@@ -354,6 +366,7 @@ minetest.register_abm({
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
 		end
+		
 	end,
 })
 
@@ -376,6 +389,7 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		local meta = minetest.get_meta(pos)
 		for tier, machines in pairs(technic.machines) do
 			if machines[node.name] and switching_station_timeout_count(pos, tier) then
 				local nodedef = minetest.registered_nodes[node.name]
@@ -390,6 +404,23 @@ minetest.register_abm({
 					meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
 				end
 			end
+		end
+	end,
+})
+
+--Re-enable disabled switching station if necessary, similar to the timeout above
+minetest.register_abm({
+	nodenames = {"technic:switching_station"},
+	interval   = 1,
+	chance     = 1,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local meta = minetest.get_meta(pos)
+		local pos1 = {x=pos.x,y=pos.y-1,z=pos.z}
+		local tier = technic.get_cable_tier(minetest.get_node(pos1).name)
+		if not tier then return end
+		if switching_station_timeout_count(pos, tier) then
+			local meta = minetest.get_meta(pos)
+			meta:set_int("active",1)
 		end
 	end,
 })

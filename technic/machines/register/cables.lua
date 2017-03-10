@@ -20,8 +20,13 @@ local function clear_networks(pos)
 		{x=pos.x,   y=pos.y,   z=pos.z+1},
 		{x=pos.x,   y=pos.y,   z=pos.z-1}}
 	for _,connected_pos in pairs(positions) do
-		if technic.cables[minetest.hash_node_position(connected_pos)] then
-			technic.networks[technic.cables[minetest.hash_node_position(connected_pos)]] = nil
+		local net = technic.cables[minetest.hash_node_position(connected_pos)]
+		if net and technic.networks[net] then
+			for _,v in pairs(technic.networks[net].all_nodes) do
+				local pos1 = minetest.hash_node_position(v)
+				technic.cables[pos1] = nil
+			end
+			technic.networks[net] = nil
 		end
 	end
 end
