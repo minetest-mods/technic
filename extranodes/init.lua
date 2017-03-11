@@ -115,3 +115,42 @@ minetest.register_node(":technic:insulator_clip", {
 	after_place_node = unifieddyes.fix_rotation,
 	after_dig_node = unifieddyes.after_dig_node,
 })
+
+minetest.register_node(":technic:insulator_clip_fencepost", {
+	description = "Insulator/cable clip",
+	tiles = {"technic_insulator_clip.png"},
+	is_ground_content = false,
+	paramtype = "light",
+	paramtype2 = "color",
+	palette = "unifieddyes_palette_extended.png",
+	after_dig_node = unifieddyes.after_dig_node,
+	drawtype = "nodebox",
+	node_box = {
+		type = "connected",
+		fixed = {
+			{ -0.25,   0.75,   -0.25,   0.25,   1.25,   0.25   }, -- the clip on top
+			{ -0.125, 0.6875, -0.125, 0.125, 0.75,   0.125 },
+			{ -0.1875,  0.625,  -0.1875,  0.1875,  0.6875, 0.1875  },
+			{ -0.125, 0.5625, -0.125, 0.125, 0.625,  0.125 },
+			{ -0.1875,  0.5,    -0.1875,  0.1875,  0.5625, 0.1875  },
+			{ -0.125, 0.4375, -0.125, 0.125, 0.5,    0.125 },
+			{ -0.1875,  0.375,  -0.1875,  0.1875,  0.4375, 0.1875  },
+			{ -0.125, -0.5,    -0.125,  0.125,  0.375,  0.125  }, -- the post, slightly short
+		},
+		-- connect_top =
+		-- connect_bottom =
+		connect_front = {{-1/16,3/16,-1/2,1/16,5/16,-1/8},
+			{-1/16,-5/16,-1/2,1/16,-3/16,-1/8}},
+		connect_left = {{-1/2,3/16,-1/16,-1/8,5/16,1/16},
+			{-1/2,-5/16,-1/16,-1/8,-3/16,1/16}},
+		connect_back = {{-1/16,3/16,1/8,1/16,5/16,1/2},
+			{-1/16,-5/16,1/8,1/16,-3/16,1/2}},
+		connect_right = {{1/8,3/16,-1/16,1/2,5/16,1/16},
+			{1/8,-5/16,-1/16,1/2,-3/16,1/16}},
+	},
+	connects_to = {"group:fence", "group:wood", "group:tree"},
+	groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1},
+	sounds = default.node_sound_stone_defaults(),
+	place_param2 = 171 -- medium amber, low saturation, closest color to default:wood
+})
+
