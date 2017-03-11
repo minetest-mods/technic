@@ -101,3 +101,17 @@ if minetest.get_modpath("moreblocks") then
 	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic", "marble_bricks")
 
 end
+
+minetest.register_node(":technic:insulator_clip", {
+	description = "Insulator/cable clip",
+	drawtype = "mesh",
+	mesh = "technic_insulator_clip.obj",
+	tiles = {"technic_insulator_clip.png"},
+	is_ground_content = false,
+	groups = {choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1},
+	sounds = default.node_sound_stone_defaults(),
+	paramtype2 = "colorwallmounted",
+	palette = "unifieddyes_palette_colorwallmounted.png",
+	after_place_node = unifieddyes.fix_rotation,
+	after_dig_node = unifieddyes.after_dig_node,
+})
