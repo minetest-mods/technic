@@ -154,3 +154,20 @@ minetest.register_node(":technic:insulator_clip_fencepost", {
 	place_param2 = 171 -- medium amber, low saturation, closest color to default:wood
 })
 
+minetest.register_craft({
+	output = "technic:insulator_clip",
+	recipe = {
+		{ "", "dye:white", ""},
+		{ "", "technic:raw_latex", ""},
+		{ "technic:raw_latex", "default:stone", "technic:raw_latex"},
+	}
+})
+
+minetest.register_craft({
+	output = "technic:insulator_clip_fencepost 2",
+	recipe = {
+		{ "", "dye:white", ""},
+		{ "", "technic:raw_latex", ""},
+		{ "technic:raw_latex", "default:fence_wood", "technic:raw_latex"},
+	}
+})
