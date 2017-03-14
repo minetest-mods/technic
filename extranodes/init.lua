@@ -125,6 +125,7 @@ if minetest.get_modpath("unifieddyes") then
 		paramtype = "light",
 		paramtype2 = "color",
 		palette = "unifieddyes_palette_extended.png",
+		on_construct = unifieddyes.on_construct,
 		after_dig_node = unifieddyes.after_dig_node,
 		drawtype = "nodebox",
 		node_box = {
