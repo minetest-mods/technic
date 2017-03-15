@@ -58,7 +58,12 @@ local mesecons = {
 	}
 }
 
-local run = function(pos, node)
+local run = function(pos, node, run_stage)
+	-- run only in producer stage.
+	if run_stage == technic.receiver then
+		return
+	end
+
 	local remain = 0.9
 	-- Machine information
 	local machine_name  = S("Supply Converter")
