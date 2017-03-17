@@ -146,10 +146,7 @@ local iclipfence_def = {
 	sounds = default.node_sound_stone_defaults(),
 }
 
-if not minetest.get_modpath("unifieddyes") then
-	minetest.register_node(":technic:insulator_clip", iclip_def)
-	minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
-else
+if minetest.get_modpath("unifieddyes") then
 	iclip_def.paramtype2 = "colorwallmounted"
 	iclip_def.palette = "unifieddyes_palette_colorwallmounted.png"
 	iclip_def.after_place_node = unifieddyes.fix_rotation
@@ -162,10 +159,10 @@ else
 	iclipfence_def.after_dig_node = unifieddyes.after_dig_node
 	iclipfence_def.groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
 	iclipfence_def.place_param2 = 171 -- medium amber, low saturation, closest color to default:wood
-
-	minetest.register_node(":technic:insulator_clip", iclip_def)
-	minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
 end
+
+minetest.register_node(":technic:insulator_clip", iclip_def)
+minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
 
 minetest.register_craft({
 	output = "technic:insulator_clip",
