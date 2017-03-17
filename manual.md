@@ -771,7 +771,7 @@ in 0.53 m (factor of 3.7 per meter), but is a bit scarce to use for
 this purpose.  Uranium halves radiation in 0.31 m (factor of 9.4 per
 meter), but is itself radioactive.  The very best shielding in the game
 is nyancat material (nyancats and their rainbow blocks), which halves
-radiation in 0.22 m (factor of 24 per meter), but is extremely scarce. See [technic/technic/radiation.lua]: https://github.com/minetest-technic/technic/blob/master/technic/radiation.lua for the in-game shielding values, which are different from real-life values.
+radiation in 0.22 m (factor of 24 per meter), but is extremely scarce. See [technic/technic/radiation.lua](https://github.com/minetest-technic/technic/blob/master/technic/radiation.lua) for the in-game shielding values, which are different from real-life values.
 
 If the theoretical radiation damage from a particular source is
 sufficiently small, due to distance and shielding, then no damage at all
