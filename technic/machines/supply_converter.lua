@@ -68,7 +68,15 @@ local run = function(pos, node, run_stage)
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
-	local enabled = meta:get_string("enabled") ~= "0" and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
+	local enabled       = meta:get_string("enabled")
+	if enabled == "" then
+		-- Backwards compatibility
+		minetest.registered_nodes["technic:supply_converter"].on_construct(pos)
+		enabled = true
+	else
+		enabled = enabled == "1"
+	end
+	enabled = enabled and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
 	local demand = enabled and meta:get_int("power") or 0
 
 	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
