@@ -149,13 +149,17 @@ local iclipfence_def = {
 if minetest.get_modpath("unifieddyes") then
 	iclip_def.paramtype2 = "colorwallmounted"
 	iclip_def.palette = "unifieddyes_palette_colorwallmounted.png"
-	iclip_def.after_place_node = unifieddyes.fix_rotation
+	iclip_def.after_place_node = function(pos, placer, itemstack, pointed_thing)
+		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
+		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
+	end
 	iclip_def.after_dig_node = unifieddyes.after_dig_node
 	iclip_def.groups = {choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
 
 	iclipfence_def.paramtype2 = "color"
 	iclipfence_def.palette = "unifieddyes_palette_extended.png"
 	iclipfence_def.on_construct = unifieddyes.on_construct
+	iclipfence_def.after_place_node = unifieddyes.recolor_on_place
 	iclipfence_def.after_dig_node = unifieddyes.after_dig_node
 	iclipfence_def.groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
 	iclipfence_def.place_param2 = 171 -- medium amber, low saturation, closest color to default:wood
