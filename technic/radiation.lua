@@ -56,6 +56,7 @@ local rad_resistance_node = {
 	["default:mossycobble"] = 15,
 	["pbj_pup:pbj_pup"] = 10000,
 	["pbj_pup:pbj_pup_candies"] = 10000,
+	["gloopblocks:rainbow_block"] = 5000,
 	["default:nyancat"] = 10000,
 	["default:nyancat_rainbow"] = 10000,
 	["nyancat:nyancat"] = 10000,
