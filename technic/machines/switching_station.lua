@@ -63,6 +63,23 @@ minetest.register_node("technic:switching_station",{
 		pos.y = pos.y - 1
 		minetest.forceload_free_block(pos)
 	end,
+	mesecons = {effector = {
+		rules = mesecon.rules.default,
+	}},
+	digiline = {
+		receptor = {action = function() end},
+		effector = {
+			action = function(pos, node, channel, msg)
+				if msg == "GET" or msg == "get" then
+					local meta = minetest.get_meta(pos)
+					digilines.receptor_send(pos, digilines.rules.default, channel, {
+						supply = meta:get_int("supply"),
+						demand = meta:get_int("demand")
+					})
+				end
+			end
+		},
+	},
 })
 
 --------------------------------------------------
@@ -190,7 +207,7 @@ minetest.register_abm({
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
-		
+
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
@@ -216,7 +233,7 @@ minetest.register_abm({
 			minetest.forceload_free_block(pos1)
 			return
 		end
-		
+
 		-- Run all the nodes
 		local function run_nodes(list, run_stage)
 			for _, pos2 in ipairs(list) do
@@ -231,7 +248,7 @@ minetest.register_abm({
 				end
 			end
 		end
-		
+
 		run_nodes(PR_nodes, technic.producer)
 		run_nodes(RE_nodes, technic.receiver)
 		run_nodes(BA_nodes, technic.battery)
@@ -301,6 +318,20 @@ minetest.register_abm({
 				S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
+		-- digiline
+		if minetest.get_modpath("mesecons") and
+				minetest.get_modpath("digilines") and
+				mesecon.is_powered(pos) then
+			if PR_eu_supply ~= meta:get_int("supply") or
+					RE_eu_demand ~= meta:get_int("demand") then
+				digilines.receptor_send(pos, digilines.rules.default,
+						"switching_station"..minetest.pos_to_string(pos), {
+							supply = PR_eu_supply,
+							demand = RE_eu_demand
+						})
+			end
+		end
+
 		-- Data that will be used by the power monitor
 		meta:set_int("supply",PR_eu_supply)
 		meta:set_int("demand",RE_eu_demand)
@@ -366,7 +397,7 @@ minetest.register_abm({
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
 		end
-		
+
 	end,
 })
 
