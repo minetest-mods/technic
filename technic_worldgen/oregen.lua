@@ -54,13 +54,13 @@ minetest.register_ore({
 	ore_type         = "scatter",
 	ore              = "technic:mineral_zinc",
 	wherein          = "default:stone",
-	clust_scarcity   = 8*8*8,
-	clust_num_ores   = 4,
-	clust_size       = 3,
+	clust_scarcity   = 9*9*9,
+	clust_num_ores   = 5,
+	clust_size       = 7,
 	y_min       = -32,
 	y_max       = 2,
-	noise_params     = zinc_params,
-	noise_threshold = zinc_threshhold,
+	noise_params     = lead_params,
+	noise_threshhold = lead_threshhold,
 })
 
 minetest.register_ore({

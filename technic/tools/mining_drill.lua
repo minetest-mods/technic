@@ -71,12 +71,6 @@ local function drill_dig_it1 (player)
 end
 
 local function drill_dig_it2 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z-2
-	drill_dig_it0 (pos,player)
-	pos.z=pos.z+1
 	pos.y=pos.y+1
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
@@ -84,7 +78,14 @@ local function drill_dig_it2 (pos,player)
 	pos.z=pos.z-2
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
-	pos.y=pos.y-2
+	pos.y=pos.y-1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z-2
+	drill_dig_it0 (pos,player)
+	pos.z=pos.z+1
+	pos.y=pos.y-1
 	drill_dig_it0 (pos,player)
 	pos.z=pos.z+1
 	drill_dig_it0 (pos,player)
@@ -93,12 +94,6 @@ local function drill_dig_it2 (pos,player)
 end
 
 local function drill_dig_it3 (pos,player)
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x-2
-	drill_dig_it0 (pos,player)
-	pos.x=pos.x+1
 	pos.y=pos.y+1
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
@@ -106,7 +101,14 @@ local function drill_dig_it3 (pos,player)
 	pos.x=pos.x-2
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
-	pos.y=pos.y-2
+	pos.y=pos.y-1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x-2
+	drill_dig_it0 (pos,player)
+	pos.x=pos.x+1
+	pos.y=pos.y-1
 	drill_dig_it0 (pos,player)
 	pos.x=pos.x+1
 	drill_dig_it0 (pos,player)
@@ -252,10 +254,9 @@ local function mining_drill_mk2_setmode(user,itemstack)
 	mode=mode+1
 	if mode>=5 then mode=1 end
 	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk2_"..mode
+    itemstack:set_name("technic:mining_drill_mk2_"..mode);
 	meta["mode"]=mode
-	item["metadata"]=minetest.serialize(meta)
-	itemstack:replace(item)
+    itemstack:set_metadata(minetest.serialize(meta))
 	return itemstack
 end
 
@@ -276,10 +277,9 @@ local function mining_drill_mk3_setmode(user,itemstack)
 	mode=mode+1
 	if mode>=6 then mode=1 end
 	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
-	item["name"]="technic:mining_drill_mk3_"..mode
+    itemstack:set_name("technic:mining_drill_mk3_"..mode);
 	meta["mode"]=mode
-	item["metadata"]=minetest.serialize(meta)
-	itemstack:replace(item)
+    itemstack:set_metadata(minetest.serialize(meta))
 	return itemstack
 end
 
@@ -296,7 +296,7 @@ local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
 	end
 	local charge_to_take = cost_to_use(2, meta.mode)
 	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 		drill_dig_it(pos, user, meta.mode)
 		if not technic.creative_mode then
 			meta.charge = meta.charge - charge_to_take
@@ -319,7 +319,7 @@ local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
 	end
 	local charge_to_take = cost_to_use(3, meta.mode)
 	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 		drill_dig_it(pos, user, meta.mode)
 		if not technic.creative_mode then
 			meta.charge = meta.charge - charge_to_take
@@ -348,7 +348,7 @@ minetest.register_tool("technic:mining_drill", {
 		end
 		local charge_to_take = cost_to_use(1, 1)
 		if meta.charge >= charge_to_take then
-			local pos = minetest.get_pointed_thing_position(pointed_thing, above)
+			local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 			drill_dig_it(pos, user, 1)
 			if not technic.creative_mode then
 				meta.charge = meta.charge - charge_to_take

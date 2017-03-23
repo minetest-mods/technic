@@ -21,7 +21,7 @@ local function deploy_node(inv, slot_name, pos, node, machine_node)
 		end
 		if remove_to then
 			for i = 1, remove_to do
-				inv:remove_item(drops[i])
+				inv:remove_item(slot_name, drops[i])
 			end
 		else
 			minetest.remove_node(pos)

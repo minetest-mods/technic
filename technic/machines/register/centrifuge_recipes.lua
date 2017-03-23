@@ -14,6 +14,8 @@ local recipes = {
 	{ "technic:bronze_dust 4",             "technic:copper_dust 3",       "technic:tin_dust"      },
 	{ "technic:stainless_steel_dust 4",    "technic:wrought_iron_dust 3", "technic:chromium_dust" },
 	{ "technic:brass_dust 3",              "technic:copper_dust 2",       "technic:zinc_dust"     },
+	{ "technic:chernobylite_dust",         "default:sand",                "technic:uranium3_dust" },
+	{ "default:dirt 4",                    "default:sand",                "default:gravel",       "default:clay_lump 2"     },
 }
 
 local function uranium_dust(p)
@@ -34,5 +36,5 @@ if minetest.get_modpath("farming") then
 end
 
 for _, data in pairs(recipes) do
-	technic.register_separating_recipe({ input = { data[1] }, output = { data[2], data[3] } })
+	technic.register_separating_recipe({ input = { data[1] }, output = { data[2], data[3], data[4] } })
 end
