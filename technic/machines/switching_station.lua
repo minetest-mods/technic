@@ -34,6 +34,9 @@
 technic.networks = {}
 technic.cables = {}
 
+local mesecons_path = minetest.get_modpath("mesecons")
+local digilines_path = minetest.get_modpath("digilines")
+
 local S = technic.getter
 
 minetest.register_craft({
@@ -57,12 +60,47 @@ minetest.register_node("technic:switching_station",{
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
+		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
+		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 	end,
 	after_dig_node = function(pos)
 		minetest.forceload_free_block(pos)
 		pos.y = pos.y - 1
 		minetest.forceload_free_block(pos)
 	end,
+	on_receive_fields = function(pos, formname, fields, sender)
+		if not fields.channel then
+			return
+		end
+		local plname = sender:get_player_name()
+		if minetest.is_protected(pos, plname) then
+			minetest.record_protection_violation(pos, plname)
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		meta:set_string("channel", fields.channel)
+	end,
+	mesecons = {effector = {
+		rules = mesecon.rules.default,
+	}},
+	digiline = {
+		receptor = {action = function() end},
+		effector = {
+			action = function(pos, node, channel, msg)
+				if msg ~= "GET" and msg ~= "get" then
+					return
+				end
+				local meta = minetest.get_meta(pos)
+				if channel ~= meta:get_string("channel") then
+					return
+				end
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					supply = meta:get_int("supply"),
+					demand = meta:get_int("demand")
+				})
+			end
+		},
+	},
 })
 
 --------------------------------------------------
@@ -190,7 +228,7 @@ minetest.register_abm({
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
-		
+
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
@@ -216,7 +254,7 @@ minetest.register_abm({
 			minetest.forceload_free_block(pos1)
 			return
 		end
-		
+
 		-- Run all the nodes
 		local function run_nodes(list, run_stage)
 			for _, pos2 in ipairs(list) do
@@ -231,7 +269,7 @@ minetest.register_abm({
 				end
 			end
 		end
-		
+
 		run_nodes(PR_nodes, technic.producer)
 		run_nodes(RE_nodes, technic.receiver)
 		run_nodes(BA_nodes, technic.battery)
@@ -301,6 +339,19 @@ minetest.register_abm({
 				S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
+		-- If mesecon signal and power supply or demand changed then
+		-- send them via digilines.
+		if mesecons_path and digilines_path and mesecon.is_powered(pos) then
+			if PR_eu_supply ~= meta:get_int("supply") or
+					RE_eu_demand ~= meta:get_int("demand") then
+				local channel = meta:get_string("channel")
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					supply = PR_eu_supply,
+					demand = RE_eu_demand
+				})
+			end
+		end
+
 		-- Data that will be used by the power monitor
 		meta:set_int("supply",PR_eu_supply)
 		meta:set_int("demand",RE_eu_demand)
@@ -366,7 +417,7 @@ minetest.register_abm({
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
 		end
-		
+
 	end,
 })
 
