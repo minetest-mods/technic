@@ -34,6 +34,9 @@
 technic.networks = {}
 technic.cables = {}
 
+local mesecons_path = minetest.get_modpath("mesecons")
+local digilines_path = minetest.get_modpath("digilines")
+
 local S = technic.getter
 
 minetest.register_craft({
@@ -57,6 +60,8 @@ minetest.register_node("technic:switching_station",{
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
+		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
+		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 	end,
 	after_dig_node = function(pos)
 		minetest.forceload_free_block(pos)
@@ -70,13 +75,17 @@ minetest.register_node("technic:switching_station",{
 		receptor = {action = function() end},
 		effector = {
 			action = function(pos, node, channel, msg)
-				if msg == "GET" or msg == "get" then
-					local meta = minetest.get_meta(pos)
-					digilines.receptor_send(pos, digilines.rules.default, channel, {
-						supply = meta:get_int("supply"),
-						demand = meta:get_int("demand")
-					})
+				if msg ~= "GET" and msg ~= "get" then
+					return
 				end
+				local meta = minetest.get_meta(pos)
+				if channel ~= meta:get_string("channel") then
+					return
+				end
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					supply = meta:get_int("supply"),
+					demand = meta:get_int("demand")
+				})
 			end
 		},
 	},
@@ -318,17 +327,16 @@ minetest.register_abm({
 				S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
-		-- digiline
-		if minetest.get_modpath("mesecons") and
-				minetest.get_modpath("digilines") and
-				mesecon.is_powered(pos) then
+		-- If mesecon signal and power supply or demand changed then
+		-- send them via digilines.
+		if mesecons_path and digilines_path and mesecon.is_powered(pos) then
 			if PR_eu_supply ~= meta:get_int("supply") or
 					RE_eu_demand ~= meta:get_int("demand") then
-				digilines.receptor_send(pos, digilines.rules.default,
-						"switching_station"..minetest.pos_to_string(pos), {
-							supply = PR_eu_supply,
-							demand = RE_eu_demand
-						})
+				local channel = meta:get_string("channel")
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					supply = PR_eu_supply,
+					demand = RE_eu_demand
+				})
 			end
 		end
 
