@@ -2,7 +2,9 @@ default
 pipeworks
 technic_worldgen
 bucket?
+mesecons?
 mesecons_mvps?
+digilines?
 intllib?
 unified_inventory?
 vector_extras?
