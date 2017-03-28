@@ -1,4 +1,6 @@
 
+local digilines_path = minetest.get_modpath("digilines")
+
 local S = technic.getter
 
 technic.register_power_tool("technic:battery", 10000)
@@ -62,29 +64,32 @@ function technic.register_battery_box(data)
 	local ltier = string.lower(tier)
 
 	local formspec =
-		"invsize[8,9;]"..
+		"size[8,9]"..
 		"image[1,1;1,2;technic_power_meter_bg.png]"..
-		"list[current_name;src;3,1;1,1;]"..
+		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
-		"list[current_name;dst;5,1;1,1;]"..
+		"list[context;dst;5,1;1,1;]"..
 		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
 		"list[current_player;main;0,5;8,4;]"..
-		"listring[current_name;dst]"..
+		"listring[context;dst]"..
 		"listring[current_player;main]"..
-		"listring[current_name;src]"..
+		"listring[context;src]"..
 		"listring[current_player;main]"
+	if digilines_path then
+		formspec = formspec.."button[0.6,3.7;2,1;edit_channel;edit Channel]"
+	end
 
 	if data.upgrade then
 		formspec = formspec..
-			"list[current_name;upgrade1;3.5,3;1,1;]"..
-			"list[current_name;upgrade2;4.5,3;1,1;]"..
+			"list[context;upgrade1;3.5,3;1,1;]"..
+			"list[context;upgrade2;4.5,3;1,1;]"..
 			"label[3.5,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
+			"listring[context;upgrade1]"..
 			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
+			"listring[context;upgrade2]"..
 			"listring[current_player;main]"
 	end
 
@@ -98,7 +103,7 @@ function technic.register_battery_box(data)
 			EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
 		end
 		local max_charge = data.max_charge * (1 + EU_upgrade / 10)
-			
+
 		-- Charge/discharge the battery with the input EUs
 		if eu_input >= 0 then
 			current_charge = math.min(current_charge + eu_input, max_charge)
@@ -113,7 +118,7 @@ function technic.register_battery_box(data)
 		current_charge, tool_empty = technic.discharge_tools(meta,
 				current_charge, data.discharge_step,
 				max_charge)
-			
+
 		if data.tube then
 			local inv = meta:get_inventory()
 			technic.handle_machine_pipeworks(pos, tube_upgrade,
@@ -157,27 +162,28 @@ function technic.register_battery_box(data)
 		end
 		meta:set_string("infotext", infotext)
 	end
-	
+
 	for i = 0, 8 do
 		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 				technic_machine=1, ["technic_"..ltier]=1}
 		if i ~= 0 then
 			groups.not_in_creative_inventory = 1
 		end
-		
+
 		if data.tube then
 			groups.tubedevice = 1
 			groups.tubedevice_receiver = 1
 		end
-		
+
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
-			tiles = {"technic_"..ltier.."_battery_box_top.png",
-			         "technic_"..ltier.."_battery_box_bottom.png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
+			tiles = {
+				"technic_"..ltier.."_battery_box_top.png",
+				"technic_"..ltier.."_battery_box_bottom.png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
 			groups = groups,
 			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
@@ -191,6 +197,7 @@ function technic.register_battery_box(data)
 
 				meta:set_string("infotext", S("%s Battery Box"):format(tier))
 				meta:set_string("formspec", formspec)
+				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int(tier.."_EU_supply", 0)
 				meta:set_int(tier.."_EU_input",  0)
@@ -206,7 +213,42 @@ function technic.register_battery_box(data)
 			allow_metadata_inventory_move = technic.machine_inventory_move,
 			technic_run = run,
 			after_place_node = data.tube and pipeworks.after_place,
-			after_dig_node = technic.machine_after_dig_node
+			after_dig_node = technic.machine_after_dig_node,
+			on_receive_fields = function(pos, formname, fields, sender)
+				if not fields.edit_channel then
+					return
+				end
+				local meta = minetest.get_meta(pos)
+				minetest.show_formspec(sender:get_player_name(),
+						"technic:battery_box_edit_channel"..minetest.pos_to_string(pos),
+						"field[channel;Digiline Channel;"..meta:get_string("channel").."]")
+			end,
+			digiline = {
+				receptor = {action = function() end},
+				effector = {
+					action = function(pos, node, channel, msg)
+						if msg ~= "GET" and msg ~= "get" then
+							return
+						end
+						local meta = minetest.get_meta(pos)
+						if channel ~= meta:get_string("channel") then
+							return
+						end
+						local inv = meta:get_inventory()
+						digilines.receptor_send(pos, digilines.rules.default, channel, {
+							demand = meta:get_int(tier.."_EU_demand"),
+							supply = meta:get_int(tier.."_EU_supply"),
+							input  = meta:get_int(tier.."_EU_input"),
+							charge = meta:get_int("internal_EU_charge"),
+							max_charge = data.max_charge * (1 + technic.handle_machine_upgrades(meta) / 10),
+							src      = inv:get_stack("src", 1):to_table(),
+							dst      = inv:get_stack("dst", 1):to_table(),
+							upgrade1 = inv:get_stack("upgrade1", 1):to_table(),
+							upgrade2 = inv:get_stack("upgrade2", 1):to_table()
+						})
+					end
+				},
+			},
 		})
 	end
 
@@ -217,6 +259,23 @@ function technic.register_battery_box(data)
 	end
 
 end -- End registration
+
+minetest.register_on_player_receive_fields(
+	function(player, formname, fields)
+		if formname:sub(1, 32) ~= "technic:battery_box_edit_channel" or
+				not fields.channel then
+			return
+		end
+		local pos = minetest.string_to_pos(formname:sub(33))
+		local plname = player:get_player_name()
+		if minetest.is_protected(pos, plname) then
+			minetest.record_protection_violation(pos, plname)
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		meta:set_string("channel", fields.channel)
+	end
+)
 
 
 function technic.charge_tools(meta, batt_charge, charge_step)

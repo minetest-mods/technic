@@ -48,6 +48,13 @@ minetest.register_craft({
 	}
 })
 
+local mesecon_def
+if mesecons_path then
+	mesecon_def = {effector = {
+		rules = mesecon.rules.default,
+	}}
+end
+
 minetest.register_node("technic:switching_station",{
 	description = S("Switching Station"),
 	tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
@@ -80,9 +87,7 @@ minetest.register_node("technic:switching_station",{
 		local meta = minetest.get_meta(pos)
 		meta:set_string("channel", fields.channel)
 	end,
-	mesecons = {effector = {
-		rules = mesecon.rules.default,
-	}},
+	mesecons = mesecon_def,
 	digiline = {
 		receptor = {action = function() end},
 		effector = {
