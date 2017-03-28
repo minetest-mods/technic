@@ -58,9 +58,7 @@ minetest.register_ore({
 	clust_num_ores   = 5,
 	clust_size       = 7,
 	y_min       = -32,
-	y_max       = 2,
-	noise_params     = lead_params,
-	noise_threshhold = lead_threshhold,
+	y_max       = 2
 })
 
 minetest.register_ore({
