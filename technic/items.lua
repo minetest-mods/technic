@@ -1,4 +1,3 @@
-
 local S = technic.getter
 
 minetest.register_craftitem("technic:silicon_wafer", {
@@ -6,7 +5,7 @@ minetest.register_craftitem("technic:silicon_wafer", {
 	inventory_image = "technic_silicon_wafer.png",
 })
 
-minetest.register_craftitem( "technic:doped_silicon_wafer", {
+minetest.register_craftitem("technic:doped_silicon_wafer", {
 	description = S("Doped Silicon Wafer"),
 	inventory_image = "technic_doped_silicon_wafer.png",
 })
@@ -16,15 +15,14 @@ minetest.register_craftitem("technic:uranium_fuel", {
 	inventory_image = "technic_uranium_fuel.png",
 })
 
-minetest.register_craftitem( "technic:diamond_drill_head", {
+minetest.register_craftitem("technic:diamond_drill_head", {
 	description = S("Diamond Drill Head"),
 	inventory_image = "technic_diamond_drill_head.png",
 })
 
 minetest.register_tool("technic:blue_energy_crystal", {
 	description = S("Blue Energy Crystal"),
-	inventory_image = minetest.inventorycube(
-		"technic_diamond_block_blue.png",
+	inventory_image = minetest.inventorycube("technic_diamond_block_blue.png",
 		"technic_diamond_block_blue.png",
 		"technic_diamond_block_blue.png"),
 	wear_represents = "technic_RE_charge",
@@ -32,15 +30,14 @@ minetest.register_tool("technic:blue_energy_crystal", {
 	tool_capabilities = {
 		max_drop_level = 0,
 		groupcaps = {
-			fleshy = {times={}, uses=10000, maxlevel=0}
+			fleshy = { times = {}, uses = 10000, maxlevel = 0 }
 		}
 	}
-}) 
+})
 
 minetest.register_tool("technic:green_energy_crystal", {
 	description = S("Green Energy Crystal"),
-	inventory_image = minetest.inventorycube(
-		"technic_diamond_block_green.png",
+	inventory_image = minetest.inventorycube("technic_diamond_block_green.png",
 		"technic_diamond_block_green.png",
 		"technic_diamond_block_green.png"),
 	wear_represents = "technic_RE_charge",
@@ -48,15 +45,14 @@ minetest.register_tool("technic:green_energy_crystal", {
 	tool_capabilities = {
 		max_drop_level = 0,
 		groupcaps = {
-			fleshy = {times={}, uses=10000, maxlevel=0}
+			fleshy = { times = {}, uses = 10000, maxlevel = 0 }
 		}
 	}
-}) 
+})
 
 minetest.register_tool("technic:red_energy_crystal", {
 	description = S("Red Energy Crystal"),
-	inventory_image = minetest.inventorycube(
-		"technic_diamond_block_red.png",
+	inventory_image = minetest.inventorycube("technic_diamond_block_red.png",
 		"technic_diamond_block_red.png",
 		"technic_diamond_block_red.png"),
 	wear_represents = "technic_RE_charge",
@@ -64,10 +60,10 @@ minetest.register_tool("technic:red_energy_crystal", {
 	tool_capabilities = {
 		max_drop_level = 0,
 		groupcaps = {
-			fleshy = {times={}, uses=10000, maxlevel=0}
+			fleshy = { times = {}, uses = 10000, maxlevel = 0 }
 		}
 	}
-}) 
+})
 
 
 minetest.register_craftitem("technic:fine_copper_wire", {
@@ -105,12 +101,12 @@ minetest.register_craftitem("technic:mv_transformer", {
 	inventory_image = "technic_mv_transformer.png",
 })
 
-minetest.register_craftitem( "technic:hv_transformer", {
+minetest.register_craftitem("technic:hv_transformer", {
 	description = S("High Voltage Transformer"),
 	inventory_image = "technic_hv_transformer.png",
 })
 
-minetest.register_craftitem( "technic:control_logic_unit", {
+minetest.register_craftitem("technic:control_logic_unit", {
 	description = S("Control Logic Unit"),
 	inventory_image = "technic_control_logic_unit.png",
 })
@@ -147,24 +143,24 @@ minetest.register_craftitem("technic:carbon_cloth", {
 
 minetest.register_node("technic:machine_casing", {
 	description = S("Machine Casing"),
-	groups = {cracky=2},
+	groups = { cracky = 2 },
 	sunlight_propagates = true,
 	paramtype = "light",
 	drawtype = "allfaces",
-	tiles = {"technic_machine_casing.png"},
+	tiles = { "technic_machine_casing.png" },
 	sounds = default.node_sound_stone_defaults(),
 })
 
 for p = 0, 35 do
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
-	local ingot = "technic:uranium"..psuffix.."_ingot"
-	local block = "technic:uranium"..psuffix.."_block"
+	local ingot = "technic:uranium" .. psuffix .. "_ingot"
+	local block = "technic:uranium" .. psuffix .. "_block"
 	local ov = p == 7 and minetest.override_item or nil;
 	(ov or minetest.register_craftitem)(ingot, {
-		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p/10),
+		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p / 10),
 		inventory_image = "technic_uranium_ingot.png",
-		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
+		groups = { uranium_ingot = 1, not_in_creative_inventory = nici },
 	});
 	-- Note on radioactivity of blocks:
 	-- Source: <http://www.wise-uranium.org/rup.html>
@@ -197,27 +193,32 @@ for p = 0, 35 do
 	-- uranium ore has radioactive=1.  This yields radioactive=1.0
 	-- for a fully-depleted uranium block and radioactive=2.6 for
 	-- a 3.5%-fissile uranium block.
-	local radioactivity = math.floor(math.sqrt((1+5.55*p/35) * 18 / (1+5.55*7/35)) + 0.5);
+	local radioactivity = math.floor(math.sqrt((1 + 5.55 * p / 35) * 18 / (1 + 5.55 * 7 / 35)) + 0.5);
 	(ov or minetest.register_node)(block, {
-		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
-		tiles = {"technic_uranium_block.png"},
+		description = string.format(S("%.1f%%-Fissile Uranium Block"), p / 10),
+		tiles = { "technic_uranium_block.png" },
 		is_ground_content = true,
-		groups = {uranium_block=1, not_in_creative_inventory=nici,
-			cracky=1, level=2, radioactive=radioactivity},
+		groups = {
+			uranium_block = 1,
+			not_in_creative_inventory = nici,
+			cracky = 1,
+			level = 2,
+			radioactive = radioactivity
+		},
 		sounds = default.node_sound_stone_defaults(),
 	});
 	if not ov then
 		minetest.register_craft({
 			output = block,
 			recipe = {
-				{ingot, ingot, ingot},
-				{ingot, ingot, ingot},
-				{ingot, ingot, ingot},
+				{ ingot, ingot, ingot },
+				{ ingot, ingot, ingot },
+				{ ingot, ingot, ingot },
 			},
 		})
 		minetest.register_craft({
-			output = ingot.." 9",
-			recipe = {{block}},
+			output = ingot .. " 9",
+			recipe = { { block } },
 		})
 	end
 end

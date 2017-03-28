@@ -8,7 +8,7 @@ local S = technic.getter
 technic.register_power_tool("technic:flashlight", flashlight_max_charge)
 
 minetest.register_alias("technic:light_off", "air")
-      
+
 minetest.register_tool("technic:flashlight", {
 	description = S("Flashlight"),
 	inventory_image = "technic_flashlight.png",
@@ -20,9 +20,9 @@ minetest.register_tool("technic:flashlight", {
 minetest.register_craft({
 	output = "technic:flashlight",
 	recipe = {
-		{"technic:rubber",                "default:glass",   "technic:rubber"},
-		{"technic:stainless_steel_ingot", "technic:battery", "technic:stainless_steel_ingot"},
-		{"",                              "technic:battery", ""}
+		{ "technic:rubber", "default:glass", "technic:rubber" },
+		{ "technic:stainless_steel_ingot", "technic:battery", "technic:stainless_steel_ingot" },
+		{ "", "technic:battery", "" }
 	}
 })
 
@@ -97,7 +97,7 @@ minetest.register_globalstep(function(dtime)
 		elseif (player_moved or not was_wielding[player_name]) and flashlight_weared then
 			local node = minetest.get_node_or_nil(rounded_pos)
 			if node and node.name == "air" then
-				minetest.set_node(rounded_pos, {name="technic:light"})
+				minetest.set_node(rounded_pos, { name = "technic:light" })
 			end
 			local node = minetest.get_node_or_nil(old_pos)
 			if node and node.name == "technic:light" then
@@ -111,9 +111,9 @@ end)
 
 minetest.register_node("technic:light", {
 	drawtype = "glasslike",
-	tiles = {"technic_light.png"},
+	tiles = { "technic_light.png" },
 	paramtype = "light",
-	groups = {not_in_creative_inventory=1},
+	groups = { not_in_creative_inventory = 1 },
 	drop = "",
 	walkable = false,
 	buildable_to = true,

@@ -33,7 +33,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	local ndef = minetest.registered_nodes[node.name]
 	if not ndef or not ndef.paramtype2 == "facedir" or
 			(ndef.drawtype == "nodebox" and
-			not ndef.node_box.type == "fixed") or
+					not ndef.node_box.type == "fixed") or
 			node.param2 == nil then
 		return
 	end
@@ -46,7 +46,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		return
 	end
 
-	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10})
+	minetest.sound_play("technic_sonic_screwdriver", { pos = pos, gain = 0.3, max_hear_distance = 10 })
 
 	-- Set param2
 	local rotationPart = node.param2 % 32 -- get first 4 bits
@@ -86,13 +86,13 @@ minetest.register_tool("technic:sonic_screwdriver", {
 		return itemstack
 	end,
 })
- 
+
 minetest.register_craft({
 	output = "technic:sonic_screwdriver",
 	recipe = {
-		{"",                         "default:diamond",        ""},
-		{"mesecons_materials:fiber", "technic:battery",        "mesecons_materials:fiber"},
-		{"mesecons_materials:fiber", "moreores:mithril_ingot", "mesecons_materials:fiber"}
+		{ "", "default:diamond", "" },
+		{ "mesecons_materials:fiber", "technic:battery", "mesecons_materials:fiber" },
+		{ "mesecons_materials:fiber", "moreores:mithril_ingot", "mesecons_materials:fiber" }
 	}
 })
 

@@ -1,4 +1,3 @@
-
 local S = technic.getter
 
 function technic.register_solar_array(data)
@@ -31,19 +30,21 @@ function technic.register_solar_array(data)
 			charge_to_give = math.max(charge_to_give, 0)
 			charge_to_give = math.min(charge_to_give, data.power * 50)
 			meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.pretty_num(charge_to_give)))
-			meta:set_int(tier.."_EU_supply", charge_to_give)
+			meta:set_int(tier .. "_EU_supply", charge_to_give)
 		else
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
-			meta:set_int(tier.."_EU_supply", 0)
+			meta:set_int(tier .. "_EU_supply", 0)
 		end
 	end
-	
-	minetest.register_node("technic:solar_array_"..ltier, {
-		tiles = {"technic_"..ltier.."_solar_array_top.png",  "technic_"..ltier.."_solar_array_bottom.png",
-			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png",
-			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png"},
-		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, ["technic_"..ltier]=1},
-		connect_sides = {"bottom"},
+
+	minetest.register_node("technic:solar_array_" .. ltier, {
+		tiles = {
+			"technic_" .. ltier .. "_solar_array_top.png", "technic_" .. ltier .. "_solar_array_bottom.png",
+			"technic_" .. ltier .. "_solar_array_side.png", "technic_" .. ltier .. "_solar_array_side.png",
+			"technic_" .. ltier .. "_solar_array_side.png", "technic_" .. ltier .. "_solar_array_side.png"
+		},
+		groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, technic_machine = 1, ["technic_" .. ltier] = 1 },
+		connect_sides = { "bottom" },
 		sounds = default.node_sound_wood_defaults(),
 		description = S("Arrayed Solar %s Generator"):format(tier),
 		active = false,
@@ -51,16 +52,16 @@ function technic.register_solar_array(data)
 		paramtype = "light",
 		node_box = {
 			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+			fixed = { -0.5, -0.5, -0.5, 0.5, 0, 0.5 },
 		},
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local name = minetest.get_node(pos).name
-			meta:set_int(tier.."_EU_supply", 0)
+			meta:set_int(tier .. "_EU_supply", 0)
 		end,
 		technic_run = run,
 	})
 
-	technic.register_machine(tier, "technic:solar_array_"..ltier, technic.producer)
+	technic.register_machine(tier, "technic:solar_array_" .. ltier, technic.producer)
 end
 

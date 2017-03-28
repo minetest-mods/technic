@@ -19,41 +19,49 @@ wrench.META_TYPE_INT = 0
 wrench.META_TYPE_FLOAT = 1
 wrench.META_TYPE_STRING = 2
 
-local INT, STRING, FLOAT  = 
-	wrench.META_TYPE_INT,
-	wrench.META_TYPE_STRING,
-	wrench.META_TYPE_FLOAT
+local INT, STRING, FLOAT =
+wrench.META_TYPE_INT,
+wrench.META_TYPE_STRING,
+wrench.META_TYPE_FLOAT
 
 wrench.registered_nodes = {
 	["default:chest"] = {
-		lists = {"main"},
+		lists = { "main" },
 	},
 	["default:chest_locked"] = {
-		lists = {"main"},
-		metas = {owner = STRING,
-			infotext = STRING},
+		lists = { "main" },
+		metas = {
+			owner = STRING,
+			infotext = STRING
+		},
 		owned = true,
 	},
 	["default:furnace"] = {
-		lists = {"fuel", "src", "dst"},
-		metas = {infotext = STRING,
+		lists = { "fuel", "src", "dst" },
+		metas = {
+			infotext = STRING,
 			fuel_totaltime = FLOAT,
 			fuel_time = FLOAT,
 			src_totaltime = FLOAT,
-			src_time = FLOAT},
+			src_time = FLOAT
+		},
 	},
 	["default:furnace_active"] = {
-		lists = {"fuel", "src", "dst"},
-		metas = {infotext = STRING,
+		lists = { "fuel", "src", "dst" },
+		metas = {
+			infotext = STRING,
 			fuel_totaltime = FLOAT,
 			fuel_time = FLOAT,
 			src_totaltime = FLOAT,
-			src_time = FLOAT},
+			src_time = FLOAT
+		},
 		store_meta_always = true,
 	},
 	["default:sign_wall"] = {
-		metas = {infotext = STRING,
-			text = STRING},
+		metas = {
+			infotext = STRING,
+			text = STRING
+		},
 	},
 }
 
@@ -67,7 +75,7 @@ end
 
 function wrench:register_node(name, def)
 	if minetest.registered_nodes[name] then
-	    self.registered_nodes[name] = def
+		self.registered_nodes[name] = def
 	end
 end
 

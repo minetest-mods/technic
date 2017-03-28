@@ -8,9 +8,8 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:solar_panel',
 	recipe = {
-		{'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer'},
-		{'technic:fine_silver_wire',    'technic:lv_cable',            'mesecons_materials:glue'},
-
+		{ 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer' },
+		{ 'technic:fine_silver_wire', 'technic:lv_cable', 'mesecons_materials:glue' },
 	}
 })
 
@@ -22,7 +21,7 @@ local run = function(pos, node)
 	-- As there is no way to determine if light is sunlight that is just a shame.
 	-- To take care of some of it solar panels do not work outside daylight hours or if
 	-- built below 0m
-	local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
+	local pos1 = { x = pos.x, y = pos.y + 1, z = pos.z }
 	local machine_name = S("Small Solar %s Generator"):format("LV")
 
 	local light = minetest.get_node_light(pos1, nil)
@@ -30,7 +29,7 @@ local run = function(pos, node)
 	local meta = minetest.get_meta(pos)
 	if light == nil then light = 0 end
 	-- turn on panel only during day time and if sufficient light
-        -- I know this is counter intuitive when cheating by using other light sources underground.
+	-- I know this is counter intuitive when cheating by using other light sources underground.
 	if light >= 12 and time_of_day >= 0.24 and time_of_day <= 0.76 and pos.y > -10 then
 		local charge_to_give = math.floor((light + pos1.y) * 3)
 		charge_to_give = math.max(charge_to_give, 0)
@@ -44,20 +43,27 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:solar_panel", {
-	tiles = {"technic_solar_panel_top.png",  "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
-	         "technic_solar_panel_side.png", "technic_solar_panel_side.png",   "technic_solar_panel_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
-	connect_sides = {"bottom"},
+	tiles = {
+		"technic_solar_panel_top.png", "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
+		"technic_solar_panel_side.png", "technic_solar_panel_side.png", "technic_solar_panel_side.png"
+	},
+	groups = {
+		snappy = 2,
+		choppy = 2,
+		oddly_breakable_by_hand = 2,
+		technic_machine = 1,
+		technic_lv = 1
+	},
+	connect_sides = { "bottom" },
 	sounds = default.node_sound_wood_defaults(),
-    	description = S("Small Solar %s Generator"):format("LV"),
+	description = S("Small Solar %s Generator"):format("LV"),
 	active = false,
 	drawtype = "nodebox",
 	paramtype = "light",
-	is_ground_content = true,	
+	is_ground_content = true,
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+		fixed = { -0.5, -0.5, -0.5, 0.5, 0, 0.5 },
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

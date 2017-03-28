@@ -42,25 +42,27 @@ local S = technic.getter
 minetest.register_craft({
 	output = "technic:switching_station",
 	recipe = {
-		{"",                     "technic:lv_transformer", ""},
-		{"default:copper_ingot", "technic:machine_casing", "default:copper_ingot"},
-		{"technic:lv_cable",     "technic:lv_cable",       "technic:lv_cable"}
+		{ "", "technic:lv_transformer", "" },
+		{ "default:copper_ingot", "technic:machine_casing", "default:copper_ingot" },
+		{ "technic:lv_cable", "technic:lv_cable", "technic:lv_cable" }
 	}
 })
 
-minetest.register_node("technic:switching_station",{
+minetest.register_node("technic:switching_station", {
 	description = S("Switching Station"),
-	tiles  = {"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
-                  "technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
-	          "technic_water_mill_top_active.png", "technic_water_mill_top_active.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1},
-	connect_sides = {"bottom"},
+	tiles = {
+		"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
+		"technic_water_mill_top_active.png", "technic_water_mill_top_active.png",
+		"technic_water_mill_top_active.png", "technic_water_mill_top_active.png"
+	},
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, technic_all_tiers = 1 },
+	connect_sides = { "bottom" },
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
-		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
+		meta:set_string("channel", "switching_station" .. minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 	end,
 	after_dig_node = function(pos)
@@ -80,11 +82,13 @@ minetest.register_node("technic:switching_station",{
 		local meta = minetest.get_meta(pos)
 		meta:set_string("channel", fields.channel)
 	end,
-	mesecons = {effector = {
-		rules = mesecon.rules.default,
-	}},
+	mesecons = {
+		effector = {
+			rules = mesecon.rules.default,
+		}
+	},
 	digiline = {
-		receptor = {action = function() end},
+		receptor = { action = function() end },
 		effector = {
 			action = function(pos, node, channel, msg)
 				if msg ~= "GET" and msg ~= "get" then
@@ -113,12 +117,12 @@ local add_new_cable_node = function(nodes, pos, network_id)
 	-- Ignore if the node has already been added
 	for i = 1, #nodes do
 		if pos.x == nodes[i].x and
-		   pos.y == nodes[i].y and
-		   pos.z == nodes[i].z then
+				pos.y == nodes[i].y and
+				pos.z == nodes[i].z then
 			return false
 		end
 	end
-	table.insert(nodes, {x=pos.x, y=pos.y, z=pos.z, visited=1})
+	table.insert(nodes, { x = pos.x, y = pos.y, z = pos.z, visited = 1 })
 	return true
 end
 
@@ -129,11 +133,11 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 	local name = minetest.get_node(pos).name
 
 	if technic.is_tier_cable(name, tier) then
-		add_new_cable_node(all_nodes, pos,network_id)
+		add_new_cable_node(all_nodes, pos, network_id)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
-		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
-		if     machines[name] == technic.producer then
+		meta:set_string(tier .. "_network", minetest.pos_to_string(sw_pos))
+		if machines[name] == technic.producer then
 			add_new_cable_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
 			add_new_cable_node(RE_nodes, pos, network_id)
@@ -150,7 +154,7 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 			add_new_cable_node(BA_nodes, pos, network_id)
 		end
 
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		meta:set_int(tier .. "_EU_timeout", 2) -- Touch node
 	end
 end
 
@@ -158,12 +162,13 @@ end
 local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, i, machines, tier, sw_pos, network_id)
 	local pos = all_nodes[i]
 	local positions = {
-		{x=pos.x+1, y=pos.y,   z=pos.z},
-		{x=pos.x-1, y=pos.y,   z=pos.z},
-		{x=pos.x,   y=pos.y+1, z=pos.z},
-		{x=pos.x,   y=pos.y-1, z=pos.z},
-		{x=pos.x,   y=pos.y,   z=pos.z+1},
-		{x=pos.x,   y=pos.y,   z=pos.z-1}}
+		{ x = pos.x + 1, y = pos.y, z = pos.z },
+		{ x = pos.x - 1, y = pos.y, z = pos.z },
+		{ x = pos.x, y = pos.y + 1, z = pos.z },
+		{ x = pos.x, y = pos.y - 1, z = pos.z },
+		{ x = pos.x, y = pos.y, z = pos.z + 1 },
+		{ x = pos.x, y = pos.y, z = pos.z - 1 }
+	}
 	--print("ON")
 	for i, cur_pos in pairs(positions) do
 		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id)
@@ -173,7 +178,7 @@ end
 local touch_nodes = function(list, tier)
 	for _, pos in ipairs(list) do
 		local meta = minetest.get_meta(pos)
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		meta:set_int(tier .. "_EU_timeout", 2) -- Touch node
 	end
 end
 
@@ -195,14 +200,20 @@ local get_network = function(sw_pos, pos1, tier)
 	local BA_nodes = {}
 	local RE_nodes = {}
 	local SP_nodes = {}
-	local all_nodes = {pos1}
+	local all_nodes = { pos1 }
 	repeat
 		traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
-				i, technic.machines[tier], tier, sw_pos, minetest.hash_node_position(pos1))
+			i, technic.machines[tier], tier, sw_pos, minetest.hash_node_position(pos1))
 		i = i + 1
 	until all_nodes[i] == nil
-	technic.networks[minetest.hash_node_position(pos1)] = {tier = tier, PR_nodes = PR_nodes,
-			RE_nodes = RE_nodes, BA_nodes = BA_nodes, SP_nodes = SP_nodes, all_nodes = all_nodes}
+	technic.networks[minetest.hash_node_position(pos1)] = {
+		tier = tier,
+		PR_nodes = PR_nodes,
+		RE_nodes = RE_nodes,
+		BA_nodes = BA_nodes,
+		SP_nodes = SP_nodes,
+		all_nodes = all_nodes
+	}
 	return PR_nodes, BA_nodes, RE_nodes
 end
 
@@ -210,33 +221,33 @@ end
 -- The action code for the switching station --
 -----------------------------------------------
 minetest.register_abm({
-	nodenames = {"technic:switching_station"},
+	nodenames = { "technic:switching_station" },
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
-	interval   = 1,
-	chance     = 1,
+	interval = 1,
+	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta             = minetest.get_meta(pos)
-		local meta1            = nil
-		local pos1             = {}
-		local PR_EU            = 0 -- EUs from PR nodes
-		local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
-		local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
-		local RE_EU            = 0 -- EUs to RE nodes
+		local meta = minetest.get_meta(pos)
+		local meta1 = nil
+		local pos1 = {}
+		local PR_EU = 0 -- EUs from PR nodes
+		local BA_PR_EU = 0 -- EUs from BA nodes (discharching)
+		local BA_RE_EU = 0 -- EUs to BA nodes (charging)
+		local RE_EU = 0 -- EUs to RE nodes
 
-		local tier      = ""
+		local tier = ""
 		local PR_nodes
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
 
 		-- Which kind of network are we on:
-		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
+		pos1 = { x = pos.x, y = pos.y - 1, z = pos.z }
 
 		--Disable if necessary
 		if meta:get_int("active") ~= 1 then
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(pos1)
-			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+			meta:set_string("infotext", S("%s Already Present"):format(machine_name))
 			return
 		end
 
@@ -275,9 +286,9 @@ minetest.register_abm({
 		run_nodes(BA_nodes, technic.battery)
 
 		-- Strings for the meta data
-		local eu_demand_str    = tier.."_EU_demand"
-		local eu_input_str     = tier.."_EU_input"
-		local eu_supply_str    = tier.."_EU_supply"
+		local eu_demand_str = tier .. "_EU_demand"
+		local eu_input_str = tier .. "_EU_input"
+		local eu_supply_str = tier .. "_EU_supply"
 
 		-- Distribute charge equally across multiple batteries.
 		local charge_total = 0
@@ -336,7 +347,7 @@ minetest.register_abm({
 		--dprint("Total BA demand:"..BA_eu_demand)
 
 		meta:set_string("infotext",
-				S("@1. Supply: @2 Demand: @3",
+			S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.pretty_num(PR_eu_supply), technic.pretty_num(RE_eu_demand)))
 
 		-- If mesecon signal and power supply or demand changed then
@@ -353,12 +364,12 @@ minetest.register_abm({
 		end
 
 		-- Data that will be used by the power monitor
-		meta:set_int("supply",PR_eu_supply)
-		meta:set_int("demand",RE_eu_demand)
+		meta:set_int("supply", PR_eu_supply)
+		meta:set_int("demand", RE_eu_demand)
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then
-		--dprint("PR_eu_supply"..PR_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
+			--dprint("PR_eu_supply"..PR_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
 			for _, pos1 in pairs(RE_nodes) do
 				meta1 = minetest.get_meta(pos1)
 				local eu_demand = meta1:get_int(eu_demand_str)
@@ -384,7 +395,7 @@ minetest.register_abm({
 		if PR_eu_supply + BA_eu_supply >= RE_eu_demand then
 			--dprint("PR_eu_supply "..PR_eu_supply.."+BA_eu_supply "..BA_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
 			for _, pos1 in pairs(RE_nodes) do
-				meta1  = minetest.get_meta(pos1)
+				meta1 = minetest.get_meta(pos1)
 				local eu_demand = meta1:get_int(eu_demand_str)
 				meta1:set_int(eu_input_str, eu_demand)
 			end
@@ -394,7 +405,7 @@ minetest.register_abm({
 			if BA_eu_supply > 0 then
 				charge_factor = (PR_eu_supply - RE_eu_demand) / BA_eu_supply
 			end
-			for n,pos1 in pairs(BA_nodes) do
+			for n, pos1 in pairs(BA_nodes) do
 				meta1 = minetest.get_meta(pos1)
 				local eu_supply = meta1:get_int(eu_supply_str)
 				meta1:set_int(eu_input_str, math.floor(eu_supply * charge_factor))
@@ -417,7 +428,6 @@ minetest.register_abm({
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
 		end
-
 	end,
 })
 
@@ -426,19 +436,20 @@ minetest.register_abm({
 -- A node must be touched by the station continuously in order to function
 local function switching_station_timeout_count(pos, tier)
 	local meta = minetest.get_meta(pos)
-	local timeout = meta:get_int(tier.."_EU_timeout")
+	local timeout = meta:get_int(tier .. "_EU_timeout")
 	if timeout <= 0 then
-		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
+		meta:set_int(tier .. "_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
-		meta:set_int(tier.."_EU_timeout", timeout - 1)
+		meta:set_int(tier .. "_EU_timeout", timeout - 1)
 		return false
 	end
 end
+
 minetest.register_abm({
-	nodenames = {"group:technic_machine"},
-	interval   = 1,
-	chance     = 1,
+	nodenames = { "group:technic_machine" },
+	interval = 1,
+	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
 		for tier, machines in pairs(technic.machines) do
@@ -461,17 +472,17 @@ minetest.register_abm({
 
 --Re-enable disabled switching station if necessary, similar to the timeout above
 minetest.register_abm({
-	nodenames = {"technic:switching_station"},
-	interval   = 1,
-	chance     = 1,
+	nodenames = { "technic:switching_station" },
+	interval = 1,
+	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
-		local pos1 = {x=pos.x,y=pos.y-1,z=pos.z}
+		local pos1 = { x = pos.x, y = pos.y - 1, z = pos.z }
 		local tier = technic.get_cable_tier(minetest.get_node(pos1).name)
 		if not tier then return end
 		if switching_station_timeout_count(pos, tier) then
 			local meta = minetest.get_meta(pos)
-			meta:set_int("active",1)
+			meta:set_int("active", 1)
 		end
 	end,
 })

@@ -36,7 +36,7 @@ function technic.register_can(d)
 			local charge = get_can_level(itemstack)
 			if charge == data.can_capacity then return end
 			if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
-				minetest.log("action", user:get_player_name().." tried to take "..node.name.." at protected position "..minetest.pos_to_string(pointed_thing.under).." with a "..data.can_name)
+				minetest.log("action", user:get_player_name() .. " tried to take " .. node.name .. " at protected position " .. minetest.pos_to_string(pointed_thing.under) .. " with a " .. data.can_name)
 				return
 			end
 			minetest.remove_node(pointed_thing.under)
@@ -60,10 +60,10 @@ function technic.register_can(d)
 			local charge = get_can_level(itemstack)
 			if charge == 0 then return end
 			if minetest.is_protected(pos, user:get_player_name()) then
-				minetest.log("action", user:get_player_name().." tried to place "..data.liquid_source_name.." at protected position "..minetest.pos_to_string(pos).." with a "..data.can_name)
+				minetest.log("action", user:get_player_name() .. " tried to place " .. data.liquid_source_name .. " at protected position " .. minetest.pos_to_string(pos) .. " with a " .. data.can_name)
 				return
 			end
-			minetest.set_node(pos, {name=data.liquid_source_name})
+			minetest.set_node(pos, { name = data.liquid_source_name })
 			charge = charge - 1
 			itemstack:set_metadata(tostring(charge))
 			set_can_wear(itemstack, charge, data.can_capacity)
@@ -89,9 +89,9 @@ technic.register_can({
 minetest.register_craft({
 	output = 'technic:water_can 1',
 	recipe = {
-		{'technic:zinc_ingot', 'technic:rubber','technic:zinc_ingot'},
-		{'technic:carbon_steel_ingot', '', 'technic:carbon_steel_ingot'},
-		{'technic:zinc_ingot', 'technic:carbon_steel_ingot', 'technic:zinc_ingot'},
+		{ 'technic:zinc_ingot', 'technic:rubber', 'technic:zinc_ingot' },
+		{ 'technic:carbon_steel_ingot', '', 'technic:carbon_steel_ingot' },
+		{ 'technic:zinc_ingot', 'technic:carbon_steel_ingot', 'technic:zinc_ingot' },
 	}
 })
 
@@ -107,8 +107,8 @@ technic.register_can({
 minetest.register_craft({
 	output = 'technic:lava_can 1',
 	recipe = {
-		{'technic:zinc_ingot', 'technic:stainless_steel_ingot','technic:zinc_ingot'},
-		{'technic:stainless_steel_ingot', '', 'technic:stainless_steel_ingot'},
-		{'technic:zinc_ingot', 'technic:stainless_steel_ingot', 'technic:zinc_ingot'},
+		{ 'technic:zinc_ingot', 'technic:stainless_steel_ingot', 'technic:zinc_ingot' },
+		{ 'technic:stainless_steel_ingot', '', 'technic:stainless_steel_ingot' },
+		{ 'technic:zinc_ingot', 'technic:stainless_steel_ingot', 'technic:zinc_ingot' },
 	}
 })

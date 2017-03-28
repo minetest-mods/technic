@@ -4,9 +4,9 @@
 technic.receiver = "RE"
 technic.producer = "PR"
 technic.producer_receiver = "PR_RE"
-technic.battery  = "BA"
+technic.battery = "BA"
 
-technic.machines    = {}
+technic.machines = {}
 technic.power_tools = {}
 technic.networks = {}
 

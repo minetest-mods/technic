@@ -10,14 +10,14 @@ minetest.register_craftitem(sawdust, {
 	inventory_image = "technic_sawdust.png",
 })
 minetest.register_craft({ type = "fuel", recipe = sawdust, burntime = 6 })
-technic.register_compressor_recipe({ input = {sawdust .. " 4"}, output = "default:wood" })
+technic.register_compressor_recipe({ input = { sawdust .. " 4" }, output = "default:wood" })
 
 -- tree/wood grindings
 local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
-	local grindings_name = "technic:"..lname.."_grindings"
-	local inventory_image = "technic_"..lname.."_grindings.png"
+	local grindings_name = "technic:" .. lname .. "_grindings"
+	local inventory_image = "technic_" .. lname .. "_grindings.png"
 	if grinding_color then
 		inventory_image = inventory_image .. "^[colorize:" .. grinding_color
 	end
@@ -36,7 +36,7 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 		technic.register_grinder_recipe({ input = { wood }, output = grindings_name })
 	end
 	if extract then
-		technic.register_extractor_recipe({ input = { grindings_name .. " 4" }, output = extract})
+		technic.register_extractor_recipe({ input = { grindings_name .. " 4" }, output = extract })
 		technic.register_separating_recipe({
 			input = { grindings_name .. " 4" },
 			output = { sawdust .. " 4", extract }
@@ -48,8 +48,8 @@ local rubber_tree_planks = moretrees and "moretrees:rubber_tree_planks"
 local default_extract = dye and "dye:brown 2"
 
 local grinding_recipes = {
-	{"Common Tree",	"group:tree",	 			"group:wood",		default_extract },
-	{"Rubber Tree",	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
+	{ "Common Tree", "group:tree", "group:wood", default_extract },
+	{ "Rubber Tree", "moretrees:rubber_tree_trunk", rubber_tree_planks, "technic:raw_latex" }
 }
 
 for _, data in pairs(grinding_recipes) do

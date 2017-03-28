@@ -16,36 +16,36 @@ technic.modpath = modpath
 if rawget(_G, "intllib") then
 	technic.getter = intllib.Getter()
 else
-	technic.getter = function(s,a,...)if a==nil then return s end a={a,...}return s:gsub("(@?)@(%(?)(%d+)(%)?)",function(e,o,n,c)if e==""then return a[tonumber(n)]..(o==""and c or"")else return"@"..o..n..c end end) end
+	technic.getter = function(s, a, ...) if a == nil then return s end a = { a, ... } return s:gsub("(@?)@(%(?)(%d+)(%)?)", function(e, o, n, c) if e == "" then return a[tonumber(n)] .. (o == "" and c or "") else return "@" .. o .. n .. c end end) end
 end
 local S = technic.getter
 
 -- Read configuration file
-dofile(modpath.."/config.lua")
+dofile(modpath .. "/config.lua")
 
 -- Helper functions
-dofile(modpath.."/helpers.lua")
+dofile(modpath .. "/helpers.lua")
 
 -- Items 
-dofile(modpath.."/items.lua")
+dofile(modpath .. "/items.lua")
 
 -- Craft recipes for items 
-dofile(modpath.."/crafts.lua")
+dofile(modpath .. "/crafts.lua")
 
 -- Register functions
-dofile(modpath.."/register.lua")
+dofile(modpath .. "/register.lua")
 
 -- Radiation
-dofile(modpath.."/radiation.lua")
+dofile(modpath .. "/radiation.lua")
 
 -- Machines
-dofile(modpath.."/machines/init.lua")
+dofile(modpath .. "/machines/init.lua")
 
 -- Tools
-dofile(modpath.."/tools/init.lua")
+dofile(modpath .. "/tools/init.lua")
 
 -- Aliases for legacy node/item names
-dofile(modpath.."/legacy.lua")
+dofile(modpath .. "/legacy.lua")
 
 if minetest.setting_getbool("log_mods") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))

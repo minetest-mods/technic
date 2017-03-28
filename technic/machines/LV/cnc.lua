@@ -13,82 +13,82 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:cnc',
 	recipe = {
-		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
-		{'technic:control_logic_unit', 'technic:machine_casing',     'technic:motor'},
-		{'technic:carbon_steel_ingot', 'technic:lv_cable',           'technic:carbon_steel_ingot'},
+		{ 'default:glass', 'technic:diamond_drill_head', 'default:glass' },
+		{ 'technic:control_logic_unit', 'technic:machine_casing', 'technic:motor' },
+		{ 'technic:carbon_steel_ingot', 'technic:lv_cable', 'technic:carbon_steel_ingot' },
 	},
 })
 
 
 local shape = {}
 local onesize_products = {
-	slope                    = 2,
-	slope_edge               = 1,
-	slope_inner_edge         = 1,
-	pyramid                  = 2,
-	spike                    = 1,
-	cylinder                 = 2,
-	oblate_spheroid          = 1,
-	sphere                   = 1,
-	stick                    = 8,
-	slope_upsdown            = 2,
-	slope_edge_upsdown       = 1,
+	slope = 2,
+	slope_edge = 1,
+	slope_inner_edge = 1,
+	pyramid = 2,
+	spike = 1,
+	cylinder = 2,
+	oblate_spheroid = 1,
+	sphere = 1,
+	stick = 8,
+	slope_upsdown = 2,
+	slope_edge_upsdown = 1,
 	slope_inner_edge_upsdown = 1,
-	cylinder_horizontal      = 2,
-	slope_lying              = 2,
-	onecurvededge            = 1,
-	twocurvededge            = 1,
+	cylinder_horizontal = 2,
+	slope_lying = 2,
+	onecurvededge = 1,
+	twocurvededge = 1,
 }
 local twosize_products = {
-	element_straight         = 4,
-	element_end              = 2,
-	element_cross            = 1,
-	element_t                = 1,
-	element_edge             = 2,
+	element_straight = 4,
+	element_end = 2,
+	element_cross = 1,
+	element_t = 1,
+	element_edge = 2,
 }
 
 local cnc_formspec =
-	"invsize[9,11;]"..
-	"label[1,0;"..S("Choose Milling Program:").."]"..
-	"image_button[1,0.5;1,1;technic_cnc_slope.png;slope; ]"..
-	"image_button[2,0.5;1,1;technic_cnc_slope_edge.png;slope_edge; ]"..
-	"image_button[3,0.5;1,1;technic_cnc_slope_inner_edge.png;slope_inner_edge; ]"..
-	"image_button[4,0.5;1,1;technic_cnc_pyramid.png;pyramid; ]"..
-	"image_button[5,0.5;1,1;technic_cnc_spike.png;spike; ]"..
-	"image_button[6,0.5;1,1;technic_cnc_cylinder.png;cylinder; ]"..
-	"image_button[7,0.5;1,1;technic_cnc_oblate_spheroid.png;oblate_spheroid; ]"..
-	"image_button[8,0.5;1,1;technic_cnc_stick.png;stick; ]"..
+"invsize[9,11;]" ..
+		"label[1,0;" .. S("Choose Milling Program:") .. "]" ..
+		"image_button[1,0.5;1,1;technic_cnc_slope.png;slope; ]" ..
+		"image_button[2,0.5;1,1;technic_cnc_slope_edge.png;slope_edge; ]" ..
+		"image_button[3,0.5;1,1;technic_cnc_slope_inner_edge.png;slope_inner_edge; ]" ..
+		"image_button[4,0.5;1,1;technic_cnc_pyramid.png;pyramid; ]" ..
+		"image_button[5,0.5;1,1;technic_cnc_spike.png;spike; ]" ..
+		"image_button[6,0.5;1,1;technic_cnc_cylinder.png;cylinder; ]" ..
+		"image_button[7,0.5;1,1;technic_cnc_oblate_spheroid.png;oblate_spheroid; ]" ..
+		"image_button[8,0.5;1,1;technic_cnc_stick.png;stick; ]" ..
 
-	"image_button[1,1.5;1,1;technic_cnc_slope_upsdwn.png;slope_upsdown; ]"..
-	"image_button[2,1.5;1,1;technic_cnc_slope_edge_upsdwn.png;slope_edge_upsdown; ]"..
-	"image_button[3,1.5;1,1;technic_cnc_slope_inner_edge_upsdwn.png;slope_inner_edge_upsdown; ]"..
-	"image_button[4,1.5;1,1;technic_cnc_cylinder_horizontal.png;cylinder_horizontal; ]"..
-	"image_button[5,1.5;1,1;technic_cnc_sphere.png;sphere; ]"..
+		"image_button[1,1.5;1,1;technic_cnc_slope_upsdwn.png;slope_upsdown; ]" ..
+		"image_button[2,1.5;1,1;technic_cnc_slope_edge_upsdwn.png;slope_edge_upsdown; ]" ..
+		"image_button[3,1.5;1,1;technic_cnc_slope_inner_edge_upsdwn.png;slope_inner_edge_upsdown; ]" ..
+		"image_button[4,1.5;1,1;technic_cnc_cylinder_horizontal.png;cylinder_horizontal; ]" ..
+		"image_button[5,1.5;1,1;technic_cnc_sphere.png;sphere; ]" ..
 
-	"image_button[1,2.5;1,1;technic_cnc_slope_lying.png;slope_lying; ]"..
-	"image_button[2,2.5;1,1;technic_cnc_onecurvededge.png;onecurvededge; ]"..
-	"image_button[3,2.5;1,1;technic_cnc_twocurvededge.png;twocurvededge; ]"..
+		"image_button[1,2.5;1,1;technic_cnc_slope_lying.png;slope_lying; ]" ..
+		"image_button[2,2.5;1,1;technic_cnc_onecurvededge.png;onecurvededge; ]" ..
+		"image_button[3,2.5;1,1;technic_cnc_twocurvededge.png;twocurvededge; ]" ..
 
-	"label[1,3.5;"..S("Slim Elements half / normal height:").."]"..
+		"label[1,3.5;" .. S("Slim Elements half / normal height:") .. "]" ..
 
-	"image_button[1,4;1,0.5;technic_cnc_full.png;full; ]"..
-	"image_button[1,4.5;1,0.5;technic_cnc_half.png;half; ]"..
-	"image_button[2,4;1,1;technic_cnc_element_straight.png;element_straight; ]"..
-	"image_button[3,4;1,1;technic_cnc_element_end.png;element_end; ]"..
-	"image_button[4,4;1,1;technic_cnc_element_cross.png;element_cross; ]"..
-	"image_button[5,4;1,1;technic_cnc_element_t.png;element_t; ]"..
-	"image_button[6,4;1,1;technic_cnc_element_edge.png;element_edge; ]"..
+		"image_button[1,4;1,0.5;technic_cnc_full.png;full; ]" ..
+		"image_button[1,4.5;1,0.5;technic_cnc_half.png;half; ]" ..
+		"image_button[2,4;1,1;technic_cnc_element_straight.png;element_straight; ]" ..
+		"image_button[3,4;1,1;technic_cnc_element_end.png;element_end; ]" ..
+		"image_button[4,4;1,1;technic_cnc_element_cross.png;element_cross; ]" ..
+		"image_button[5,4;1,1;technic_cnc_element_t.png;element_t; ]" ..
+		"image_button[6,4;1,1;technic_cnc_element_edge.png;element_edge; ]" ..
 
-	"label[0, 5.5;"..S("In:").."]"..
-	"list[current_name;src;0.5,5.5;1,1;]"..
-	"label[4, 5.5;"..S("Out:").."]"..
-	"list[current_name;dst;5,5.5;4,1;]"..
+		"label[0, 5.5;" .. S("In:") .. "]" ..
+		"list[current_name;src;0.5,5.5;1,1;]" ..
+		"label[4, 5.5;" .. S("Out:") .. "]" ..
+		"list[current_name;dst;5,5.5;4,1;]" ..
 
-	"list[current_player;main;0,7;8,4;]"..
-	"listring[current_name;dst]"..
-	"listring[current_player;main]"..
-	"listring[current_name;src]"..
-	"listring[current_player;main]"
+		"list[current_player;main;0,7;8,4;]" ..
+		"listring[current_name;dst]" ..
+		"listring[current_player;main]" ..
+		"listring[current_name;src]" ..
+		"listring[current_player;main]"
 
 local size = 1;
 
@@ -109,10 +109,10 @@ local function form_handler(pos, formname, fields, sender)
 	end
 
 	-- Resolve the node name and the number of items to make
-	local meta       = minetest.get_meta(pos)
-	local inv        = meta:get_inventory()
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
 	local inputstack = inv:get_stack("src", 1)
-	local inputname  = inputstack:get_name()
+	local inputname = inputstack:get_name()
 	local multiplier = 0
 	for k, _ in pairs(fields) do
 		-- Set a multipier for the half/full size capable blocks
@@ -123,18 +123,18 @@ local function form_handler(pos, formname, fields, sender)
 		end
 
 		if onesize_products[k] ~= nil or twosize_products[k] ~= nil then
-			meta:set_float( "cnc_multiplier", multiplier)
+			meta:set_float("cnc_multiplier", multiplier)
 			meta:set_string("cnc_user", sender:get_player_name())
 		end
 
-		if onesize_products[k] ~= nil or (twosize_products[k] ~= nil and size==2) then
-			meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k)
+		if onesize_products[k] ~= nil or (twosize_products[k] ~= nil and size == 2) then
+			meta:set_string("cnc_product", inputname .. "_technic_cnc_" .. k)
 			--print(inputname .. "_technic_cnc_" .. k)
 			break
 		end
 
-		if twosize_products[k] ~= nil and size==1 then
-			meta:set_string("cnc_product",  inputname .. "_technic_cnc_" .. k .. "_double")
+		if twosize_products[k] ~= nil and size == 1 then
+			meta:set_string("cnc_product", inputname .. "_technic_cnc_" .. k .. "_double")
 			--print(inputname .. "_technic_cnc_" .. k .. "_double")
 			break
 		end
@@ -144,17 +144,17 @@ end
 
 -- Action code performing the transformation
 local run = function(pos, node)
-	local meta         = minetest.get_meta(pos)
-	local inv          = meta:get_inventory()
-	local eu_input     = meta:get_int("LV_EU_input")
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	local eu_input = meta:get_int("LV_EU_input")
 	local machine_name = S("%s CNC Machine"):format("LV")
 	local machine_node = "technic:cnc"
-	local demand       = 450
+	local demand = 450
 
 	local result = meta:get_string("cnc_product")
 	if inv:is_empty("src") or
-	   (not minetest.registered_nodes[result]) or
-	   (not inv:room_for_item("dst", result)) then
+			(not minetest.registered_nodes[result]) or
+			(not inv:room_for_item("dst", result)) then
 		technic.swap_node(pos, machine_node)
 		meta:set_string("infotext", S("%s Idle"):format(machine_name))
 		meta:set_string("cnc_product", "")
@@ -166,7 +166,7 @@ local run = function(pos, node)
 		technic.swap_node(pos, machine_node)
 		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 	elseif eu_input >= demand then
-		technic.swap_node(pos, machine_node.."_active")
+		technic.swap_node(pos, machine_node .. "_active")
 		meta:set_string("infotext", S("%s Active"):format(machine_name))
 		meta:set_int("src_time", meta:get_int("src_time") + 1)
 		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
@@ -174,7 +174,7 @@ local run = function(pos, node)
 			srcstack = inv:get_stack("src", 1)
 			srcstack:take_item()
 			inv:set_stack("src", 1, srcstack)
-			inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
+			inv:add_item("dst", result .. " " .. meta:get_int("cnc_multiplier"))
 		end
 	end
 	meta:set_int("LV_EU_demand", demand)
@@ -183,11 +183,13 @@ end
 -- The actual block inactive state
 minetest.register_node("technic:cnc", {
 	description = S("%s CNC Machine"):format("LV"),
-	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
-	groups = {cracky=2, technic_machine=1, technic_lv=1},
-	connect_sides = {"bottom", "back", "left", "right"},
-	paramtype2  = "facedir",
+	tiles = {
+		"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+		"technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"
+	},
+	groups = { cracky = 2, technic_machine = 1, technic_lv = 1 },
+	connect_sides = { "bottom", "back", "left", "right" },
+	paramtype2 = "facedir",
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -209,10 +211,12 @@ minetest.register_node("technic:cnc", {
 -- Active state block
 minetest.register_node("technic:cnc_active", {
 	description = S("%s CNC Machine"):format("LV"),
-	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
-	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
-	groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
-	connect_sides = {"bottom", "back", "left", "right"},
+	tiles = {
+		"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
+		"technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front_active.png"
+	},
+	groups = { cracky = 2, technic_machine = 1, technic_lv = 1, not_in_creative_inventory = 1 },
+	connect_sides = { "bottom", "back", "left", "right" },
 	paramtype2 = "facedir",
 	drop = "technic:cnc",
 	legacy_facedir_simple = true,
@@ -225,6 +229,6 @@ minetest.register_node("technic:cnc_active", {
 	technic_disabled_machine_name = "technic:cnc",
 })
 
-technic.register_machine("LV", "technic:cnc",        technic.receiver)
+technic.register_machine("LV", "technic:cnc", technic.receiver)
 technic.register_machine("LV", "technic:cnc_active", technic.receiver)
 

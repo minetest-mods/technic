@@ -72,7 +72,7 @@ if technic.config:get_bool("enable_granite_generation") then
 		tmin = 3,
 		tmax = 6,
 		threshhold = 0.4,
-		noise_params = {offset=0, scale=15, spread={x=130, y=130, z=130}, seed=24, octaves=3, persist=0.70}
+		noise_params = { offset = 0, scale = 15, spread = { x = 130, y = 130, z = 130 }, seed = 24, octaves = 3, persist = 0.70 }
 	})
 end
 
@@ -85,6 +85,6 @@ if technic.config:get_bool("enable_marble_generation") then
 		tmin = 3,
 		tmax = 6,
 		threshhold = 0.4,
-		noise_params = {offset=0, scale=15, spread={x=130, y=130, z=130}, seed=23, octaves=3, persist=0.70}
+		noise_params = { offset = 0, scale = 15, spread = { x = 130, y = 130, z = 130 }, seed = 23, octaves = 3, persist = 0.70 }
 	})
 end

@@ -8,11 +8,11 @@ minetest.register_alias("lv_generator", "technic:lv_generator")
 minetest.register_craft({
 	output = 'technic:lv_generator',
 	recipe = {
-		{'default:stone', 'default:furnace',        'default:stone'},
-		{'default:stone', 'technic:machine_casing', 'default:stone'},
-		{'default:stone', 'technic:lv_cable',       'default:stone'},
+		{ 'default:stone', 'default:furnace', 'default:stone' },
+		{ 'default:stone', 'technic:machine_casing', 'default:stone' },
+		{ 'default:stone', 'technic:lv_cable', 'default:stone' },
 	}
 })
 
-technic.register_generator({tier="LV", supply=200})
+technic.register_generator({ tier = "LV", supply = 200 })
 

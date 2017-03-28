@@ -39,8 +39,8 @@ local function register_recipe(typename, data)
 	else
 		data.output = ItemStack(data.output):to_string()
 	end
-	
-	local recipe = {time = data.time, input = {}, output = data.output}
+
+	local recipe = { time = data.time, input = {}, output = data.output }
 	local index = get_recipe_index(data.input)
 	if not index then
 		print("[Technic] ignored registration of garbage recipe!")
@@ -49,7 +49,7 @@ local function register_recipe(typename, data)
 	for _, stack in ipairs(data.input) do
 		recipe.input[ItemStack(stack):get_name()] = ItemStack(stack):get_count()
 	end
-	
+
 	technic.recipes[typename].recipes[index] = recipe
 	if unified_inventory and technic.recipes[typename].output_size == 1 then
 		unified_inventory.register_craft({
@@ -70,14 +70,17 @@ function technic.get_recipe(typename, items)
 		local result, new_input = minetest.get_craft_result({
 			method = "cooking",
 			width = 1,
-			items = items})
+			items = items
+		})
 		-- Compatibility layer
 		if not result or result.time == 0 then
 			return nil
 		else
-			return {time = result.time,
-			        new_input = new_input.items,
-			        output = result.item}
+			return {
+				time = result.time,
+				new_input = new_input.items,
+				output = result.item
+			}
 		end
 	end
 	local index = get_recipe_index(items)
@@ -96,9 +99,11 @@ function technic.get_recipe(typename, items)
 				new_input[i]:take_item(recipe.input[stack:get_name()])
 			end
 		end
-		return {time = recipe.time,
-		        new_input = new_input,
-		        output = recipe.output}
+		return {
+			time = recipe.time,
+			new_input = new_input,
+			output = recipe.output
+		}
 	else
 		return nil
 	end

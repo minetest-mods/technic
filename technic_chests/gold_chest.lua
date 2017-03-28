@@ -1,4 +1,3 @@
-
 local material_list
 if minetest.get_modpath("moreores") then
 	material_list = { 'silver' }
@@ -11,18 +10,18 @@ for _, material in ipairs(material_list) do
 	minetest.register_craft({
 		output = 'technic:gold_chest',
 		recipe = {
-			{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
-			{'default:gold_ingot',"technic:"..material.."_chest",'default:gold_ingot'},
-			{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
+			{ 'default:gold_ingot', "technic:" .. material .. "_chest", 'default:gold_ingot' },
+			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
 		}
 	})
 
 	minetest.register_craft({
 		output = 'technic:gold_locked_chest',
 		recipe = {
-			{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
-			{'default:gold_ingot',"technic:"..material.."_locked_chest",'default:gold_ingot'},
-			{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
+			{ 'default:gold_ingot', "technic:" .. material .. "_locked_chest", 'default:gold_ingot' },
+			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
 		}
 	})
 end
@@ -30,8 +29,8 @@ end
 minetest.register_craft({
 	output = 'technic:gold_locked_chest',
 	recipe = {
-		{'default:steel_ingot'},
-		{'technic:gold_chest'},
+		{ 'default:steel_ingot' },
+		{ 'technic:gold_chest' },
 	}
 })
 

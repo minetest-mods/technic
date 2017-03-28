@@ -16,8 +16,8 @@ local LATEST_SERIALIZATION_VERSION = 1
 wrench = {}
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
-dofile(modpath.."/support.lua")
-dofile(modpath.."/technic.lua")
+dofile(modpath .. "/support.lua")
+dofile(modpath .. "/technic.lua")
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
@@ -31,7 +31,7 @@ local function get_meta_type(name, metaname)
 end
 
 local function get_pickup_name(name)
-	return "wrench:picked_up_"..(name:gsub(":", "_"))
+	return "wrench:picked_up_" .. (name:gsub(":", "_"))
 end
 
 local function restore(pos, placer, itemstack)
@@ -40,7 +40,7 @@ local function restore(pos, placer, itemstack)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local data = minetest.deserialize(itemstack:get_metadata())
-	minetest.set_node(pos, {name = data.name, param2 = node.param2})
+	minetest.set_node(pos, { name = data.name, param2 = node.param2 })
 	local lists = data.lists
 	for name, value in pairs(data.metas) do
 		local meta_type = get_meta_type(data.name, name)
@@ -73,7 +73,7 @@ for name, info in pairs(wrench.registered_nodes) do
 		newdef.on_construct = nil
 		newdef.on_destruct = nil
 		newdef.after_place_node = restore
-		minetest.register_node(":"..get_pickup_name(name), newdef)
+		minetest.register_node(":" .. get_pickup_name(name), newdef)
 	end
 end
 
@@ -84,12 +84,15 @@ minetest.register_tool("wrench:wrench", {
 		full_punch_interval = 0.9,
 		max_drop_level = 0,
 		groupcaps = {
-			crumbly = {times={[2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
-			snappy = {times={[3]=0.40}, uses=0, maxlevel=1},
-			oddly_breakable_by_hand = {times={[1]=7.00,[2]=4.00,[3]=1.40},
-						uses=0, maxlevel=3}
+			crumbly = { times = { [2] = 3.00, [3] = 0.70 }, uses = 0, maxlevel = 1 },
+			snappy = { times = { [3] = 0.40 }, uses = 0, maxlevel = 1 },
+			oddly_breakable_by_hand = {
+				times = { [1] = 7.00, [2] = 4.00, [3] = 1.40 },
+				uses = 0,
+				maxlevel = 3
+			}
 		},
-		damage_groups = {fleshy=1},
+		damage_groups = { fleshy = 1 },
 	},
 	on_place = function(itemstack, placer, pointed_thing)
 		local pos = pointed_thing.under
@@ -115,10 +118,10 @@ minetest.register_tool("wrench:wrench", {
 		if def.owned then
 			local owner = meta:get_string("owner")
 			if owner and owner ~= placer:get_player_name() then
-				minetest.log("action", placer:get_player_name()..
-					" tried to pick up a owned node belonging to "..
-					owner.." at "..
-					minetest.pos_to_string(pos))
+				minetest.log("action", placer:get_player_name() ..
+						" tried to pick up a owned node belonging to " ..
+						owner .. " at " ..
+						minetest.pos_to_string(pos))
 				return
 			end
 		end
@@ -140,7 +143,7 @@ minetest.register_tool("wrench:wrench", {
 			lists[listname] = list
 		end
 		metadata.lists = lists
-		
+
 		local metas = {}
 		for name, meta_type in pairs(def.metas or {}) do
 			if meta_type == wrench.META_TYPE_INT then
@@ -152,7 +155,7 @@ minetest.register_tool("wrench:wrench", {
 			end
 		end
 		metadata.metas = metas
-		
+
 		stack:set_metadata(minetest.serialize(metadata))
 		minetest.remove_node(pos)
 		itemstack:add_wear(65535 / 20)

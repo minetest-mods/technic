@@ -35,20 +35,20 @@ minetest.register_tool("technic:prospector", {
 		end
 		local start_pos = pointed_thing.under
 		local forward = minetest.facedir_to_dir(minetest.dir_to_facedir(user:get_look_dir(), true))
-		local right = forward.x ~= 0 and { x=0, y=1, z=0 } or (forward.y ~= 0 and { x=0, y=0, z=1 } or { x=1, y=0, z=0 })
-		local up = forward.x ~= 0 and { x=0, y=0, z=1 } or (forward.y ~= 0 and { x=1, y=0, z=0 } or { x=0, y=1, z=0 })
-		local base_pos = vector.add(start_pos, vector.multiply(vector.add(right, up), - toolmeta.look_radius))
+		local right = forward.x ~= 0 and { x = 0, y = 1, z = 0 } or (forward.y ~= 0 and { x = 0, y = 0, z = 1 } or { x = 1, y = 0, z = 0 })
+		local up = forward.x ~= 0 and { x = 0, y = 0, z = 1 } or (forward.y ~= 0 and { x = 1, y = 0, z = 0 } or { x = 0, y = 1, z = 0 })
+		local base_pos = vector.add(start_pos, vector.multiply(vector.add(right, up), -toolmeta.look_radius))
 		local found = false
-		for f = 0, toolmeta.look_depth-1 do
-			for r = 0, look_diameter-1 do
-				for u = 0, look_diameter-1 do
+		for f = 0, toolmeta.look_depth - 1 do
+			for r = 0, look_diameter - 1 do
+				for u = 0, look_diameter - 1 do
 					if minetest.get_node(vector.add(vector.add(vector.add(base_pos, vector.multiply(forward, f)), vector.multiply(right, r)), vector.multiply(up, u))).name == toolmeta.target then found = true end
 				end
 			end
 		end
 		if math.random() < 0.02 then found = not found end
-		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description.." is "..(found and "present" or "absent").." in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
-		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), { pos = vector.add(user:getpos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
+		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description .. " is " .. (found and "present" or "absent") .. " in " .. look_diameter .. "x" .. look_diameter .. "x" .. toolmeta.look_depth .. " region")
+		minetest.sound_play("technic_prospector_" .. (found and "hit" or "miss"), { pos = vector.add(user:getpos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
 		return toolstack
 	end,
 	on_place = function(toolstack, user, pointed_thing)
@@ -64,40 +64,40 @@ minetest.register_tool("technic:prospector", {
 		end
 		local look_diameter = toolmeta.look_radius * 2 + 1
 		minetest.show_formspec(user:get_player_name(), "technic:prospector_control",
-			"size[7,8.5]"..
-			"item_image[0,0;1,1;"..toolstack:get_name().."]"..
-			"label[1,0;"..minetest.formspec_escape(toolstack:get_definition().description).."]"..
-			(toolmeta.target ~= "" and
-				"label[0,1.5;Current target:]"..
-				"label[0,2;"..minetest.formspec_escape(minetest.registered_nodes[toolmeta.target].description).."]"..
-				"item_image[0,2.5;1,1;"..toolmeta.target.."]" or
-				"label[0,1.5;No target set]")..
-			(pointed and
-				"label[3.5,1.5;May set new target:]"..
-				"label[3.5,2;"..minetest.formspec_escape(minetest.registered_nodes[pointed].description).."]"..
-				"item_image[3.5,2.5;1,1;"..pointed.."]"..
-				"button_exit[3.5,3.65;2,0.5;target_"..pointed..";Set target]" or
-				"label[3.5,1.5;No new target available]")..
-			"label[0,4.5;Region cross section:]"..
-			"label[0,5;"..look_diameter.."x"..look_diameter.."]"..
-			"label[3.5,4.5;Set region cross section:]"..
-			"button_exit[3.5,5.15;1,0.5;look_radius_0;1x1]"..
-			"button_exit[4.5,5.15;1,0.5;look_radius_1;3x3]"..
-			"button_exit[5.5,5.15;1,0.5;look_radius_3;7x7]"..
-			"label[0,6;Region depth:]"..
-			"label[0,6.5;"..toolmeta.look_depth.."]"..
-			"label[3.5,6;Set region depth:]"..
-			"button_exit[3.5,6.65;1,0.5;look_depth_7;7]"..
-			"button_exit[4.5,6.65;1,0.5;look_depth_14;14]"..
-			"button_exit[5.5,6.65;1,0.5;look_depth_21;21]"..
-			"label[0,7.5;Accuracy:]"..
-			"label[0,8;98%]")
+			"size[7,8.5]" ..
+					"item_image[0,0;1,1;" .. toolstack:get_name() .. "]" ..
+					"label[1,0;" .. minetest.formspec_escape(toolstack:get_definition().description) .. "]" ..
+					(toolmeta.target ~= "" and
+							"label[0,1.5;Current target:]" ..
+							"label[0,2;" .. minetest.formspec_escape(minetest.registered_nodes[toolmeta.target].description) .. "]" ..
+							"item_image[0,2.5;1,1;" .. toolmeta.target .. "]" or
+							"label[0,1.5;No target set]") ..
+					(pointed and
+							"label[3.5,1.5;May set new target:]" ..
+							"label[3.5,2;" .. minetest.formspec_escape(minetest.registered_nodes[pointed].description) .. "]" ..
+							"item_image[3.5,2.5;1,1;" .. pointed .. "]" ..
+							"button_exit[3.5,3.65;2,0.5;target_" .. pointed .. ";Set target]" or
+							"label[3.5,1.5;No new target available]") ..
+					"label[0,4.5;Region cross section:]" ..
+					"label[0,5;" .. look_diameter .. "x" .. look_diameter .. "]" ..
+					"label[3.5,4.5;Set region cross section:]" ..
+					"button_exit[3.5,5.15;1,0.5;look_radius_0;1x1]" ..
+					"button_exit[4.5,5.15;1,0.5;look_radius_1;3x3]" ..
+					"button_exit[5.5,5.15;1,0.5;look_radius_3;7x7]" ..
+					"label[0,6;Region depth:]" ..
+					"label[0,6.5;" .. toolmeta.look_depth .. "]" ..
+					"label[3.5,6;Set region depth:]" ..
+					"button_exit[3.5,6.65;1,0.5;look_depth_7;7]" ..
+					"button_exit[4.5,6.65;1,0.5;look_depth_14;14]" ..
+					"button_exit[5.5,6.65;1,0.5;look_depth_21;21]" ..
+					"label[0,7.5;Accuracy:]" ..
+					"label[0,8;98%]")
 		return
-	end, 
+	end,
 })
 
 minetest.register_on_player_receive_fields(function(user, formname, fields)
-        if formname ~= "technic:prospector_control" then return false end
+	if formname ~= "technic:prospector_control" then return false end
 	if not user or not user:is_player() or user.is_fake_player then return end
 	local toolstack = user:get_wielded_item()
 	if toolstack:get_name() ~= "technic:prospector" then return true end
@@ -117,12 +117,12 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	user:set_wielded_item(toolstack)
 	return true
 end)
- 
+
 minetest.register_craft({
 	output = "technic:prospector",
 	recipe = {
-		{"moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1"},
-		{"technic:brass_ingot", "technic:control_logic_unit", "technic:brass_ingot"},
-		{"", "technic:blue_energy_crystal", ""},
+		{ "moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1" },
+		{ "technic:brass_ingot", "technic:control_logic_unit", "technic:brass_ingot" },
+		{ "", "technic:blue_energy_crystal", "" },
 	}
 })

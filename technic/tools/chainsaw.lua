@@ -1,6 +1,6 @@
 -- Configuration
 
-local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
+local chainsaw_max_charge = 30000 -- Maximum charge of the saw
 -- Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_charge_per_node = 12
 -- Cut down tree leaves.  Leaf decay may cause slowness on large trees
@@ -10,13 +10,13 @@ local chainsaw_leaves = true
 -- The default trees
 local timber_nodenames = {
 	["default:acacia_tree"] = true,
-	["default:aspen_tree"]  = true,
-	["default:jungletree"]  = true,
-	["default:papyrus"]     = true,
-	["default:cactus"]      = true,
-	["default:tree"]        = true,
-	["default:apple"]       = true,
-	["default:pine_tree"]    = true,
+	["default:aspen_tree"] = true,
+	["default:jungletree"] = true,
+	["default:papyrus"] = true,
+	["default:cactus"] = true,
+	["default:tree"] = true,
+	["default:apple"] = true,
+	["default:pine_tree"] = true,
 }
 
 if chainsaw_leaves then
@@ -31,7 +31,7 @@ end
 if minetest.get_modpath("technic_worldgen") or
 		minetest.get_modpath("moretrees") then
 	timber_nodenames["moretrees:rubber_tree_trunk_empty"] = true
-	timber_nodenames["moretrees:rubber_tree_trunk"]       = true
+	timber_nodenames["moretrees:rubber_tree_trunk"] = true
 	if chainsaw_leaves then
 		timber_nodenames["moretrees:rubber_tree_leaves"] = true
 	end
@@ -39,60 +39,60 @@ end
 
 -- Support moretrees if it is there
 if minetest.get_modpath("moretrees") then
-	timber_nodenames["moretrees:acacia_trunk"]                = true
-	timber_nodenames["moretrees:apple_tree_trunk"]                 = true
-	timber_nodenames["moretrees:beech_trunk"]                      = true
-	timber_nodenames["moretrees:birch_trunk"]                      = true
-	timber_nodenames["moretrees:fir_trunk"]                        = true
-	timber_nodenames["moretrees:oak_trunk"]                        = true
-	timber_nodenames["moretrees:palm_trunk"]                       = true
-	timber_nodenames["moretrees:pine_trunk"]                       = true
-	timber_nodenames["moretrees:sequoia_trunk"]                    = true
-	timber_nodenames["moretrees:spruce_trunk"]                     = true
-	timber_nodenames["moretrees:willow_trunk"]                     = true
-	timber_nodenames["moretrees:jungletree_trunk"]                 = true
+	timber_nodenames["moretrees:acacia_trunk"] = true
+	timber_nodenames["moretrees:apple_tree_trunk"] = true
+	timber_nodenames["moretrees:beech_trunk"] = true
+	timber_nodenames["moretrees:birch_trunk"] = true
+	timber_nodenames["moretrees:fir_trunk"] = true
+	timber_nodenames["moretrees:oak_trunk"] = true
+	timber_nodenames["moretrees:palm_trunk"] = true
+	timber_nodenames["moretrees:pine_trunk"] = true
+	timber_nodenames["moretrees:sequoia_trunk"] = true
+	timber_nodenames["moretrees:spruce_trunk"] = true
+	timber_nodenames["moretrees:willow_trunk"] = true
+	timber_nodenames["moretrees:jungletree_trunk"] = true
 
 	if chainsaw_leaves then
-		timber_nodenames["moretrees:acacia_leaves"]            = true
-		timber_nodenames["moretrees:apple_tree_leaves"]        = true
-		timber_nodenames["moretrees:oak_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves_bright"]        = true
-		timber_nodenames["moretrees:sequoia_leaves"]           = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:palm_leaves"]              = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:pine_leaves"]              = true
-		timber_nodenames["moretrees:willow_leaves"]            = true
-		timber_nodenames["moretrees:jungletree_leaves_green"]  = true
+		timber_nodenames["moretrees:acacia_leaves"] = true
+		timber_nodenames["moretrees:apple_tree_leaves"] = true
+		timber_nodenames["moretrees:oak_leaves"] = true
+		timber_nodenames["moretrees:fir_leaves"] = true
+		timber_nodenames["moretrees:fir_leaves_bright"] = true
+		timber_nodenames["moretrees:sequoia_leaves"] = true
+		timber_nodenames["moretrees:birch_leaves"] = true
+		timber_nodenames["moretrees:birch_leaves"] = true
+		timber_nodenames["moretrees:palm_leaves"] = true
+		timber_nodenames["moretrees:spruce_leaves"] = true
+		timber_nodenames["moretrees:spruce_leaves"] = true
+		timber_nodenames["moretrees:pine_leaves"] = true
+		timber_nodenames["moretrees:willow_leaves"] = true
+		timber_nodenames["moretrees:jungletree_leaves_green"] = true
 		timber_nodenames["moretrees:jungletree_leaves_yellow"] = true
-		timber_nodenames["moretrees:jungletree_leaves_red"]    = true
-		timber_nodenames["moretrees:acorn"]                    = true
-		timber_nodenames["moretrees:coconut"]                  = true
-		timber_nodenames["moretrees:spruce_cone"]              = true
-		timber_nodenames["moretrees:pine_cone"]                = true
-		timber_nodenames["moretrees:fir_cone"]                 = true
-		timber_nodenames["moretrees:apple_blossoms"]           = true
+		timber_nodenames["moretrees:jungletree_leaves_red"] = true
+		timber_nodenames["moretrees:acorn"] = true
+		timber_nodenames["moretrees:coconut"] = true
+		timber_nodenames["moretrees:spruce_cone"] = true
+		timber_nodenames["moretrees:pine_cone"] = true
+		timber_nodenames["moretrees:fir_cone"] = true
+		timber_nodenames["moretrees:apple_blossoms"] = true
 	end
 end
 
 -- Support growing_trees
 if minetest.get_modpath("growing_trees") then
-	timber_nodenames["growing_trees:trunk"]         = true
-	timber_nodenames["growing_trees:medium_trunk"]  = true
-	timber_nodenames["growing_trees:big_trunk"]     = true
-	timber_nodenames["growing_trees:trunk_top"]     = true
-	timber_nodenames["growing_trees:trunk_sprout"]  = true
+	timber_nodenames["growing_trees:trunk"] = true
+	timber_nodenames["growing_trees:medium_trunk"] = true
+	timber_nodenames["growing_trees:big_trunk"] = true
+	timber_nodenames["growing_trees:trunk_top"] = true
+	timber_nodenames["growing_trees:trunk_sprout"] = true
 	timber_nodenames["growing_trees:branch_sprout"] = true
-	timber_nodenames["growing_trees:branch"]        = true
-	timber_nodenames["growing_trees:branch_xmzm"]   = true
-	timber_nodenames["growing_trees:branch_xpzm"]   = true
-	timber_nodenames["growing_trees:branch_xmzp"]   = true
-	timber_nodenames["growing_trees:branch_xpzp"]   = true
-	timber_nodenames["growing_trees:branch_zz"]     = true
-	timber_nodenames["growing_trees:branch_xx"]     = true
+	timber_nodenames["growing_trees:branch"] = true
+	timber_nodenames["growing_trees:branch_xmzm"] = true
+	timber_nodenames["growing_trees:branch_xpzm"] = true
+	timber_nodenames["growing_trees:branch_xmzp"] = true
+	timber_nodenames["growing_trees:branch_xpzp"] = true
+	timber_nodenames["growing_trees:branch_zz"] = true
+	timber_nodenames["growing_trees:branch_xx"] = true
 
 	if chainsaw_leaves then
 		timber_nodenames["growing_trees:leaves"] = true
@@ -101,31 +101,31 @@ end
 
 -- Support growing_cactus
 if minetest.get_modpath("growing_cactus") then
-	timber_nodenames["growing_cactus:sprout"]                       = true
-	timber_nodenames["growing_cactus:branch_sprout_vertical"]       = true
+	timber_nodenames["growing_cactus:sprout"] = true
+	timber_nodenames["growing_cactus:branch_sprout_vertical"] = true
 	timber_nodenames["growing_cactus:branch_sprout_vertical_fixed"] = true
-	timber_nodenames["growing_cactus:branch_sprout_xp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_xm"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zm"]             = true
-	timber_nodenames["growing_cactus:trunk"]                        = true
-	timber_nodenames["growing_cactus:branch_trunk"]                 = true
-	timber_nodenames["growing_cactus:branch"]                       = true
-	timber_nodenames["growing_cactus:branch_xp"]                    = true
-	timber_nodenames["growing_cactus:branch_xm"]                    = true
-	timber_nodenames["growing_cactus:branch_zp"]                    = true
-	timber_nodenames["growing_cactus:branch_zm"]                    = true
-	timber_nodenames["growing_cactus:branch_zz"]                    = true
-	timber_nodenames["growing_cactus:branch_xx"]                    = true
+	timber_nodenames["growing_cactus:branch_sprout_xp"] = true
+	timber_nodenames["growing_cactus:branch_sprout_xm"] = true
+	timber_nodenames["growing_cactus:branch_sprout_zp"] = true
+	timber_nodenames["growing_cactus:branch_sprout_zm"] = true
+	timber_nodenames["growing_cactus:trunk"] = true
+	timber_nodenames["growing_cactus:branch_trunk"] = true
+	timber_nodenames["growing_cactus:branch"] = true
+	timber_nodenames["growing_cactus:branch_xp"] = true
+	timber_nodenames["growing_cactus:branch_xm"] = true
+	timber_nodenames["growing_cactus:branch_zp"] = true
+	timber_nodenames["growing_cactus:branch_zm"] = true
+	timber_nodenames["growing_cactus:branch_zz"] = true
+	timber_nodenames["growing_cactus:branch_xx"] = true
 end
 
 -- Support farming_plus
 if minetest.get_modpath("farming_plus") then
 	if chainsaw_leaves then
 		timber_nodenames["farming_plus:banana_leaves"] = true
-		timber_nodenames["farming_plus:banana"]        = true
-		timber_nodenames["farming_plus:cocoa_leaves"]  = true
-		timber_nodenames["farming_plus:cocoa"]         = true
+		timber_nodenames["farming_plus:banana"] = true
+		timber_nodenames["farming_plus:cocoa_leaves"] = true
+		timber_nodenames["farming_plus:cocoa"] = true
 	end
 end
 
@@ -299,8 +299,11 @@ end
 local function chainsaw_dig(pos, current_charge)
 	-- Start sawing things down
 	local remaining_charge = recursive_dig(pos, current_charge)
-	minetest.sound_play("chainsaw", {pos = pos, gain = 1.0,
-			max_hear_distance = 10})
+	minetest.sound_play("chainsaw", {
+		pos = pos,
+		gain = 1.0,
+		max_hear_distance = 10
+	})
 
 	-- Now drop items for the player
 	for name, stack in pairs(produced) do
@@ -362,9 +365,9 @@ local trigger = mesecons_button and "mesecons_button:button_off" or "default:mes
 minetest.register_craft({
 	output = "technic:chainsaw",
 	recipe = {
-		{"technic:stainless_steel_ingot", trigger,                      "technic:battery"},
-		{"technic:fine_copper_wire",      "technic:motor",              "technic:battery"},
-		{"",                              "",                           "technic:stainless_steel_ingot"},
+		{ "technic:stainless_steel_ingot", trigger, "technic:battery" },
+		{ "technic:fine_copper_wire", "technic:motor", "technic:battery" },
+		{ "", "", "technic:stainless_steel_ingot" },
 	}
 })
 
