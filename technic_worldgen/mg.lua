@@ -51,7 +51,7 @@ mg.register_ore({
 mg.register_ore({
 	name = "technic:mineral_lead",
 	wherein = "default:stone",
-	seeddiff = 13,
+	seeddiff = 14,
 	maxvdistance = 10.5,
 	maxheight = 16,
 	seglenghtn = 15,
