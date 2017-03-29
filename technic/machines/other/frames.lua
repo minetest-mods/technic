@@ -161,8 +161,8 @@ for xm = 0, 1 do
 				for zm = 0, 1 do
 					for zp = 0, 1 do
 
-						local a = 8 / 16
-						local b = 7 / 16
+						local a = 8/16
+						local b = 7/16
 						local nodeboxes = {
 							{ -a, -a, -a, -b, a, -b },
 							{ -a, -a, b, -b, a, a },

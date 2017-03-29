@@ -9,8 +9,8 @@ local function compute_forceload_positions(pos, meta)
 	local minbpos = {}
 	local maxbpos = {}
 	for _, coord in ipairs({ "x", "y", "z" }) do
-		minbpos[coord] = math.floor(minpos[coord] / 16) * 16
-		maxbpos[coord] = math.floor(maxpos[coord] / 16) * 16
+		minbpos[coord] = math.floor(minpos[coord]/16) * 16
+		maxbpos[coord] = math.floor(maxpos[coord]/16) * 16
 	end
 	local flposes = {}
 	for x = minbpos.x, maxbpos.x, 16 do

@@ -7,5 +7,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_cable("HV", 3 / 16)
+technic.register_cable("HV", 3/16)
 
