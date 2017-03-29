@@ -64,17 +64,17 @@ function technic.register_battery_box(data)
 	local formspec =
 		"size[8,9]"..
 		"image[1,1;1,2;technic_power_meter_bg.png]"..
-		"list[current_name;src;3,1;1,1;]"..
+		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
-		"list[current_name;dst;5,1;1,1;]"..
+		"list[context;dst;5,1;1,1;]"..
 		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
 		"list[current_player;main;0,5;8,4;]"..
-		"listring[current_name;dst]"..
+		"listring[context;dst]"..
 		"listring[current_player;main]"..
-		"listring[current_name;src]"..
+		"listring[context;src]"..
 		"listring[current_player;main]"
 	if digilines then
 		formspec = formspec..
@@ -83,12 +83,12 @@ function technic.register_battery_box(data)
 
 	if data.upgrade then
 		formspec = formspec..
-			"list[current_name;upgrade1;3.5,3;1,1;]"..
-			"list[current_name;upgrade2;4.5,3;1,1;]"..
+			"list[context;upgrade1;3.5,3;1,1;]"..
+			"list[context;upgrade2;4.5,3;1,1;]"..
 			"label[3.5,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
+			"listring[context;upgrade1]"..
 			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
+			"listring[context;upgrade2]"..
 			"listring[current_player;main]"
 	end
 
@@ -176,12 +176,13 @@ function technic.register_battery_box(data)
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
-			tiles = {"technic_"..ltier.."_battery_box_top.png",
-			         "technic_"..ltier.."_battery_box_bottom.png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
+			tiles = {
+				"technic_"..ltier.."_battery_box_top.png",
+				"technic_"..ltier.."_battery_box_bottom.png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
 			groups = groups,
 			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
@@ -195,7 +196,7 @@ function technic.register_battery_box(data)
 
 				meta:set_string("infotext", S("%s Battery Box"):format(tier))
 				meta:set_string("formspec", formspec)
-				meta:set_string("channel", tier.."_battery_box"..minetest.pos_to_string(pos))
+				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int(tier.."_EU_supply", 0)
 				meta:set_int(tier.."_EU_input",  0)
@@ -238,12 +239,17 @@ function technic.register_battery_box(data)
 						if channel ~= meta:get_string("channel") then
 							return
 						end
+						local inv = meta:get_inventory()
 						digilines.receptor_send(pos, digilines.rules.default, channel, {
 							demand = meta:get_int(tier.."_EU_demand"),
 							supply = meta:get_int(tier.."_EU_supply"),
 							input  = meta:get_int(tier.."_EU_input"),
-							charge = meta:get_int("internal_EU_charge")
-							-- todo: tool and its charge...; maxcharge?
+							charge = meta:get_int("internal_EU_charge"),
+							max_charge = max_charge,
+							src      = inv:get_stack("src", 1):to_table(),
+							dst      = inv:get_stack("dst", 1):to_table(),
+							upgrade1 = inv:get_stack("upgrade1", 1):to_table(),
+							upgrade2 = inv:get_stack("upgrade2", 1):to_table()
 						})
 					end
 				},
