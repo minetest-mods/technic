@@ -16,10 +16,10 @@ local quarry_eject_dir = vector.new(0, 1, 0)
 
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
-	local formspec = "size[6,4.3]" ..
-			"list[context;cache;0,1;4,3;]" ..
-			"item_image[4.8,0;1,1;technic:quarry]" ..
-			"label[0,0.2;"..S("%s Quarry"):format("HV").."]" ..
+	local formspec = "size[6,4.3]"..
+			"list[context;cache;0,1;4,3;]"..
+			"item_image[4.8,0;1,1;technic:quarry]"..
+			"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
 			"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
 		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
@@ -197,7 +197,7 @@ end
 
 local function send_move_error(player)
 	minetest.chat_send_player(player:get_player_name(),
-		S("Manually taking/removing from cache by hand is not possible. " ..
+		S("Manually taking/removing from cache by hand is not possible. "..
 				"If you can't wait, restart or disable the quarry to start automatic purge."))
 	return 0
 end

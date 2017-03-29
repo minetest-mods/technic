@@ -42,8 +42,7 @@ local function update_forcefield(pos, meta, active, first)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
-	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range),
-		vector.add(pos, range))
+	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range), vector.add(pos, range))
 	local area = VoxelArea:new({ MinEdge = MinEdge, MaxEdge = MaxEdge })
 	local data = vm:get_data()
 
@@ -90,7 +89,7 @@ local function update_forcefield(pos, meta, active, first)
 end
 
 local function set_forcefield_formspec(meta)
-	local formspec = "size[5,2.25]" ..
+	local formspec = "size[5,2.25]"..
 			"field[0.3,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising

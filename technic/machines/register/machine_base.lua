@@ -37,23 +37,23 @@ function technic.register_base_machine(data)
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
-	"invsize[8,9;]" ..
-			"list[current_name;src;"..(4 - input_size)..",1;"..input_size..",1;]" ..
-			"list[current_name;dst;5,1;2,2;]" ..
-			"list[current_player;main;0,5;8,4;]" ..
-			"label[0,0;"..machine_desc:format(tier).."]" ..
-			"listring[current_name;dst]" ..
-			"listring[current_player;main]" ..
-			"listring[current_name;src]" ..
+	"invsize[8,9;]"..
+			"list[current_name;src;"..(4 - input_size)..",1;"..input_size..",1;]"..
+			"list[current_name;dst;5,1;2,2;]"..
+			"list[current_player;main;0,5;8,4;]"..
+			"label[0,0;"..machine_desc:format(tier).."]"..
+			"listring[current_name;dst]"..
+			"listring[current_player;main]"..
+			"listring[current_name;src]"..
 			"listring[current_player;main]"
 	if data.upgrade then
-		formspec = formspec ..
-				"list[current_name;upgrade1;1,3;1,1;]" ..
-				"list[current_name;upgrade2;2,3;1,1;]" ..
-				"label[1,4;"..S("Upgrade Slots").."]" ..
-				"listring[current_name;upgrade1]" ..
-				"listring[current_player;main]" ..
-				"listring[current_name;upgrade2]" ..
+		formspec = formspec..
+				"list[current_name;upgrade1;1,3;1,1;]"..
+				"list[current_name;upgrade2;2,3;1,1;]"..
+				"label[1,4;"..S("Upgrade Slots").."]"..
+				"listring[current_name;upgrade1]"..
+				"listring[current_player;main]"..
+				"listring[current_name;upgrade2]"..
 				"listring[current_player;main]"
 	end
 

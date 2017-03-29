@@ -61,29 +61,29 @@ function technic.register_battery_box(data)
 	local ltier = string.lower(tier)
 
 	local formspec =
-	"invsize[8,9;]" ..
-			"image[1,1;1,2;technic_power_meter_bg.png]" ..
-			"list[current_name;src;3,1;1,1;]" ..
-			"image[4,1;1,1;technic_battery_reload.png]" ..
-			"list[current_name;dst;5,1;1,1;]" ..
-			"label[0,0;"..S("%s Battery Box"):format(tier).."]" ..
-			"label[3,0;"..S("Charge").."]" ..
-			"label[5,0;"..S("Discharge").."]" ..
-			"label[1,3;"..S("Power level").."]" ..
-			"list[current_player;main;0,5;8,4;]" ..
-			"listring[current_name;dst]" ..
-			"listring[current_player;main]" ..
-			"listring[current_name;src]" ..
+	"invsize[8,9;]"..
+			"image[1,1;1,2;technic_power_meter_bg.png]"..
+			"list[current_name;src;3,1;1,1;]"..
+			"image[4,1;1,1;technic_battery_reload.png]"..
+			"list[current_name;dst;5,1;1,1;]"..
+			"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+			"label[3,0;"..S("Charge").."]"..
+			"label[5,0;"..S("Discharge").."]"..
+			"label[1,3;"..S("Power level").."]"..
+			"list[current_player;main;0,5;8,4;]"..
+			"listring[current_name;dst]"..
+			"listring[current_player;main]"..
+			"listring[current_name;src]"..
 			"listring[current_player;main]"
 
 	if data.upgrade then
-		formspec = formspec ..
-				"list[current_name;upgrade1;3.5,3;1,1;]" ..
-				"list[current_name;upgrade2;4.5,3;1,1;]" ..
-				"label[3.5,4;"..S("Upgrade Slots").."]" ..
-				"listring[current_name;upgrade1]" ..
-				"listring[current_player;main]" ..
-				"listring[current_name;upgrade2]" ..
+		formspec = formspec..
+				"list[current_name;upgrade1;3.5,3;1,1;]"..
+				"list[current_name;upgrade2;4.5,3;1,1;]"..
+				"label[3.5,4;"..S("Upgrade Slots").."]"..
+				"listring[current_name;upgrade1]"..
+				"listring[current_player;main]"..
+				"listring[current_name;upgrade2]"..
 				"listring[current_player;main]"
 	end
 
@@ -144,7 +144,7 @@ function technic.register_battery_box(data)
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
 		meta:set_string("formspec",
-			formspec ..
+			formspec..
 					"image[1,1;1,2;technic_power_meter_bg.png"
 					.. "^[lowpart:"..charge_percent
 					.. ":technic_power_meter_fg.png]")

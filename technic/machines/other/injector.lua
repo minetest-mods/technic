@@ -49,14 +49,14 @@ minetest.register_craft({
 local function set_injector_formspec(meta)
 	local is_stack = meta:get_string("mode") == "whole stacks"
 	meta:set_string("formspec",
-		"invsize[8,9;]" ..
-				"item_image[0,0;1,1;technic:injector]" ..
-				"label[1,0;"..S("Self-Contained Injector").."]" ..
+		"invsize[8,9;]"..
+				"item_image[0,0;1,1;technic:injector]"..
+				"label[1,0;"..S("Self-Contained Injector").."]"..
 				(is_stack and
 						"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
-						"button[0,1;2,1;mode_stack;"..S("Itemwise").."]") ..
-				"list[current_name;main;0,2;8,2;]" ..
-				"list[current_player;main;0,5;8,4;]" ..
+						"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
+				"list[current_name;main;0,2;8,2;]"..
+				"list[current_player;main;0,5;8,4;]"..
 				"listring[]")
 end
 

@@ -10,7 +10,7 @@
 local S = technic.getter
 
 local function set_supply_converter_formspec(meta)
-	local formspec = "size[5,2.25]" ..
+	local formspec = "size[5,2.25]"..
 			"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising

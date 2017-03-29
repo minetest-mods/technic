@@ -13,18 +13,18 @@ minetest.register_craft({
 
 local machine_name = S("Fuel-Fired Alloy Furnace")
 local formspec =
-"size[8,9]" ..
-		"label[0,0;"..machine_name.."]" ..
-		"image[2,2;1,1;default_furnace_fire_bg.png]" ..
-		"list[current_name;fuel;2,3;1,1;]" ..
-		"list[current_name;src;2,1;2,1;]" ..
-		"list[current_name;dst;5,1;2,2;]" ..
-		"list[current_player;main;0,5;8,4;]" ..
-		"listring[current_name;dst]" ..
-		"listring[current_player;main]" ..
-		"listring[current_name;src]" ..
-		"listring[current_player;main]" ..
-		"listring[current_name;fuel]" ..
+"size[8,9]"..
+		"label[0,0;"..machine_name.."]"..
+		"image[2,2;1,1;default_furnace_fire_bg.png]"..
+		"list[current_name;fuel;2,3;1,1;]"..
+		"list[current_name;src;2,1;2,1;]"..
+		"list[current_name;dst;5,1;2,2;]"..
+		"list[current_player;main;0,5;8,4;]"..
+		"listring[current_name;dst]"..
+		"listring[current_player;main]"..
+		"listring[current_name;src]"..
+		"listring[current_player;main]"..
+		"listring[current_name;fuel]"..
 		"listring[current_player;main]"
 
 minetest.register_node("technic:coal_alloy_furnace", {
@@ -128,19 +128,19 @@ minetest.register_abm({
 			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
-				"size[8,9]" ..
-						"label[0,0;"..machine_name.."]" ..
-						"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:" ..
-						(100 - percent)..":default_furnace_fire_fg.png]" ..
-						"list[current_name;fuel;2,3;1,1;]" ..
-						"list[current_name;src;2,1;2,1;]" ..
-						"list[current_name;dst;5,1;2,2;]" ..
-						"list[current_player;main;0,5;8,4;]" ..
-						"listring[current_name;dst]" ..
-						"listring[current_player;main]" ..
-						"listring[current_name;src]" ..
-						"listring[current_player;main]" ..
-						"listring[current_name;fuel]" ..
+				"size[8,9]"..
+						"label[0,0;"..machine_name.."]"..
+						"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
+						(100 - percent)..":default_furnace_fire_fg.png]"..
+						"list[current_name;fuel;2,3;1,1;]"..
+						"list[current_name;src;2,1;2,1;]"..
+						"list[current_name;dst;5,1;2,2;]"..
+						"list[current_player;main;0,5;8,4;]"..
+						"listring[current_name;dst]"..
+						"listring[current_player;main]"..
+						"listring[current_name;src]"..
+						"listring[current_player;main]"..
+						"listring[current_name;fuel]"..
 						"listring[current_player;main]")
 			return
 		end

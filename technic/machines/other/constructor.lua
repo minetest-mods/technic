@@ -131,8 +131,8 @@ local function make_constructor(mark, length)
 		sounds = default.node_sound_stone_defaults(),
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			local formspec = "size[8,9;]" ..
-					"label[0,0;"..S("Constructor Mk%d"):format(mark).."]" ..
+			local formspec = "size[8,9;]"..
+					"label[0,0;"..S("Constructor Mk%d"):format(mark).."]"..
 					"list[current_player;main;0,5;8,4;]"
 			for i = 1, length do
 				formspec = formspec

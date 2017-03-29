@@ -118,9 +118,9 @@ minetest.register_tool("wrench:wrench", {
 		if def.owned then
 			local owner = meta:get_string("owner")
 			if owner and owner ~= placer:get_player_name() then
-				minetest.log("action", placer:get_player_name() ..
-						" tried to pick up a owned node belonging to " ..
-						owner.." at " ..
+				minetest.log("action", placer:get_player_name()..
+						" tried to pick up a owned node belonging to "..
+						owner.." at "..
 						minetest.pos_to_string(pos))
 				return
 			end

@@ -203,13 +203,13 @@ function technic.chests:definition(name, data)
 
 	local locked_after_place = nil
 	local front = { "technic_"..lname.."_chest_front.png" }
-	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]" ..
-			"label[0,0;"..S("%s Chest"):format(name).."]" ..
-			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]" ..
-			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]" ..
-			"background[-0.19,-0.25;"..(data.ovwidth + 0.4)..","..(data.ovheight + 0.75)..";technic_chest_form_bg.png]" ..
-			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]" ..
-			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]" ..
+	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]"..
+			"label[0,0;"..S("%s Chest"):format(name).."]"..
+			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
+			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
+			"background[-0.19,-0.25;"..(data.ovwidth + 0.4)..","..(data.ovheight + 0.75)..";technic_chest_form_bg.png]"..
+			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
+			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]"..
 			"listring[]"
 	if data.sort then
 		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height + 1.1)..";1,0.8;sort;"..S("Sort").."]"

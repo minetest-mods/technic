@@ -33,11 +33,11 @@ function technic.register_generator(data)
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local generator_formspec =
-	"invsize[8,9;]" ..
-			"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]" ..
-			"list[current_name;src;3,1;1,1;]" ..
-			"image[4,1;1,1;default_furnace_fire_bg.png]" ..
-			"list[current_player;main;0,5;8,4;]" ..
+	"invsize[8,9;]"..
+			"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
+			"list[current_name;src;3,1;1,1;]"..
+			"image[4,1;1,1;default_furnace_fire_bg.png]"..
+			"list[current_player;main;0,5;8,4;]"..
 			"listring[]"
 
 	local desc = S("Fuel-Fired %s Generator"):format(tier)
@@ -84,12 +84,12 @@ function technic.register_generator(data)
 		local percent = math.floor((burn_time / burn_totaltime) * 100)
 		meta:set_string("infotext", desc.." ("..percent.."%)")
 		meta:set_string("formspec",
-			"size[8, 9]" ..
-					"label[0, 0;"..minetest.formspec_escape(desc).."]" ..
-					"list[current_name;src;3, 1;1, 1;]" ..
-					"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:" ..
-					(percent)..":default_furnace_fire_fg.png]" ..
-					"list[current_player;main;0, 5;8, 4;]" ..
+			"size[8, 9]"..
+					"label[0, 0;"..minetest.formspec_escape(desc).."]"..
+					"list[current_name;src;3, 1;1, 1;]"..
+					"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
+					(percent)..":default_furnace_fire_fg.png]"..
+					"list[current_player;main;0, 5;8, 4;]"..
 					"listring[]")
 	end
 
@@ -169,12 +169,12 @@ function technic.register_generator(data)
 			meta:set_int("burn_time", burn_time)
 			local percent = math.floor(burn_time / burn_totaltime * 100)
 			meta:set_string("formspec",
-				"size[8, 9]" ..
-						"label[0, 0;"..minetest.formspec_escape(desc).."]" ..
-						"list[current_name;src;3, 1;1, 1;]" ..
-						"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:" ..
-						(percent)..":default_furnace_fire_fg.png]" ..
-						"list[current_player;main;0, 5;8, 4;]" ..
+				"size[8, 9]"..
+						"label[0, 0;"..minetest.formspec_escape(desc).."]"..
+						"list[current_name;src;3, 1;1, 1;]"..
+						"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
+						(percent)..":default_furnace_fire_fg.png]"..
+						"list[current_player;main;0, 5;8, 4;]"..
 						"listring[]")
 			return true
 		end,
