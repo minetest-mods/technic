@@ -381,11 +381,11 @@ local chest_mark_colors = {
 }
 
 for i = 1, 15 do
-	wrench:register_node("technic:gold_chest" .. chest_mark_colors[i], {
+	wrench:register_node("technic:gold_chest"..chest_mark_colors[i], {
 		lists = { "main" },
 		metas = { infotext = STRING, formspec = STRING },
 	})
-	wrench:register_node("technic:gold_locked_chest" .. chest_mark_colors[i], {
+	wrench:register_node("technic:gold_locked_chest"..chest_mark_colors[i], {
 		lists = { "main" },
 		metas = { infotext = STRING, owner = STRING, formspec = STRING },
 		owned = true,
@@ -396,14 +396,14 @@ if minetest.get_modpath("technic") then
 	for tier, _ in pairs(technic.machines) do
 		local ltier = tier:lower()
 		for i = 0, 8 do
-			wrench:register_node("technic:" .. ltier .. "_battery_box" .. i, {
+			wrench:register_node("technic:"..ltier.."_battery_box"..i, {
 				lists = { "src", "dst" },
 				metas = {
 					infotext = STRING,
 					formspec = STRING,
-					[tier .. "_EU_demand"] = INT,
-					[tier .. "_EU_supply"] = INT,
-					[tier .. "_EU_input"] = INT,
+					[tier.."_EU_demand"] = INT,
+					[tier.."_EU_supply"] = INT,
+					[tier.."_EU_input"] = INT,
 					internal_EU_charge = INT,
 					last_side_shown = INT
 				},

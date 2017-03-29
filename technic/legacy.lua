@@ -33,8 +33,8 @@ for old, new in pairs(technic.legacy_nodenames) do
 end
 
 for i = 0, 64 do
-	minetest.register_alias("technic:hv_cable" .. i, "technic:hv_cable")
-	minetest.register_alias("technic:mv_cable" .. i, "technic:mv_cable")
-	minetest.register_alias("technic:lv_cable" .. i, "technic:lv_cable")
+	minetest.register_alias("technic:hv_cable"..i, "technic:hv_cable")
+	minetest.register_alias("technic:mv_cable"..i, "technic:mv_cable")
+	minetest.register_alias("technic:lv_cable"..i, "technic:lv_cable")
 end
 

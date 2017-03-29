@@ -58,7 +58,7 @@ local function pos_to_string(pos)
 	if pos.x == 0 then pos.x = 0 end -- Fix for signed 0
 	if pos.y == 0 then pos.y = 0 end -- Fix for signed 0
 	if pos.z == 0 then pos.z = 0 end -- Fix for signed 0
-	return tostring(pos.x) .. "\n" .. tostring(pos.y) .. "\n" .. tostring(pos.z)
+	return tostring(pos.x).."\n"..tostring(pos.y).."\n"..tostring(pos.z)
 end
 
 local function pos_from_string(str)
@@ -201,12 +201,12 @@ for xm = 0, 1 do
 							table.insert(nodeboxes, { -b, -b, -a, b, b, -b })
 						end
 
-						local nameext = tostring(xm) .. tostring(xp) .. tostring(ym) .. tostring(yp) .. tostring(zm) .. tostring(zp)
+						local nameext = tostring(xm)..tostring(xp)..tostring(ym)..tostring(yp)..tostring(zm)..tostring(zp)
 						local groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 }
 						if nameext ~= "111111" then groups.not_in_creative_inventory = 1 end
 
 
-						minetest.register_node("technic:frame_" .. nameext, {
+						minetest.register_node("technic:frame_"..nameext, {
 							description = S("Frame"),
 							tiles = { "technic_frame.png" },
 							groups = groups,
@@ -241,9 +241,9 @@ for xm = 0, 1 do
 								local nodename = node.name
 								local newstate = tostring(1 - tonumber(string.sub(nodename, -7 + pface, -7 + pface)))
 								if pface <= 5 then
-									nodename = string.sub(nodename, 1, -7 + pface - 1) .. newstate .. string.sub(nodename, -7 + pface + 1)
+									nodename = string.sub(nodename, 1, -7 + pface - 1)..newstate..string.sub(nodename, -7 + pface + 1)
 								else
-									nodename = string.sub(nodename, 1, -2) .. newstate
+									nodename = string.sub(nodename, 1, -2)..newstate
 								end
 								node.name = nodename
 								minetest.set_node(pos, node)
@@ -252,7 +252,7 @@ for xm = 0, 1 do
 								local pos = pointed_thing.above
 								if minetest.is_protected(pos, placer:get_player_name()) then
 									minetest.log("action", placer:get_player_name()
-											.. " tried to place " .. itemstack:get_name()
+											.. " tried to place "..itemstack:get_name()
 											.. " at protected position "
 											.. minetest.pos_to_string(pos))
 									minetest.record_protection_violation(pos, placer:get_player_name())
@@ -277,7 +277,7 @@ for xm = 0, 1 do
 								if is_supported_node(itemstack:get_name()) then
 									if minetest.is_protected(pos, placer:get_player_name()) then
 										minetest.log("action", placer:get_player_name()
-												.. " tried to place " .. itemstack:get_name()
+												.. " tried to place "..itemstack:get_name()
 												.. " at protected position "
 												.. minetest.pos_to_string(pos))
 										minetest.record_protection_violation(pos, placer:get_player_name())
@@ -397,9 +397,9 @@ minetest.register_entity("technic:frame_entity", {
 		local nodename = self.node.name
 		local newstate = tostring(1 - tonumber(string.sub(nodename, -7 + pface, -7 + pface)))
 		if pface <= 5 then
-			nodename = string.sub(nodename, 1, -7 + pface - 1) .. newstate .. string.sub(nodename, -7 + pface + 1)
+			nodename = string.sub(nodename, 1, -7 + pface - 1)..newstate..string.sub(nodename, -7 + pface + 1)
 		else
-			nodename = string.sub(nodename, 1, -2) .. newstate
+			nodename = string.sub(nodename, 1, -2)..newstate
 		end
 		self.node.name = nodename
 		self:set_node(self.node)
@@ -451,7 +451,7 @@ minetest.register_entity("technic:damage_entity", {
 				self.frame_object.damage_object = nil
 				self.frame_object:dig()
 			end
-			local ct = "crack_anylength.png^[verticalframe:5:" .. self.texture_index
+			local ct = "crack_anylength.png^[verticalframe:5:"..self.texture_index
 			self.object:set_properties({ textures = { ct, ct, ct, ct, ct, ct } })
 		end
 	end,
@@ -719,10 +719,10 @@ local function template_drops(pos, node, oldmeta, digger)
 				local num = #(minetest.deserialize(c))
 				drops = {}
 				while num > stack_max do
-					drops[#drops + 1] = "technic:template " .. stack_max
+					drops[#drops + 1] = "technic:template "..stack_max
 					num = num - stack_max
 				end
-				drops[#drops + 1] = "technic:template " .. num
+				drops[#drops + 1] = "technic:template "..num
 			end
 		end
 	end

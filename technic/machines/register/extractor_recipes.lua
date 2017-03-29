@@ -37,8 +37,8 @@ if minetest.get_modpath("dye") then
 	for _, color in ipairs(dyes) do
 		minetest.register_craft({
 			type = "shapeless",
-			output = "dye:" .. color .. " 1",
-			recipe = { "group:flower,color_" .. color },
+			output = "dye:"..color.." 1",
+			recipe = { "group:flower,color_"..color },
 		})
 	end
 	minetest.register_craft({

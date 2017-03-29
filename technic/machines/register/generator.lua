@@ -23,7 +23,7 @@ function technic.register_generator(data)
 		choppy = 2,
 		oddly_breakable_by_hand = 2,
 		technic_machine = 1,
-		["technic_" .. ltier] = 1
+		["technic_"..ltier] = 1
 	}
 	if data.tube then
 		groups.tubedevice = 1
@@ -34,7 +34,7 @@ function technic.register_generator(data)
 
 	local generator_formspec =
 	"invsize[8,9;]" ..
-			"label[0,0;" .. S("Fuel-Fired %s Generator"):format(tier) .. "]" ..
+			"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]" ..
 			"list[current_name;src;3,1;1,1;]" ..
 			"image[4,1;1,1;default_furnace_fire_bg.png]" ..
 			"list[current_player;main;0,5;8,4;]" ..
@@ -48,7 +48,7 @@ function technic.register_generator(data)
 		local burn_totaltime = meta:get_int("burn_totaltime")
 		-- If more to burn and the energy produced was used: produce some more
 		if burn_time > 0 then
-			meta:set_int(tier .. "_EU_supply", data.supply)
+			meta:set_int(tier.."_EU_supply", data.supply)
 			burn_time = burn_time - 1
 			meta:set_int("burn_time", burn_time)
 		end
@@ -66,39 +66,39 @@ function technic.register_generator(data)
 				})
 				if not fuel or fuel.time == 0 then
 					meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
-					technic.swap_node(pos, "technic:" .. ltier .. "_generator")
-					meta:set_int(tier .. "_EU_supply", 0)
+					technic.swap_node(pos, "technic:"..ltier.."_generator")
+					meta:set_int(tier.."_EU_supply", 0)
 					return
 				end
 				meta:set_int("burn_time", fuel.time)
 				meta:set_int("burn_totaltime", fuel.time)
 				inv:set_stack("src", 1, afterfuel.items[1])
-				technic.swap_node(pos, "technic:" .. ltier .. "_generator_active")
-				meta:set_int(tier .. "_EU_supply", data.supply)
+				technic.swap_node(pos, "technic:"..ltier.."_generator_active")
+				meta:set_int(tier.."_EU_supply", data.supply)
 			else
-				technic.swap_node(pos, "technic:" .. ltier .. "_generator")
-				meta:set_int(tier .. "_EU_supply", 0)
+				technic.swap_node(pos, "technic:"..ltier.."_generator")
+				meta:set_int(tier.."_EU_supply", 0)
 			end
 		end
 		if burn_totaltime == 0 then burn_totaltime = 1 end
 		local percent = math.floor((burn_time / burn_totaltime) * 100)
-		meta:set_string("infotext", desc .. " (" .. percent .. "%)")
+		meta:set_string("infotext", desc.." ("..percent.."%)")
 		meta:set_string("formspec",
 			"size[8, 9]" ..
-					"label[0, 0;" .. minetest.formspec_escape(desc) .. "]" ..
+					"label[0, 0;"..minetest.formspec_escape(desc).."]" ..
 					"list[current_name;src;3, 1;1, 1;]" ..
 					"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:" ..
-					(percent) .. ":default_furnace_fire_fg.png]" ..
+					(percent)..":default_furnace_fire_fg.png]" ..
 					"list[current_player;main;0, 5;8, 4;]" ..
 					"listring[]")
 	end
 
-	minetest.register_node("technic:" .. ltier .. "_generator", {
+	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {
-			"technic_" .. ltier .. "_generator_top.png", "technic_machine_bottom.png",
-			"technic_" .. ltier .. "_generator_side.png", "technic_" .. ltier .. "_generator_side.png",
-			"technic_" .. ltier .. "_generator_side.png", "technic_" .. ltier .. "_generator_front.png"
+			"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
+			"technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_side.png",
+			"technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front.png"
 		},
 		paramtype2 = "facedir",
 		groups = groups,
@@ -109,7 +109,7 @@ function technic.register_generator(data)
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", desc)
-			meta:set_int(data.tier .. "_EU_supply", 0)
+			meta:set_int(data.tier.."_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			meta:set_int("tube_time", 0)
 			meta:set_string("formspec", generator_formspec)
@@ -125,12 +125,12 @@ function technic.register_generator(data)
 		after_dig_node = technic.machine_after_dig_node
 	})
 
-	minetest.register_node("technic:" .. ltier .. "_generator_active", {
+	minetest.register_node("technic:"..ltier.."_generator_active", {
 		description = desc,
 		tiles = {
-			"technic_" .. ltier .. "_generator_top.png", "technic_machine_bottom.png",
-			"technic_" .. ltier .. "_generator_side.png", "technic_" .. ltier .. "_generator_side.png",
-			"technic_" .. ltier .. "_generator_side.png", "technic_" .. ltier .. "_generator_front_active.png"
+			"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
+			"technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_side.png",
+			"technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front_active.png"
 		},
 		paramtype2 = "facedir",
 		groups = active_groups,
@@ -138,7 +138,7 @@ function technic.register_generator(data)
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		tube = data.tube and tube or nil,
-		drop = "technic:" .. ltier .. "_generator",
+		drop = "technic:"..ltier.."_generator",
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
@@ -152,14 +152,14 @@ function technic.register_generator(data)
 			local meta = minetest.get_meta(pos)
 
 			-- Connected back?
-			if meta:get_int(tier .. "_EU_timeout") > 0 then return false end
+			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
 
 			local burn_time = meta:get_int("burn_time") or 0
 
 			if burn_time <= 0 then
-				meta:set_int(tier .. "_EU_supply", 0)
+				meta:set_int(tier.."_EU_supply", 0)
 				meta:set_int("burn_time", 0)
-				technic.swap_node(pos, "technic:" .. ltier .. "_generator")
+				technic.swap_node(pos, "technic:"..ltier.."_generator")
 				return false
 			end
 
@@ -170,17 +170,17 @@ function technic.register_generator(data)
 			local percent = math.floor(burn_time / burn_totaltime * 100)
 			meta:set_string("formspec",
 				"size[8, 9]" ..
-						"label[0, 0;" .. minetest.formspec_escape(desc) .. "]" ..
+						"label[0, 0;"..minetest.formspec_escape(desc).."]" ..
 						"list[current_name;src;3, 1;1, 1;]" ..
 						"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:" ..
-						(percent) .. ":default_furnace_fire_fg.png]" ..
+						(percent)..":default_furnace_fire_fg.png]" ..
 						"list[current_player;main;0, 5;8, 4;]" ..
 						"listring[]")
 			return true
 		end,
 	})
 
-	technic.register_machine(tier, "technic:" .. ltier .. "_generator", technic.producer)
-	technic.register_machine(tier, "technic:" .. ltier .. "_generator_active", technic.producer)
+	technic.register_machine(tier, "technic:"..ltier.."_generator", technic.producer)
+	technic.register_machine(tier, "technic:"..ltier.."_generator_active", technic.producer)
 end
 

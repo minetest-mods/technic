@@ -85,7 +85,7 @@ local function register_block(block, ingot)
 	})
 
 	minetest.register_craft({
-		output = ingot .. " 9",
+		output = ingot.." 9",
 		recipe = {
 			{ block }
 		}

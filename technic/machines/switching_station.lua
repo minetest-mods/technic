@@ -62,7 +62,7 @@ minetest.register_node("technic:switching_station", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
-		meta:set_string("channel", "switching_station" .. minetest.pos_to_string(pos))
+		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 	end,
 	after_dig_node = function(pos)
@@ -136,7 +136,7 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 		add_new_cable_node(all_nodes, pos, network_id)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
-		meta:set_string(tier .. "_network", minetest.pos_to_string(sw_pos))
+		meta:set_string(tier.."_network", minetest.pos_to_string(sw_pos))
 		if machines[name] == technic.producer then
 			add_new_cable_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
@@ -154,7 +154,7 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 			add_new_cable_node(BA_nodes, pos, network_id)
 		end
 
-		meta:set_int(tier .. "_EU_timeout", 2) -- Touch node
+		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
 	end
 end
 
@@ -178,7 +178,7 @@ end
 local touch_nodes = function(list, tier)
 	for _, pos in ipairs(list) do
 		local meta = minetest.get_meta(pos)
-		meta:set_int(tier .. "_EU_timeout", 2) -- Touch node
+		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
 	end
 end
 
@@ -286,9 +286,9 @@ minetest.register_abm({
 		run_nodes(BA_nodes, technic.battery)
 
 		-- Strings for the meta data
-		local eu_demand_str = tier .. "_EU_demand"
-		local eu_input_str = tier .. "_EU_input"
-		local eu_supply_str = tier .. "_EU_supply"
+		local eu_demand_str = tier.."_EU_demand"
+		local eu_input_str = tier.."_EU_input"
+		local eu_supply_str = tier.."_EU_supply"
 
 		-- Distribute charge equally across multiple batteries.
 		local charge_total = 0
@@ -436,12 +436,12 @@ minetest.register_abm({
 -- A node must be touched by the station continuously in order to function
 local function switching_station_timeout_count(pos, tier)
 	local meta = minetest.get_meta(pos)
-	local timeout = meta:get_int(tier .. "_EU_timeout")
+	local timeout = meta:get_int(tier.."_EU_timeout")
 	if timeout <= 0 then
-		meta:set_int(tier .. "_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
+		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
-		meta:set_int(tier .. "_EU_timeout", timeout - 1)
+		meta:set_int(tier.."_EU_timeout", timeout - 1)
 		return false
 	end
 end

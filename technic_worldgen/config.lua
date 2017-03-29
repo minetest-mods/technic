@@ -1,4 +1,4 @@
-technic.config = technic.config or Settings(minetest.get_worldpath() .. "/technic.conf")
+technic.config = technic.config or Settings(minetest.get_worldpath().."/technic.conf")
 
 local conf_table = technic.config:to_table()
 

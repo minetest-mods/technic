@@ -8,11 +8,11 @@ technic.concrete_posts = {}
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 for i = 0, 31 do
-	minetest.register_alias("technic:concrete_post" .. i,
+	minetest.register_alias("technic:concrete_post"..i,
 		"technic:concrete_post")
 end
 for i = 32, 63 do
-	minetest.register_alias("technic:concrete_post" .. i,
+	minetest.register_alias("technic:concrete_post"..i,
 		"technic:concrete_post_with_platform")
 end
 
@@ -131,7 +131,7 @@ for platform = 0, 1 do
 		end
 	end
 
-	minetest.register_node(":technic:concrete_post" .. (platform == 1 and "_with_platform" or ""), {
+	minetest.register_node(":technic:concrete_post"..(platform == 1 and "_with_platform" or ""), {
 		description = S("Concrete Post"),
 		tiles = { "technic_concrete_block.png" },
 		groups = { cracky = 1, level = 2, concrete_post = 1, not_in_creative_inventory = platform },

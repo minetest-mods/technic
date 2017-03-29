@@ -45,7 +45,7 @@ minetest.register_abm({
 		local sw_pos = network and { x = network.x, y = network.y + 1, z = network.z }
 		local timeout = 0
 		for tier in pairs(technic.machines) do
-			timeout = math.max(meta:get_int(tier .. "_EU_timeout"), timeout)
+			timeout = math.max(meta:get_int(tier.."_EU_timeout"), timeout)
 		end
 		if timeout > 0 and sw_pos and minetest.get_node(sw_pos).name == "technic:switching_station" then
 			local sw_meta = minetest.get_meta(sw_pos)

@@ -14,7 +14,7 @@ minetest.register_craft({
 local machine_name = S("Fuel-Fired Alloy Furnace")
 local formspec =
 "size[8,9]" ..
-		"label[0,0;" .. machine_name .. "]" ..
+		"label[0,0;"..machine_name.."]" ..
 		"image[2,2;1,1;default_furnace_fire_bg.png]" ..
 		"list[current_name;fuel;2,3;1,1;]" ..
 		"list[current_name;src;2,1;2,1;]" ..
@@ -125,13 +125,13 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext", S("%s Active"):format(machine_name) .. " (" .. percent .. "%)")
+			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 				"size[8,9]" ..
-						"label[0,0;" .. machine_name .. "]" ..
+						"label[0,0;"..machine_name.."]" ..
 						"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:" ..
-						(100 - percent) .. ":default_furnace_fire_fg.png]" ..
+						(100 - percent)..":default_furnace_fire_fg.png]" ..
 						"list[current_name;fuel;2,3;1,1;]" ..
 						"list[current_name;src;2,1;2,1;]" ..
 						"list[current_name;dst;5,1;2,2;]" ..

@@ -30,7 +30,7 @@ minetest.register_craft({
 
 local reactor_formspec =
 "invsize[8,9;]" ..
-		"label[0,0;" .. S("Nuclear Reactor Rod Compartment") .. "]" ..
+		"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]" ..
 		"list[current_name;src;2,1;3,2;]" ..
 		"list[current_player;main;0,5;8,4;]" ..
 		"listring[]"
@@ -215,7 +215,7 @@ end
 
 
 local function melt_down_reactor(pos)
-	minetest.log("action", "A reactor melted down at " .. minetest.pos_to_string(pos))
+	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
 	minetest.set_node(pos, { name = "technic:corium_source" })
 end
 
@@ -282,7 +282,7 @@ local function run(pos, node)
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
-		meta:set_string("infotext", reactor_desc .. " (" .. percent .. "%)")
+		meta:set_string("infotext", reactor_desc.." ("..percent.."%)")
 		meta:set_int("HV_EU_supply", power_supply)
 	end
 end

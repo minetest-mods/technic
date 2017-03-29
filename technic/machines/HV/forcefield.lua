@@ -91,25 +91,25 @@ end
 
 local function set_forcefield_formspec(meta)
 	local formspec = "size[5,2.25]" ..
-			"field[0.3,0.5;2,1;range;" .. S("Range") .. ";" .. meta:get_int("range") .. "]"
+			"field[0.3,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
 	-- the single change that the user expects.
 	if meta:get_int("shape") == 0 then
-		formspec = formspec .. "button[3,0.2;2,1;shape1;" .. S("Sphere") .. "]"
+		formspec = formspec.."button[3,0.2;2,1;shape1;"..S("Sphere").."]"
 	else
-		formspec = formspec .. "button[3,0.2;2,1;shape0;" .. S("Cube") .. "]"
+		formspec = formspec.."button[3,0.2;2,1;shape0;"..S("Cube").."]"
 	end
 	if meta:get_int("mesecon_mode") == 0 then
-		formspec = formspec .. "button[0,1;5,1;mesecon_mode_1;" .. S("Ignoring Mesecon Signal") .. "]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
 	else
-		formspec = formspec .. "button[0,1;5,1;mesecon_mode_0;" .. S("Controlled by Mesecon Signal") .. "]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec .. "button[0,1.75;5,1;enable;" .. S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")) .. "]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	else
-		formspec = formspec .. "button[0,1.75;5,1;disable;" .. S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")) .. "]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end

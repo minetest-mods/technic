@@ -11,20 +11,20 @@ local S = technic.getter
 
 local function set_supply_converter_formspec(meta)
 	local formspec = "size[5,2.25]" ..
-			"field[0.3,0.5;2,1;power;" .. S("Input Power") .. ";" .. meta:get_int("power") .. "]"
+			"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
 	-- the single change that the user expects.
 	if meta:get_int("mesecon_mode") == 0 then
-		formspec = formspec .. "button[0,1;5,1;mesecon_mode_1;" .. S("Ignoring Mesecon Signal") .. "]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
 	else
-		formspec = formspec .. "button[0,1;5,1;mesecon_mode_0;" .. S("Controlled by Mesecon Signal") .. "]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec .. "button[0,1.75;5,1;enable;" .. S("%s Disabled"):format(S("Supply Converter")) .. "]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
 	else
-		formspec = formspec .. "button[0,1.75;5,1;disable;" .. S("%s Enabled"):format(S("Supply Converter")) .. "]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -88,19 +88,19 @@ local run = function(pos, node, run_stage)
 	local to = technic.get_cable_tier(name_down)
 
 	if from and to then
-		local input = meta:get_int(from .. "_EU_input")
-		meta:set_int(from .. "_EU_demand", demand)
-		meta:set_int(from .. "_EU_supply", 0)
-		meta:set_int(to .. "_EU_demand", 0)
-		meta:set_int(to .. "_EU_supply", input * remain)
+		local input = meta:get_int(from.."_EU_input")
+		meta:set_int(from.."_EU_demand", demand)
+		meta:set_int(from.."_EU_supply", 0)
+		meta:set_int(to.."_EU_demand", 0)
+		meta:set_int(to.."_EU_supply", input * remain)
 		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.pretty_num(input), from, technic.pretty_num(input * remain), to))
 	else
 		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 		if to then
-			meta:set_int(to .. "_EU_supply", 0)
+			meta:set_int(to.."_EU_supply", 0)
 		end
 		if from then
-			meta:set_int(from .. "_EU_demand", 0)
+			meta:set_int(from.."_EU_demand", 0)
 		end
 		return
 	end

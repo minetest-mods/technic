@@ -16,7 +16,7 @@ minetest.register_craft({
 local music_handles = {}
 
 local function play_track(pos, track)
-	return minetest.sound_play("technic_track" .. tostring(track),
+	return minetest.sound_play("technic_track"..tostring(track),
 		{ pos = pos, gain = 1.0, loop = true, max_hear_distance = 72, })
 end
 
@@ -73,7 +73,7 @@ local function set_display(meta)
 	meta:set_string("formspec",
 		"size[4,4.5]" ..
 				"item_image[0,0;1,1;technic:music_player]" ..
-				"label[1,0;" .. S("%s Music Player"):format("LV") .. "]" ..
+				"label[1,0;"..S("%s Music Player"):format("LV").."]" ..
 				"button[0,1;1,1;track1;1]" ..
 				"button[1,1;1,1;track2;2]" ..
 				"button[2,1;1,1;track3;3]" ..
@@ -84,9 +84,9 @@ local function set_display(meta)
 				"button[1,3;1,1;track8;8]" ..
 				"button[2,3;1,1;track9;9]" ..
 				"button[3,1;1,1;stop;Stop]" ..
-				"label[0,4;" .. minetest.formspec_escape(meta:get_int("active") == 0 and
+				"label[0,4;"..minetest.formspec_escape(meta:get_int("active") == 0 and
 				S("Stopped") or
-				S("Current track %s"):format(meta:get_int("current_track"))) .. "]")
+				S("Current track %s"):format(meta:get_int("current_track"))).."]")
 end
 
 minetest.register_node("technic:music_player", {

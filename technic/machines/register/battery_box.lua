@@ -66,10 +66,10 @@ function technic.register_battery_box(data)
 			"list[current_name;src;3,1;1,1;]" ..
 			"image[4,1;1,1;technic_battery_reload.png]" ..
 			"list[current_name;dst;5,1;1,1;]" ..
-			"label[0,0;" .. S("%s Battery Box"):format(tier) .. "]" ..
-			"label[3,0;" .. S("Charge") .. "]" ..
-			"label[5,0;" .. S("Discharge") .. "]" ..
-			"label[1,3;" .. S("Power level") .. "]" ..
+			"label[0,0;"..S("%s Battery Box"):format(tier).."]" ..
+			"label[3,0;"..S("Charge").."]" ..
+			"label[5,0;"..S("Discharge").."]" ..
+			"label[1,3;"..S("Power level").."]" ..
 			"list[current_player;main;0,5;8,4;]" ..
 			"listring[current_name;dst]" ..
 			"listring[current_player;main]" ..
@@ -80,7 +80,7 @@ function technic.register_battery_box(data)
 		formspec = formspec ..
 				"list[current_name;upgrade1;3.5,3;1,1;]" ..
 				"list[current_name;upgrade2;4.5,3;1,1;]" ..
-				"label[3.5,4;" .. S("Upgrade Slots") .. "]" ..
+				"label[3.5,4;"..S("Upgrade Slots").."]" ..
 				"listring[current_name;upgrade1]" ..
 				"listring[current_player;main]" ..
 				"listring[current_name;upgrade2]" ..
@@ -89,7 +89,7 @@ function technic.register_battery_box(data)
 
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
-		local eu_input = meta:get_int(tier .. "_EU_input")
+		local eu_input = meta:get_int(tier.."_EU_input")
 		local current_charge = meta:get_int("internal_EU_charge")
 
 		local EU_upgrade, tube_upgrade = 0, 0
@@ -126,9 +126,9 @@ function technic.register_battery_box(data)
 		end
 
 		-- We allow batteries to charge on less than the demand
-		meta:set_int(tier .. "_EU_demand",
+		meta:set_int(tier.."_EU_demand",
 			math.min(data.charge_rate, max_charge - current_charge))
-		meta:set_int(tier .. "_EU_supply",
+		meta:set_int(tier.."_EU_supply",
 			math.min(data.discharge_rate, current_charge))
 		meta:set_int("internal_EU_charge", current_charge)
 
@@ -138,7 +138,7 @@ function technic.register_battery_box(data)
 		charge_count = math.max(charge_count, 0)
 		local last_count = meta:get_float("last_side_shown")
 		if charge_count ~= last_count then
-			technic.swap_node(pos, "technic:" .. ltier .. "_battery_box" .. charge_count)
+			technic.swap_node(pos, "technic:"..ltier.."_battery_box"..charge_count)
 			meta:set_float("last_side_shown", charge_count)
 		end
 
@@ -146,7 +146,7 @@ function technic.register_battery_box(data)
 		meta:set_string("formspec",
 			formspec ..
 					"image[1,1;1,2;technic_power_meter_bg.png"
-					.. "^[lowpart:" .. charge_percent
+					.. "^[lowpart:"..charge_percent
 					.. ":technic_power_meter_fg.png]")
 
 		local infotext = S("@1 Battery Box: @2/@3", tier,
@@ -163,7 +163,7 @@ function technic.register_battery_box(data)
 			choppy = 2,
 			oddly_breakable_by_hand = 2,
 			technic_machine = 1,
-			["technic_" .. ltier] = 1
+			["technic_"..ltier] = 1
 		}
 		if i ~= 0 then
 			groups.not_in_creative_inventory = 1
@@ -174,22 +174,22 @@ function technic.register_battery_box(data)
 			groups.tubedevice_receiver = 1
 		end
 
-		minetest.register_node("technic:" .. ltier .. "_battery_box" .. i, {
+		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
 			tiles = {
-				"technic_" .. ltier .. "_battery_box_top.png",
-				"technic_" .. ltier .. "_battery_box_bottom.png",
-				"technic_" .. ltier .. "_battery_box_side.png^technic_power_meter" .. i .. ".png",
-				"technic_" .. ltier .. "_battery_box_side.png^technic_power_meter" .. i .. ".png",
-				"technic_" .. ltier .. "_battery_box_side.png^technic_power_meter" .. i .. ".png",
-				"technic_" .. ltier .. "_battery_box_side.png^technic_power_meter" .. i .. ".png"
+				"technic_"..ltier.."_battery_box_top.png",
+				"technic_"..ltier.."_battery_box_bottom.png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
+				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
 			},
 			groups = groups,
 			connect_sides = { "bottom" },
 			tube = data.tube and tube or nil,
 			paramtype2 = "facedir",
 			sounds = default.node_sound_wood_defaults(),
-			drop = "technic:" .. ltier .. "_battery_box0",
+			drop = "technic:"..ltier.."_battery_box0",
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
 				local inv = meta:get_inventory()
@@ -197,9 +197,9 @@ function technic.register_battery_box(data)
 
 				meta:set_string("infotext", S("%s Battery Box"):format(tier))
 				meta:set_string("formspec", formspec)
-				meta:set_int(tier .. "_EU_demand", 0)
-				meta:set_int(tier .. "_EU_supply", 0)
-				meta:set_int(tier .. "_EU_input", 0)
+				meta:set_int(tier.."_EU_demand", 0)
+				meta:set_int(tier.."_EU_supply", 0)
+				meta:set_int(tier.."_EU_input", 0)
 				meta:set_float("internal_EU_charge", 0)
 				inv:set_size("src", 1)
 				inv:set_size("dst", 1)
@@ -219,7 +219,7 @@ function technic.register_battery_box(data)
 	-- Register as a battery type
 	-- Battery type machines function as power reservoirs and can both receive and give back power
 	for i = 0, 8 do
-		technic.register_machine(tier, "technic:" .. ltier .. "_battery_box" .. i, technic.battery)
+		technic.register_machine(tier, "technic:"..ltier.."_battery_box"..i, technic.battery)
 	end
 end
 

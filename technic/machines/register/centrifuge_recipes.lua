@@ -19,16 +19,16 @@ local recipes = {
 }
 
 local function uranium_dust(p)
-	return "technic:uranium" .. (p == 7 and "" or p) .. "_dust"
+	return "technic:uranium"..(p == 7 and "" or p).."_dust"
 end
 
 for p = 1, 34 do
-	table.insert(recipes, { uranium_dust(p) .. " 2", uranium_dust(p - 1), uranium_dust(p + 1) })
+	table.insert(recipes, { uranium_dust(p).." 2", uranium_dust(p - 1), uranium_dust(p + 1) })
 end
 
 if minetest.get_modpath("bushes_classic") then
 	for _, berry in ipairs({ "blackberry", "blueberry", "gooseberry", "raspberry", "strawberry" }) do
-		table.insert(recipes, { "bushes:" .. berry .. "_bush", "default:stick 20", "bushes:" .. berry .. " 4" })
+		table.insert(recipes, { "bushes:"..berry.."_bush", "default:stick 20", "bushes:"..berry.." 4" })
 	end
 end
 

@@ -11,7 +11,7 @@ for _, material in ipairs(material_list) do
 		output = 'technic:gold_chest',
 		recipe = {
 			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
-			{ 'default:gold_ingot', "technic:" .. material .. "_chest", 'default:gold_ingot' },
+			{ 'default:gold_ingot', "technic:"..material.."_chest", 'default:gold_ingot' },
 			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
 		}
 	})
@@ -20,7 +20,7 @@ for _, material in ipairs(material_list) do
 		output = 'technic:gold_locked_chest',
 		recipe = {
 			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
-			{ 'default:gold_ingot', "technic:" .. material .. "_locked_chest", 'default:gold_ingot' },
+			{ 'default:gold_ingot', "technic:"..material.."_locked_chest", 'default:gold_ingot' },
 			{ 'default:gold_ingot', 'default:gold_ingot', 'default:gold_ingot' },
 		}
 	})

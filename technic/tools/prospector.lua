@@ -47,8 +47,8 @@ minetest.register_tool("technic:prospector", {
 			end
 		end
 		if math.random() < 0.02 then found = not found end
-		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description .. " is " .. (found and "present" or "absent") .. " in " .. look_diameter .. "x" .. look_diameter .. "x" .. toolmeta.look_depth .. " region")
-		minetest.sound_play("technic_prospector_" .. (found and "hit" or "miss"), { pos = vector.add(user:getpos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
+		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description.." is "..(found and "present" or "absent").." in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
+		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), { pos = vector.add(user:getpos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
 		return toolstack
 	end,
 	on_place = function(toolstack, user, pointed_thing)
@@ -65,27 +65,27 @@ minetest.register_tool("technic:prospector", {
 		local look_diameter = toolmeta.look_radius * 2 + 1
 		minetest.show_formspec(user:get_player_name(), "technic:prospector_control",
 			"size[7,8.5]" ..
-					"item_image[0,0;1,1;" .. toolstack:get_name() .. "]" ..
-					"label[1,0;" .. minetest.formspec_escape(toolstack:get_definition().description) .. "]" ..
+					"item_image[0,0;1,1;"..toolstack:get_name().."]" ..
+					"label[1,0;"..minetest.formspec_escape(toolstack:get_definition().description).."]" ..
 					(toolmeta.target ~= "" and
 							"label[0,1.5;Current target:]" ..
-							"label[0,2;" .. minetest.formspec_escape(minetest.registered_nodes[toolmeta.target].description) .. "]" ..
-							"item_image[0,2.5;1,1;" .. toolmeta.target .. "]" or
+							"label[0,2;"..minetest.formspec_escape(minetest.registered_nodes[toolmeta.target].description).."]" ..
+							"item_image[0,2.5;1,1;"..toolmeta.target.."]" or
 							"label[0,1.5;No target set]") ..
 					(pointed and
 							"label[3.5,1.5;May set new target:]" ..
-							"label[3.5,2;" .. minetest.formspec_escape(minetest.registered_nodes[pointed].description) .. "]" ..
-							"item_image[3.5,2.5;1,1;" .. pointed .. "]" ..
-							"button_exit[3.5,3.65;2,0.5;target_" .. pointed .. ";Set target]" or
+							"label[3.5,2;"..minetest.formspec_escape(minetest.registered_nodes[pointed].description).."]" ..
+							"item_image[3.5,2.5;1,1;"..pointed.."]" ..
+							"button_exit[3.5,3.65;2,0.5;target_"..pointed..";Set target]" or
 							"label[3.5,1.5;No new target available]") ..
 					"label[0,4.5;Region cross section:]" ..
-					"label[0,5;" .. look_diameter .. "x" .. look_diameter .. "]" ..
+					"label[0,5;"..look_diameter.."x"..look_diameter.."]" ..
 					"label[3.5,4.5;Set region cross section:]" ..
 					"button_exit[3.5,5.15;1,0.5;look_radius_0;1x1]" ..
 					"button_exit[4.5,5.15;1,0.5;look_radius_1;3x3]" ..
 					"button_exit[5.5,5.15;1,0.5;look_radius_3;7x7]" ..
 					"label[0,6;Region depth:]" ..
-					"label[0,6.5;" .. toolmeta.look_depth .. "]" ..
+					"label[0,6.5;"..toolmeta.look_depth.."]" ..
 					"label[3.5,6;Set region depth:]" ..
 					"button_exit[3.5,6.65;1,0.5;look_depth_7;7]" ..
 					"button_exit[4.5,6.65;1,0.5;look_depth_14;14]" ..

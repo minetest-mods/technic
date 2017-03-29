@@ -9,7 +9,7 @@ if not minetest.get_modpath("pipeworks") then
 	local dummy = function()
 	end
 	pipeworks_meta.__index = function(table, key)
-		print("[technic_chests] WARNING: variable or method '" .. key .. "' not present in dummy pipeworks table - assuming it is a method...")
+		print("[technic_chests] WARNING: variable or method '"..key.."' not present in dummy pipeworks table - assuming it is a method...")
 		pipeworks[key] = dummy
 		return dummy
 	end
@@ -37,7 +37,7 @@ local chest_mark_colors = {
 
 
 local function colorid_to_postfix(id)
-	return chest_mark_colors[id] and "_" .. chest_mark_colors[id][1] or ""
+	return chest_mark_colors[id] and "_"..chest_mark_colors[id][1] or ""
 end
 
 
@@ -45,11 +45,11 @@ local function get_color_buttons(coleft, lotop)
 	local buttons_string = ""
 	for y = 0, 3 do
 		for x = 0, 3 do
-			local file_name = "technic_colorbutton" .. (y * 4 + x) .. ".png"
-			buttons_string = buttons_string .. "image_button["
-					.. (coleft + 0.1 + x * 0.7) .. "," .. (lotop + 0.1 + y * 0.7)
-					.. ";0.8,0.8;" .. file_name .. ";color_button"
-					.. (y * 4 + x + 1) .. ";]"
+			local file_name = "technic_colorbutton"..(y * 4 + x)..".png"
+			buttons_string = buttons_string.."image_button["
+					.. (coleft + 0.1 + x * 0.7)..","..(lotop + 0.1 + y * 0.7)
+					.. ";0.8,0.8;"..file_name..";color_button"
+					.. (y * 4 + x + 1)..";]"
 		end
 	end
 	return buttons_string
@@ -58,9 +58,9 @@ end
 
 local function check_color_buttons(pos, meta, chest_name, fields)
 	for i = 1, 16 do
-		if fields["color_button" .. i] then
+		if fields["color_button"..i] then
 			local node = minetest.get_node(pos)
-			node.name = chest_name .. colorid_to_postfix(i)
+			node.name = chest_name..colorid_to_postfix(i)
 			minetest.swap_node(pos, node)
 			meta:set_string("color", i)
 			return
@@ -74,20 +74,20 @@ local function set_formspec(pos, data, page)
 	local formspec = data.base_formspec
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec .. "button[" .. (data.hileft + 2) .. "," .. (data.height + 1.1) .. ";3,0.8;autosort_to_" .. (1 - status) .. ";" .. S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")) .. "]"
+		formspec = formspec.."button["..(data.hileft + 2)..","..(data.height + 1.1)..";3,0.8;autosort_to_"..(1 - status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
 		if page == "main" then
-			formspec = formspec .. "image_button[" .. (data.hileft + 2.1) .. ",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(data.hileft + 2.1)..",0.1;0.8,0.8;"
 					.. "technic_pencil_icon.png;edit_infotext;]"
-					.. "label[" .. (data.hileft + 3) .. ",0;" .. formspec_infotext .. "]"
+					.. "label["..(data.hileft + 3)..",0;"..formspec_infotext.."]"
 		elseif page == "edit_infotext" then
-			formspec = formspec .. "image_button[" .. (data.hileft + 2.1) .. ",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(data.hileft + 2.1)..",0.1;0.8,0.8;"
 					.. "technic_checkmark_icon.png;save_infotext;]"
-					.. "field[" .. (data.hileft + 3.3) .. ",0.2;4.8,1;"
-					.. "infotext_box;" .. S("Edit chest description:") .. ";"
-					.. formspec_infotext .. "]"
+					.. "field["..(data.hileft + 3.3)..",0.2;4.8,1;"
+					.. "infotext_box;"..S("Edit chest description:")..";"
+					.. formspec_infotext.."]"
 		end
 	end
 	if data.color then
@@ -98,7 +98,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		formspec = formspec .. "label[" .. (data.coleft + 0.2) .. "," .. (data.lotop + 3) .. ";" .. S("Color Filter: %s"):format(colorName) .. "]"
+		formspec = formspec.."label["..(data.coleft + 0.2)..","..(data.lotop + 3)..";"..S("Color Filter: %s"):format(colorName).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -166,7 +166,7 @@ local function get_receive_fields(name, data)
 		end
 		if data.color then
 			-- This sets the node
-			local nn = "technic:" .. lname .. (data.locked and "_locked" or "") .. "_chest"
+			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
 		end
 		meta:get_inventory():set_size("main", data.width * data.height)
@@ -202,20 +202,20 @@ function technic.chests:definition(name, data)
 	data.ovheight = data.lotop + 4
 
 	local locked_after_place = nil
-	local front = { "technic_" .. lname .. "_chest_front.png" }
-	data.base_formspec = "size[" .. data.ovwidth .. "," .. data.ovheight .. "]" ..
-			"label[0,0;" .. S("%s Chest"):format(name) .. "]" ..
-			"list[context;main;" .. data.hileft .. ",1;" .. data.width .. "," .. data.height .. ";]" ..
-			"list[current_player;main;" .. data.loleft .. "," .. data.lotop .. ";8,4;]" ..
-			"background[-0.19,-0.25;" .. (data.ovwidth + 0.4) .. "," .. (data.ovheight + 0.75) .. ";technic_chest_form_bg.png]" ..
-			"background[" .. data.hileft .. ",1;" .. data.width .. "," .. data.height .. ";technic_" .. lname .. "_chest_inventory.png]" ..
-			"background[" .. data.loleft .. "," .. data.lotop .. ";8,4;technic_main_inventory.png]" ..
+	local front = { "technic_"..lname.."_chest_front.png" }
+	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]" ..
+			"label[0,0;"..S("%s Chest"):format(name).."]" ..
+			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]" ..
+			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]" ..
+			"background[-0.19,-0.25;"..(data.ovwidth + 0.4)..","..(data.ovheight + 0.75)..";technic_chest_form_bg.png]" ..
+			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]" ..
+			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]" ..
 			"listring[]"
 	if data.sort then
-		data.base_formspec = data.base_formspec .. "button[" .. data.hileft .. "," .. (data.height + 1.1) .. ";1,0.8;sort;" .. S("Sort") .. "]"
+		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height + 1.1)..";1,0.8;sort;"..S("Sort").."]"
 	end
 	if data.color then
-		data.base_formspec = data.base_formspec .. get_color_buttons(data.coleft, data.lotop)
+		data.base_formspec = data.base_formspec..get_color_buttons(data.coleft, data.lotop)
 	end
 
 	if data.locked then
@@ -226,7 +226,7 @@ function technic.chests:definition(name, data)
 				S("%s Locked Chest (owned by %s)"):format(name, meta:get_string("owner")))
 			pipeworks.after_place(pos)
 		end
-		table.insert(front, "technic_" .. lname .. "_chest_lock_overlay.png")
+		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
 	else
 		locked_after_place = pipeworks.after_place
 	end
@@ -241,9 +241,9 @@ function technic.chests:definition(name, data)
 	local def = {
 		description = desc,
 		tiles = {
-			"technic_" .. lname .. "_chest_top.png", "technic_" .. lname .. "_chest_top.png",
-			"technic_" .. lname .. "_chest_side.png", "technic_" .. lname .. "_chest_side.png",
-			"technic_" .. lname .. "_chest_side.png", table.concat(front, "^")
+			"technic_"..lname.."_chest_top.png", "technic_"..lname.."_chest_top.png",
+			"technic_"..lname.."_chest_side.png", "technic_"..lname.."_chest_side.png",
+			"technic_"..lname.."_chest_side.png", table.concat(front, "^")
 		},
 		paramtype2 = "facedir",
 		groups = self.groups,
@@ -267,7 +267,7 @@ function technic.chests:definition(name, data)
 		on_blast = function(pos)
 			local drops = {}
 			default.get_inventory_drops(pos, "main", drops)
-			drops[#drops + 1] = "technic:" .. name:lower() .. (data.locked and "_locked" or "") .. "_chest"
+			drops[#drops + 1] = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
 			minetest.remove_node(pos)
 			return drops
 		end,
@@ -309,15 +309,15 @@ end
 function technic.chests:register(name, data)
 	local def = technic.chests:definition(name, data)
 
-	local nn = "technic:" .. name:lower() .. (data.locked and "_locked" or "") .. "_chest"
-	minetest.register_node(":" .. nn, def)
+	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+	minetest.register_node(":"..nn, def)
 
 	if data.color then
 		local mk_front
 		if string.find(def.tiles[6], "%^") then
-			mk_front = function(overlay) return def.tiles[6]:gsub("%^", "^" .. overlay .. "^") end
+			mk_front = function(overlay) return def.tiles[6]:gsub("%^", "^"..overlay.."^") end
 		else
-			mk_front = function(overlay) return def.tiles[6] .. "^" .. overlay end
+			mk_front = function(overlay) return def.tiles[6].."^"..overlay end
 		end
 		for i = 1, 15 do
 			local postfix = colorid_to_postfix(i)
@@ -327,8 +327,8 @@ function technic.chests:register(name, data)
 			end
 			colordef.drop = nn
 			colordef.groups = self.groups_noinv
-			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay" .. postfix .. ".png") }
-			minetest.register_node(":" .. nn .. postfix, colordef)
+			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay"..postfix..".png") }
+			minetest.register_node(":"..nn..postfix, colordef)
 		end
 	end
 end

@@ -28,7 +28,7 @@ function technic.register_base_machine(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = { cracky = 2, technic_machine = 1, ["technic_" .. ltier] = 1 }
+	local groups = { cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1 }
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
@@ -38,10 +38,10 @@ function technic.register_base_machine(data)
 
 	local formspec =
 	"invsize[8,9;]" ..
-			"list[current_name;src;" .. (4 - input_size) .. ",1;" .. input_size .. ",1;]" ..
+			"list[current_name;src;"..(4 - input_size)..",1;"..input_size..",1;]" ..
 			"list[current_name;dst;5,1;2,2;]" ..
 			"list[current_player;main;0,5;8,4;]" ..
-			"label[0,0;" .. machine_desc:format(tier) .. "]" ..
+			"label[0,0;"..machine_desc:format(tier).."]" ..
 			"listring[current_name;dst]" ..
 			"listring[current_player;main]" ..
 			"listring[current_name;src]" ..
@@ -50,7 +50,7 @@ function technic.register_base_machine(data)
 		formspec = formspec ..
 				"list[current_name;upgrade1;1,3;1,1;]" ..
 				"list[current_name;upgrade2;2,3;1,1;]" ..
-				"label[1,4;" .. S("Upgrade Slots") .. "]" ..
+				"label[1,4;"..S("Upgrade Slots").."]" ..
 				"listring[current_name;upgrade1]" ..
 				"listring[current_player;main]" ..
 				"listring[current_name;upgrade2]" ..
@@ -60,16 +60,16 @@ function technic.register_base_machine(data)
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		local eu_input = meta:get_int(tier .. "_EU_input")
+		local eu_input = meta:get_int(tier.."_EU_input")
 
 		local machine_desc_tier = machine_desc:format(tier)
-		local machine_node = "technic:" .. ltier .. "_" .. machine_name
+		local machine_node = "technic:"..ltier.."_"..machine_name
 		local machine_demand = data.demand
 
 		-- Setup meta data if it does not exist.
 		if not eu_input then
-			meta:set_int(tier .. "_EU_demand", machine_demand[1])
-			meta:set_int(tier .. "_EU_input", 0)
+			meta:set_int(tier.."_EU_demand", machine_demand[1])
+			meta:set_int(tier.."_EU_input", 0)
 			return
 		end
 
@@ -90,12 +90,12 @@ function technic.register_base_machine(data)
 			if not result then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
-				meta:set_int(tier .. "_EU_demand", 0)
+				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
 				return
 			end
-			meta:set_int(tier .. "_EU_demand", machine_demand[EU_upgrade + 1])
-			technic.swap_node(pos, machine_node .. "_active")
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade + 1])
+			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
 			if meta:get_int("src_time") < round(result.time * 10) then
 				if not powered then
@@ -123,7 +123,7 @@ function technic.register_base_machine(data)
 			if not room_for_output then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
-				meta:set_int(tier .. "_EU_demand", 0)
+				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time * 10))
 				return
 			end
@@ -133,15 +133,15 @@ function technic.register_base_machine(data)
 		end
 	end
 
-	minetest.register_node("technic:" .. ltier .. "_" .. machine_name, {
+	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_" .. ltier .. "_" .. machine_name .. "_top.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_bottom.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_front.png"
+			"technic_"..ltier.."_"..machine_name.."_top.png",
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front.png"
 		},
 		paramtype2 = "facedir",
 		groups = groups,
@@ -170,18 +170,18 @@ function technic.register_base_machine(data)
 		after_dig_node = technic.machine_after_dig_node
 	})
 
-	minetest.register_node("technic:" .. ltier .. "_" .. machine_name .. "_active", {
+	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active", {
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_" .. ltier .. "_" .. machine_name .. "_top.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_bottom.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_side.png",
-			"technic_" .. ltier .. "_" .. machine_name .. "_front_active.png"
+			"technic_"..ltier.."_"..machine_name.."_top.png",
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front_active.png"
 		},
 		paramtype2 = "facedir",
-		drop = "technic:" .. ltier .. "_" .. machine_name,
+		drop = "technic:"..ltier.."_"..machine_name,
 		groups = active_groups,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
@@ -192,11 +192,11 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
-		technic_disabled_machine_name = "technic:" .. ltier .. "_" .. machine_name,
+		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
 	})
 
-	technic.register_machine(tier, "technic:" .. ltier .. "_" .. machine_name, technic.receiver)
-	technic.register_machine(tier, "technic:" .. ltier .. "_" .. machine_name .. "_active", technic.receiver)
+	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name, technic.receiver)
+	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name.."_active", technic.receiver)
 end
 
 -- End registration

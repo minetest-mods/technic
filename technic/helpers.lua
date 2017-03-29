@@ -5,7 +5,7 @@ do
 	-- Escape for gsub
 	for magic in ("().%+-*?[^$"):gmatch(".") do
 		if sep == magic then
-			sep = "%" .. sep
+			sep = "%"..sep
 		end
 	end
 	digit_sep_esc = sep
@@ -15,7 +15,7 @@ end
 function technic.pretty_num(num)
 	local str, k = tostring(num), nil
 	repeat
-		str, k = str:gsub("^(-?%d+)(%d%d%d)", "%1" .. digit_sep_esc .. "%2")
+		str, k = str:gsub("^(-?%d+)(%d%d%d)", "%1"..digit_sep_esc.."%2")
 	until k == 0
 	return str
 end

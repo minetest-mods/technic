@@ -19,21 +19,21 @@ local function set_quarry_formspec(meta)
 	local formspec = "size[6,4.3]" ..
 			"list[context;cache;0,1;4,3;]" ..
 			"item_image[4.8,0;1,1;technic:quarry]" ..
-			"label[0,0.2;" .. S("%s Quarry"):format("HV") .. "]" ..
-			"field[4.3,3.5;2,1;size;" .. S("Radius:") .. ";" .. radius .. "]"
+			"label[0,0.2;"..S("%s Quarry"):format("HV").."]" ..
+			"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec .. "button[4,1;2,1;enable;" .. S("Disabled") .. "]"
+		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
 	else
-		formspec = formspec .. "button[4,1;2,1;disable;" .. S("Enabled") .. "]"
+		formspec = formspec.."button[4,1;2,1;disable;"..S("Enabled").."]"
 	end
 	local diameter = radius * 2 + 1
 	local nd = meta:get_int("dug")
 	local rel_y = quarry_dig_above_nodes - math.floor(nd / (diameter * diameter))
-	formspec = formspec .. "label[0,4;" .. minetest.formspec_escape(nd == 0 and S("Digging not started") or
+	formspec = formspec.."label[0,4;"..minetest.formspec_escape(nd == 0 and S("Digging not started") or
 			(rel_y < -quarry_max_depth and S("Digging finished") or
 					(meta:get_int("purge_on") == 1 and S("Purging cache") or
-							S("Digging %d m " .. (rel_y > 0 and "above" or "below") .. " machine"):format(math.abs(rel_y))))) .. "]"
-	formspec = formspec .. "button[4,2;2,1;restart;" .. S("Restart") .. "]"
+							S("Digging %d m "..(rel_y > 0 and "above" or "below").." machine"):format(math.abs(rel_y))))).."]"
+	formspec = formspec.."button[4,2;2,1;restart;"..S("Restart").."]"
 	meta:set_string("formspec", formspec)
 end
 

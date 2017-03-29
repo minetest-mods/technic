@@ -66,7 +66,7 @@ local run = function(pos, node)
 	end
 
 	meta:set_string("infotext",
-		S("Geothermal %s Generator"):format("LV") .. " (" .. production_level .. "%)")
+		S("Geothermal %s Generator"):format("LV").." ("..production_level.."%)")
 
 	if production_level > 0 and minetest.get_node(pos).name == "technic:geothermal" then
 		technic.swap_node(pos, "technic:geothermal_active")

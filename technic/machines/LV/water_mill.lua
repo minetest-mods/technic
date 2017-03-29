@@ -55,7 +55,7 @@ local run = function(pos, node)
 	end
 
 	meta:set_string("infotext",
-		S("Hydro %s Generator"):format("LV") .. " (" .. production_level .. "%)")
+		S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
 
 	if production_level > 0 and
 			minetest.get_node(pos).name == "technic:water_mill" then

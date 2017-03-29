@@ -72,17 +72,17 @@ end
 local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
-	minetest.register_craftitem("technic:" .. lname .. "_dust", {
+	minetest.register_craftitem("technic:"..lname.."_dust", {
 		description = S("%s Dust"):format(S(name)),
-		inventory_image = "technic_" .. lname .. "_dust.png",
+		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
 		minetest.register_craft({
 			type = "cooking",
-			recipe = "technic:" .. lname .. "_dust",
+			recipe = "technic:"..lname.."_dust",
 			output = ingot,
 		})
-		technic.register_grinder_recipe({ input = { ingot }, output = "technic:" .. lname .. "_dust 1" })
+		technic.register_grinder_recipe({ input = { ingot }, output = "technic:"..lname.."_dust 1" })
 	end
 end
 
@@ -116,8 +116,8 @@ end
 for p = 0, 35 do
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
-	local ingot = "technic:uranium" .. psuffix .. "_ingot"
-	local dust = "technic:uranium" .. psuffix .. "_dust"
+	local ingot = "technic:uranium"..psuffix.."_ingot"
+	local dust = "technic:uranium"..psuffix.."_dust"
 	minetest.register_craftitem(dust, {
 		description = S("%s Dust"):format(string.format(S("%.1f%%-Fissile Uranium"), p / 10)),
 		inventory_image = "technic_uranium_dust.png",
@@ -133,7 +133,7 @@ for p = 0, 35 do
 end
 
 local function uranium_dust(p)
-	return "technic:uranium" .. (p == 7 and "" or p) .. "_dust"
+	return "technic:uranium"..(p == 7 and "" or p).."_dust"
 end
 
 for pa = 0, 34 do
@@ -143,7 +143,7 @@ for pa = 0, 34 do
 			minetest.register_craft({
 				type = "shapeless",
 				recipe = { uranium_dust(pa), uranium_dust(pb) },
-				output = uranium_dust(pc) .. " 2",
+				output = uranium_dust(pc).." 2",
 			})
 		end
 	end

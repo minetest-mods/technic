@@ -66,7 +66,7 @@ local function clear_networks(pos)
 				if technic.is_tier_cable(name, tier) then
 					table.insert(network.all_nodes, pos)
 				elseif technic.machines[tier][node.name] then
-					meta:set_string(tier .. "_network", minetest.pos_to_string(sw_pos))
+					meta:set_string(tier.."_network", minetest.pos_to_string(sw_pos))
 					if technic.machines[tier][node.name] == technic.producer then
 						table.insert(network.PR_nodes, pos)
 					elseif technic.machines[tier][node.name] == technic.receiver then
@@ -119,7 +119,7 @@ end
 
 function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
-	cable_tier["technic:" .. ltier .. "_cable"] = tier
+	cable_tier["technic:"..ltier.."_cable"] = tier
 
 	local groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 }
 
@@ -134,21 +134,21 @@ function technic.register_cable(tier, size)
 		connect_right = { -size, -size, -size, 0.5, size, size }, -- x+
 	}
 
-	minetest.register_node("technic:" .. ltier .. "_cable", {
+	minetest.register_node("technic:"..ltier.."_cable", {
 		description = S("%s Cable"):format(tier),
-		tiles = { "technic_" .. ltier .. "_cable.png" },
-		inventory_image = "technic_" .. ltier .. "_cable_wield.png",
-		wield_image = "technic_" .. ltier .. "_cable_wield.png",
+		tiles = { "technic_"..ltier.."_cable.png" },
+		inventory_image = "technic_"..ltier.."_cable_wield.png",
+		wield_image = "technic_"..ltier.."_cable_wield.png",
 		groups = groups,
 		sounds = default.node_sound_wood_defaults(),
-		drop = "technic:" .. ltier .. "_cable",
+		drop = "technic:"..ltier.."_cable",
 		paramtype = "light",
 		sunlight_propagates = true,
 		drawtype = "nodebox",
 		node_box = node_box,
 		connects_to = {
-			"technic:" .. ltier .. "_cable",
-			"group:technic_" .. ltier, "group:technic_all_tiers"
+			"technic:"..ltier.."_cable",
+			"group:technic_"..ltier, "group:technic_all_tiers"
 		},
 		on_construct = clear_networks,
 		on_destruct = clear_networks,

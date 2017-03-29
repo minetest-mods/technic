@@ -42,7 +42,7 @@ local function laser_node(pos, node, player)
 			acceleration = { x = 0, y = -1, z = 0 },
 			expirationtime = 1.5,
 			size = 6 + math.random() * 2,
-			texture = "smoke_puff.png^[transform" .. math.random(0, 7),
+			texture = "smoke_puff.png^[transform"..math.random(0, 7),
 		})
 		return
 	end
@@ -68,7 +68,7 @@ local function laser_shoot(player, range, particle_texture, sound)
 		acceleration = vector.multiply(dir, 50),
 		expirationtime = range / 11,
 		size = 1,
-		texture = particle_texture .. "^[transform" .. math.random(0, 7),
+		texture = particle_texture.."^[transform"..math.random(0, 7),
 	})
 	minetest.sound_play(sound, { pos = player_pos, max_hear_distance = range })
 	for pos in technic.trace_node_ray_fat(start_pos, dir, range) do
@@ -88,10 +88,10 @@ end
 
 
 for _, m in pairs(mining_lasers_list) do
-	technic.register_power_tool("technic:laser_mk" .. m[1], m[3])
-	minetest.register_tool("technic:laser_mk" .. m[1], {
+	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
+	minetest.register_tool("technic:laser_mk"..m[1], {
 		description = S("Mining Laser Mk%d"):format(m[1]),
-		inventory_image = "technic_mining_laser_mk" .. m[1] .. ".png",
+		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		stack_max = 1,
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
@@ -103,7 +103,7 @@ for _, m in pairs(mining_lasers_list) do
 
 			-- If there's enough charge left, fire the laser
 			if meta.charge >= m[4] then
-				laser_shoot(user, m[2], "technic_laser_beam_mk" .. m[1] .. ".png", "technic_laser_mk" .. m[1])
+				laser_shoot(user, m[2], "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
 				if not technic.creative_mode then
 					meta.charge = meta.charge - m[4]
 					technic.set_RE_wear(itemstack, meta.charge, m[3])

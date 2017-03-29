@@ -92,13 +92,13 @@ local function make_on(mark, length)
 
 		local place_pos = vector.new(pos)
 
-		if node.name == "technic:constructor_mk" .. mark .. "_off" then
-			technic.swap_node(pos, "technic:constructor_mk" .. mark .. "_on")
+		if node.name == "technic:constructor_mk"..mark.."_off" then
+			technic.swap_node(pos, "technic:constructor_mk"..mark.."_on")
 			nodeupdate(pos)
 			for i = 1, length do
 				place_pos = vector.add(place_pos, dir)
 				local place_node = minetest.get_node(place_pos)
-				deploy_node(inv, "slot" .. i, place_pos, place_node, node)
+				deploy_node(inv, "slot"..i, place_pos, place_node, node)
 			end
 		end
 	end
@@ -106,8 +106,8 @@ end
 
 local function make_off(mark)
 	return function(pos, node)
-		if node.name == "technic:constructor_mk" .. mark .. "_on" then
-			technic.swap_node(pos, "technic:constructor_mk" .. mark .. "_off")
+		if node.name == "technic:constructor_mk"..mark.."_on" then
+			technic.swap_node(pos, "technic:constructor_mk"..mark.."_off")
 			nodeupdate(pos)
 		end
 	end
@@ -115,13 +115,13 @@ end
 
 
 local function make_constructor(mark, length)
-	minetest.register_node("technic:constructor_mk" .. mark .. "_off", {
+	minetest.register_node("technic:constructor_mk"..mark.."_off", {
 		description = S("Constructor Mk%d"):format(mark),
 		tiles = {
-			"technic_constructor_mk" .. mark .. "_top_off.png",
-			"technic_constructor_mk" .. mark .. "_bottom_off.png",
-			"technic_constructor_mk" .. mark .. "_side2_off.png",
-			"technic_constructor_mk" .. mark .. "_side1_off.png",
+			"technic_constructor_mk"..mark.."_top_off.png",
+			"technic_constructor_mk"..mark.."_bottom_off.png",
+			"technic_constructor_mk"..mark.."_side2_off.png",
+			"technic_constructor_mk"..mark.."_side1_off.png",
 			"technic_constructor_back.png",
 			"technic_constructor_front_off.png"
 		},
@@ -132,26 +132,26 @@ local function make_constructor(mark, length)
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local formspec = "size[8,9;]" ..
-					"label[0,0;" .. S("Constructor Mk%d"):format(mark) .. "]" ..
+					"label[0,0;"..S("Constructor Mk%d"):format(mark).."]" ..
 					"list[current_player;main;0,5;8,4;]"
 			for i = 1, length do
 				formspec = formspec
-						.. "label[5," .. (i - 1) .. ";" .. S("Slot %d"):format(i) .. "]"
-						.. "list[current_name;slot" .. i
-						.. ";6," .. (i - 1) .. ";1,1;]"
+						.. "label[5,"..(i - 1)..";"..S("Slot %d"):format(i).."]"
+						.. "list[current_name;slot"..i
+						.. ";6,"..(i - 1)..";1,1;]"
 			end
 			meta:set_string("formspec", formspec)
 			meta:set_string("infotext", S("Constructor Mk%d"):format(mark))
 			local inv = meta:get_inventory()
 			for i = 1, length do
-				inv:set_size("slot" .. i, 1)
+				inv:set_size("slot"..i, 1)
 			end
 		end,
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			for i = 1, length do
-				if not inv:is_empty("slot" .. i) then
+				if not inv:is_empty("slot"..i) then
 					return false
 				end
 			end
@@ -162,17 +162,17 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 	})
 
-	minetest.register_node("technic:constructor_mk" .. mark .. "_on", {
+	minetest.register_node("technic:constructor_mk"..mark.."_on", {
 		tiles = {
-			"technic_constructor_mk" .. mark .. "_top_on.png",
-			"technic_constructor_mk" .. mark .. "_bottom_on.png",
-			"technic_constructor_mk" .. mark .. "_side2_on.png",
-			"technic_constructor_mk" .. mark .. "_side1_on.png",
+			"technic_constructor_mk"..mark.."_top_on.png",
+			"technic_constructor_mk"..mark.."_bottom_on.png",
+			"technic_constructor_mk"..mark.."_side2_on.png",
+			"technic_constructor_mk"..mark.."_side1_on.png",
 			"technic_constructor_back.png",
 			"technic_constructor_front_on.png"
 		},
 		paramtype2 = "facedir",
-		drop = "technic:constructor_mk" .. mark .. "_off",
+		drop = "technic:constructor_mk"..mark.."_off",
 		groups = {
 			snappy = 2,
 			choppy = 2,

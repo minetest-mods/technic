@@ -16,8 +16,8 @@ local LATEST_SERIALIZATION_VERSION = 1
 wrench = {}
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
-dofile(modpath .. "/support.lua")
-dofile(modpath .. "/technic.lua")
+dofile(modpath.."/support.lua")
+dofile(modpath.."/technic.lua")
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
@@ -31,7 +31,7 @@ local function get_meta_type(name, metaname)
 end
 
 local function get_pickup_name(name)
-	return "wrench:picked_up_" .. (name:gsub(":", "_"))
+	return "wrench:picked_up_"..(name:gsub(":", "_"))
 end
 
 local function restore(pos, placer, itemstack)
@@ -73,7 +73,7 @@ for name, info in pairs(wrench.registered_nodes) do
 		newdef.on_construct = nil
 		newdef.on_destruct = nil
 		newdef.after_place_node = restore
-		minetest.register_node(":" .. get_pickup_name(name), newdef)
+		minetest.register_node(":"..get_pickup_name(name), newdef)
 	end
 end
 
@@ -120,7 +120,7 @@ minetest.register_tool("wrench:wrench", {
 			if owner and owner ~= placer:get_player_name() then
 				minetest.log("action", placer:get_player_name() ..
 						" tried to pick up a owned node belonging to " ..
-						owner .. " at " ..
+						owner.." at " ..
 						minetest.pos_to_string(pos))
 				return
 			end

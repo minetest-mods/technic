@@ -154,8 +154,8 @@ minetest.register_node("technic:machine_casing", {
 for p = 0, 35 do
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
-	local ingot = "technic:uranium" .. psuffix .. "_ingot"
-	local block = "technic:uranium" .. psuffix .. "_block"
+	local ingot = "technic:uranium"..psuffix.."_ingot"
+	local block = "technic:uranium"..psuffix.."_block"
 	local ov = p == 7 and minetest.override_item or nil;
 	(ov or minetest.register_craftitem)(ingot, {
 		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p / 10),
@@ -217,7 +217,7 @@ for p = 0, 35 do
 			},
 		})
 		minetest.register_craft({
-			output = ingot .. " 9",
+			output = ingot.." 9",
 			recipe = { { block } },
 		})
 	end

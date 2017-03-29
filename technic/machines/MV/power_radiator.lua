@@ -32,7 +32,7 @@ minetest.register_craft({
 technic.inductive_nodes = {}
 technic.register_inductive_machine = function(name)
 	table.insert(technic.inductive_nodes, name)
-	table.insert(technic.inductive_nodes, name .. "_active")
+	table.insert(technic.inductive_nodes, name.."_active")
 end
 
 -- Appliances:
@@ -87,7 +87,7 @@ local shutdown_inductive_appliances = function(pos)
 	for _, pos1 in pairs(positions) do
 		local meta1 = minetest.get_meta(pos1)
 		-- If the appliance is belonging to this node
-		if meta1:get_string("has_supply") == pos.x .. pos.y .. pos.z then
+		if meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
 			local nodename = minetest.get_node(pos1).name
 			-- Swap the node and make sure it is off and unpowered
 			if string.sub(nodename, -7) == "_active" then
@@ -109,7 +109,7 @@ local toggle_on_off_inductive_appliances = function(pos, node, puncher)
 		technic.inductive_nodes)
 	for _, pos1 in pairs(positions) do
 		local meta1 = minetest.get_meta(pos1)
-		if meta1:get_string("has_supply") == pos.x .. pos.y .. pos.z then
+		if meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
 			minetest.punch_node(pos1)
 		end
 	end
@@ -194,10 +194,10 @@ minetest.register_abm({
 						-- We can power the appliance. Register, and spend power if it is on.
 						connected_EU_demand = connected_EU_demand + app_eu_demand
 
-						meta1:set_string("has_supply", pos.x .. pos.y .. pos.z)
+						meta1:set_string("has_supply", pos.x..pos.y..pos.z)
 						--Always 0: used_charge = math.floor(used_charge + meta1:get_int("EU_charge") / eff_factor)
 					end
-				elseif meta1:get_string("has_supply") == pos.x .. pos.y .. pos.z then
+				elseif meta1:get_string("has_supply") == pos.x..pos.y..pos.z then
 					-- The appliance has power from this node. Spend power if it is on.
 					used_charge = used_charge + math.floor(meta1:get_int("EU_charge") / eff_factor)
 				end

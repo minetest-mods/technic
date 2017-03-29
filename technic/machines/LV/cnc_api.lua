@@ -325,7 +325,7 @@ function technic.cnc.register_program(recipeitem, suffix, model, groups, images,
 
 	if cbox and not sbox then sbox = cbox end
 
-	minetest.register_node(":" .. recipeitem .. "_" .. suffix, {
+	minetest.register_node(":"..recipeitem.."_"..suffix, {
 		description = description,
 		drawtype = dtype,
 		node_box = nodeboxdef,
@@ -355,7 +355,7 @@ function technic.cnc.register_all(recipeitem, groups, images, description)
 		-- Create the node if it passes the test
 		if do_register then
 			technic.cnc.register_program(recipeitem, data.suffix, data.model,
-				groups, images, description .. " " .. data.desc, data.cbox, data.sbox)
+				groups, images, description.." "..data.desc, data.cbox, data.sbox)
 		end
 	end
 end

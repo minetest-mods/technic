@@ -51,10 +51,10 @@ local function set_injector_formspec(meta)
 	meta:set_string("formspec",
 		"invsize[8,9;]" ..
 				"item_image[0,0;1,1;technic:injector]" ..
-				"label[1,0;" .. S("Self-Contained Injector") .. "]" ..
+				"label[1,0;"..S("Self-Contained Injector").."]" ..
 				(is_stack and
-						"button[0,1;2,1;mode_item;" .. S("Stackwise") .. "]" or
-						"button[0,1;2,1;mode_stack;" .. S("Itemwise") .. "]") ..
+						"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
+						"button[0,1;2,1;mode_stack;"..S("Itemwise").."]") ..
 				"list[current_name;main;0,2;8,2;]" ..
 				"list[current_player;main;0,5;8,4;]" ..
 				"listring[]")
