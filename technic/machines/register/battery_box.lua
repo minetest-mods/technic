@@ -1,4 +1,7 @@
 
+local mesecons_path = minetest.get_modpath("mesecons")
+local digilines_path = minetest.get_modpath("digilines")
+
 local S = technic.getter
 
 technic.register_power_tool("technic:battery", 10000)
@@ -76,7 +79,7 @@ function technic.register_battery_box(data)
 		"listring[current_player;main]"..
 		"listring[context;src]"..
 		"listring[current_player;main]"
-	if digilines then
+	if digilines_path then
 		formspec = formspec..
 			"field[0.28,4.1;3.2,1;channel;Digiline Channel;${channel}]"
 	end
@@ -104,7 +107,7 @@ function technic.register_battery_box(data)
 		local max_charge = data.max_charge * (1 + EU_upgrade / 10)
 
 		-- send digiline information
-		if mesecon and digilines and mesecon.is_powered(pos) then
+		if mesecons_path and digilines_path and mesecon.is_powered(pos) then
 			if eu_input ~= 0 then
 				local inv = meta:get_inventory()
 				digilines.receptor_send(pos, digilines.rules.default, meta:get_string("channel"), {
@@ -192,6 +195,15 @@ function technic.register_battery_box(data)
 			groups.tubedevice_receiver = 1
 		end
 
+		local mesecon_def
+		if mesecons_path then
+			mesecon_def = {effector = {
+				rules = mesecon.rules.default,
+			}}
+		else
+			mesecon_def = nil
+		end
+
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
 			tiles = {
@@ -243,9 +255,7 @@ function technic.register_battery_box(data)
 				local meta = minetest.get_meta(pos)
 				meta:set_string("channel", fields.channel)
 			end,
-			mesecons = {effector = {
-				rules = mesecon.rules.default,
-			}},
+			mesecons = mesecon_def,
 			digiline = {
 				receptor = {action = function() end},
 				effector = {
