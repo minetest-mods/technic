@@ -40,9 +40,9 @@ end
 minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
-		{ '', 'technic:control_logic_unit', '' },
-		{ '', 'default:chest', '' },
-		{ '', 'pipeworks:tube_1', '' },
+		{ "", "technic:control_logic_unit", "" },
+		{ "", "default:chest", "" },
+		{ "", "pipeworks:tube_1", "" },
 	}
 })
 

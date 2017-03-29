@@ -6,11 +6,11 @@ minetest.register_alias("tool_workshop", "technic:tool_workshop")
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:tool_workshop',
+	output = "technic:tool_workshop",
 	recipe = {
-		{ 'group:wood', 'default:diamond', 'group:wood' },
-		{ 'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth' },
-		{ 'default:obsidian', 'technic:mv_cable', 'default:obsidian' },
+		{ "group:wood", "default:diamond", "group:wood" },
+		{ "mesecons_pistons:piston_sticky_off", "technic:machine_casing", "technic:carbon_cloth" },
+		{ "default:obsidian", "technic:mv_cable", "default:obsidian" },
 	}
 })
 

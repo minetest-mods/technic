@@ -102,45 +102,45 @@ register_block("technic:carbon_steel_block", "technic:carbon_steel_ingot")
 register_block("technic:stainless_steel_block", "technic:stainless_steel_ingot")
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:zinc_lump",
 	output = "technic:zinc_ingot",
 })
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:chromium_lump",
 	output = "technic:chromium_ingot",
 })
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:uranium_lump",
 	output = "technic:uranium_ingot",
 })
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:lead_lump",
 	output = "technic:lead_ingot",
 })
 
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = minetest.registered_aliases["technic:wrought_iron_ingot"],
 	output = "technic:cast_iron_ingot",
 })
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:cast_iron_ingot",
 	cooktime = 2,
 	output = "technic:wrought_iron_ingot",
 })
 
 minetest.register_craft({
-	type = 'cooking',
+	type = "cooking",
 	recipe = "technic:carbon_steel_ingot",
 	cooktime = 2,
 	output = "technic:wrought_iron_ingot",

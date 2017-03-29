@@ -3,18 +3,18 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:wind_mill_frame 5',
 	recipe = {
-		{ 'technic:carbon_steel_ingot', '', 'technic:carbon_steel_ingot' },
-		{ '', 'technic:carbon_steel_ingot', '' },
-		{ 'technic:carbon_steel_ingot', '', 'technic:carbon_steel_ingot' },
+		{ "technic:carbon_steel_ingot", "", "technic:carbon_steel_ingot" },
+		{ "", "technic:carbon_steel_ingot", "" },
+		{ "technic:carbon_steel_ingot", "", "technic:carbon_steel_ingot" },
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:wind_mill',
+	output = "technic:wind_mill",
 	recipe = {
-		{ '', 'technic:motor', '' },
-		{ 'technic:carbon_steel_ingot', 'technic:carbon_steel_block', 'technic:carbon_steel_ingot' },
-		{ '', 'technic:mv_cable', '' },
+		{ "", "technic:motor", "" },
+		{ "technic:carbon_steel_ingot", "technic:carbon_steel_block", "technic:carbon_steel_ingot" },
+		{ "", "technic:mv_cable", "" },
 	}
 })
 

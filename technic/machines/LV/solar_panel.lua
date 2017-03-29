@@ -6,10 +6,10 @@ local S = technic.getter
 
 
 minetest.register_craft({
-	output = 'technic:solar_panel',
+	output = "technic:solar_panel",
 	recipe = {
-		{ 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer', 'technic:doped_silicon_wafer' },
-		{ 'technic:fine_silver_wire', 'technic:lv_cable', 'mesecons_materials:glue' },
+		{ "technic:doped_silicon_wafer", "technic:doped_silicon_wafer", "technic:doped_silicon_wafer" },
+		{ "technic:fine_silver_wire", "technic:lv_cable", "mesecons_materials:glue" },
 	}
 })
 

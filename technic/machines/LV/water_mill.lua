@@ -7,11 +7,11 @@ local S = technic.getter
 minetest.register_alias("water_mill", "technic:water_mill")
 
 minetest.register_craft({
-	output = 'technic:water_mill',
+	output = "technic:water_mill",
 	recipe = {
-		{ 'technic:marble', 'default:diamond', 'technic:marble' },
-		{ 'group:wood', 'technic:machine_casing', 'group:wood' },
-		{ 'technic:marble', 'technic:lv_cable', 'technic:marble' },
+		{ "technic:marble", "default:diamond", "technic:marble" },
+		{ "group:wood", "technic:machine_casing", "group:wood" },
+		{ "technic:marble", "technic:lv_cable", "technic:marble" },
 	}
 })
 

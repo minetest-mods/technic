@@ -8,27 +8,27 @@ local mining_lasers_list = {
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:laser_mk1',
+	output = "technic:laser_mk1",
 	recipe = {
-		{ 'default:diamond', 'technic:brass_ingot', 'default:obsidian_glass' },
-		{ '', 'technic:brass_ingot', 'technic:red_energy_crystal' },
-		{ '', '', 'default:copper_ingot' },
+		{ "default:diamond", "technic:brass_ingot", "default:obsidian_glass" },
+		{ "", "technic:brass_ingot", "technic:red_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk2',
+	output = "technic:laser_mk2",
 	recipe = {
-		{ 'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk1' },
-		{ '', 'technic:carbon_steel_ingot', 'technic:green_energy_crystal' },
-		{ '', '', 'default:copper_ingot' },
+		{ "default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk1" },
+		{ "", "technic:carbon_steel_ingot", "technic:green_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk3',
+	output = "technic:laser_mk3",
 	recipe = {
-		{ 'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk2' },
-		{ '', 'technic:carbon_steel_ingot', 'technic:blue_energy_crystal' },
-		{ '', '', 'default:copper_ingot' },
+		{ "default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk2" },
+		{ "", "technic:carbon_steel_ingot", "technic:blue_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 

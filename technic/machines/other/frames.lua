@@ -868,56 +868,56 @@ minetest.register_node("technic:template_motor", {
 
 -- Crafts
 minetest.register_craft({
-	output = 'technic:frame_111111',
+	output = "technic:frame_111111",
 	recipe = {
-		{ '', 'default:stick', '' },
-		{ 'default:stick', 'technic:brass_ingot', 'default:stick' },
-		{ '', 'default:stick', '' },
+		{ "", "default:stick", "" },
+		{ "default:stick", "technic:brass_ingot", "default:stick" },
+		{ "", "default:stick", "" },
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:frame_motor',
+	output = "technic:frame_motor",
 	recipe = {
-		{ '', 'technic:frame_111111', '' },
-		{ 'group:mesecon_conductor_craftable', 'technic:motor', 'group:mesecon_conductor_craftable' },
-		{ '', 'technic:frame_111111', '' },
+		{ "", "technic:frame_111111", "" },
+		{ "group:mesecon_conductor_craftable", "technic:motor", "group:mesecon_conductor_craftable" },
+		{ "", "technic:frame_111111", "" },
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:template 10',
 	recipe = {
-		{ '', 'technic:brass_ingot', '' },
-		{ 'technic:brass_ingot', 'default:mese_crystal', 'technic:brass_ingot' },
-		{ '', 'technic:brass_ingot', '' },
+		{ "", "technic:brass_ingot", "" },
+		{ "technic:brass_ingot", "default:mese_crystal", "technic:brass_ingot" },
+		{ "", "technic:brass_ingot", "" },
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:template_replacer',
-	recipe = { { 'technic:template' } }
+	output = "technic:template_replacer",
+	recipe = { { "technic:template" } }
 })
 
 minetest.register_craft({
-	output = 'technic:template',
-	recipe = { { 'technic:template_replacer' } }
+	output = "technic:template",
+	recipe = { { "technic:template_replacer" } }
 })
 
 minetest.register_craft({
-	output = 'technic:template_motor',
+	output = "technic:template_motor",
 	recipe = {
-		{ '', 'technic:template', '' },
-		{ 'group:mesecon_conductor_craftable', 'technic:motor', 'group:mesecon_conductor_craftable' },
-		{ '', 'technic:template', '' },
+		{ "", "technic:template", "" },
+		{ "group:mesecon_conductor_craftable", "technic:motor", "group:mesecon_conductor_craftable" },
+		{ "", "technic:template", "" },
 	}
 })
 
 minetest.register_craft({
-	output = 'technic:template_tool',
+	output = "technic:template_tool",
 	recipe = {
-		{ '', 'technic:template', '' },
-		{ 'default:mese_crystal', 'default:stick', 'default:mese_crystal' },
-		{ '', 'default:stick', '' },
+		{ "", "technic:template", "" },
+		{ "default:mese_crystal", "default:stick", "default:mese_crystal" },
+		{ "", "default:stick", "" },
 	}
 })

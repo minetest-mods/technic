@@ -32,7 +32,7 @@ local recipes = {
 minetest.register_craft({
 	output = "default:sandstone 0",
 	recipe = {
-		{ 'default:sandstone' }
+		{ "default:sandstone" }
 	},
 })
 
@@ -64,14 +64,14 @@ end
 
 -- defuse common grinder unfriendly recipes
 if minetest.get_modpath("fake_fire") then -- from homedecor_modpack
-	minetest.register_craft({ output = 'default:cobble 0', recipe = { { 'default:cobble' } } })
-	minetest.register_craft({ output = 'default:gravel 0', recipe = { { 'default:gravel' } } })
+	minetest.register_craft({ output = 'default:cobble 0', recipe = { { "default:cobble" } } })
+	minetest.register_craft({ output = 'default:gravel 0', recipe = { { "default:gravel" } } })
 end
 
 -- dusts
 local function register_dust(name, ingot)
 	local lname = string.lower(name)
-	lname = string.gsub(lname, ' ', '_')
+	lname = string.gsub(lname, ' ', "_")
 	minetest.register_craftitem("technic:"..lname.."_dust", {
 		description = S("%s Dust"):format(S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",

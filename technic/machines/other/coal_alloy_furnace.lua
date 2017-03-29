@@ -3,11 +3,11 @@
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:coal_alloy_furnace',
+	output = "technic:coal_alloy_furnace",
 	recipe = {
-		{ 'default:brick', 'default:brick', 'default:brick' },
-		{ 'default:brick', '', 'default:brick' },
-		{ 'default:brick', 'default:brick', 'default:brick' },
+		{ "default:brick", "default:brick", "default:brick" },
+		{ "default:brick", "", "default:brick" },
+		{ "default:brick", "default:brick", "default:brick" },
 	}
 })
 

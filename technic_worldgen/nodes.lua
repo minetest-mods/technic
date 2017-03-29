@@ -143,8 +143,8 @@ minetest.register_node(":technic:brass_block", {
 minetest.register_craft({
 	output = 'technic:marble_bricks 4',
 	recipe = {
-		{ 'technic:marble', 'technic:marble' },
-		{ 'technic:marble', 'technic:marble' }
+		{ "technic:marble", "technic:marble" },
+		{ "technic:marble", "technic:marble" }
 	}
 })
 

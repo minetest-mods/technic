@@ -5,11 +5,11 @@ local S = technic.getter
 
 minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
-	output = 'technic:music_player',
+	output = "technic:music_player",
 	recipe = {
-		{ 'technic:chromium_ingot', 'default:diamond', 'technic:chromium_ingot' },
-		{ 'default:diamond', 'technic:machine_casing', 'default:diamond' },
-		{ 'default:mossycobble', 'technic:lv_cable', 'default:mossycobble' },
+		{ "technic:chromium_ingot", "default:diamond", "technic:chromium_ingot" },
+		{ "default:diamond", "technic:machine_casing", "default:diamond" },
+		{ "default:mossycobble", "technic:lv_cable", "default:mossycobble" },
 	}
 })
 

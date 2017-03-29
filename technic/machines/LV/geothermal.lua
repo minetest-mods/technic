@@ -8,11 +8,11 @@ minetest.register_alias("geothermal", "technic:geothermal")
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:geothermal',
+	output = "technic:geothermal",
 	recipe = {
-		{ 'technic:granite', 'default:diamond', 'technic:granite' },
-		{ 'technic:fine_copper_wire', 'technic:machine_casing', 'technic:fine_copper_wire' },
-		{ 'technic:granite', 'technic:lv_cable', 'technic:granite' },
+		{ "technic:granite", "default:diamond", "technic:granite" },
+		{ "technic:fine_copper_wire", "technic:machine_casing", "technic:fine_copper_wire" },
+		{ "technic:granite", "technic:lv_cable", "technic:granite" },
 	}
 })
 

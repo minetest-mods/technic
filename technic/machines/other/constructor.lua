@@ -66,18 +66,18 @@ end
 minetest.register_craft({
 	type = "shapeless",
 	output = 'technic:constructor_mk1_off 1',
-	recipe = { 'technic:nodebreaker_off', 'technic:deployer_off' },
+	recipe = { "technic:nodebreaker_off", "technic:deployer_off" },
 })
 minetest.register_craft({
 	type = "shapeless",
 	output = 'technic:constructor_mk2_off 1',
-	recipe = { 'technic:constructor_mk1_off', 'technic:constructor_mk1_off' },
+	recipe = { "technic:constructor_mk1_off", "technic:constructor_mk1_off" },
 })
 
 minetest.register_craft({
 	type = "shapeless",
 	output = 'technic:constructor_mk3_off 1',
-	recipe = { 'technic:constructor_mk2_off', 'technic:constructor_mk2_off' },
+	recipe = { "technic:constructor_mk2_off", "technic:constructor_mk2_off" },
 })
 
 local function make_on(mark, length)

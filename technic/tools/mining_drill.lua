@@ -4,36 +4,36 @@ local power_usage_per_node = { 200, 500, 800 }
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:mining_drill',
+	output = "technic:mining_drill",
 	recipe = {
-		{ 'moreores:tin_ingot', 'technic:diamond_drill_head', 'moreores:tin_ingot' },
-		{ 'technic:stainless_steel_ingot', 'technic:motor', 'technic:stainless_steel_ingot' },
-		{ '', 'technic:red_energy_crystal', 'default:copper_ingot' },
+		{ "moreores:tin_ingot", "technic:diamond_drill_head", "moreores:tin_ingot" },
+		{ "technic:stainless_steel_ingot", "technic:motor", "technic:stainless_steel_ingot" },
+		{ "", "technic:red_energy_crystal", "default:copper_ingot" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:mining_drill_mk2',
+	output = "technic:mining_drill_mk2",
 	recipe = {
-		{ 'technic:diamond_drill_head', 'technic:diamond_drill_head', 'technic:diamond_drill_head' },
-		{ 'technic:stainless_steel_ingot', 'technic:mining_drill', 'technic:stainless_steel_ingot' },
-		{ '', 'technic:green_energy_crystal', '' },
+		{ "technic:diamond_drill_head", "technic:diamond_drill_head", "technic:diamond_drill_head" },
+		{ "technic:stainless_steel_ingot", "technic:mining_drill", "technic:stainless_steel_ingot" },
+		{ "", "technic:green_energy_crystal", "" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:mining_drill_mk3',
+	output = "technic:mining_drill_mk3",
 	recipe = {
-		{ 'technic:diamond_drill_head', 'technic:diamond_drill_head', 'technic:diamond_drill_head' },
-		{ 'technic:stainless_steel_ingot', 'technic:mining_drill_mk2', 'technic:stainless_steel_ingot' },
-		{ '', 'technic:blue_energy_crystal', '' },
+		{ "technic:diamond_drill_head", "technic:diamond_drill_head", "technic:diamond_drill_head" },
+		{ "technic:stainless_steel_ingot", "technic:mining_drill_mk2", "technic:stainless_steel_ingot" },
+		{ "", "technic:blue_energy_crystal", "" },
 	}
 })
 for i = 1, 4 do
 	minetest.register_craft({
-		output = 'technic:mining_drill_mk3',
+		output = "technic:mining_drill_mk3",
 		recipe = {
-			{ 'technic:diamond_drill_head', 'technic:diamond_drill_head', 'technic:diamond_drill_head' },
-			{ 'technic:stainless_steel_ingot', 'technic:mining_drill_mk2_'..i, 'technic:stainless_steel_ingot' },
-			{ '', 'technic:blue_energy_crystal', '' },
+			{ "technic:diamond_drill_head", "technic:diamond_drill_head", "technic:diamond_drill_head" },
+			{ "technic:stainless_steel_ingot", "technic:mining_drill_mk2_"..i, "technic:stainless_steel_ingot" },
+			{ "", "technic:blue_energy_crystal", "" },
 		}
 	})
 end

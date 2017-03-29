@@ -20,11 +20,11 @@ local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
-	output = 'technic:hv_nuclear_reactor_core',
+	output = "technic:hv_nuclear_reactor_core",
 	recipe = {
-		{ 'technic:carbon_plate', 'default:obsidian_glass', 'technic:carbon_plate' },
-		{ 'technic:composite_plate', 'technic:machine_casing', 'technic:composite_plate' },
-		{ 'technic:stainless_steel_ingot', 'technic:hv_cable', 'technic:stainless_steel_ingot' },
+		{ "technic:carbon_plate", "default:obsidian_glass", "technic:carbon_plate" },
+		{ "technic:composite_plate", "technic:machine_casing", "technic:composite_plate" },
+		{ "technic:stainless_steel_ingot", "technic:hv_cable", "technic:stainless_steel_ingot" },
 	}
 })
 

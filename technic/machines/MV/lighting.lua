@@ -96,7 +96,7 @@ local technic_homedecor_rotate_and_place = function(itemstack, placer, pointed_t
 end
 
 -- Yellow -- Half node
-minetest.register_node('technic:homedecor_glowlight_half_yellow', {
+minetest.register_node("technic:homedecor_glowlight_half_yellow", {
 	description = S("Yellow Glowlight (thick)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -133,7 +133,7 @@ minetest.register_node('technic:homedecor_glowlight_half_yellow', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_half_yellow_active', {
+minetest.register_node("technic:homedecor_glowlight_half_yellow_active", {
 	description = S("Yellow Glowlight (thick)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -173,7 +173,7 @@ minetest.register_node('technic:homedecor_glowlight_half_yellow_active', {
 })
 
 -- Yellow -- Quarter node
-minetest.register_node('technic:homedecor_glowlight_quarter_yellow', {
+minetest.register_node("technic:homedecor_glowlight_quarter_yellow", {
 	description = S("Yellow Glowlight (thin)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -210,7 +210,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_yellow', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_quarter_yellow_active', {
+minetest.register_node("technic:homedecor_glowlight_quarter_yellow_active", {
 	description = S("Yellow Glowlight (thin)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -251,7 +251,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_yellow_active', {
 
 
 -- White -- half node
-minetest.register_node('technic:homedecor_glowlight_half_white', {
+minetest.register_node("technic:homedecor_glowlight_half_white", {
 	description = S("White Glowlight (thick)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -288,7 +288,7 @@ minetest.register_node('technic:homedecor_glowlight_half_white', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_half_white_active', {
+minetest.register_node("technic:homedecor_glowlight_half_white_active", {
 	description = S("White Glowlight (thick)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -328,7 +328,7 @@ minetest.register_node('technic:homedecor_glowlight_half_white_active', {
 })
 
 -- White -- Quarter node
-minetest.register_node('technic:homedecor_glowlight_quarter_white', {
+minetest.register_node("technic:homedecor_glowlight_quarter_white", {
 	description = S("White Glowlight (thin)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -365,7 +365,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_white', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_quarter_white_active', {
+minetest.register_node("technic:homedecor_glowlight_quarter_white_active", {
 	description = S("White Glowlight (thin)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -405,7 +405,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_white_active', {
 })
 
 -- Glowlight "cubes" - yellow
-minetest.register_node('technic:homedecor_glowlight_small_cube_yellow', {
+minetest.register_node("technic:homedecor_glowlight_small_cube_yellow", {
 	description = S("Yellow Glowlight (small cube)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -442,7 +442,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_yellow', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_small_cube_yellow_active', {
+minetest.register_node("technic:homedecor_glowlight_small_cube_yellow_active", {
 	description = S("Yellow Glowlight (small cube)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -482,7 +482,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_yellow_active', {
 })
 
 -- Glowlight "cubes" - white
-minetest.register_node('technic:homedecor_glowlight_small_cube_white', {
+minetest.register_node("technic:homedecor_glowlight_small_cube_white", {
 	description = S("White Glowlight (small cube)"),
 	drawtype = "nodebox",
 	tiles = {
@@ -519,7 +519,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_white', {
 	end
 })
 
-minetest.register_node('technic:homedecor_glowlight_small_cube_white_active', {
+minetest.register_node("technic:homedecor_glowlight_small_cube_white_active", {
 	description = S("White Glowlight (small cube)"),
 	drawtype = "nodebox",
 	tiles = {

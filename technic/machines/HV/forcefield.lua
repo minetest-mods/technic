@@ -243,7 +243,7 @@ minetest.register_node("technic:forcefield", {
 	paramtype = "light",
 	light_source = LIGHT_MAX,
 	diggable = false,
-	drop = '',
+	drop = "",
 	tiles = {
 		{
 			name = "technic_forcefield_animated.png",

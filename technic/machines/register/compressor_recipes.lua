@@ -22,8 +22,8 @@ local recipes = {
 minetest.register_craft({
 	output = "default:sand 0",
 	recipe = {
-		{ 'group:sand', 'group:sand' },
-		{ 'group:sand', 'group:sand' }
+		{ "group:sand", "group:sand" },
+		{ "group:sand", "group:sand" }
 	},
 })
 

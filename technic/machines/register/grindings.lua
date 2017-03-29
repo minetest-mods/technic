@@ -15,7 +15,7 @@ technic.register_compressor_recipe({ input = { sawdust.." 4" }, output = "defaul
 -- tree/wood grindings
 local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 	local lname = string.lower(name)
-	lname = string.gsub(lname, ' ', '_')
+	lname = string.gsub(lname, ' ', "_")
 	local grindings_name = "technic:"..lname.."_grindings"
 	local inventory_image = "technic_"..lname.."_grindings.png"
 	if grinding_color then
