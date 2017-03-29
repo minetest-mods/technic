@@ -147,7 +147,7 @@ function technic.trace_node_ray_fat(pos, dir, range)
 		end
 
 		-- Step in whichever direction we're most off course in.
-		local sx, sy, sz  -- Whether we've already stepped along each axis
+		local sx, sy, sz -- Whether we've already stepped along each axis
 		if dx > dy then
 			if dx > dz then
 				sx = true
@@ -172,7 +172,7 @@ function technic.trace_node_ray_fat(pos, dir, range)
 		-- We can just use fixed integer keys here because the
 		-- table will be completely cleared before we reach this
 		-- code block again.
-		local dlen = math.sqrt(dx*dx + dy*dy + dz*dz)
+		local dlen = math.sqrt(dx * dx + dy * dy + dz * dz)
 		-- Normalized axis deltas
 		local dxn, dyn, dzn = dx / dlen, dy / dlen, dz / dlen
 		if not sx and dxn > 0.5 then

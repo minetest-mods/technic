@@ -1,4 +1,3 @@
-
 local S = technic.getter
 
 function technic.register_grinder(data)

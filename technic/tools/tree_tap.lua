@@ -1,4 +1,3 @@
-
 local S = technic.getter
 local mesecons_materials = minetest.get_modpath("mesecons_materials")
 
@@ -21,7 +20,7 @@ minetest.register_tool("technic:treetap", {
 		end
 		node.name = "moretrees:rubber_tree_trunk_empty"
 		minetest.swap_node(pos, node)
-		minetest.handle_node_drops(pointed_thing.above, {"technic:raw_latex"}, user)
+		minetest.handle_node_drops(pointed_thing.above, { "technic:raw_latex" }, user)
 		if not technic.creative_mode then
 			local item_wear = tonumber(itemstack:get_wear())
 			item_wear = item_wear + 819
@@ -38,8 +37,8 @@ minetest.register_tool("technic:treetap", {
 minetest.register_craft({
 	output = "technic:treetap",
 	recipe = {
-		{"pipeworks:tube_1", "group:wood",    "default:stick"},
-		{"",               "default:stick", "default:stick"}
+		{ "pipeworks:tube_1", "group:wood", "default:stick" },
+		{ "", "default:stick", "default:stick" }
 	},
 })
 
@@ -62,11 +61,11 @@ minetest.register_craftitem("technic:rubber", {
 })
 
 minetest.register_abm({
-	nodenames = {"moretrees:rubber_tree_trunk_empty"},
+	nodenames = { "moretrees:rubber_tree_trunk_empty" },
 	interval = 60,
 	chance = 15,
 	action = function(pos, node)
-		if minetest.find_node_near(pos, (moretrees and moretrees.leafdecay_radius) or 5, {"moretrees:rubber_tree_leaves"}) then
+		if minetest.find_node_near(pos, (moretrees and moretrees.leafdecay_radius) or 5, { "moretrees:rubber_tree_leaves" }) then
 			node.name = "moretrees:rubber_tree_trunk"
 			minetest.swap_node(pos, node)
 		end

@@ -1,4 +1,3 @@
-
 technic.register_tier("HV", "High Voltage")
 
 local path = technic.modpath.."/machines/HV"

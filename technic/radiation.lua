@@ -272,13 +272,13 @@ local function calculate_base_damage(node_pos, object_pos, strength)
 	local dist = vector.distance(node_pos, object_pos)
 
 	for ray_pos in technic.trace_node_ray(node_pos,
-			vector.direction(node_pos, object_pos), dist) do
+		vector.direction(node_pos, object_pos), dist) do
 		local shield_name = minetest.get_node(ray_pos).name
 		shielding = shielding + node_radiation_resistance(shield_name) * 0.025
 	end
 
 	local dmg = (strength * strength) /
-		(math.max(0.75, dist * dist) * math.exp(shielding))
+			(math.max(0.75, dist * dist) * math.exp(shielding))
 
 	if dmg < rad_dmg_cutoff then return end
 	return dmg
@@ -303,9 +303,9 @@ end
 
 local function calculate_object_center(object)
 	if object:is_player() then
-		return {x=0, y=abdomen_offset, z=0}
+		return { x = 0, y = abdomen_offset, z = 0 }
 	end
-	return {x=0, y=0, z=0}
+	return { x = 0, y = 0, z = 0 }
 end
 
 local function dmg_object(pos, object, strength)
@@ -337,7 +337,7 @@ local function dmg_abm(pos, node)
 	local strength = minetest.get_item_group(node.name, "radioactive")
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
-			max_dist + abdomen_offset)) do
+		max_dist + abdomen_offset)) do
 		if entity_damage or o:is_player() then
 			dmg_object(pos, o, strength)
 		end
@@ -346,7 +346,7 @@ end
 
 if minetest.setting_getbool("enable_damage") then
 	minetest.register_abm({
-		nodenames = {"group:radioactive"},
+		nodenames = { "group:radioactive" },
 		interval = 1,
 		chance = 1,
 		action = dmg_abm,
@@ -379,19 +379,21 @@ end
 -- Radioactive materials that can result from destroying a reactor
 local griefing = technic.config:get_bool("enable_corium_griefing")
 
-for _, state in pairs({"flowing", "source"}) do
+for _, state in pairs({ "flowing", "source" }) do
 	minetest.register_node("technic:corium_"..state, {
 		description = S(state == "source" and "Corium Source" or "Flowing Corium"),
 		drawtype = (state == "source" and "liquid" or "flowingliquid"),
-		[state == "source" and "tiles" or "special_tiles"] = {{
-			name = "technic_corium_"..state.."_animated.png",
-			animation = {
-				type = "vertical_frames",
-				aspect_w = 16,
-				aspect_h = 16,
-				length = 3.0,
-			},
-		}},
+		[state == "source" and "tiles" or "special_tiles"] = {
+			{
+				name = "technic_corium_"..state.."_animated.png",
+				animation = {
+					type = "vertical_frames",
+					aspect_w = 16,
+					aspect_h = 16,
+					length = 3.0,
+				},
+			}
+		},
 		paramtype = "light",
 		paramtype2 = (state == "flowing" and "flowingliquid" or nil),
 		light_source = (state == "source" and 8 or 5),
@@ -407,7 +409,7 @@ for _, state in pairs({"flowing", "source"}) do
 		liquid_viscosity = LAVA_VISC,
 		liquid_renewable = false,
 		damage_per_second = 6,
-		post_effect_color = {a=192, r=80, g=160, b=80},
+		post_effect_color = { a = 192, r = 80, g = 160, b = 80 },
 		groups = {
 			liquid = 2,
 			hot = 3,
@@ -419,27 +421,25 @@ for _, state in pairs({"flowing", "source"}) do
 end
 
 if rawget(_G, "bucket") and bucket.register_liquid then
-	bucket.register_liquid(
-		"technic:corium_source",
+	bucket.register_liquid("technic:corium_source",
 		"technic:corium_flowing",
 		"technic:bucket_corium",
 		"technic_bucket_corium.png",
-		"Corium Bucket"
-	)
+		"Corium Bucket")
 end
 
 minetest.register_node("technic:chernobylite_block", {
-        description = S("Chernobylite Block"),
-	tiles = {"technic_chernobylite_block.png"},
+	description = S("Chernobylite Block"),
+	tiles = { "technic_chernobylite_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, radioactive=4, level=2},
+	groups = { cracky = 1, radioactive = 4, level = 2 },
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 })
 
 minetest.register_abm({
-	nodenames = {"group:water"},
-	neighbors = {"technic:corium_source"},
+	nodenames = { "group:water" },
+	neighbors = { "technic:corium_source" },
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
@@ -448,36 +448,36 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
-	nodenames = {"technic:corium_flowing"},
-	neighbors = {"group:water"},
+	nodenames = { "technic:corium_flowing" },
+	neighbors = { "group:water" },
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		minetest.set_node(pos, {name="technic:chernobylite_block"})
+		minetest.set_node(pos, { name = "technic:chernobylite_block" })
 	end,
 })
 
 minetest.register_abm({
-	nodenames = {"technic:corium_flowing"},
+	nodenames = { "technic:corium_flowing" },
 	interval = 5,
 	chance = (griefing and 10 or 1),
 	action = function(pos, node)
-		minetest.set_node(pos, {name="technic:chernobylite_block"})
+		minetest.set_node(pos, { name = "technic:chernobylite_block" })
 	end,
 })
 
 if griefing then
 	minetest.register_abm({
-		nodenames = {"technic:corium_source", "technic:corium_flowing"},
+		nodenames = { "technic:corium_source", "technic:corium_flowing" },
 		interval = 4,
 		chance = 4,
 		action = function(pos, node)
 			for _, offset in ipairs({
-				vector.new(1,0,0),
-				vector.new(-1,0,0),
-				vector.new(0,0,1),
-				vector.new(0,0,-1),
-				vector.new(0,-1,0),
+				vector.new(1, 0, 0),
+				vector.new(-1, 0, 0),
+				vector.new(0, 0, 1),
+				vector.new(0, 0, -1),
+				vector.new(0, -1, 0),
 			}) do
 				if math.random(8) == 1 then
 					minetest.dig_node(vector.add(pos, offset))

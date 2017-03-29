@@ -1,4 +1,3 @@
-
 local S = technic.getter
 
 local tube = {
@@ -12,10 +11,10 @@ local tube = {
 		local inv = meta:get_inventory()
 		return inv:room_for_item("src", stack)
 	end,
-	connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
+	connect_sides = { left = 1, right = 1, back = 1, top = 1, bottom = 1 },
 }
 
-local connect_default = {"bottom", "back", "left", "right"}
+local connect_default = { "bottom", "back", "left", "right" }
 
 local function round(v)
 	return math.floor(v + 0.5)
@@ -29,43 +28,43 @@ function technic.register_base_machine(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
-	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
+	local groups = { cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1 }
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
 	end
-	local active_groups = {not_in_creative_inventory = 1}
+	local active_groups = { not_in_creative_inventory = 1 }
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
-		"invsize[8,9;]"..
-		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
-		"list[current_name;dst;5,1;2,2;]"..
-		"list[current_player;main;0,5;8,4;]"..
-		"label[0,0;"..machine_desc:format(tier).."]"..
-		"listring[current_name;dst]"..
-		"listring[current_player;main]"..
-		"listring[current_name;src]"..
-		"listring[current_player;main]"
+	"invsize[8,9;]"..
+			"list[current_name;src;"..(4 - input_size)..",1;"..input_size..",1;]"..
+			"list[current_name;dst;5,1;2,2;]"..
+			"list[current_player;main;0,5;8,4;]"..
+			"label[0,0;"..machine_desc:format(tier).."]"..
+			"listring[current_name;dst]"..
+			"listring[current_player;main]"..
+			"listring[current_name;src]"..
+			"listring[current_player;main]"
 	if data.upgrade then
 		formspec = formspec..
-			"list[current_name;upgrade1;1,3;1,1;]"..
-			"list[current_name;upgrade2;2,3;1,1;]"..
-			"label[1,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
-			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
-			"listring[current_player;main]"
+				"list[current_name;upgrade1;1,3;1,1;]"..
+				"list[current_name;upgrade2;2,3;1,1;]"..
+				"label[1,4;"..S("Upgrade Slots").."]"..
+				"listring[current_name;upgrade1]"..
+				"listring[current_player;main]"..
+				"listring[current_name;upgrade2]"..
+				"listring[current_player;main]"
 	end
 
 	local run = function(pos, node)
-		local meta     = minetest.get_meta(pos)
-		local inv      = meta:get_inventory()
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
 		local eu_input = meta:get_int(tier.."_EU_input")
 
 		local machine_desc_tier = machine_desc:format(tier)
-		local machine_node      = "technic:"..ltier.."_"..machine_name
-		local machine_demand    = data.demand
+		local machine_node = "technic:"..ltier.."_"..machine_name
+		local machine_demand = data.demand
 
 		-- Setup meta data if it does not exist.
 		if not eu_input then
@@ -82,9 +81,9 @@ function technic.register_base_machine(data)
 			technic.handle_machine_pipeworks(pos, tube_upgrade)
 		end
 
-		local powered = eu_input >= machine_demand[EU_upgrade+1]
+		local powered = eu_input >= machine_demand[EU_upgrade + 1]
 		if powered then
-			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
+			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed * 10))
 		end
 		while true do
 			local result = technic.get_recipe(typename, inv:get_list("src"))
@@ -95,10 +94,10 @@ function technic.register_base_machine(data)
 				meta:set_int("src_time", 0)
 				return
 			end
-			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
+			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade + 1])
 			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
-			if meta:get_int("src_time") < round(result.time*10) then
+			if meta:get_int("src_time") < round(result.time * 10) then
 				if not powered then
 					technic.swap_node(pos, machine_node)
 					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
@@ -125,23 +124,25 @@ function technic.register_base_machine(data)
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
-				meta:set_int("src_time", round(result.time*10))
+				meta:set_int("src_time", round(result.time * 10))
 				return
 			end
-			meta:set_int("src_time", meta:get_int("src_time") - round(result.time*10))
+			meta:set_int("src_time", meta:get_int("src_time") - round(result.time * 10))
 			inv:set_list("src", result.new_input)
 			inv:set_list("dst", inv:get_list("dst_tmp"))
 		end
 	end
-	
+
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
-		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png", 
-	                 "technic_"..ltier.."_"..machine_name.."_bottom.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_front.png"},
+		tiles = {
+			"technic_"..ltier.."_"..machine_name.."_top.png",
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front.png"
+		},
 		paramtype2 = "facedir",
 		groups = groups,
 		tube = data.tube and tube or nil,
@@ -152,7 +153,7 @@ function technic.register_base_machine(data)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", machine_desc:format(tier))
-			meta:set_int("tube_time",  0)
+			meta:set_int("tube_time", 0)
 			meta:set_string("formspec", formspec)
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
@@ -169,14 +170,16 @@ function technic.register_base_machine(data)
 		after_dig_node = technic.machine_after_dig_node
 	})
 
-	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
+	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active", {
 		description = machine_desc:format(tier),
-		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png",
-		         "technic_"..ltier.."_"..machine_name.."_bottom.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_front_active.png"},
+		tiles = {
+			"technic_"..ltier.."_"..machine_name.."_top.png",
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front_active.png"
+		},
 		paramtype2 = "facedir",
 		drop = "technic:"..ltier.."_"..machine_name,
 		groups = active_groups,
@@ -192,8 +195,9 @@ function technic.register_base_machine(data)
 		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
 	})
 
-	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name,            technic.receiver)
+	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name, technic.receiver)
 	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name.."_active", technic.receiver)
+end
 
-end -- End registration
+-- End registration
 

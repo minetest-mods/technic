@@ -16,9 +16,9 @@ local power_radius = 12
 minetest.register_craft({
 	output = 'technic:power_radiator 1',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:mv_transformer', 'technic:stainless_steel_ingot'},
-		{'technic:copper_coil',           'technic:machine_casing', 'technic:copper_coil'},
-		{'technic:rubber',                'technic:mv_cable',       'technic:rubber'},
+		{ "technic:stainless_steel_ingot", "technic:mv_transformer", "technic:stainless_steel_ingot" },
+		{ "technic:copper_coil", "technic:machine_casing", "technic:copper_coil" },
+		{ "technic:rubber", "technic:mv_cable", "technic:rubber" },
 	}
 })
 
@@ -44,10 +44,10 @@ technic.inductive_on_construct = function(pos, eu_demand, infotext)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("infotext", infotext)
 	meta:set_int("technic_inductive_power_machine", 1)
-	meta:set_int("EU_demand", eu_demand)     -- The power demand of this appliance
-	meta:set_int("EU_charge", 0)       -- The actual power draw of this appliance
+	meta:set_int("EU_demand", eu_demand) -- The power demand of this appliance
+	meta:set_int("EU_charge", 0) -- The actual power draw of this appliance
 	meta:set_string("has_supply", "") -- Register whether we are powered or not. For use with several radiators.
-	meta:set_int("active", 0)    -- If the appliance can be turned on and off by using it use this.
+	meta:set_int("active", 0) -- If the appliance can be turned on and off by using it use this.
 end
 
 technic.inductive_on_punch_off = function(pos, eu_charge, swapnode)
@@ -55,7 +55,7 @@ technic.inductive_on_punch_off = function(pos, eu_charge, swapnode)
 	if meta:get_string("has_supply") ~= "" then
 		technic.swap_node(pos, swapnode)
 		meta:set_int("active", 1)
-		meta:set_int("EU_charge",eu_charge)
+		meta:set_int("EU_charge", eu_charge)
 		--print("-----------")
 		--print("Turn on:")
 		--print("EU_charge: "..meta:get_int("EU_charge"))
@@ -68,7 +68,7 @@ technic.inductive_on_punch_on = function(pos, eu_charge, swapnode)
 	local meta = minetest.get_meta(pos)
 	technic.swap_node(pos, swapnode)
 	meta:set_int("active", 0)
-	meta:set_int("EU_charge",eu_charge)
+	meta:set_int("EU_charge", eu_charge)
 	--print("-----------")
 	--print("Turn off:")
 	--print("EU_charge: "..meta:get_int("EU_charge"))
@@ -81,9 +81,8 @@ local shutdown_inductive_appliances = function(pos)
 	local rad = power_radius
 	-- If the radiator is removed. turn off all appliances in region
 	-- If another radiator is near it will turn on the appliances again
-	local positions = minetest.find_nodes_in_area(
-		{x=pos.x-rad, y=pos.y-rad, z=pos.z-rad},
-		{x=pos.x+rad, y=pos.y+rad, z=pos.z+rad},
+	local positions = minetest.find_nodes_in_area({ x = pos.x - rad, y = pos.y - rad, z = pos.z - rad },
+		{ x = pos.x + rad, y = pos.y + rad, z = pos.z + rad },
 		technic.inductive_nodes)
 	for _, pos1 in pairs(positions) do
 		local meta1 = minetest.get_meta(pos1)
@@ -105,9 +104,8 @@ local toggle_on_off_inductive_appliances = function(pos, node, puncher)
 	if pos == nil then return end
 	-- The supply radius
 	local rad = power_radius
-	local positions = minetest.find_nodes_in_area(
-		{x=pos.x-rad, y=pos.y-rad, z=pos.z-rad},
-		{x=pos.x+rad, y=pos.y+rad, z=pos.z+rad},
+	local positions = minetest.find_nodes_in_area({ x = pos.x - rad, y = pos.y - rad, z = pos.z - rad },
+		{ x = pos.x + rad, y = pos.y + rad, z = pos.z + rad },
 		technic.inductive_nodes)
 	for _, pos1 in pairs(positions) do
 		local meta1 = minetest.get_meta(pos1)
@@ -119,21 +117,23 @@ end
 
 minetest.register_node("technic:power_radiator", {
 	description = "MV Power Radiator",
-	tiles  = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
-	          "technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
+	tiles = {
+		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
+		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"
+	},
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 },
 	sounds = default.node_sound_wood_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 },
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_int("MV_EU_demand",1)               -- Demand on the primary side when idle
-		meta:set_int("connected_EU_demand",0)        -- Potential demand of connected appliances
+		meta:set_int("MV_EU_demand", 1) -- Demand on the primary side when idle
+		meta:set_int("connected_EU_demand", 0) -- Potential demand of connected appliances
 		meta:set_string("infotext", "MV Power Radiator")
 	end,
 	on_dig = function(pos, node, digger)
@@ -146,12 +146,12 @@ minetest.register_node("technic:power_radiator", {
 })
 
 minetest.register_abm({
-	nodenames = {"technic:power_radiator"},
-	interval   = 1,
-	chance     = 1,
+	nodenames = { "technic:power_radiator" },
+	interval = 1,
+	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta             = minetest.get_meta(pos)
-		local eu_input  = meta:get_int("MV_EU_input")
+		local meta = minetest.get_meta(pos)
+		local eu_input = meta:get_int("MV_EU_input")
 		local eu_demand = meta:get_int("MV_EU_demand")
 
 		-- Power off automatically if no longer connected to a switching station
@@ -163,12 +163,12 @@ minetest.register_abm({
 			-- meta:set_int("active", 1) -- used for setting textures someday maybe
 			shutdown_inductive_appliances(pos)
 			meta:set_int("connected_EU_demand", 0)
-			meta:set_int("MV_EU_demand",1)
+			meta:set_int("MV_EU_demand", 1)
 		elseif eu_input == eu_demand then
 			-- Powered and ready
 
 			-- The maximum EU sourcing a single radiator can provide.
-			local max_charge          = 30000 -- == the max EU demand of the radiator
+			local max_charge = 30000 -- == the max EU demand of the radiator
 			local connected_EU_demand = meta:get_int("connected_EU_demand")
 
 			-- Efficiency factor
@@ -176,14 +176,13 @@ minetest.register_abm({
 			-- The supply radius
 			local rad = power_radius
 
-			local meta1            = nil
-			local pos1             = {}
-			local used_charge      = 0
+			local meta1 = nil
+			local pos1 = {}
+			local used_charge = 0
 
 			-- Index all nodes within supply range
-			local positions = minetest.find_nodes_in_area(
-				{x=pos.x-rad, y=pos.y-rad, z=pos.z-rad},
-				{x=pos.x+rad, y=pos.y+rad, z=pos.z+rad},
+			local positions = minetest.find_nodes_in_area({ x = pos.x - rad, y = pos.y - rad, z = pos.z - rad },
+				{ x = pos.x + rad, y = pos.y + rad, z = pos.z + rad },
 				technic.inductive_nodes)
 			for _, pos1 in pairs(positions) do
 				local meta1 = minetest.get_meta(pos1)
@@ -203,8 +202,8 @@ minetest.register_abm({
 					used_charge = used_charge + math.floor(meta1:get_int("EU_charge") / eff_factor)
 				end
 				meta:set_string("infotext", "MV Power Radiator is powered ("
-					..math.floor(used_charge / max_charge * 100)
-					.."% of maximum power)");
+						.. math.floor(used_charge / max_charge * 100)
+						.. "% of maximum power)");
 				if used_charge == 0 then
 					meta:set_int("MV_EU_demand", 1) -- Still idle
 				else

@@ -11,7 +11,7 @@ local S = technic.getter
 
 local function set_supply_converter_formspec(meta)
 	local formspec = "size[5,2.25]"..
-		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
+			"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
@@ -66,9 +66,9 @@ local run = function(pos, node, run_stage)
 
 	local remain = 0.9
 	-- Machine information
-	local machine_name  = S("Supply Converter")
-	local meta          = minetest.get_meta(pos)
-	local enabled       = meta:get_string("enabled")
+	local machine_name = S("Supply Converter")
+	local meta = minetest.get_meta(pos)
+	local enabled = meta:get_string("enabled")
 	if enabled == "" then
 		-- Backwards compatibility
 		minetest.registered_nodes["technic:supply_converter"].on_construct(pos)
@@ -79,13 +79,13 @@ local run = function(pos, node, run_stage)
 	enabled = enabled and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
 	local demand = enabled and meta:get_int("power") or 0
 
-	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
-	local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
-	local name_up       = minetest.get_node(pos_up).name
-	local name_down     = minetest.get_node(pos_down).name
+	local pos_up = { x = pos.x, y = pos.y + 1, z = pos.z }
+	local pos_down = { x = pos.x, y = pos.y - 1, z = pos.z }
+	local name_up = minetest.get_node(pos_up).name
+	local name_down = minetest.get_node(pos_down).name
 
 	local from = technic.get_cable_tier(name_up)
-	local to   = technic.get_cable_tier(name_down)
+	local to = technic.get_cable_tier(name_down)
 
 	if from and to then
 		local input = meta:get_int(from.."_EU_input")
@@ -104,17 +104,23 @@ local run = function(pos, node, run_stage)
 		end
 		return
 	end
-
 end
 
 minetest.register_node("technic:supply_converter", {
 	description = S("Supply Converter"),
-	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
-	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
-	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_all_tiers=1},
-	connect_sides = {"top", "bottom"},
+	tiles = {
+		"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
+		"technic_supply_converter_side.png", "technic_supply_converter_side.png",
+		"technic_supply_converter_side.png", "technic_supply_converter_side.png"
+	},
+	groups = {
+		snappy = 2,
+		choppy = 2,
+		oddly_breakable_by_hand = 2,
+		technic_machine = 1,
+		technic_all_tiers = 1
+	},
+	connect_sides = { "top", "bottom" },
 	sounds = default.node_sound_wood_defaults(),
 	on_receive_fields = supply_converter_receive_fields,
 	on_construct = function(pos)
@@ -134,9 +140,9 @@ minetest.register_node("technic:supply_converter", {
 minetest.register_craft({
 	output = 'technic:supply_converter 1',
 	recipe = {
-		{'technic:fine_gold_wire', 'technic:rubber',         'technic:doped_silicon_wafer'},
-		{'technic:mv_transformer', 'technic:machine_casing', 'technic:lv_transformer'},
-		{'technic:mv_cable',       'technic:rubber',         'technic:lv_cable'},
+		{ "technic:fine_gold_wire", "technic:rubber", "technic:doped_silicon_wafer" },
+		{ "technic:mv_transformer", "technic:machine_casing", "technic:lv_transformer" },
+		{ "technic:mv_cable", "technic:rubber", "technic:lv_cable" },
 	}
 })
 

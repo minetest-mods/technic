@@ -9,11 +9,11 @@ local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
-			"technic:concrete_post")
+		"technic:concrete_post")
 end
 for i = 32, 63 do
 	minetest.register_alias("technic:concrete_post"..i,
-			"technic:concrete_post_with_platform")
+		"technic:concrete_post_with_platform")
 end
 
 local steel_ingot
@@ -26,43 +26,43 @@ end
 minetest.register_craft({
 	output = 'technic:rebar 6',
 	recipe = {
-		{'','', steel_ingot},
-		{'',steel_ingot,''},
-		{steel_ingot, '', ''},
+		{ "", "", steel_ingot },
+		{ "", steel_ingot, "" },
+		{ steel_ingot, "", "" },
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:concrete 5',
 	recipe = {
-		{'default:stone','technic:rebar','default:stone'},
-		{'technic:rebar','default:stone','technic:rebar'},
-		{'default:stone','technic:rebar','default:stone'},
+		{ "default:stone", "technic:rebar", "default:stone" },
+		{ "technic:rebar", "default:stone", "technic:rebar" },
+		{ "default:stone", "technic:rebar", "default:stone" },
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:concrete_post_platform 6',
 	recipe = {
-		{'technic:concrete','technic:concrete_post','technic:concrete'},
+		{ "technic:concrete", "technic:concrete_post", "technic:concrete" },
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:concrete_post 12',
 	recipe = {
-		{'default:stone','technic:rebar','default:stone'},
-		{'default:stone','technic:rebar','default:stone'},
-		{'default:stone','technic:rebar','default:stone'},
+		{ "default:stone", "technic:rebar", "default:stone" },
+		{ "default:stone", "technic:rebar", "default:stone" },
+		{ "default:stone", "technic:rebar", "default:stone" },
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:blast_resistant_concrete 5',
 	recipe = {
-		{'technic:concrete','technic:composite_plate','technic:concrete'},
-		{'technic:composite_plate','technic:concrete','technic:composite_plate'},
-		{'technic:concrete','technic:composite_plate','technic:concrete'},
+		{ "technic:concrete", "technic:composite_plate", "technic:concrete" },
+		{ "technic:composite_plate", "technic:concrete", "technic:composite_plate" },
+		{ "technic:concrete", "technic:composite_plate", "technic:concrete" },
 	}
 })
 
@@ -73,49 +73,49 @@ minetest.register_craftitem(":technic:rebar", {
 
 minetest.register_node(":technic:concrete", {
 	description = S("Concrete Block"),
-	tiles = {"technic_concrete_block.png",},
-	groups = {cracky=1, level=2, concrete=1},
+	tiles = { "technic_concrete_block.png", },
+	groups = { cracky = 1, level = 2, concrete = 1 },
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(":technic:blast_resistant_concrete", {
 	description = S("Blast-resistant Concrete Block"),
-	tiles = {"technic_blast_resistant_concrete_block.png",},
-	groups = {cracky=1, level=3, concrete=1},
+	tiles = { "technic_blast_resistant_concrete_block.png", },
+	groups = { cracky = 1, level = 3, concrete = 1 },
 	sounds = default.node_sound_stone_defaults(),
 	on_blast = function(pos, intensity)
 		if intensity > 9 then
 			minetest.remove_node(pos)
-			return {"technic:blast_resistant_concrete"}
+			return { "technic:blast_resistant_concrete" }
 		end
 	end,
 })
 
 
-local box_platform = {-0.5,  0.3,  -0.5,  0.5,  0.5, 0.5}
-local box_post     = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15}
-local box_front    = {-0.1,  -0.3, 0,     0.1,  0.3, -0.5}
-local box_back     = {-0.1,  -0.3, 0,     0.1,  0.3, 0.5}
-local box_left     = {0,     -0.3, -0.1,  -0.5, 0.3, 0.1}
-local box_right    = {0,     -0.3, -0.1,  0.5,  0.3, 0.1}
+local box_platform = { -0.5, 0.3, -0.5, 0.5, 0.5, 0.5 }
+local box_post = { -0.15, -0.5, -0.15, 0.15, 0.5, 0.15 }
+local box_front = { -0.1, -0.3, 0, 0.1, 0.3, -0.5 }
+local box_back = { -0.1, -0.3, 0, 0.1, 0.3, 0.5 }
+local box_left = { 0, -0.3, -0.1, -0.5, 0.3, 0.1 }
+local box_right = { 0, -0.3, -0.1, 0.5, 0.3, 0.1 }
 
 minetest.register_node(":technic:concrete_post_platform", {
 	description = S("Concrete Post Platform"),
-	tiles = {"technic_concrete_block.png",},
-	groups={cracky=1, level=2},
+	tiles = { "technic_concrete_block.png", },
+	groups = { cracky = 1, level = 2 },
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
-	drawtype = "nodebox", 
+	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
-		fixed = {box_platform}
+		fixed = { box_platform }
 	},
-	on_place = function (itemstack, placer, pointed_thing)
+	on_place = function(itemstack, placer, pointed_thing)
 		local node = minetest.get_node(pointed_thing.under)
-		if node.name ~= "technic:concrete_post" then 
-			return minetest.item_place_node(itemstack, placer, pointed_thing) 
+		if node.name ~= "technic:concrete_post" then
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end
-		minetest.set_node(pointed_thing.under, {name="technic:concrete_post_with_platform"})
+		minetest.set_node(pointed_thing.under, { name = "technic:concrete_post_with_platform" })
 		itemstack:take_item()
 		placer:set_wielded_item(itemstack)
 		return itemstack
@@ -133,21 +133,21 @@ for platform = 0, 1 do
 
 	minetest.register_node(":technic:concrete_post"..(platform == 1 and "_with_platform" or ""), {
 		description = S("Concrete Post"),
-		tiles = {"technic_concrete_block.png"},
-		groups = {cracky=1, level=2, concrete_post=1, not_in_creative_inventory=platform},
+		tiles = { "technic_concrete_block.png" },
+		groups = { cracky = 1, level = 2, concrete_post = 1, not_in_creative_inventory = platform },
 		sounds = default.node_sound_stone_defaults(),
 		drop = (platform == 1 and "technic:concrete_post_platform" or
 				"technic:concrete_post"),
 		paramtype = "light",
 		sunlight_propagates = true,
 		drawtype = "nodebox",
-		connects_to = {"group:concrete", "group:concrete_post"},
+		connects_to = { "group:concrete", "group:concrete_post" },
 		node_box = {
 			type = "connected",
-			fixed = {box_post, (platform == 1 and box_platform or nil)},
+			fixed = { box_post, (platform == 1 and box_platform or nil) },
 			connect_front = box_front,
-			connect_back  = box_back,
-			connect_left  = box_left,
+			connect_back = box_back,
+			connect_left = box_left,
 			connect_right = box_right,
 		},
 		after_dig_node = after_dig_node,

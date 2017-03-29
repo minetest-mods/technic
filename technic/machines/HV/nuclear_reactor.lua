@@ -9,9 +9,9 @@ shield to work.  This is checked now and then and if the casing is not
 intact the reactor will melt down!
 --]]
 
-local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
-local power_supply = 100000  -- EUs
-local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
+local burn_ticks = 7 * 24 * 60 * 60 -- Seconds
+local power_supply = 100000 -- EUs
+local fuel_type = "technic:uranium_fuel" -- The reactor burns this
 
 local S = technic.getter
 
@@ -20,39 +20,38 @@ local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
-	output = 'technic:hv_nuclear_reactor_core',
+	output = "technic:hv_nuclear_reactor_core",
 	recipe = {
-		{'technic:carbon_plate',          'default:obsidian_glass', 'technic:carbon_plate'},
-		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
-		{'technic:stainless_steel_ingot', 'technic:hv_cable',       'technic:stainless_steel_ingot'},
+		{ "technic:carbon_plate", "default:obsidian_glass", "technic:carbon_plate" },
+		{ "technic:composite_plate", "technic:machine_casing", "technic:composite_plate" },
+		{ "technic:stainless_steel_ingot", "technic:hv_cable", "technic:stainless_steel_ingot" },
 	}
 })
 
-local reactor_formspec =
-	"invsize[8,9;]"..
-	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
-	"list[current_name;src;2,1;3,2;]"..
-	"list[current_player;main;0,5;8,4;]"..
-	"listring[]"
+local reactor_formspec = "invsize[8,9;]"..
+		"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
+		"list[current_name;src;2,1;3,2;]"..
+		"list[current_player;main;0,5;8,4;]"..
+		"listring[]"
 
 -- "Boxy sphere"
 local node_box = {
-	{-0.353, -0.353, -0.353, 0.353, 0.353, 0.353}, -- Box
-	{-0.495, -0.064, -0.064, 0.495, 0.064, 0.064}, -- Circle +-x
-	{-0.483, -0.128, -0.128, 0.483, 0.128, 0.128},
-	{-0.462, -0.191, -0.191, 0.462, 0.191, 0.191},
-	{-0.433, -0.249, -0.249, 0.433, 0.249, 0.249},
-	{-0.397, -0.303, -0.303, 0.397, 0.303, 0.303},
-	{-0.305, -0.396, -0.305, 0.305, 0.396, 0.305}, -- Circle +-y
-	{-0.250, -0.432, -0.250, 0.250, 0.432, 0.250},
-	{-0.191, -0.461, -0.191, 0.191, 0.461, 0.191},
-	{-0.130, -0.482, -0.130, 0.130, 0.482, 0.130},
-	{-0.066, -0.495, -0.066, 0.066, 0.495, 0.066},
-	{-0.064, -0.064, -0.495, 0.064, 0.064, 0.495}, -- Circle +-z
-	{-0.128, -0.128, -0.483, 0.128, 0.128, 0.483},
-	{-0.191, -0.191, -0.462, 0.191, 0.191, 0.462},
-	{-0.249, -0.249, -0.433, 0.249, 0.249, 0.433},
-	{-0.303, -0.303, -0.397, 0.303, 0.303, 0.397},
+	{ -0.353, -0.353, -0.353, 0.353, 0.353, 0.353 }, -- Box
+	{ -0.495, -0.064, -0.064, 0.495, 0.064, 0.064 }, -- Circle +-x
+	{ -0.483, -0.128, -0.128, 0.483, 0.128, 0.128 },
+	{ -0.462, -0.191, -0.191, 0.462, 0.191, 0.191 },
+	{ -0.433, -0.249, -0.249, 0.433, 0.249, 0.249 },
+	{ -0.397, -0.303, -0.303, 0.397, 0.303, 0.303 },
+	{ -0.305, -0.396, -0.305, 0.305, 0.396, 0.305 }, -- Circle +-y
+	{ -0.250, -0.432, -0.250, 0.250, 0.432, 0.250 },
+	{ -0.191, -0.461, -0.191, 0.191, 0.461, 0.191 },
+	{ -0.130, -0.482, -0.130, 0.130, 0.482, 0.130 },
+	{ -0.066, -0.495, -0.066, 0.066, 0.495, 0.066 },
+	{ -0.064, -0.064, -0.495, 0.064, 0.064, 0.495 }, -- Circle +-z
+	{ -0.128, -0.128, -0.483, 0.128, 0.128, 0.483 },
+	{ -0.191, -0.191, -0.462, 0.191, 0.191, 0.462 },
+	{ -0.249, -0.249, -0.433, 0.249, 0.249, 0.433 },
+	{ -0.303, -0.303, -0.397, 0.303, 0.303, 0.397 },
 }
 
 local SS_OFF = 0
@@ -65,18 +64,18 @@ local function siren_set_state(pos, state)
 	local siren = reactor_siren[hpos]
 	if not siren then
 		if state == SS_OFF then return end
-		siren = {state=SS_OFF}
+		siren = { state = SS_OFF }
 		reactor_siren[hpos] = siren
 	end
 	if state == SS_DANGER and siren.state ~= SS_DANGER then
 		if siren.handle then minetest.sound_stop(siren.handle) end
 		siren.handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_danger_loop",
-				{pos=pos, gain=1.5, loop=true, max_hear_distance=48})
+			{ pos = pos, gain = 1.5, loop = true, max_hear_distance = 48 })
 		siren.state = SS_DANGER
 	elseif state == SS_CLEAR then
 		if siren.handle then minetest.sound_stop(siren.handle) end
 		local clear_handle = minetest.sound_play("technic_hv_nuclear_reactor_siren_clear",
-				{pos=pos, gain=1.5, loop=false, max_hear_distance=48})
+			{ pos = pos, gain = 1.5, loop = false, max_hear_distance = 48 })
 		siren.handle = clear_handle
 		siren.state = SS_CLEAR
 		minetest.after(10, function()
@@ -148,7 +147,7 @@ local function reactor_structure_badness(pos)
 	local pos2 = vector.add(pos, 3)
 	local MinEdge, MaxEdge = vm:read_from_map(pos1, pos2)
 	local data = vm:get_data()
-	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
+	local area = VoxelArea:new({ MinEdge = MinEdge, MaxEdge = MaxEdge })
 
 	local c_blast_concrete = minetest.get_content_id("technic:blast_resistant_concrete")
 	local c_lead = minetest.get_content_id("technic:lead_block")
@@ -159,48 +158,48 @@ local function reactor_structure_badness(pos)
 	local blast_layer, steel_layer, lead_layer, water_layer = 0, 0, 0, 0
 
 	for z = pos1.z, pos2.z do
-	for y = pos1.y, pos2.y do
-	for x = pos1.x, pos2.x do
-		local cid = data[area:index(x, y, z)]
-		if x == pos1.x or x == pos2.x or
-		   y == pos1.y or y == pos2.y or
-		   z == pos1.z or z == pos2.z then
-			if cid == c_blast_concrete then
-				blast_layer = blast_layer + 1
-			end
-		elseif x == pos1.x+1 or x == pos2.x-1 or
-		       y == pos1.y+1 or y == pos2.y-1 or
-		       z == pos1.z+1 or z == pos2.z-1 then
-			if cid == c_lead then
-				lead_layer = lead_layer + 1
-			elseif cid == c_steel then
-				steel_layer = steel_layer + 1
-			end
-		elseif x == pos1.x+2 or x == pos2.x-2 or
-		       y == pos1.y+2 or y == pos2.y-2 or
-		       z == pos1.z+2 or z == pos2.z-2 then
-			if cid == c_water_source or cid == c_water_flowing then
-				water_layer = water_layer + 1
-			end
-		end
-	end
-	end
-	end
-
-	if steel_layer >= 96 then
-		for z = pos1.z+1, pos2.z-1 do
-		for y = pos1.y+1, pos2.y-1 do
-		for x = pos1.x+1, pos2.x-1 do
-			local vi = area:index(x, y, z)
-			if x == pos1.x+1 or x == pos2.x-1 or
-			   y == pos1.y+1 or y == pos2.y-1 or
-			   z == pos1.z+1 or z == pos2.z-1 then
-				if data[vi] == c_steel then
-					data[vi] = c_lead
+		for y = pos1.y, pos2.y do
+			for x = pos1.x, pos2.x do
+				local cid = data[area:index(x, y, z)]
+				if x == pos1.x or x == pos2.x or
+						y == pos1.y or y == pos2.y or
+						z == pos1.z or z == pos2.z then
+					if cid == c_blast_concrete then
+						blast_layer = blast_layer + 1
+					end
+				elseif x == pos1.x + 1 or x == pos2.x - 1 or
+						y == pos1.y + 1 or y == pos2.y - 1 or
+						z == pos1.z + 1 or z == pos2.z - 1 then
+					if cid == c_lead then
+						lead_layer = lead_layer + 1
+					elseif cid == c_steel then
+						steel_layer = steel_layer + 1
+					end
+				elseif x == pos1.x + 2 or x == pos2.x - 2 or
+						y == pos1.y + 2 or y == pos2.y - 2 or
+						z == pos1.z + 2 or z == pos2.z - 2 then
+					if cid == c_water_source or cid == c_water_flowing then
+						water_layer = water_layer + 1
+					end
 				end
 			end
 		end
-		end
+	end
+
+	if steel_layer >= 96 then
+		for z = pos1.z + 1, pos2.z - 1 do
+			for y = pos1.y + 1, pos2.y - 1 do
+				for x = pos1.x + 1, pos2.x - 1 do
+					local vi = area:index(x, y, z)
+					if x == pos1.x + 1 or x == pos2.x - 1 or
+							y == pos1.y + 1 or y == pos2.y - 1 or
+							z == pos1.z + 1 or z == pos2.z - 1 then
+						if data[vi] == c_steel then
+							data[vi] = c_lead
+						end
+					end
+				end
+			end
 		end
 		vm:set_data(data)
 		vm:write_to_map()
@@ -216,15 +215,15 @@ end
 
 local function melt_down_reactor(pos)
 	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
-	minetest.set_node(pos, {name="technic:corium_source"})
+	minetest.set_node(pos, { name = "technic:corium_source" })
 end
 
 
 minetest.register_abm({
-	nodenames = {"technic:hv_nuclear_reactor_core_active"},
+	nodenames = { "technic:hv_nuclear_reactor_core_active" },
 	interval = 4,
 	chance = 1,
-	action = function (pos, node)
+	action = function(pos, node)
 		local meta = minetest.get_meta(pos)
 		local badness = reactor_structure_badness(pos)
 		local accum_badness = meta:get_int("structure_accumulated_badness")
@@ -251,7 +250,7 @@ local function run(pos, node)
 
 	if burn_time >= burn_ticks or burn_time == 0 then
 		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then 
+		if not inv:is_empty("src") then
 			local src_list = inv:get_list("src")
 			local correct_fuel_count = 0
 			for _, src_stack in pairs(src_list) do
@@ -263,7 +262,7 @@ local function run(pos, node)
 			if correct_fuel_count == 6 and
 					reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
-				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
 				meta:set_int("HV_EU_supply", power_supply)
 				for idx, src_stack in pairs(src_list) do
 					src_stack:take_item()
@@ -289,8 +288,8 @@ end
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
-	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1},
+	tiles = { "technic_hv_nuclear_reactor_core.png" },
+	groups = { cracky = 1, technic_machine = 1, technic_hv = 1 },
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drawtype = "nodebox",
@@ -316,14 +315,19 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 })
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
-	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1,
-		radioactive=4, not_in_creative_inventory=1},
+	tiles = { "technic_hv_nuclear_reactor_core.png" },
+	groups = {
+		cracky = 1,
+		technic_machine = 1,
+		technic_hv = 1,
+		radioactive = 4,
+		not_in_creative_inventory = 1
+	},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hv_nuclear_reactor_core",
 	drawtype = "nodebox",
-	light_source = 14,
+	light_source = LIGHT_MAX,
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
@@ -338,8 +342,8 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	technic_run = run,
 	technic_on_disable = function(pos, node)
 		local timer = minetest.get_node_timer(pos)
-        	timer:start(1)
-        end,
+		timer:start(1)
+	end,
 	on_timer = function(pos, node)
 		local meta = minetest.get_meta(pos)
 
@@ -362,6 +366,6 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	end,
 })
 
-technic.register_machine("HV", "technic:hv_nuclear_reactor_core",        technic.producer)
+technic.register_machine("HV", "technic:hv_nuclear_reactor_core", technic.producer)
 technic.register_machine("HV", "technic:hv_nuclear_reactor_core_active", technic.producer)
 

@@ -1,34 +1,34 @@
 local mining_lasers_list = {
---	{<num>, <range of the laser shots>, <max_charge>, <charge_per_shot>},
-	{"1", 7, 50000, 1000},
-	{"2", 14, 200000, 2000},
-	{"3", 21, 650000, 3000},
+	--	{<num>, <range of the laser shots>, <max_charge>, <charge_per_shot>},
+	{ "1", 7, 50000, 1000 },
+	{ "2", 14, 200000, 2000 },
+	{ "3", 21, 650000, 3000 },
 }
 
 local S = technic.getter
 
 minetest.register_craft({
-	output = 'technic:laser_mk1',
+	output = "technic:laser_mk1",
 	recipe = {
-		{'default:diamond', 'technic:brass_ingot',        'default:obsidian_glass'},
-		{'',                'technic:brass_ingot',        'technic:red_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{ "default:diamond", "technic:brass_ingot", "default:obsidian_glass" },
+		{ "", "technic:brass_ingot", "technic:red_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk2',
+	output = "technic:laser_mk2",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk1'},
-		{'',                'technic:carbon_steel_ingot', 'technic:green_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{ "default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk1" },
+		{ "", "technic:carbon_steel_ingot", "technic:green_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 minetest.register_craft({
-	output = 'technic:laser_mk3',
+	output = "technic:laser_mk3",
 	recipe = {
-		{'default:diamond', 'technic:carbon_steel_ingot', 'technic:laser_mk2'},
-		{'',                'technic:carbon_steel_ingot', 'technic:blue_energy_crystal'},
-		{'',                '',                           'default:copper_ingot'},
+		{ "default:diamond", "technic:carbon_steel_ingot", "technic:laser_mk2" },
+		{ "", "technic:carbon_steel_ingot", "technic:blue_energy_crystal" },
+		{ "", "", "default:copper_ingot" },
 	}
 })
 
@@ -38,11 +38,11 @@ local function laser_node(pos, node, player)
 		minetest.remove_node(pos)
 		minetest.add_particle({
 			pos = pos,
-			velocity = {x=0, y=2, z=0},
-			acceleration = {x=0, y=-1, z=0},
+			velocity = { x = 0, y = 2, z = 0 },
+			acceleration = { x = 0, y = -1, z = 0 },
 			expirationtime = 1.5,
 			size = 6 + math.random() * 2,
-			texture = "smoke_puff.png^[transform" .. math.random(0, 7),
+			texture = "smoke_puff.png^[transform"..math.random(0, 7),
 		})
 		return
 	end
@@ -68,9 +68,9 @@ local function laser_shoot(player, range, particle_texture, sound)
 		acceleration = vector.multiply(dir, 50),
 		expirationtime = range / 11,
 		size = 1,
-		texture = particle_texture .. "^[transform" .. math.random(0, 7),
+		texture = particle_texture.."^[transform"..math.random(0, 7),
 	})
-	minetest.sound_play(sound, {pos = player_pos, max_hear_distance = range})
+	minetest.sound_play(sound, { pos = player_pos, max_hear_distance = range })
 	for pos in technic.trace_node_ray_fat(start_pos, dir, range) do
 		if minetest.is_protected(pos, player_name) then
 			minetest.record_protection_violation(pos, player_name)
