@@ -104,6 +104,7 @@ minetest.register_node("technic:injector", {
 })
 
 minetest.register_abm({
+	label = "Machines: run injector",
 	nodenames = {"technic:injector"},
 	interval = 1,
 	chance = 1,

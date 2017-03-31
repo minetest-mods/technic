@@ -35,7 +35,7 @@ minetest.register_node("technic:power_monitor",{
 
 minetest.register_abm({
 	nodenames = {"technic:power_monitor"},
-	label = "Power Monitor",
+	label = "Machines: run power monitor",
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)

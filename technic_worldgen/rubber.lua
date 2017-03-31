@@ -73,6 +73,7 @@ technic.rubber_tree_model={
 
 minetest.register_abm({
 	nodenames = {"moretrees:rubber_tree_sapling"},
+	label = "Worldgen: grow rubber tree sapling",
 	interval = 60,
 	chance = 20,
 	action = function(pos, node)

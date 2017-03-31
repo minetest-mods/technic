@@ -146,6 +146,7 @@ minetest.register_node("technic:power_radiator", {
 })
 
 minetest.register_abm({
+	label = "Machines: run power radiator",
 	nodenames = {"technic:power_radiator"},
 	interval   = 1,
 	chance     = 1,

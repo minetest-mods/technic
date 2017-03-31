@@ -436,6 +436,7 @@ local function switching_station_timeout_count(pos, tier)
 	end
 end
 minetest.register_abm({
+	label = "Machines: timeout check",
 	nodenames = {"group:technic_machine"},
 	interval   = 1,
 	chance     = 1,
@@ -461,6 +462,7 @@ minetest.register_abm({
 
 --Re-enable disabled switching station if necessary, similar to the timeout above
 minetest.register_abm({
+	label = "Machines: re-enable check",
 	nodenames = {"technic:switching_station"},
 	interval   = 1,
 	chance     = 1,

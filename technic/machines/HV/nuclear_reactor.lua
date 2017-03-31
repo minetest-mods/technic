@@ -221,6 +221,7 @@ end
 
 
 minetest.register_abm({
+	label = "Machines: reactor melt-down check",
 	nodenames = {"technic:hv_nuclear_reactor_core_active"},
 	interval = 4,
 	chance = 1,

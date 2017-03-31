@@ -62,6 +62,7 @@ minetest.register_craftitem("technic:rubber", {
 })
 
 minetest.register_abm({
+	label = "Tools: tree tap",
 	nodenames = {"moretrees:rubber_tree_trunk_empty"},
 	interval = 60,
 	chance = 15,
