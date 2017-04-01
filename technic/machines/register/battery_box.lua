@@ -79,8 +79,7 @@ function technic.register_battery_box(data)
 		"listring[context;src]"..
 		"listring[current_player;main]"
 	if digilines_path then
-		formspec = formspec..
-			"field[0.28,4.1;3.2,1;channel;Digiline Channel;${channel}]"
+		formspec = formspec.."button[0.6,3.7;2,1;edit_channel;edit Channel]"
 	end
 
 	if data.upgrade then
@@ -216,16 +215,13 @@ function technic.register_battery_box(data)
 			after_place_node = data.tube and pipeworks.after_place,
 			after_dig_node = technic.machine_after_dig_node,
 			on_receive_fields = function(pos, formname, fields, sender)
-				if not fields.channel then
-					return
-				end
-				local plname = sender:get_player_name()
-				if minetest.is_protected(pos, plname) then
-					minetest.record_protection_violation(pos, plname)
+				if not fields.edit_channel then
 					return
 				end
 				local meta = minetest.get_meta(pos)
-				meta:set_string("channel", fields.channel)
+				minetest.show_formspec(sender:get_player_name(),
+						"technic:battery_box_edit_channel"..minetest.pos_to_string(pos),
+						"field[channel;Digiline Channel;"..meta:get_string("channel").."]")
 			end,
 			digiline = {
 				receptor = {action = function() end},
@@ -263,6 +259,23 @@ function technic.register_battery_box(data)
 	end
 
 end -- End registration
+
+minetest.register_on_player_receive_fields(
+	function(player, formname, fields)
+		if formname:sub(1, 32) ~= "technic:battery_box_edit_channel" or
+				not fields.channel then
+			return
+		end
+		local pos = minetest.string_to_pos(formname:sub(33))
+		local plname = player:get_player_name()
+		if minetest.is_protected(pos, plname) then
+			minetest.record_protection_violation(pos, plname)
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		meta:set_string("channel", fields.channel)
+	end
+)
 
 
 function technic.charge_tools(meta, batt_charge, charge_step)
