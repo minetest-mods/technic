@@ -6,6 +6,8 @@
 
 -- How expensive is the generator?
 -- Leaves room for upgrades lowering the power drain?
+local digilines_path = minetest.get_modpath("digilines")
+
 local forcefield_power_drain   = 10
 
 local S = technic.getter
@@ -90,7 +92,14 @@ local function update_forcefield(pos, meta, active, first)
 end
 
 local function set_forcefield_formspec(meta)
-	local formspec = "size[5,2.25]"..
+	local formspec
+	if digilines_path then
+		formspec = "size[5,3.25]"..
+			"field[0.3,3;5,1;channel;Digiline Channel;"..meta:get_string("channel").."]"
+	else
+		formspec = "size[5,2.25]"
+	end
+	formspec = formspec..
 		"field[0.3,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
@@ -130,9 +139,10 @@ local forcefield_receive_fields = function(pos, formname, fields, sender)
 		update_forcefield(pos, meta, false)
 	end
 	if range then meta:set_int("range", range) end
-	if fields.shape0 then meta:set_int("shape", 0) end
-	if fields.shape1 then meta:set_int("shape", 1) end
-	if fields.enable then meta:set_int("enabled", 1) end
+	if fields.channel then meta:set_string("channel", fields.channel) end
+	if fields.shape0  then meta:set_int("shape", 0) end
+	if fields.shape1  then meta:set_int("shape", 1) end
+	if fields.enable  then meta:set_int("enabled", 1) end
 	if fields.disable then meta:set_int("enabled", 0) end
 	if fields.mesecon_mode_0 then meta:set_int("mesecon_mode", 0) end
 	if fields.mesecon_mode_1 then meta:set_int("mesecon_mode", 1) end
@@ -148,6 +158,40 @@ local mesecons = {
 			minetest.get_meta(pos):set_int("mesecon_effect", 0)
 		end
 	}
+}
+
+local digiline_def = {
+	receptor = {action = function() end},
+	effector = {
+		action = function(pos, node, channel, msg)
+			msg = msg:lower()
+			local meta = minetest.get_meta(pos)
+			if msg == "get" then
+				if channel ~= meta:get_string("channel") then
+					return
+				end
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					enabled = meta:get_int("enabled"),
+					range   = meta:get_int("range"),
+					shape   = meta:get_int("shape")
+				})
+			elseif msg == "off" then
+				meta:set_int("enabled", 0)
+			elseif msg == "on" then
+				meta:set_int("enabled", 1)
+			elseif msg == "toggle" then
+				local onn = meta:get_int("enabled")
+				onn = -(onn-1) -- switch 0 to 1 and vice versa
+				meta:set_int("enabled", onn)
+			elseif msg:sub(1, 5) == "range" then
+				update_forcefield(pos, meta, false)
+				meta:set_int("range", tonumber(msg:sub(7)))
+			elseif msg:sub(1, 5) == "shape" then
+				update_forcefield(pos, meta, false)
+				meta:set_int("shape", tonumber(msg:sub(7)))
+			end
+		end
+	},
 }
 
 local function run(pos, node)
@@ -205,10 +249,14 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_int("enabled", 0)
 		meta:set_int("mesecon_mode", 0)
 		meta:set_int("mesecon_effect", 0)
+		if digilines_path then
+			meta:set_string("channel", "forcefield"..minetest.pos_to_string(pos))
+		end
 		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
 		set_forcefield_formspec(meta)
 	end,
 	mesecons = mesecons,
+	digiline = digiline_def,
 	technic_run = run,
 })
 
@@ -224,6 +272,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		update_forcefield(pos, meta, false)
 	end,
 	mesecons = mesecons,
+	digiline = digiline_def,
 	technic_run = run,
 	technic_on_disable = function (pos, node)
 		local meta = minetest.get_meta(pos)
