@@ -53,8 +53,6 @@ if mesecons_path then
 	mesecon_def = {effector = {
 		rules = mesecon.rules.default,
 	}}
-else
-	mesecon_def = nil
 end
 
 minetest.register_node("technic:switching_station",{
