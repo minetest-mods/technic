@@ -165,15 +165,15 @@ minetest.register_craft({
 
 -- Remove some recipes
 -- Bronze
-minetest.register_craft({
+minetest.clear_craft({
 	type = "shapeless",
-	output = "default:bronze_ingot 0",
+	output = "default:bronze_ingot",
 	recipe = {"default:copper_ingot", "default:steel_ingot"}
 })
 
 -- Accelerator tube
-minetest.register_craft({
-	output = "pipeworks:accelerator_tube_1 0",
+minetest.clear_craft({
+	output = "pipeworks:accelerator_tube_1",
 	recipe = {
 	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
 	        { "default:mese_crystal_fragment", "default:steel_ingot", "default:mese_crystal_fragment" },
@@ -182,8 +182,8 @@ minetest.register_craft({
 })
 
 -- Teleport tube
-minetest.register_craft({
-	output = "pipeworks:teleport_tube_1 0",
+minetest.clear_craft({
+	output = "pipeworks:teleport_tube_1",
 	recipe = {
 	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
 	        { "default:desert_stone", "default:mese", "default:desert_stone" },
