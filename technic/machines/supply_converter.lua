@@ -97,7 +97,7 @@ local digiline_def = {
 				end
 				power = math.max(power, 0)
 				power = math.min(power, 10000)
-				--~ power = 100 * math.floor(power / 100)
+				power = 100 * math.floor(power / 100)
 				meta:set_int("power", power)
 			elseif msg:sub(1, 12) == "mesecon_mode" then
 				meta:set_int("mesecon_mode", tonumber(msg:sub(14)))
