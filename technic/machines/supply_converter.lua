@@ -7,11 +7,17 @@
 --   Once the receiver side is powered it will deliver power to the other side.
 --   Unused power is wasted just like any other producer!
 
+local digilines_path = minetest.get_modpath("digilines")
+
 local S = technic.getter
 
 local function set_supply_converter_formspec(meta)
 	local formspec = "size[5,2.25]"..
 		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
+	if digilines_path then
+		formspec = formspec..
+			"field[2.3,0.5;3,1;channel;Digiline Channel;"..meta:get_string("channel").."]"
+	end
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
@@ -34,13 +40,14 @@ local supply_converter_receive_fields = function(pos, formname, fields, sender)
 	local power = nil
 	if fields.power then
 		power = tonumber(fields.power) or 0
-		power = 100 * math.floor(power / 100)
 		power = math.max(power, 0)
 		power = math.min(power, 10000)
+		power = 100 * math.floor(power / 100)
 		if power == meta:get_int("power") then power = nil end
 	end
 	if power then meta:set_int("power", power) end
-	if fields.enable then meta:set_int("enabled", 1) end
+	if fields.channel then meta:set_string("channel", fields.channel) end
+	if fields.enable  then meta:set_int("enabled", 1) end
 	if fields.disable then meta:set_int("enabled", 0) end
 	if fields.mesecon_mode_0 then meta:set_int("mesecon_mode", 0) end
 	if fields.mesecon_mode_1 then meta:set_int("mesecon_mode", 1) end
@@ -56,6 +63,48 @@ local mesecons = {
 			minetest.get_meta(pos):set_int("mesecon_effect", 0)
 		end
 	}
+}
+
+
+local digiline_def = {
+	receptor = {action = function() end},
+	effector = {
+		action = function(pos, node, channel, msg)
+			local meta = minetest.get_meta(pos)
+			if channel ~= meta:get_string("channel") then
+				return
+			end
+			msg = msg:lower()
+			if msg == "get" then
+				digilines.receptor_send(pos, digilines.rules.default, channel, {
+					enabled      = meta:get_int("enabled"),
+					power        = meta:get_int("power"),
+					mesecon_mode = meta:get_int("mesecon_mode")
+				})
+				return
+			elseif msg == "off" then
+				meta:set_int("enabled", 0)
+			elseif msg == "on" then
+				meta:set_int("enabled", 1)
+			elseif msg == "toggle" then
+				local onn = meta:get_int("enabled")
+				onn = -(onn-1) -- Mirror onn with pivot 0.5, so switch between 1 and 0.
+				meta:set_int("enabled", onn)
+			elseif msg:sub(1, 5) == "power" then
+				local power = tonumber(msg:sub(7))
+				if not power then
+					return
+				end
+				power = math.max(power, 0)
+				power = math.min(power, 10000)
+				power = 100 * math.floor(power / 100)
+				meta:set_int("power", power)
+			elseif msg:sub(1, 12) == "mesecon_mode" then
+				meta:set_int("mesecon_mode", tonumber(msg:sub(14)))
+			end
+			set_supply_converter_formspec(meta)
+		end
+	},
 }
 
 local run = function(pos, node, run_stage)
@@ -120,6 +169,9 @@ minetest.register_node("technic:supply_converter", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Supply Converter"))
+		if digilines_path then
+			meta:set_string("channel", "supply_converter"..minetest.pos_to_string(pos))
+		end
 		meta:set_int("power", 10000)
 		meta:set_int("enabled", 1)
 		meta:set_int("mesecon_mode", 0)
@@ -127,6 +179,7 @@ minetest.register_node("technic:supply_converter", {
 		set_supply_converter_formspec(meta)
 	end,
 	mesecons = mesecons,
+	digiline = digiline_def,
 	technic_run = run,
 	technic_on_disable = run,
 })
