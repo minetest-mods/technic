@@ -175,6 +175,7 @@ local digiline_def = {
 					range   = meta:get_int("range"),
 					shape   = meta:get_int("shape")
 				})
+				return
 			elseif msg == "off" then
 				meta:set_int("enabled", 0)
 			elseif msg == "on" then
@@ -189,7 +190,10 @@ local digiline_def = {
 			elseif msg:sub(1, 5) == "shape" then
 				update_forcefield(pos, meta, false)
 				meta:set_int("shape", tonumber(msg:sub(7)))
+			else
+				return
 			end
+			set_forcefield_formspec(meta)
 		end
 	},
 }
