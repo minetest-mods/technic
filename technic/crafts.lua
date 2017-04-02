@@ -1,6 +1,23 @@
 -- check if we have the necessary dependencies to allow actually using these materials in the crafts
 local mesecons_materials = minetest.get_modpath("mesecons_materials")
 
+-- Remove some recipes
+-- Bronze
+minetest.clear_craft({
+	type = "shapeless",
+	output = "default:bronze_ingot"
+})
+
+-- Accelerator tube
+minetest.clear_craft({
+	output = "pipeworks:accelerator_tube_1",
+})
+
+-- Teleport tube
+minetest.clear_craft({
+	output = "pipeworks:teleport_tube_1",
+})
+
 -- tubes crafting recipes
 
 minetest.register_craft({
@@ -163,33 +180,6 @@ minetest.register_craft({
 	},
 })
 
--- Remove some recipes
--- Bronze
-minetest.clear_craft({
-	type = "shapeless",
-	output = "default:bronze_ingot",
-	recipe = {"default:copper_ingot", "default:steel_ingot"}
-})
-
--- Accelerator tube
-minetest.clear_craft({
-	output = "pipeworks:accelerator_tube_1",
-	recipe = {
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
-	        { "default:mese_crystal_fragment", "default:steel_ingot", "default:mese_crystal_fragment" },
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
-	},
-})
-
--- Teleport tube
-minetest.clear_craft({
-	output = "pipeworks:teleport_tube_1",
-	recipe = {
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
-	        { "default:desert_stone", "default:mese", "default:desert_stone" },
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
-	},
-})
 
 minetest.register_craft({
 	output = "default:dirt 2",
