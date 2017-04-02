@@ -13,6 +13,8 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 
+local digiline_remote_path = minetest.get_modpath("digiline_remote")
+
 local S = technic.getter
 
 local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
@@ -34,6 +36,11 @@ local reactor_formspec =
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[]"
+if digiline_remote_path then
+	reactor_formspec = reactor_formspec..
+		"button_exit[4.6,3.69;2,1;save;Save]"..
+		"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+end
 
 -- "Boxy sphere"
 local node_box = {
@@ -252,7 +259,7 @@ local function run(pos, node)
 
 	if burn_time >= burn_ticks or burn_time == 0 then
 		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then 
+		if not inv:is_empty("src") then
 			local src_list = inv:get_list("src")
 			local correct_fuel_count = 0
 			for _, src_stack in pairs(src_list) do
@@ -264,7 +271,7 @@ local function run(pos, node)
 			if correct_fuel_count == 6 and
 					reactor_structure_badness(pos) == 0 then
 				meta:set_int("burn_time", 1)
-				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
+				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
 				meta:set_int("HV_EU_supply", power_supply)
 				for idx, src_stack in pairs(src_list) do
 					src_stack:take_item()
@@ -288,10 +295,31 @@ local function run(pos, node)
 	end
 end
 
+local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
+	local meta = minetest.get_meta(pos)
+	if fields.remote_channel then
+		meta:set_string("remote_channel", fields.remote_channel)
+	end
+end
+
+local digiline_remote_def = function(pos, channel, msg)
+	local meta = minetest.get_meta(pos)
+	if channel ~= meta:get_string("remote_channel") then
+		return
+	end
+	msg = msg:lower()
+	if msg == "get" then
+		digiline_remote.send_to_node(pos, channel, {
+			burn_time = meta:get_int("burn_time"),
+			enabled   = meta:get_int("HV_EU_supply") == power_supply
+		}, 6, true)
+	end
+end
+
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
 	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1},
+	groups = {cracky=1, technic_machine=1, technic_hv=1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drawtype = "nodebox",
@@ -301,13 +329,19 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		type = "fixed",
 		fixed = node_box
 	},
+	on_receive_fields = nuclear_reactor_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", reactor_desc)
 		meta:set_string("formspec", reactor_formspec)
+		if digiline_remote_path then
+			meta:set_string("remote_channel",
+					"nucelear_reactor"..minetest.pos_to_string(pos))
+		end
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
 	end,
+	_on_digiline_remote_receive = digiline_remote_def,
 	can_dig = technic.machine_can_dig,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -318,8 +352,8 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	tiles = {"technic_hv_nuclear_reactor_core.png"},
-	groups = {cracky=1, technic_machine=1, technic_hv=1,
-		radioactive=4, not_in_creative_inventory=1},
+	groups = {cracky=1, technic_machine=1, technic_hv=1, radioactive=4,
+		not_in_creative_inventory=1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hv_nuclear_reactor_core",
@@ -330,6 +364,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		type = "fixed",
 		fixed = node_box
 	},
+	_on_digiline_remote_receive = digiline_remote_def,
 	can_dig = technic.machine_can_dig,
 	after_dig_node = melt_down_reactor,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
