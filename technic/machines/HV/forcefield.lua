@@ -185,8 +185,14 @@ local digiline_def = {
 				onn = 1-onn -- Mirror onn with pivot 0.5, so switch between 1 and 0.
 				meta:set_int("enabled", onn)
 			elseif msg:sub(1, 5) == "range" then
+				local range = tonumber(msg:sub(7))
+				if not range then
+					return
+				end
+				range = math.max(range, 5)
+				range = math.min(range, 20)
 				update_forcefield(pos, meta, false)
-				meta:set_int("range", tonumber(msg:sub(7)))
+				meta:set_int("range", range)
 			elseif msg:sub(1, 5) == "shape" then
 				update_forcefield(pos, meta, false)
 				meta:set_int("shape", tonumber(msg:sub(7)))
