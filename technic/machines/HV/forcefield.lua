@@ -194,8 +194,18 @@ local digiline_def = {
 				update_forcefield(pos, meta, false)
 				meta:set_int("range", range)
 			elseif msg:sub(1, 5) == "shape" then
+				local shape = msg:sub(7):lower()
+				if shape == "sphere" then
+					shape = 0
+				elseif shape == "cube" then
+					shape = 1
+				end
+				shape = tonumber(shape)
+				if not shape then
+					return
+				end
 				update_forcefield(pos, meta, false)
-				meta:set_int("shape", tonumber(msg:sub(7)))
+				meta:set_int("shape", shape)
 			else
 				return
 			end
