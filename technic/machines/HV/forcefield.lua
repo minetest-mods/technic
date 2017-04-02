@@ -164,12 +164,12 @@ local digiline_def = {
 	receptor = {action = function() end},
 	effector = {
 		action = function(pos, node, channel, msg)
-			msg = msg:lower()
 			local meta = minetest.get_meta(pos)
+			if channel ~= meta:get_string("channel") then
+				return
+			end
+			msg = msg:lower()
 			if msg == "get" then
-				if channel ~= meta:get_string("channel") then
-					return
-				end
 				digilines.receptor_send(pos, digilines.rules.default, channel, {
 					enabled = meta:get_int("enabled"),
 					range   = meta:get_int("range"),
@@ -181,7 +181,7 @@ local digiline_def = {
 				meta:set_int("enabled", 1)
 			elseif msg == "toggle" then
 				local onn = meta:get_int("enabled")
-				onn = -(onn-1) -- switch 0 to 1 and vice versa
+				onn = 1-onn -- Mirror onn with pivot 0.5, so switch between 1 and 0.
 				meta:set_int("enabled", onn)
 			elseif msg:sub(1, 5) == "range" then
 				update_forcefield(pos, meta, false)
