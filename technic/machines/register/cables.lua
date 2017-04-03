@@ -215,6 +215,7 @@ function technic.register_cable(tier, size)
 			def.groups.not_in_creative_inventory = 1
 		end
 		minetest.register_node("technic:"..ltier.."_cable_plate_"..i, def)
+		cable_tier["technic:"..ltier.."_cable_plate_"..i] = tier
 	end
 
 	local c = "technic:"..ltier.."_cable"
