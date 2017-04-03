@@ -121,7 +121,8 @@ function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
 	cable_tier["technic:"..ltier.."_cable"] = tier
 
-	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2}
+	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+			["technic_"..ltier.."_cable"] = 1}
 
 	local node_box = {
 		type = "connected",
@@ -146,10 +147,84 @@ function technic.register_cable(tier, size)
 		sunlight_propagates = true,
 		drawtype = "nodebox",
 		node_box = node_box,
-		connects_to = {"technic:"..ltier.."_cable",
+		connects_to = {"group:technic_"..ltier.."_cable",
 			"group:technic_"..ltier, "group:technic_all_tiers"},
 		on_construct = clear_networks,
 		on_destruct = clear_networks,
+	})
+
+	local xyz = {
+		["-x"] = 1,
+		["-y"] = 2,
+		["-z"] = 3,
+		["x"] = 4,
+		["y"] = 5,
+		["z"] = 6,
+	}
+	local notconnects = {
+		[1] = "left",
+		[2] = "bottom",
+		[3] = "front",
+		[4] = "right",
+		[5] = "top",
+		[6] = "back",
+	}
+	local function s(p)
+		if p:find("-") then
+			return p:sub(2)
+		else
+			return "-"..p
+		end
+	end
+	for p, i in pairs(xyz) do
+		local def = {
+			description = S("%s Cable Plate"):format(tier),
+			tiles = {"technic_"..ltier.."_cable.png"},
+			groups = table.copy(groups),
+			sounds = default.node_sound_wood_defaults(),
+			drop = "technic:"..ltier.."_cable",
+			paramtype = "light",
+			sunlight_propagates = true,
+			drawtype = "nodebox",
+			node_box = table.copy(node_box),
+			connects_to = {"group:technic_"..ltier.."_cable",
+				"group:technic_"..ltier, "group:technic_all_tiers"},
+			on_construct = clear_networks,
+			on_destruct = clear_networks,
+		}
+		def.node_box.fixed = {
+			{-size, -size, -size, size, size, size},
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5}
+		}
+		def.node_box.fixed[1][xyz[p]] = 7/16 * (i-3.5)/math.abs(i-3.5)
+		def.node_box.fixed[2][xyz[s(p)]] = 3/8 * (i-3.5)/math.abs(i-3.5)
+		def.node_box["connect_"..notconnects[i]] = nil
+		if i == 1 then
+			def.on_place = function(itemstack, placer, pointed_thing)
+				local pointed_thing_diff = vector.subtract(pointed_thing.above, pointed_thing.under)
+				local num
+				for k, v in pairs(pointed_thing_diff) do
+					if v ~= 0 then
+						num = xyz[s(tostring(v):sub(-2, -2)..k)]
+						break
+					end
+				end
+				minetest.set_node(pointed_thing.above, {name = "technic:"..ltier.."_cable_plate_"..num})
+			end
+		else
+			def.groups.not_in_creative_inventory = 1
+		end
+		minetest.register_node("technic:"..ltier.."_cable_plate_"..i, def)
+	end
+
+	local c = "technic:"..ltier.."_cable"
+	minetest.register_craft({
+		output = "technic:"..ltier.."_cable_plate_1 5",
+		recipe = {
+			{"", "", c},
+			{c , c , c},
+			{"", "", c},
+		}
 	})
 end
 
