@@ -13,6 +13,7 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 
+local digiline_meltdown = minetest.setting_get("technic_nuce_digiline_selfdestruct") == "true"
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
 local S = technic.getter
@@ -31,7 +32,7 @@ minetest.register_craft({
 })
 
 local reactor_formspec =
-	"invsize[8,9;]"..
+	"size[8,9]"..
 	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
@@ -309,10 +310,34 @@ local digiline_remote_def = function(pos, channel, msg)
 	end
 	msg = msg:lower()
 	if msg == "get" then
+		local inv = meta:get_inventory()
+		local invtable = {}
+		for i = 1, 6 do
+			local stack = inv:get_stack("src", i)
+			if stack:is_empty() then
+				invtable[i] = 0
+			elseif stack:get_name() == "technic:uranium_fuel" then
+				invtable[i] = stack:get_count()
+			else
+				invtable[i] = -stack:get_count()
+			end
+		end
 		digiline_remote.send_to_node(pos, channel, {
 			burn_time = meta:get_int("burn_time"),
-			enabled   = meta:get_int("HV_EU_supply") == power_supply
+			enabled   = meta:get_int("HV_EU_supply") == power_supply,
+			siren     = meta:get_int("siren") == 1,
+			structure_accumulated_badness = meta:get_int("structure_accumulated_badness"),
+			rods = invtable
 		}, 6, true)
+	elseif digiline_meltdown and msg:sub(1, 13) == "self_destruct" and
+			minetest.get_node(pos).name == "technic:hv_nuclear_reactor_core_active" then
+		local timer = tonumber(msg:sub(15))
+		if timer then
+			siren_danger(pos, meta)
+			minetest.after(timer, melt_down_reactor, pos)
+		else
+			melt_down_reactor(pos)
+		end
 	end
 end
 
