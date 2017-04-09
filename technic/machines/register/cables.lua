@@ -182,7 +182,7 @@ function technic.register_cable(tier, size)
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),
-			drop = "technic:"..ltier.."_cable",
+			drop = "technic:"..ltier.."_cable_plate_1",
 			paramtype = "light",
 			sunlight_propagates = true,
 			drawtype = "nodebox",
@@ -210,6 +210,10 @@ function technic.register_cable(tier, size)
 					end
 				end
 				minetest.set_node(pointed_thing.above, {name = "technic:"..ltier.."_cable_plate_"..num})
+				if not (creative and creative.is_enabled_for(placer)) then
+					itemstack:take_item()
+				end
+				return itemstack
 			end
 		else
 			def.groups.not_in_creative_inventory = 1
@@ -225,6 +229,13 @@ function technic.register_cable(tier, size)
 			{"", "", c},
 			{c , c , c},
 			{"", "", c},
+		}
+	})
+
+	minetest.register_craft({
+		output = c,
+		recipe = {
+			{"technic:"..ltier.."_cable_plate_1"},
 		}
 	})
 end
