@@ -50,9 +50,7 @@ local run = function(pos, node)
 	eu_supply = math.min(35 * water_flow, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
-	if production_level > 0 then
-		meta:set_int("LV_EU_supply", eu_supply)
-	end
+	meta:set_int("LV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
 		S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
