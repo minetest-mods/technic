@@ -69,10 +69,11 @@ minetest.register_node("technic:injector", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
-			return minetest.get_meta(pos):get_inventory():room_for_item("main",stack)
+			local onestack = stack:peek_item(1)
+			return minetest.get_meta(pos):get_inventory():room_for_item("main", onestack)
 		end,
 		insert_object = function(pos, node, stack, direction)
-			return minetest.get_meta(pos):get_inventory():add_item("main",stack)
+			return minetest.get_meta(pos):get_inventory():add_item("main", stack)
 		end,
 		connect_sides = {left=1, right=1, front=1, back=1, top=1, bottom=1},
 	},

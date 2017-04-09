@@ -13,7 +13,8 @@ technic.chests.tube = {
 	can_insert = function(pos, node, stack, direction)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return inv:room_for_item("main",stack)
+		local onestack = stack:peek_item(1)
+		return inv:room_for_item("main", onestack)
 	end,
 	input_inventory = "main",
 	connect_sides = {left=1, right=1, front=1, back=1, top=1, bottom=1},

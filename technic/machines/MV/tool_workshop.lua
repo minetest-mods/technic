@@ -103,7 +103,8 @@ minetest.register_node("technic:tool_workshop", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	tube = {
 		can_insert = function (pos, node, stack, direction)
-			return minetest.get_meta(pos):get_inventory():room_for_item("src", stack)
+			local onestack = stack:peek_item(1)
+			return minetest.get_meta(pos):get_inventory():room_for_item("src", onestack)
 		end,
 		insert_object = function (pos, node, stack, direction)
 			return minetest.get_meta(pos):get_inventory():add_item("src", stack)

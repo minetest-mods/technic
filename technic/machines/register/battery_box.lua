@@ -50,10 +50,11 @@ local tube = {
 		end
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
+		local onestack = stack:peek_item(1)
 		if direction.y > 0 then
-			return inv:room_for_item("src", stack)
+			return inv:room_for_item("src", onestack)
 		else
-			return inv:room_for_item("dst", stack)
+			return inv:room_for_item("dst", onestack)
 		end
 	end,
 	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
