@@ -4,6 +4,7 @@ local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")
 
 local allow_label = ""
+local tube_entry = ""
 local shift_edit_field = 0
 
 if not minetest.get_modpath("pipeworks") then
@@ -26,6 +27,7 @@ else
 	fs_helpers = pipeworks.fs_helpers
 	allow_label = "label[0.9,0.36;Allow splitting incoming stacks from tubes]"
 	shift_edit_field = 3
+	tube_entry = "^pipeworks_tube_connection_metallic.png"
 end
 
 local chest_mark_colors = {
@@ -266,11 +268,24 @@ function technic.chests:definition(name, data)
 		desc = S("%s Chest"):format(name)
 	end
 
+	local tentry = tube_entry
+	if tube_entry ~= "" then
+		if lname == "wooden" then
+			tentry = "^pipeworks_tube_connection_wooden.png"
+		elseif lname == "mithril" then
+			tentry = "^pipeworks_tube_connection_stony.png"
+		end
+	end
 	local def = {
 		description = desc,
-		tiles = {"technic_"..lname.."_chest_top.png", "technic_"..lname.."_chest_top.png",
-			"technic_"..lname.."_chest_side.png", "technic_"..lname.."_chest_side.png",
-			"technic_"..lname.."_chest_side.png", table.concat(front, "^")},
+		tiles = {
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			table.concat(front, "^")
+		},
 		paramtype2 = "facedir",
 		groups = self.groups,
 		tube = self.tube,
