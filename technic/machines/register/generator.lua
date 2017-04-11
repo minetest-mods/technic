@@ -182,6 +182,7 @@ function technic.register_generator(data)
 		tube = data.tube and tube or nil,
 		drop = "technic:"..ltier.."_generator",
 		can_dig = technic.machine_can_dig,
+		after_dig_node = technic.machine_after_dig_node,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
