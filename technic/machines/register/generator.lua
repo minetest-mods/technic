@@ -82,9 +82,9 @@ function technic.register_generator(data)
 		local percent = math.floor((burn_time / burn_totaltime) * 100)
 		meta:set_string("infotext", desc.." ("..percent.."%)")
 
-		local form = ""
+		local form_buttons = ""
 		if ltier ~= "lv" then
-			form = fs_helpers.cycling_button(
+			form_buttons = fs_helpers.cycling_button(
 				meta,
 				"image_button[0,4.3;1,0.6",
 				"splitstacks",
@@ -102,7 +102,7 @@ function technic.register_generator(data)
 			(percent)..":default_furnace_fire_fg.png]"..
 			"list[current_player;main;0, 5;8, 4;]"..
 			"listring[]"..
-			form
+			form_buttons
 		)
 	end
 	
@@ -119,14 +119,14 @@ function technic.register_generator(data)
 		tube = data.tube and tube or nil,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
+			local node = minetest.get_node(pos)
 			meta:set_string("infotext", desc)
 			meta:set_int(data.tier.."_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			meta:set_int("tube_time",  0)
-			local form = generator_formspec
-			if ltier ~= "lv" then
-				form = generator_formspec ..
-					fs_helpers.cycling_button(
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
 						meta,
 						"image_button[0,4.3;1,0.6",
 						"splitstacks",
@@ -136,7 +136,7 @@ function technic.register_generator(data)
 						}
 					).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
 			end
-			meta:set_string("formspec", form)
+			meta:set_string("formspec", generator_formspec..form_buttons)
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 		end,
@@ -151,10 +151,11 @@ function technic.register_generator(data)
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
+			local node = minetest.get_node(pos)
 			local form = generator_formspec
-			if ltier ~= "lv" then
-				form = generator_formspec ..
-					fs_helpers.cycling_button(
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
 						meta,
 						"image_button[0,4.3;1,0.6",
 						"splitstacks",
@@ -164,9 +165,8 @@ function technic.register_generator(data)
 						}
 					).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
 			end
-			meta:set_string("formspec", form)
+			meta:set_string("formspec", generator_formspec..form_buttons)
 		end,
-
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
@@ -193,7 +193,8 @@ function technic.register_generator(data)
         	end,
 		on_timer = function(pos, node)
 			local meta = minetest.get_meta(pos)
-			
+			local node = minetest.get_node(pos)
+
 			-- Connected back?
 			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
 			
@@ -212,9 +213,9 @@ function technic.register_generator(data)
 			meta:set_int("burn_time", burn_time)
 			local percent = math.floor(burn_time / burn_totaltime * 100)
 
-			local formbuttons = ""
-			if ltier ~= "lv" then
-				form = fs_helpers.cycling_button(
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
 					meta,
 					"image_button[0,4.3;1,0.6",
 					"splitstacks",
@@ -232,7 +233,7 @@ function technic.register_generator(data)
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
 				"listring[]"..
-				form
+				form_buttons
 			)
 			return true
 		end,
@@ -240,10 +241,10 @@ function technic.register_generator(data)
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
-			local form = generator_formspec
-			if ltier ~= "lv" then
-				form = generator_formspec ..
-					fs_helpers.cycling_button(
+			local node = minetest.get_node(pos)
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
 						meta,
 						"image_button[0,4.3;1,0.6",
 						"splitstacks",
@@ -266,10 +267,9 @@ function technic.register_generator(data)
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
 				"listring[]"..
-				form
+				form_buttons
 			)
 		end,
-
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)
