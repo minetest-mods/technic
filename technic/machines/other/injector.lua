@@ -66,13 +66,13 @@ local function set_injector_formspec(meta)
 		"listring[]"..
 		fs_helpers.cycling_button(
 			meta,
-			"image_button[0,4.3;1,0.6",
+			pipeworks.button_base,
 			"splitstacks",
 			{
-				{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-				{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+				pipeworks.button_off,
+				pipeworks.button_on
 			}
-		).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+		)..pipeworks.button_label
 	)
 end
 

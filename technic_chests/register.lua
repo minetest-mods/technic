@@ -90,8 +90,8 @@ local function set_formspec(pos, data, page)
 				"image_button[0,0.35;1,0.6",
 				"splitstacks",
 				{
-					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					pipeworks.button_off,
+					pipeworks.button_off
 				}
 			)..allow_label
 

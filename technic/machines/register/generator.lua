@@ -88,13 +88,13 @@ function technic.register_generator(data)
 		if ltier ~= "lv" then
 			form_buttons = fs_helpers.cycling_button(
 				meta,
-				"image_button[0,4.3;1,0.6",
+				pipeworks.button_base,
 				"splitstacks",
 				{
-					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					pipeworks.button_off,
+					pipeworks.button_on
 				}
-			).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+			)..pipeworks.button_label
 		end
 		meta:set_string("formspec", 
 			"size[8, 9]"..
@@ -135,13 +135,13 @@ function technic.register_generator(data)
 			if not string.find(node.name, ":lv_") then
 				form_buttons = fs_helpers.cycling_button(
 						meta,
-						"image_button[0,4.3;1,0.6",
+						pipeworks.button_base,
 						"splitstacks",
 						{
-							{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-							{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+							pipeworks.button_off,
+							pipeworks.button_on
 						}
-					).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+					)..pipeworks.button_label
 			end
 			meta:set_string("formspec", generator_formspec..form_buttons)
 			local inv = meta:get_inventory()
@@ -164,13 +164,13 @@ function technic.register_generator(data)
 			if not string.find(node.name, ":lv_") then
 				form_buttons = fs_helpers.cycling_button(
 						meta,
-						"image_button[0,4.3;1,0.6",
+						pipeworks.button_base,
 						"splitstacks",
 						{
-							{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-							{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+							pipeworks.button_off,
+							pipeworks.button_on
 						}
-					).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+					)..pipeworks.button_label
 			end
 			meta:set_string("formspec", generator_formspec..form_buttons)
 		end,
@@ -229,13 +229,13 @@ function technic.register_generator(data)
 			if not string.find(node.name, ":lv_") then
 				form_buttons = fs_helpers.cycling_button(
 					meta,
-					"image_button[0,4.3;1,0.6",
+					pipeworks.button_base,
 					"splitstacks",
 					{
-						{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-						{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+						pipeworks.button_off,
+						pipeworks.button_on
 					}
-				).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+				)..pipeworks.button_label
 			end
 			meta:set_string("formspec", 
 				"size[8, 9]"..
@@ -258,13 +258,13 @@ function technic.register_generator(data)
 			if not string.find(node.name, ":lv_") then
 				form_buttons = fs_helpers.cycling_button(
 						meta,
-						"image_button[0,4.3;1,0.6",
+						pipeworks.button_base,
 						"splitstacks",
 						{
-							{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-							{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+							pipeworks.button_off,
+							pipeworks.button_on
 						}
-					).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+					)..pipeworks.button_label
 			end
 
 			local burn_totaltime = meta:get_int("burn_totaltime") or 0

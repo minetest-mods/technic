@@ -79,8 +79,8 @@ local function add_on_off_buttons(meta, ltier, charge_percent)
 				"image_button[3,2.0;1,0.6",
 				"split_src_stacks",
 				{
-					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					pipeworks.button_off,
+					pipeworks.button_on
 				}
 			).."label[3.9,2.01;Allow splitting incoming 'charge' stacks from tubes]"..
 			fs_helpers.cycling_button(
@@ -88,8 +88,8 @@ local function add_on_off_buttons(meta, ltier, charge_percent)
 				"image_button[3,2.5;1,0.6",
 				"split_dst_stacks",
 				{
-					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
-					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					pipeworks.button_off,
+					pipeworks.button_on
 				}
 			).."label[3.9,2.51;Allow splitting incoming 'discharge' stacks]"
 	end
