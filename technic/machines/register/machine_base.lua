@@ -2,6 +2,7 @@
 local S = technic.getter
 
 local fs_helpers = pipeworks.fs_helpers
+local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
@@ -139,13 +140,18 @@ function technic.register_base_machine(data)
 		end
 	end
 
+	local tentry = tube_entry
+	if ltier == "lv" then
+		tentry = ""
+	end
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
-		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png", 
-			"technic_"..ltier.."_"..machine_name.."_bottom.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
+		tiles = {
+			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry, 
+			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_front.png"
 		},
 		paramtype2 = "facedir",
@@ -210,11 +216,12 @@ function technic.register_base_machine(data)
 
 	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
 		description = machine_desc:format(tier),
-		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png",
-			"technic_"..ltier.."_"..machine_name.."_bottom.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
-			"technic_"..ltier.."_"..machine_name.."_side.png",
+		tiles = {
+			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_front_active.png"
 		},
 		paramtype2 = "facedir",
