@@ -1,6 +1,8 @@
 
 local S = technic.getter
 
+local fs_helpers = pipeworks.fs_helpers
+
 local function inject_items (pos)
 		local meta=minetest.get_meta(pos) 
 		local inv = meta:get_inventory()
@@ -51,15 +53,25 @@ minetest.register_craft({
 local function set_injector_formspec(meta)
 	local is_stack = meta:get_string("mode") == "whole stacks"
 	meta:set_string("formspec",
-			"invsize[8,9;]"..
-			"item_image[0,0;1,1;technic:injector]"..
-			"label[1,0;"..S("Self-Contained Injector").."]"..
-			(is_stack and
-				"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
-				"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
-			"list[current_name;main;0,2;8,2;]"..
-			"list[current_player;main;0,5;8,4;]"..
-			"listring[]")
+		"invsize[8,9;]"..
+		"item_image[0,0;1,1;technic:injector]"..
+		"label[1,0;"..S("Self-Contained Injector").."]"..
+		(is_stack and
+			"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
+			"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
+		"list[current_name;main;0,2;8,2;]"..
+		"list[current_player;main;0,5;8,4;]"..
+		"listring[]"..
+		fs_helpers.cycling_button(
+			meta,
+			"image_button[0,4.3;1,0.6",
+			"splitstacks",
+			{
+				{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+				{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+			}
+		).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+	)
 end
 
 minetest.register_node("technic:injector", {
@@ -69,8 +81,12 @@ minetest.register_node("technic:injector", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
-			local onestack = stack:peek_item(1)
-			return minetest.get_meta(pos):get_inventory():room_for_item("main", onestack)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			if meta:get_int("splitstacks") == 1 then
+				stack = stack:peek_item(1)
+			end
+			return meta:get_inventory():room_for_item("main", stack)
 		end,
 		insert_object = function(pos, node, stack, direction)
 			return minetest.get_meta(pos):get_inventory():add_item("main", stack)
@@ -95,6 +111,12 @@ minetest.register_node("technic:injector", {
 		local meta = minetest.get_meta(pos)
 		if fields.mode_item then meta:set_string("mode", "single items") end
 		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
+
+		if fields["fs_helpers_cycling:0:splitstacks"]
+		  or fields["fs_helpers_cycling:1:splitstacks"] then
+			if not pipeworks.may_configure(pos, sender) then return end
+			fs_helpers.on_receive_fields(pos, fields)
+		end
 		set_injector_formspec(meta)
 	end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
