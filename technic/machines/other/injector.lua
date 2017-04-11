@@ -82,7 +82,7 @@ minetest.register_node("technic:injector", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Self-Contained Injector"))
 		local inv = meta:get_inventory()
-		inv:set_size("main", 8*4)
+		inv:set_size("main", 8*2)
 		meta:set_string("mode","single items")
 		set_injector_formspec(meta)
 	end,
