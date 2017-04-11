@@ -253,6 +253,7 @@ function technic.register_battery_box(data)
 			after_place_node = data.tube and pipeworks.after_place,
 			after_dig_node = technic.machine_after_dig_node,
 			on_receive_fields = function(pos, formname, fields, sender)
+				local meta = minetest.get_meta(pos)
 				local nodename = minetest.get_node(pos).name
 				if fields.edit_channel then
 					minetest.show_formspec(sender:get_player_name(),
