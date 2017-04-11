@@ -2,6 +2,7 @@
 local S = technic.getter
 
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
+local cable_entry = "^technic_cable_connection_overlay.png"
 
 minetest.register_craft({
 	recipe = {
@@ -211,11 +212,11 @@ minetest.register_node("technic:quarry", {
 	description = S("%s Quarry"):format("HV"),
 	tiles = {
 		"technic_carbon_steel_block.png"..tube_entry,
-		"technic_carbon_steel_block.png",
-		"technic_carbon_steel_block.png",
-		"technic_carbon_steel_block.png",
+		"technic_carbon_steel_block.png"..cable_entry,
+		"technic_carbon_steel_block.png"..cable_entry,
+		"technic_carbon_steel_block.png"..cable_entry,
 		"technic_carbon_steel_block.png^default_tool_mesepick.png",
-		"technic_carbon_steel_block.png"
+		"technic_carbon_steel_block.png"..cable_entry
 	},
 	paramtype2 = "facedir",
 	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1},

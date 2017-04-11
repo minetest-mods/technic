@@ -4,6 +4,8 @@
 
 local S = technic.getter
 
+local cable_entry = "^technic_cable_connection_overlay.png"
+
 minetest.register_craft({
 	output = "technic:power_monitor",
 	recipe = {
@@ -17,10 +19,10 @@ minetest.register_node("technic:power_monitor",{
 	description = S("Power Monitor"),
 	tiles  = {
 		"technic_power_monitor_sides.png",
-		"technic_power_monitor_bottom_back.png",
+		"technic_power_monitor_sides.png"..cable_entry,
 		"technic_power_monitor_sides.png",
 		"technic_power_monitor_sides.png",
-		"technic_power_monitor_bottom_back.png",
+		"technic_power_monitor_sides.png"..cable_entry,
 		"technic_power_monitor_front.png"
 	},
 	paramtype2 = "facedir",

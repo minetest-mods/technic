@@ -4,6 +4,8 @@
 
 local S = technic.getter
 
+local cable_entry = "^technic_cable_connection_overlay.png"
+
 minetest.register_alias("water_mill", "technic:water_mill")
 
 minetest.register_craft({
@@ -68,9 +70,14 @@ end
 
 minetest.register_node("technic:water_mill", {
 	description = S("Hydro %s Generator"):format("LV"),
-	tiles = {"technic_water_mill_top.png",  "technic_machine_bottom.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
+	tiles = {
+		"technic_water_mill_top.png",
+		"technic_machine_bottom.png"..cable_entry,
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png"
+	},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_lv=1},

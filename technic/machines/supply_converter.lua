@@ -11,6 +11,8 @@ local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
 
+local cable_entry = "^technic_cable_connection_overlay.png"
+
 local function set_supply_converter_formspec(meta)
 	local formspec = "size[5,2.25]"..
 		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
@@ -158,9 +160,14 @@ end
 
 minetest.register_node("technic:supply_converter", {
 	description = S("Supply Converter"),
-	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
-	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
-	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
+	tiles  = {
+		"technic_supply_converter_tb.png"..cable_entry,
+		"technic_supply_converter_tb.png"..cable_entry,
+		"technic_supply_converter_side.png",
+		"technic_supply_converter_side.png",
+		"technic_supply_converter_side.png",
+		"technic_supply_converter_side.png"
+		},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_all_tiers=1},
 	connect_sides = {"top", "bottom"},

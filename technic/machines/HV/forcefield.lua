@@ -12,6 +12,8 @@ local forcefield_power_drain   = 10
 
 local S = technic.getter
 
+local cable_entry = "^technic_cable_connection_overlay.png"
+
 minetest.register_craft({
 	output = "technic:forcefield_emitter_off",
 	recipe = {
@@ -258,7 +260,14 @@ end
 
 minetest.register_node("technic:forcefield_emitter_off", {
 	description = S("%s Forcefield Emitter"):format("HV"),
-	tiles = {"technic_forcefield_emitter_off.png"},
+	tiles = {
+		"technic_forcefield_emitter_off.png",
+		"technic_machine_bottom.png"..cable_entry,
+		"technic_forcefield_emitter_off.png",
+		"technic_forcefield_emitter_off.png",
+		"technic_forcefield_emitter_off.png",
+		"technic_forcefield_emitter_off.png"
+	},
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1},
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
@@ -282,7 +291,14 @@ minetest.register_node("technic:forcefield_emitter_off", {
 
 minetest.register_node("technic:forcefield_emitter_on", {
 	description = S("%s Forcefield Emitter"):format("HV"),
-	tiles = {"technic_forcefield_emitter_on.png"},
+	tiles = {
+		"technic_forcefield_emitter_on.png",
+		"technic_machine_bottom.png"..cable_entry,
+		"technic_forcefield_emitter_on.png",
+		"technic_forcefield_emitter_on.png",
+		"technic_forcefield_emitter_on.png",
+		"technic_forcefield_emitter_on.png"
+	},
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1,
 			not_in_creative_inventory=1},
 	drop = "technic:forcefield_emitter_off",
