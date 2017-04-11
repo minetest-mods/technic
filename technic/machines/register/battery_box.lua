@@ -2,6 +2,7 @@
 local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
+local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
 local fs_helpers = pipeworks.fs_helpers
 
@@ -207,11 +208,16 @@ function technic.register_battery_box(data)
 			groups.tubedevice_receiver = 1
 		end
 
+		local tentry = tube_entry
+		if ltier == "lv" then
+			tentry = ""
+		end
+
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
 			tiles = {
-				"technic_"..ltier.."_battery_box_top.png",
-				"technic_"..ltier.."_battery_box_bottom.png",
+				"technic_"..ltier.."_battery_box_top.png"..tentry,
+				"technic_"..ltier.."_battery_box_bottom.png"..tentry,
 				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
 				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
 				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
