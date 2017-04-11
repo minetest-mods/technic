@@ -1,6 +1,8 @@
 
 local S = technic.getter
 
+local fs_helpers = pipeworks.fs_helpers
+
 local tube = {
 	insert_object = function(pos, node, stack, direction)
 		local meta = minetest.get_meta(pos)
@@ -10,8 +12,10 @@ local tube = {
 	can_insert = function(pos, node, stack, direction)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		local onestack = stack:peek_item(1)
-		return inv:room_for_item("src", onestack)
+		if meta:get_int("splitstacks") == 1 then
+			stack = stack:peek_item(1)
+		end
+		return inv:room_for_item("src", stack)
 	end,
 	connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
 }
@@ -134,15 +138,16 @@ function technic.register_base_machine(data)
 			inv:set_list("dst", inv:get_list("dst_tmp"))
 		end
 	end
-	
+
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png", 
-	                 "technic_"..ltier.."_"..machine_name.."_bottom.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_front.png"},
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front.png"
+		},
 		paramtype2 = "facedir",
 		groups = groups,
 		tube = data.tube and tube or nil,
@@ -152,9 +157,23 @@ function technic.register_base_machine(data)
 		on_construct = function(pos)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
+
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
+					meta,
+					"image_button[0,4.3;1,0.6",
+					"splitstacks",
+					{
+						{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+						{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					}
+				).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+			end
+
 			meta:set_string("infotext", machine_desc:format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", formspec)
+			meta:set_string("formspec", formspec..form_buttons)
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
@@ -167,17 +186,37 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
 		after_place_node = data.tube and pipeworks.after_place,
-		after_dig_node = technic.machine_after_dig_node
+		after_dig_node = technic.machine_after_dig_node,
+		on_receive_fields = function(pos, formname, fields, sender)
+			local node = minetest.get_node(pos)
+			if not pipeworks.may_configure(pos, sender) then return end
+			fs_helpers.on_receive_fields(pos, fields)
+			local meta = minetest.get_meta(pos)
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
+					meta,
+					"image_button[0,4.3;1,0.6",
+					"splitstacks",
+					{
+						{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+						{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					}
+				).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+			end
+			meta:set_string("formspec", formspec..form_buttons)
+		end,
 	})
 
 	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
 		description = machine_desc:format(tier),
 		tiles = {"technic_"..ltier.."_"..machine_name.."_top.png",
-		         "technic_"..ltier.."_"..machine_name.."_bottom.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_side.png",
-		         "technic_"..ltier.."_"..machine_name.."_front_active.png"},
+			"technic_"..ltier.."_"..machine_name.."_bottom.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_side.png",
+			"technic_"..ltier.."_"..machine_name.."_front_active.png"
+		},
 		paramtype2 = "facedir",
 		drop = "technic:"..ltier.."_"..machine_name,
 		groups = active_groups,
@@ -191,6 +230,25 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
 		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
+		on_receive_fields = function(pos, formname, fields, sender)
+			local node = minetest.get_node(pos)
+			if not pipeworks.may_configure(pos, sender) then return end
+			fs_helpers.on_receive_fields(pos, fields)
+			local meta = minetest.get_meta(pos)
+			local form_buttons = ""
+			if not string.find(node.name, ":lv_") then
+				form_buttons = fs_helpers.cycling_button(
+					meta,
+					"image_button[0,4.3;1,0.6",
+					"splitstacks",
+					{
+						{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+						{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+					}
+				).."label[0.9,4.31;Allow splitting incoming stacks from tubes]"
+			end
+			meta:set_string("formspec", formspec..form_buttons)
+		end,
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name,            technic.receiver)
