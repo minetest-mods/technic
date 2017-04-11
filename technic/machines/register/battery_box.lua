@@ -3,6 +3,8 @@ local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
 
+local fs_helpers = pipeworks.fs_helpers
+
 technic.register_power_tool("technic:battery", 10000)
 technic.register_power_tool("technic:red_energy_crystal", 50000)
 technic.register_power_tool("technic:green_energy_crystal", 150000)
@@ -50,15 +52,48 @@ local tube = {
 		end
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		local onestack = stack:peek_item(1)
 		if direction.y > 0 then
-			return inv:room_for_item("src", onestack)
+			if meta:get_int("split_src_stacks") == 1 then
+				stack = stack:peek_item(1)
+			end
+			return inv:room_for_item("src", stack)
 		else
-			return inv:room_for_item("dst", onestack)
+			if meta:get_int("split_dst_stacks") == 1 then
+				stack = stack:peek_item(1)
+			end
+			return inv:room_for_item("dst", stack)
 		end
 	end,
 	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 }
+
+local function add_on_off_buttons(meta, ltier, charge_percent)
+	local formspec = ""
+	if ltier == "mv" or ltier == "hv" then
+		formspec = "image[1,1;1,2;technic_power_meter_bg.png"
+			.."^[lowpart:"..charge_percent
+			..":technic_power_meter_fg.png]"..
+			fs_helpers.cycling_button(
+				meta,
+				"image_button[3,2.0;1,0.6",
+				"split_src_stacks",
+				{
+					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+				}
+			).."label[3.9,2.01;Allow splitting incoming 'charge' stacks from tubes]"..
+			fs_helpers.cycling_button(
+				meta,
+				"image_button[3,2.5;1,0.6",
+				"split_dst_stacks",
+				{
+					{text="", texture="pipeworks_button_off.png", addopts="false;false;pipeworks_button_interm.png"},
+					{text="", texture="pipeworks_button_on.png",  addopts="false;false;pipeworks_button_interm.png"}
+				}
+			).."label[3.9,2.51;Allow splitting incoming 'discharge' stacks]"
+	end
+	return formspec
+end
 
 function technic.register_battery_box(data)
 	local tier = data.tier
@@ -79,6 +114,7 @@ function technic.register_battery_box(data)
 		"listring[current_player;main]"..
 		"listring[context;src]"..
 		"listring[current_player;main]"
+
 	if digilines_path then
 		formspec = formspec.."button[0.6,3.7;2,1;edit_channel;edit Channel]"
 	end
@@ -150,12 +186,7 @@ function technic.register_battery_box(data)
 		end
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
-		meta:set_string("formspec",
-			formspec..
-			"image[1,1;1,2;technic_power_meter_bg.png"
-			.."^[lowpart:"..charge_percent
-			..":technic_power_meter_fg.png]")
-
+		meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, charge_percent))
 		local infotext = S("@1 Battery Box: @2/@3", tier,
 				technic.pretty_num(current_charge), technic.pretty_num(max_charge))
 		if eu_input == 0 then
@@ -193,11 +224,17 @@ function technic.register_battery_box(data)
 			drop = "technic:"..ltier.."_battery_box0",
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
+				local EU_upgrade, tube_upgrade = 0, 0
+				if data.upgrade then
+					EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+				end
+				local max_charge = data.max_charge * (1 + EU_upgrade / 10)
+				local charge = meta:get_int("internal_EU_charge")
+				local cpercent = math.floor(charge / max_charge * 100)
 				local inv = meta:get_inventory()
 				local node = minetest.get_node(pos)
-
 				meta:set_string("infotext", S("%s Battery Box"):format(tier))
-				meta:set_string("formspec", formspec)
+				meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
 				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int(tier.."_EU_supply", 0)
@@ -216,13 +253,27 @@ function technic.register_battery_box(data)
 			after_place_node = data.tube and pipeworks.after_place,
 			after_dig_node = technic.machine_after_dig_node,
 			on_receive_fields = function(pos, formname, fields, sender)
-				if not fields.edit_channel then
-					return
-				end
-				local meta = minetest.get_meta(pos)
-				minetest.show_formspec(sender:get_player_name(),
+				local nodename = minetest.get_node(pos).name
+				if fields.edit_channel then
+					minetest.show_formspec(sender:get_player_name(),
 						"technic:battery_box_edit_channel"..minetest.pos_to_string(pos),
 						"field[channel;Digiline Channel;"..meta:get_string("channel").."]")
+				elseif fields["fs_helpers_cycling:0:split_src_stacks"]
+				  or   fields["fs_helpers_cycling:0:split_dst_stacks"]
+				  or   fields["fs_helpers_cycling:1:split_src_stacks"]
+				  or   fields["fs_helpers_cycling:1:split_dst_stacks"] then
+					local meta = minetest.get_meta(pos)
+					if not pipeworks.may_configure(pos, sender) then return end
+					fs_helpers.on_receive_fields(pos, fields)
+					local EU_upgrade, tube_upgrade = 0, 0
+					if data.upgrade then
+						EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+					end
+					local max_charge = data.max_charge * (1 + EU_upgrade / 10)
+					local charge = meta:get_int("internal_EU_charge")
+					local cpercent = math.floor(charge / max_charge * 100)
+					meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
+				end
 			end,
 			digiline = {
 				receptor = {action = function() end},
@@ -277,7 +328,6 @@ minetest.register_on_player_receive_fields(
 		meta:set_string("channel", fields.channel)
 	end
 )
-
 
 function technic.charge_tools(meta, batt_charge, charge_step)
 	local inv = meta:get_inventory()
