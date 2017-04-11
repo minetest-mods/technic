@@ -1,6 +1,7 @@
 local S = technic.getter
 
 local fs_helpers = pipeworks.fs_helpers
+local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
@@ -19,7 +20,8 @@ local tube = {
 	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 }
 
-function technic.register_generator(data) 
+function technic.register_generator(data)
+
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
@@ -105,12 +107,17 @@ function technic.register_generator(data)
 			form_buttons
 		)
 	end
-	
+
 	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
-		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
-		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_side.png",
-		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front.png"}, 
+		tiles = {
+				"technic_"..ltier.."_generator_top.png"..tube_entry,
+				"technic_machine_bottom.png"..tube_entry,
+				"technic_"..ltier.."_generator_side.png"..tube_entry,
+				"technic_"..ltier.."_generator_side.png"..tube_entry,
+				"technic_"..ltier.."_generator_side.png"..tube_entry,
+				"technic_"..ltier.."_generator_front.png"
+		}, 
 		paramtype2 = "facedir",
 		groups = groups,
 		connect_sides = {"bottom", "back", "left", "right"},
@@ -171,9 +178,14 @@ function technic.register_generator(data)
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
 		description = desc,
-		tiles = {"technic_"..ltier.."_generator_top.png", "technic_machine_bottom.png",
-		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_side.png",
-		         "technic_"..ltier.."_generator_side.png", "technic_"..ltier.."_generator_front_active.png"},
+		tiles = {
+			"technic_"..ltier.."_generator_top.png"..tube_entry,
+			"technic_machine_bottom.png"..tube_entry,
+			"technic_"..ltier.."_generator_side.png"..tube_entry,
+			"technic_"..ltier.."_generator_side.png"..tube_entry,
+			"technic_"..ltier.."_generator_side.png"..tube_entry,
+			"technic_"..ltier.."_generator_front_active.png"
+		},
 		paramtype2 = "facedir",
 		groups = active_groups,
 		connect_sides = {"bottom"},
