@@ -3,6 +3,8 @@ local S = technic.getter
 
 local fs_helpers = pipeworks.fs_helpers
 
+local tube_entry = "^pipeworks_tube_connection_metallic.png"
+
 local function inject_items (pos)
 		local meta=minetest.get_meta(pos) 
 		local inv = meta:get_inventory()
@@ -76,8 +78,15 @@ end
 
 minetest.register_node("technic:injector", {
 	description = S("Self-Contained Injector"),
-	tiles = {"technic_injector_top.png", "technic_injector_bottom.png", "technic_injector_side.png",
-		"technic_injector_side.png", "technic_injector_side.png", "technic_injector_side.png"},
+	tiles = {
+		"technic_injector_top.png"..tube_entry,
+		"technic_injector_bottom.png",
+		"technic_injector_side.png"..tube_entry,
+		"technic_injector_side.png"..tube_entry,
+		"technic_injector_side.png"..tube_entry,
+		"technic_injector_side.png"
+	},
+	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
@@ -91,7 +100,7 @@ minetest.register_node("technic:injector", {
 		insert_object = function(pos, node, stack, direction)
 			return minetest.get_meta(pos):get_inventory():add_item("main", stack)
 		end,
-		connect_sides = {left=1, right=1, front=1, back=1, top=1, bottom=1},
+		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 	},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
