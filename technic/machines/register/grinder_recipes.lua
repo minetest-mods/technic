@@ -30,8 +30,7 @@ local recipes = {
 }
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
-minetest.register_craft({
-	output = "default:sandstone 0",
+minetest.clear_craft({
 	recipe = {
 		{'default:sandstone'}
 	},
