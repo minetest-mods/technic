@@ -3,6 +3,7 @@ local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
+local cable_entry = "^technic_cable_connection_overlay.png"
 
 local fs_helpers = pipeworks.fs_helpers
 
@@ -208,20 +209,25 @@ function technic.register_battery_box(data)
 			groups.tubedevice_receiver = 1
 		end
 
+		local front_tex = "technic_"..ltier.."_battery_box_front.png^technic_power_meter"..i..".png"
 		local tentry = tube_entry
+		local bentry = tube_entry
+
 		if ltier == "lv" then
+			front_tex = "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
 			tentry = ""
+			bentry = cable_entry
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
 			tiles = {
 				"technic_"..ltier.."_battery_box_top.png"..tentry,
-				"technic_"..ltier.."_battery_box_bottom.png"..tentry,
-				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
-				"technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"},
+				"technic_"..ltier.."_battery_box_bottom.png"..bentry,
+				"technic_"..ltier.."_battery_box_side.png"..tentry,
+				"technic_"..ltier.."_battery_box_side.png"..tentry,
+				"technic_"..ltier.."_battery_box_side.png"..tentry,
+				front_tex},
 			groups = groups,
 			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
