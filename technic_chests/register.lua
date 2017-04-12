@@ -91,7 +91,7 @@ local function set_formspec(pos, data, page)
 				"splitstacks",
 				{
 					pipeworks.button_off,
-					pipeworks.button_off
+					pipeworks.button_on
 				}
 			)..allow_label
 
