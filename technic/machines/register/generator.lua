@@ -108,14 +108,17 @@ function technic.register_generator(data)
 		)
 	end
 
+	local tentry = tube_entry
+	if ltier == "lv" then tentry = "" end
+
 	minetest.register_node("technic:"..ltier.."_generator", {
 		description = desc,
 		tiles = {
-				"technic_"..ltier.."_generator_top.png"..tube_entry,
-				"technic_machine_bottom.png"..tube_entry,
-				"technic_"..ltier.."_generator_side.png"..tube_entry,
-				"technic_"..ltier.."_generator_side.png"..tube_entry,
-				"technic_"..ltier.."_generator_side.png"..tube_entry,
+				"technic_"..ltier.."_generator_top.png"..tentry,
+				"technic_machine_bottom.png"..tentry,
+				"technic_"..ltier.."_generator_side.png"..tentry,
+				"technic_"..ltier.."_generator_side.png"..tentry,
+				"technic_"..ltier.."_generator_side.png"..tentry,
 				"technic_"..ltier.."_generator_front.png"
 		}, 
 		paramtype2 = "facedir",
