@@ -15,8 +15,8 @@ local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 
 local S = technic.getter
 
-local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
-
+local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
+local cable_entry = "^technic_cable_connection_overlay.png"
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
 minetest.register_craft({
@@ -34,26 +34,6 @@ local reactor_formspec =
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[]"
-
--- "Boxy sphere"
-local node_box = {
-	{-0.353, -0.353, -0.353, 0.353, 0.353, 0.353}, -- Box
-	{-0.495, -0.064, -0.064, 0.495, 0.064, 0.064}, -- Circle +-x
-	{-0.483, -0.128, -0.128, 0.483, 0.128, 0.128},
-	{-0.462, -0.191, -0.191, 0.462, 0.191, 0.191},
-	{-0.433, -0.249, -0.249, 0.433, 0.249, 0.249},
-	{-0.397, -0.303, -0.303, 0.397, 0.303, 0.303},
-	{-0.305, -0.396, -0.305, 0.305, 0.396, 0.305}, -- Circle +-y
-	{-0.250, -0.432, -0.250, 0.250, 0.432, 0.250},
-	{-0.191, -0.461, -0.191, 0.191, 0.461, 0.191},
-	{-0.130, -0.482, -0.130, 0.130, 0.482, 0.130},
-	{-0.066, -0.495, -0.066, 0.066, 0.495, 0.066},
-	{-0.064, -0.064, -0.495, 0.064, 0.064, 0.495}, -- Circle +-z
-	{-0.128, -0.128, -0.483, 0.128, 0.128, 0.483},
-	{-0.191, -0.191, -0.462, 0.191, 0.191, 0.462},
-	{-0.249, -0.249, -0.433, 0.249, 0.249, 0.433},
-	{-0.303, -0.303, -0.397, 0.303, 0.303, 0.397},
-}
 
 local SS_OFF = 0
 local SS_DANGER = 1
@@ -290,17 +270,18 @@ end
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
-	tiles = {"technic_hv_nuclear_reactor_core.png"},
+	tiles = {
+		"technic_hv_nuclear_reactor_core.png",
+		"technic_hv_nuclear_reactor_core.png"..cable_entry
+	},
+	drawtype = "mesh",
+	mesh = "technic_reactor.obj",
 	groups = {cracky=1, technic_machine=1, technic_hv=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
-	drawtype = "nodebox",
 	paramtype = "light",
+	paramtype2 = "facedir",
 	stack_max = 1,
-	node_box = {
-		type = "fixed",
-		fixed = node_box
-	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", reactor_desc)
@@ -317,19 +298,20 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 })
 
 minetest.register_node("technic:hv_nuclear_reactor_core_active", {
-	tiles = {"technic_hv_nuclear_reactor_core.png"},
+	tiles = {
+		"technic_hv_nuclear_reactor_core.png",
+		"technic_hv_nuclear_reactor_core.png"..cable_entry
+	},
+	drawtype = "mesh",
+	mesh = "technic_reactor.obj",
 	groups = {cracky=1, technic_machine=1, technic_hv=1,
 		radioactive=4, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hv_nuclear_reactor_core",
-	drawtype = "nodebox",
 	light_source = 14,
 	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = node_box
-	},
+	paramtype2 = "facedir",
 	can_dig = technic.machine_can_dig,
 	after_dig_node = melt_down_reactor,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
