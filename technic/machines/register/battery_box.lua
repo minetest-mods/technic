@@ -136,7 +136,8 @@ function technic.register_battery_box(data)
 		local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 		local meta           = minetest.get_meta(pos)
 
-		if below.name ~= "technic:"..ltier.."_cable" then
+		if below.name ~= "technic:"..ltier.."_cable"
+		  and not string.find(below.name, "technic:"..ltier.."_cable_plate") then
 			meta:set_string("infotext", S("%s Battery Box Has No Network"):format(tier))
 			return
 		end
