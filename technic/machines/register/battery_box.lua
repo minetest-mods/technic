@@ -216,24 +216,26 @@ function technic.register_battery_box(data)
 			groups.tubedevice_receiver = 1
 		end
 
+		local top_tex = "technic_"..ltier.."_battery_box_top.png"..tube_entry
 		local front_tex = "technic_"..ltier.."_battery_box_front.png^technic_power_meter"..i..".png"
-		local tentry = tube_entry
-		local bentry = tube_entry
+		local side_tex = "technic_"..ltier.."_battery_box_side.png"..tube_entry
+		local bottom_tex = "technic_"..ltier.."_battery_box_bottom.png"..tube_entry
 
 		if ltier == "lv" then
+			top_tex = "technic_"..ltier.."_battery_box_top.png"
 			front_tex = "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
-			tentry = ""
-			bentry = cable_entry
+			side_tex = "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
+			bottom_tex = "technic_"..ltier.."_battery_box_bottom.png"..cable_entry
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
 			description = S("%s Battery Box"):format(tier),
 			tiles = {
-				"technic_"..ltier.."_battery_box_top.png"..tentry,
-				"technic_"..ltier.."_battery_box_bottom.png"..bentry,
-				"technic_"..ltier.."_battery_box_side.png"..tentry,
-				"technic_"..ltier.."_battery_box_side.png"..tentry,
-				"technic_"..ltier.."_battery_box_side.png"..tentry,
+				top_tex,
+				bottom_tex,
+				side_tex,
+				side_tex,
+				side_tex,
 				front_tex},
 			groups = groups,
 			connect_sides = {"bottom"},
