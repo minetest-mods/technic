@@ -35,26 +35,38 @@ minetest.register_tool("technic:battery", {
 	}
 })
 
+-- x+2 + (z+2)*2
+local dirtab = {
+	[4] = 2,
+	[5] = 3,
+	[7] = 1,
+	[8] = 0
+}
+
 local tube = {
 	insert_object = function(pos, node, stack, direction)
-		if direction.y == 0 then
+		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
+		if direction.y == 1
+			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return stack
 		end
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		if direction.y > 0 then
+		if direction.y == 0 then
 			return inv:add_item("src", stack)
 		else
 			return inv:add_item("dst", stack)
 		end
 	end,
 	can_insert = function(pos, node, stack, direction)
-		if direction.y == 0 then
+		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
+		if direction.y == 1
+			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return false
 		end
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		if direction.y > 0 then
+		if direction.y == 0 then
 			if meta:get_int("split_src_stacks") == 1 then
 				stack = stack:peek_item(1)
 			end
@@ -66,7 +78,7 @@ local tube = {
 			return inv:room_for_item("dst", stack)
 		end
 	end,
-	connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
+	connect_sides = {left=1, right=1, back=1, top=1},
 }
 
 local function add_on_off_buttons(meta, ltier, charge_percent)
@@ -219,13 +231,12 @@ function technic.register_battery_box(data)
 		local top_tex = "technic_"..ltier.."_battery_box_top.png"..tube_entry
 		local front_tex = "technic_"..ltier.."_battery_box_front.png^technic_power_meter"..i..".png"
 		local side_tex = "technic_"..ltier.."_battery_box_side.png"..tube_entry
-		local bottom_tex = "technic_"..ltier.."_battery_box_bottom.png"..tube_entry
+		local bottom_tex = "technic_"..ltier.."_battery_box_bottom.png"..cable_entry
 
 		if ltier == "lv" then
 			top_tex = "technic_"..ltier.."_battery_box_top.png"
 			front_tex = "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
 			side_tex = "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png"
-			bottom_tex = "technic_"..ltier.."_battery_box_bottom.png"..cable_entry
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
@@ -271,6 +282,7 @@ function technic.register_battery_box(data)
 			allow_metadata_inventory_take = technic.machine_inventory_take,
 			allow_metadata_inventory_move = technic.machine_inventory_move,
 			technic_run = run,
+			on_rotate = screwdriver.rotate_simple,
 			after_place_node = data.tube and pipeworks.after_place,
 			after_dig_node = technic.machine_after_dig_node,
 			on_receive_fields = function(pos, formname, fields, sender)
