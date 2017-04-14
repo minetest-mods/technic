@@ -20,11 +20,11 @@ local recipes = {
 }
 
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
-minetest.register_craft({
-	output = "default:sand 0",
+minetest.clear_craft({
+	output = "default:sandstone",
 	recipe = {
 		{'group:sand', 'group:sand'},
-                {'group:sand', 'group:sand'}
+		{'group:sand', 'group:sand'}
 	},
 })
 
