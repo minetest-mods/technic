@@ -961,7 +961,8 @@ The primary purpose of battery boxes is to temporarily store electrical
 energy to let an electrical network cope with mismatched supply and
 demand.  They have a secondary purpose of charging and discharging
 powered tools.  They are thus a mixture of electrical infrastructure,
-powered machine, and generator.
+powered machine, and generator.  Battery boxes connect to cables only
+from the bottom.
 
 MV and HV battery boxes have upgrade slots.  Energy upgrades increase
 the capacity of a battery box, each by 10% of the un-upgraded capacity.
@@ -976,10 +977,10 @@ be worth building a battery box of higher tier before one has other
 infrastructure of that tier, just to get access to faster charging.
 
 MV and HV battery boxes work with pneumatic tubes.  An item can be input
-to the charging slot through the bottom of the battery box, or to the
-discharging slot through the top.  Items are not accepted through the
-front, back, or sides.  With a tube upgrade, fully charged/discharged
-tools (as appropriate for their slot) will be ejected through a side.
+to the charging slot through the sides or back of the battery box, or
+to the discharging slot through the top.  With a tube upgrade, fully
+charged/discharged tools (as appropriate for their slot) will be ejected
+through a side.
 
 ### processing machines ###
 
