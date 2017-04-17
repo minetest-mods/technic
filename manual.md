@@ -1243,12 +1243,12 @@ with light sources such as meselamps.
 
 ### hydro generator ###
 
-The hydro generator is an LV power generator that generates a small amount
-of power from the natural motion of water.  To operate, the generator must
-be horizontally adjacent to water.  It doesn't matter whether the water
-consists of source blocks or flowing blocks.  Having water adjacent on
-more than one side, up to the full four, increases the generator's output.
-The water itself is unaffected by the generator.
+The hydro generator is an LV power generator that generates a respectable
+amount of power from the natural motion of water.  To operate, the
+generator must be horizontally adjacent to flowing water.  The power
+produced is dependent on how much flow there is across any or all four
+sides, the most flow of course coming from water that's flowing straight
+down.
 
 ### geothermal generator ###
 
