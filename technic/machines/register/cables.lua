@@ -203,10 +203,28 @@ function technic.register_cable(tier, size)
 			def.on_place = function(itemstack, placer, pointed_thing)
 				local pointed_thing_diff = vector.subtract(pointed_thing.above, pointed_thing.under)
 				local num
+				local changed
 				for k, v in pairs(pointed_thing_diff) do
 					if v ~= 0 then
+						changed = k
 						num = xyz[s(tostring(v):sub(-2, -2)..k)]
 						break
+					end
+				end
+				if placer:get_player_control().aux1 then
+					local fine_pointed = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
+					fine_pointed = vector.subtract(fine_pointed, pointed_thing.above)
+					fine_pointed[changed] = nil
+					local ps = {}
+					for p, _ in pairs(fine_pointed) do
+						ps[#ps+1] = p
+					end
+					local bigger = (math.abs(fine_pointed[ps[1]]) > math.abs(fine_pointed[ps[2]]) and ps[1]) or ps[2]
+					if math.abs(fine_pointed[bigger]) < 0.3 then
+						num = num + 3
+						num = (num <= 6 and num) or num - 6
+					else
+						num = xyz[((fine_pointed[bigger] < 0 and "-") or "") .. bigger]
 					end
 				end
 				minetest.set_node(pointed_thing.above, {name = "technic:"..ltier.."_cable_plate_"..num})
