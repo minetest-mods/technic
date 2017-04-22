@@ -324,6 +324,10 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		update_forcefield(pos, meta, false)
 		technic.swap_node(pos, "technic:forcefield_emitter_off")
 	end,
+	on_blast = function(pos, intensity)
+		minetest.dig_node(pos)
+		return {"technic:forcefield_emitter_off"}
+	end,
 })
 
 minetest.register_node("technic:forcefield", {
