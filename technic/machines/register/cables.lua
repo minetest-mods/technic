@@ -211,7 +211,8 @@ function technic.register_cable(tier, size)
 						break
 					end
 				end
-				if placer:get_player_control().aux1 then
+				local crtl = placer:get_player_control()
+				if (crtl.aux1 or crtl.sneak) and not (crtl.aux1 and crtl.sneak) then
 					local fine_pointed = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
 					fine_pointed = vector.subtract(fine_pointed, pointed_thing.above)
 					fine_pointed[changed] = nil
