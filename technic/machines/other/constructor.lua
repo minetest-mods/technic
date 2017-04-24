@@ -2,6 +2,7 @@
 local S = technic.getter
 
 local function deploy_node(inv, slot_name, pos, node, machine_node)
+	if node.param2 > 3 then return end
 	if node.name ~= "air" then
 		if node.name == "ignore" or
 		   node.name == "default:lava_source" or
@@ -162,6 +163,7 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		on_rotate = screwdriver.rotate_simple
 	})
 
 	minetest.register_node("technic:constructor_mk"..mark.."_on", {
@@ -180,6 +182,7 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		on_rotate = false
 	})
 end
 

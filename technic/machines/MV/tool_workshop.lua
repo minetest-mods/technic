@@ -5,6 +5,8 @@ minetest.register_alias("tool_workshop", "technic:tool_workshop")
 
 local S = technic.getter
 
+local tube_entry = "^pipeworks_tube_connection_wooden.png"
+
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
@@ -83,8 +85,14 @@ end
 minetest.register_node("technic:tool_workshop", {
 	description = S("%s Tool Workshop"):format("MV"),
 	paramtype2 = "facedir",
-	tiles = {"technic_workshop_top.png", "technic_machine_bottom.png", "technic_workshop_side.png",
-	         "technic_workshop_side.png", "technic_workshop_side.png", "technic_workshop_side.png"},
+	tiles = {
+		"technic_workshop_top.png"..tube_entry,
+		"technic_machine_bottom.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"
+	},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
 	connect_sides = {"bottom", "back", "left", "right"},

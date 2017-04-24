@@ -4,6 +4,8 @@
 
 local S = technic.getter
 
+local cable_entry = "^technic_cable_connection_overlay.png"
+
 minetest.register_alias("water_mill", "technic:water_mill")
 
 minetest.register_craft({
@@ -50,9 +52,7 @@ local run = function(pos, node)
 	eu_supply = math.min(35 * water_flow, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
-	if production_level > 0 then
-		meta:set_int("LV_EU_supply", eu_supply)
-	end
+	meta:set_int("LV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
 		S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
@@ -70,9 +70,14 @@ end
 
 minetest.register_node("technic:water_mill", {
 	description = S("Hydro %s Generator"):format("LV"),
-	tiles = {"technic_water_mill_top.png",  "technic_machine_bottom.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
+	tiles = {
+		"technic_water_mill_top.png",
+		"technic_machine_bottom.png"..cable_entry,
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png"
+	},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_lv=1},

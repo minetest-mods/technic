@@ -1,4 +1,3 @@
-
 technic.chests.groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		tubedevice=1, tubedevice_receiver=1}
 technic.chests.groups_noinv = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
@@ -13,6 +12,9 @@ technic.chests.tube = {
 	can_insert = function(pos, node, stack, direction)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
+		if meta:get_int("splitstacks") == 1 then
+			stack = stack:peek_item(1)
+		end
 		return inv:room_for_item("main",stack)
 	end,
 	input_inventory = "main",

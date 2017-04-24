@@ -1,9 +1,16 @@
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local pipeworks = rawget(_G, "pipeworks")
+local fs_helpers = rawget(_G, "fs_helpers")
+
+local allow_label = ""
+local tube_entry = ""
+local shift_edit_field = 0
+
 if not minetest.get_modpath("pipeworks") then
 	-- Pipeworks is not installed. Simulate using a dummy table...
 	pipeworks = {}
+	fs_helpers = {}
 	local pipeworks_meta = {}
 	setmetatable(pipeworks, pipeworks_meta)
 	local dummy = function()
@@ -15,6 +22,12 @@ if not minetest.get_modpath("pipeworks") then
 		end
 	pipeworks.after_place = dummy
 	pipeworks.after_dig = dummy
+	fs_helpers.cycling_button = function() return "" end
+else
+	fs_helpers = pipeworks.fs_helpers
+	allow_label = "label[0.9,0.36;Allow splitting incoming stacks from tubes]"
+	shift_edit_field = 3
+	tube_entry = "^pipeworks_tube_connection_metallic.png"
 end
 
 local chest_mark_colors = {
@@ -72,6 +85,16 @@ local function set_formspec(pos, data, page)
 	local meta = minetest.get_meta(pos)
 	local node = minetest.get_node(pos)
 	local formspec = data.base_formspec
+	formspec = formspec..fs_helpers.cycling_button(
+				meta,
+				"image_button[0,0.35;1,0.6",
+				"splitstacks",
+				{
+					pipeworks.button_off,
+					pipeworks.button_on
+				}
+			)..allow_label
+
 	if data.autosort then
 		local status = meta:get_int("autosort")
 		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
@@ -79,13 +102,13 @@ local function set_formspec(pos, data, page)
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
 		if page == "main" then
-			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(shift_edit_field+data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_pencil_icon.png;edit_infotext;]"
-					.."label["..(data.hileft+3)..",0;"..formspec_infotext.."]"
+					.."label["..(shift_edit_field+data.hileft+3)..",0;"..formspec_infotext.."]"
 		elseif page == "edit_infotext" then
-			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(shift_edit_field+data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_checkmark_icon.png;save_infotext;]"
-					.."field["..(data.hileft+3.3)..",0.2;4.8,1;"
+					.."field["..(shift_edit_field+data.hileft+3.3)..",0.2;4.8,1;"
 					.."infotext_box;"..S("Edit chest description:")..";"
 					..formspec_infotext.."]"
 		end
@@ -169,11 +192,16 @@ local function get_receive_fields(name, data)
 			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
 		end
+		if fields["fs_helpers_cycling:0:splitstacks"]
+		  or fields["fs_helpers_cycling:1:splitstacks"] then
+			if not pipeworks.may_configure(pos, sender) then return end
+			fs_helpers.on_receive_fields(pos, fields)
+		end
+
 		meta:get_inventory():set_size("main", data.width * data.height)
 		set_formspec(pos, data, page)
 	end
 end
-
 
 function technic.chests:definition(name, data)
 	local lname = name:lower()
@@ -211,6 +239,7 @@ function technic.chests:definition(name, data)
 			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
 			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]"..
 			"listring[]"
+
 	if data.sort then
 		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
 	end
@@ -239,11 +268,24 @@ function technic.chests:definition(name, data)
 		desc = S("%s Chest"):format(name)
 	end
 
+	local tentry = tube_entry
+	if tube_entry ~= "" then
+		if lname == "wooden" then
+			tentry = "^pipeworks_tube_connection_wooden.png"
+		elseif lname == "mithril" then
+			tentry = "^pipeworks_tube_connection_stony.png"
+		end
+	end
 	local def = {
 		description = desc,
-		tiles = {"technic_"..lname.."_chest_top.png", "technic_"..lname.."_chest_top.png",
-			"technic_"..lname.."_chest_side.png", "technic_"..lname.."_chest_side.png",
-			"technic_"..lname.."_chest_side.png", table.concat(front, "^")},
+		tiles = {
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			table.concat(front, "^")
+		},
 		paramtype2 = "facedir",
 		groups = self.groups,
 		tube = self.tube,
