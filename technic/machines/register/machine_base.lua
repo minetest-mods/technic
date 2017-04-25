@@ -43,25 +43,29 @@ function technic.register_base_machine(data)
 	local active_groups = {not_in_creative_inventory = 1}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
-	local formspec =
-		"invsize[8,9;]"..
-		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
-		"list[current_name;dst;5,1;2,2;]"..
-		"list[current_player;main;0,5;8,4;]"..
-		"label[0,0;"..machine_desc:format(tier).."]"..
-		"listring[current_name;dst]"..
-		"listring[current_player;main]"..
-		"listring[current_name;src]"..
-		"listring[current_player;main]"
-	if data.upgrade then
-		formspec = formspec..
-			"list[current_name;upgrade1;1,3;1,1;]"..
-			"list[current_name;upgrade2;2,3;1,1;]"..
-			"label[1,4;"..S("Upgrade Slots").."]"..
-			"listring[current_name;upgrade1]"..
+	local formspec = function(data, progress_percentage)
+		local formspec_string = "invsize[8,9;]"..
+			"list[current_name;src;"..(3.75-input_size)..",1.5;"..input_size..",1;]"..
+			"list[current_name;dst;5,1;2,2;]"..
+			"list[current_player;main;0,5;8,4;]"..
+			"label[0,0;"..machine_desc:format(tier).."]"..
+			"listring[current_name;dst]"..
 			"listring[current_player;main]"..
-			"listring[current_name;upgrade2]"..
-			"listring[current_player;main]"
+			"listring[current_name;src]"..
+			"listring[current_player;main]"..
+			"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
+			(progress_percentage)..":gui_furnace_arrow_fg.png^[transformR270]"
+		if data.upgrade then
+			formspec_string = formspec_string..
+				"list[current_name;upgrade1;1,3;1,1;]"..
+				"list[current_name;upgrade2;2,3;1,1;]"..
+				"label[1,4;"..S("Upgrade Slots").."]"..
+				"listring[current_name;upgrade1]"..
+				"listring[current_player;main]"..
+				"listring[current_name;upgrade2]"..
+				"listring[current_player;main]"
+		end
+		return formspec_string
 	end
 
 	local run = function(pos, node)
@@ -72,6 +76,14 @@ function technic.register_base_machine(data)
 		local machine_desc_tier = machine_desc:format(tier)
 		local machine_node      = "technic:"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
+
+		local update_formspec = function(result)
+			if result ~= nil then
+				meta:set_string("formspec", formspec(data, 100.0 * meta:get_int("src_time") / round(result.time * 10)))
+			else
+				meta:set_string("formspec", formspec(data, 0))
+			end
+		end
 
 		-- Setup meta data if it does not exist.
 		if not eu_input then
@@ -99,11 +111,13 @@ function technic.register_base_machine(data)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
+				update_formspec(result)
 				return
 			end
 			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
 			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
+			update_formspec(result)
 			if meta:get_int("src_time") < round(result.time*10) then
 				if not powered then
 					technic.swap_node(pos, machine_node)
@@ -132,9 +146,11 @@ function technic.register_base_machine(data)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
+				update_formspec(result)
 				return
 			end
 			meta:set_int("src_time", meta:get_int("src_time") - round(result.time*10))
+			update_formspec(result)
 			inv:set_list("src", result.new_input)
 			inv:set_list("dst", inv:get_list("dst_tmp"))
 		end
@@ -179,7 +195,7 @@ function technic.register_base_machine(data)
 
 			meta:set_string("infotext", machine_desc:format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", formspec..form_buttons)
+			meta:set_string("formspec", formspec(data, 0)..form_buttons)
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
@@ -210,7 +226,7 @@ function technic.register_base_machine(data)
 					}
 				)..pipeworks.button_label
 			end
-			meta:set_string("formspec", formspec..form_buttons)
+			meta:set_string("formspec", formspec(data, 0)..form_buttons)
 		end,
 	})
 
@@ -254,7 +270,7 @@ function technic.register_base_machine(data)
 					}
 				)..pipeworks.button_label
 			end
-			meta:set_string("formspec", formspec..form_buttons)
+			meta:set_string("formspec", formspec(data, 0)..form_buttons)
 		end,
 	})
 
