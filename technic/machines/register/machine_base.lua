@@ -43,7 +43,7 @@ function technic.register_base_machine(data)
 	local active_groups = {not_in_creative_inventory = 1}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
-	local function make_formspec(data, progress_percentage)
+	local function make_formspec(data, progress_percentage, meta)
 		local formspec_string = "size[8,9;]"..
 			"list[current_name;src;"..(3.75-input_size)..",1.5;"..input_size..",1;]"..
 			"list[current_name;dst;5,1;2,2;]"..
@@ -65,6 +65,18 @@ function technic.register_base_machine(data)
 				"listring[current_name;upgrade2]"..
 				"listring[current_player;main]"
 		end
+		if tier ~= "LV" then
+			formspec_string = formspec_string..
+				fs_helpers.cycling_button(
+					meta,
+					pipeworks.button_base,
+					"splitstacks",
+					{
+						pipeworks.button_off,
+						pipeworks.button_on
+					}
+				)..pipeworks.button_label
+		end
 		return formspec_string
 	end
 
@@ -79,9 +91,9 @@ function technic.register_base_machine(data)
 
 		local function update_formspec(result)
 			if result and result.time ~= 0 then
-				meta:set_string("formspec", make_formspec(data, 100.0 * meta:get_int("src_time") / round(result.time * 10)))
+				meta:set_string("formspec", make_formspec(data, 100.0 * meta:get_int("src_time") / round(result.time * 10), meta))
 			else
-				meta:set_string("formspec", make_formspec(data, 0))
+				meta:set_string("formspec", make_formspec(data, 0, meta))
 			end
 		end
 
@@ -180,22 +192,9 @@ function technic.register_base_machine(data)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
 
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-					meta,
-					pipeworks.button_base,
-					"splitstacks",
-					{
-						pipeworks.button_off,
-						pipeworks.button_on
-					}
-				)..pipeworks.button_label
-			end
-
 			meta:set_string("infotext", machine_desc:format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0, meta))
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
@@ -214,19 +213,7 @@ function technic.register_base_machine(data)
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-					meta,
-					pipeworks.button_base,
-					"splitstacks",
-					{
-						pipeworks.button_off,
-						pipeworks.button_on
-					}
-				)..pipeworks.button_label
-			end
-			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0, meta))
 		end,
 	})
 
@@ -270,7 +257,7 @@ function technic.register_base_machine(data)
 					}
 				)..pipeworks.button_label
 			end
-			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0, meta))
 		end,
 	})
 
