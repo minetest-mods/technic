@@ -141,7 +141,7 @@ end
 function technic.machine_can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	if not inv:is_empty("src") or not inv:is_empty("dst") then
+	if not inv:is_empty("src") or not inv:is_empty("dst") or not inv:is_empty("upgrade1") or not inv:is_empty("upgrade2") then
 		if player then
 			minetest.chat_send_player(player:get_player_name(),
 				S("Machine cannot be removed because it is not empty"))
