@@ -43,8 +43,8 @@ function technic.register_base_machine(data)
 	local active_groups = {not_in_creative_inventory = 1}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
-	local formspec = function(data, progress_percentage)
-		local formspec_string = "invsize[8,9;]"..
+	local function make_formspec(data, progress_percentage)
+		local formspec_string = "size[8,9;]"..
 			"list[current_name;src;"..(3.75-input_size)..",1.5;"..input_size..",1;]"..
 			"list[current_name;dst;5,1;2,2;]"..
 			"list[current_player;main;0,5;8,4;]"..
@@ -54,7 +54,7 @@ function technic.register_base_machine(data)
 			"listring[current_name;src]"..
 			"listring[current_player;main]"..
 			"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
-			(progress_percentage)..":gui_furnace_arrow_fg.png^[transformR270]"
+			progress_percentage..":gui_furnace_arrow_fg.png^[transformR270]"
 		if data.upgrade then
 			formspec_string = formspec_string..
 				"list[current_name;upgrade1;1,3;1,1;]"..
@@ -68,7 +68,7 @@ function technic.register_base_machine(data)
 		return formspec_string
 	end
 
-	local run = function(pos, node)
+	local function run(pos, node)
 		local meta     = minetest.get_meta(pos)
 		local inv      = meta:get_inventory()
 		local eu_input = meta:get_int(tier.."_EU_input")
@@ -77,11 +77,11 @@ function technic.register_base_machine(data)
 		local machine_node      = "technic:"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
-		local update_formspec = function(result)
-			if result ~= nil then
-				meta:set_string("formspec", formspec(data, 100.0 * meta:get_int("src_time") / round(result.time * 10)))
+		local function update_formspec(result)
+			if result and result.time ~= 0 then
+				meta:set_string("formspec", make_formspec(data, 100.0 * meta:get_int("src_time") / round(result.time * 10)))
 			else
-				meta:set_string("formspec", formspec(data, 0))
+				meta:set_string("formspec", make_formspec(data, 0))
 			end
 		end
 
@@ -195,7 +195,7 @@ function technic.register_base_machine(data)
 
 			meta:set_string("infotext", machine_desc:format(tier))
 			meta:set_int("tube_time",  0)
-			meta:set_string("formspec", formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
 			local inv = meta:get_inventory()
 			inv:set_size("src", input_size)
 			inv:set_size("dst", 4)
@@ -226,7 +226,7 @@ function technic.register_base_machine(data)
 					}
 				)..pipeworks.button_label
 			end
-			meta:set_string("formspec", formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
 		end,
 	})
 
@@ -270,7 +270,7 @@ function technic.register_base_machine(data)
 					}
 				)..pipeworks.button_label
 			end
-			meta:set_string("formspec", formspec(data, 0)..form_buttons)
+			meta:set_string("formspec", make_formspec(data, 0)..form_buttons)
 		end,
 	})
 
