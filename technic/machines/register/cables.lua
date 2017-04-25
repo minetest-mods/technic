@@ -237,6 +237,19 @@ function technic.register_cable(tier, size)
 		else
 			def.groups.not_in_creative_inventory = 1
 		end
+		def.on_rotate = function(pos, node, user, mode, new_param2)
+			local dir = 0
+			if mode == screwdriver.ROTATE_FACE then -- left-click
+				dir = 1
+			elseif mode == screwdriver.ROTATE_AXIS then -- right-click
+				dir = -1
+			end
+			local num = tonumber(node.name:sub(-1))
+			num = num + dir
+			num = (num >= 1 and num) or num + 6
+			num = (num <= 6 and num) or num - 6
+			minetest.swap_node(pos, {name = "technic:"..ltier.."_cable_plate_"..num})
+		end
 		minetest.register_node("technic:"..ltier.."_cable_plate_"..i, def)
 		cable_tier["technic:"..ltier.."_cable_plate_"..i] = tier
 	end
