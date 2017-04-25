@@ -13,3 +13,4 @@ dofile(path.."/coal_alloy_furnace.lua")
 dofile(path.."/coal_furnace.lua")
 
 dofile(path.."/anchor.lua")
+dofile(path.."/powernode.lua")
