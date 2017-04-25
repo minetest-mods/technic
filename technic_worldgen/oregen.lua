@@ -122,7 +122,8 @@ local sulfur_buf = nil
 local sulfur_noise= nil
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+	local vm = minetest.get_voxel_manip()
+	local emin, emax = vm:read_from_map(minp, maxp)
 	local a = VoxelArea:new{
 		MinEdge = {x = emin.x, y = emin.y, z = emin.z},
 		MaxEdge = {x = emax.x, y = emax.y, z = emax.z},
