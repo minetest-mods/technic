@@ -107,3 +107,16 @@ minetest.register_node("technic:admin_anchor", {
 		set_display(pos, meta)
 	end,
 })
+
+if minetest.get_modpath("mesecons_mvps") then
+	mesecon.register_on_mvps_move(function(moved_nodes)
+		for _, n in ipairs(moved_nodes) do
+			if n.node.name == "technic:admin_anchor" then
+				local meta = minetest.get_meta(n.pos)
+				if meta:get_int("enabled") ~= 0 then
+					forceload_on(n.pos, meta)
+				end
+			end
+		end
+	end)
+end
