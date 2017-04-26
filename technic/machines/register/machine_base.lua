@@ -65,18 +65,19 @@ function technic.register_base_machine(data)
 				"listring[current_name;upgrade2]"..
 				"listring[current_player;main]"
 		end
-		if tier ~= "LV" then
-			formspec_string = formspec_string..
-				fs_helpers.cycling_button(
-					meta,
-					pipeworks.button_base,
-					"splitstacks",
-					{
-						pipeworks.button_off,
-						pipeworks.button_on
-					}
-				)..pipeworks.button_label
+		if tier == "LV" then
+			return formspec_string
 		end
+		formspec_string = formspec_string..
+			fs_helpers.cycling_button(
+				meta,
+				pipeworks.button_base,
+				"splitstacks",
+				{
+					pipeworks.button_off,
+					pipeworks.button_on
+				}
+			)..pipeworks.button_label
 		return formspec_string
 	end
 
