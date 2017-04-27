@@ -1,0 +1,7 @@
+# technic_extranodes traducido por Carlos Barraza
+
+Marble = Mármol
+Marble Bricks = Ladrillos de mármol
+Granite = Granito
+Concrete = Concreto
+

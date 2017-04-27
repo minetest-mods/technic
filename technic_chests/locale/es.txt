@@ -1,0 +1,39 @@
+# technic_chests translation template
+
+%s Chest = Cofre de %s
+%s Locked Chest = Cofre de %s Bloqueado
+%s Locked Chest (owned by %s) = Cofre de %s Bloqueado (propiedad de %s)
+Color Filter: %s = Filtro por Color: %s
+Edit chest description: = Editar la descripción del cofre
+
+# Colors
+Black = Negro
+Blue = Azul
+Brown = Café
+Cyan = Cian
+Dark Green = Verde Oscuro
+Dark Grey = Gris Oscuro
+Green = Verde
+Grey = Gris
+Magenta = Magenta
+Orange = Naranja
+Pink = Rosado
+Red = Rojo
+Violet = Violeta
+White = Blanco
+Yellow = Amarillo
+None = Ninguno
+
+# Materials
+Copper = Cobre
+Gold = Oro
+Iron = Hierro
+Mithril = Mitrilo
+Silver = Plata
+Wooden = Madera
+
+# Sorting
+Sort = Ordenar
+Auto-sort is %s = El orden Automático esta %s
+Off = Apagado
+On = Encendido

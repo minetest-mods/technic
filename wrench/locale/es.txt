@@ -1,0 +1,5 @@
+# technic_wrench traducido por Carlos Barraza
+
+Wrench = Llave Inglesa
+%s with items = %s con elementos
+
