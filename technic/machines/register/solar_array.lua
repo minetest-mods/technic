@@ -12,11 +12,9 @@ function technic.register_solar_array(data)
 	local ltier = string.lower(tier)
 
 	local function run(pos, node)
-		local pos1 = {}
+		local pos1 = vector.new(pos)
+		pos1.y = pos1.y + 1
 		local machine_name = S("Arrayed Solar %s Generator"):format(tier)
-		pos1.y = pos.y + 1
-		pos1.x = pos.x
-		pos1.z = pos.z
 
 		local node1 = technic.get_or_load_node(pos1) or minetest.get_node(pos)
 		local light = get_light(node1.param1)
@@ -53,7 +51,6 @@ function technic.register_solar_array(data)
 		},
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			local name = minetest.get_node(pos).name
 			meta:set_int(tier.."_EU_supply", 0)
 		end,
 		technic_run = run,
