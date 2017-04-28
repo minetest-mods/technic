@@ -18,8 +18,8 @@ function technic.register_solar_array(data)
 		pos1.x = pos.x
 		pos1.z = pos.z
 
-		technic.get_or_load_node(pos1)
-		local light = get_light(node.param1)
+		local node1 = technic.get_or_load_node(pos1) or minetest.get_node(pos)
+		local light = get_light(node1.param1)
 		local time_of_day = minetest.get_timeofday()
 		local meta = minetest.get_meta(pos)
 
