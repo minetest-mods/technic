@@ -40,9 +40,13 @@ local function make_reactor_formspec(meta)
 	"button[5.5,1.5;2,1;start;Start]"..
 	"checkbox[5.5,2.5;autostart;automatic Start;"..meta:get_string("autostart").."]"
 	if digiline_remote_path then
-		f = f..
-			"button_exit[4.6,3.69;2,1;save;Save]"..
-			"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+		local digiline_enabled = meta:get_string("enable_digiline")
+		f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
+		if digiline_enabled == "true" then
+			f = f..
+				"button_exit[4.6,3.69;2,1;save;Save]"..
+				"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+		end
 	end
 	return f
 end
@@ -294,6 +298,7 @@ end
 
 local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
+	local update_formspec = false
 	if fields.remote_channel then
 		meta:set_string("remote_channel", fields.remote_channel)
 	end
@@ -308,13 +313,21 @@ local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
 	end
 	if fields.autostart then
 		meta:set_string("autostart", fields.autostart)
+		update_formspec = true
+	end
+	if fields.enable_digiline then
+		meta:set_string("enable_digiline", fields.enable_digiline)
+		update_formspec = true
+	end
+	if update_formspec then
 		meta:set_string("formspec", make_reactor_formspec(meta))
 	end
 end
 
 local digiline_remote_def = function(pos, channel, msg)
 	local meta = minetest.get_meta(pos)
-	if channel ~= meta:get_string("remote_channel") then
+	if meta:get_string("enable_digiline") ~= "true" or
+			channel ~= meta:get_string("remote_channel") then
 		return
 	end
 	local msgt = type(msg)
