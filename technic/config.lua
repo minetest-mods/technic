@@ -12,7 +12,7 @@ local defaults = {
 	enable_radiation_protection = "true",
 	enable_entity_radiation_damage = "true",
 	enable_longterm_radiation_damage = "true",
-	technic_nuce_digiline_selfdestruct = "false",
+	enable_nuclear_reactor_digiline_selfdestruct = "false",
 }
 
 for k, v in pairs(defaults) do

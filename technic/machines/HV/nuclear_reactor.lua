@@ -12,7 +12,7 @@ intact the reactor will melt down!
 local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
-local digiline_meltdown = technic.config:get_bool("technic_nuce_digiline_selfdestruct") == "true"
+local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
 local S = technic.getter
@@ -276,6 +276,10 @@ local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local burn_time = meta:get_int("burn_time") or 0
 	if burn_time >= burn_ticks or burn_time == 0 then
+		if digiline_remote_path and meta:get_int("HV_EU_supply") == power_supply then
+			digiline_remote.send_to_node(pos, meta:get_string("remote_channel"),
+					"fuel used", 6, true)
+		end
 		if meta:get_string("autostart") == "true" then
 			if start_reactor(pos, meta) then
 				return
@@ -330,12 +334,24 @@ local digiline_remote_def = function(pos, channel, msg)
 			channel ~= meta:get_string("remote_channel") then
 		return
 	end
+	-- Convert string messages to tables:
 	local msgt = type(msg)
-	if msgt ~= "string" then
+	if msgt == "string" then
+		local smsg = msg:lower()
+		msg = {}
+		if smsg == "get" then
+			msg.command = "get"
+		elseif smsg:sub(1, 13) == "self_destruct" then
+			msg.command = "self_destruct"
+			msg.timer = tonumber(smsg:sub(15)) or 0
+		elseif smsg == "start" then
+			msg.command = "start"
+		end
+	elseif msgt ~= "table" then
 		return
 	end
-	msg = msg:lower()
-	if msg == "get" then
+
+	if msg.command == "get" then
 		local inv = meta:get_inventory()
 		local invtable = {}
 		for i = 1, 6 do
@@ -355,16 +371,15 @@ local digiline_remote_def = function(pos, channel, msg)
 			structure_accumulated_badness = meta:get_int("structure_accumulated_badness"),
 			rods = invtable
 		}, 6, true)
-	elseif digiline_meltdown and msg:sub(1, 13) == "self_destruct" and
+	elseif digiline_meltdown and msg.command == "self_destruct" and
 			minetest.get_node(pos).name == "technic:hv_nuclear_reactor_core_active" then
-		local timer = tonumber(msg:sub(15))
-		if timer then
+		if msg.timer ~= 0 and type(msg.timer) == "number" then
 			siren_danger(pos, meta)
-			minetest.after(timer, melt_down_reactor, pos)
+			minetest.after(msg.timer, melt_down_reactor, pos)
 		else
 			melt_down_reactor(pos)
 		end
-	elseif msg == "start" then
+	elseif msg.command == "start" then
 		local b = start_reactor(pos, meta)
 		if b then
 			digiline_remote.send_to_node(pos, channel, "Start successful", 6, true)
