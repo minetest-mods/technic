@@ -12,7 +12,6 @@ intact the reactor will melt down!
 local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
-technic.config:get_bool("enable_wind_mill")
 local digiline_meltdown = technic.config:get_bool("technic_nuce_digiline_selfdestruct") == "true"
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
