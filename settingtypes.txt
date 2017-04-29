@@ -1,2 +1,0 @@
-#Make it possible to cause a meltdown of the nuclear reactor with digilines.
-technic_nuce_digiline_selfdestruct (Enable Nuclear Reactor Digiline Meltdown) bool false
