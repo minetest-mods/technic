@@ -38,16 +38,17 @@ local function make_reactor_formspec(meta)
 	"listring[]"..
 	"button[5.5,1.5;2,1;start;Start]"..
 	"checkbox[5.5,2.5;autostart;automatic Start;"..meta:get_string("autostart").."]"
-	if digiline_remote_path then
-		local digiline_enabled = meta:get_string("enable_digiline")
-		f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
-		if digiline_enabled == "true" then
-			f = f..
-				"button_exit[4.6,3.69;2,1;save;Save]"..
-				"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
-		end
+	if not digiline_remote_path then
+		return f
 	end
-	return f
+	local digiline_enabled = meta:get_string("enable_digiline")
+	f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
+	if digiline_enabled ~= "true" then
+		return f
+	end
+	return f..
+		"button_exit[4.6,3.69;2,1;save;Save]"..
+		"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
 end
 
 local SS_OFF = 0
@@ -211,7 +212,7 @@ end
 
 local function melt_down_reactor(pos)
 	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
-	minetest.set_node(pos, {name="technic:corium_source"})
+	minetest.set_node(pos, {name = "technic:corium_source"})
 end
 
 
