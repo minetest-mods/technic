@@ -301,13 +301,18 @@ local function run(pos, node)
 end
 
 local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
+	local player_name = sender:get_player_name()
+	if minetest.is_protected(pos, player_name) then
+		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.record_protection_violation(pos, player_name)
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	local update_formspec = false
 	if fields.remote_channel then
 		meta:set_string("remote_channel", fields.remote_channel)
 	end
 	if fields.start then
-		local player_name = sender:get_player_name()
 		local b = start_reactor(pos, meta)
 		if b then
 			minetest.chat_send_player(player_name, "Start successful")
@@ -438,8 +443,9 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	drop = "technic:hv_nuclear_reactor_core",
 	light_source = 14,
 	paramtype = "light",
-	_on_digiline_remote_receive = digiline_remote_def,
 	paramtype2 = "facedir",
+	on_receive_fields = nuclear_reactor_receive_fields,
+	_on_digiline_remote_receive = digiline_remote_def,
 	can_dig = technic.machine_can_dig,
 	after_dig_node = melt_down_reactor,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
