@@ -10,7 +10,7 @@ minetest.register_node(":moretrees:rubber_tree_sapling", {
 	wield_image = "technic_rubber_sapling.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {dig_immediate=3, flammable=2},
+	groups = {dig_immediate=3, flammable=2, sapling=1},
 	sounds = default.node_sound_defaults(),
 })
 
@@ -98,4 +98,3 @@ if technic.config:get_bool("enable_rubber_tree_generation") then
 		end
 	end)
 end
-
