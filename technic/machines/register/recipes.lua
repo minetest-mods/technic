@@ -51,7 +51,7 @@ local function register_recipe(typename, data)
 	end
 	
 	technic.recipes[typename].recipes[index] = recipe
-	if unified_inventory and technic.recipes[typename].output_size == 1 then
+	if have_ui and technic.recipes[typename].output_size == 1 then
 		unified_inventory.register_craft({
 			type = typename,
 			output = data.output,
