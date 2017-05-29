@@ -1,0 +1,160 @@
+# pt-br.txt
+# Brazilian Portuguese translatio of Technic
+
+
+## Misc
+[Technic] Loaded in %f seconds = Carregado em %f segundos
+
+## Items
+Silicon Wafer = Wafer de silicone
+Doped Silicon Wafer = Wafer de silicone dopado
+Enriched Uranium = Urânio enriquecido
+Uranium Fuel = Urânio combustível
+Diamond Drill Head = Cabeça diamantada da broca
+Blue Energy Crystal = Cristal de energia azul
+Green Energy Crystal = Cristal de energia verde
+Red Energy Crystal = Cristal de energia vermelho
+Fine Copper Wire = Fio fino de cobre
+Copper Coil = Bobina de cobre
+Electric Motor = Motor elétrico
+Low Voltage Transformer = Transformador de baixa voltagem
+Medium Voltage Transformer = Transformador de média voltagem
+High Voltage Transformer = Transformador de alta voltagem
+Control Logic Unit = Unidade lógica de controle
+Mixed Metal Ingot = Lingote de liga metálica
+Composite Plate = Placa de compósito
+Copper Plate = Placa de cobre
+Carbon Plate = Placa de carbono
+Graphite = Grafite
+Carbon Cloth = Roupa de carbono
+Raw Latex = Látex bruto
+Rubber Fiber = Fibra de borracha
+
+## Machine misc
+Machine cannot be removed because it is not empty = A máquina não pode ser removida porque ela não está vazia
+# $1: Machine name (Includes tier)
+%s Active = %s ativo
+%s Disabled = %s desabilitado
+%s Idle = %s ocioso
+%s Improperly Placed = %s montado incorretamente
+%s Unpowered = %s sem energia
+%s Out Of Fuel = %s sem combustível
+%s Has Bad Cabling = %s cabeado incorretamente
+%s Has No Network = %s não possui rede
+%s Finished = %s encerrada
+Enable/Disable = Habilitar/Desabilitar
+Range = Intervalo
+
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = Fornalha de fundição - %s
+%s Battery Box =  Bateria - %s
+%s Cable = Cabo - %s
+%s Electric Furnace = Fornalha elétrica - %s
+%s Grinder = Triturador - %s
+%s Generator = Gerador - %s
+%s Solar Array = Sistema fotovoltaico - %s
+Battery Box = Bateria
+Supply Converter = Conversor de voltagem
+Switching Station = Transformador
+CNC Machine = Máquina CNC
+Coal Alloy Furnace = Fornalha de fundição à carvão
+Extractor = Extrator
+Compressor = Compressor
+Solar Panel = Painel solar
+Geothermal Generator = Gerador geotérmico
+Music Player = Tocador de música
+Water Mill = Turbina de água
+Tool WorkShop = Oficina de ferramentas
+Wind Mill = Turbina de vento
+Wind Mill Frame = Armação da turbina de vento
+Forcefield Emitter = Emissor de campo de força
+Forcefield = Campo de força
+Nuclear Reactor Core = Núcleo do reator nuclear
+Nuclear Reactor Rod Compartment = Vareta de controle do reator nuclear
+Quarry = Pedreira
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Carregar
+Discharge = Descarregar
+Power level = Nível de energia
+# $1: Tier $2: current_charge $3: max_charge 
+%s Battery Box: %d/%d = %s Bateria: %d/%d
+# $1: Machine name $2: Supply $3: Demand
+%s. Supply: %d Demand: %d = %s. Oferta: %d Demanda: %d
+Production at %d%% = Produção em %d%%
+
+## CNC
+Cylinder = Cilindro
+Element Cross = - Pedaço em cruz
+Element Cross Double = - Duplo pedaço em cruz
+Element Edge = - Pedaço do canto
+Element Edge Double = - Duplo pedaço do canto
+Element End = - Terminação
+Element End Double = - Terminação dupla
+Element Straight = - Pedaço reto
+Element Straight Double = - Duplo pedaço reto
+Element T = - Pedaço em T
+Element T Double = - Duplo pedaço em T
+Horizontal Cylinder = - Cilindro horizontal
+One Curved Edge Block = - Bloco com um canto arredondado
+Pyramid = - Pirâmide
+Slope = - Plano inclinado
+Slope Edge = - Plano inclinado (borda externa)
+Slope Inner Edge = - Plano inclinado (borda interna)
+Slope Lying = - Plano inclinado deitado
+Slope Upside Down = - Plano inclinado invertido
+Slope Upside Down Edge = - Plano inclinado invertido (borda externa)
+Slope Upside Down Inner Edge = - Plano inclinado invertido (borda interna)
+Sphere = - Esfera
+Spike = - Espigão
+Stick = - Vara
+Two Curved Edge Block = - Bloco com dois cantos arredondados
+Brick = Tijolo
+Cobble = Pedregulho
+Dirt = Terra
+Leaves = Folhas
+Sandstone = Arenito
+Steel = Aço
+Stone = Pedra
+Tree = Árvore
+Wooden = Madeira
+
+## Grinder Recipes
+# $1: Name
+%s Dust = Pó de %s
+Akalin = Akalin
+Alatro = Alatro
+Arol = Arol
+Brass = Bronze
+Bronze = Bronze
+Chromium = Cromo
+Coal = Carvão
+Copper = Cobre
+Gold = Ouro
+Iron = Ferro
+Mithril = Mithril
+Silver = Prata
+Stainless Steel = Aço inoxidável
+Talinite = Talinite
+Tin = Estanho
+Zinc = Zinco
+
+## Tools
+Water Can = Lata de água
+Lava Can = Lata de lava
+Chainsaw = Serra elétrica
+Flashlight = Lanterna
+3 nodes deep. = 3 nós de profundidade.
+3 nodes tall. = 3 nós de altura.
+3 nodes wide. = 3 nós de largura.
+3x3 nodes. = 3x3 nós
+Hold shift and use to change Mining Drill Mk%d modes. = Segure o shift para alterar o modo da broca de perfuração Mk%d.
+Mining Drill Mk%d Mode %d = Broca de perfuração Mk%d - modo %d
+Mining Drill Mk%d = Broca de perfuração Mk%d
+Mining Laser Mk%d = Laser de perfuração Mk%d
+Single node. = Nó simples.
+Sonic Screwdriver = Chave de fenda sônica
+Tree Tap = Dreno de árvore
