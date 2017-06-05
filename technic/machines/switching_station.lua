@@ -1,35 +1,4 @@
--- SWITCHING STATION
--- The switching station is the center of all power distribution on an electric network.
---
--- The station collects power from sources (PR), distributes it to sinks (RE),
--- and uses the excess/shortfall to charge and discharge batteries (BA).
---
--- For now, all supply and demand values are expressed in kW.
---
--- It works like this:
---  All PR,BA,RE nodes are indexed and tagged with the switching station.
--- The tagging is to allow more stations to be built without allowing a cheat
--- with duplicating power.
---  All the RE nodes are queried for their current EU demand. Those which are off
--- would require no or a small standby EU demand, while those which are on would
--- require more.
--- If the total demand is less than the available power they are all updated with the
--- demand number.
--- If any surplus exists from the PR nodes the batteries will be charged evenly with this.
--- If the total demand requires draw on the batteries they will be discharged evenly.
---
--- If the total demand is more than the available power all RE nodes will be shut down.
--- We have a brown-out situation.
---
--- Hence all the power distribution logic resides in this single node.
---
---  Nodes connected to the network will have one or more of these parameters as meta data:
---   <LV|MV|HV>_EU_supply : Exists for PR and BA node types. This is the EU value supplied by the node. Output
---   <LV|MV|HV>_EU_demand : Exists for RE and BA node types. This is the EU value the node requires to run. Output
---   <LV|MV|HV>_EU_input  : Exists for RE and BA node types. This is the actual EU value the network can give the node. Input
---
---  The reason the LV|MV|HV type is prepended toe meta data is because some machine could require several supplies to work.
---  This way the supplies are separated per network.
+-- See also technic/doc/api.md
 
 technic.networks = {}
 technic.cables = {}
