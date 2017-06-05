@@ -12,12 +12,59 @@ technic.register_power_tool("technic:red_energy_crystal", 50000)
 technic.register_power_tool("technic:green_energy_crystal", 150000)
 technic.register_power_tool("technic:blue_energy_crystal", 450000)
 
+-- Battery recipes:
+-- Tin-copper recipe:
 minetest.register_craft({
-	output = 'technic:battery',
+	output = "technic:battery",
 	recipe = {
-		{'group:wood', 'default:copper_ingot', 'group:wood'},
-		{'group:wood', 'moreores:tin_ingot',   'group:wood'},
-		{'group:wood', 'default:copper_ingot', 'group:wood'},
+		{"group:wood", "default:copper_ingot", "group:wood"},
+		{"group:wood", "moreores:tin_ingot",   "group:wood"},
+		{"group:wood", "default:copper_ingot", "group:wood"},
+	}
+})
+-- Sulfur-lead-water recipes:
+-- With sulfur lumps:
+-- With water:
+minetest.register_craft({
+	output = "technic:battery",
+	recipe = {
+		{"group:wood",         "technic:sulfur_lump", "group:wood"},
+		{"technic:lead_ingot", "bucket:bucket_water", "technic:lead_ingot"},
+		{"group:wood",         "technic:sulfur_lump", "group:wood"},
+	},
+	replacements = {
+		{"bucket:bucket_water", "bucket:bucket_empty"}
+	}
+})
+-- With oil extract:
+minetest.register_craft({
+	output = "technic:battery",
+	recipe = {
+		{"group:wood",         "technic:sulfur_lump",   "group:wood"},
+		{"technic:lead_ingot", "homedecor:oil_extract", "technic:lead_ingot"},
+		{"group:wood",         "technic:sulfur_lump",   "group:wood"},
+	}
+})
+-- With sulfur dust:
+-- With water:
+minetest.register_craft({
+	output = "technic:battery",
+	recipe = {
+		{"group:wood",         "technic:sulfur_dust", "group:wood"},
+		{"technic:lead_ingot", "bucket:bucket_water", "technic:lead_ingot"},
+		{"group:wood",         "technic:sulfur_dust", "group:wood"},
+	},
+	replacements = {
+		{"bucket:bucket_water", "bucket:bucket_empty"}
+	}
+})
+-- With oil extract:
+minetest.register_craft({
+	output = "technic:battery",
+	recipe = {
+		{"group:wood",         "technic:sulfur_dust",   "group:wood"},
+		{"technic:lead_ingot", "homedecor:oil_extract", "technic:lead_ingot"},
+		{"group:wood",         "technic:sulfur_dust",   "group:wood"},
 	}
 })
 
