@@ -118,7 +118,7 @@ minetest.register_ore({
 })
 
 -- Sulfur
-local sulfur_buf = nil
+local sulfur_buf = {}
 local sulfur_noise= nil
 
 minetest.register_on_generated(function(minp, maxp, seed)
