@@ -3,7 +3,7 @@ local S = technic.getter
 
 frames = {}
 
-local infinite_stacks = minetest.setting_getbool("creative_mode") and minetest.get_modpath("unified_inventory") == nil
+local infinite_stacks = minetest.settings:get_bool("creative_mode") and minetest.get_modpath("unified_inventory") == nil
 
 local frames_pos = {}
 

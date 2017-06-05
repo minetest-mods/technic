@@ -344,7 +344,7 @@ local function dmg_abm(pos, node)
 	end
 end
 
-if minetest.setting_getbool("enable_damage") then
+if minetest.settings:get_bool("enable_damage") then
 	minetest.register_abm({
 		label = "Radiation damage",
 		nodenames = {"group:radioactive"},
