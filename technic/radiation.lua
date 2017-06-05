@@ -384,7 +384,7 @@ for _, state in pairs({"flowing", "source"}) do
 	minetest.register_node("technic:corium_"..state, {
 		description = S(state == "source" and "Corium Source" or "Flowing Corium"),
 		drawtype = (state == "source" and "liquid" or "flowingliquid"),
-		[state == "source" and "tiles" or "special_tiles"] = {{
+		tiles = {{
 			name = "technic_corium_"..state.."_animated.png",
 			animation = {
 				type = "vertical_frames",
@@ -393,6 +393,28 @@ for _, state in pairs({"flowing", "source"}) do
 				length = 3.0,
 			},
 		}},
+		special_tiles = {
+			{
+				name = "technic_corium_"..state.."_animated.png",
+				backface_culling = false,
+				animation = {
+					type = "vertical_frames",
+					aspect_w = 16,
+					aspect_h = 16,
+					length = 3.0,
+				},
+			},
+			{
+				name = "technic_corium_"..state.."_animated.png",
+				backface_culling = true,
+				animation = {
+					type = "vertical_frames",
+					aspect_w = 16,
+					aspect_h = 16,
+					length = 3.0,
+				},
+			},
+		},
 		paramtype = "light",
 		paramtype2 = (state == "flowing" and "flowingliquid" or nil),
 		light_source = (state == "source" and 8 or 5),
