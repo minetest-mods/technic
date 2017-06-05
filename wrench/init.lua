@@ -39,9 +39,10 @@ local function restore(pos, placer, itemstack)
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	local data = minetest.deserialize(itemstack:get_metadata())
+	local data = itemstack:get_meta():get_string("data")
+	data = (data ~= "" and data) or	itemstack:get_metadata()
+	data = minetest.deserialize(data)
 	minetest.set_node(pos, {name = data.name, param2 = node.param2})
-	local lists = data.lists
 	for name, value in pairs(data.metas) do
 		local meta_type = get_meta_type(data.name, name)
 		if meta_type == wrench.META_TYPE_INT then
@@ -52,6 +53,7 @@ local function restore(pos, placer, itemstack)
 			meta:set_string(name, value)
 		end
 	end
+	local lists = data.lists
 	for listname, list in pairs(lists) do
 		inv:set_list(listname, list)
 	end
@@ -96,8 +98,9 @@ minetest.register_tool("wrench:wrench", {
 		if not placer or not pos then
 			return
 		end
-		if minetest.is_protected(pos, placer:get_player_name()) then
-			minetest.record_protection_violation(pos, placer:get_player_name())
+		local player_name = placer:get_player_name()
+		if minetest.is_protected(pos, player_name) then
+			minetest.record_protection_violation(pos, player_name)
 			return
 		end
 		local name = minetest.get_node(pos).name
@@ -114,9 +117,9 @@ minetest.register_tool("wrench:wrench", {
 		local meta = minetest.get_meta(pos)
 		if def.owned then
 			local owner = meta:get_string("owner")
-			if owner and owner ~= placer:get_player_name() then
-				minetest.log("action", placer:get_player_name()..
-					" tried to pick up a owned node belonging to "..
+			if owner and owner ~= player_name then
+				minetest.log("action", player_name..
+					" tried to pick up an owned node belonging to "..
 					owner.." at "..
 					minetest.pos_to_string(pos))
 				return
@@ -130,9 +133,6 @@ minetest.register_tool("wrench:wrench", {
 		local inv = meta:get_inventory()
 		local lists = {}
 		for _, listname in pairs(def.lists or {}) do
-			if not inv:is_empty(listname) then
-				empty = false
-			end
 			local list = inv:get_list(listname)
 			for i, stack in pairs(list) do
 				list[i] = stack:to_string()
@@ -140,20 +140,20 @@ minetest.register_tool("wrench:wrench", {
 			lists[listname] = list
 		end
 		metadata.lists = lists
-		
-		local metas = {}
+
+		local item_meta = stack:get_meta()
+		metadata.metas = {}
 		for name, meta_type in pairs(def.metas or {}) do
 			if meta_type == wrench.META_TYPE_INT then
-				metas[name] = meta:get_int(name)
+				metadata.metas[name] = meta:get_int(name)
 			elseif meta_type == wrench.META_TYPE_FLOAT then
-				metas[name] = meta:get_float(name)
+				metadata.metas[name] = meta:get_float(name)
 			elseif meta_type == wrench.META_TYPE_STRING then
-				metas[name] = meta:get_string(name)
+				metadata.metas[name] = meta:get_string(name)
 			end
 		end
-		metadata.metas = metas
-		
-		stack:set_metadata(minetest.serialize(metadata))
+
+		item_meta:set_string("data", minetest.serialize(metadata))
 		minetest.remove_node(pos)
 		itemstack:add_wear(65535 / 20)
 		player_inv:add_item("main", stack)
