@@ -12,6 +12,8 @@ intact the reactor will melt down!
 local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
+local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
+local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
 local S = technic.getter
 
@@ -28,12 +30,26 @@ minetest.register_craft({
 	}
 })
 
-local reactor_formspec =
-	"invsize[8,9;]"..
+local function make_reactor_formspec(meta)
+	local f = "size[8,9]"..
 	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
-	"listring[]"
+	"listring[]"..
+	"button[5.5,1.5;2,1;start;Start]"..
+	"checkbox[5.5,2.5;autostart;automatic Start;"..meta:get_string("autostart").."]"
+	if not digiline_remote_path then
+		return f
+	end
+	local digiline_enabled = meta:get_string("enable_digiline")
+	f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
+	if digiline_enabled ~= "true" then
+		return f
+	end
+	return f..
+		"button_exit[4.6,3.69;2,1;save;Save]"..
+		"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+end
 
 local SS_OFF = 0
 local SS_DANGER = 1
@@ -196,7 +212,37 @@ end
 
 local function melt_down_reactor(pos)
 	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
-	minetest.set_node(pos, {name="technic:corium_source"})
+	minetest.set_node(pos, {name = "technic:corium_source"})
+end
+
+
+local function start_reactor(pos, meta)
+	if minetest.get_node(pos).name ~= "technic:hv_nuclear_reactor_core" then
+		return false
+	end
+	local inv = meta:get_inventory()
+	if inv:is_empty("src") then
+		return false
+	end
+	local src_list = inv:get_list("src")
+	local correct_fuel_count = 0
+	for _, src_stack in pairs(src_list) do
+		if src_stack and src_stack:get_name() == fuel_type then
+			correct_fuel_count = correct_fuel_count + 1
+		end
+	end
+	-- Check that the reactor is complete and has the correct fuel
+	if correct_fuel_count ~= 6 or reactor_structure_badness(pos) ~= 0 then
+		return false
+	end
+	meta:set_int("burn_time", 1)
+	technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
+	meta:set_int("HV_EU_supply", power_supply)
+	for idx, src_stack in pairs(src_list) do
+		src_stack:take_item()
+		inv:set_stack("src", idx, src_stack)
+	end
+	return true
 end
 
 
@@ -229,27 +275,13 @@ minetest.register_abm({
 local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local burn_time = meta:get_int("burn_time") or 0
-
 	if burn_time >= burn_ticks or burn_time == 0 then
-		local inv = meta:get_inventory()
-		if not inv:is_empty("src") then 
-			local src_list = inv:get_list("src")
-			local correct_fuel_count = 0
-			for _, src_stack in pairs(src_list) do
-				if src_stack and src_stack:get_name() == fuel_type then
-					correct_fuel_count = correct_fuel_count + 1
-				end
-			end
-			-- Check that the reactor is complete and has the correct fuel
-			if correct_fuel_count == 6 and
-					reactor_structure_badness(pos) == 0 then
-				meta:set_int("burn_time", 1)
-				technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active") 
-				meta:set_int("HV_EU_supply", power_supply)
-				for idx, src_stack in pairs(src_list) do
-					src_stack:take_item()
-					inv:set_stack("src", idx, src_stack)
-				end
+		if digiline_remote_path and meta:get_int("HV_EU_supply") == power_supply then
+			digiline_remote.send_to_node(pos, meta:get_string("remote_channel"),
+					"fuel used", 6, true)
+		end
+		if meta:get_string("autostart") == "true" then
+			if start_reactor(pos, meta) then
 				return
 			end
 		end
@@ -268,6 +300,100 @@ local function run(pos, node)
 	end
 end
 
+local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
+	local player_name = sender:get_player_name()
+	if minetest.is_protected(pos, player_name) then
+		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.record_protection_violation(pos, player_name)
+		return
+	end
+	local meta = minetest.get_meta(pos)
+	local update_formspec = false
+	if fields.remote_channel then
+		meta:set_string("remote_channel", fields.remote_channel)
+	end
+	if fields.start then
+		local b = start_reactor(pos, meta)
+		if b then
+			minetest.chat_send_player(player_name, "Start successful")
+		else
+			minetest.chat_send_player(player_name, "Error")
+		end
+	end
+	if fields.autostart then
+		meta:set_string("autostart", fields.autostart)
+		update_formspec = true
+	end
+	if fields.enable_digiline then
+		meta:set_string("enable_digiline", fields.enable_digiline)
+		update_formspec = true
+	end
+	if update_formspec then
+		meta:set_string("formspec", make_reactor_formspec(meta))
+	end
+end
+
+local digiline_remote_def = function(pos, channel, msg)
+	local meta = minetest.get_meta(pos)
+	if meta:get_string("enable_digiline") ~= "true" or
+			channel ~= meta:get_string("remote_channel") then
+		return
+	end
+	-- Convert string messages to tables:
+	local msgt = type(msg)
+	if msgt == "string" then
+		local smsg = msg:lower()
+		msg = {}
+		if smsg == "get" then
+			msg.command = "get"
+		elseif smsg:sub(1, 13) == "self_destruct" then
+			msg.command = "self_destruct"
+			msg.timer = tonumber(smsg:sub(15)) or 0
+		elseif smsg == "start" then
+			msg.command = "start"
+		end
+	elseif msgt ~= "table" then
+		return
+	end
+
+	if msg.command == "get" then
+		local inv = meta:get_inventory()
+		local invtable = {}
+		for i = 1, 6 do
+			local stack = inv:get_stack("src", i)
+			if stack:is_empty() then
+				invtable[i] = 0
+			elseif stack:get_name() == fuel_type then
+				invtable[i] = stack:get_count()
+			else
+				invtable[i] = -stack:get_count()
+			end
+		end
+		digiline_remote.send_to_node(pos, channel, {
+			burn_time = meta:get_int("burn_time"),
+			enabled   = meta:get_int("HV_EU_supply") == power_supply,
+			siren     = meta:get_int("siren") == 1,
+			structure_accumulated_badness = meta:get_int("structure_accumulated_badness"),
+			rods = invtable
+		}, 6, true)
+	elseif digiline_meltdown and msg.command == "self_destruct" and
+			minetest.get_node(pos).name == "technic:hv_nuclear_reactor_core_active" then
+		if msg.timer ~= 0 and type(msg.timer) == "number" then
+			siren_danger(pos, meta)
+			minetest.after(msg.timer, melt_down_reactor, pos)
+		else
+			melt_down_reactor(pos)
+		end
+	elseif msg.command == "start" then
+		local b = start_reactor(pos, meta)
+		if b then
+			digiline_remote.send_to_node(pos, channel, "Start successful", 6, true)
+		else
+			digiline_remote.send_to_node(pos, channel, "Error", 6, true)
+		end
+	end
+end
+
 minetest.register_node("technic:hv_nuclear_reactor_core", {
 	description = reactor_desc,
 	tiles = {
@@ -276,19 +402,25 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	},
 	drawtype = "mesh",
 	mesh = "technic_reactor.obj",
-	groups = {cracky=1, technic_machine=1, technic_hv=1},
+	groups = {cracky = 1, technic_machine = 1, technic_hv = 1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	stack_max = 1,
+	on_receive_fields = nuclear_reactor_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", reactor_desc)
-		meta:set_string("formspec", reactor_formspec)
+		meta:set_string("formspec", make_reactor_formspec(meta))
+		if digiline_remote_path then
+			meta:set_string("remote_channel",
+					"nucelear_reactor"..minetest.pos_to_string(pos))
+		end
 		local inv = meta:get_inventory()
 		inv:set_size("src", 6)
 	end,
+	_on_digiline_remote_receive = digiline_remote_def,
 	can_dig = technic.machine_can_dig,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -304,14 +436,16 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	},
 	drawtype = "mesh",
 	mesh = "technic_reactor.obj",
-	groups = {cracky=1, technic_machine=1, technic_hv=1,
-		radioactive=4, not_in_creative_inventory=1},
+	groups = {cracky = 1, technic_machine = 1, technic_hv = 1, radioactive = 4,
+		not_in_creative_inventory = 1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hv_nuclear_reactor_core",
 	light_source = 14,
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_receive_fields = nuclear_reactor_receive_fields,
+	_on_digiline_remote_receive = digiline_remote_def,
 	can_dig = technic.machine_can_dig,
 	after_dig_node = melt_down_reactor,
 	on_destruct = function(pos) siren_set_state(pos, SS_OFF) end,
