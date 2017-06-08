@@ -26,7 +26,7 @@ minetest.register_tool("technic:vacuum", {
 		end
 		local pos = user:getpos()
 		local inv = user:get_inventory()
-		for _, object in ipairs(minetest.env:get_objects_inside_radius(pos, vacuum_range)) do
+		for _, object in ipairs(minetest.get_objects_inside_radius(pos, vacuum_range)) do
 			local luaentity = object:get_luaentity()
 			if not object:is_player() and luaentity and luaentity.name == "__builtin:item" and luaentity.itemstring ~= "" then
 				if inv and inv:room_for_item("main", ItemStack(luaentity.itemstring)) then
