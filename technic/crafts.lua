@@ -9,32 +9,36 @@ minetest.clear_craft({
 })
 
 -- Accelerator tube
-minetest.clear_craft({
-	output = "pipeworks:accelerator_tube_1",
-})
+if pipeworks.enable_accelerator_tube then
+	minetest.clear_craft({
+		output = "pipeworks:accelerator_tube_1",
+	})
+
+	minetest.register_craft({
+		output = 'pipeworks:accelerator_tube_1',
+		recipe = {
+			{'technic:copper_coil', 'pipeworks:tube_1', 'technic:copper_coil'},
+			}
+	})
+end
 
 -- Teleport tube
-minetest.clear_craft({
-	output = "pipeworks:teleport_tube_1",
-})
+if pipeworks.enable_teleport_tube then
+	minetest.clear_craft({
+		output = "pipeworks:teleport_tube_1",
+	})
+
+	minetest.register_craft({
+		output = 'pipeworks:teleport_tube_1',
+		recipe = {
+			{'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
+			{'pipeworks:tube_1', 'technic:control_logic_unit', 'pipeworks:tube_1'},
+			{'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
+			}
+	})
+end
 
 -- tubes crafting recipes
-
-minetest.register_craft({
-    output = 'pipeworks:accelerator_tube_1',
-    recipe = {
-        {'technic:copper_coil', 'pipeworks:tube_1', 'technic:copper_coil'},
-        }
-})
-
-minetest.register_craft({
-    output = 'pipeworks:teleport_tube_1',
-    recipe = {
-        {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
-        {'pipeworks:tube_1', 'technic:control_logic_unit', 'pipeworks:tube_1'},
-        {'default:mese_crystal', 'technic:copper_coil', 'default:mese_crystal'},
-        }
-})
 
 minetest.register_craft({
 	output = 'technic:diamond_drill_head',
