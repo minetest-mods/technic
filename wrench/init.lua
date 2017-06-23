@@ -24,10 +24,7 @@ local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]
-	if not def or not def.metas or not def.metas[metaname] then
-		return nil
-	end
-	return def.metas[metaname]
+	return def and def.metas and def.metas[metaname] or nil
 end
 
 local function get_pickup_name(name)
@@ -42,6 +39,14 @@ local function restore(pos, placer, itemstack)
 	local data = itemstack:get_meta():get_string("data")
 	data = (data ~= "" and data) or	itemstack:get_metadata()
 	data = minetest.deserialize(data)
+	if not data then
+		minetest.remove_node(pos)
+		minetest.log("error", placer:get_player_name().." wanted to place "..
+				name.." at "..minetest.pos_to_string(pos)..
+				", but it had no data.")
+		minetest.log("verbose", "itemstack: "..itemstack:to_string())
+		return true
+	end
 	minetest.set_node(pos, {name = data.name, param2 = node.param2})
 	for name, value in pairs(data.metas) do
 		local meta_type = get_meta_type(data.name, name)
