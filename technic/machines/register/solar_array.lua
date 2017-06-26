@@ -30,14 +30,15 @@ function technic.register_solar_array(data)
 			local charge_to_give = math.floor((light + pos.y) * data.power)
 			charge_to_give = math.max(charge_to_give, 0)
 			charge_to_give = math.min(charge_to_give, data.power * 50)
-			meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.pretty_num(charge_to_give)))
+			meta:set_string("infotext", S("@1 Active (@2)", machine_name,
+				technic.EU_string(charge_to_give)))
 			meta:set_int(tier.."_EU_supply", charge_to_give)
 		else
 			meta:set_string("infotext", S("%s Idle"):format(machine_name))
 			meta:set_int(tier.."_EU_supply", 0)
 		end
 	end
-	
+
 	minetest.register_node("technic:solar_array_"..ltier, {
 		tiles = {"technic_"..ltier.."_solar_array_top.png",  "technic_"..ltier.."_solar_array_bottom.png",
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png",

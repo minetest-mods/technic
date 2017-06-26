@@ -11,9 +11,12 @@ switching station handles the network activity.
 
 Helper functions
 ----------------
+* `technic.EU_string(num)`
+	* Converts num to a human-readable string with unit
+	* Use this function when showing players power values
 * `technic.pretty_num(num)`
-	* Converts the number `num` to a human-readable string.
-	* Use this function when showing players power values.
+	* Converts the number `num` to a human-readable string
+	* This function is currently unused by technic (legacy).
 * `technic.swap_node(pos, nodename)`
 	* Same as `mintest.swap_node` but it only changes the nodename.
 	* It uses `minetest.get_node` before swapping to ensure the new nodename
