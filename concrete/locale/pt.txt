@@ -1,0 +1,5 @@
+Rebar = Barra de Reforço
+Concrete Block = Bloco de Concreto
+Blast-resistant Concrete Block = Bloco de Concreto Resistente à Explosões
+Concrete Post Platform = Plataforma de Concreto para Poste
+Concrete Post = Poste de Concreto
