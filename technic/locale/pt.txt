@@ -1,0 +1,4 @@
+Marble = Mármore
+Marble Bricks = Tijolos de Mármore
+Granite = Granito
+Concrete = Concreto
