@@ -1,0 +1,37 @@
+%s Chest = %s Baú
+%s Locked Chest = %s Baú Trancado
+%s Locked Chest (owned by %s) = %s Baú Trancado (propriedade de %s)
+Color Filter: %s = Filtro de Cor: %s
+Edit chest description: = Alterar a descrição do baú
+
+# Colors
+Black = Preto
+Blue = Azul
+Brown = Marrom
+Cyan = Ciano
+Dark Green = Verde Escuro
+Dark Grey = Cinza Escuro
+Green = Verde
+Grey = Cinza
+Magenta = Magenta
+Orange = Laranja
+Pink = Rosa
+Red = Vermelho
+Violet = Violeta
+White = Branco
+Yellow = Amarelo
+None = Nenhuma
+
+# Materials
+Copper = Cobre
+Gold = Ouro
+Iron = Ferro
+Mithril = Mitrila
+Silver = Prata
+Wooden = de Madeira
+
+# Sorting
+Sort = Ordenar
+Auto-sort is %s = Auto-Ordenar está %s
+Off = Desligado
+On = Ligado
