@@ -189,12 +189,29 @@ end
 -----------------------------------------------
 -- The action code for the switching station --
 -----------------------------------------------
+
+technic.powerctrl_state = true
+
+minetest.register_chatcommand("powerctrl", {
+	params = "state",
+	description = "Enables or disables technic's switching station ABM",
+	privs = { basic_privs = true },
+	func = function(name, state)
+		if state == "on" then
+			technic.powerctrl_state = true
+		else
+			technic.powerctrl_state = false
+		end
+	end
+})
+
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not technic.powerctrl_state then return end
 		local meta             = minetest.get_meta(pos)
 		local meta1            = nil
 		local pos1             = {}
