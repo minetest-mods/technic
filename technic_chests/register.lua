@@ -1,4 +1,4 @@
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = rawget(_G, "intllib") and intllib.make_gettext_pair() or function(s) return s end
 
 local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")

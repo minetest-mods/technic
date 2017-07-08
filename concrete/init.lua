@@ -5,7 +5,7 @@ local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
 -- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = rawget(_G, "intllib") and intllib.make_gettext_pair() or function(s) return s end
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
