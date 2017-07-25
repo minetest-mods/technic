@@ -9,5 +9,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_generator({tier="HV", tube=1, supply=1200})
+technic.register_generator({tier="HV", tube=1, supply=2400})
 
