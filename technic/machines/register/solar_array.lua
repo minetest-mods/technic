@@ -27,9 +27,9 @@ function technic.register_solar_array(data)
 		-- turn on array only during day time and if sufficient light
 		-- I know this is counter intuitive when cheating by using other light sources.
 		if light >= 12 and time_of_day >= 0.24 and time_of_day <= 0.76 and pos.y > 0 then
-			local charge_to_give = math.floor((light + pos.y) * data.power)
+			local charge_to_give = math.floor((light + (pos.y + 10) * 2) * data.power)
 			charge_to_give = math.max(charge_to_give, 0)
-			charge_to_give = math.min(charge_to_give, data.power * 50)
+			charge_to_give = math.min(charge_to_give, math.floor(data.power * 200/3 + 0.5))
 			meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.pretty_num(charge_to_give)))
 			meta:set_int(tier.."_EU_supply", charge_to_give)
 		else

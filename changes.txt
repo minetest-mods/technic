@@ -1,0 +1,84 @@
+demand:
+
+solar_arrays: math.min(math.max(math.floor((light + pos.y) * data.power), 0), data.power*50) -> math.min(math.max(math.floor((light + (pos.y + 10) * 2) * data.power), 0), math.floor(data.power * 200/3 + 0.5))
+
+LV:
+furnace: 300 -> 600
+grinder: 200 -> 400
+alloy_furnace: 300 -> 600
+extractor: 300 -> 600
+compressor: 300 -> 600
+music_player: 150 -> 200
+cnc_machine: 450
+
+MV:
+furnace: 2000, 1000, 500
+grinder: 600, 450, 300
+alloy_furnace: 3000, 2000, 1000
+extractor: 800, 600, 400
+compressor: 800, 600, 400
+tool_workshop: 5000, 3500, 2000
+centrifuge: 8000, 7000, 6000
+
+HV:
+force_field_cube: 24*range^2 *10
+force_field_sphere: 4 * math.pi * range * range * 10
+quarry: 10000
+
+
+
+supply:
+
+LV:
+generator: 200 -> 400
+geothermal_25: 50
+geothermal_50: 100
+geothermal_75: 200
+geothermal_100: 300
+water_mill: math.min(35 * water_flow, max_output) -> math.min(math.floor(max_output/(4*15) * water_flow + 0.5), max_output)
+water_mill_max: >1500 -> 200
+solar_panel: math.min(math.max(math.floor((light + pos1.y) * 3), 0), 200) -> math.min(math.max(math.floor((light + (pos1.y + 10) * 2) * 3)), 0), 200)
+solar_panel_max: 200
+solar_array_power: 10
+solar_array_max: 50*power=500 -> 200/3*power=667
+
+MV:
+generator: 600
+wind_mill: pos.y * 100
+wind_mill_max: 5000
+solar_array_power: 30
+solar_array_max: 1500 -> 2000
+
+HV:
+generator: 1200
+nuclear_reactor: 100000
+solar_array_power: 100
+solar_array_max: 5000 -> 6667
+
+
+
+other:
+
+lv_barrery_box:
+max_charge: 40000
+charge_rate: 1000
+discharge_rate: 4000
+charge_step: 500
+discharge_step: 800
+
+mv_barrery_box:
+max_charge: 200000
+charge_rate: 20000
+discharge_rate: 80000
+charge_step: 2000
+discharge_step: 8000
+
+hv_barrery_box:
+max_charge: 1000000
+charge_rate: 100000
+discharge_rate: 400000
+charge_step: 10000
+discharge_step: 40000
+
+supply_converter_max_input: 10000
+supply_converter_conversation_rate: 90%

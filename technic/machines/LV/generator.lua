@@ -14,5 +14,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_generator({tier="LV", supply=200})
+technic.register_generator({tier="LV", supply=400})
 

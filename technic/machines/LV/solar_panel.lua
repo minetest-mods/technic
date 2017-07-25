@@ -32,7 +32,7 @@ local run = function(pos, node)
 	-- turn on panel only during day time and if sufficient light
         -- I know this is counter intuitive when cheating by using other light sources underground.
 	if light >= 12 and time_of_day >= 0.24 and time_of_day <= 0.76 and pos.y > -10 then
-		local charge_to_give = math.floor((light + pos1.y) * 3)
+		local charge_to_give = math.floor((light + (pos1.y + 10) * 2) * 3)
 		charge_to_give = math.max(charge_to_give, 0)
 		charge_to_give = math.min(charge_to_give, 200)
 		meta:set_string("infotext", S("@1 Active (@2 EU)", machine_name, technic.pretty_num(charge_to_give)))
