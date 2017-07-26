@@ -1,0 +1,6 @@
+# Brazilian Portuguese translation for technic_wrench
+# Tradução para o Português do Brasil para technic_wrench
+# by caiorrs
+
+Wrench = Chave Inglesa
+%s with items = %s com itens
