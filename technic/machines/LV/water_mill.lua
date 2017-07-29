@@ -48,7 +48,7 @@ local run = function(pos, node)
 		end
 	end
 
-	eu_supply = math.floor(max_output/(4*15) * water_flow + 0.5)
+	eu_supply = math.floor(max_output/(3*15) * water_flow + 0.5)
 	eu_supply = math.min(eu_supply, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
