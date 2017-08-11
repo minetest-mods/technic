@@ -160,6 +160,21 @@ if minetest.get_modpath("trunks") then
 	end
 end
 
+-- Support mymonths
+if minetest.get_modpath("mymonths") then
+	if chainsaw_leaves then
+		timber_nodenames["mymonths:leaves_pale_green"] = true
+		timber_nodenames["mymonths:leaves_orange"] = true
+		timber_nodenames["mymonths:leaves_red"] = true
+		timber_nodenames["mymonths:leaves_blooms"] = true
+		timber_nodenames["mymonths:leaves_acacia_blooms"] = true
+		timber_nodenames["mymonths:leaves_orange_aspen"] = true
+		timber_nodenames["mymonths:leaves_red_aspen"] = true
+		timber_nodenames["mymonths:leaves_aspen_blooms"] = true
+		timber_nodenames["mymonths:leaves_yellow_aspen"] = true
+	end
+end
+
 local S = technic.getter
 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
