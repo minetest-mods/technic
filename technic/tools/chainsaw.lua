@@ -172,6 +172,8 @@ if minetest.get_modpath("mymonths") then
 		timber_nodenames["mymonths:leaves_red_aspen"] = true
 		timber_nodenames["mymonths:leaves_aspen_blooms"] = true
 		timber_nodenames["mymonths:leaves_yellow_aspen"] = true
+		timber_nodenames["mymonths:sticks_default"] = true
+                timber_nodenames["mymonths:sticks_aspen"] = true
 	end
 end
 
