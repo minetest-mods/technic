@@ -257,7 +257,7 @@ minetest.register_abm({
 		local accum_badness = meta:get_int("structure_accumulated_badness")
 		if badness == 0 then
 			if accum_badness ~= 0 then
-				meta:set_int("structure_accumulated_badness", accum_badness - 4)
+				meta:set_int("structure_accumulated_badness", math.max(accum_badness - 4, 0))
 				siren_clear(pos, meta)
 			end
 		else
