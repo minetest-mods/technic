@@ -137,38 +137,20 @@ local function sort_inventory(inv)
 			local m = st:get_metadata()
 			local k = string.format("%s %05d %s", n, w, m)
 			if not typecnt[k] then
-				typecnt[k] = {
-					name = n,
-					wear = w,
-					metadata = m,
-					stack_max = st:get_stack_max(),
-					count = 0,
-				}
+				typecnt[k] = {st}
 				table.insert(typekeys, k)
+			else
+				table.insert(typecnt[k], st)
 			end
-			typecnt[k].count = typecnt[k].count + st:get_count()
 		end
 	end
 	table.sort(typekeys)
-	local outlist = {}
+	inv:set_list("main", {})
 	for _, k in ipairs(typekeys) do
-		local tc = typecnt[k]
-		while tc.count > 0 do
-			local c = math.min(tc.count, tc.stack_max)
-			table.insert(outlist, ItemStack({
-				name = tc.name,
-				wear = tc.wear,
-				metadata = tc.metadata,
-				count = c,
-			}))
-			tc.count = tc.count - c
+		for _, item in ipairs(typecnt[k]) do
+			inv:add_item("main", item)
 		end
 	end
-	if #outlist > #inlist then return end
-	while #outlist < #inlist do
-		table.insert(outlist, ItemStack(nil))
-	end
-	inv:set_list("main", outlist)
 end
 
 local function get_receive_fields(name, data)
@@ -305,7 +287,7 @@ function technic.chests:definition(name, data)
 		on_receive_fields = get_receive_fields(name, data),
 		on_metadata_inventory_move = self.on_inv_move,
 		on_metadata_inventory_put = self.on_inv_put,
-		on_metadata_inventory_take = self.on_inv_take,		
+		on_metadata_inventory_take = self.on_inv_take,
 		on_blast = function(pos)
 			local drops = {}
 			default.get_inventory_drops(pos, "main", drops)
