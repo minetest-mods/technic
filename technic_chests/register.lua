@@ -137,21 +137,25 @@ local function sort_inventory(inv)
 			local m = st:get_metadata()
 			local k = string.format("%s %05d %s", n, w, m)
 			if not typecnt[k] then
-				typecnt[k] = st:to_string()
+				typecnt[k] = {st}
 				table.insert(typekeys, k)
+			else
+				table.insert(typecnt[k], st)
 			end
 		end
 	end
 	table.sort(typekeys)
-	local outlist = {}
-	for _, k in ipairs(typekeys) do
-		table.insert(outlist, ItemStack(typecnt[k]))
+	if #typekeys > #inlist then return end
+	local empty_list = {}
+	for i = 1, #inlist do
+		empty_list[i] = ItemStack(nil)
 	end
-	if #outlist > #inlist then return end
-	while #outlist < #inlist do
-		table.insert(outlist, ItemStack(nil))
+	inv:set_list("main", empty_list)
+	for i = 1, #typekeys do
+		for k = 1, #typecnt[typekeys[i]] do
+			inv:add_item("main", typecnt[typekeys[i]][k])
+		end
 	end
-	inv:set_list("main", outlist)
 end
 
 local function get_receive_fields(name, data)
