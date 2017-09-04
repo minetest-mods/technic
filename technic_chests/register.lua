@@ -145,15 +145,10 @@ local function sort_inventory(inv)
 		end
 	end
 	table.sort(typekeys)
-	if #typekeys > #inlist then return end
-	local empty_list = {}
-	for i = 1, #inlist do
-		empty_list[i] = ItemStack(nil)
-	end
-	inv:set_list("main", empty_list)
-	for i = 1, #typekeys do
-		for k = 1, #typecnt[typekeys[i]] do
-			inv:add_item("main", typecnt[typekeys[i]][k])
+	inv:set_list("main", {})
+	for _, k in ipairs(typekeys) do
+		for _, item in ipairs(typecnt[k]) do
+			inv:add_item("main", item)
 		end
 	end
 end
