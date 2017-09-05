@@ -11,6 +11,8 @@ end
 local recipes = {
 	{"default:snowblock",          "default:ice"},
 	{"default:sand 2",             "default:sandstone"},
+	{"default:desert_sand 2",      "default:desert_sandstone"},
+	{"default:silver_sand 2",      "default:silver_sandstone"},
 	{"default:desert_sand",        "default:desert_stone"},
 	{"technic:mixed_metal_ingot",  "technic:composite_plate"},
 	{"default:copper_ingot 5",     "technic:copper_plate"},
@@ -21,10 +23,21 @@ local recipes = {
 
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
 minetest.clear_craft({
-	output = "default:sandstone",
 	recipe = {
-		{'group:sand', 'group:sand'},
-		{'group:sand', 'group:sand'}
+		{"default:sand", "default:sand"},
+		{"default:sand", "default:sand"},
+	},
+})
+minetest.clear_craft({
+	recipe = {
+		{"default:desert_sand", "default:desert_sand"},
+		{"default:desert_sand", "default:desert_sand"},
+	},
+})
+minetest.clear_craft({
+	recipe = {
+		{"default:silver_sand", "default:silver_sand"},
+		{"default:silver_sand", "default:silver_sand"},
 	},
 })
 

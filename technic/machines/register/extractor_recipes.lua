@@ -36,13 +36,21 @@ if minetest.get_modpath("dye") then
 	-- overwrite the existing crafting recipes
 	local dyes = {"white", "red", "yellow", "blue", "violet", "orange"}
 	for _, color in ipairs(dyes) do
-		minetest.register_craft({
-		        type = "shapeless",
-		        output = "dye:"..color.." 1",
-		        recipe = {"group:flower,color_"..color},
+		minetest.clear_craft({
+			type = "shapeless",
+			recipe = {"group:flower,color_"..color},
 		})
-
+		minetest.register_craft({
+			type = "shapeless",
+			output = "dye:"..color.." 1",
+			recipe = {"group:flower,color_"..color},
+		})
 	end
+
+	minetest.clear_craft({
+		type = "shapeless",
+		recipe = {"group:coal"},
+	})
 	minetest.register_craft({
 		type = "shapeless",
 		output = "dye:black 1",
@@ -50,6 +58,10 @@ if minetest.get_modpath("dye") then
 	})
 
 	if unifieddyes then
+		minetest.clear_craft({
+			type = "shapeless",
+			recipe = {"default:cactus"},
+		})
 		minetest.register_craft({
 			type = "shapeless",
 			output = "dye:green 1",
