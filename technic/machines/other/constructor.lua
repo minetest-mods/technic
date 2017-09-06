@@ -99,7 +99,7 @@ local function make_on(mark, length)
 
 		if node.name == "technic:constructor_mk"..mark.."_off" then
 			technic.swap_node(pos, "technic:constructor_mk"..mark.."_on")
-			nodeupdate(pos)
+			minetest.check_for_falling(pos)
 			for i = 1, length do
 				place_pos = vector.add(place_pos, dir)
 				local place_node = minetest.get_node(place_pos)
@@ -113,7 +113,7 @@ local function make_off(mark)
 	return function(pos, node)
 		if node.name == "technic:constructor_mk"..mark.."_on" then
 			technic.swap_node(pos,"technic:constructor_mk"..mark.."_off")
-			nodeupdate(pos)
+			minetest.check_for_falling(pos)
 		end
 	end
 end
