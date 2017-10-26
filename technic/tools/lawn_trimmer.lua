@@ -21,8 +21,7 @@
 
 -- Configuration
 local lawn_trimmer_max_charge        = 10000 -- 10000 - Maximum charge of the lawn trimmer
-local lawn_trimmer_charge_per_object = 25   -- 25   - Capable of picking up 400 objects
-local lawn_trimmer_range             = 3     -- 3     - Area in which to pick up objects
+local lawn_trimmer_charge_per_object = 25    -- 25    - Can mow 400 'group:flora' blocks
 
 local S = technic.getter
 
