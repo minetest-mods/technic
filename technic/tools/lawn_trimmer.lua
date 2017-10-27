@@ -20,42 +20,39 @@
 ]]
 
 -- Configuration
-local lawn_trimmer_max_charge        = 10000 -- 10000 - Maximum charge of the lawn trimmer
-local lawn_trimmer_charge_per_object = 25    -- 25    - Can mow 400 'group:flora' blocks
+local lawn_trimmer_max_charge        = 10000 -- default: 10000 - Same as the chainsaw
+local lawn_trimmer_charge_per_object = 25    -- default: 25    - Can mow 400 'group:flora' blocks
 
 local S = technic.getter
 
 local lawn_trimmer_mode_text = {
-	{S("immediately around the user")},
-	{S("sweep 1 block wide")},
-	{S("sweep 2 blocks wide")},
-	{S("sweep 3 blocks wide")}
+	S("immediately around the user"),
+	S("sweep 1 block wide"),
+	S("sweep 2 blocks wide"),
+	S("sweep 3 blocks wide")
 }
 
 
 -- Mode switcher for the tool
 local function lawn_trimmer_setmode(user,itemstack)
 	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=minetest.deserialize(item["metadata"])
-	local mode
-	if meta==nil then
-		meta={}
-		mode=0
+	local meta=minetest.deserialize(itemstack:get_metadata())
+
+	if meta == nil then
+		meta = {mode = 0}
 	end
-	if meta["mode"]==nil then
+	if meta.mode == nil then
 		minetest.chat_send_player(player_name, S("Use while sneaking to change Lawn Trimmer modes."))
-		meta["mode"]=0
-		mode=0
+		meta.mode = 0
 	end
-	mode=(meta["mode"])
-	mode=mode+1
+	meta.mode = meta.mode + 1
 	
-	if mode>4 then mode=1 end
+	if meta.mode > 4 then 
+		meta.mode = 1 
+	end
 	
-	minetest.chat_send_player(player_name, S("Lawn Trimmer Mode %d"):format(mode)..": "..lawn_trimmer_mode_text[mode][1])
-	itemstack:set_name("technic:lawn_trimmer_"..mode);
-	meta["mode"]=mode
+	minetest.chat_send_player(player_name, S("Lawn Trimmer Mode %d"):format(meta.mode) .. ": " .. lawn_trimmer_mode_text[meta.mode])
+	itemstack:set_name("technic:lawn_trimmer_" .. meta.mode);
 	itemstack:set_metadata(minetest.serialize(meta))
 	return itemstack
 end
@@ -65,7 +62,7 @@ end
 local function trim_the_lawn(itemstack, user)
 	local meta = minetest.deserialize(itemstack:get_metadata())
 	local keys = user:get_player_control()
-	local meta = minetest.deserialize(itemstack:get_metadata())
+	
 	if not meta or not meta.mode or keys.sneak then
 		return lawn_trimmer_setmode(user, itemstack)
 	end
@@ -83,14 +80,16 @@ local function trim_the_lawn(itemstack, user)
 	local pos = user:getpos()
 	local inv = user:get_inventory()
 	-- Defining the area for the search needs two positions
-	local start_pos = user:getpos()
-	start_pos.x = start_pos.x - meta.mode + 1
-	start_pos.z = start_pos.z - meta.mode + 1
-	start_pos.y = start_pos.y - 1 -- the tool can hardly be lowered a lot while standing, but we'll allow 1 node
-	local end_pos = user:getpos()
-	end_pos.x = end_pos.x + meta.mode - 1
-	end_pos.z = end_pos.z + meta.mode - 1
-	end_pos.y = end_pos.y + 1 -- cannot be raised too high either, though mostly for safety reasons
+	local start_pos = {
+		x = pos.x - meta.mode + 1,
+		z = pos.z - meta.mode + 1,
+		y = pos.y - 1 
+	} -- the tool can hardly be lowered a lot while standing, but we'll allow 1 node
+	local end_pos = {
+		x = pos.x + meta.mode - 1,
+		z = pos.z + meta.mode - 1,
+		y = pos.y + 1
+	} -- cannot be raised too high either, though mostly for safety reasons
 
 	-- Since nodes sometimes cannot be removed, we cannot rely on repeating find_node_near() and removing found nodes
 	local found_flora = minetest.find_nodes_in_area(start_pos, end_pos, {"group:flora"})
@@ -149,8 +148,8 @@ local trigger = mesecons_button and "mesecons_button:button_off" or "default:mes
 minetest.register_craft({
 	output = 'technic:lawn_trimmer',
 	recipe = {
-		{'',						'default:stick',	trigger},
-		{'technic:motor',				'default:stick',	'technic:battery'},
-		{'technic:stainless_steel_ingot',	'',			''},
+		{'', 'default:stick', trigger},
+		{'technic:motor', 'default:stick', 'technic:battery'},
+		{'technic:stainless_steel_ingot', '', ''},
 	}
 })
