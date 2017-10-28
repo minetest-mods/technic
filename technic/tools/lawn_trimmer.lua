@@ -40,7 +40,7 @@ local lawn_trimmer_mode_text = {
 
 
 -- Mode switcher for the tool
-local function lawn_trimmer_setmode(user,itemstack)
+local function lawn_trimmer_setmode(user, itemstack)
 	local player_name = user:get_player_name()
 	local meta = minetest.deserialize(itemstack:get_metadata())
 
@@ -53,8 +53,7 @@ local function lawn_trimmer_setmode(user,itemstack)
 		meta.mode = 0
 	end
 	
-	meta.mode = meta.mode + 1
-	if meta.mode > 4 then meta.mode = 1 end
+	meta.mode = meta.mode % 4 + 1
 	
 	minetest.chat_send_player(player_name, 
 		S("Lawn Trimmer Mode %d"):format(meta.mode) .. ": "
@@ -82,9 +81,11 @@ local function trim_the_lawn(itemstack, user)
 			to_player = user:get_player_name(),
 			gain = 0.4,
 		})
+	else
+		return -- no charge for even a single node, aborting
 	end
 	
-	local pos = user:getpos()
+	local pos = user:get_pos()
 	local inv = user:get_inventory()
 	-- Defining the area for the search needs two positions
 	-- The tool has a limited range in the vertical axis, which is capped at +/- 1 node
@@ -102,15 +103,14 @@ local function trim_the_lawn(itemstack, user)
 	-- Since nodes sometimes cannot be removed, we cannot rely on repeating 
 	-- find_node_near() and removing found nodes
 	local found_flora = minetest.find_nodes_in_area(start_pos, end_pos, {"group:flora"})
-	for _,f in ipairs(found_flora) do
-		-- Abort if no charge left for a node
-		if meta.charge < lawn_trimmer_charge_per_object then break end
-		-- Skip to the next one if this node cannot be dug
+	for _, f in ipairs(found_flora) do
+		-- Only dig the node if not protected, otherwise skip to the next one.
 		if not minetest.is_protected(f, user:get_player_name()) then
 			meta.charge = meta.charge - lawn_trimmer_charge_per_object
-			local node = minetest.get_node_or_nil(f)
-			minetest.node_dig(f, node, user)
+			minetest.node_dig(f, minetest.get_node(f), user)
 		end
+		-- Abort if no charge left for another node
+		if meta.charge < lawn_trimmer_charge_per_object then break end
 	end
 	
 	-- The charge won't expire in creative mode, but the tool still 
@@ -131,13 +131,10 @@ minetest.register_tool("technic:lawn_trimmer", {
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
-	on_use = function(itemstack, user, pointed_thing)
-		trim_the_lawn(itemstack, user)
-		return itemstack
-	end
+	on_use = trim_the_lawn
 })
 
-for i = 1,4,1 do
+for i = 1, 4 do
 	technic.register_power_tool("technic:lawn_trimmer_" .. i, lawn_trimmer_max_charge)
 	minetest.register_tool("technic:lawn_trimmer_" .. i, {
 		description = S("Lawn Trimmer Mode %d"):format(i),
@@ -146,17 +143,13 @@ for i = 1,4,1 do
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory = 1},
-		on_use = function(itemstack, user, pointed_thing)
-			trim_the_lawn(itemstack, user)
-			return itemstack
-		end
+		on_use = trim_the_lawn
 	})
 end
 
 
 -- Provide a crafting recipe
-local mesecons_button = minetest.get_modpath("mesecons_button")
-local trigger = mesecons_button and "mesecons_button:button_off" 
+local trigger = minetest.get_modpath("mesecons_button") and "mesecons_button:button_off" 
 	or "default:mese_crystal_fragment"
 
 minetest.register_craft({
