@@ -86,7 +86,6 @@ local function trim_the_lawn(itemstack, user)
 	end
 	
 	local pos = user:get_pos()
-	local inv = user:get_inventory()
 	-- Defining the area for the search needs two positions
 	-- The tool has a limited range in the vertical axis, which is capped at +/- 1 node
 	local start_pos = {
