@@ -32,12 +32,13 @@ local lawn_trimmer_charge_per_object = 25
 local S = technic.getter
 
 local lawn_trimmer_mode_text = {
-	S("immediately around the user"),
-	S("sweep 1 block wide"),
-	S("sweep 2 blocks wide"),
-	S("sweep 3 blocks wide")
+	S("sweep a single block under the user"),
+	S("sweep 1 block around the user"),
+	S("sweep 2 blocks around the user"),
+	S("sweep 3 blocks around the user")
 }
 
+local node_removed
 
 -- Mode switcher for the tool
 local function lawn_trimmer_setmode(user, itemstack)
@@ -76,14 +77,14 @@ local function trim_the_lawn(itemstack, user)
 		return
 	end
 	
-	if meta.charge > lawn_trimmer_charge_per_object then
-		minetest.sound_play("technic_lawn_trimmer", {
-			to_player = user:get_player_name(),
-			gain = 0.4,
-		})
-	else
+	if meta.charge < lawn_trimmer_charge_per_object then
 		return -- no charge for even a single node, aborting
 	end
+	
+	minetest.sound_play("technic_lawn_trimmer", {
+		to_player = user:get_player_name(),
+		gain = 0.4,
+	})
 	
 	local pos = user:get_pos()
 	-- Defining the area for the search needs two positions
@@ -103,15 +104,17 @@ local function trim_the_lawn(itemstack, user)
 	-- find_node_near() and removing found nodes
 	local found_flora = minetest.find_nodes_in_area(start_pos, end_pos, {"group:flora"})
 	for _, f in ipairs(found_flora) do
-		-- Only dig the node if not protected, otherwise skip to the next one.
-		if not minetest.is_protected(f, user:get_player_name()) then
+		node_removed = false
+		-- Callback will set the flag to true if the node is dug successfully,
+		-- otherwise skip to the next one.
+		minetest.node_dig(f, minetest.get_node(f), user)
+		if node_removed then
 			meta.charge = meta.charge - lawn_trimmer_charge_per_object
-			minetest.node_dig(f, minetest.get_node(f), user)
+			-- Abort if no charge left for another node
+			if meta.charge < lawn_trimmer_charge_per_object then break end
 		end
-		-- Abort if no charge left for another node
-		if meta.charge < lawn_trimmer_charge_per_object then break end
 	end
-	
+
 	-- The charge won't expire in creative mode, but the tool still 
 	-- has to be charged prior to use
 	if not technic.creative_mode then
@@ -121,6 +124,10 @@ local function trim_the_lawn(itemstack, user)
 	return itemstack
 end
 
+function check_removal(itemstack, user, node, digparams)
+	node_removed = true
+	return itemstack
+end
 
 -- Register the tool and its varieties in the game
 technic.register_power_tool("technic:lawn_trimmer", lawn_trimmer_max_charge)
@@ -130,7 +137,9 @@ minetest.register_tool("technic:lawn_trimmer", {
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
-	on_use = trim_the_lawn
+	on_use = trim_the_lawn,
+	after_use = check_removal
+
 })
 
 for i = 1, 4 do
@@ -142,7 +151,8 @@ for i = 1, 4 do
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory = 1},
-		on_use = trim_the_lawn
+		on_use = trim_the_lawn,
+		after_use = check_removal
 	})
 end
 
