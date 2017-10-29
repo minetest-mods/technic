@@ -45,7 +45,7 @@ local function lawn_trimmer_setmode(user, itemstack, meta)
 	local player_name = user:get_player_name()
 
 	if not meta then
-		meta = {mode = 0}
+		meta = {mode = nil}
 	end
 	if not meta.mode then
 		minetest.chat_send_player(player_name, 
@@ -122,9 +122,8 @@ local function trim_the_lawn(itemstack, user)
 	return itemstack
 end
 
-function check_removal(itemstack, user, node, digparams)
+function check_removal()
 	node_removed = true
-	return itemstack
 end
 
 -- Register the tool and its varieties in the game
