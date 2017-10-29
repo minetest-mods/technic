@@ -41,9 +41,9 @@ local lawn_trimmer_mode_text = {
 local node_removed
 
 -- Mode switcher for the tool
-local function lawn_trimmer_setmode(user, itemstack)
+local function lawn_trimmer_setmode(user, itemstack, meta)
 	local player_name = user:get_player_name()
-	local meta = minetest.deserialize(itemstack:get_metadata())
+	-- local meta = minetest.deserialize(itemstack:get_metadata())
 
 	if not meta then
 		meta = {mode = 0}
@@ -71,11 +71,10 @@ local function trim_the_lawn(itemstack, user)
 	local keys = user:get_player_control()
 	
 	if not meta or not meta.mode or keys.sneak then
-		return lawn_trimmer_setmode(user, itemstack)
+		return lawn_trimmer_setmode(user, itemstack, meta)
 	end
-	if not meta or not meta.charge then
-		return
-	end
+	
+	meta.charge = meta.charge or 0
 	
 	if meta.charge < lawn_trimmer_charge_per_object then
 		return -- no charge for even a single node, aborting
@@ -139,7 +138,6 @@ minetest.register_tool("technic:lawn_trimmer", {
 	on_refill = technic.refill_RE_charge,
 	on_use = trim_the_lawn,
 	after_use = check_removal
-
 })
 
 for i = 1, 4 do
