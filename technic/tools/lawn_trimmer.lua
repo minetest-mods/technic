@@ -43,7 +43,6 @@ local node_removed
 -- Mode switcher for the tool
 local function lawn_trimmer_setmode(user, itemstack, meta)
 	local player_name = user:get_player_name()
-	-- local meta = minetest.deserialize(itemstack:get_metadata())
 
 	if not meta then
 		meta = {mode = 0}
