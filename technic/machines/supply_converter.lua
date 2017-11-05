@@ -72,6 +72,9 @@ local digiline_def = {
 	receptor = {action = function() end},
 	effector = {
 		action = function(pos, node, channel, msg)
+			if type(msg) ~= "string" then
+				return
+			end
 			local meta = minetest.get_meta(pos)
 			if channel ~= meta:get_string("channel") then
 				return
@@ -90,7 +93,7 @@ local digiline_def = {
 				meta:set_int("enabled", 1)
 			elseif msg == "toggle" then
 				local onn = meta:get_int("enabled")
-				onn = -(onn-1) -- Mirror onn with pivot 0.5, so switch between 1 and 0.
+				onn = 1-onn -- Mirror onn with pivot 0.5, so switch between 1 and 0.
 				meta:set_int("enabled", onn)
 			elseif msg:sub(1, 5) == "power" then
 				local power = tonumber(msg:sub(7))
@@ -103,6 +106,8 @@ local digiline_def = {
 				meta:set_int("power", power)
 			elseif msg:sub(1, 12) == "mesecon_mode" then
 				meta:set_int("mesecon_mode", tonumber(msg:sub(14)))
+			else
+				return
 			end
 			set_supply_converter_formspec(meta)
 		end
