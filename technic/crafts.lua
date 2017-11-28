@@ -164,7 +164,7 @@ minetest.register_craft({
 	recipe = {
 		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
 		{'default:bronze_ingot',          'default:bronze_ingot',          'default:bronze_ingot'},
-		{'moreores:tin_ingot',            'moreores:tin_ingot',            'moreores:tin_ingot'},
+		{'default:tin_ingot',            'default:tin_ingot',            'default:tin_ingot'},
 	}
 })
 

@@ -43,7 +43,7 @@ end
 if minetest.get_modpath("moreores") then
 	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
 	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
-	table.insert(recipes, {"moreores:tin_lump",       "technic:tin_dust 2"})
+	table.insert(recipes, {"default:tin_lump",       "technic:tin_dust 2"})
 end
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
@@ -96,7 +96,7 @@ register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
 register_dust("Stone",            "default:stone")
 register_dust("Sulfur",          nil)
-register_dust("Tin",             "moreores:tin_ingot")
+register_dust("Tin",             "default:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
