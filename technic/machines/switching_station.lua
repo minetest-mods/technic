@@ -242,8 +242,8 @@ minetest.register_abm({
 
 			local poshash = minetest.hash_node_position(pos)
 
-			if not technic.redundant_warn.poshash then
-				technic.redundant_warn.poshash = true
+			if not technic.redundant_warn[poshash] then
+				technic.redundant_warn[poshash] = true
 				print("[TECHNIC] Warning: redundant switching station found near "..minetest.pos_to_string(pos))
 			end
 			return
