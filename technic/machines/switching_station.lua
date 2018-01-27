@@ -91,19 +91,22 @@ minetest.register_node("technic:switching_station",{
 --------------------------------------------------
 -- Functions to traverse the electrical network
 --------------------------------------------------
+local function flatten(map)
+	local list = {}
+	for key, value in map do
+		list[#list + 1] = value
+	end
+	return list
+end
 
 -- Add a wire node to the LV/MV/HV network
 local add_new_cable_node = function(nodes, pos, network_id)
-	technic.cables[minetest.hash_node_position(pos)] = network_id
-	-- Ignore if the node has already been added
-	for i = 1, #nodes do
-		if pos.x == nodes[i].x and
-		   pos.y == nodes[i].y and
-		   pos.z == nodes[i].z then
-			return false
-		end
+	local node_id = minetest.hash_node_position(pos)
+	technic.cables[node_id] = network_id
+	if nodes[node_id] then
+		return false
 	end
-	table.insert(nodes, {x=pos.x, y=pos.y, z=pos.z, visited=1})
+	nodes[node_id] = pos
 	return true
 end
 
@@ -188,6 +191,9 @@ local get_network = function(sw_pos, pos1, tier)
 				i, technic.machines[tier], tier, sw_pos, network_id)
 		i = i + 1
 	until all_nodes[i] == nil
+	PR_nodes = flatten(PR_nodes)
+	BA_nodes = flatten(BA_nodes)
+	RE_nodes = flatten(BA_nodes)
 	technic.networks[network_id] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
