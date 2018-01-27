@@ -163,7 +163,8 @@ local touch_nodes = function(list, tier)
 end
 
 local get_network = function(sw_pos, pos1, tier)
-	local cached = technic.networks[minetest.hash_node_position(pos1)]
+	local network_id = minetest.hash_node_position(pos1)
+	local cached = technic.networks[network_id]
 	if cached and cached.tier == tier then
 		touch_nodes(cached.PR_nodes, tier)
 		touch_nodes(cached.BA_nodes, tier)
@@ -180,14 +181,14 @@ local get_network = function(sw_pos, pos1, tier)
 	local BA_nodes = {}
 	local RE_nodes = {}
 	local SP_nodes = {}
-	local all_nodes = {pos1}
+	local all_nodes = {}
+	add_new_cable_node(all_nodes, pos1, network_id)
 	repeat
 		traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
-				i, technic.machines[tier], tier, sw_pos, minetest.hash_node_position(pos1))
+				i, technic.machines[tier], tier, sw_pos, network_id)
 		i = i + 1
 	until all_nodes[i] == nil
-	technic.networks[minetest.hash_node_position(pos1)] = {tier = tier, PR_nodes = PR_nodes,
-			RE_nodes = RE_nodes, BA_nodes = BA_nodes, SP_nodes = SP_nodes, all_nodes = all_nodes}
+	technic.networks[network_id] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
 
