@@ -190,9 +190,13 @@ local get_network = function(sw_pos, pos1, tier)
 	local all_nodes = {}
 	local queue = {}
 	add_cable_node(all_nodes, pos1, network_id, queue)
-	for _, pos in ipairs(queue) do
-		traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
-				pos, technic.machines[tier], tier, sw_pos, network_id, queue)
+	while next(queue) do
+		local to_visit = {}
+		for _, pos in ipairs(queue) do
+			traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
+					pos, technic.machines[tier], tier, sw_pos, network_id, to_visit)
+		end
+		queue = to_visit
 	end
 	PR_nodes = flatten(PR_nodes)
 	BA_nodes = flatten(BA_nodes)
