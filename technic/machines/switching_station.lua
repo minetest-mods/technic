@@ -93,7 +93,7 @@ minetest.register_node("technic:switching_station",{
 --------------------------------------------------
 local function flatten(map)
 	local list = {}
-	for key, value in map do
+	for key, value in pairs(map) do
 		list[#list + 1] = value
 	end
 	return list
@@ -197,7 +197,10 @@ local get_network = function(sw_pos, pos1, tier)
 	PR_nodes = flatten(PR_nodes)
 	BA_nodes = flatten(BA_nodes)
 	RE_nodes = flatten(RE_nodes)
-	technic.networks[network_id] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
+	SP_nodes = flatten(SP_nodes)
+	all_nodes = flatten(all_nodes)
+	technic.networks[network_id] = {tier = tier, all_nodes = all_nodes, SP_nodes = SP_nodes,
+			PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
 
