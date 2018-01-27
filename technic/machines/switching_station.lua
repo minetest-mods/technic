@@ -100,7 +100,7 @@ local function flatten(map)
 end
 
 -- Add a wire node to the LV/MV/HV network
-local add_new_cable_node = function(nodes, pos, network_id)
+local function add_network_node(nodes, pos, network_id)
 	local node_id = minetest.hash_node_position(pos)
 	technic.cables[node_id] = network_id
 	if nodes[node_id] then
@@ -110,32 +110,38 @@ local add_new_cable_node = function(nodes, pos, network_id)
 	return true
 end
 
+local function add_cable_node(nodes, pos, network_id, queue)
+	if add_network_node(nodes, pos, network_id) then
+		queue[#queue + 1] = pos
+	end
+end
+
 -- Generic function to add found connected nodes to the right classification array
-local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id)
+local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
 	technic.get_or_load_node(pos)
 	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
 
 	if technic.is_tier_cable(name, tier) then
-		add_new_cable_node(all_nodes, pos,network_id)
+		add_cable_node(all_nodes, pos,network_id, queue)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
 		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 		if     machines[name] == technic.producer then
-			add_new_cable_node(PR_nodes, pos, network_id)
+			add_network_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
-			add_new_cable_node(RE_nodes, pos, network_id)
+			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == technic.producer_receiver then
-			add_new_cable_node(PR_nodes, pos, network_id)
-			add_new_cable_node(RE_nodes, pos, network_id)
+			add_network_node(PR_nodes, pos, network_id)
+			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == "SPECIAL" and
 				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
 				from_below then
 			-- Another switching station -> disable it
-			add_new_cable_node(SP_nodes, pos, network_id)
+			add_network_node(SP_nodes, pos, network_id)
 			meta:set_int("active", 0)
 		elseif machines[name] == technic.battery then
-			add_new_cable_node(BA_nodes, pos, network_id)
+			add_network_node(BA_nodes, pos, network_id)
 		end
 
 		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
@@ -143,8 +149,7 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 end
 
 -- Traverse a network given a list of machines and a cable type name
-local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, i, machines, tier, sw_pos, network_id)
-	local pos = all_nodes[i]
+local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, network_id, queue)
 	local positions = {
 		{x=pos.x+1, y=pos.y,   z=pos.z},
 		{x=pos.x-1, y=pos.y,   z=pos.z},
@@ -152,9 +157,8 @@ local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_no
 		{x=pos.x,   y=pos.y-1, z=pos.z},
 		{x=pos.x,   y=pos.y,   z=pos.z+1},
 		{x=pos.x,   y=pos.y,   z=pos.z-1}}
-	--print("ON")
 	for i, cur_pos in pairs(positions) do
-		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id)
+		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id, queue)
 	end
 end
 
@@ -179,21 +183,20 @@ local get_network = function(sw_pos, pos1, tier)
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
-	local i = 1
 	local PR_nodes = {}
 	local BA_nodes = {}
 	local RE_nodes = {}
 	local SP_nodes = {}
 	local all_nodes = {}
-	add_new_cable_node(all_nodes, pos1, network_id)
-	repeat
+	local queue = {}
+	add_cable_node(all_nodes, pos1, network_id, queue)
+	for _, pos in ipairs(queue) do
 		traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
-				i, technic.machines[tier], tier, sw_pos, network_id)
-		i = i + 1
-	until all_nodes[i] == nil
+				pos, technic.machines[tier], tier, sw_pos, network_id, queue)
+	end
 	PR_nodes = flatten(PR_nodes)
 	BA_nodes = flatten(BA_nodes)
-	RE_nodes = flatten(BA_nodes)
+	RE_nodes = flatten(RE_nodes)
 	technic.networks[network_id] = {tier = tier, PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
 end
