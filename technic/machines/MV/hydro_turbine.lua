@@ -10,13 +10,13 @@ minetest.register_alias("hydro_turbine", "technic:hydro_turbine")
 minetest.register_craft({
 	output = 'technic:hydro_turbine',
 	recipe = {
-		{'technic:stainless_steel_ingot', 'technic:water_mill',        'technic:stainless_steel_ingot'},
-		{'default:diamond',     'technic:mv_transformer', 'default:diamond'},
-		{'technic:stainless_steel_ingot', 'technic:mv_cable',       'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', 'technic:water_mill', 'technic:stainless_steel_ingot'},
+		{'technic:water_mill', 'technic:mv_transformer', 'technic:water_mill'},
+		{'technic:stainless_steel_ingot', 'technic:mv_cable', 'technic:stainless_steel_ingot'},
 	}
 })
 
-local function check_node_around_mill(pos)
+local function get_water_flow(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "default:water_flowing"
 	  or node.name == "default:river_water_flowing" then
@@ -25,13 +25,16 @@ local function check_node_around_mill(pos)
 	return false
 end
 
+---
+-- 10 times better than LV hydro because of 2 extra water mills and 4 stainless steel, a transformer and whatnot ;P. 
+-- Man hydro turbines are tough and long lasting. So, give it some value :)
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
 	local water_flow       = 0
 	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
-	local max_output       = 35 * 50 -- 10 times better than LV hydro because of 2 diamonds extra and 4 stainless steel, a transformer and whatnot ;P. If 2 extra diamonds feels too hard to get; change it to mese may be. But i don't think that's a good idea. I would rather go for mese block or something if changing. Man hydro turbines are strong and long lasting. So, give it some value :)
+	local max_output       = 40 * 45 -- Generates 1800EU/s
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
@@ -41,20 +44,19 @@ local run = function(pos, node)
 	}
 
 	for _, p in pairs(positions) do
-		local check = check_node_around_mill(p)
+		local check = get_water_flow(p)
 		if check then
 			water_flow = water_flow + check
 		end
 	end
 
-	eu_supply = math.min(35 * water_flow, max_output)
+	eu_supply = math.min(40 * water_flow, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
 	meta:set_int("MV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
 		S("Hydro %s Generator"):format("MV").." ("..production_level.."%)")
-
 	if production_level > 0 and
 	   minetest.get_node(pos).name == "technic:hydro_turbine" then
 		technic.swap_node (pos, "technic:hydro_turbine_active")
