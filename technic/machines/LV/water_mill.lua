@@ -32,7 +32,7 @@ local run = function(pos, node)
 	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
-	local max_output       = 35 * 5 -- keeping it around 175 mid value little more than previous 150 :)
+	local max_output       = 4 * 45 -- keeping it around 180, little more than previous 150 :)
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
