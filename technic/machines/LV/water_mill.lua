@@ -1,5 +1,5 @@
 -- A water mill produces LV EUs by exploiting flowing water across it
--- It is a LV EU supplyer and fairly low yield (max 175EUs)
+-- It is a LV EU supplyer and fairly low yield (max 180EUs)
 -- It is a little over half as good as the thermal generator.
 
 local S = technic.getter
@@ -29,7 +29,6 @@ end
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
 	local water_flow       = 0
-	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
 	local max_output       = 4 * 45 -- keeping it around 180, little more than previous 150 :)
