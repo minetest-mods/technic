@@ -56,13 +56,14 @@ an ingredient in alloying recipes, wherever elemental carbon is required.
 
 Lead is special ore and part of the Technic Mod. It is  found from elevation
 +16 downwards, and its abundance decreases upto -128. After that there is
-no variation in its abundance. Lead is used mainly for crafting RE battery
-(technic:battery) and now Lead Block is used as a main component of
-HV nuclear reactor layout instead of stainless steel block.
+no variation in its abundance. Lead is used as an ingredient for 
+crafting RE battery (technic:battery) and now Lead Block is used as a main 
+component of HV nuclear reactor layout instead of stainless steel block.
 
 Sulfur is a part of Technic mod itself. It can be found around lava
 caves though not all lava caves have this mineral. So, there is some
-randomness to its generation.
+randomness to its generation. Sulfur is used as an ingredient for 
+crafting RE battery (technic:battery).
 
 Iron is part of the basic Minetest game.  It is found from elevation
 +2 downwards, and its abundance increases in stages as one descends,
