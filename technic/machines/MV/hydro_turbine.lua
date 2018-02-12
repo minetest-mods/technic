@@ -1,5 +1,5 @@
 -- A Hydro Turbine produces MV EUs by exploiting flowing water across it
--- It is a MV EU supplyer and fairly high yield (max 1750EUs)
+-- It is a MV EU supplyer and fairly high yield (max 1800EUs)
 
 local S = technic.getter
 
@@ -22,7 +22,7 @@ local function get_water_flow(pos)
 	  or node.name == "default:river_water_flowing" then
 		return node.param2 -- returns approx. water flow, if any
 	end
-	return false
+	return 0
 end
 
 ---
@@ -31,7 +31,6 @@ end
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
 	local water_flow       = 0
-	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
 	local max_output       = 40 * 45 -- Generates 1800EU/s
@@ -59,7 +58,7 @@ local run = function(pos, node)
 		S("Hydro %s Generator"):format("MV").." ("..production_level.."%)")
 	if production_level > 0 and
 	   minetest.get_node(pos).name == "technic:hydro_turbine" then
-		technic.swap_node (pos, "technic:hydro_turbine_active")
+		technic.swap_node(pos, "technic:hydro_turbine_active")
 		meta:set_int("MV_EU_supply", 0)
 		return
 	end
@@ -108,4 +107,3 @@ minetest.register_node("technic:hydro_turbine_active", {
 
 technic.register_machine("MV", "technic:hydro_turbine",        technic.producer)
 technic.register_machine("MV", "technic:hydro_turbine_active", technic.producer)
-
