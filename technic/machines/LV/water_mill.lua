@@ -29,7 +29,6 @@ end
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
 	local water_flow       = 0
-	local lava_nodes       = 0
 	local production_level = 0
 	local eu_supply        = 0
 	local max_output       = 35 * 5 -- keeping it around 175 mid value little more than previous 150 :)
