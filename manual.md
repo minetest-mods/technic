@@ -42,7 +42,7 @@ of about +1.4.)  Positive elevations are above the reference plane and
 negative elevations below.  Because elevations are always described this
 way round, greater numbers when higher, we avoid the word "depth".
 
-The ores that matter in technic are coal, iron, copper, tin, zinc,
+The ores that matter in technic are coal, lead, iron, copper, tin, zinc,
 chromium, uranium, silver, gold, mithril, mese, and diamond.
 
 Coal is part of the basic Minetest game.  It is found from elevation
@@ -53,6 +53,16 @@ part of the game.  It becomes less important as a fuel once most of your
 machines are electrically powered, but burning fuel remains a way to
 generate electrical power.  Coal is also used, usually in dust form, as
 an ingredient in alloying recipes, wherever elemental carbon is required.
+
+Lead is special ore and part of the Technic Mod. It is  found from elevation
++16 downwards, and its abundance decreases upto -128. After that there is
+no variation in its abundance. Lead is used mainly for crafting RE battery
+(technic:battery) and now Lead Block is used as a main component of
+HV nuclear reactor layout instead of stainless steel block.
+
+Sulfur is a part of Technic mod itself. It is mainly found around lava
+caverns though not all lava caves have this mineral. So, there is some
+randomness to its generation.
 
 Iron is part of the basic Minetest game.  It is found from elevation
 +2 downwards, and its abundance increases in stages as one descends,
