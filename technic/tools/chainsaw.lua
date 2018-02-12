@@ -1,7 +1,8 @@
 -- Configuration
 
-local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
--- Gives 2500 nodes on a single charge (about 50 complete normal trees)
+local chainsaw_max_charge      = 300000 -- Maximum charge of the saw
+-- Gives 2500 nodes on a single charge (about 50 complete normal trees) [changed
+--now since it is 10x the max charge than the original]
 local chainsaw_charge_per_node = 12
 -- Cut down tree leaves.  Leaf decay may cause slowness on large trees
 -- if this is disabled.
@@ -77,7 +78,35 @@ if minetest.get_modpath("moretrees") then
 		timber_nodenames["moretrees:apple_blossoms"]           = true
 	end
 end
+-- adds in support to cut down ethereal plant life
+if minetest.get_modpath("ethereal") then
+	timber_nodenames ["ethereal:redwood_trunk"]								= true
+	timber_nodenames["ethereal:mushroom_trunk"]								= true
+	timber_nodenames["ethereal:banana_trunk"]								= true
+	timber_nodenames["ethereal:scorched_tree"]								= true
+	timber_nodenames["ethereal:palm_trunk"]									= true
+	timber_nodenames["ethereal:yellow_trunk"]								= true
+	timber_nodenames["ethereal:bamboo"]						      			= true
+	timber_nodenames["ethereal:frost_tree"]									= true
+	timber_nodenames["ethereal:willow_trunk"]								= true
+	timber_nodenames["ethereal:big_tree"]									= true
+	timber_nodenames["ethereal:orange_tree"]								= true 
 
+--add support for ethereal leaves
+	if chainsaw_leaves then
+		timber_nodenames["ethereal:redwood_leaves"]							= true
+		timber_nodenames["ethereal:yellowleaves"]   						= true
+		timber_nodenames["ethereal:mushroom"]								= true
+		timber_nodenames["ethereal:mushroom_pore"]							= true
+		timber_nodenames["ethereal:frost_leaves"]							= true
+		timber_nodenames["ethereal:yellowleaves"]							= true
+		timber_nodenames["ethereal:bananaleaves"]							= true
+		timber_nodenames["ethereal:orange_leaves"]							= true
+		timber_nodenames["ethereal:willow_twig"]							= true
+		timber_nodenames["ethereal:palmleaves"]								= true
+        
+		end
+end
 -- Support growing_trees
 if minetest.get_modpath("growing_trees") then
 	timber_nodenames["growing_trees:trunk"]         = true
@@ -367,4 +396,3 @@ minetest.register_craft({
 		{"",                              "",                           "technic:stainless_steel_ingot"},
 	}
 })
-
