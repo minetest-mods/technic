@@ -39,50 +39,50 @@ technic.cnc.register_all("default:aspen_wood",
 -- STONE
 --------
 technic.cnc.register_all("default:stone",
-                {cracky=3, stone = 1, not_in_creative_inventory=1},
+                {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_stone.png"},
                 S("Stone"))
 
 technic.cnc.register_all("default:stonebrick",
-                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {crumbly=2, cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_stone_brick.png"},
                 S("Stone Brick"))
 
 technic.cnc.register_all("default:stone_block",
-                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {crumbly=2, cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_stone_block.png"},
                 S("Stone Block"))
 
 
 technic.cnc.register_all("default:desert_stone",
-                {cracky=3, stone = 1, not_in_creative_inventory=1},
+                {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_desert_stone.png"},
                 S("Desert Stone"))
 
 technic.cnc.register_all("default:desert_stonebrick",
-                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {crumbly=2, cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_desert_stone_brick.png"},
                 S("Desert Stone Brick"))
 
 technic.cnc.register_all("default:desert_stone_block",
-                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {crumbly=2, cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_desert_stone_block.png"},
                 S("Desert Stone Block"))
 
 -- COBBLE
 ---------
 technic.cnc.register_all("default:cobble",
-                {cracky=3, stone = 1, not_in_creative_inventory=1},
+                {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_cobble.png"},
                 S("Cobble"))
 
 technic.cnc.register_all("default:mossycobble",
-                {cracky=3, stone = 1, not_in_creative_inventory=1},
+                {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_mossycobble.png"},
                 S("Mossy Cobblestone"))
 
 technic.cnc.register_all("default:desert_cobble",
-                {cracky=3, stone = 1, not_in_creative_inventory=1},
+                {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_desert_cobble.png"},
                 S("Desert Cobble"))
 
