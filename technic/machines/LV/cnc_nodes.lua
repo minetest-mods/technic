@@ -43,10 +43,31 @@ technic.cnc.register_all("default:stone",
                 {"default_stone.png"},
                 S("Stone"))
 
+technic.cnc.register_all("default:stonebrick",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_stone_brick.png"},
+                S("Stone Brick"))
+
+technic.cnc.register_all("default:stone_block",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_stone_block.png"},
+                S("Stone Block"))
+
+
 technic.cnc.register_all("default:desert_stone",
                 {cracky=3, stone = 1, not_in_creative_inventory=1},
                 {"default_desert_stone.png"},
                 S("Desert Stone"))
+
+technic.cnc.register_all("default:desert_stonebrick",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_desert_stone_brick.png"},
+                S("Desert Stone Brick"))
+
+technic.cnc.register_all("default:desert_stone_block",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_desert_stone_block.png"},
+                S("Desert Stone Block"))
 
 -- COBBLE
 ---------
@@ -72,6 +93,7 @@ technic.cnc.register_all("default:brick",
                 {"default_brick.png"},
                 S("Brick"))
 
+
 -- SANDSTONE
 ------------
 technic.cnc.register_all("default:sandstone",
@@ -79,15 +101,50 @@ technic.cnc.register_all("default:sandstone",
                 {"default_sandstone.png"},
                 S("Sandstone"))
 
+technic.cnc.register_all("default:sandstonebrick",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_sandstone_brick.png"},
+                S("Sandstone Brick"))
+
+technic.cnc.register_all("default:sandstone_block",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_sandstone_block.png"},
+                S("Sandstone Block"))
+
+
 technic.cnc.register_all("default:desert_sandstone",
                 {crumbly=2, cracky=3, not_in_creative_inventory=1},
                 {"default_desert_sandstone.png"},
                 S("Desert Sandstone"))
 
+technic.cnc.register_all("default:desert_sandstone_brick",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_desert_sandstone_brick.png"},
+                S("Desert Sandstone Brick"))
+
+technic.cnc.register_all("default:desert_sandstone_block",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_desert_sandstone_block.png"},
+                S("Desert Sandstone Block"))
+
+
 technic.cnc.register_all("default:silver_sandstone",
                 {crumbly=2, cracky=3, not_in_creative_inventory=1},
                 {"default_silver_sandstone.png"},
                 S("Silver Sandstone"))
+
+technic.cnc.register_all("default:silver_sandstone_brick",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_silver_sandstone_brick.png"},
+                S("Silver Sandstone Brick"))
+
+technic.cnc.register_all("default:silver_sandstone_block",
+                {crumbly=2, cracky=3, not_in_creative_inventory=1},
+                {"default_silver_sandstone_block.png"},
+                S("Silver Sandstone Block"))
+
+
+
 
 -- LEAVES
 ---------
@@ -95,6 +152,7 @@ technic.cnc.register_all("default:leaves",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=3, not_in_creative_inventory=1},
                 {"default_leaves.png"},
                 S("Leaves"))
+
 -- TREE
 -------
 technic.cnc.register_all("default:tree",
@@ -132,12 +190,62 @@ technic.cnc.register_all("default:bronzeblock",
                 {"default_bronze_block.png"},
                 S("Bronze"))
 
--- Stainless Steel
+-- Zinc
 --------
+technic.cnc.register_all("technic:zinc_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_zinc_block.png"},
+                S("Zinc"))
+
+-- Cast Iron
+------------
+technic.cnc.register_all("technic:cast_iron_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_cast_iron_block.png"},
+                S("Cast Iron"))
+
+-- Stainless Steel
+------------------
 technic.cnc.register_all("technic:stainless_steel_block",
                 {cracky=1, level=2, not_in_creative_inventory=1},
                 {"technic_stainless_steel_block.png"},
                 S("Stainless Steel"))
+
+-- Carbon steel
+---------------
+technic.cnc.register_all("technic:carbon_steel_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_carbon_steel_block.png"},
+                S("Carbon Steel"))
+
+-- Brass
+--------
+technic.cnc.register_all("technic:brass_block",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"technic_brass_block.png"},
+                S("Brass"))
+
+-- Copper
+---------
+technic.cnc.register_all("default:copperblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"default_copper_block.png"},
+                S("Copper"))
+
+-- Tin
+------
+technic.cnc.register_all("default:tinblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"default_tin_block.png"},
+                S("Tin"))
+
+-- Gold
+-------
+technic.cnc.register_all("default:goldblock",
+                {cracky=1, level=2, not_in_creative_inventory=1},
+                {"default_gold_block.png"},
+                S("Gold"))
+
 
 -- Marble
 ------------
