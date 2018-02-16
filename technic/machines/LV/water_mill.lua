@@ -47,7 +47,7 @@ local run = function(pos, node)
 		end
 	end
 
-	eu_supply = math.min(35 * water_flow, max_output)
+	eu_supply = math.min(4 * water_flow, max_output)
 	production_level = math.floor(100 * eu_supply / max_output)
 
 	meta:set_int("LV_EU_supply", eu_supply)
