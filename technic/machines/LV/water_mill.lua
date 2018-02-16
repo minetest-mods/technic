@@ -1,5 +1,5 @@
 -- A water mill produces LV EUs by exploiting flowing water across it
--- It is a LV EU supplyer and fairly low yield (max 180EUs)
+-- It is a LV EU supplyer and fairly low yield (max 175EUs)
 -- It is a little over half as good as the thermal generator.
 
 local S = technic.getter
@@ -31,7 +31,7 @@ local run = function(pos, node)
 	local water_flow       = 0
 	local production_level = 0
 	local eu_supply        = 0
-	local max_output       = 4 * 45 -- keeping it around 180, little more than previous 150 :)
+	local max_output       = 35 * 5 -- keeping it around 175 mid value little more than previous 150 :)
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
