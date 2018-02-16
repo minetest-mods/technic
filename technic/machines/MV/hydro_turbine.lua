@@ -43,10 +43,7 @@ local run = function(pos, node)
 	}
 
 	for _, p in pairs(positions) do
-		local check = get_water_flow(p)
-		if check then
-			water_flow = water_flow + check
-		end
+		water_flow = water_flow + get_water_flow(p)
 	end
 
 	eu_supply = math.min(40 * water_flow, max_output)
