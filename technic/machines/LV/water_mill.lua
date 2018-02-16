@@ -33,7 +33,7 @@ local run = function(pos, node)
 	local production_level = 0
 	local eu_supply        = 0
 	local max_output       = 35 * 45 -- four param2's at 15 makes 60, cap it lower for "overload protection"
--- (plus we want the gen to report 100% if three sides have full flow)
+-									 -- (plus we want the gen to report 100% if three sides have full flow)
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
