@@ -1,7 +1,7 @@
 -- REGISTER MATERIALS AND PROPERTIES FOR NONCUBIC ELEMENTS:
 -----------------------------------------------------------
 
-local S = technic.getter
+local S=technic.getter
 
 -- DIRT
 -------
@@ -163,7 +163,7 @@ technic.cnc.register_all("default:tree",
 -- ICE
 -------
 technic.cnc.register_all("default:ice",
-                {cracky = 3, puts_out_fire = 1, cools_lava = 1, not_in_creative_inventory=1},
+                {cracky=3, puts_out_fire=1, cools_lava=1, not_in_creative_inventory=1},
                 {"default_ice.png"},
                 S("Ice"))
 
@@ -171,7 +171,7 @@ technic.cnc.register_all("default:ice",
 -- OBSIDIAN
 -----------
 technic.cnc.register_all("default:obsidian_block",
-                {cracky = 1, level = 2, not_in_creative_inventory=1},
+                {cracky=1, level=2, not_in_creative_inventory=1},
                 {"default_obsidian_block.png"},
                 S("Obsidian"))
 
@@ -261,3 +261,129 @@ technic.cnc.register_all("technic:granite",
                 {"technic_granite.png"},
                 S("Granite"))
 
+
+if minetest.get_modpath("ethereal") then
+	-- Glostone
+	------------
+	technic.cnc.register_all("ethereal:glostone",
+			{cracky=1, not_in_creative_inventory=1, light_source=13},
+			{"glostone.png"},
+			S("Glo Stone"))
+
+end
+
+
+if minetest.get_modpath("ethereal") then
+	-- Glostone
+	------------
+	technic.cnc.register_all("ethereal:glostone",
+			{cracky=1, not_in_creative_inventory=1, light_source=13},
+			{"glostone.png"},
+			S("Glo Stone"))
+
+	-- Crystal block
+	----------------
+	technic.cnc.register_all("ethereal:crystal_block",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"crystal_block.png"},
+                S("Crystal"))
+	
+	-- Misc. Wood types
+	-------------------
+	technic.cnc.register_all("ethereal:banana_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"banana_wood.png"},
+                S("Banana Wood"))
+	
+	technic.cnc.register_all("ethereal:birch_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"moretrees_birch_wood.png"},
+                S("Birch Wood"))
+	
+	technic.cnc.register_all("ethereal:frost_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"frost_wood.png"},
+                S("Frost Wood"))
+	
+	technic.cnc.register_all("ethereal:palm_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"moretrees_palm_wood.png"},
+                S("Palm Wood"))
+	
+	technic.cnc.register_all("ethereal:willow_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"willow_wood.png"},
+                S("Willow Wood"))
+	
+	technic.cnc.register_all("ethereal:yellow_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"yellow_wood.png"},
+                S("Healing Tree Wood"))
+	
+	technic.cnc.register_all("ethereal:redwood_wood",
+                {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
+                {"redwood_wood.png"},
+                S("Redwood"))
+end
+
+
+if minetest.get_modpath("moreblocks") then
+	-- Tiles
+	------------
+	technic.cnc.register_all("moreblocks:stone_tile",
+			{stone=1, cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_stone_tile.png"},
+			S("Stone Tile"))
+	
+	technic.cnc.register_all("moreblocks:split_stone_tile",
+			{stone=1, cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_split_stone_tile.png"},
+			S("Split Stone Tile"))
+	
+	technic.cnc.register_all("moreblocks:checker_stone_tile",
+			{stone=1, cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_checker_stone_tile.png"},
+			S("Checker Stone Tile"))
+	
+	technic.cnc.register_all("moreblocks:cactus_checker",
+			{stone=1, cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_cactus_checker.png"},
+			S("Cactus Checker"))
+	
+	-- Bricks
+	------------
+	technic.cnc.register_all("moreblocks:cactus_brick",
+			{cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_cactus_brick.png"},
+			S("Cactus Brick"))
+	
+	technic.cnc.register_all("moreblocks:grey_bricks",
+			{cracky=3, not_in_creative_inventory=1},
+			{"moreblocks_grey_bricks.png"},
+			S("Grey Bricks"))
+	
+	-- Metals
+	------------
+	technic.cnc.register_all("moreblocks:copperpatina",
+			{cracky=1, level=2, not_in_creative_inventory=1},
+			{"moreblocks_copperpatina.png"},
+			S("Copper Patina"))
+	
+	-- Clay
+	------------
+	technic.cnc.register_all("bakedclay:red",
+			{cracky=3, not_in_creative_inventory=1},
+			{"baked_clay_red.png"},
+			S("Red Clay"))
+	
+	technic.cnc.register_all("bakedclay:orange",
+			{cracky=3, not_in_creative_inventory=1},
+			{"baked_clay_orange.png"},
+			S("Orange Clay"))
+	
+	technic.cnc.register_all("bakedclay:grey",
+			{cracky=3, not_in_creative_inventory=1},
+			{"baked_clay_grey.png"},
+			S("Grey Clay"))
+	
+end

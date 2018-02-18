@@ -32,6 +32,11 @@ local recipes = {
 	{"default:silver_sandstone", "default:silver_sand 2"}, -- reverse recipe can be found in the compressor
 }
 
+if minetest.get_modpath("ethereal") then
+	-- the density of charcoal is ~1/10 of coal, otherwise it's the same graphitic carbon
+	table.insert(recipes, {"ethereal:charcoal_lump 5", "technic:coal_dust 1"})
+end
+
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
 	recipe = {
