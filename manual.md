@@ -55,7 +55,7 @@ generate electrical power.  Coal is also used, usually in dust form, as
 an ingredient in alloying recipes, wherever elemental carbon is required.
 
 Lead is special ore and part of the Technic Mod. It is  found from elevation
-+16 downwards, and its abundance decreases upto -128. After that there is
++16 downwards, and its abundance increases in stages upto -128. After that there is
 no variation in its abundance. Lead is used as an ingredient for 
 crafting RE battery (technic:battery) and now Lead Block is used as a main 
 component of HV nuclear reactor layout instead of stainless steel block.
