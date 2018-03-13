@@ -1,0 +1,5 @@
+# technic_wrench translation template
+
+Wrench        = Clé
+%s with items = %s avec des objets
+
