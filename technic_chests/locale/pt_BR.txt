@@ -1,0 +1,41 @@
+# Braziliam portuguese translation for technic_chests
+# Tradução portuguesa brasileira para technic_chests
+# By Sires
+
+%s Chest = Baú %s
+%s Locked Chest = Baú Trancado %s
+%s Locked Chest (owned by %s) = Baú Trancado %s (pertence a/à %s)
+Color Filter: %s = Filtro de Cor: %s
+Edit chest description: = Editar descrição do baú:
+
+# Colors
+Black = Preto
+Blue = Azul
+Brown = Marrom
+Cyan = Ciano
+Dark Green = Verde Escuro
+Dark Grey = Cinza Escuro
+Green = Verde
+Grey = Cinza
+Magenta = Magenta
+Orange = Laranja
+Pink = Rosa
+Red = Vermelho
+Violet = Violeta
+White = Branco
+Yellow = Amarelo
+None = Nada
+
+# Materials
+Copper = Cobre
+Gold = Ouro
+Iron = Ferro
+Mithril = Mithril
+Silver = Prata
+Wooden = de Madeira
+
+# Sorting
+Sort = Ordenar
+Auto-sort is %s = Auto-ordenação está %s
+Off = Desligada
+On = Ligada
