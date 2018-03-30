@@ -32,6 +32,7 @@ function technic.register_base_machine(data)
 	local input_size = technic.recipes[typename].input_size
 	local machine_name = data.machine_name
 	local machine_desc = data.machine_desc
+	local mod_name = data.mod_name or "technic"
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
@@ -70,7 +71,7 @@ function technic.register_base_machine(data)
 		local eu_input = meta:get_int(tier.."_EU_input")
 
 		local machine_desc_tier = machine_desc:format(tier)
-		local machine_node      = "technic:"..ltier.."_"..machine_name
+		local machine_node      = mod_name..":"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
 		-- Setup meta data if it does not exist.
@@ -144,15 +145,15 @@ function technic.register_base_machine(data)
 	if ltier == "lv" then
 		tentry = ""
 	end
-	minetest.register_node("technic:"..ltier.."_"..machine_name, {
+	minetest.register_node(mod_name..":"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry, 
-			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_front.png"
+			mod_name.."_"..ltier.."_"..machine_name.."_top.png"..tentry, 
+			mod_name.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_front.png"
 		},
 		paramtype2 = "facedir",
 		groups = groups,
@@ -214,18 +215,18 @@ function technic.register_base_machine(data)
 		end,
 	})
 
-	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
+	minetest.register_node(mod_name..":"..ltier.."_"..machine_name.."_active",{
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_front_active.png"
+			mod_name.."_"..ltier.."_"..machine_name.."_top.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			mod_name.."_"..ltier.."_"..machine_name.."_front_active.png"
 		},
 		paramtype2 = "facedir",
-		drop = "technic:"..ltier.."_"..machine_name,
+		drop = mod_name..":"..ltier.."_"..machine_name,
 		groups = active_groups,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
@@ -236,7 +237,7 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
-		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
+		technic_disabled_machine_name = mod_name..":"..ltier.."_"..machine_name,
 		on_receive_fields = function(pos, formname, fields, sender)
 			local node = minetest.get_node(pos)
 			if not pipeworks.may_configure(pos, sender) then return end
@@ -258,8 +259,8 @@ function technic.register_base_machine(data)
 		end,
 	})
 
-	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name,            technic.receiver)
-	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name.."_active", technic.receiver)
+	technic.register_machine(tier, mod_name..":"..ltier.."_"..machine_name,            technic.receiver)
+	technic.register_machine(tier, mod_name..":"..ltier.."_"..machine_name.."_active", technic.receiver)
 
 end -- End registration
 
