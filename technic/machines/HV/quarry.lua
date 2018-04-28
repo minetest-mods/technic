@@ -145,7 +145,17 @@ local function quarry_run(pos, node)
 			if can_dig then
 				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
 				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
-				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, nil)) then
+				-- doors mod among other thing does NOT like a nil digger...
+				local fakedigger = {
+					get_player_name = function()
+						return "!technic_quarry_fake_digger"
+					end,
+					is_player = function() return false end,
+					get_wielded_item = function()
+						return ItemStack("air")
+					end,
+				}
+				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, fakedigger)) then
 					can_dig = false
 				end
 			end
