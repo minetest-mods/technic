@@ -26,9 +26,8 @@ local prefixes = {[-24] = "y", [-21] = "z", [-18] = "a", [-15] = "f",
 	[9] = "G", [12] = "T", [15] = "P", [18] = "E", [21] = "Z", [24] = "Y"}
 local digits = 4  -- shouldn't be less than 4
 function technic.EU_string(num)
-	if num == 0
-	or num * 0 ~= num * 0 then
-		-- ±0, ±inf or ±nan
+	if num * 0 ~= num * 0 then
+		-- ±inf or ±nan
 		return tostring(num)
 	end
 	local b = math.floor(math.log(num) / math.log(10) +0.000001)
