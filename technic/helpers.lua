@@ -40,10 +40,10 @@ function technic.EU_string(num)
 	end
 	if not prefixes[b3] then
 		-- not likely going to happend
-		return tostring(num) .. " EU"
+		return tostring(num) .. " EU"
 	end
 	num = math.floor(num / 10^b +.5) * 10^(b - b3)
-	return num .. " " .. prefixes[b3] .. "EU"
+	return num .. " " .. prefixes[b3] .. "EU"
 end
 
 

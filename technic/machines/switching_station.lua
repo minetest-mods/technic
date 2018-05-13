@@ -361,7 +361,7 @@ minetest.register_abm({
 		end
 		--dprint("Total BA demand:"..BA_eu_demand)
 
-		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
+		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.EU_string(PR_eu_supply),
 				technic.EU_string(RE_eu_demand)))
 
