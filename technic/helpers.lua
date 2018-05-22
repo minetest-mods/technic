@@ -21,28 +21,27 @@ function technic.pretty_num(num)
 end
 
 
-local prefixes = {[-24] = "y", [-21] = "z", [-18] = "a", [-15] = "f",
-	[-12] = "p", [-9] = "n", [-6] = "µ", [0] = "", [-3] = "m", [3] = "k", [6] = "M",
-	[9] = "G", [12] = "T", [15] = "P", [18] = "E", [21] = "Z", [24] = "Y"}
-local digits = 4  -- shouldn't be less than 4
+local prefixes = {[-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
+	[-3] = "n", [-2] = "µ", [-1] = "m", [0] = "",  [1] = "k", [2] = "M",
+	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y"}
 function technic.EU_string(num)
-	if num * 0 ~= num * 0 then
-		-- ±inf or ±nan
-		return tostring(num)
-	end
-	local b = math.floor(math.log(num) / math.log(10) +0.000001)
-	b3 = math.floor((b - math.sign(b)) / 3) * 3
-	if math.abs(b) < digits-1 then
-		b = 0
+	-- the small number added is due to floating point inaccuracy
+	local b = math.floor(math.log10(math.abs(num)) +0.000001)
+	local pref_i
+	if b ~= 0 then
+		-- b is decremented by 1 to avoid a single digit with many decimals,
+		-- e.g. instead of 1.021 MEU, 1021 kEU is shown
+		pref_i = math.floor((b - 1) / 3)
 	else
-		b = b - (digits-1) * math.sign(b)
+		-- as special case, avoid showing e.g. 1100 mEU instead of 1.1 EU
+		pref_i = math.floor(b / 3)
 	end
-	if not prefixes[b3] then
-		-- not likely going to happend
-		return tostring(num) .. " EU"
+	if not prefixes[pref_i] then
+		-- This happens for 0, nan, inf, very big values, etc.
+		return string.format("%.4g EU", num)
 	end
-	num = math.floor(num / 10^b +.5) * 10^(b - b3)
-	return num .. " " .. prefixes[b3] .. "EU"
+
+	return string.format("%.4g %sEU", num / 10^(pref_i * 3), prefixes[pref_i])
 end
 
 
