@@ -1,30 +1,10 @@
-local digit_sep_esc
-do
-	local sep = technic.config:get("digit_separator")
-	sep = tonumber(sep) and string.char(sep) or sep or " "
-	-- Escape for gsub
-	for magic in ("().%+-*?[^$"):gmatch(".") do
-		if sep == magic then
-			sep = "%"..sep
-		end
-	end
-	digit_sep_esc = sep
-end
-
-
-function technic.pretty_num(num)
-	local str, k = tostring(num), nil
-	repeat
-		str, k = str:gsub("^(-?%d+)(%d%d%d)", "%1"..digit_sep_esc.."%2")
-	until k == 0
-	return str
-end
-
-
+-- converts a number to a readable string with SI prefix, e.g. 10000 → "10 k",
+-- 15 → "15 ", 0.1501 → "150.1 m"
+-- a non-breaking space (U+a0) instead of a usual one is put after number
 local prefixes = {[-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
 	[-3] = "n", [-2] = "µ", [-1] = "m", [0] = "",  [1] = "k", [2] = "M",
 	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y"}
-function technic.EU_string(num)
+function technic.pretty_num(num)
 	-- the small number added is due to floating point inaccuracy
 	local b = math.floor(math.log10(math.abs(num)) +0.000001)
 	local pref_i
@@ -34,7 +14,7 @@ function technic.EU_string(num)
 		pref_i = math.floor((b - 1) / 3)
 	else
 		-- as special case, avoid showing e.g. 1100 mEU instead of 1.1 EU
-		pref_i = math.floor(b / 3)
+		pref_i = 0
 	end
 	if not prefixes[pref_i] then
 		-- This happens for 0, nan, inf, very big values, etc.
@@ -42,6 +22,12 @@ function technic.EU_string(num)
 	end
 
 	return string.format("%.4g %sEU", num / 10^(pref_i * 3), prefixes[pref_i])
+end
+
+
+-- used to display power values
+function technic.EU_string(num)
+	return technic.pretty_num(num) .. "EU"
 end
 
 
