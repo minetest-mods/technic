@@ -15,3 +15,11 @@ dofile(modpath.."/silver_chest.lua")
 dofile(modpath.."/gold_chest.lua")
 dofile(modpath.."/mithril_chest.lua")
 
+minetest.register_lbm({
+	name = "technic_chests:fix_wooden_chests",
+	nodenames = {"default:chest"},
+	action = function(pos, node)
+		metadata = minetest.get_meta(pos)
+		metadata:set_string("formspec", "")
+	end
+})
