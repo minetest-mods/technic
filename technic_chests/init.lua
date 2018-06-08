@@ -19,7 +19,7 @@ minetest.register_lbm({
 	name = "technic_chests:fix_wooden_chests",
 	nodenames = {"default:chest"},
 	action = function(pos, node)
-		metadata = minetest.get_meta(pos)
-		metadata:set_string("formspec", "")
+		local meta = minetest.get_meta(pos)
+		meta:set_string("formspec", "")
 	end
 })
