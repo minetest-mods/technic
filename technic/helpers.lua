@@ -1,6 +1,9 @@
+local constant_digit_count = technic.config:get("constant_digit_count")
+
 -- converts a number to a readable string with SI prefix, e.g. 10000 → "10 k",
 -- 15 → "15 ", 0.1501 → "150.1 m"
 -- a non-breaking space (U+a0) instead of a usual one is put after number
+-- The precision is 4 digits
 local prefixes = {[-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
 	[-3] = "n", [-2] = "µ", [-1] = "m", [0] = "",  [1] = "k", [2] = "M",
 	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y"}
@@ -18,10 +21,21 @@ function technic.pretty_num(num)
 	end
 	if not prefixes[pref_i] then
 		-- This happens for 0, nan, inf, very big values, etc.
+		if constant_digit_count
+		and num == 0 then
+			-- gives 0.000
+			return string.format("%.3f ", 0)
+		end
 		return string.format("%.4g ", num)
 	end
 
-	return string.format("%.4g %s", num / 10^(pref_i * 3), prefixes[pref_i])
+	num = num * 10 ^ (-3 * pref_i)
+	if constant_digit_count then
+		local comma_digits_cnt = 3 - (b - 3 * pref_i)
+		return string.format("%." .. comma_digits_cnt .. "f %s",
+			num, prefixes[pref_i])
+	end
+	return string.format("%.4g %s", num, prefixes[pref_i])
 end
 
 
