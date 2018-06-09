@@ -18,10 +18,10 @@ function technic.pretty_num(num)
 	end
 	if not prefixes[pref_i] then
 		-- This happens for 0, nan, inf, very big values, etc.
-		return string.format("%.4g EU", num)
+		return string.format("%.4g ", num)
 	end
 
-	return string.format("%.4g %sEU", num / 10^(pref_i * 3), prefixes[pref_i])
+	return string.format("%.4g %s", num / 10^(pref_i * 3), prefixes[pref_i])
 end
 
 
