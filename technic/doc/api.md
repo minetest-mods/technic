@@ -14,7 +14,7 @@ Helper functions
 * `technic.EU_string(num)`
 	* Converts num to a human-readable string (see pretty_num)
 	  and adds the `EU` unit
-	* Use this function when showing players power values
+	* Use this function when showing players energy values
 * `technic.pretty_num(num)`
 	* Converts the number `num` to a human-readable string with SI prefixes
 * `technic.swap_node(pos, nodename)`
