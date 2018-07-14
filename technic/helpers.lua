@@ -21,8 +21,11 @@ function technic.pretty_num(num)
 	end
 	if not prefixes[pref_i] then
 		-- This happens for 0, nan, inf, very big values, etc.
-		if constant_digit_count
-		and num == 0 then
+		if num == 0 then
+			-- handle 0 explicilty to avoid showing "-0"
+			if not constant_digit_count then
+				return "0 "
+			end
 			-- gives 0.000
 			return string.format("%.3f ", 0)
 		end
@@ -37,6 +40,12 @@ function technic.pretty_num(num)
 	end
 	return string.format("%.4g %s", num, prefixes[pref_i])
 end
+
+-- some unittests
+assert(technic.pretty_num(-0) == "0 ")
+assert(technic.pretty_num(0) == "0 ")
+assert(technic.pretty_num(1234) == "1234 ")
+assert(technic.pretty_num(123456789) == "123.5 M")
 
 
 -- used to display power values
