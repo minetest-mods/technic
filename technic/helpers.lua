@@ -1,23 +1,56 @@
-local digit_sep_esc
-do
-	local sep = technic.config:get("digit_separator")
-	sep = tonumber(sep) and string.char(sep) or sep or " "
-	-- Escape for gsub
-	for magic in ("().%+-*?[^$"):gmatch(".") do
-		if sep == magic then
-			sep = "%"..sep
-		end
+local constant_digit_count = technic.config:get("constant_digit_count")
+
+-- converts a number to a readable string with SI prefix, e.g. 10000 → "10 k",
+-- 15 → "15 ", 0.1501 → "150.1 m"
+-- a non-breaking space (U+a0) instead of a usual one is put after number
+-- The precision is 4 digits
+local prefixes = {[-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
+	[-3] = "n", [-2] = "µ", [-1] = "m", [0] = "",  [1] = "k", [2] = "M",
+	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y"}
+function technic.pretty_num(num)
+	-- the small number added is due to floating point inaccuracy
+	local b = math.floor(math.log10(math.abs(num)) +0.000001)
+	local pref_i
+	if b ~= 0 then
+		-- b is decremented by 1 to avoid a single digit with many decimals,
+		-- e.g. instead of 1.021 MEU, 1021 kEU is shown
+		pref_i = math.floor((b - 1) / 3)
+	else
+		-- as special case, avoid showing e.g. 1100 mEU instead of 1.1 EU
+		pref_i = 0
 	end
-	digit_sep_esc = sep
+	if not prefixes[pref_i] then
+		-- This happens for 0, nan, inf, very big values, etc.
+		if num == 0 then
+			-- handle 0 explicilty to avoid showing "-0"
+			if not constant_digit_count then
+				return "0 "
+			end
+			-- gives 0.000
+			return string.format("%.3f ", 0)
+		end
+		return string.format("%.4g ", num)
+	end
+
+	num = num * 10 ^ (-3 * pref_i)
+	if constant_digit_count then
+		local comma_digits_cnt = 3 - (b - 3 * pref_i)
+		return string.format("%." .. comma_digits_cnt .. "f %s",
+			num, prefixes[pref_i])
+	end
+	return string.format("%.4g %s", num, prefixes[pref_i])
 end
 
+-- some unittests
+assert(technic.pretty_num(-0) == "0 ")
+assert(technic.pretty_num(0) == "0 ")
+assert(technic.pretty_num(1234) == "1234 ")
+assert(technic.pretty_num(123456789) == "123.5 M")
 
-function technic.pretty_num(num)
-	local str, k = tostring(num), nil
-	repeat
-		str, k = str:gsub("^(-?%d+)(%d%d%d)", "%1"..digit_sep_esc.."%2")
-	until k == 0
-	return str
+
+-- used to display power values
+function technic.EU_string(num)
+	return technic.pretty_num(num) .. "EU"
 end
 
 
