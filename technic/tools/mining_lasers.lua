@@ -114,7 +114,8 @@ for _, m in pairs(mining_lasers_list) do
 				-- If charge is too low, give the laser a shorter range
 				range = range * meta.charge / m[4]
 			end
-			laser_shoot(user, range, "technic_laser_beam_mk"..m[1]..".png", "technic_laser_mk"..m[1])
+			laser_shoot(user, range, "technic_laser_beam_mk" .. m[1] .. ".png",
+				"technic_laser_mk" .. m[1])
 			if not technic.creative_mode then
 				meta.charge = math.max(meta.charge - m[4], 0)
 				technic.set_RE_wear(itemstack, meta.charge, m[3])
