@@ -18,7 +18,7 @@ minetest.register_craft({
 	output = "technic:battery",
 	recipe = {
 		{"group:wood", "default:copper_ingot", "group:wood"},
-		{"group:wood", "moreores:tin_ingot",   "group:wood"},
+		{"group:wood", "default:tin_ingot",    "group:wood"},
 		{"group:wood", "default:copper_ingot", "group:wood"},
 	}
 })
