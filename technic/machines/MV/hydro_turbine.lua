@@ -18,8 +18,7 @@ minetest.register_craft({
 
 local function get_water_flow(pos)
 	local node = minetest.get_node(pos)
-	if node.name == "default:water_flowing"
-	  or node.name == "default:river_water_flowing" then
+	if minetest.get_item_group(node.name, "water") == 3 then
 		return node.param2 -- returns approx. water flow, if any
 	end
 	return 0
@@ -52,9 +51,9 @@ local run = function(pos, node)
 	meta:set_int("MV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
-		S("Hydro %s Generator"):format("MV").." ("..production_level.."%)")
+	S("Hydro %s Generator"):format("MV").." ("..production_level.."%)")
 	if production_level > 0 and
-	   minetest.get_node(pos).name == "technic:hydro_turbine" then
+		minetest.get_node(pos).name == "technic:hydro_turbine" then
 		technic.swap_node(pos, "technic:hydro_turbine_active")
 		meta:set_int("MV_EU_supply", 0)
 		return
@@ -76,7 +75,7 @@ minetest.register_node("technic:hydro_turbine", {
 	},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_mv=1},
+	technic_machine=1, technic_mv=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
@@ -90,11 +89,11 @@ minetest.register_node("technic:hydro_turbine", {
 minetest.register_node("technic:hydro_turbine_active", {
 	description = S("Hydro %s Generator"):format("MV"),
 	tiles = {"technic_hydro_turbine_top_active.png", "technic_machine_bottom.png",
-	         "technic_hydro_turbine_side.png",       "technic_hydro_turbine_side.png",
-	         "technic_hydro_turbine_side.png",       "technic_hydro_turbine_side.png"},
+	"technic_hydro_turbine_side.png",       "technic_hydro_turbine_side.png",
+	"technic_hydro_turbine_side.png",       "technic_hydro_turbine_side.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_mv=1, not_in_creative_inventory=1},
+	technic_machine=1, technic_mv=1, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "technic:hydro_turbine",
