@@ -161,10 +161,11 @@ local function quarry_run(pos, node)
 			end
 
 			if can_dig then
+				-- test above blocks if diggable
 				for ay = startpos.y, digpos.y+1, -1 do
 					local checkpos = {x=digpos.x, y=ay, z=digpos.z}
 					local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
-					if checknode.name ~= "air" then
+					if checknode.name ~= "air" and checknode.name ~= "vacuum:vacuum" then
 						can_dig = false
 						break
 					end
