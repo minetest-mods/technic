@@ -167,7 +167,7 @@ minetest.register_on_generated(function(minp, maxp)
 	for z = minp.z + math.floor(grid_size / 2), maxp.z, grid_size do
 		local c = data[a:index(x, y, z)]
 		if (c == c_lava or c == c_lava_flowing)
-		and sulfur_noise:get_3d({x = x, y = z, z = z}) >= 0.4 then
+		and sulfur_noise:get3d({x = x, y = z, z = z}) >= 0.4 then
 			for i in a:iter(
 				math.max(minp.x, x - grid_size),
 				math.max(minp.y, y - grid_size),
