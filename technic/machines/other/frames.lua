@@ -114,7 +114,17 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 	for _, pos in ipairs(poslist) do
 		local node = minetest.get_node(pos)
 		local meta = minetest.get_meta(pos):to_table()
-		nodelist[#(nodelist)+1] = {oldpos = pos, pos = vector.add(pos, vect), node = node, meta = meta}
+		local timer = minetest.get_node_timer(pos)
+		nodelist[#nodelist+1] = {
+			oldpos = pos,
+			pos = vector.add(pos, vect),
+			node = node,
+			meta = meta,
+			timer = {
+				timeout = timer:get_timeout(),
+				elapsed = timer:get_elapsed()
+			}
+		}
 	end
 	local objects = {}
 	for _, pos in ipairs(poslist) do
@@ -133,6 +143,10 @@ local function move_nodes_vect(poslist,vect,must_not_move,owner)
 		minetest.set_node(npos, n.node)
 		local meta = minetest.get_meta(npos)
 		meta:from_table(n.meta)
+		local timer = minetest.get_node_timer(npos)
+		if n.timer.timeout ~= 0 or n.timer.elapsed ~= 0 then
+			timer:set(n.timer.timeout, n.timer.elapsed)
+		end
 		for __,pos in ipairs(poslist) do
 			if npos.x == pos.x and npos.y == pos.y and npos.z == pos.z then
 				table.remove(poslist, __)
