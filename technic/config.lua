@@ -13,6 +13,8 @@ local defaults = {
 	enable_entity_radiation_damage = "true",
 	enable_longterm_radiation_damage = "true",
 	enable_nuclear_reactor_digiline_selfdestruct = "false",
+	creative_mode = "false",
+	enable_producers = "true",
 }
 
 for k, v in pairs(defaults) do

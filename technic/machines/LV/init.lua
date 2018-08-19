@@ -8,11 +8,13 @@ dofile(path.."/cables.lua")
 dofile(path.."/battery_box.lua")
 
 -- Generators
-dofile(path.."/solar_panel.lua")
-dofile(path.."/solar_array.lua")
-dofile(path.."/geothermal.lua")
-dofile(path.."/water_mill.lua")
-dofile(path.."/generator.lua")
+if technic.config:get_bool("enable_producers") then
+	dofile(path.."/solar_panel.lua")
+	dofile(path.."/solar_array.lua")
+	dofile(path.."/geothermal.lua")
+	dofile(path.."/water_mill.lua")
+	dofile(path.."/generator.lua")
+end
 
 -- Machines
 dofile(path.."/alloy_furnace.lua")

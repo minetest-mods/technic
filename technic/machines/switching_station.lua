@@ -88,6 +88,13 @@ minetest.register_node("technic:switching_station",{
 	},
 })
 
+if technic.config:get_bool("creative_mode") then
+	--Power distribution is not used in this mode,
+	--so the switching station is inert and none of the
+	--network processing is needed.
+	return
+end
+
 --------------------------------------------------
 -- Functions to traverse the electrical network
 --------------------------------------------------
