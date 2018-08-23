@@ -151,18 +151,13 @@ if minetest.get_modpath("unifieddyes") then
 	iclip_def.palette = "unifieddyes_palette_colorwallmounted.png"
 	iclip_def.after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end
-	iclip_def.after_dig_node = unifieddyes.after_dig_node
 	iclip_def.groups = {choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
 
 	iclipfence_def.paramtype2 = "color"
 	iclipfence_def.palette = "unifieddyes_palette_extended.png"
 	iclipfence_def.on_construct = unifieddyes.on_construct
-	iclipfence_def.after_place_node = unifieddyes.recolor_on_place
-	iclipfence_def.after_dig_node = unifieddyes.after_dig_node
 	iclipfence_def.groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
-	iclipfence_def.place_param2 = 171 -- medium amber, low saturation, closest color to default:wood
 end
 
 minetest.register_node(":technic:insulator_clip", iclip_def)
@@ -185,3 +180,29 @@ minetest.register_craft({
 		{ "technic:raw_latex", "default:fence_wood", "technic:raw_latex"},
 	}
 })
+
+if minetest.get_modpath("unifieddyes") then
+
+	unifieddyes.register_color_craft({
+		output = "technic:insulator_clip_fencepost",
+		palette = "extended",
+		type = "shapeless",
+		neutral_node = "technic:insulator_clip_fencepost",
+		recipe = {
+			"NEUTRAL_NODE",
+			"MAIN_DYE"
+		}
+	})
+
+	unifieddyes.register_color_craft({
+		output = "technic:insulator_clip",
+		palette = "wallmounted",
+		type = "shapeless",
+		neutral_node = "technic:insulator_clip",
+		recipe = {
+			"NEUTRAL_NODE",
+			"MAIN_DYE"
+		}
+	})
+
+end
