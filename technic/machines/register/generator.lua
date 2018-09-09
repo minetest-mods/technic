@@ -191,7 +191,7 @@ function technic.register_generator(data)
 		},
 		paramtype2 = "facedir",
 		groups = active_groups,
-		connect_sides = {"bottom"},
+		connect_sides = {"bottom", "back", "left", "right"},
 		legacy_facedir_simple = true,
 		sounds = default.node_sound_wood_defaults(),
 		tube = data.tube and tube or nil,
