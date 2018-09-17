@@ -201,6 +201,19 @@ function technic.register_cable(tier, size)
 		def.node_box["connect_"..notconnects[i]] = nil
 		if i == 1 then
 			def.on_place = function(itemstack, placer, pointed_thing)
+				
+				-- Quick fix to prevent placing cables in protected areas and overwriting other nodes with cables
+				local name = placer:get_player_name()
+				if minetest.is_protected(pointed_thing.above, name) then
+					minetest.record_protection_violation(pos, name)
+					return true
+				end
+				local node = minetest.get_node_or_nil(pointed_thing.above)
+				if node then
+					local def = minetest.registered_nodes[node.name]
+					if def and def.buildable_to ~= true then return end
+				end
+				
 				local pointed_thing_diff = vector.subtract(pointed_thing.above, pointed_thing.under)
 				local num
 				local changed
