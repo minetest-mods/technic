@@ -206,7 +206,7 @@ function technic.register_cable(tier, size)
 				local name = placer:get_player_name()
 				if minetest.is_protected(pointed_thing.above, name) then
 					minetest.record_protection_violation(pos, name)
-					return true
+					return
 				end
 				local node = minetest.get_node_or_nil(pointed_thing.above)
 				if node then
