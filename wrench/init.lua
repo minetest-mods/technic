@@ -120,7 +120,7 @@ minetest.register_tool("wrench:wrench", {
 			return
 		end
 		local meta = minetest.get_meta(pos)
-		if def.owned then
+		if def.owned and not minetest.check_player_privs(placer, "protection_bypass") then
 			local owner = meta:get_string("owner")
 			if owner and owner ~= player_name then
 				minetest.log("action", player_name..

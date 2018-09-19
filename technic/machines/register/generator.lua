@@ -35,7 +35,7 @@ function technic.register_generator(data)
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local generator_formspec =
-		"invsize[8,9;]"..
+		"size[8,9;]"..
 		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..

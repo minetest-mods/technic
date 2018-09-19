@@ -60,7 +60,8 @@ local run = function(pos, node)
 	elseif check == true then
 		local power = math.min(pos.y * 100, 5000)
 		meta:set_int("MV_EU_supply", power)
-		meta:set_string("infotext", S("@1 (@2 EU)", machine_name, technic.pretty_num(power)))
+		meta:set_string("infotext", S("@1 (@2)", machine_name,
+			technic.EU_string(power)))
 	end
 	-- check == nil: assume nothing has changed
 end

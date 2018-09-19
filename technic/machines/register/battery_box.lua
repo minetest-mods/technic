@@ -18,7 +18,7 @@ minetest.register_craft({
 	output = "technic:battery",
 	recipe = {
 		{"group:wood", "default:copper_ingot", "group:wood"},
-		{"group:wood", "moreores:tin_ingot",   "group:wood"},
+		{"group:wood", "default:tin_ingot",    "group:wood"},
 		{"group:wood", "default:copper_ingot", "group:wood"},
 	}
 })
@@ -255,8 +255,9 @@ function technic.register_battery_box(data)
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
 		meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, charge_percent))
-		local infotext = S("@1 Battery Box: @2/@3", tier,
-				technic.pretty_num(current_charge), technic.pretty_num(max_charge))
+		local infotext = S("@1 Battery Box: @2 / @3", tier,
+				technic.EU_string(current_charge),
+				technic.EU_string(max_charge))
 		if eu_input == 0 then
 			infotext = S("%s Idle"):format(infotext)
 		end

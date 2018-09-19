@@ -44,7 +44,7 @@ function technic.register_base_machine(data)
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
-		"invsize[8,9;]"..
+		"size[8,9;]"..
 		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..

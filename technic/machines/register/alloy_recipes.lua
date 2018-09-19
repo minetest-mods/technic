@@ -13,7 +13,7 @@ end
 
 local recipes = {
 	{"technic:copper_dust 3",         "technic:tin_dust",           "technic:bronze_dust 4"},
-	{"default:copper_ingot 3",        "moreores:tin_ingot",         "default:bronze_ingot 4"},
+	{"default:copper_ingot 3",        "default:tin_ingot",          "default:bronze_ingot 4"},
 	{"technic:wrought_iron_dust",     "technic:coal_dust",          "technic:carbon_steel_dust", 3},
 	{"technic:wrought_iron_ingot",    "technic:coal_dust",          "technic:carbon_steel_ingot", 3},
 	{"technic:carbon_steel_dust",     "technic:coal_dust",          "technic:cast_iron_dust", 3},
