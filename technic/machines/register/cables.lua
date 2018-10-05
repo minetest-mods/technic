@@ -117,6 +117,15 @@ local function clear_networks(pos)
 	end
 end
 
+local function item_place_override_node(itemstack, placer, pointed, node)
+	-- Call the default on_place function with a fake itemstack
+	local temp_itemstack = ItemStack(node.name)
+	temp_itemstack = minetest.item_place(temp_itemstack, placer, pointed, node.param2) or temp_itemstack
+	-- Remove the same number of items from the real itemstack
+	itemstack:take_item(1 - temp_itemstack:get_count())
+	return itemstack
+end
+
 function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
 	cable_tier["technic:"..ltier.."_cable"] = tier
@@ -228,11 +237,7 @@ function technic.register_cable(tier, size)
 						num = xyz[((fine_pointed[bigger] < 0 and "-") or "") .. bigger]
 					end
 				end
-				minetest.set_node(pointed_thing.above, {name = "technic:"..ltier.."_cable_plate_"..num})
-				if not (creative and creative.is_enabled_for(placer)) then
-					itemstack:take_item()
-				end
-				return itemstack
+				return item_place_override_node(itemstack, placer, pointed_thing, {name = "technic:"..ltier.."_cable_plate_"..num})
 			end
 		else
 			def.groups.not_in_creative_inventory = 1
