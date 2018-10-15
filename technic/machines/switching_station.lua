@@ -234,6 +234,7 @@ minetest.register_abm({
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
+		local t0 	       = minetest.get_us_time()
 		local meta             = minetest.get_meta(pos)
 		local meta1            = nil
 		local pos1             = {}
@@ -442,6 +443,12 @@ minetest.register_abm({
 		for n, pos1 in pairs(RE_nodes) do
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
+		end
+
+		local t1 = minetest.get_us_time()
+		local diff = t1 - t0
+		if diff > 100000 then -- 100ms
+			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
 	end,
