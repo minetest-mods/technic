@@ -404,6 +404,12 @@ minetest.register_abm({
 				meta1:set_int(eu_input_str, math.floor(eu_demand * charge_factor))
 				--dprint("Charging battery:"..math.floor(eu_demand*charge_factor))
 			end
+			local t1 = minetest.get_us_time()
+			local diff = t1 - t0
+			if diff > 50000 then
+				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+			end
+
 			return
 		end
 
@@ -427,6 +433,11 @@ minetest.register_abm({
 				meta1:set_int(eu_input_str, math.floor(eu_supply * charge_factor))
 				--dprint("Discharging battery:"..math.floor(eu_supply*charge_factor))
 			end
+			local t1 = minetest.get_us_time()
+			local diff = t1 - t0
+			if diff > 50000 then
+				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+			end
 			return
 		end
 
@@ -447,7 +458,7 @@ minetest.register_abm({
 
 		local t1 = minetest.get_us_time()
 		local diff = t1 - t0
-		if diff > 100000 then -- 100ms
+		if diff > 50000 then -- 50ms
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
