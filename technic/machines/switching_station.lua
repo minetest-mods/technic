@@ -406,7 +406,7 @@ minetest.register_abm({
 			end
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
-			if diff > 50000 then
+			if diff > 20000 then
 				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 
@@ -435,7 +435,7 @@ minetest.register_abm({
 			end
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
-			if diff > 50000 then
+			if diff > 20000 then
 				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 			return
@@ -458,7 +458,7 @@ minetest.register_abm({
 
 		local t1 = minetest.get_us_time()
 		local diff = t1 - t0
-		if diff > 50000 then -- 50ms
+		if diff > 20000 then -- 50ms
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
