@@ -24,20 +24,11 @@ else
 end
 
 minetest.register_craft({
-	output = 'technic:rebar 6',
-	recipe = {
-		{'','', steel_ingot},
-		{'',steel_ingot,''},
-		{steel_ingot, '', ''},
-	}
-})
-
-minetest.register_craft({
 	output = 'technic:concrete 5',
 	recipe = {
-		{'default:stone','technic:rebar','default:stone'},
-		{'technic:rebar','default:stone','technic:rebar'},
-		{'default:stone','technic:rebar','default:stone'},
+		{'default:stone','basic_materials:steel_bar','default:stone'},
+		{'basic_materials:steel_bar','default:stone','basic_materials:steel_bar'},
+		{'default:stone','basic_materials:steel_bar','default:stone'},
 	}
 })
 
@@ -51,9 +42,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:concrete_post 12',
 	recipe = {
-		{'default:stone','technic:rebar','default:stone'},
-		{'default:stone','technic:rebar','default:stone'},
-		{'default:stone','technic:rebar','default:stone'},
+		{'default:stone','basic_materials:steel_bar','default:stone'},
+		{'default:stone','basic_materials:steel_bar','default:stone'},
+		{'default:stone','basic_materials:steel_bar','default:stone'},
 	}
 })
 
@@ -64,11 +55,6 @@ minetest.register_craft({
 		{'technic:composite_plate','technic:concrete','technic:composite_plate'},
 		{'technic:concrete','technic:composite_plate','technic:concrete'},
 	}
-})
-
-minetest.register_craftitem(":technic:rebar", {
-	description = S("Rebar"),
-	inventory_image = "technic_rebar.png",
 })
 
 minetest.register_node(":technic:concrete", {

@@ -6,7 +6,7 @@ minetest.register_craft({
 	recipe = {
 		{'default:stone',            'technic:motor',          'default:stone'},
 		{'mesecons:piston',          'technic:machine_casing', 'mesecons:piston'},
-		{'technic:fine_silver_wire', 'technic:lv_cable',       'technic:fine_silver_wire'},
+		{'basic_materials:silver_wire', 'technic:lv_cable',       'basic_materials:silver_wire'},
 	}
 })
 

@@ -133,14 +133,6 @@ minetest.register_node(":technic:stainless_steel_block", {
 	sounds = default.node_sound_stone_defaults()
 })
 
-minetest.register_node(":technic:brass_block", {
-	description = S("Brass Block"),
-	tiles = { "technic_brass_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
-})
-
 minetest.register_craft({
 	output = 'technic:marble_bricks 4',
 	recipe = {

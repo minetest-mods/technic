@@ -201,7 +201,7 @@ minetest.register_node("technic:supply_converter", {
 minetest.register_craft({
 	output = 'technic:supply_converter 1',
 	recipe = {
-		{'technic:fine_gold_wire', 'technic:rubber',         'technic:doped_silicon_wafer'},
+		{'basic_materials:gold_wire', 'technic:rubber',         'technic:doped_silicon_wafer'},
 		{'technic:mv_transformer', 'technic:machine_casing', 'technic:lv_transformer'},
 		{'technic:mv_cable',       'technic:rubber',         'technic:lv_cable'},
 	}
