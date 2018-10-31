@@ -979,7 +979,7 @@ minetest.register_craft({
 	output = 'technic:frame_111111',
 	recipe = {
 		{ '',              'default:stick',       '' },
-		{ 'default:stick', 'technic:brass_ingot', 'default:stick' },
+		{ 'default:stick', 'basic_materials:brass_ingot', 'default:stick' },
 		{ '',              'default:stick',       '' },
 	}
 })
@@ -988,7 +988,7 @@ minetest.register_craft({
 	output = 'technic:frame_motor',
 	recipe = {
 		{ '',                                  'technic:frame_111111', '' },
-		{ 'group:mesecon_conductor_craftable', 'technic:motor',        'group:mesecon_conductor_craftable' },
+		{ 'group:mesecon_conductor_craftable', 'basic_materials:motor',        'group:mesecon_conductor_craftable' },
 		{ '',                                  'technic:frame_111111', '' },
 	}
 })
@@ -996,9 +996,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:template 10',
 	recipe = {
-		{ '',                    'technic:brass_ingot',  '' },
-		{ 'technic:brass_ingot', 'default:mese_crystal', 'technic:brass_ingot' },
-		{ '',                    'technic:brass_ingot',  '' },
+		{ '',                    'basic_materials:brass_ingot',  '' },
+		{ 'basic_materials:brass_ingot', 'default:mese_crystal', 'basic_materials:brass_ingot' },
+		{ '',                    'basic_materials:brass_ingot',  '' },
 	}
 })
 
@@ -1016,7 +1016,7 @@ minetest.register_craft({
 	output = 'technic:template_motor',
 	recipe = {
 		{ '',                                  'technic:template', '' },
-		{ 'group:mesecon_conductor_craftable', 'technic:motor',    'group:mesecon_conductor_craftable' },
+		{ 'group:mesecon_conductor_craftable', 'basic_materials:motor',    'group:mesecon_conductor_craftable' },
 		{ '',                                  'technic:template', '' },
 	}
 })

@@ -55,7 +55,7 @@ minetest.register_craft({
 	output = 'technic:vacuum',
 	recipe = {
 		{'pipeworks:tube_1',              'pipeworks:filter', 'technic:battery'},
-		{'pipeworks:tube_1',              'technic:motor',    'technic:battery'},
+		{'pipeworks:tube_1',              'basic_materials:motor',    'technic:battery'},
 		{'technic:stainless_steel_ingot', '',                 ''},
 	}
 })

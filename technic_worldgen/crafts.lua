@@ -48,11 +48,6 @@ minetest.register_craftitem(":technic:sulfur_lump", {
 	inventory_image = "technic_sulfur_lump.png",
 })
 
-minetest.register_craftitem(":technic:brass_ingot", {
-	description = S("Brass Ingot"),
-	inventory_image = "technic_brass_ingot.png",
-})
-
 minetest.register_alias("technic:wrought_iron_ingot", "default:steel_ingot")
 
 minetest.override_item("default:steel_ingot", {
@@ -97,7 +92,6 @@ register_block("technic:uranium_block", "technic:uranium_ingot")
 register_block("technic:chromium_block", "technic:chromium_ingot")
 register_block("technic:zinc_block", "technic:zinc_ingot")
 register_block("technic:lead_block", "technic:lead_ingot")
-register_block("technic:brass_block", "technic:brass_ingot")
 register_block("technic:cast_iron_block", "technic:cast_iron_ingot")
 register_block("technic:carbon_steel_block", "technic:carbon_steel_ingot")
 register_block("technic:stainless_steel_block", "technic:stainless_steel_ingot")

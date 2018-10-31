@@ -14,7 +14,7 @@ minetest.register_craft({
 	output = 'technic:cnc',
 	recipe = {
 		{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
-		{'technic:control_logic_unit', 'technic:machine_casing',     'technic:motor'},
+		{'technic:control_logic_unit', 'technic:machine_casing',     'basic_materials:motor'},
 		{'technic:carbon_steel_ingot', 'technic:lv_cable',           'technic:carbon_steel_ingot'},
 	},
 })

@@ -122,7 +122,7 @@ minetest.register_craft({
 	output = "technic:prospector",
 	recipe = {
 		{"moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1"},
-		{"technic:brass_ingot", "technic:control_logic_unit", "technic:brass_ingot"},
+		{"basic_materials:brass_ingot", "technic:control_logic_unit", "basic_materials:brass_ingot"},
 		{"", "technic:blue_energy_crystal", ""},
 	}
 })

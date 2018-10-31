@@ -4,7 +4,7 @@ minetest.register_alias("extractor", "technic:lv_extractor")
 minetest.register_craft({
 	output = 'technic:lv_extractor',
 	recipe = {
-		{'technic:treetap', 'technic:motor',          'technic:treetap'},
+		{'technic:treetap', 'basic_materials:motor',          'technic:treetap'},
 		{'technic:treetap', 'technic:machine_casing', 'technic:treetap'},
 		{'',                'technic:lv_cable',       ''},
 	}

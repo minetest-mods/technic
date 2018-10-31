@@ -1,6 +1,7 @@
 default
 pipeworks
 technic_worldgen
+basic_materials
 bucket?
 screwdriver?
 mesecons?

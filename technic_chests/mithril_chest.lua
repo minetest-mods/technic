@@ -21,7 +21,7 @@ end
 minetest.register_craft({
 	output = 'technic:mithril_locked_chest 1',
 	recipe = {
-		{'default:steel_ingot'},
+		{'basic_materials:padlock'},
 		{'technic:mithril_chest'},
 	}
 })
