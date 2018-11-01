@@ -97,15 +97,6 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	output = 'technic:motor',
-	recipe = {
-		{'technic:carbon_steel_ingot', 'technic:copper_coil', 'technic:carbon_steel_ingot'},
-		{'technic:carbon_steel_ingot', 'technic:copper_coil', 'technic:carbon_steel_ingot'},
-		{'technic:carbon_steel_ingot', 'default:copper_ingot', 'technic:carbon_steel_ingot'},
-	}
-})
-
 local isolation = mesecons_materials and "mesecons_materials:fiber" or "technic:rubber"
 
 minetest.register_craft({

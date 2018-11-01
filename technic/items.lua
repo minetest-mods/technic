@@ -74,11 +74,6 @@ minetest.register_craftitem("technic:copper_coil", {
 	inventory_image = "technic_copper_coil.png",
 })
 
-minetest.register_craftitem("technic:motor", {
-	description = S("Electric Motor"),
-	inventory_image = "technic_motor.png",
-})
-
 minetest.register_craftitem("technic:lv_transformer", {
 	description = S("Low Voltage Transformer"),
 	inventory_image = "technic_lv_transformer.png",

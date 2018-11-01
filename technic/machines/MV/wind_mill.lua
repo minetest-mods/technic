@@ -13,7 +13,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:wind_mill',
 	recipe = {
-		{'',                           'technic:motor',              ''},
+		{'',                           'basic_materials:motor',              ''},
 		{'technic:carbon_steel_ingot', 'technic:carbon_steel_block', 'technic:carbon_steel_ingot'},
 		{'',                           'technic:mv_cable',           ''},
 	}

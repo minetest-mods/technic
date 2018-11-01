@@ -363,7 +363,7 @@ minetest.register_craft({
 	output = "technic:chainsaw",
 	recipe = {
 		{"technic:stainless_steel_ingot", trigger,                      "technic:battery"},
-		{"basic_materials:copper_wire",      "technic:motor",              "technic:battery"},
+		{"basic_materials:copper_wire",      "basic_materials:motor",              "technic:battery"},
 		{"",                              "",                           "technic:stainless_steel_ingot"},
 	},
 	replacements = { {"basic_materials:copper_wire", "basic_materials:empty_spool"}, },
