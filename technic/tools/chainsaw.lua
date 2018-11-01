@@ -365,6 +365,8 @@ minetest.register_craft({
 		{"technic:stainless_steel_ingot", trigger,                      "technic:battery"},
 		{"basic_materials:copper_wire",      "technic:motor",              "technic:battery"},
 		{"",                              "",                           "technic:stainless_steel_ingot"},
-	}
+	},
+	replacements = { {"basic_materials:copper_wire", "basic_materials:empty_spool"}, },
+
 })
 
