@@ -24,15 +24,6 @@ else
 end
 
 minetest.register_craft({
-	output = 'technic:concrete 5',
-	recipe = {
-		{'default:stone','basic_materials:steel_bar','default:stone'},
-		{'basic_materials:steel_bar','default:stone','basic_materials:steel_bar'},
-		{'default:stone','basic_materials:steel_bar','default:stone'},
-	}
-})
-
-minetest.register_craft({
 	output = 'technic:concrete_post_platform 6',
 	recipe = {
 		{'technic:concrete','technic:concrete_post','technic:concrete'},
@@ -55,13 +46,6 @@ minetest.register_craft({
 		{'technic:composite_plate','technic:concrete','technic:composite_plate'},
 		{'technic:concrete','technic:composite_plate','technic:concrete'},
 	}
-})
-
-minetest.register_node(":technic:concrete", {
-	description = S("Concrete Block"),
-	tiles = {"technic_concrete_block.png",},
-	groups = {cracky=1, level=2, concrete=1},
-	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(":technic:blast_resistant_concrete", {
@@ -87,7 +71,7 @@ local box_right    = {0,     -0.3, -0.1,  0.5,  0.3, 0.1}
 
 minetest.register_node(":technic:concrete_post_platform", {
 	description = S("Concrete Post Platform"),
-	tiles = {"technic_concrete_block.png",},
+	tiles = {"basic_materials_concrete_block.png",},
 	groups={cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
@@ -119,7 +103,7 @@ for platform = 0, 1 do
 
 	minetest.register_node(":technic:concrete_post"..(platform == 1 and "_with_platform" or ""), {
 		description = S("Concrete Post"),
-		tiles = {"technic_concrete_block.png"},
+		tiles = {"basic_materials_concrete_block.png"},
 		groups = {cracky=1, level=2, concrete_post=1, not_in_creative_inventory=platform},
 		sounds = default.node_sound_stone_defaults(),
 		drop = (platform == 1 and "technic:concrete_post_platform" or

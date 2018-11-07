@@ -30,7 +30,7 @@ if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
-		tiles={"technic_concrete_block.png"},
+		tiles={"basic_materials_concrete_block.png"},
 	})
 
 	stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
