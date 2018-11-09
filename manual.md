@@ -14,8 +14,13 @@ The technic modpack depends on some other modpacks:
 *   pipeworks, which supports the automation of item transport
 *   moreores, which provides some additional ore types
 
-This manual doesn't explain how to use these other modpacks, which ought
-to (but actually don't) have their own manuals.
+This manual doesn't explain how to use these other modpacks, which have 
+their own manuals:
+
+*   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
+*   [Mesecons Documentation](http://mesecons.net/items.html)
+*   [Pipeworks Documentation](https://github.com/minetest-mods/pipeworks/wiki)
+*   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
 
 Recipes for constructable items in technic are generally not guessable,
 and are also not specifically documented here.  You should use a
@@ -68,10 +73,11 @@ own for its electrical conductivity, or as the base component of alloys.
 Although common, it is very heavily used, and most of the time it will
 be the material that most limits your activity.
 
-Tin is supplied by the moreores mod.  It is found from elevation +8
-downwards, with no elevation-dependent variations in abundance beyond
-that point.  It is a common metal.  Its main use in pure form is as a
-component of electrical batteries.  Apart from that its main purpose is
+Tin is part of the basic Minetest game (having migrated there from
+moreores).  It is found from elevation +8 downwards, with no 
+elevation-dependent variations in abundance beyond that point.  
+It is a common metal.  Its main use in pure form is as a component 
+of electrical batteries.  Apart from that its main purpose is
 as the secondary ingredient in bronze (the base being copper), but bronze
 is itself little used.  Its abundance is well in excess of its usage,
 so you will usually have a surplus of it.
@@ -986,7 +992,7 @@ through a side.
 
 The furnace, alloy furnace, grinder, extractor, compressor, and centrifuge
 have much in common.  Each implements some industrial process that
-transforms items into other items, and they manner in which they present
+transforms items into other items, and the manner in which they present
 these processes as powered machines is essentially identical.
 
 Most of the processing machines operate on inputs of only a single type
@@ -1011,7 +1017,7 @@ input slot, this is perfectly simple behavior.  The alloy furnace is more
 complex: it will put an arriving item in either input slot, preferring to
 stack it with existing items of the same type.  It doesn't matter which
 slot each of the alloy furnace's inputs is in, so it doesn't matter that
-there's no direct control ovar that, but there is a risk that supplying
+there's no direct control over that, but there is a risk that supplying
 a lot of one item type through tubes will result in both slots containing
 the same type of item, leaving no room for the second input.
 
@@ -1195,7 +1201,7 @@ power generators
 
 ### fuel-fired generators ###
 
-The fiel-fired generators are electrical power generators that generate
+The fuel-fired generators are electrical power generators that generate
 power by the combustion of fuel.  Versions of them are available for
 all three voltages (LV, MV, and HV).  These are all capable of burning
 any type of combustible fuel, such as coal.  They are relatively easy

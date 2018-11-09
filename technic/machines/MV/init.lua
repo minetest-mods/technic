@@ -13,6 +13,7 @@ if technic.config:get_bool("enable_wind_mill") then
 end
 dofile(path.."/generator.lua")
 dofile(path.."/solar_array.lua")
+dofile(path.."/hydro_turbine.lua")
 
 -- Machines
 dofile(path.."/alloy_furnace.lua")
