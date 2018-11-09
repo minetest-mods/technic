@@ -15,5 +15,4 @@ dofile(path.."/generator.lua")
 -- Machines
 dofile(path.."/quarry.lua")
 dofile(path.."/forcefield.lua")
-dofile(path.."/electric_furnace.lua")
 
