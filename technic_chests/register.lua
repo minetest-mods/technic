@@ -157,6 +157,16 @@ local function get_receive_fields(name, data)
 	local lname = name:lower()
 	return function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
+		local owner = meta:get_string("owner")
+
+		if owner and owner ~= "" and sender then
+			-- check owner
+			if owner ~= sender:get_player_name() then
+				-- not the owner
+				return
+			end
+		end
+
 		local page = "main"
 		if fields.sort or (data.autosort and fields.quit and meta:get_int("autosort") == 1) then
 			sort_inventory(meta:get_inventory())
