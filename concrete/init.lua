@@ -61,6 +61,20 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	end,
 })
 
+if minetest.get_modpath("moreblocks") then
+	stairsplus:register_all("technic","blast_resistant_concrete","technic:blast_resistant_concrete",{
+		description = "Blast-resistant Concrete",
+		tiles = {"technic_blast_resistant_concrete_block.png",},
+		groups = {cracky=1, level=3, concrete=1},
+		sounds = default.node_sound_stone_defaults(),
+		on_blast = function(pos, intensity)
+			if intensity > 1 then
+				minetest.remove_node(pos)
+				minetest.add_item(pos, "technic:blast_resistant_concrete")
+			end
+		end,
+	})
+end
 
 local box_platform = {-0.5,  0.3,  -0.5,  0.5,  0.5, 0.5}
 local box_post     = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15}
