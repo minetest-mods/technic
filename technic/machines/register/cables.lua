@@ -119,10 +119,14 @@ end
 
 local function item_place_override_node(itemstack, placer, pointed, node)
 	-- Call the default on_place function with a fake itemstack
-	local temp_itemstack = ItemStack(node.name)
-	temp_itemstack = minetest.item_place(temp_itemstack, placer, pointed, node.param2) or temp_itemstack
+	local temp_itemstack = ItemStack(itemstack)
+	temp_itemstack:set_name(node.name)
+	local original_count = temp_itemstack:get_count()
+	temp_itemstack = 
+		minetest.item_place(temp_itemstack, placer, pointed, node.param2) or
+		temp_itemstack
 	-- Remove the same number of items from the real itemstack
-	itemstack:take_item(1 - temp_itemstack:get_count())
+	itemstack:take_item(original_count - temp_itemstack:get_count())
 	return itemstack
 end
 
@@ -237,7 +241,10 @@ function technic.register_cable(tier, size)
 						num = xyz[((fine_pointed[bigger] < 0 and "-") or "") .. bigger]
 					end
 				end
-				return item_place_override_node(itemstack, placer, pointed_thing, {name = "technic:"..ltier.."_cable_plate_"..num})
+				return item_place_override_node(
+					itemstack, placer, pointed_thing,
+					{name = "technic:"..ltier.."_cable_plate_"..num}
+				)
 			end
 		else
 			def.groups.not_in_creative_inventory = 1
