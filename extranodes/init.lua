@@ -57,12 +57,6 @@ if minetest.get_modpath("moreblocks") then
 		tiles={"technic_stainless_steel_block.png"},
 	})
 
-	stairsplus:register_all("technic", "brass_block", "basic_materials:brass_block", {
-		description=S("Brass Block"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"basic_materials_brass_block.png"},
-	})
-
 	function register_technic_stairs_alias(modname, origname, newmod, newname)
 		minetest.register_alias(modname .. ":slab_" .. origname, newmod..":slab_" .. newname)
 		minetest.register_alias(modname .. ":slab_" .. origname .. "_inverted", newmod..":slab_" .. newname .. "_inverted")
