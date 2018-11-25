@@ -1,16 +1,14 @@
 -- API for the technic CNC machine
 -- Again code is adapted from the NonCubic Blocks MOD v1.4 by yves_de_beck
 
-local S = technic.getter
-
-technic.cnc = {}
+local S = technic_cnc.getter
 
 -- REGISTER NONCUBIC FORMS, CREATE MODELS AND RECIPES:
 ------------------------------------------------------
 
 -- Define slope boxes for the various nodes
 -------------------------------------------
-technic.cnc.programs = {
+technic_cnc.programs = {
 	{ suffix  = "technic_cnc_stick",
 		model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
 		desc  = S("Stick")
@@ -263,7 +261,7 @@ technic.cnc.programs = {
 }
 
 -- Allow disabling certain programs for some node. Default is allowing all types for all nodes
-technic.cnc.programs_disable = {
+technic_cnc.programs_disable = {
 	-- ["default:brick"] = {"technic_cnc_stick"}, -- Example: Disallow the stick for brick
 	-- ...
 	["default:dirt"] = {"technic_cnc_oblate_spheroid", "technic_cnc_slope_upsdown", "technic_cnc_edge",
@@ -273,7 +271,7 @@ technic.cnc.programs_disable = {
 }
 
 -- Generic function for registering all the different node types
-function technic.cnc.register_program(recipeitem, suffix, model, groups, images, description, cbox, sbox)
+function technic_cnc.register_program(recipeitem, suffix, model, groups, images, description, cbox, sbox)
 
 	local dtype
 	local nodeboxdef
@@ -308,12 +306,12 @@ function technic.cnc.register_program(recipeitem, suffix, model, groups, images,
 end
 
 -- function to iterate over all the programs the CNC machine knows
-function technic.cnc.register_all(recipeitem, groups, images, description)
-	for _, data in ipairs(technic.cnc.programs) do
+function technic_cnc.register_all(recipeitem, groups, images, description)
+	for _, data in ipairs(technic_cnc.programs) do
 		-- Disable node creation for disabled node types for some material
 		local do_register = true
-		if technic.cnc.programs_disable[recipeitem] ~= nil then
-			for __, disable in ipairs(technic.cnc.programs_disable[recipeitem]) do
+		if technic_cnc.programs_disable[recipeitem] ~= nil then
+			for __, disable in ipairs(technic_cnc.programs_disable[recipeitem]) do
 				if disable == data.suffix then
 					do_register = false
 				end
@@ -321,49 +319,49 @@ function technic.cnc.register_all(recipeitem, groups, images, description)
 		end
 		-- Create the node if it passes the test
 		if do_register then
-			technic.cnc.register_program(recipeitem, data.suffix, data.model,
+			technic_cnc.register_program(recipeitem, data.suffix, data.model,
 			    groups, images, description.." "..data.desc, data.cbox, data.sbox)
 		end
 	end
 end
 
 
--- REGISTER NEW TECHNIC_CNC_API's PART 2: technic.cnc..register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
+-- REGISTER NEW TECHNIC_CNC_API's PART 2: technic_cnc..register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
 -----------------------------------------------------------------------------------------------------------------------
-function technic.cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_spheroid, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
+function technic_cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_spheroid, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
 
-         technic.cnc.register_slope(recipeitem, groups, images, desc_slope)
-         technic.cnc.register_slope_lying(recipeitem, groups, images, desc_slope_lying)
-         technic.cnc.register_slope_upsdown(recipeitem, groups, images, desc_slope_upsdown)
-         technic.cnc.register_slope_edge(recipeitem, groups, images, desc_slope_edge)
-         technic.cnc.register_slope_inner_edge(recipeitem, groups, images, desc_slope_inner_edge)
-         technic.cnc.register_slope_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_edge)
-         technic.cnc.register_slope_inner_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_inner_edge)
-         technic.cnc.register_pyramid(recipeitem, groups, images, desc_pyramid)
-         technic.cnc.register_spike(recipeitem, groups, images, desc_spike)
-         technic.cnc.register_onecurvededge(recipeitem, groups, images, desc_onecurvededge)
-         technic.cnc.register_twocurvededge(recipeitem, groups, images, desc_twocurvededge)
-         technic.cnc.register_cylinder(recipeitem, groups, images, desc_cylinder)
-         technic.cnc.register_cylinder_horizontal(recipeitem, groups, images, desc_cylinder_horizontal)
-         technic.cnc.register_spheroid(recipeitem, groups, images, desc_spheroid)
-         technic.cnc.register_element_straight(recipeitem, groups, images, desc_element_straight)
-         technic.cnc.register_element_edge(recipeitem, groups, images, desc_element_edge)
-         technic.cnc.register_element_t(recipeitem, groups, images, desc_element_t)
-         technic.cnc.register_element_cross(recipeitem, groups, images, desc_element_cross)
-         technic.cnc.register_element_end(recipeitem, groups, images, desc_element_end)
+         technic_cnc.register_slope(recipeitem, groups, images, desc_slope)
+         technic_cnc.register_slope_lying(recipeitem, groups, images, desc_slope_lying)
+         technic_cnc.register_slope_upsdown(recipeitem, groups, images, desc_slope_upsdown)
+         technic_cnc.register_slope_edge(recipeitem, groups, images, desc_slope_edge)
+         technic_cnc.register_slope_inner_edge(recipeitem, groups, images, desc_slope_inner_edge)
+         technic_cnc.register_slope_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_edge)
+         technic_cnc.register_slope_inner_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_inner_edge)
+         technic_cnc.register_pyramid(recipeitem, groups, images, desc_pyramid)
+         technic_cnc.register_spike(recipeitem, groups, images, desc_spike)
+         technic_cnc.register_onecurvededge(recipeitem, groups, images, desc_onecurvededge)
+         technic_cnc.register_twocurvededge(recipeitem, groups, images, desc_twocurvededge)
+         technic_cnc.register_cylinder(recipeitem, groups, images, desc_cylinder)
+         technic_cnc.register_cylinder_horizontal(recipeitem, groups, images, desc_cylinder_horizontal)
+         technic_cnc.register_spheroid(recipeitem, groups, images, desc_spheroid)
+         technic_cnc.register_element_straight(recipeitem, groups, images, desc_element_straight)
+         technic_cnc.register_element_edge(recipeitem, groups, images, desc_element_edge)
+         technic_cnc.register_element_t(recipeitem, groups, images, desc_element_t)
+         technic_cnc.register_element_cross(recipeitem, groups, images, desc_element_cross)
+         technic_cnc.register_element_end(recipeitem, groups, images, desc_element_end)
 end
 
 -- REGISTER STICKS: noncubic.register_xyz(recipeitem, groups, images, desc_element_xyz)
 ------------------------------------------------------------------------------------------------------------
-function technic.cnc.register_stick_etc(recipeitem, groups, images, desc_stick)
-         technic.cnc.register_stick(recipeitem, groups, images, desc_stick)
+function technic_cnc.register_stick_etc(recipeitem, groups, images, desc_stick)
+         technic_cnc.register_stick(recipeitem, groups, images, desc_stick)
 end
 
-function technic.cnc.register_elements(recipeitem, groups, images, desc_element_straight_double, desc_element_edge_double, desc_element_t_double, desc_element_cross_double, desc_element_end_double)
-         technic.cnc.register_element_straight_double(recipeitem, groups, images, desc_element_straight_double)
-         technic.cnc.register_element_edge_double(recipeitem, groups, images, desc_element_edge_double)
-         technic.cnc.register_element_t_double(recipeitem, groups, images, desc_element_t_double)
-         technic.cnc.register_element_cross_double(recipeitem, groups, images, desc_element_cross_double)
-         technic.cnc.register_element_end_double(recipeitem, groups, images, desc_element_end_double)
+function technic_cnc.register_elements(recipeitem, groups, images, desc_element_straight_double, desc_element_edge_double, desc_element_t_double, desc_element_cross_double, desc_element_end_double)
+         technic_cnc.register_element_straight_double(recipeitem, groups, images, desc_element_straight_double)
+         technic_cnc.register_element_edge_double(recipeitem, groups, images, desc_element_edge_double)
+         technic_cnc.register_element_t_double(recipeitem, groups, images, desc_element_t_double)
+         technic_cnc.register_element_cross_double(recipeitem, groups, images, desc_element_cross_double)
+         technic_cnc.register_element_end_double(recipeitem, groups, images, desc_element_end_double)
 end
 

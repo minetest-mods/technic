@@ -2,6 +2,11 @@ local modpath = minetest.get_modpath("technic_cnc")
 
 technic_cnc = {}
 
+technic_cnc.technic_modpath = minetest.get_modpath("technic")
+
+technic_cnc.use_technic = technic_cnc.technic_modpath
+                          and minetest.settings:get_bool("technic_cnc_use_technic") ~= false
+
 if rawget(_G, "intllib") then
 	technic_cnc.getter = intllib.Getter()
 else
