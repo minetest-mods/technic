@@ -83,7 +83,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_oblate_spheroid",
-		model = "technic_oblate_spheroid.obj",
+		model = "technic_cnc_oblate_spheroid.obj",
 		desc  = S("Oblate spheroid"),
 		cbox  = {
 			type = "fixed",
@@ -96,32 +96,32 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_sphere",
-		model = "technic_sphere.obj",
+		model = "technic_cnc_sphere.obj",
 		desc  = S("Sphere")
 	},
 
 	{ suffix  = "technic_cnc_cylinder_horizontal",
-		model = "technic_cylinder_horizontal.obj",
+		model = "technic_cnc_cylinder_horizontal.obj",
 		desc  = S("Horizontal Cylinder")
 	},
 
 	{ suffix  = "technic_cnc_cylinder",
-		model = "technic_cylinder.obj",
+		model = "technic_cnc_cylinder.obj",
 		desc  = S("Cylinder")
 	},
 
 	{ suffix  = "technic_cnc_twocurvededge",
-		model = "technic_two_curved_edge.obj",
+		model = "technic_cnc_two_curved_edge.obj",
 		desc  = S("Two Curved Edge/Corner Block")
 	},
 
 	{ suffix  = "technic_cnc_onecurvededge",
-		model = "technic_one_curved_edge.obj",
+		model = "technic_cnc_one_curved_edge.obj",
 		desc  = S("One Curved Edge Block")
 	},
 
 	{ suffix  = "technic_cnc_spike",
-		model = "technic_pyramid_spike.obj",
+		model = "technic_cnc_pyramid_spike.obj",
 		desc  = S("Spike"),
 		cbox    = {
 			type = "fixed",
@@ -135,7 +135,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_pyramid",
-		model = "technic_pyramid.obj",
+		model = "technic_cnc_pyramid.obj",
 		desc  = S("Pyramid"),
 		cbox  = {
 			type = "fixed",
@@ -149,7 +149,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_inner_edge_upsdown",
-		model = "technic_innercorner_upsdown.obj",
+		model = "technic_cnc_innercorner_upsdown.obj",
 		desc  = S("Slope Upside Down Inner Edge/Corner"),
 		sbox  = {
 			type = "fixed",
@@ -170,7 +170,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_edge_upsdown",
-		model = "technic_outercorner_upsdown.obj",
+		model = "technic_cnc_outercorner_upsdown.obj",
 		desc  = S("Slope Upside Down Outer Edge/Corner"),
 		cbox  = {
 			type = "fixed",
@@ -184,7 +184,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_inner_edge",
-		model = "technic_innercorner.obj",
+		model = "technic_cnc_innercorner.obj",
 		desc  = S("Slope Inner Edge/Corner"),
 		sbox  = {
 			type = "fixed",
@@ -205,7 +205,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_edge",
-		model = "technic_outercorner.obj",
+		model = "technic_cnc_outercorner.obj",
 		desc  = S("Slope Outer Edge/Corner"),
 		cbox  = {
 			type = "fixed",
@@ -219,7 +219,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_upsdown",
-		model = "technic_slope_upsdown.obj",
+		model = "technic_cnc_slope_upsdown.obj",
 		desc  = S("Slope Upside Down"),
 		cbox  = {
 			type = "fixed",
@@ -233,7 +233,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope_lying",
-		model = "technic_slope_horizontal.obj",
+		model = "technic_cnc_slope_horizontal.obj",
 		desc  = S("Slope Lying"),
 		cbox  = {
 			type = "fixed",
@@ -247,7 +247,7 @@ technic.cnc.programs = {
 	},
 
 	{ suffix  = "technic_cnc_slope",
-		model = "technic_slope.obj",
+		model = "technic_cnc_slope.obj",
 		desc  = S("Slope"),
 		cbox  = {
 			type = "fixed",
