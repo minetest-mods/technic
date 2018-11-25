@@ -143,30 +143,32 @@ local cnc_formspec =
 	"listring[current_name;src]"..
 	"listring[current_player;main]"
 
-local size = 1;
-
 -- The form handler is declared here because we need it in both the inactive and active modes
 -- in order to be able to change programs wile it is running.
 local function form_handler(pos, formname, fields, sender)
+	local meta       = minetest.get_meta(pos)
+
 	-- REGISTER MILLING PROGRAMS AND OUTPUTS:
 	------------------------------------------
 	-- Program for half/full size
 	if fields["full"] then
-		size = 1
+		meta:set_int("size", 1)
 		return
 	end
 
 	if fields["half"] then
-		size = 2
+		meta:set_int("size", 2)
 		return
 	end
 
 	-- Resolve the node name and the number of items to make
-	local meta       = minetest.get_meta(pos)
 	local inv        = meta:get_inventory()
 	local inputstack = inv:get_stack("src", 1)
 	local inputname  = inputstack:get_name()
 	local multiplier = 0
+	local size       = meta:get_int("size")
+	if size < 1 then size = 1 end
+
 	for k, _ in pairs(fields) do
 		-- Set a multipier for the half/full size capable blocks
 		if twosize_products[k] ~= nil then
