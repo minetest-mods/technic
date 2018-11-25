@@ -7,8 +7,14 @@ local S = technic_cnc.getter
 -------
 technic_cnc.register_all("default:dirt",
                 {snappy=2,choppy=2,oddly_breakable_by_hand=3,not_in_creative_inventory=1},
-                {"default_grass.png", "default_dirt.png", "default_grass.png"},
+                {"default_dirt.png"},
                 S("Dirt"))
+-- (DIRT WITH) GRASS
+--------------------
+technic_cnc.register_all("default:dirt_with_grass",
+                {snappy=2,choppy=2,oddly_breakable_by_hand=3,not_in_creative_inventory=1},
+                {"default_grass.png"},
+                S("Grassy dirt"))
 -- WOOD
 -------
 technic_cnc.register_all("default:wood",
