@@ -1,4 +1,5 @@
 ## CNC
+CNC Machine = CNC-Maschine
 %s CNC Machine = %s CNC-Maschine
 Cylinder = Zylinder
 Element Cross = Halbes Kreuzelement
