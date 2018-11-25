@@ -1,4 +1,5 @@
 ## CNC
+CNC Machine = Maquina CNC
 %s CNC Machine = Maquina CNC %s
 Element Edge = Elemento Borde
 Tree = Arbol

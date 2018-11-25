@@ -13,7 +13,7 @@ local allow_metadata_inventory_put
 local allow_metadata_inventory_take
 local allow_metadata_inventory_move
 local can_dig
-local voltage = ""
+local desc_tr = S("CNC Machine")
 
 if technic_cnc.use_technic then
 	minetest.register_craft({
@@ -29,8 +29,7 @@ if technic_cnc.use_technic then
 	allow_metadata_inventory_take = technic.machine_inventory_take
 	allow_metadata_inventory_move = technic.machine_inventory_move
 	can_dig = technic.machine_can_dig
-	voltage = "LV "
-
+	desc_tr = S("%s CNC Machine"):format("LV")
 else
 	minetest.register_craft({
 		output = 'technic:cnc',
@@ -214,7 +213,7 @@ local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local inv          = meta:get_inventory()
 	local eu_input     = meta:get_int("LV_EU_input")
-	local machine_name = S("%sCNC Machine"):format(voltage)
+	local machine_name = desc_tr
 	local machine_node = "technic:cnc"
 	local demand       = 450
 
@@ -249,7 +248,7 @@ end
 
 -- The actual block inactive state
 minetest.register_node(":technic:cnc", {
-	description = S("%sCNC Machine"):format(voltage),
+	description = desc_tr,
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
 	groups = {cracky=2, technic_machine=1, technic_lv=1},
@@ -258,7 +257,7 @@ minetest.register_node(":technic:cnc", {
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%sCNC Machine"):format(voltage))
+		meta:set_string("infotext", desc_tr)
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", cnc_formspec)
 		local inv = meta:get_inventory()
@@ -277,7 +276,7 @@ minetest.register_node(":technic:cnc", {
 if technic_cnc.use_technic then
 
 	minetest.register_node(":technic:cnc_active", {
-		description = S("%sCNC Machine"):format(voltage),
+		description = desc_tr,
 		tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 					   "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 		groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},

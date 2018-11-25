@@ -1,4 +1,5 @@
 ## CNC
+CNC Machine = Tornio CNC
 %s CNC Machine = Tornio CNC %s
 Cylinder = Cilindro
 Element Cross = Elemento a croce
