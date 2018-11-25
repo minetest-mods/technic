@@ -93,7 +93,7 @@ local onesize_products = {
 	twocurvededge            = 1,
 }
 local twosize_products = {
-	element_straight         = 4,
+	element_straight         = 2,
 	element_end              = 2,
 	element_cross            = 1,
 	element_t                = 1,
