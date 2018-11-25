@@ -95,6 +95,14 @@ if technic_cnc.technic_modpath then
 					{cracky=1, not_in_creative_inventory=1},
 					{"technic_granite.png"},
 					S("Granite"))
+
+	-- Blast-resistant concrete
+	---------------------------
+
+	technic_cnc.register_all("technic:blast_resistant_concrete",
+					{cracky=2, level=2, not_in_creative_inventory=1},
+					{"technic_blast_resistant_concrete_block.png"},
+					S("Blast-resistant concrete"))
 end
 
 -- STEEL
@@ -103,3 +111,21 @@ technic_cnc.register_all("default:steelblock",
 				{cracky=1, level=2, not_in_creative_inventory=1},
 				{steeltex},
 				S(steelname))
+
+-- CONCRETE AND CEMENT
+----------------------
+
+technic_cnc.register_all("basic_materials:concrete_block",
+				{cracky=2, level=2, not_in_creative_inventory=1},
+				{"basic_materials_concrete_block.png"},
+				S("Concrete"))
+
+technic_cnc.register_all("basic_materials:cement_block",
+				{cracky=2, level=2, not_in_creative_inventory=1},
+				{"basic_materials_cement_block.png"},
+				S("Cement"))
+
+technic_cnc.register_all("basic_materials:brass_block",
+				{cracky=1, level=2, not_in_creative_inventory=1},
+				{"basic_materials_brass_block.png"},
+				S("Brass block"))
