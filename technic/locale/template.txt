@@ -71,7 +71,6 @@ Disabled =
 %s Alloy Furnace =
 %s Battery Box =
 %s Cable =
-%s CNC Machine =
 %s Centrifuge =
 %s Compressor =
 %s Extractor =
@@ -127,40 +126,6 @@ Digging %d m above machine =
 Digging %d m below machine =
 @1 (@2 @3 -> @4 @5) =
 
-## CNC
-Cylinder =
-Element Cross =
-Element Cross Double =
-Element Edge =
-Element Edge Double =
-Element End =
-Element End Double =
-Element Straight =
-Element Straight Double =
-Element T =
-Element T Double =
-Horizontal Cylinder =
-One Curved Edge Block =
-Pyramid =
-Slope =
-Slope Edge =
-Slope Inner Edge =
-Slope Lying =
-Slope Upside Down =
-Slope Upside Down Edge =
-Slope Upside Down Inner Edge =
-Sphere =
-Spike =
-Stick =
-Two Curved Edge Block =
-Brick =
-Cobble =
-Dirt =
-Leaves =
-Sandstone =
-Stone =
-Tree =
-Wooden =
 
 ## Grinder Recipes
 # $1: Name

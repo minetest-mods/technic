@@ -64,7 +64,6 @@ Disabled = Disabilitato
 %s Alloy Furnace = %s Fornace per leghe
 %s Battery Box =  %s Box batterie
 %s Cable = Cavo %s
-%s CNC Machine = Tornio CNC %s
 %s Compressor = Compressore %s
 %s Extractor = Estrattore %s
 %s Forcefield Emitter = Emettitore di campo di forza %s
@@ -117,41 +116,6 @@ Digging not started = Scavo non iniziato
 Digging finished = Scavo finito
 Digging %d m above machine = Scavo di %d m sopra la macchina
 Digging %d m below machine = Scavo di %d m sotto la macchina
-
-## CNC
-Cylinder = Cilindro
-Element Cross = Elemento a croce
-Element Cross Double = Elemento a croce doppio
-Element Edge = Elemento bordo
-Element Edge Double = Elemento bordo doppio
-Element End = Elemento finale
-Element End Double = Elemento finale doppio
-Element Straight = Elemento dritto
-Element Straight Double = Elemento dritto doppio
-Element T = Elemento a T
-Element T Double = Elemento a T doppio
-Horizontal Cylinder = Cilindro orizzontale
-One Curved Edge Block = Blocco con bordo curvo
-Pyramid = Piramide
-Slope = Inclinato
-Slope Edge = Bordo inclinato
-Slope Inner Edge = Bordo interno inclinato
-Slope Lying = Pendenza bugiarda
-Slope Upside Down = Pendenza capovolta
-Slope Upside Down Edge = Bordo inclinato capovolto
-Slope Upside Down Inner Edge = Bordo interno inclinato capovolto
-Sphere = Sfera
-Spike = Spuntone
-Stick = Bastone
-Two Curved Edge Block = Blocco con bordo a doppia curva
-Brick = Mattone
-Cobble = Ciottolato
-Dirt = Terra
-Leaves = Foglie
-Sandstone = Arenaria
-Stone = Pietra
-Tree = Albero
-Wooden = Legno
 
 ## Grinder Recipes
 # $1: Name

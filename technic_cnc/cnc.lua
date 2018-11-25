@@ -7,8 +7,9 @@
 --   I could imagine some form of API allowing modders to come with their own node
 --   box definitions and easily stuff it in the this machine for production.
 
-local S = technic.getter
+local technic_modpath = minetest.get_modpath("technic")
 
+local S = technic.getter 
 
 minetest.register_craft({
 	output = 'technic:cnc',
@@ -181,7 +182,7 @@ local run = function(pos, node)
 end
 
 -- The actual block inactive state
-minetest.register_node("technic:cnc", {
+minetest.register_node(":technic:cnc", {
 	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
@@ -207,7 +208,7 @@ minetest.register_node("technic:cnc", {
 })
 
 -- Active state block
-minetest.register_node("technic:cnc_active", {
+minetest.register_node(":technic:cnc_active", {
 	description = S("%s CNC Machine"):format("LV"),
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},

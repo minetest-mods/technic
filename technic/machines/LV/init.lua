@@ -22,8 +22,3 @@ dofile(path.."/extractor.lua")
 dofile(path.."/compressor.lua")
 
 dofile(path.."/music_player.lua")
-
-dofile(path.."/cnc.lua")
-dofile(path.."/cnc_api.lua")
-dofile(path.."/cnc_nodes.lua")
-
