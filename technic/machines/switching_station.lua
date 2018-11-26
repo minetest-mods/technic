@@ -228,8 +228,8 @@ minetest.register_chatcommand("powerctrl", {
 })
 
 local check_timer = function(pos, meta, diff)
-	if diff > 400000 then
-		minetest.log("warn", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
+	if diff > 500000 then
+		minetest.log("warning", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
 		meta:set_int("overload", 5)
 		meta:set_int("active", 0)
 		meta:set_string("infotext", "Overload detected!")
