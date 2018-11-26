@@ -193,7 +193,6 @@ end
 
 minetest.register_node(":technic:insulator_clip", iclip_def)
 minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
-minetest.register_node(":technic:steel_strut_with_insulator_clip", sclip_def)
 
 minetest.register_craft({
 	output = "technic:insulator_clip",
@@ -215,33 +214,35 @@ minetest.register_craft({
 
 local steelmod = minetest.get_modpath("steel")
 
-if steelmod then
-	minetest.register_craft({
-		output = "technic:steel_strut_with_insulator_clip",
-		recipe = {
-			{"technic:insulator_clip_fencepost"},
-			{"steel:strut_mount"}
-		}
-	})
+if streetsmod or steelmod then
+	minetest.register_node(":technic:steel_strut_with_insulator_clip", sclip_def)
 
-	minetest.register_craft({
-		output = "technic:steel_strut_with_insulator_clip",
-		recipe = {
-			{"technic:insulator_clip_fencepost", ""                    },
-			{"steel:strut",                      "default:steel_ingot" },
-		}
-	})
+	if steelmod then
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost"},
+				{"steel:strut_mount"}
+			}
+		})
 
-end
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost", ""                    },
+				{"steel:strut",                      "default:steel_ingot" },
+			}
+		})
 
-if streetsmod then
-	minetest.register_craft({
-		output = "technic:steel_strut_with_insulator_clip",
-		recipe = {
-			{"technic:insulator_clip_fencepost", ""                   },
-			{"streets:steel_support",           "default:steel_ingot" },
-		}
-	})
+	elseif streetsmod then
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost", ""                   },
+				{"streets:steel_support",           "default:steel_ingot" },
+			}
+		})
+	end
 end
 
 if minetest.get_modpath("unifieddyes") then
