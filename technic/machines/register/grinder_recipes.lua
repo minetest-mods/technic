@@ -98,7 +98,7 @@ local function register_dust(name, ingot)
 end
 
 -- Sorted alphibeticaly
-register_dust("Brass",           "technic:brass_ingot")
+register_dust("Brass",           "basic_materials:brass_ingot")
 register_dust("Bronze",          "default:bronze_ingot")
 register_dust("Carbon Steel",    "technic:carbon_steel_ingot")
 register_dust("Cast Iron",       "technic:cast_iron_ingot")

@@ -30,7 +30,7 @@ if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
-		tiles={"technic_concrete_block.png"},
+		tiles={"basic_materials_concrete_block.png"},
 	})
 
 	stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
@@ -55,12 +55,6 @@ if minetest.get_modpath("moreblocks") then
 		description=S("Stainless Steel Block"),
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_stainless_steel_block.png"},
-	})
-
-	stairsplus:register_all("technic", "brass_block", "technic:brass_block", {
-		description=S("Brass Block"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_brass_block.png"},
 	})
 
 	function register_technic_stairs_alias(modname, origname, newmod, newname)

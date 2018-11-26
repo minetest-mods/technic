@@ -69,30 +69,9 @@ minetest.register_tool("technic:red_energy_crystal", {
 	}
 }) 
 
-
-minetest.register_craftitem("technic:fine_copper_wire", {
-	description = S("Fine Copper Wire"),
-	inventory_image = "technic_fine_copper_wire.png",
-})
-
-minetest.register_craftitem("technic:fine_gold_wire", {
-	description = S("Fine Gold Wire"),
-	inventory_image = "technic_fine_gold_wire.png",
-})
-
-minetest.register_craftitem("technic:fine_silver_wire", {
-	description = S("Fine Silver Wire"),
-	inventory_image = "technic_fine_silver_wire.png",
-})
-
 minetest.register_craftitem("technic:copper_coil", {
 	description = S("Copper Coil"),
 	inventory_image = "technic_copper_coil.png",
-})
-
-minetest.register_craftitem("technic:motor", {
-	description = S("Electric Motor"),
-	inventory_image = "technic_motor.png",
 })
 
 minetest.register_craftitem("technic:lv_transformer", {

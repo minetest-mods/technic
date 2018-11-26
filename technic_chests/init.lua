@@ -15,6 +15,63 @@ dofile(modpath.."/silver_chest.lua")
 dofile(modpath.."/gold_chest.lua")
 dofile(modpath.."/mithril_chest.lua")
 
+-- undo all of the locked wooden chest recipes created by default and
+-- moreblocks, and just make them use a padlock.
+
+if minetest.get_modpath("moreblocks") then
+	minetest.clear_craft({
+		type = "shapeless",
+		recipe = {
+			"default:chest",
+			"default:gold_ingot",
+		}
+	})
+
+	minetest.clear_craft({
+		type = "shapeless",
+		recipe = {
+			"default:chest",
+			"default:bronze_ingot",
+		}
+	})
+
+	minetest.clear_craft({
+		type = "shapeless",
+		recipe = {
+			"default:chest",
+			"default:copper_ingot",
+		}
+	})
+end
+
+minetest.clear_craft({
+	type = "shapeless",
+	recipe = {
+		"default:chest",
+		"default:steel_ingot",
+	}
+})
+
+minetest.clear_craft({output = "default:chest_locked"})
+
+minetest.register_craft({
+	output = "default:chest_locked",
+	recipe = {
+		{ "group:wood", "group:wood", "group:wood" },
+		{ "group:wood", "basic_materials:padlock", "group:wood" },
+		{ "group:wood", "group:wood", "group:wood" }
+	}
+})
+
+minetest.register_craft({
+	output = "default:chest_locked",
+	type = "shapeless",
+	recipe = {
+		"default:chest",
+		"basic_materials:padlock"
+	}
+})
+
 minetest.register_lbm({
 	name = "technic_chests:fix_wooden_chests",
 	nodenames = {"default:chest"},
