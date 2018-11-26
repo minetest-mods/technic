@@ -227,6 +227,15 @@ minetest.register_chatcommand("powerctrl", {
 	end
 })
 
+local check_timer = function(pos, meta, diff)
+	if diff > 400000 then
+		minetest.log("warn", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
+		meta:set_int("overload", 5)
+		meta:set_int("active", 0)
+		meta:set_string("infotext", "Overload detected!")
+	end
+end
+
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
@@ -248,6 +257,18 @@ minetest.register_abm({
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
+
+		local overload = meta:get_int("overload")
+		if overload > 0 then
+			meta:set_int("overload", overload - 1)
+			meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds")
+			if overload == 1 then
+				-- re-enable in next step
+				meta:set_int("active", 1)
+			end
+			return
+
+		end
 
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -407,6 +428,7 @@ minetest.register_abm({
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
 			if diff > 20000 then
+				check_timer(pos, meta, diff)
 				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 
@@ -436,6 +458,7 @@ minetest.register_abm({
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
 			if diff > 20000 then
+				check_timer(pos, meta, diff)
 				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 			return
@@ -458,7 +481,8 @@ minetest.register_abm({
 
 		local t1 = minetest.get_us_time()
 		local diff = t1 - t0
-		if diff > 20000 then -- 50ms
+		if diff > 20000 then
+			check_timer(pos, meta, diff)
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
