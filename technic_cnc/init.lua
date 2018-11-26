@@ -15,5 +15,4 @@ end
 
 dofile(modpath.."/cnc.lua")
 dofile(modpath.."/cnc_api.lua")
-dofile(modpath.."/cnc_nodes.lua")
 dofile(modpath.."/cnc_materials.lua")

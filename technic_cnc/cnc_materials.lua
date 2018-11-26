@@ -82,12 +82,12 @@ technic_cnc.register_all("default:cobble",
                 {"default_cobble.png"},
                 S("Cobble"))
 
-technic.cnc.register_all("default:mossycobble",
+technic_cnc.register_all("default:mossycobble",
                 {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_mossycobble.png"},
                 S("Mossy Cobblestone"))
 
-technic.cnc.register_all("default:desert_cobble",
+technic_cnc.register_all("default:desert_cobble",
                 {cracky=3, stone=1, not_in_creative_inventory=1},
                 {"default_desert_cobble.png"},
                 S("Desert Cobble"))
