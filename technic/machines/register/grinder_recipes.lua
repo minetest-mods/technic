@@ -30,6 +30,8 @@ local recipes = {
 	{"default:sandstone",        "default:sand 2"}, -- reverse recipe can be found in the compressor
 	{"default:desert_sandstone", "default:desert_sand 2"}, -- reverse recipe can be found in the compressor
 	{"default:silver_sandstone", "default:silver_sand 2"}, -- reverse recipe can be found in the compressor
+
+	{"default:ice",              "default:snowblock"},
 }
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
