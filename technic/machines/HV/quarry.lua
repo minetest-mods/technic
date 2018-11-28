@@ -81,8 +81,12 @@ end
 local function quarry_handle_purge(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
+	local cache = inv:get_list("cache")
+	if not cache then
+		return
+	end
 	local i = 0
-	for _,stack in ipairs(inv:get_list("cache")) do
+	for _,stack in ipairs(cache) do
 		i = i + 1
 		if stack then
 			local item = stack:to_table()
