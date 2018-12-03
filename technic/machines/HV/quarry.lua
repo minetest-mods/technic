@@ -116,6 +116,11 @@ local function quarry_run(pos, node)
 
 	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
 		local pdir = minetest.facedir_to_dir(node.param2)
+		if pdir.y > 0 or pdir.y < 0 then
+			-- faces up or down, not valid, otherwise depth-check would run endless and hang up the server
+			return
+		end
+
 		local qdir = pdir.x == 1 and vector.new(0,0,-1) or
 			(pdir.z == -1 and vector.new(-1,0,0) or
 			(pdir.x == -1 and vector.new(0,0,1) or
