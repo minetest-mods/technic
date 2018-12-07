@@ -42,7 +42,7 @@ end)
 --  |          |
 --   \___/\___/
 
-local function update_forcefield(pos, meta, active, first)
+local function update_forcefield(pos, meta, active)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
@@ -268,13 +268,11 @@ local function run(pos, node)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
 		end
 	elseif eu_input >= power_requirement then
-		local first = false
 		if node.name == "technic:forcefield_emitter_off" then
-			first = true
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
 		end
-		update_forcefield(pos, meta, true, first)
+		update_forcefield(pos, meta, true)
 	end
 end
 
