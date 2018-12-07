@@ -86,11 +86,6 @@ local function update_forcefield(pos, meta, active, first)
 	vm:set_data(data)
 	vm:update_liquids()
 	vm:write_to_map()
-	-- update_map is very slow, but if we don't call it we'll
-	-- get phantom blocks on the client.
-	if not active or first then
-		vm:update_map()
-	end
 end
 
 local function set_forcefield_formspec(meta)
