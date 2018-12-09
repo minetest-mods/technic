@@ -230,7 +230,7 @@ minetest.register_chatcommand("powerctrl", {
 local check_timer = function(pos, meta, diff)
 	if diff > 500000 then
 		minetest.log("warning", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
-		meta:set_int("overload", 5)
+		meta:set_int("overload", 30)
 		meta:set_int("active", 0)
 		meta:set_string("infotext", "Overload detected!")
 	end
@@ -427,7 +427,7 @@ minetest.register_abm({
 			end
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
-			if diff > 20000 then
+			if diff > 50000 then
 				check_timer(pos, meta, diff)
 				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
@@ -457,7 +457,7 @@ minetest.register_abm({
 			end
 			local t1 = minetest.get_us_time()
 			local diff = t1 - t0
-			if diff > 20000 then
+			if diff > 50000 then
 				check_timer(pos, meta, diff)
 				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
@@ -481,7 +481,7 @@ minetest.register_abm({
 
 		local t1 = minetest.get_us_time()
 		local diff = t1 - t0
-		if diff > 20000 then
+		if diff > 50000 then
 			check_timer(pos, meta, diff)
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
