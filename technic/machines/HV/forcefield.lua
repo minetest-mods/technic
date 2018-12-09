@@ -42,7 +42,7 @@ end)
 --  |          |
 --   \___/\___/
 
-local function update_forcefield(pos, meta, active, first)
+local function update_forcefield(pos, meta, active)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
@@ -86,11 +86,6 @@ local function update_forcefield(pos, meta, active, first)
 	vm:set_data(data)
 	vm:update_liquids()
 	vm:write_to_map()
-	-- update_map is very slow, but if we don't call it we'll
-	-- get phantom blocks on the client.
-	if not active or first then
-		vm:update_map()
-	end
 end
 
 local function set_forcefield_formspec(meta)
@@ -273,13 +268,11 @@ local function run(pos, node)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
 		end
 	elseif eu_input >= power_requirement then
-		local first = false
 		if node.name == "technic:forcefield_emitter_off" then
-			first = true
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
 			meta:set_string("infotext", S("%s Active"):format(machine_name))
 		end
-		update_forcefield(pos, meta, true, first)
+		update_forcefield(pos, meta, true)
 	end
 end
 
