@@ -60,6 +60,12 @@ local function set_quarry_demand(meta)
 end
 
 local function quarry_receive_fields(pos, formname, fields, sender)
+	local player_name = sender:get_player_name()
+	if minetest.is_protected(pos, player_name) then
+		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.record_protection_violation(pos, player_name)
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	if fields.size and string.find(fields.size, "^[0-9]+$") then
 		local size = tonumber(fields.size)
@@ -81,8 +87,12 @@ end
 local function quarry_handle_purge(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
+	local cache = inv:get_list("cache")
+	if not cache then
+		return
+	end
 	local i = 0
-	for _,stack in ipairs(inv:get_list("cache")) do
+	for _,stack in ipairs(cache) do
 		i = i + 1
 		if stack then
 			local item = stack:to_table()
@@ -160,10 +170,11 @@ local function quarry_run(pos, node)
 			end
 
 			if can_dig then
+				-- test above blocks if diggable
 				for ay = startpos.y, digpos.y+1, -1 do
 					local checkpos = {x=digpos.x, y=ay, z=digpos.z}
 					local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
-					if checknode.name ~= "air" then
+					if checknode.name ~= "air" and checknode.name ~= "vacuum:vacuum" then
 						can_dig = false
 						break
 					end

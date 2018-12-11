@@ -30,6 +30,12 @@ local recipes = {
 	{"technic:raw_latex 4",           "technic:coal_dust 2",        "technic:rubber 6", 2},
 }
 
+if minetest.get_modpath("ethereal") then
+	table.insert(recipes, {"default:clay", "dye:red", "bakedclay:red"})
+	table.insert(recipes, {"default:clay", "dye:orange", "bakedclay:orange"})
+	table.insert(recipes, {"default:clay", "dye:grey", "bakedclay:grey"})
+end
+
 for _, data in pairs(recipes) do
 	technic.register_alloy_recipe({input = {data[1], data[2]}, output = data[3], time = data[4]})
 end

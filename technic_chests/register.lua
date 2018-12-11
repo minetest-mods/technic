@@ -314,7 +314,7 @@ function technic.chests:definition(name, data)
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
-			return inv:is_empty("main") and default.can_interact_with_node(player, pos)
+			return inv:is_empty("main") and player and player:is_player() and default.can_interact_with_node(player, pos)
 		end
 		def.on_skeleton_key_use = function(pos, player, newsecret)
 			local meta = minetest.get_meta(pos)

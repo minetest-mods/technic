@@ -227,6 +227,15 @@ minetest.register_chatcommand("powerctrl", {
 	end
 })
 
+local check_timer = function(pos, meta, diff)
+	if diff > 500000 then
+		minetest.log("warning", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
+		meta:set_int("overload", 30)
+		meta:set_int("active", 0)
+		meta:set_string("infotext", "Overload detected!")
+	end
+end
+
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
@@ -234,6 +243,7 @@ minetest.register_abm({
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
+		local t0 	       = minetest.get_us_time()
 		local meta             = minetest.get_meta(pos)
 		local meta1            = nil
 		local pos1             = {}
@@ -247,6 +257,18 @@ minetest.register_abm({
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
+
+		local overload = meta:get_int("overload")
+		if overload > 0 then
+			meta:set_int("overload", overload - 1)
+			meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds")
+			if overload == 1 then
+				-- re-enable in next step
+				meta:set_int("active", 1)
+			end
+			return
+
+		end
 
 		-- Which kind of network are we on:
 		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -403,6 +425,13 @@ minetest.register_abm({
 				meta1:set_int(eu_input_str, math.floor(eu_demand * charge_factor))
 				--dprint("Charging battery:"..math.floor(eu_demand*charge_factor))
 			end
+			local t1 = minetest.get_us_time()
+			local diff = t1 - t0
+			if diff > 50000 then
+				check_timer(pos, meta, diff)
+				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+			end
+
 			return
 		end
 
@@ -426,6 +455,12 @@ minetest.register_abm({
 				meta1:set_int(eu_input_str, math.floor(eu_supply * charge_factor))
 				--dprint("Discharging battery:"..math.floor(eu_supply*charge_factor))
 			end
+			local t1 = minetest.get_us_time()
+			local diff = t1 - t0
+			if diff > 50000 then
+				check_timer(pos, meta, diff)
+				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+			end
 			return
 		end
 
@@ -442,6 +477,13 @@ minetest.register_abm({
 		for n, pos1 in pairs(RE_nodes) do
 			meta1 = minetest.get_meta(pos1)
 			meta1:set_int(eu_input_str, 0)
+		end
+
+		local t1 = minetest.get_us_time()
+		local diff = t1 - t0
+		if diff > 50000 then
+			check_timer(pos, meta, diff)
+			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
 	end,
