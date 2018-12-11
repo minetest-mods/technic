@@ -153,10 +153,20 @@ local function sort_inventory(inv)
 	end
 end
 
-local function get_receive_fields(name, data)
+local function get_receive_fields(name, data, locked)
 	local lname = name:lower()
 	return function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
+
+		if locked then
+			-- locked chest, check accessing player
+			local owner = meta:get_string("owner")
+			if owner ~= sender:get_player_name() then
+				-- non-owner, abort
+				return
+			end
+		end
+
 		local page = "main"
 		if fields.sort or (data.autosort and fields.quit and meta:get_int("autosort") == 1) then
 			sort_inventory(meta:get_inventory())
@@ -284,7 +294,7 @@ function technic.chests:definition(name, data)
 			inv:set_size("main", data.width * data.height)
 		end,
 		can_dig = self.can_dig,
-		on_receive_fields = get_receive_fields(name, data),
+		on_receive_fields = get_receive_fields(name, data, data.locked),
 		on_metadata_inventory_move = self.on_inv_move,
 		on_metadata_inventory_put = self.on_inv_put,
 		on_metadata_inventory_take = self.on_inv_take,
