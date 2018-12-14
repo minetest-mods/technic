@@ -17,6 +17,31 @@ local quarry_max_depth       = 100
 local quarry_demand = 10000
 local quarry_eject_dir = vector.new(0, 1, 0)
 
+
+-- per player quota
+local quota_map = {}
+local timer = 0
+
+-- quota reset timer
+minetest.register_globalstep(function(dtime)
+	timer = timer + dtime
+	if timer < 1 then return end
+	timer=0
+
+	-- reset quota map
+	quota_map = {}
+
+	-- this many blocks per second
+	local init_quota = minetest.settings:get("technic.quarry.quota") or 4
+
+	local players = minetest.get_connected_players()
+	for i, player in pairs(players) do
+		local name = player:get_player_name()
+		quota_map[name] = init_quota
+	end
+end)
+
+
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
 	local formspec = "size[6,4.3]"..
@@ -111,6 +136,8 @@ end
 
 local function quarry_run(pos, node)
 	local meta = minetest.get_meta(pos)
+	local owner = meta:get_string("owner")
+
 	local inv = meta:get_inventory()
 	-- initialize cache for the case we load an older world
 	inv:set_size("cache", 12)
@@ -120,7 +147,18 @@ local function quarry_run(pos, node)
 		meta:set_int("purge_on", 1)
 	end
 
-	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
+	local digging_allowed = false
+	local quota = quota_map[owner]
+	if quota and quota > 0 then
+		-- decrement quota
+		quota = quota - 1
+		quota_map[owner] = quota
+		digging_allowed = true
+	end
+
+
+
+	if digging_allowed and meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
 		local pdir = minetest.facedir_to_dir(node.param2)
 		if pdir.y ~= 0 then
 			-- faces up or down, not valid, otherwise depth-check would run endless and hang up the server
