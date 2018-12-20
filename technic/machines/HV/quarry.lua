@@ -32,7 +32,7 @@ minetest.register_globalstep(function(dtime)
 	quota_map = {}
 
 	-- this many blocks per second
-	local init_quota = minetest.settings:get("technic.quarry.quota") or 4
+	local init_quota = minetest.settings:get("technic.quarry.quota") or 10
 
 	local players = minetest.get_connected_players()
 	for i, player in pairs(players) do
@@ -149,16 +149,15 @@ local function quarry_run(pos, node)
 
 	local digging_allowed = false
 	local quota = quota_map[owner]
-	if quota and quota > 0 then
-		-- decrement quota
-		quota = quota - 1
-		quota_map[owner] = quota
-		digging_allowed = true
-	end
-
+	digging_allowed = quota and quota > 0
 
 
 	if digging_allowed and meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
+
+		-- decrement quota
+		quota = quota - 1
+		quota_map[owner] = quota
+
 		local pdir = minetest.facedir_to_dir(node.param2)
 		if pdir.y ~= 0 then
 			-- faces up or down, not valid, otherwise depth-check would run endless and hang up the server
