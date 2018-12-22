@@ -34,10 +34,6 @@ if minetest.get_modpath("dye") then
 	end
 	
 	if minetest.get_modpath("farming") then
-		-- Cottonseed oil: a fuel and a potent fertilizer (irl: pesticide) ---
-		-- hemp oil calls for 8 seeds, but extractor recipes are normally twice as potent
-		table.insert(dye_recipes, {"farming:seed_cotton 4", "technic:cottonseed_oil"})
-		
 		-- Dyes ---
 		-- better recipes for farming's crafting methods (twice the output)
 		table.insert(dye_recipes, {"farming:chili_pepper", "dye:red 4"})
