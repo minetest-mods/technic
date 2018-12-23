@@ -62,7 +62,7 @@ end
 
 local function drill_dig_it1 (player)
 	local dir=player:get_look_dir()
-	if math.abs(dir.x)>math.abs(dir.z) then 
+	if math.abs(dir.x)>math.abs(dir.z) then
 		if dir.x>0 then return 0 end
 		return 1
 	end
@@ -154,7 +154,7 @@ local function drill_dig_it(pos, player, mode)
 	if mode == 1 then
 		drill_dig_it0(pos, player)
 	end
-	
+
 	if mode == 2 then -- 3 deep
 		dir = drill_dig_it1(player)
 		if dir == 0 then -- x+
@@ -186,7 +186,7 @@ local function drill_dig_it(pos, player, mode)
 			drill_dig_it0 (pos,player)
 		end
 	end
-	
+
 	if mode==3 then -- 3 wide
 		dir=drill_dig_it1(player)
 		if dir==0 or dir==1 then -- x
@@ -204,7 +204,7 @@ local function drill_dig_it(pos, player, mode)
 			drill_dig_it0 (pos,player)
 		end
 	end
-	
+
 	if mode==4 then -- 3 tall, selected in the middle
 		drill_dig_it0 (pos,player)
 		pos.y=pos.y-1
@@ -227,7 +227,7 @@ local function drill_dig_it(pos, player, mode)
 		drill_dig_it4(pos,player)
 		end
 	end
-	
+
 	minetest.sound_play("mining_drill", {pos = pos, gain = 1.0, max_hear_distance = 10,})
 end
 
@@ -398,6 +398,11 @@ minetest.register_tool("technic:mining_drill_mk3", {
 	mining_drill_mk3_handler(itemstack,user,pointed_thing)
 	return itemstack
 	end,
+      -- for Android
+        on_place = function(itemstack, user, pointed_thing)
+        mining_drill_mk3_setmode(user,itemstack)
+        return itemstack
+        end,
 })
 
 technic.register_power_tool("technic:mining_drill_mk3", max_charge[3])
@@ -415,5 +420,10 @@ for i=1,5,1 do
 		mining_drill_mk3_handler(itemstack,user,pointed_thing)
 		return itemstack
 		end,
+      -- for Android
+        on_place = function(itemstack, user, pointed_thing)
+        mining_drill_mk3_setmode(user,itemstack)
+        return itemstack
+        end,
 	})
 end
