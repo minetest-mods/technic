@@ -35,7 +35,7 @@ minetest.register_tool("technic:blue_energy_crystal", {
 			fleshy = {times={}, uses=10000, maxlevel=0}
 		}
 	}
-}) 
+})
 
 minetest.register_tool("technic:green_energy_crystal", {
 	description = S("Green Energy Crystal"),
@@ -51,7 +51,7 @@ minetest.register_tool("technic:green_energy_crystal", {
 			fleshy = {times={}, uses=10000, maxlevel=0}
 		}
 	}
-}) 
+})
 
 minetest.register_tool("technic:red_energy_crystal", {
 	description = S("Red Energy Crystal"),
@@ -67,7 +67,7 @@ minetest.register_tool("technic:red_energy_crystal", {
 			fleshy = {times={}, uses=10000, maxlevel=0}
 		}
 	}
-}) 
+})
 
 minetest.register_craftitem("technic:copper_coil", {
 	description = S("Copper Coil"),

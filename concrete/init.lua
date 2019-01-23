@@ -1,4 +1,4 @@
---Minetest 0.4.7 mod: concrete 
+--Minetest 0.4.7 mod: concrete
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
 local technic = rawget(_G, "technic") or {}
@@ -89,15 +89,15 @@ minetest.register_node(":technic:concrete_post_platform", {
 	groups={cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults(),
 	paramtype = "light",
-	drawtype = "nodebox", 
+	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
 		fixed = {box_platform}
 	},
 	on_place = function (itemstack, placer, pointed_thing)
 		local node = minetest.get_node(pointed_thing.under)
-		if node.name ~= "technic:concrete_post" then 
-			return minetest.item_place_node(itemstack, placer, pointed_thing) 
+		if node.name ~= "technic:concrete_post" then
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end
 		minetest.set_node(pointed_thing.under, {name="technic:concrete_post_with_platform"})
 		itemstack:take_item()

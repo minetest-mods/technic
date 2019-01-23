@@ -25,7 +25,7 @@ Mixed Metal Ingot = Mischmetallbarren
 Composite Plate = Verbundplatte
 Copper Plate = Kupferplatte
 Carbon Plate = Kohlefaserplatte
-Graphite = Graphit 
+Graphite = Graphit
 Carbon Cloth = Kohlefasergewebe
 Raw Latex = Rohlatex
 Rubber Fiber = Gummifaser
@@ -42,7 +42,7 @@ Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugri
 %s Enabled =
 %s Idle = %s ist bereit
 %s Improperly Placed = %s ist falsch plaziert
-%s Unpowered = %s hat keine Stromversorgung 
+%s Unpowered = %s hat keine Stromversorgung
 %s Out Of Fuel = %s hat keinen Brennstoff
 %s Has Bad Cabling = %s ist falsch verkabelt
 %s Has No Network = %s hat kein Netzwerk
@@ -69,7 +69,7 @@ Disabled =
 %s Cable = %s Kabel
 %s Compressor = %s Kompressor
 %s Extractor = %s Extraktor
-%s Forcefield Emitter = %s Kraftfeld-Emitter 
+%s Forcefield Emitter = %s Kraftfeld-Emitter
 %s Furnace = %s Ofen
 %s Grinder = %s Schleifmaschine
 %s Music Player = %s Musikspieler
@@ -105,7 +105,7 @@ Administrative World Anchor =
 Charge = Aufladen
 Discharge = Entladen
 Power level = Energiestufe
-# $1: Tier $2: current_charge $3: max_charge 
+# $1: Tier $2: current_charge $3: max_charge
 @1 Battery Box: @2/@3 = @1 Batteriebox: @2/@3
 # $1: Machine name $2: Supply $3: Demand
 @1. Supply: @2 Demand: @3 = @1. Versorgung: @2 Bedarf: @3

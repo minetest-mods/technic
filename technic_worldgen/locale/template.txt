@@ -2,36 +2,36 @@
 # technic_worldgen translation template
 
 ###crafts.lua
-Uranium Lump = 
-Uranium Ingot = 
-Chromium Lump = 
-Chromium Ingot = 
-Zinc Lump = 
-Zinc Ingot = 
-Brass Ingot = 
+Uranium Lump =
+Uranium Ingot =
+Chromium Lump =
+Chromium Ingot =
+Zinc Lump =
+Zinc Ingot =
+Brass Ingot =
 Wrought Iron Ingot =
 Cast Iron Ingot =
 Carbon Steel Ingot =
-Stainless Steel Ingot = 
+Stainless Steel Ingot =
 Iron =
 
 ###nodes.lua
-Uranium Ore = 
-Chromium Ore = 
-Zinc Ore = 
-Granite = 
-Marble = 
-Marble Bricks = 
-Uranium Block = 
-Chromium Block = 
-Zinc Block = 
+Uranium Ore =
+Chromium Ore =
+Zinc Ore =
+Granite =
+Marble =
+Marble Bricks =
+Uranium Block =
+Chromium Block =
+Zinc Block =
 Wrought Iron Block =
 Cast Iron Block =
 Carbon Steel Block =
-Stainless Steel Block = 
-Brass Block = 
+Stainless Steel Block =
+Brass Block =
 Wrought Iron =
 
 ###rubber.lua
-Rubber Tree Sapling = 
-Rubber Tree = 
+Rubber Tree Sapling =
+Rubber Tree =
