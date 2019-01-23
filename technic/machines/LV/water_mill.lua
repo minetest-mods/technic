@@ -1,5 +1,5 @@
 -- A water mill produces LV EUs by exploiting flowing water across it
--- It is a LV EU supplyer and fairly low yield (max 180EUs)
+-- It is a LV EU supplier and fairly low yield (max 180EUs)
 -- It is a little over half as good as the thermal generator.
 
 local S = technic.getter
