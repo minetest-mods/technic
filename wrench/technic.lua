@@ -1,5 +1,5 @@
 
-local INT, STRING, FLOAT  = 
+local INT, STRING, FLOAT  =
 	wrench.META_TYPE_INT,
 	wrench.META_TYPE_STRING,
 	wrench.META_TYPE_FLOAT
@@ -294,7 +294,7 @@ wrench:register_node("technic:mv_centrifuge_active", {
 
 local chest_mark_colors = {
 	'_black',
-	'_blue', 
+	'_blue',
 	'_brown',
 	'_cyan',
 	'_dark_green',

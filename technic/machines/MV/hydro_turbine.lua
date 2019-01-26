@@ -25,7 +25,7 @@ local function get_water_flow(pos)
 end
 
 ---
--- 10 times better than LV hydro because of 2 extra water mills and 4 stainless steel, a transformer and whatnot ;P. 
+-- 10 times better than LV hydro because of 2 extra water mills and 4 stainless steel, a transformer and whatnot ;P.
 -- Man hydro turbines are tough and long lasting. So, give it some value :)
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)

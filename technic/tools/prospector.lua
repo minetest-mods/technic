@@ -93,7 +93,7 @@ minetest.register_tool("technic:prospector", {
 			"label[0,7.5;Accuracy:]"..
 			"label[0,8;98%]")
 		return
-	end, 
+	end,
 })
 
 minetest.register_on_player_receive_fields(function(user, formname, fields)
@@ -117,7 +117,7 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	user:set_wielded_item(toolstack)
 	return true
 end)
- 
+
 minetest.register_craft({
 	output = "technic:prospector",
 	recipe = {

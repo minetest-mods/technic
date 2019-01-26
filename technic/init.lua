@@ -26,10 +26,10 @@ dofile(modpath.."/config.lua")
 -- Helper functions
 dofile(modpath.."/helpers.lua")
 
--- Items 
+-- Items
 dofile(modpath.."/items.lua")
 
--- Craft recipes for items 
+-- Craft recipes for items
 dofile(modpath.."/crafts.lua")
 
 -- Register functions

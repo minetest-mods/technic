@@ -8,7 +8,7 @@ minetest.register_craft({
 		{'technic:lv_cable', 'technic:lv_cable', 'technic:lv_cable'},
 		{'technic:rubber',   'technic:rubber',   'technic:rubber'},
 	}
-}) 
+})
 
 technic.register_cable("MV", 2.5/16)
 

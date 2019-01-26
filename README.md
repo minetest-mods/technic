@@ -18,6 +18,6 @@ FAQ
 License
 -------
 
-Unless otherwise stated, all components of this modpack are licensed under the 
+Unless otherwise stated, all components of this modpack are licensed under the
 LGPL, V2 or later.  See also the individual mod folders for their
 secondary/alternate licenses, if any.

@@ -22,7 +22,7 @@ minetest.register_craft({
 
 minetest.register_craftitem("technic:geothermal", {
 	description = S("Geothermal %s Generator"):format("LV"),
-}) 
+})
 
 local check_node_around = function(pos)
 	local node = minetest.get_node(pos)

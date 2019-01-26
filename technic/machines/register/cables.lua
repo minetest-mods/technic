@@ -122,7 +122,7 @@ local function item_place_override_node(itemstack, placer, pointed, node)
 	local temp_itemstack = ItemStack(itemstack)
 	temp_itemstack:set_name(node.name)
 	local original_count = temp_itemstack:get_count()
-	temp_itemstack = 
+	temp_itemstack =
 		minetest.item_place(temp_itemstack, placer, pointed, node.param2) or
 		temp_itemstack
 	-- Remove the same number of items from the real itemstack

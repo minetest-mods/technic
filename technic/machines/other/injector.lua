@@ -6,7 +6,7 @@ local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
 local function inject_items (pos)
-		local meta=minetest.get_meta(pos) 
+		local meta=minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mode=meta:get_string("mode")
 		if mode=="single items" then
@@ -15,7 +15,7 @@ local function inject_items (pos)
 			i=i+1
 				if stack then
 				local item0=stack:to_table()
-				if item0 then 
+				if item0 then
 					item0["count"] = "1"
 					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:take_item(1)
@@ -31,7 +31,7 @@ local function inject_items (pos)
 			i=i+1
 				if stack then
 				local item0=stack:to_table()
-				if item0 then 
+				if item0 then
 					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:clear()
 					inv:set_stack("main", i, stack)
@@ -142,7 +142,7 @@ minetest.register_abm({
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local pos1 = vector.add(pos, vector.new(0, -1, 0))
-		local node1 = minetest.get_node(pos1) 
+		local node1 = minetest.get_node(pos1)
 		if minetest.get_item_group(node1.name, "tubedevice") > 0 then
 			inject_items(pos)
 		end

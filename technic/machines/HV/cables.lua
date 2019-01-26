@@ -6,7 +6,7 @@ minetest.register_craft({
 		{'technic:mv_cable',           'technic:mv_cable',           'technic:mv_cable'},
 		{'homedecor:plastic_sheeting', 'homedecor:plastic_sheeting', 'homedecor:plastic_sheeting'},
 	}
-}) 
+})
 
 technic.register_cable("HV", 3/16)
 

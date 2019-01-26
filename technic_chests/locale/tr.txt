@@ -1,5 +1,5 @@
 # Turkish translation
-# mahmutelmas06@hotmail.com 
+# mahmutelmas06@hotmail.com
 # Türkçe çeviri
 
 %s Chest = %s Sandık
