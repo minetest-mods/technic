@@ -1,5 +1,5 @@
 -- A Hydro Turbine produces MV EUs by exploiting flowing water across it
--- It is a MV EU supplyer and fairly high yield (max 1800EUs)
+-- It is a MV EU supplier and fairly high yield (max 1800EUs)
 
 local S = technic.getter
 

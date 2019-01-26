@@ -1152,7 +1152,7 @@ dig identical areas, one on each side of the square cross section.
 ### forcefield emitter ###
 
 The forcefield emitter is an HV powered machine that generates a
-forcefield remeniscent of those seen in many science-fiction stories.
+forcefield reminiscent of those seen in many science-fiction stories.
 
 The emitter can be configured to generate a forcefield of either
 spherical or cubical shape, in either case centered on the emitter.
