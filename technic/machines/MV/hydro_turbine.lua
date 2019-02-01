@@ -1,5 +1,5 @@
 -- A Hydro Turbine produces MV EUs by exploiting flowing water across it
--- It is a MV EU supplyer and fairly high yield (max 1800EUs)
+-- It is a MV EU supplier and fairly high yield (max 1800EUs)
 
 local S = technic.getter
 
@@ -18,14 +18,14 @@ minetest.register_craft({
 
 local function get_water_flow(pos)
 	local node = minetest.get_node(pos)
-	if minetest.get_item_group(node.name, "water") == 3 then
+	if minetest.get_item_group(node.name, "water") == 3 and string.find(node.name, "flowing") then
 		return node.param2 -- returns approx. water flow, if any
 	end
 	return 0
 end
 
 ---
--- 10 times better than LV hydro because of 2 extra water mills and 4 stainless steel, a transformer and whatnot ;P. 
+-- 10 times better than LV hydro because of 2 extra water mills and 4 stainless steel, a transformer and whatnot ;P.
 -- Man hydro turbines are tough and long lasting. So, give it some value :)
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)

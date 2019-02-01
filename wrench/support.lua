@@ -11,7 +11,7 @@ Syntax:
 		store_meta_always = true,
 	}
 	owned - nodes that are protected by owner requirements (Ex. locked chests)
-	store_meta_always - when nodes are broken this ensures metadata and 
+	store_meta_always - when nodes are broken this ensures metadata and
 	inventory is always stored (Ex. active state for machines)
 --]]
 
@@ -19,7 +19,7 @@ wrench.META_TYPE_INT = 0
 wrench.META_TYPE_FLOAT = 1
 wrench.META_TYPE_STRING = 2
 
-local INT, STRING, FLOAT  = 
+local INT, STRING, FLOAT  =
 	wrench.META_TYPE_INT,
 	wrench.META_TYPE_STRING,
 	wrench.META_TYPE_FLOAT

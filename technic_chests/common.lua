@@ -27,6 +27,8 @@ technic.chests.can_dig = function(pos, player)
 	return inv:is_empty("main")
 end
 
+-- utils for locked chest
+
 local function inv_change(pos, count, player)
 	-- Skip check for pipeworks (fake player)
 	if minetest.is_player(player) and
@@ -46,6 +48,27 @@ function technic.chests.inv_take(pos, listname, index, stack, player)
 	return inv_change(pos, stack:get_count(), player)
 end
 
+-- utils for protected chest
+
+local function inv_change_protected(pos, count, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	return count
+end
+
+function technic.chests.inv_move_protected(pos, from_list, from_index, to_list, to_index, count, player)
+	return inv_change_protected(pos, count, player)
+end
+function technic.chests.inv_put_protected(pos, listname, index, stack, player)
+	return inv_change_protected(pos, stack:get_count(), player)
+end
+function technic.chests.inv_take_protected(pos, listname, index, stack, player)
+	return inv_change_protected(pos, stack:get_count(), player)
+end
+
+-- logging utils
+
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
 	minetest.log("action", player:get_player_name()..
 		" moves stuff in chest at "
@@ -63,4 +86,3 @@ function technic.chests.on_inv_take(pos, listname, index, stack, player)
 			" takes " .. stack:get_name()  ..
 			" from chest at " .. minetest.pos_to_string(pos))
 end
-

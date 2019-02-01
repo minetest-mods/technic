@@ -18,7 +18,7 @@ VanessaE: (WTFPL)
 
 sdzen (Elise Staudter) modified by VanessaE (CC BY-SA 3.0):
   * copper, iron, silver, gold, mithril chest textures 16x16
- 
+
 RealBadAngel: (WTFPL)
   * Everything else.
 

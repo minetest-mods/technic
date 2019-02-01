@@ -87,7 +87,7 @@ if minetest.get_modpath("moreblocks") then
 		minetest.register_alias(modname .. ":panel_" .. origname .. "_vertical", newmod..":panel_" .. newname .. "_vertical")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_bottom", newmod..":micro_" .. newname .. "_bottom")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_top", newmod..":micro_" .. newname .. "_top")
-	end 
+	end
 
 	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
 	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")

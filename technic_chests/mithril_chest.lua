@@ -26,6 +26,7 @@ minetest.register_craft({
 	}
 })
 
+-- plain chest
 technic.chests:register("Mithril", {
 	width = 15,
 	height = 6,
@@ -36,6 +37,7 @@ technic.chests:register("Mithril", {
 	locked = false,
 })
 
+-- owned locked chest
 technic.chests:register("Mithril", {
 	width = 15,
 	height = 6,
@@ -46,3 +48,23 @@ technic.chests:register("Mithril", {
 	locked = true,
 })
 
+if minetest.get_modpath("protector") or minetest.get_modpath("areas") then
+	-- protected chest (works with any protection mod that overrides minetest.is_protected)
+	technic.chests:register("Mithril", {
+		width = 15,
+		height = 6,
+		sort = true,
+		autosort = true,
+		infotext = false,
+		color = false,
+		protected = true,
+	})
+
+	minetest.register_craft({
+		output = 'technic:mithril_protected_chest 1',
+		recipe = {
+			{'basic_materials:padlock'},
+			{'technic:mithril_locked_chest'},
+		}
+	})
+end

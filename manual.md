@@ -14,7 +14,7 @@ The technic modpack depends on some other modpacks:
 *   pipeworks, which supports the automation of item transport
 *   moreores, which provides some additional ore types
 
-This manual doesn't explain how to use these other modpacks, which have 
+This manual doesn't explain how to use these other modpacks, which have
 their own manuals:
 
 *   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
@@ -74,9 +74,9 @@ Although common, it is very heavily used, and most of the time it will
 be the material that most limits your activity.
 
 Tin is part of the basic Minetest game (having migrated there from
-moreores).  It is found from elevation +8 downwards, with no 
-elevation-dependent variations in abundance beyond that point.  
-It is a common metal.  Its main use in pure form is as a component 
+moreores).  It is found from elevation +8 downwards, with no
+elevation-dependent variations in abundance beyond that point.
+It is a common metal.  Its main use in pure form is as a component
 of electrical batteries.  Apart from that its main purpose is
 as the secondary ingredient in bronze (the base being copper), but bronze
 is itself little used.  Its abundance is well in excess of its usage,
@@ -1152,7 +1152,7 @@ dig identical areas, one on each side of the square cross section.
 ### forcefield emitter ###
 
 The forcefield emitter is an HV powered machine that generates a
-forcefield remeniscent of those seen in many science-fiction stories.
+forcefield reminiscent of those seen in many science-fiction stories.
 
 The emitter can be configured to generate a forcefield of either
 spherical or cubical shape, in either case centered on the emitter.

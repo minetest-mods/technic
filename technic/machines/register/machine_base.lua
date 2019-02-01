@@ -147,7 +147,7 @@ function technic.register_base_machine(data)
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry, 
+			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,

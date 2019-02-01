@@ -62,7 +62,7 @@ end
 
 local function drill_dig_it1 (player)
 	local dir=player:get_look_dir()
-	if math.abs(dir.x)>math.abs(dir.z) then 
+	if math.abs(dir.x)>math.abs(dir.z) then
 		if dir.x>0 then return 0 end
 		return 1
 	end

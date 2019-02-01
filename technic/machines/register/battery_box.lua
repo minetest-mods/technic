@@ -129,11 +129,11 @@ local tube = {
 }
 
 local function add_on_off_buttons(meta, ltier, charge_percent)
-	local formspec = ""
-	if ltier == "mv" or ltier == "hv" then
-		formspec = "image[1,1;1,2;technic_power_meter_bg.png"
+	local formspec = "image[1,1;1,2;technic_power_meter_bg.png"
 			.."^[lowpart:"..charge_percent
-			..":technic_power_meter_fg.png]"..
+			..":technic_power_meter_fg.png]"
+	if ltier == "mv" or ltier == "hv" then
+		formspec = formspec..
 			fs_helpers.cycling_button(
 				meta,
 				"image_button[3,2.0;1,0.6",

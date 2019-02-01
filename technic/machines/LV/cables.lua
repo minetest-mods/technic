@@ -8,7 +8,7 @@ minetest.register_craft({
 		{'default:copper_ingot', 'default:copper_ingot', 'default:copper_ingot'},
 		{'default:paper',        'default:paper',        'default:paper'},
 	}
-}) 
+})
 
 technic.register_cable("LV", 2/16)
 

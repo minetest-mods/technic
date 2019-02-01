@@ -66,14 +66,14 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 		output_name = "dst"
 	end
 	
-	local meta = minetest.get_meta(pos) 
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local i = 0
 	for _, stack in ipairs(inv:get_list(output_name)) do
 		i = i + 1
 		if stack then
 			local item0 = stack:to_table()
-			if item0 then 
+			if item0 then
 				item0["count"] = "1"
 				technic.tube_inject_item(pos, pos, vector.new(x_velocity, 0, z_velocity), item0)
 				stack:take_item(1)
@@ -124,7 +124,7 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	if node.param2 == 0 then pos1.x = pos1.x + 1  x_velocity =  1 end
 
 	local output_tube_connected = false
-	local node1 = minetest.get_node(pos1) 
+	local node1 = minetest.get_node(pos1)
 	if minetest.get_item_group(node1.name, "tubedevice") > 0 then
 		output_tube_connected = true
 	end

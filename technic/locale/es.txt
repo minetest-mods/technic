@@ -101,7 +101,7 @@ Administrative World Anchor =
 Charge = Cargar
 Discharge = Descargar
 Power level = Nivel de Poder
-# $1: Tier $2: current_charge $3: max_charge 
+# $1: Tier $2: current_charge $3: max_charge
 @1 Battery Box: @2/@3 = Caja de Bateria @1: @2/@3
 # $1: Machine name $2: Supply $3: Demand
 @1. Supply: @2 Demand: @3 = @1. Alimentacion: @2 Demanda: @3
