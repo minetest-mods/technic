@@ -13,7 +13,7 @@ minetest.register_craft({
 })
 
 local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
-local quarry_max_depth       = 100
+local quarry_max_depth       = 30
 local quarry_demand = 10000
 local quarry_eject_dir = vector.new(0, 1, 0)
 
@@ -32,7 +32,7 @@ minetest.register_globalstep(function(dtime)
 	quota_map = {}
 
 	-- this many blocks per second
-	local init_quota = minetest.settings:get("technic.quarry.quota") or 4
+	local init_quota = minetest.settings:get("technic.quarry.quota") or 10
 
 	local players = minetest.get_connected_players()
 	for i, player in pairs(players) do
@@ -149,16 +149,15 @@ local function quarry_run(pos, node)
 
 	local digging_allowed = false
 	local quota = quota_map[owner]
-	if quota and quota > 0 then
-		-- decrement quota
-		quota = quota - 1
-		quota_map[owner] = quota
-		digging_allowed = true
-	end
-
+	digging_allowed = quota and quota > 0
 
 
 	if digging_allowed and meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
+
+		-- decrement quota
+		quota = quota - 1
+		quota_map[owner] = quota
+
 		local pdir = minetest.facedir_to_dir(node.param2)
 		if pdir.y ~= 0 then
 			-- faces up or down, not valid, otherwise depth-check would run endless and hang up the server
@@ -177,7 +176,7 @@ local function quarry_run(pos, node)
 			vector.multiply(qdir, -radius))
 		local owner = meta:get_string("owner")
 		local nd = meta:get_int("dug")
-		while nd ~= diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
+		while nd < diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
 			local ry = math.floor(nd / (diameter*diameter))
 			local ndl = nd % (diameter*diameter)
 			if ry % 2 == 1 then
