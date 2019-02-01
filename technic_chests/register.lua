@@ -3,6 +3,8 @@ local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")
 
+local has_protector_mod = minetest.get_modpath("protector")
+
 local allow_label = ""
 local tube_entry = ""
 local shift_edit_field = 0
@@ -238,14 +240,25 @@ function technic.chests:definition(name, data)
 					:format(name, meta:get_string("owner")))
 			pipeworks.after_place(pos)
 		end
-		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
 	else
 		locked_after_place = pipeworks.after_place
 	end
 
+	if data.locked then
+		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
+	end
+
+	if data.protected and has_protector_mod then
+		-- use overlay from protector mod
+		table.insert(front, "protector_logo.png")
+	end
+
+
 	local desc
 	if data.locked then
 		desc = S("%s Locked Chest"):format(name)
+	elseif data.protected then
+		desc = S("%s Protected Chest"):format(name)
 	else
 		desc = S("%s Chest"):format(name)
 	end
@@ -326,6 +339,16 @@ function technic.chests:definition(name, data)
 
 			return secret, "a locked chest", owner
 		end
+	elseif data.protected then
+		def.allow_metadata_inventory_move = self.inv_move_protected
+		def.allow_metadata_inventory_put = self.inv_put_protected
+		def.allow_metadata_inventory_take = self.inv_take_protected
+		def.on_blast = function() end
+		def.can_dig = function(pos,player)
+			local meta = minetest.get_meta(pos);
+			local inv = meta:get_inventory()
+			return inv:is_empty("main") and not minetest.is_protected(pos, player:get_player_name())
+		end
 	end
 	return def
 end
@@ -333,7 +356,21 @@ end
 function technic.chests:register(name, data)
 	local def = technic.chests:definition(name, data)
 
-	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+	-- prefix
+	local nn = "technic:"..name:lower()
+
+	if data.locked then
+		-- locked chest
+		nn = nn .. "_locked"
+
+	elseif data.protected then
+		-- protected chest
+		nn = nn .. "_protected"
+	end
+
+	-- suffix
+	nn = nn .. "_chest"
+
 	minetest.register_node(":"..nn, def)
 
 	if data.color then
@@ -357,4 +394,3 @@ function technic.chests:register(name, data)
 	end
 
 end
-
