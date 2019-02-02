@@ -129,7 +129,7 @@ local function quarry_run(pos, node)
 			vector.multiply(qdir, -radius))
 		local owner = meta:get_string("owner")
 		local nd = meta:get_int("dug")
-		while nd ~= diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
+		while nd < diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
 			local ry = math.floor(nd / (diameter*diameter))
 			local ndl = nd % (diameter*diameter)
 			if ry % 2 == 1 then
