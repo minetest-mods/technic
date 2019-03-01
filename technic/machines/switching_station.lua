@@ -49,9 +49,7 @@ minetest.register_node("technic:switching_station",{
 		technic.redundant_warn.poshash = nil
 	end,
 	after_dig_node = function(pos)
-		minetest.forceload_free_block(pos)
 		pos.y = pos.y - 1
-		minetest.forceload_free_block(pos)
 		local poshash = minetest.hash_node_position(pos)
 		technic.redundant_warn.poshash = nil
 	end,
@@ -275,8 +273,6 @@ minetest.register_abm({
 
 		--Disable if necessary
 		if meta:get_int("active") ~= 1 then
-			minetest.forceload_free_block(pos)
-			minetest.forceload_free_block(pos1)
 			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
 
 			local poshash = minetest.hash_node_position(pos)
@@ -291,15 +287,10 @@ minetest.register_abm({
 		local name = minetest.get_node(pos1).name
 		local tier = technic.get_cable_tier(name)
 		if tier then
-			-- Forceload switching station
-			minetest.forceload_block(pos)
-			minetest.forceload_block(pos1)
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
 		else
 			--dprint("Not connected to a network")
 			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
-			minetest.forceload_free_block(pos)
-			minetest.forceload_free_block(pos1)
 			return
 		end
 
@@ -550,4 +541,3 @@ for tier, machines in pairs(technic.machines) do
 	-- SPECIAL will not be traversed
 	technic.register_machine(tier, "technic:switching_station", "SPECIAL")
 end
-
