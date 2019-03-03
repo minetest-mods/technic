@@ -349,7 +349,7 @@ if minetest.settings:get_bool("enable_damage") then
 		label = "Radiation damage",
 		nodenames = {"group:radioactive"},
 		interval = 1,
-		chance = 1,
+		chance = 2,
 		action = dmg_abm,
 	})
 
@@ -465,7 +465,7 @@ minetest.register_abm({
 	nodenames = {"group:water"},
 	neighbors = {"technic:corium_source"},
 	interval = 1,
-	chance = 1,
+	chance = 3,
 	action = function(pos, node)
 		minetest.remove_node(pos)
 	end,
@@ -476,7 +476,7 @@ minetest.register_abm({
 	nodenames = {"technic:corium_flowing"},
 	neighbors = {"group:water"},
 	interval = 1,
-	chance = 1,
+	chance = 3,
 	action = function(pos, node)
 		minetest.set_node(pos, {name="technic:chernobylite_block"})
 	end,
@@ -513,4 +513,3 @@ if griefing then
 		end,
 	})
 end
-
