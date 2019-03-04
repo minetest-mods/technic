@@ -4,6 +4,20 @@ technic.networks = {}
 technic.cables = {}
 technic.redundant_warn = {}
 
+local has_monitoring = minetest.get_modpath("monitoring")
+local metric_abm_count
+local metric_abm_latency
+
+if has_monitoring then
+	metric_abm_count = monitoring.counter("technic_switching_station_abm_count",
+		"number of technic switch abm calls")
+
+	metric_abm_latency = monitoring.histogram("technic_switching_station_abm_latency",
+		"latency of the technic switch abm calls",
+	  {0.001, 0.005, 0.01, 0.02, 0.1, 0.5, 1.0})
+end
+
+
 local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
 
@@ -241,6 +255,14 @@ minetest.register_abm({
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
+
+		local timer
+		if has_monitoring then
+			metric_abm_count.inc()
+			timer = metric_abm_latency.timer()
+		end
+
+
 		local t0 	       = minetest.get_us_time()
 		local meta             = minetest.get_meta(pos)
 		local meta1            = nil
@@ -423,6 +445,7 @@ minetest.register_abm({
 				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 
+			if timer ~= nil then timer.observe() end
 			return
 		end
 
@@ -452,6 +475,8 @@ minetest.register_abm({
 				check_timer(pos, meta, diff)
 				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
+
+			if timer ~= nil then timer.observe() end
 			return
 		end
 
@@ -476,6 +501,8 @@ minetest.register_abm({
 			check_timer(pos, meta, diff)
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
+
+		if timer ~= nil then timer.observe() end
 
 	end,
 })
