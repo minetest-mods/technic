@@ -22,7 +22,7 @@ minetest.register_craft({
 })
 
 local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
-local quarry_max_depth       = 50
+local quarry_max_depth       = 30
 local quarry_demand = 10000
 local quarry_eject_dir = vector.new(0, 1, 0)
 
