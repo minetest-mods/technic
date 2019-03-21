@@ -43,6 +43,14 @@ end)
 --   \___/\___/
 
 local function update_forcefield(pos, meta, active)
+
+	if active then
+		-- rate limit by chance
+		if math.floor(math.random()*4) ~= 0 then
+			return
+		end
+	end
+
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
@@ -374,4 +382,3 @@ end
 
 technic.register_machine("HV", "technic:forcefield_emitter_on",  technic.receiver)
 technic.register_machine("HV", "technic:forcefield_emitter_off", technic.receiver)
-
