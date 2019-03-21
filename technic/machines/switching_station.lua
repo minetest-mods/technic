@@ -251,7 +251,7 @@ end
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
-	interval   = 1,
+	interval   = 1.1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
@@ -524,7 +524,7 @@ end
 minetest.register_abm({
 	label = "Machines: timeout check",
 	nodenames = {"group:technic_machine"},
-	interval   = 1,
+	interval   = 1.9,
 	chance     = 3,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
