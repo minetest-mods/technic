@@ -1,0 +1,7 @@
+# Polish Translation for technic_wrench
+# Polskie tłumaczenie technic_wrench
+# by mat9117
+
+Wrench = Klucz
+%s with items = %s z rzeczami
+
