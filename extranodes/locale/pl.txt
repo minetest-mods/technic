@@ -1,0 +1,9 @@
+# Polish Translation for technic_extranodes
+# Polskie tłumaczenie technic_extranodes
+# by mat9117
+
+Marble = Marmur
+Marble Bricks = Marmurowe cegły
+Granite = Granit
+Concrete = Beton
+

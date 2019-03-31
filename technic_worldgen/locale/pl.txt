@@ -1,0 +1,38 @@
+# Polish Translation for technic_worldgen
+# Polskie tłumaczenie technic_worldgen
+# by mat9117
+
+###crafts.lua
+Uranium Lump = Bryłka uranu
+Uranium Ingot = Sztabka uranu
+Chromium Lump = Bryłka chromu
+Chromium Ingot = Sztabka chromu
+Zinc Lump = Bryłka cynku
+Zinc Ingot = Sztabka cynku
+Brass Ingot = Sztabka mosiądzu
+Wrought Iron Ingot = Sztabka kutego żelaza
+Cast Iron Ingot = Sztabka żelaziwa
+Carbon Steel Ingot = Sztabka stali węglowej
+Stainless Steel Ingot = Sztabka nierdzewnej stali
+Iron = Żelazo
+
+###nodes.lua
+Uranium Ore = Ruda uranu
+Chromium Ore = Ruda chromu
+Zinc Ore = Ruda cynku
+Granite = Granit
+Marble = Marmur
+Marble Bricks = Marmurowe cegły
+Uranium Block = Blok uranu
+Chromium Block = Blok chromu
+Zinc Block = Blok cynku
+Wrought Iron Block = Blok kutego żelaza
+Cast Iron Block = Blok żelaziwa
+Carbon Steel Block = Blok stali węglowej
+Stainless Steel Block = Blok stali nierdzewnej
+Brass Block = Blok mosiądzu
+Wrought Iron = Kute żelazo
+
+###rubber.lua
+Rubber Tree Sapling = Sadzonka kauczukowca
+Rubber Tree = Kauczukowiec
