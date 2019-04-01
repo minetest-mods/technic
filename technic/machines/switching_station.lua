@@ -4,6 +4,8 @@ technic.networks = {}
 technic.cables = {}
 technic.redundant_warn = {}
 
+local switch_max_range = tonumber(minetest.settings:get("technic.switch_max_range") or "64")
+
 local has_monitoring = minetest.get_modpath("monitoring")
 local metric_abm_count
 local metric_abm_latency
@@ -130,6 +132,13 @@ end
 
 -- Generic function to add found connected nodes to the right classification array
 local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
+
+	local distance_to_switch = vector.distance(pos, sw_pos)
+	if distance_to_switch > switch_max_range then
+		-- max range exceeded
+		return
+	end
+
 	technic.get_or_load_node(pos)
 	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
