@@ -41,7 +41,7 @@ minetest.register_globalstep(function(dtime)
 	quota_map = {}
 
 	-- this many blocks per second
-	local init_quota = minetest.settings:get("technic.quarry.quota") or 10
+	local init_quota = minetest.settings:get("technic.quarry.quota") or 5
 
 	local players = minetest.get_connected_players()
 	for i, player in pairs(players) do
