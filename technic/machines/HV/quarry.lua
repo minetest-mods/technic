@@ -204,8 +204,6 @@ local function quarry_run(pos, node)
 				vector.multiply(qdir, rq))
 			local can_dig = true
 
-			minetest.load_area(digpos);
-
 			if can_dig and minetest.is_protected and minetest.is_protected(digpos, owner) then
 				can_dig = false
 			end
