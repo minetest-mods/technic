@@ -222,6 +222,7 @@ local function quarry_run(pos, node)
 				end
 			end
 
+			--[[
 			if can_dig then
 				-- test above blocks if diggable
 				for ay = startpos.y, digpos.y+1, -1 do
@@ -233,6 +234,8 @@ local function quarry_run(pos, node)
 					end
 				end
 			end
+			--]]
+
 			nd = nd + 1
 			if can_dig then
 				minetest.remove_node(digpos)
