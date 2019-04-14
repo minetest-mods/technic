@@ -126,7 +126,6 @@ Digging %d m above machine = Kopię %d m nad maszyną
 Digging %d m below machine = Kopię %d m pod maszyną
 @1 (@2 @3 -> @4 @5) = @1 (@2 @3 -> @4 @5)
 
-
 ## Grinder Recipes
 # $1: Name
 %s Dust = %s Pył
