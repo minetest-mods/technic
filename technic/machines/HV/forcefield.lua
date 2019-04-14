@@ -121,6 +121,12 @@ local function set_forcefield_formspec(meta)
 end
 
 local forcefield_receive_fields = function(pos, formname, fields, sender)
+	local player_name = sender:get_player_name()
+	if minetest.is_protected(pos, player_name) then
+		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.record_protection_violation(pos, player_name)
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	local range = nil
 	if fields.range then
