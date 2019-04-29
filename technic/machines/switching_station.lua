@@ -433,6 +433,7 @@ minetest.register_abm({
 				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 
+			return
 		end
 
 		-- If the PR supply is not enough for the RE demand we will discharge the batteries too
@@ -462,6 +463,7 @@ minetest.register_abm({
 				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 			end
 
+			return
 		end
 
 		-- If the PR+BA supply is not enough for the RE demand: Power only the batteries
@@ -485,6 +487,7 @@ minetest.register_abm({
 			check_timer(pos, meta, diff)
 			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
+
 
 	end,
 })
