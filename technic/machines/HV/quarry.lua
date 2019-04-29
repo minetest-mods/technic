@@ -4,14 +4,6 @@ local S = technic.getter
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
 
-local has_monitoring = minetest.get_modpath("monitoring")
-local metric_dig_count
-
-if has_monitoring then
-	metric_dig_count = monitoring.counter("technic_quarry_dig_count",
-		"number of technic quarry digs")
-
-end
 
 minetest.register_craft({
 	recipe = {
@@ -144,9 +136,6 @@ local function quarry_handle_purge(pos)
 end
 
 local function quarry_run(pos, node)
-	if metric_dig_count ~= nil then
-		metric_dig_count.inc()
-	end
 
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
