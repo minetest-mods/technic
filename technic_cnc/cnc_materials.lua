@@ -272,7 +272,7 @@ technic_cnc.register_all("basic_materials:brass_block",
 --------
 technic_cnc.register_all("technic:brass_block",
                 {cracky=1, level=2, not_in_creative_inventory=1},
-                {"technic_brass_block.png"},
+		{"basic_materials_brass_block.png"},
                 S("Brass"))
 
 -- Copper
