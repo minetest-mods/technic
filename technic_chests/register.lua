@@ -366,7 +366,7 @@ function technic.chests:register(name, data)
 	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
 	minetest.register_node(":"..nn, def)
 
-	if tubelib then
+	if minetest.global_exists("tubelib") then
 		tubelib.register_node(nn, {}, _TUBELIB_CALLBACKS)
 	end
 
@@ -387,7 +387,7 @@ function technic.chests:register(name, data)
 			colordef.groups = self.groups_noinv
 			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay"..postfix..".png") }
 			minetest.register_node(":"..nn..postfix, colordef)
-			if tubelib then
+			if minetest.global_exists("tubelib") then
 				tubelib.register_node(nn..postfix, {}, _TUBELIB_CALLBACKS)
 			end
 		end
