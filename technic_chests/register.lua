@@ -332,8 +332,8 @@ end
 
 local _TUBELIB_CALLBACKS = {
 	on_pull_item = function(pos, side, player_name)
-		local inv = minetest.get_meta(pos):get_inventory()
 		if not minetest.is_protected(pos, player_name) then
+			local inv = minetest.get_meta(pos):get_inventory()
 			for _, stack in pairs(inv:get_list("main")) do
 				if not stack:is_empty() then
 					return inv:remove_item("main", stack:get_name())
@@ -358,8 +358,6 @@ local _TUBELIB_CALLBACKS = {
 		end
 		return false
 	end,
-	on_recv_message = function(pos, topic, payload)
-	end
 }
 
 function technic.chests:register(name, data)
@@ -368,7 +366,7 @@ function technic.chests:register(name, data)
 	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
 	minetest.register_node(":"..nn, def)
 
-	if minetest.get_modpath("tubelib") then
+	if tubelib then
 		tubelib.register_node(nn, {}, _TUBELIB_CALLBACKS)
 	end
 
@@ -389,7 +387,7 @@ function technic.chests:register(name, data)
 			colordef.groups = self.groups_noinv
 			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay"..postfix..".png") }
 			minetest.register_node(":"..nn..postfix, colordef)
-			if minetest.get_modpath("tubelib") then
+			if tubelib then
 				tubelib.register_node(nn..postfix, {}, _TUBELIB_CALLBACKS)
 			end
 		end
