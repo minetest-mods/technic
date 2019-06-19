@@ -178,7 +178,17 @@ local function quarry_run(pos, node)
 			vector.multiply(qdir, -radius))
 		local owner = meta:get_string("owner")
 		local nd = meta:get_int("dug")
+
+		local t0 = minetest.get_us_time()
+
 		while nd < diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) do
+
+			local us_used = minetest.get_us_time() - t0
+			if us_used > 50000 then
+				-- abort if this quarry takes too much time
+				break
+			end
+
 			local ry = math.floor(nd / (diameter*diameter))
 			local ndl = nd % (diameter*diameter)
 			if ry % 2 == 1 then
