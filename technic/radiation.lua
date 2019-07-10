@@ -338,7 +338,7 @@ local function dmg_abm(pos, node)
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
 			max_dist + abdomen_offset)) do
-		if entity_damage or o:is_player() then
+		if (entity_damage or o:is_player()) and o:get_hp() > 0 then
 			dmg_object(pos, o, strength)
 		end
 	end
