@@ -1,0 +1,175 @@
+# Polish Translation for Technic mod
+# Polskie tłumaczenie Technic mod
+# by mat9117
+
+## Misc
+[Technic] Loaded in %f seconds = [Technic] Wczytany w %f sekund
+
+## Items
+Silicon Wafer = Płytka krzemowa
+Doped Silicon Wafer = Domieszkowana płytka krzemowa
+Enriched Uranium = Wzbogacony uran
+Uranium Fuel = Paliwo uranowe
+Diamond Drill Head = Diamentowa głowica wiertła
+Blue Energy Crystal = Niebieski kryształ energii
+Green Energy Crystal = Zielony kryształ energii
+Red Energy Crystal = Czerwony kryształ energii
+Fine Copper Wire = Cienki miedziany drut
+Copper Coil = Miedziana cewka
+Electric Motor = Silnik elektryczny
+Low Voltage Transformer = Transformator niskiego napięcia
+Medium Voltage Transformer = Transformator średniego napięcia
+High Voltage Transformer = Transformator wysokiego napięcia
+Control Logic Unit = Jednostka sterująca
+Mixed Metal Ingot = Sztabka zmieszanych metali
+Composite Plate = Płytka kompozytowa
+Copper Plate = Płytka miedziana
+Carbon Plate = Płytka węglowa
+Graphite = Grafit
+Carbon Cloth = Włókno węglowe
+Raw Latex = Lateks naturalny
+Rubber Fiber = Włókno gumowe
+%.1f%%-Fissile Uranium Ingot = %.1f%% Sztabka uranu
+%.1f%%-Fissile Uranium Block = %.1f%% Blok uranu
+
+## Machine misc
+Machine cannot be removed because it is not empty = Nie można usunąć maszyny, ponieważ nie jest pusta
+Inventory move disallowed due to protection = Przenoszenie rzeczy z ekwipunku niemożliwe z powodu ochrony
+# $1: Machine name (Includes tier)
+@1 Active (@2 EU) = @1 Aktywny (@2 EU)
+%s Active = %s Aktywny/a
+%s Disabled = %s Wyłączony/a
+%s Enabled = %s Włączony/a
+%s Idle = %s Bezczynny/a
+%s Improperly Placed = %s Ustawiony/a nieprawidłowo
+%s is empty = %s jest pusty/a
+%s Unpowered = %s brak zasilania
+%s Out Of Fuel = %s brak paliwa
+%s Has Bad Cabling = %s Źle podłączono kable
+%s (Slave) =
+%s Has No Network = %s Nie podłączony/a do sieci
+%s Finished = %s Ukończony
+Enable/Disable = Włącz/Wyłącz
+Range = Zasięg
+Upgrade Slots = Miejsca na ulepszenia
+In: = Wejście
+Out: = Wyjście
+Slot %d = Otwór %d
+Itemwise = Jeden przedmiot
+Stackwise = Cały stack
+Ignoring Mesecon Signal = Ignoruj sygnał Mesecon
+Controlled by Mesecon Signal = Sterowany sygnałem Mesecon
+Owner: = Właściciel:
+Unlocked = Odblokowany/a
+Locked = Zablokowany/a
+Radius: = Promień:
+Enabled = Włączony/a
+Disabled = Wyłączony/a
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = %s Piec stopowy
+%s Battery Box = %s Skrzynka baterii
+%s Cable = %s Przewód
+%s Centrifuge = %s Centryfuga
+%s Compressor = %s Kompresor
+%s Extractor = %s Ekstraktor
+%s Forcefield Emitter = %s Emiter pola siłowego
+%s Furnace = %s Piec
+%s Grinder = %s Młynek
+%s Music Player = %s Odtwarzacz muzyki
+%s Quarry = %s Kamieniołom
+%s Tool Workshop = %s Warsztat narzędzi
+Arrayed Solar %s Generator = %s Szeregowy generator słoneczny
+Fuel-Fired %s Generator = %s Generator zasilany paliwem
+Geothermal %s Generator = %s Generator geotermalny
+Hydro %s Generator = %s Hydrogenerator
+Nuclear %s Generator Core = %s Reaktor atomowy
+Small Solar %s Generator = %s Mały generator słoneczny
+Wind %s Generator = %s Generator wiatrowy
+Self-Contained Injector = Samowystarczalny wtryskiwacz
+Constructor Mk%d = Konstruktor Mk%d
+Frame = Klatka
+Frame Motor = Silnik klatkowy
+Template = Szablon
+Template (replacing) = Szablon (zastępczy)
+Template Motor =Szablon silnika
+Template Tool = Szablon narzędzia
+Battery Box = Skrzynka baterii
+Supply Converter = Konwerter zasilania
+Switching Station = Rozdzielnia
+Fuel-Fired Alloy Furnace = Piec stopowy zasilany paliwem
+Fuel-Fired Furnace = Piec zasilany paliwem
+Wind Mill Frame = Klatka wiatraka
+Forcefield = Pole siłowe
+Nuclear Reactor Rod Compartment = Komora rdzenia reaktora atomowego
+Administrative World Anchor = Administracyjna kotwica świata
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Ładuj
+Discharge = Rozładuj
+Power level = Poziom zasilania
+# $1: Tier $2: current_charge $3: max_charge
+@1 Battery Box: @2/@3 = @1 Skrzynka baterii: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3 = @1. Zapas: @2 Pobór: @3 
+Production at %d%% = Produkowanie w %d%%
+Choose Milling Program: = Wybierz program mielenia:
+Slim Elements half / normal height: = Małe elementy połowa / normalna wysokość:
+Current track %s =
+Stopped = Zatrzymany/a
+Keeping %d/%d map blocks loaded = Ciągle ładuję %d/%d bloki mapy 
+Digging not started = Nie rozpoczęto kopania
+Digging finished = Kopanie skończone
+Digging %d m above machine = Kopię %d m nad maszyną
+Digging %d m below machine = Kopię %d m pod maszyną
+@1 (@2 @3 -> @4 @5) = @1 (@2 @3 -> @4 @5)
+
+## Grinder Recipes
+# $1: Name
+%s Dust = %s Pył
+Akalin = Akalinowy
+Alatro = Alatrowy
+Arol = Arolowy
+Brass = Mosiądzu
+Bronze = Brązu
+Carbon Steel = Stali węglowej
+Cast Iron = Żeliwa
+Chromium = Chromu
+Coal = Węglowy
+Copper = Miedzi
+Gold = Złoty
+Mithril = Mithrilu
+Silver = Srebrny
+Stainless Steel = Stali nierdzewnej
+Talinite = Talinitu
+Tin = Cyny
+Wrought Iron = Kutego żelaza
+Zinc = Cynku
+%.1f%%-Fissile Uranium = %.1f%% Uranu
+
+## Tools
+RE Battery = Bateria ładowalna
+Water Can = Kanister wody
+Lava Can = Kanister lawy
+Chainsaw = Piła łańcuchowa
+Flashlight = Latarka
+3 nodes deep. = Głęboki na 3 bloki.
+3 nodes tall. = Wysoki na 3 bloki.
+3 nodes wide. = Szeroki na 3 bloki.
+3x3 nodes. = 3x3 bloki.
+Use while sneaking to change Mining Drill Mk%d modes. = Użyj podczas skradania, aby zmienić tryby wiertła górniczego Mk%d
+Mining Drill Mk%d Mode %d = Tryb wiertła górniczego Mk%d
+Mining Drill Mk%d = Wiertło górnicze Mk%d
+Mining Laser Mk%d = Laser górniczy Mk%d
+Single node. = Pojedynczy blok.
+Sonic Screwdriver = Dźwiękowy śrubokręt 
+Tree Tap = Nacinak drzewny
+
+## Craft descriptions
+Alloy cooking = Stapianie
+Grinding = Mielenie
+Compressing = Kompresowanie
+Extracting = Ekstrakcja
+Separating = Oddzielanie

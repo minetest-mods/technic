@@ -2,6 +2,7 @@ local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")
+local tubelib_exists = minetest.global_exists("tubelib")
 
 local has_protector_mod = minetest.get_modpath("protector")
 
@@ -363,6 +364,36 @@ function technic.chests:definition(name, data)
 	return def
 end
 
+local _TUBELIB_CALLBACKS = {
+	on_pull_item = function(pos, side, player_name)
+		if not minetest.is_protected(pos, player_name) then
+			local inv = minetest.get_meta(pos):get_inventory()
+			for _, stack in pairs(inv:get_list("main")) do
+				if not stack:is_empty() then
+					return inv:remove_item("main", stack:get_name())
+				end
+			end
+		end
+		return nil
+	end,
+	on_push_item = function(pos, side, item, player_name)
+		local inv = minetest.get_meta(pos):get_inventory()
+		if inv:room_for_item("main", item) then
+			inv:add_item("main", item)
+			return true
+		end
+		return false
+	end,
+	on_unpull_item = function(pos, side, item, player_name)
+		local inv = minetest.get_meta(pos):get_inventory()
+		if inv:room_for_item("main", item) then
+			inv:add_item("main", item)
+			return true
+		end
+		return false
+	end,
+}
+
 function technic.chests:register(name, data)
 	local def = technic.chests:definition(name, data)
 
@@ -383,6 +414,10 @@ function technic.chests:register(name, data)
 
 	minetest.register_node(":"..nn, def)
 
+	if tubelib_exists then
+		tubelib.register_node(nn, {}, _TUBELIB_CALLBACKS)
+	end
+
 	if data.color then
 		local mk_front
 		if string.find(def.tiles[6], "%^") then
@@ -400,7 +435,9 @@ function technic.chests:register(name, data)
 			colordef.groups = self.groups_noinv
 			colordef.tiles = { def.tiles[1], def.tiles[2], def.tiles[3], def.tiles[4], def.tiles[5], mk_front("technic_chest_overlay"..postfix..".png") }
 			minetest.register_node(":"..nn..postfix, colordef)
+			if tubelib_exists then
+				tubelib.register_node(nn..postfix, {}, _TUBELIB_CALLBACKS)
+			end
 		end
 	end
-
 end
