@@ -467,7 +467,6 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
 		for tier, machines in pairs(technic.machines) do
 			if machines[node.name] and switching_station_timeout_count(pos, tier) then
 				local nodedef = minetest.registered_nodes[node.name]
@@ -493,7 +492,6 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
 		local pos1 = {x=pos.x,y=pos.y-1,z=pos.z}
 		local tier = technic.get_cable_tier(minetest.get_node(pos1).name)
 		if not tier then return end
