@@ -119,13 +119,13 @@ end
 -- Generic function to add found connected nodes to the right classification array
 local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
 	technic.get_or_load_node(pos)
-	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
 
 	if technic.is_tier_cable(name, tier) then
 		add_cable_node(all_nodes, pos,network_id, queue)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
+		local meta = minetest.get_meta(pos)
 		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 		if     machines[name] == technic.producer then
 			add_network_node(PR_nodes, pos, network_id)
