@@ -294,6 +294,8 @@ local function calculate_damage_multiplier(object)
 	end
 	if ag.radiation then
 		return 0.01 * ag.radiation
+	elseif armor_enabled then
+		return 0
 	end
 	if ag.fleshy then
 		return math.sqrt(0.01 * ag.fleshy)
