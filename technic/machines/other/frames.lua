@@ -155,7 +155,7 @@ local function move_nodes_vect(poslist, vect, must_not_move, owner)
 	end
 
 	for _, obj in ipairs(objects) do
-		obj:setpos(vector.add(obj:get_pos(), vect))
+		obj:set_pos(vector.add(obj:get_pos(), vect))
 	end
 
 	for _, n in ipairs(nodelist) do
@@ -547,7 +547,7 @@ mesecon.register_on_mvps_move(function(moved_nodes)
 				local entity = obj:get_luaentity()
 				if entity and (entity.name == "technic:frame_entity" or
 						entity.name == "technic:damage_entity") then
-					obj:setpos(t.pos)
+					obj:set_pos(t.pos)
 				end
 			end
 		end
