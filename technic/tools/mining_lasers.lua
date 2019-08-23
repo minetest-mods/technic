@@ -59,7 +59,7 @@ local function can_keep_node(name)
 end
 
 local function laser_shoot(player, range, particle_texture, sound)
-	local player_pos = player:getpos()
+	local player_pos = player:get_pos()
 	local player_name = player:get_player_name()
 	local dir = player:get_look_dir()
 
