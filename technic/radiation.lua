@@ -309,7 +309,7 @@ local function calculate_object_center(object)
 end
 
 local function dmg_object(pos, object, strength)
-	local obj_pos = vector.add(object:getpos(), calculate_object_center(object))
+	local obj_pos = vector.add(object:get_pos(), calculate_object_center(object))
 	local mul
 	if armor_enabled or entity_damage then
 		-- we need to check may the object be damaged even if armor is disabled
@@ -513,4 +513,3 @@ if griefing then
 		end,
 	})
 end
-
