@@ -101,6 +101,77 @@ if minetest.get_modpath("growing_trees") then
 	end
 end
 
+-- Support cool_trees
+if minetest.get_modpath("bamboo") then
+	timber_nodenames["bamboo:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["bamboo:leaves"] = true
+	end
+end
+if minetest.get_modpath("birch") then
+	timber_nodenames["birch:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["birch:leaves"] = true
+	end
+end
+if minetest.get_modpath("cherrytree") then
+	timber_nodenames["cherrytree:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["cherrytree:blossom_leaves"] = true
+		timber_nodenames["cherrytree:leaves"] = true
+	end
+end
+if minetest.get_modpath("chestnuttree") then
+	timber_nodenames["chestnuttree:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["chestnuttree:leaves"] = true
+	end
+end
+if minetest.get_modpath("clementinetree") then
+	timber_nodenames["clementinetree:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["clementinetree:leaves"] = true
+	end
+end
+if minetest.get_modpath("ebony") then
+	timber_nodenames["ebony:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["ebony:creeper"] = true
+		timber_nodenames["ebony:creeper_leaves"] = true
+		timber_nodenames["ebony:leaves"] = true
+	end
+end
+if minetest.get_modpath("jacaranda") then
+	timber_nodenames["jacaranda:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["jacaranda:blossom_leaves"] = true
+	end
+end
+if minetest.get_modpath("larch") then
+	timber_nodenames["larch:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["larch:leaves"] = true
+	end
+end
+if minetest.get_modpath("lemontree") then
+	timber_nodenames["lemontree:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["lemontree:leaves"] = true
+	end
+end
+if minetest.get_modpath("mahogany") then
+	timber_nodenames["mahogany:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["mahogany:leaves"] = true
+	end
+end
+if minetest.get_modpath("palm") then
+	timber_nodenames["palm:trunk"] = true
+	if chainsaw_leaves then
+		timber_nodenames["palm:leaves"] = true
+	end
+end
+
 -- Support growing_cactus
 if minetest.get_modpath("growing_cactus") then
 	timber_nodenames["growing_cactus:sprout"]                       = true
