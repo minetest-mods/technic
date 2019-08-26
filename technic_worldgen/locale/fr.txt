@@ -1,0 +1,37 @@
+# template.txt
+# technic_worldgen translation template
+
+###crafts.lua
+Uranium Lump            = Morceau d'uranium
+Uranium Ingot           = Lingot d'uranium
+Chromium Lump           = Morceau de chrome
+Chromium Ingot          = Lingot de chrome
+Zinc Lump               = Morceau de zinc
+Zinc Ingot              = Lingot de zinc
+Brass Ingot             = Lingot de laiton
+Wrought Iron Ingot      = Lingot de fer forgé
+Cast Iron Ingot         = Lingot de fonte
+Carbon Steel Ingot      = Lingot d'acier au carbone
+Stainless Steel Ingot   = Lingot d'acier inoxydable
+Iron                    = Fer
+
+###nodes.lua
+Uranium Ore             = Minerai d'uranium
+Chromium Ore            = Minerai de chrome
+Zinc Ore                = Minerai de zinc
+Granite                 = Granite
+Marble                  = Marbre
+Marble Bricks           = Briques en marbre
+Uranium Block           = Bloc d'uranium
+Chromium Block          = Bloc de chrome
+Zinc Block              = Bloc de zinc
+Wrought Iron Block      = Bloc de fer forgé
+Cast Iron Block         = Bloc de fonte
+Carbon Steel Block      = Bloc d'acier au carbone
+Stainless Steel Block   = Bloc d'acier inoxydable
+Brass Block             = Bloc de laiton
+Wrought Iron            = Fer forgé
+
+###rubber.lua
+Rubber Tree Sapling     = Pousse d'arbre à caoutchouc
+Rubber Tree             = Arbre à caoutchouc
