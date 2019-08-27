@@ -1,0 +1,7 @@
+# Braziliam portuguese translation for wrench
+# Tradução portuguesa brasileira para wrench
+# By Sires
+
+Wrench = Chave Inglesa
+%s with items = %s com items
+

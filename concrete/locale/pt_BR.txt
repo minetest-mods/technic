@@ -1,0 +1,10 @@
+# Braziliam portuguese translation for technic_concrete
+# Tradução portuguesa brasileira para technic_concrete
+# By Sires
+
+Rebar = Vergalhão
+Concrete Block = Bloco de Concreto
+Blast-resistant Concrete Block = Bloco de Concreto resistente-a-explosões
+Concrete Post Platform = Plataforma para Poste de Concreto
+Concrete Post = Poste de Concreto
+

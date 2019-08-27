@@ -1,0 +1,38 @@
+# Braziliam portuguese translation for technic_worldgen
+# Tradução portuguesa brasileira para technic_worldgen
+# By Sires
+
+###crafts.lua
+Uranium Lump = Pedaço de Urânio
+Uranium Ingot = Lingote de Urânio
+Chromium Lump = Pedaço de Crômio
+Chromium Ingot = Lingote de Crômio
+Zinc Lump = Pedaço de Zinco
+Zinc Ingot = Lingote de Zinco
+Brass Ingot = Lingote de Latão
+Wrought Iron Ingot = Lingote de Ferro Forjado
+Cast Iron Ingot = Lingote de Ferro Fundido
+Carbon Steel Ingot = Lingote de Aço Carbono
+Stainless Steel Ingot =  Lingote de Ferro Inoxidável
+Iron = Ferro
+
+###nodes.lua
+Uranium Ore = Minério de Urânio
+Chromium Ore = Minério de Crômio
+Zinc Ore = Minério de Zinco
+Granite = Granito
+Marble = Mármore
+Marble Bricks = Tijolos de Mármore
+Uranium Block = Bloco de Urânio
+Chromium Block = Bloco de Crômio
+Zinc Block = Bloco de Zinco
+Wrought Iron Block = Bloco de Ferro Forjado
+Cast Iron Block = Bloco de Ferro Fundido
+Carbon Steel Block = Bloco de Aço Carbono
+Stainless Steel Block = Bloco de Aço Inoxidável
+Brass Block = Bloco de Latão
+Wrought Iron = Ferro Forjado
+
+###rubber.lua
+Rubber Tree Sapling = Muda de Árvore de Borracha
+Rubber Tree = Árvore de Borracha

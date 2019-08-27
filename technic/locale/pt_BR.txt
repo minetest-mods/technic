@@ -1,0 +1,211 @@
+# Braziliam portuguese translation for technic
+# Tradução portuguesa brasileira para technic
+# By Sires
+
+## Misc
+[Technic] Loaded in %f seconds = [Technic] Carregado em %f segundos
+
+## Items
+Silicon Wafer = Pastilha de Silício
+Doped Silicon Wafer = Pastilha de Silício Dopada
+Enriched Uranium = Urânio Enriquecido
+Uranium Fuel = Combustivel de Urânio
+Diamond Drill Head = Cabeça de Broca de Diamante
+Blue Energy Crystal = Cristal de Energia Azul
+Green Energy Crystal = Cristal de Energia Verde
+Red Energy Crystal = Cristal de Energia Vermelho
+Fine Copper Wire = Fio Fino de Cobre
+Copper Coil = Bobina de Cobre
+Electric Motor = Motor Elétrico
+Low Voltage Transformer = Transformador de Baixa Voltagem
+Medium Voltage Transformer = Transformador de Média Voltagem
+High Voltage Transformer = Transformador de Alta Voltagem
+Control Logic Unit = Unidade de Controle Lógico
+Mixed Metal Ingot = Lingote de Metal Misturado
+Composite Plate = Placa Composta
+Copper Plate = Placa de Cobre
+Carbon Plate = Placa de Carbono
+Graphite = Grafite
+Carbon Cloth = Recido de Carbono
+Raw Latex = Latex bruto
+Rubber Fiber = Fibra de Borracha
+%.1f%%-Fissile Uranium Ingot = Lingote de Urânio %.1f%%-Físsil
+%.1f%%-Fissile Uranium Block = Bloco de Urânio %.1f%%-Físsil
+
+## Machine Misc
+Machine cannot be removed because it is not empty = A máquina não pode ser removida porque ela não está vazia
+Inventory move disallowed due to protection = Movimento de inventário não permitido pela proteção
+# $1: Machine name (includes tier)
+@1 Active (@2 EU) = @1 Ativo (@2 EU)
+%s Active = %s Ativo
+%s Disabled = %s Ativado
+%s Enabled = %s Desativado
+%s Idle = Ócio
+%s Improperly Placed = %s Colocado Inapropriadamente
+%s is empty = %s está vazio
+%s Unpowered = %s Sem energia
+%s Out Of Fuel = %s Sem Combustível
+%s Has Bad Cabling = %s Tem Cabeamento Ruim
+%s (Slave) = %s (Servo)
+%s Has No Network = %s Não Tem Rede
+%s Finished = %s Acabou
+Enable/Disable = Ativar/Desativar
+Range = Alcance
+Upgrade Slots = Lugares para Melhoria
+In: = Entrada:
+Out: = Saída:
+Slot %d = Lugar %d
+Itemwise = Por item
+Stackwise = Por pilha
+Ignoring Mesecon Signal = Ignorar Sinaal de Mesecon
+Controlled by Mesecon Signal = Controlado por Sinal de Mesecon
+Owner: = Dono:
+Unlocked = Destravado
+Locked = Travado
+Radius: = Raio:
+Enabled = Ativado
+Disabled = Desativado
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = Fornalha de Liga %s
+%s Battery Box = Caixa de Bateria %s
+%s Cable = Cabo %s
+%s CNC Machine = Máquina CNC %s
+%s Centrifuge = Centrifuga %s
+%s Compressor = Compresso %s
+%s Extractor = Extrator %s
+%s Forcefield Emitter = Emissor de Campo de Força %s
+%s Furnace = Fornalha %s
+%s Grinder = Triturador %s
+%s Music Player = Tocador de Música %s
+%s Quarry = Pedreira %s
+%s Tool Workshop = Oficina de Ferramentas %s
+Arrayed Solar %s Generator = Gerador Solar Equipado %s
+Fuel-Fired %s Generator = Gerador Alimentado-por-Combustível %s
+Geothermal %s Generator = Gerador Geotermal %s
+Hydro %s Generator = Gerador Hidráulico %s
+Nuclear %s Generator Core = Núcleo de Gerador Nuclear %s
+Small Solar %s Generator = Gerador Solar Pequeno %s
+Wind %s Generator = Gerador de Energia Eólica %s
+Self-Contained Injector = Injetor Auto-Contido
+Constructor Mk%d = Construtor Nv%d
+Frame = Armação
+Frame Motor = Motor de Armação
+Template = Modelo
+Template (replacing) = Modelo (recolocando)
+Template Motor = Modelo de Motor
+Template Tool = Modelo de Ferramenta
+Battery Box = Caixa de Bateria
+Supply Converter = Conversor de Energia
+Switching Station = Estação de Comutação
+Fuel-Fired Alloy Furnace = Fornalha de Liga Alimentada-por-Combustível
+Fuel-Fired Furnace = Fornalha Alimentada-por-Combustível
+Wind Mill Frame = Armação de Moinho de Vento
+Forcefield = Campo de Força
+Nuclear Reactor Rod Compartment = Compartimento de Barra do Reator Nuclear
+Administrative World Anchor = Âncora de Mundo Administrativa
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Carregar
+Discharge = Descarregar
+Power level = Nível de Energia
+# $1: Tier $2: current_charge $3: max_charge 
+@1 Battery Box: @2/@3 = Caixa de Baterias @1: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3 = @1. Suprimento: @2 Demanda: @3
+Production at %d%% = Produção em %d%%
+Choose Milling Program: = Escolha o Programa de Serragem:
+Slim Elements half / normal height: = Metade de Elementos Finos / altura normal:
+Current track %s = Música Atual %s
+Stopped = Parado
+Keeping %d/%d map blocks loaded = Mantendo %d/%d blocos de mapa carregados
+Digging not started = Escavação não começada
+Digging finished = Escavação terminada
+Digging %d m above machine = Escavando %d m acima da máquina
+Digging %d m below machine = Escavando %d m abaixo da máquina
+@1 (@2 @3 -> @4 @5) = @1 (@2 @3 -> @4 @5)
+
+## CNC
+Cylinder = Cilindro
+Element Cross = Cruz do Elemento
+Element Cross Double = Cruz Dupla do Elemento
+Element Edge = Borda do Elemento
+Element Edge Double = Borda Dupla do Elemento
+Element End = Final do Elemento
+Element End Double = Final Duplo do Elemento
+Element Straight = Elemento Contínuo
+Element Straight Double = Elemento Contínuo duplo
+Element T = Elemento em T
+Element T Double = Elemento em T Duplo
+Horizontal Cylinder = Cilindro Horizontal
+One Curved Edge Block = Uma Borda de Bloco Curvada
+Pyramid = Pirâmide
+Slope = Ladeira
+Slope Edge = Canto de Ladeira
+Slope Inner Edge = Canto de Dentro de Ladeira
+Slope Lying = Ladeira Deitada
+Slope Upside Down = Ladeira de Cabeça para Baixo
+Slope Upside Down Edge = Cande de Ladeira de Cabeça para Baixo
+Slope Upside Down Inner Edge = Canto de Dentro de Ladeira de Cabeça para Baixo
+Sphere = Esfera
+Spike = Espinho
+Stick = Graveto
+Two Curved Edge Block = Bloco de Duas Bordas Curvadas
+Brick = Tijolo
+Cobble = Pedregulho
+Dirt = Terra
+Leaves = Folhas
+Sandstone = Arenito
+Stone = Pedra
+Tree = Árvore
+Wooden = de Madeira
+
+## Grinder Recipes
+# $1: Name
+%s Dust = Pó de %s
+Akalin = Akalin
+Alatro = Alatro
+Arol = Arol
+Brass = Latão
+Bronze = Bronze
+Carbon Steel = Aço Carbono
+Cast Iron = Ferro Fundido
+Chromium = Crômio
+Coal = Carvão
+Copper = Cobre
+Gold = Ouro
+Mithril = Mithril
+Silver = Prata
+Stainless Steel = Aço Inoxidável
+Talinite = Talinite
+Tin = Estanho
+Wrought Iron = Ferro Forjado
+Zinc = Zinco
+%.1f%%-Fissile Uranium = Urânio %.1f%%-Físsil
+
+## Tools
+RE Battery = Bateria RE
+Water Can = Lata de Água
+Lava Can = Lata de Lava
+Chainsaw = Motosserra
+Flashlight = Lanterna
+3 nodes deep. = 3 nodes de profundidade.
+3 nodes tall. = 3 nodes de altura.
+3 nodes wide. = 3 nodes de largura.
+3x3 nodes. = 3x3 nodes.
+Use while sneaking to change Mining Drill Mk%d modes. = Use enquanto esgueirando para mudar os modos da Broca de Mineração Nv%d.
+Mining Drill Mk%d Mode %d = Broca de Mineração Nv%d Modo %d
+Mining Drill Mk%d = Broca de Mineração Nv%d
+Mining Laser Mk%d = Laser de Mineração Nv%d
+Single node. = Unico node.
+Sonic Screwdriver = Chave de Fenda Sônica.
+Tree Tap = Torneira de Árvore
+
+## Craft descriptions
+Alloy cooking = Cozinhando em liga
+Grinding = Triturando
+Compressing = Comprimindo
+Extracting = Extraindo
+Separating = Separando

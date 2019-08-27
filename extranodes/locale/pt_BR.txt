@@ -1,0 +1,9 @@
+# Braziliam portuguese translation for technic_extranodes
+# Tradução portuguesa brasileira para technic_extranodes
+# By Sires
+
+Marble = Mármore
+Marble Bricks = Tijolos de Mármore
+Granite = Granito
+Concrete = Concreto
+

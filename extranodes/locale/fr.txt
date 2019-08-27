@@ -1,0 +1,7 @@
+# technic_extranodes translation template
+
+Marble          = Marbre
+Marble Bricks   = Briques en marbre
+Granite         = Granite
+Concrete        = Béton
+

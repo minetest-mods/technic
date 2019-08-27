@@ -1,0 +1,7 @@
+# technic_concrete translation template
+
+Rebar                           = Armature
+Concrete Block                  = Bloc de béton
+Blast-resistant Concrete Block  = Bloc de béton anti explosions
+Concrete Post Platform          = Plateforme en béton
+Concrete Post                   = Pilier en béton
