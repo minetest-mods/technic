@@ -325,6 +325,9 @@ local function recursive_dig(pos, remaining_charge)
 	handle_drops(minetest.get_node_drops(node.name, ""))
 	minetest.remove_node(pos)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
+	
+	-- Check for snow on pine trees, etc
+	minetest.check_for_falling(pos)
 
 	-- Check surroundings and run recursively if any charge left
 	for npos in iterSawTries(pos) do
