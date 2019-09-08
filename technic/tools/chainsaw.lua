@@ -1,231 +1,37 @@
 -- Configuration
 
-local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
+local chainsaw_max_charge = 30000 -- Maximum charge of the saw
 -- Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_charge_per_node = 12
--- Cut down tree leaves.  Leaf decay may cause slowness on large trees
--- if this is disabled.
-local chainsaw_leaves = true
+  
+local chainsaw_leaves = true -- Cut down tree leaves.
+-- Leaf decay may cause slowness on large trees if this is disabled.
 
--- The default trees
-local timber_nodenames = {
-	["default:acacia_tree"] = true,
-	["default:aspen_tree"]  = true,
-	["default:jungletree"]  = true,
-	["default:papyrus"]     = true,
-	["default:cactus"]      = true,
-	["default:tree"]        = true,
-	["default:apple"]       = true,
-	["default:pine_tree"]    = true,
-}
+local chainsaw_vines = true -- Cut down vines
 
-if chainsaw_leaves then
-	timber_nodenames["default:acacia_leaves"] = true
-	timber_nodenames["default:aspen_leaves"] = true
-	timber_nodenames["default:leaves"] = true
-	timber_nodenames["default:jungleleaves"] = true
-	timber_nodenames["default:pine_needles"] = true
-end
+local timber_nodenames = {} -- Cuttable nodes
 
--- technic_worldgen defines rubber trees if moretrees isn't installed
-if minetest.get_modpath("technic_worldgen") or
-		minetest.get_modpath("moretrees") then
-	timber_nodenames["moretrees:rubber_tree_trunk_empty"] = true
-	timber_nodenames["moretrees:rubber_tree_trunk"]       = true
-	if chainsaw_leaves then
-		timber_nodenames["moretrees:rubber_tree_leaves"] = true
-	end
-end
 
--- Support moretrees if it is there
-if minetest.get_modpath("moretrees") then
-	timber_nodenames["moretrees:acacia_trunk"]                = true
-	timber_nodenames["moretrees:apple_tree_trunk"]                 = true
-	timber_nodenames["moretrees:beech_trunk"]                      = true
-	timber_nodenames["moretrees:birch_trunk"]                      = true
-	timber_nodenames["moretrees:fir_trunk"]                        = true
-	timber_nodenames["moretrees:oak_trunk"]                        = true
-	timber_nodenames["moretrees:palm_trunk"]                       = true
-	timber_nodenames["moretrees:pine_trunk"]                       = true
-	timber_nodenames["moretrees:sequoia_trunk"]                    = true
-	timber_nodenames["moretrees:spruce_trunk"]                     = true
-	timber_nodenames["moretrees:willow_trunk"]                     = true
-	timber_nodenames["moretrees:jungletree_trunk"]                 = true
-	timber_nodenames["moretrees:date_palm_trunk"]                  = true
-	timber_nodenames["moretrees:date_palm_mfruit_trunk"]           = true
-	timber_nodenames["moretrees:date_palm_ffruit_trunk"]           = true
-	timber_nodenames["moretrees:poplar_trunk"]                     = true
+-- Support for nodes not in any supported node groups (tree, leaves, leafdecay, leafdecay_drop)
 
-	if chainsaw_leaves then
-		timber_nodenames["moretrees:acacia_leaves"]            = true
-		timber_nodenames["moretrees:apple_tree_leaves"]        = true
-		timber_nodenames["moretrees:oak_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves_bright"]        = true
-		timber_nodenames["moretrees:sequoia_leaves"]           = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:palm_leaves"]              = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:pine_leaves"]              = true
-		timber_nodenames["moretrees:willow_leaves"]            = true
-		timber_nodenames["moretrees:jungletree_leaves_green"]  = true
-		timber_nodenames["moretrees:jungletree_leaves_yellow"] = true
-		timber_nodenames["moretrees:jungletree_leaves_red"]    = true
-		timber_nodenames["moretrees:acorn"]                    = true
-		timber_nodenames["moretrees:coconut"]                  = true
-		timber_nodenames["moretrees:spruce_cone"]              = true
-		timber_nodenames["moretrees:pine_cone"]                = true
-		timber_nodenames["moretrees:fir_cone"]                 = true
-		timber_nodenames["moretrees:apple_blossoms"]           = true
-		timber_nodenames["moretrees:date_palm_leaves"]         = true
-		timber_nodenames["moretrees:poplar_leaves"]            = true
-	end
-end
+timber_nodenames["default:papyrus"] = true
+timber_nodenames["default:cactus"] = true
+timber_nodenames["default:bush_stem"] = true
+timber_nodenames["default:acacia_bush_stem"] = true
+timber_nodenames["default:pine_bush_stem"] = true
 
--- Support growing_trees
 if minetest.get_modpath("growing_trees") then
-	timber_nodenames["growing_trees:trunk"]         = true
-	timber_nodenames["growing_trees:medium_trunk"]  = true
-	timber_nodenames["growing_trees:big_trunk"]     = true
-	timber_nodenames["growing_trees:trunk_top"]     = true
-	timber_nodenames["growing_trees:trunk_sprout"]  = true
 	timber_nodenames["growing_trees:branch_sprout"] = true
-	timber_nodenames["growing_trees:branch"]        = true
-	timber_nodenames["growing_trees:branch_xmzm"]   = true
-	timber_nodenames["growing_trees:branch_xpzm"]   = true
-	timber_nodenames["growing_trees:branch_xmzp"]   = true
-	timber_nodenames["growing_trees:branch_xpzp"]   = true
-	timber_nodenames["growing_trees:branch_zz"]     = true
-	timber_nodenames["growing_trees:branch_xx"]     = true
-
 	if chainsaw_leaves then
 		timber_nodenames["growing_trees:leaves"] = true
 	end
 end
 
--- Support cool_trees
-if minetest.get_modpath("bamboo") then
-	timber_nodenames["bamboo:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["bamboo:leaves"] = true
-	end
-end
-if minetest.get_modpath("birch") then
-	timber_nodenames["birch:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["birch:leaves"] = true
-	end
-end
-if minetest.get_modpath("cherrytree") then
-	timber_nodenames["cherrytree:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["cherrytree:blossom_leaves"] = true
-		timber_nodenames["cherrytree:leaves"] = true
-	end
-end
-if minetest.get_modpath("chestnuttree") then
-	timber_nodenames["chestnuttree:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["chestnuttree:leaves"] = true
-	end
-end
-if minetest.get_modpath("clementinetree") then
-	timber_nodenames["clementinetree:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["clementinetree:leaves"] = true
-	end
-end
-if minetest.get_modpath("ebony") then
-	timber_nodenames["ebony:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["ebony:creeper"] = true
-		timber_nodenames["ebony:creeper_leaves"] = true
-		timber_nodenames["ebony:leaves"] = true
-	end
-end
-if minetest.get_modpath("jacaranda") then
-	timber_nodenames["jacaranda:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["jacaranda:blossom_leaves"] = true
-	end
-end
-if minetest.get_modpath("larch") then
-	timber_nodenames["larch:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["larch:leaves"] = true
-	end
-end
-if minetest.get_modpath("lemontree") then
-	timber_nodenames["lemontree:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["lemontree:leaves"] = true
-	end
-end
-if minetest.get_modpath("mahogany") then
-	timber_nodenames["mahogany:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["mahogany:leaves"] = true
-	end
-end
-if minetest.get_modpath("palm") then
-	timber_nodenames["palm:trunk"] = true
-	if chainsaw_leaves then
-		timber_nodenames["palm:leaves"] = true
-	end
-end
-
--- Support growing_cactus
-if minetest.get_modpath("growing_cactus") then
-	timber_nodenames["growing_cactus:sprout"]                       = true
-	timber_nodenames["growing_cactus:branch_sprout_vertical"]       = true
-	timber_nodenames["growing_cactus:branch_sprout_vertical_fixed"] = true
-	timber_nodenames["growing_cactus:branch_sprout_xp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_xm"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zm"]             = true
-	timber_nodenames["growing_cactus:trunk"]                        = true
-	timber_nodenames["growing_cactus:branch_trunk"]                 = true
-	timber_nodenames["growing_cactus:branch"]                       = true
-	timber_nodenames["growing_cactus:branch_xp"]                    = true
-	timber_nodenames["growing_cactus:branch_xm"]                    = true
-	timber_nodenames["growing_cactus:branch_zp"]                    = true
-	timber_nodenames["growing_cactus:branch_zm"]                    = true
-	timber_nodenames["growing_cactus:branch_zz"]                    = true
-	timber_nodenames["growing_cactus:branch_xx"]                    = true
-end
-
--- Support farming_plus
-if minetest.get_modpath("farming_plus") then
-	if chainsaw_leaves then
-		timber_nodenames["farming_plus:banana_leaves"] = true
-		timber_nodenames["farming_plus:banana"]        = true
-		timber_nodenames["farming_plus:cocoa_leaves"]  = true
-		timber_nodenames["farming_plus:cocoa"]         = true
-	end
-end
-
--- Support nature
-if minetest.get_modpath("nature") then
-	if chainsaw_leaves then
-		timber_nodenames["nature:blossom"] = true
-	end
-end
-
--- Support snow
 if minetest.get_modpath("snow") then
 	if chainsaw_leaves then
 		timber_nodenames["snow:needles"] = true
 		timber_nodenames["snow:needles_decorated"] = true
 		timber_nodenames["snow:star"] = true
-	end
-end
-
--- Support vines (also generated by moretrees if available)
-if minetest.get_modpath("vines") then
-	if chainsaw_leaves then
-		timber_nodenames["vines:vines"] = true
 	end
 end
 
@@ -236,6 +42,7 @@ if minetest.get_modpath("trunks") then
 		timber_nodenames["trunks:treeroot"] = true
 	end
 end
+
 
 local S = technic.getter
 
@@ -449,4 +256,17 @@ minetest.register_craft({
 	replacements = { {"basic_materials:copper_wire", "basic_materials:empty_spool"}, },
 
 })
+
+-- Add cuttable nodes after all mods loaded
+minetest.after(0, function ()
+	for k, v in pairs(minetest.registered_nodes) do
+		if v.groups.tree then
+			timber_nodenames[k] = true
+		elseif chainsaw_leaves and (v.groups.leaves or v.groups.leafdecay or v.groups.leafdecay_drop) then
+			timber_nodenames[k] = true
+		elseif chainsaw_vines and v.groups.vines then
+			timber_nodenames[k] = true
+		end
+	end
+end)
 
