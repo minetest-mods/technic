@@ -24,7 +24,7 @@ if minetest.get_modpath("dye") then
 		{"flowers:dandelion_white",           "dye:white 4"},
 		{"flowers:dandelion_yellow",          "dye:yellow 4"},
 		{"flowers:tulip",                     "dye:orange 4"},
-		{"flowers:tulip_black"                "dye:black 8"},
+		{"flowers:tulip_black",               "dye:black 8"},
 		{"flowers:rose",                      "dye:red 4"},
 		{"flowers:viola",                     "dye:violet 4"},
 		{"bushes:blackberry",                 unifieddyes and "unifieddyes:magenta_s50 4" or "dye:violet 4"},
