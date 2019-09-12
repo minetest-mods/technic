@@ -19,7 +19,7 @@ if minetest.get_modpath("dye") then
 		{"default:dry_shrub",                 "dye:brown 1"},
 		{"default:junglegrass",               "dye:green 2"},
 		{"default:cactus",                    "dye:green 4"},
-		{"flowers:chrysanthemum_green"        "dye:green 4"},
+		{"flowers:chrysanthemum_green",       "dye:green 4"},
 		{"flowers:geranium",                  "dye:blue 4"},
 		{"flowers:dandelion_white",           "dye:white 4"},
 		{"flowers:dandelion_yellow",          "dye:yellow 4"},
