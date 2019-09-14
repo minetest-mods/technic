@@ -91,8 +91,8 @@ end
 technic.tube_inject_item = pipeworks.tube_inject_item or function(pos, start_pos, velocity, item)
 	local tubed = pipeworks.tube_item(vector.new(pos), item)
 	tubed:get_luaentity().start_pos = vector.new(start_pos)
-	tubed:setvelocity(velocity)
-	tubed:setacceleration(vector.new(0, 0, 0))
+	tubed:set_velocity(velocity)
+	tubed:set_acceleration(vector.new(0, 0, 0))
 end
 
 
@@ -221,4 +221,3 @@ function technic.trace_node_ray_fat(pos, dir, range)
 		return p
 	end, vector.round(pos)
 end
-
