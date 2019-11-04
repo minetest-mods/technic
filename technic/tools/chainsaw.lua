@@ -3,7 +3,7 @@
 local chainsaw_max_charge = 30000 -- Maximum charge of the saw
 -- Gives 2500 nodes on a single charge (about 50 complete normal trees)
 local chainsaw_charge_per_node = 12
-  
+
 local chainsaw_leaves = true -- Cut down tree leaves.
 -- Leaf decay may cause slowness on large trees if this is disabled.
 
@@ -132,7 +132,7 @@ local function recursive_dig(pos, remaining_charge)
 	handle_drops(minetest.get_node_drops(node.name, ""))
 	minetest.remove_node(pos)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
-	
+
 	-- Check for snow on pine trees, etc
 	minetest.check_for_falling(pos)
 
@@ -269,4 +269,3 @@ minetest.after(0, function ()
 		end
 	end
 end)
-
