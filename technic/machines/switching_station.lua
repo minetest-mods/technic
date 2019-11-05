@@ -235,8 +235,9 @@ minetest.register_chatcommand("powerctrl", {
 })
 
 local check_timer = function(pos, meta, diff)
-	if diff > 500000 then
+	if diff > 250000 then
 		minetest.log("warning", "[technic] disabling switching station @ " .. minetest.pos_to_string(pos))
+		meta:set_int("lag", math.floor(diff / 1000))
 		meta:set_int("overload", 300)
 		meta:set_int("active", 0)
 		meta:set_string("infotext", "Overload detected!")
@@ -282,8 +283,9 @@ minetest.register_abm({
 
 		local overload = meta:get_int("overload")
 		if overload > 0 then
+			local lag_millis = meta:get_int("lag") or 0
 			meta:set_int("overload", overload - 1)
-			meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds")
+			meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds (generated lag: " .. lag_millis .. " ms)")
 			if overload == 1 then
 				-- re-enable in next step
 				meta:set_int("active", 1)
