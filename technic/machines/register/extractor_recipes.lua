@@ -15,6 +15,7 @@ if minetest.get_modpath("dye") then
 	-- register recipes with the same crafting ratios as `dye` provides
 	local dye_recipes = {
 		{"technic:coal_dust",                 "dye:black 2"},
+		{"default:blueberries",               "dye:violet 2"},
 		{"default:grass_1",                   "dye:green 1"},
 		{"default:dry_shrub",                 "dye:brown 1"},
 		{"default:junglegrass",               "dye:green 2"},
