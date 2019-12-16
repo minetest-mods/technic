@@ -47,9 +47,15 @@ end
 local rubber_tree_planks = moretrees and "moretrees:rubber_tree_planks"
 local default_extract = dye and "dye:brown 2"
 
+-- see: https://github.com/h-v-smacker/technic/blob/master/technic/machines/register/grindings.lua
 local grinding_recipes = {
 	{"Common Tree",	"group:tree",	 			"group:wood",		default_extract },
-	{"Rubber Tree",	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
+	{"Tree",        "default:tree",                      "default:wood",        default_extract },
+	{"Aspen",       "default:aspen_tree",                "default:aspen_wood",  default_extract },
+	{"Jungletree",  "default:jungletree",                "default:junglewood",  default_extract },
+	{"Pine",        "default:pine_tree",                 "default:pine_wood",   default_extract },
+	{"Rubber Tree",	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"},
+	{"Rubber Tree", "moretrees:rubber_tree_trunk_empty", nil,                   "technic:raw_latex"}
 }
 
 for _, data in pairs(grinding_recipes) do
