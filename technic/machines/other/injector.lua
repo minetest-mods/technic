@@ -95,7 +95,7 @@ minetest.register_node("technic:injector", {
 			if meta:get_int("splitstacks") == 1 then
 				stack = stack:peek_item(1)
 			end
-			return meta:get_inventory():room_for_item("main", stack)
+			return inv:room_for_item("main", stack)
 		end,
 		insert_object = function(pos, node, stack, direction)
 			return minetest.get_meta(pos):get_inventory():add_item("main", stack)
