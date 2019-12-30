@@ -241,6 +241,7 @@ function technic.register_cable(tier, size)
 						num = xyz[((fine_pointed[bigger] < 0 and "-") or "") .. bigger]
 					end
 				end
+				if num == nil then num = 1 end
 				return item_place_override_node(
 					itemstack, placer, pointed_thing,
 					{name = "technic:"..ltier.."_cable_plate_"..num}
