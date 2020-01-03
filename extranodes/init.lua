@@ -142,7 +142,7 @@ local iclipfence_def = {
 
 local sclip_tex = {
 	"technic_insulator_clip.png",
-	{ name = "strut.png^steel_strut_overlay.png", color = "white" },
+	{ name = "strut.png^technic_steel_strut_overlay.png", color = "white" },
 	{ name = "strut.png", color = "white" }
 }
 
