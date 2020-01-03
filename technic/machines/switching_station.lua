@@ -258,216 +258,160 @@ local function run_nodes(list, run_stage)
 	end
 end
 
-minetest.register_abm({
-	nodenames = {"technic:switching_station"},
-	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
-	interval   = 1.1,
-	chance     = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not technic.powerctrl_state then return end
+technic.switching_station_run = function(pos)
+	if not technic.powerctrl_state then return end
 
-		local t0 	       = minetest.get_us_time()
-		local meta             = minetest.get_meta(pos)
-		local meta1            = nil
-		local pos1             = {}
-		local PR_EU            = 0 -- EUs from PR nodes
-		local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
-		local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
-		local RE_EU            = 0 -- EUs to RE nodes
+	local t0 	       = minetest.get_us_time()
+	local meta             = minetest.get_meta(pos)
+	local meta1            = nil
+	local pos1             = {}
+	local PR_EU            = 0 -- EUs from PR nodes
+	local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
+	local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
+	local RE_EU            = 0 -- EUs to RE nodes
 
-		local tier      = ""
-		local PR_nodes
-		local BA_nodes
-		local RE_nodes
-		local machine_name = S("Switching Station")
+	local tier      = ""
+	local PR_nodes
+	local BA_nodes
+	local RE_nodes
+	local machine_name = S("Switching Station")
 
-		local overload = meta:get_int("overload")
-		if overload > 0 then
-			local lag_millis = meta:get_int("lag") or 0
-			meta:set_int("overload", overload - 1)
-			meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds (generated lag: " .. lag_millis .. " ms)")
-			if overload == 1 then
-				-- re-enable in next step
-				meta:set_int("active", 1)
-			end
-			return
-
+	local overload = meta:get_int("overload")
+	if overload > 0 then
+		local lag_millis = meta:get_int("lag") or 0
+		meta:set_int("overload", overload - 1)
+		meta:set_string("infotext", "Overload detected, resetting in " .. overload .. " seconds (generated lag: " .. lag_millis .. " ms)")
+		if overload == 1 then
+			-- re-enable in next step
+			meta:set_int("active", 1)
 		end
+		return
 
-		-- Which kind of network are we on:
-		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
+	end
 
-		--Disable if necessary
-		if meta:get_int("active") ~= 1 then
-			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+	-- Which kind of network are we on:
+	pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
-			local poshash = minetest.hash_node_position(pos)
+	--Disable if necessary
+	if meta:get_int("active") ~= 1 then
+		meta:set_string("infotext",S("%s Already Present"):format(machine_name))
 
-			if not technic.redundant_warn[poshash] then
-				technic.redundant_warn[poshash] = true
-				print("[TECHNIC] Warning: redundant switching station found near "..minetest.pos_to_string(pos))
-			end
-			return
+		local poshash = minetest.hash_node_position(pos)
+
+		if not technic.redundant_warn[poshash] then
+			technic.redundant_warn[poshash] = true
+			print("[TECHNIC] Warning: redundant switching station found near "..minetest.pos_to_string(pos))
 		end
+		return
+	end
 
-		local name = minetest.get_node(pos1).name
-		local tier = technic.get_cable_tier(name)
-		if tier then
-			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
-		else
-			--dprint("Not connected to a network")
-			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
-			return
+	local name = minetest.get_node(pos1).name
+	local tier = technic.get_cable_tier(name)
+	if tier then
+		PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
+	else
+		--dprint("Not connected to a network")
+		meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+		return
+	end
+
+	run_nodes(PR_nodes, technic.producer)
+	run_nodes(RE_nodes, technic.receiver)
+	run_nodes(BA_nodes, technic.battery)
+
+	-- Strings for the meta data
+	local eu_demand_str    = tier.."_EU_demand"
+	local eu_input_str     = tier.."_EU_input"
+	local eu_supply_str    = tier.."_EU_supply"
+
+	-- Distribute charge equally across multiple batteries.
+	local charge_total = 0
+	local battery_count = 0
+
+	for n, pos1 in pairs(BA_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		local charge = meta1:get_int("internal_EU_charge")
+
+		if (meta1:get_int(eu_demand_str) ~= 0) then
+			charge_total = charge_total + charge
+			battery_count = battery_count + 1
 		end
+	end
 
-		run_nodes(PR_nodes, technic.producer)
-		run_nodes(RE_nodes, technic.receiver)
-		run_nodes(BA_nodes, technic.battery)
+	local charge_distributed = math.floor(charge_total / battery_count)
 
-		-- Strings for the meta data
-		local eu_demand_str    = tier.."_EU_demand"
-		local eu_input_str     = tier.."_EU_input"
-		local eu_supply_str    = tier.."_EU_supply"
+	for n, pos1 in pairs(BA_nodes) do
+		meta1 = minetest.get_meta(pos1)
 
-		-- Distribute charge equally across multiple batteries.
-		local charge_total = 0
-		local battery_count = 0
-
-		for n, pos1 in pairs(BA_nodes) do
-			meta1 = minetest.get_meta(pos1)
-			local charge = meta1:get_int("internal_EU_charge")
-
-			if (meta1:get_int(eu_demand_str) ~= 0) then
-				charge_total = charge_total + charge
-				battery_count = battery_count + 1
-			end
+		if (meta1:get_int(eu_demand_str) ~= 0) then
+			meta1:set_int("internal_EU_charge", charge_distributed)
 		end
+	end
 
-		local charge_distributed = math.floor(charge_total / battery_count)
+	-- Get all the power from the PR nodes
+	local PR_eu_supply = 0 -- Total power
+	for _, pos1 in pairs(PR_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		PR_eu_supply = PR_eu_supply + meta1:get_int(eu_supply_str)
+	end
+	--dprint("Total PR supply:"..PR_eu_supply)
 
-		for n, pos1 in pairs(BA_nodes) do
-			meta1 = minetest.get_meta(pos1)
+	-- Get all the demand from the RE nodes
+	local RE_eu_demand = 0
+	for _, pos1 in pairs(RE_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		RE_eu_demand = RE_eu_demand + meta1:get_int(eu_demand_str)
+	end
+	--dprint("Total RE demand:"..RE_eu_demand)
 
-			if (meta1:get_int(eu_demand_str) ~= 0) then
-				meta1:set_int("internal_EU_charge", charge_distributed)
-			end
+	-- Get all the power from the BA nodes
+	local BA_eu_supply = 0
+	for _, pos1 in pairs(BA_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		BA_eu_supply = BA_eu_supply + meta1:get_int(eu_supply_str)
+	end
+	--dprint("Total BA supply:"..BA_eu_supply)
+
+	-- Get all the demand from the BA nodes
+	local BA_eu_demand = 0
+	for _, pos1 in pairs(BA_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		BA_eu_demand = BA_eu_demand + meta1:get_int(eu_demand_str)
+	end
+	--dprint("Total BA demand:"..BA_eu_demand)
+
+	meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
+			machine_name, technic.EU_string(PR_eu_supply),
+			technic.EU_string(RE_eu_demand)))
+
+	-- If mesecon signal and power supply or demand changed then
+	-- send them via digilines.
+	if mesecons_path and digilines_path and mesecon.is_powered(pos) then
+		if PR_eu_supply ~= meta:get_int("supply") or
+				RE_eu_demand ~= meta:get_int("demand") then
+			local channel = meta:get_string("channel")
+			digilines.receptor_send(pos, digilines.rules.default, channel, {
+				supply = PR_eu_supply,
+				demand = RE_eu_demand
+			})
 		end
+	end
 
-		-- Get all the power from the PR nodes
-		local PR_eu_supply = 0 -- Total power
-		for _, pos1 in pairs(PR_nodes) do
-			meta1 = minetest.get_meta(pos1)
-			PR_eu_supply = PR_eu_supply + meta1:get_int(eu_supply_str)
-		end
-		--dprint("Total PR supply:"..PR_eu_supply)
+	-- Data that will be used by the power monitor
+	meta:set_int("supply",PR_eu_supply)
+	meta:set_int("demand",RE_eu_demand)
 
-		-- Get all the demand from the RE nodes
-		local RE_eu_demand = 0
+	-- If the PR supply is enough for the RE demand supply them all
+	if PR_eu_supply >= RE_eu_demand then
+	--dprint("PR_eu_supply"..PR_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
 		for _, pos1 in pairs(RE_nodes) do
 			meta1 = minetest.get_meta(pos1)
-			RE_eu_demand = RE_eu_demand + meta1:get_int(eu_demand_str)
+			local eu_demand = meta1:get_int(eu_demand_str)
+			meta1:set_int(eu_input_str, eu_demand)
 		end
-		--dprint("Total RE demand:"..RE_eu_demand)
-
-		-- Get all the power from the BA nodes
-		local BA_eu_supply = 0
-		for _, pos1 in pairs(BA_nodes) do
-			meta1 = minetest.get_meta(pos1)
-			BA_eu_supply = BA_eu_supply + meta1:get_int(eu_supply_str)
-		end
-		--dprint("Total BA supply:"..BA_eu_supply)
-
-		-- Get all the demand from the BA nodes
-		local BA_eu_demand = 0
-		for _, pos1 in pairs(BA_nodes) do
-			meta1 = minetest.get_meta(pos1)
-			BA_eu_demand = BA_eu_demand + meta1:get_int(eu_demand_str)
-		end
-		--dprint("Total BA demand:"..BA_eu_demand)
-
-		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
-				machine_name, technic.EU_string(PR_eu_supply),
-				technic.EU_string(RE_eu_demand)))
-
-		-- If mesecon signal and power supply or demand changed then
-		-- send them via digilines.
-		if mesecons_path and digilines_path and mesecon.is_powered(pos) then
-			if PR_eu_supply ~= meta:get_int("supply") or
-					RE_eu_demand ~= meta:get_int("demand") then
-				local channel = meta:get_string("channel")
-				digilines.receptor_send(pos, digilines.rules.default, channel, {
-					supply = PR_eu_supply,
-					demand = RE_eu_demand
-				})
-			end
-		end
-
-		-- Data that will be used by the power monitor
-		meta:set_int("supply",PR_eu_supply)
-		meta:set_int("demand",RE_eu_demand)
-
-		-- If the PR supply is enough for the RE demand supply them all
-		if PR_eu_supply >= RE_eu_demand then
-		--dprint("PR_eu_supply"..PR_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
-			for _, pos1 in pairs(RE_nodes) do
-				meta1 = minetest.get_meta(pos1)
-				local eu_demand = meta1:get_int(eu_demand_str)
-				meta1:set_int(eu_input_str, eu_demand)
-			end
-			-- We have a surplus, so distribute the rest equally to the BA nodes
-			-- Let's calculate the factor of the demand
-			PR_eu_supply = PR_eu_supply - RE_eu_demand
-			local charge_factor = 0 -- Assume all batteries fully charged
-			if BA_eu_demand > 0 then
-				charge_factor = PR_eu_supply / BA_eu_demand
-			end
-			for n, pos1 in pairs(BA_nodes) do
-				meta1 = minetest.get_meta(pos1)
-				local eu_demand = meta1:get_int(eu_demand_str)
-				meta1:set_int(eu_input_str, math.floor(eu_demand * charge_factor))
-				--dprint("Charging battery:"..math.floor(eu_demand*charge_factor))
-			end
-			local t1 = minetest.get_us_time()
-			local diff = t1 - t0
-			if diff > 50000 then
-				check_timer(pos, meta, diff)
-				minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
-			end
-
-			return
-		end
-
-		-- If the PR supply is not enough for the RE demand we will discharge the batteries too
-		if PR_eu_supply + BA_eu_supply >= RE_eu_demand then
-			--dprint("PR_eu_supply "..PR_eu_supply.."+BA_eu_supply "..BA_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
-			for _, pos1 in pairs(RE_nodes) do
-				meta1  = minetest.get_meta(pos1)
-				local eu_demand = meta1:get_int(eu_demand_str)
-				meta1:set_int(eu_input_str, eu_demand)
-			end
-			-- We have a deficit, so distribute to the BA nodes
-			-- Let's calculate the factor of the supply
-			local charge_factor = 0 -- Assume all batteries depleted
-			if BA_eu_supply > 0 then
-				charge_factor = (PR_eu_supply - RE_eu_demand) / BA_eu_supply
-			end
-			for n,pos1 in pairs(BA_nodes) do
-				meta1 = minetest.get_meta(pos1)
-				local eu_supply = meta1:get_int(eu_supply_str)
-				meta1:set_int(eu_input_str, math.floor(eu_supply * charge_factor))
-				--dprint("Discharging battery:"..math.floor(eu_supply*charge_factor))
-			end
-			local t1 = minetest.get_us_time()
-			local diff = t1 - t0
-			if diff > 50000 then
-				check_timer(pos, meta, diff)
-				minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
-			end
-
-			return
-		end
-
-		-- If the PR+BA supply is not enough for the RE demand: Power only the batteries
+		-- We have a surplus, so distribute the rest equally to the BA nodes
+		-- Let's calculate the factor of the demand
+		PR_eu_supply = PR_eu_supply - RE_eu_demand
 		local charge_factor = 0 -- Assume all batteries fully charged
 		if BA_eu_demand > 0 then
 			charge_factor = PR_eu_supply / BA_eu_demand
@@ -476,22 +420,72 @@ minetest.register_abm({
 			meta1 = minetest.get_meta(pos1)
 			local eu_demand = meta1:get_int(eu_demand_str)
 			meta1:set_int(eu_input_str, math.floor(eu_demand * charge_factor))
+			--dprint("Charging battery:"..math.floor(eu_demand*charge_factor))
 		end
-		for n, pos1 in pairs(RE_nodes) do
-			meta1 = minetest.get_meta(pos1)
-			meta1:set_int(eu_input_str, 0)
-		end
-
 		local t1 = minetest.get_us_time()
 		local diff = t1 - t0
 		if diff > 50000 then
 			check_timer(pos, meta, diff)
-			minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+			minetest.log("warning", "[technic] [+supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
 		end
 
+		return
+	end
 
-	end,
-})
+	-- If the PR supply is not enough for the RE demand we will discharge the batteries too
+	if PR_eu_supply + BA_eu_supply >= RE_eu_demand then
+		--dprint("PR_eu_supply "..PR_eu_supply.."+BA_eu_supply "..BA_eu_supply.." >= RE_eu_demand"..RE_eu_demand)
+		for _, pos1 in pairs(RE_nodes) do
+			meta1  = minetest.get_meta(pos1)
+			local eu_demand = meta1:get_int(eu_demand_str)
+			meta1:set_int(eu_input_str, eu_demand)
+		end
+		-- We have a deficit, so distribute to the BA nodes
+		-- Let's calculate the factor of the supply
+		local charge_factor = 0 -- Assume all batteries depleted
+		if BA_eu_supply > 0 then
+			charge_factor = (PR_eu_supply - RE_eu_demand) / BA_eu_supply
+		end
+		for n,pos1 in pairs(BA_nodes) do
+			meta1 = minetest.get_meta(pos1)
+			local eu_supply = meta1:get_int(eu_supply_str)
+			meta1:set_int(eu_input_str, math.floor(eu_supply * charge_factor))
+			--dprint("Discharging battery:"..math.floor(eu_supply*charge_factor))
+		end
+		local t1 = minetest.get_us_time()
+		local diff = t1 - t0
+		if diff > 50000 then
+			check_timer(pos, meta, diff)
+			minetest.log("warning", "[technic] [-supply] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+		end
+
+		return
+	end
+
+	-- If the PR+BA supply is not enough for the RE demand: Power only the batteries
+	local charge_factor = 0 -- Assume all batteries fully charged
+	if BA_eu_demand > 0 then
+		charge_factor = PR_eu_supply / BA_eu_demand
+	end
+	for n, pos1 in pairs(BA_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		local eu_demand = meta1:get_int(eu_demand_str)
+		meta1:set_int(eu_input_str, math.floor(eu_demand * charge_factor))
+	end
+	for n, pos1 in pairs(RE_nodes) do
+		meta1 = minetest.get_meta(pos1)
+		meta1:set_int(eu_input_str, 0)
+	end
+
+	local t1 = minetest.get_us_time()
+	local diff = t1 - t0
+	if diff > 50000 then
+		check_timer(pos, meta, diff)
+		minetest.log("warning", "[technic] switching station abm took " .. diff .. " us at " .. minetest.pos_to_string(pos))
+	end
+
+
+end
 
 -- Timeout ABM
 -- Timeout for a node in case it was disconnected from the network
