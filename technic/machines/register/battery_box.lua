@@ -452,7 +452,7 @@ function technic.discharge_tools(meta, batt_charge, charge_step, max_charge)
 	if inv:is_empty("dst") then
 		return batt_charge, false
 	end
-	srcstack = inv:get_stack("dst", 1)
+	local srcstack = inv:get_stack("dst", 1)
 	local toolname = srcstack:get_name()
 	if technic.power_tools[toolname] == nil then
 		return batt_charge, false
