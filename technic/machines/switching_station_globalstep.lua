@@ -44,7 +44,7 @@ minetest.register_abm({
 	end
 })
 
-local off_delay_seconds = 180
+local off_delay_seconds = 300
 
 local timer = 0
 minetest.register_globalstep(function(dtime)
