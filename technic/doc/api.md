@@ -64,6 +64,10 @@ Registration functions
 ### Specific machines
 * `technic.register_solar_array(data)`
 	* data is a table
+* `technic.can_insert_unique_stack(pos, node, stack, direction)`
+* `technic.insert_object_unique_stack(pos, node, stack, direction)`
+	* Functions for the parameters `can_insert` and `insert_object` to avoid
+	  filling multiple inventory slots with same type of item.
 
 Used itemdef fields
 -------------------
