@@ -248,6 +248,12 @@ local cache_scaled_shielding = {}
 local rad_dmg_cutoff = 0.2
 local radiated_players = {}
 
+-- radiation callback function for external use
+-- (radiation counters, etc)
+-- parameters: object / damage (before armor calculations)
+function technic.radiation_callback(object, damage)
+end
+
 local armor_enabled = technic.config:get_bool("enable_radiation_protection")
 local entity_damage = technic.config:get_bool("enable_entity_radiation_damage")
 local longterm_damage = technic.config:get_bool("enable_longterm_radiation_damage")
@@ -324,6 +330,10 @@ local function dmg_object(pos, object, strength)
 	if not dmg then
 		return
 	end
+
+	-- execute radiation callback
+	technic.radiation_callback(object, dmg)
+
 	if armor_enabled then
 		dmg = dmg * mul
 	end
