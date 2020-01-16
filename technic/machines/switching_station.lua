@@ -4,7 +4,7 @@ technic.networks = {}
 technic.cables = {}
 technic.redundant_warn = {}
 
-local switch_max_range = tonumber(minetest.settings:get("technic.switch_max_range") or "64")
+local switch_max_range = tonumber(minetest.settings:get("technic.switch_max_range") or "256")
 
 local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
