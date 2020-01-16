@@ -1,8 +1,8 @@
 version: "1"
 rules:
-  - base: master
+  - base: upstream
     upstream: minetest-mods:master
     mergeMethod: hardreset
-  - base: pandorabox
+  - base: master
     upstream: minetest-mods:master
     mergeMethod: merge
