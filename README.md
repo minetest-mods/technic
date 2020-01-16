@@ -24,6 +24,7 @@ Recommended mods that build on the `technic mod`:
 
 * **technic.quarry.quota** per-player and second quarry dig limit (default: 10)
 * **technic.switch_max_range** max cable length (default: 256)
+* **technic.switch.off_delay_seconds** switching station off delay (default: 300 seconds)
 
 # Open issues
 

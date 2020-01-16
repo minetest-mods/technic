@@ -44,7 +44,7 @@ minetest.register_abm({
 	end
 })
 
-local off_delay_seconds = 300
+local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "300")
 
 local timer = 0
 minetest.register_globalstep(function(dtime)
