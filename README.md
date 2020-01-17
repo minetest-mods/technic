@@ -4,6 +4,9 @@ Technic
 
 A mod for [minetest](http://www.minetest.net)
 
+![](https://github.com/pandorabox-io/technic/workflows/integration-test/badge.svg)
+
+
 # Overview
 
 This is a maintained fork of https://github.com/minetest-mods/technic with various enhancements.
