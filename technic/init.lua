@@ -51,3 +51,6 @@ if minetest.settings:get_bool("log_mods") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
 
+if minetest.settings:get_bool("enable_technic_integration_test") then
+	dofile(modpath.."/integration_test.lua")
+end

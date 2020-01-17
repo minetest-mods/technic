@@ -4,13 +4,18 @@
 CFG=/tmp/minetest.conf
 MTDIR=/tmp/mt
 WORLDDIR=${MTDIR}/worlds/world
+WORLDMODDIR=${WORLDDIR}/worldmods
 
-# TODO: pipeworks / basic_materials
+# settings
 cat <<EOF > ${CFG}
  enable_technic_integration_test = true
 EOF
 
-mkdir -p ${WORLDDIR}
+rm -rf ${WORLDDIR}
+mkdir -p ${WORLDMODDIR}
+git clone https://gitlab.com/VanessaE/basic_materials.git ${WORLDMODDIR}/basic_materials
+git clone https://gitlab.com/VanessaE/pipeworks.git ${WORLDMODDIR}/pipeworks
+
 chmod 777 ${MTDIR} -R
 docker run --rm -i \
 	-v ${CFG}:/etc/minetest/minetest.conf:ro \
