@@ -6,11 +6,13 @@ A mod for [minetest](http://www.minetest.net)
 
 # Overview
 
-This is a fork of https://github.com/minetest-mods/technic with various enhancements.
+This is a maintained fork of https://github.com/minetest-mods/technic with various enhancements.
 Suitable for multiplayer environments.
 
 * chainsaw re-implementation (@OgelGames)
 * Switching station lag/polyfuse and globalstep execution (@BuckarooBanzay)
+* No forceload hacks
+* Additional HV machines (furnace, grinder, thx to @h-v-smacker)
 * various others...
 
 # Recommended mods
@@ -41,11 +43,14 @@ Recommended mods that build on the `technic mod`:
 * VanessaE
 * @BuckarooBanzay
 * @OgelGames
+* @int-ua
 * And many others...
 
 # FAQ
 
-1. My technic circuit doesn't work.  No power is distrubuted.
+* [Manual](./manual.md)
+
+1. My technic circuit doesn't work.  No power is distributed.
   * A: Make sure you have a switching station connected.
 
 # License
