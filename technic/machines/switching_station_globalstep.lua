@@ -85,11 +85,11 @@ minetest.register_globalstep(function(dtime)
 				-- overload detection
 				if switch_diff > 250000 then
 					switch.skip = 30
-				elseif switch_diff > 100000 then
+				elseif switch_diff > 150000 then
 					switch.skip = 20
-				elseif switch_diff > 50000 then
+				elseif switch_diff > 75000 then
 					switch.skip = 10
-				elseif switch_diff > 25000 then
+				elseif switch_diff > 50000 then
 					switch.skip = 2
 				end
 
