@@ -28,6 +28,9 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
+local MP = minetest.get_modpath("technic")
+local throttle = dofile(MP .. "/util/throttle.lua")
+
 local S = technic.getter
 
 local rad_resistance_node = {
@@ -362,7 +365,7 @@ if minetest.settings:get_bool("enable_damage") then
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 2,
-		action = dmg_abm,
+		action = throttle(100, dmg_abm),
 	})
 
 	if longterm_damage then
