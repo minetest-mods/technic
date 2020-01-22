@@ -22,7 +22,7 @@ local quarry_eject_dir = vector.new(0, 1, 0)
 -- per player quota
 local quota_map = {}
 
-local enable_quota = minetest.settings:get_bool("technic.quarry.enable", false)
+local enable_quota = minetest.settings:get_bool("technic.quarry.quota.enable", false)
 
 -- quota reset timer
 if enable_quota then
@@ -36,7 +36,7 @@ if enable_quota then
 		quota_map = {}
 
 		-- this many blocks per second
-		local init_quota = tonumber(minetest.settings:get("technic.quarry.quota") or "10")
+		local init_quota = tonumber(minetest.settings:get("technic.quarry.quota.limit") or "10")
 
 		local players = minetest.get_connected_players()
 		for i, player in pairs(players) do
