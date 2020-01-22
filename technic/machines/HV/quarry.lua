@@ -14,19 +14,19 @@ minetest.register_craft({
 })
 
 local quarry_dig_above_nodes = 3 -- How far above the quarry we will dig nodes
-local quarry_max_depth       = 50
+local quarry_max_depth       = tonumber(minetest.settings:get("technic.quarry.maxdepth") or "100")
 local quarry_demand = 10000
 local quarry_eject_dir = vector.new(0, 1, 0)
 
 
 -- per player quota
 local quota_map = {}
-local timer = 0
 
 local enable_quota = minetest.settings:get_bool("technic.quarry.enable", false)
 
 -- quota reset timer
 if enable_quota then
+	local timer = 0
 	minetest.register_globalstep(function(dtime)
 		timer = timer + dtime
 		if timer < 1 then return end
@@ -36,7 +36,7 @@ if enable_quota then
 		quota_map = {}
 
 		-- this many blocks per second
-		local init_quota = minetest.settings:get("technic.quarry.quota") or 10
+		local init_quota = tonumber(minetest.settings:get("technic.quarry.quota") or "10")
 
 		local players = minetest.get_connected_players()
 		for i, player in pairs(players) do
@@ -45,6 +45,18 @@ if enable_quota then
 		end
 	end)
 end
+
+local cache_timer = 0
+local can_dig_cache = {} -- hash -> bool
+minetest.register_globalstep(function(dtime)
+	cache_timer = cache_timer + dtime
+	if cache_timer < 10 then return end
+	cache_timer=0
+
+	-- clear cache
+	can_dig_cache = {}
+end)
+
 
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
@@ -211,8 +223,14 @@ local function quarry_run(pos, node)
 				vector.multiply(qdir, rq))
 			local can_dig = true
 
+			local hash = minetest.hash_node_position(digpos)
+			if can_dig_cache[hash] == false then
+				can_dig = false
+			end
+
 			if can_dig and minetest.is_protected and minetest.is_protected(digpos, owner) then
 				can_dig = false
+				can_dig_cache[hash] = true
 			end
 			local dignode
 			if can_dig then
@@ -224,6 +242,7 @@ local function quarry_run(pos, node)
 				})
 				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, fakedigger)) then
 					can_dig = false
+					can_dig_cache[hash] = true
 				end
 			end
 
