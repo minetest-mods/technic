@@ -50,7 +50,7 @@ local cache_timer = 0
 local can_dig_cache = {} -- hash -> bool
 minetest.register_globalstep(function(dtime)
 	cache_timer = cache_timer + dtime
-	if cache_timer < 10 then return end
+	if cache_timer < 30 then return end
 	cache_timer=0
 
 	-- clear cache
