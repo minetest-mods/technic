@@ -23,25 +23,28 @@ local quarry_eject_dir = vector.new(0, 1, 0)
 local quota_map = {}
 local timer = 0
 
+local enable_quota = minetest.settings:get_bool("technic.quarry.enable", false)
+
 -- quota reset timer
-minetest.register_globalstep(function(dtime)
-	timer = timer + dtime
-	if timer < 1 then return end
-	timer=0
+if enable_quota then
+	minetest.register_globalstep(function(dtime)
+		timer = timer + dtime
+		if timer < 1 then return end
+		timer=0
 
-	-- reset quota map
-	quota_map = {}
+		-- reset quota map
+		quota_map = {}
 
-	-- this many blocks per second
-	local init_quota = minetest.settings:get("technic.quarry.quota") or 10
+		-- this many blocks per second
+		local init_quota = minetest.settings:get("technic.quarry.quota") or 10
 
-	local players = minetest.get_connected_players()
-	for i, player in pairs(players) do
-		local name = player:get_player_name()
-		quota_map[name] = init_quota
-	end
-end)
-
+		local players = minetest.get_connected_players()
+		for i, player in pairs(players) do
+			local name = player:get_player_name()
+			quota_map[name] = init_quota
+		end
+	end)
+end
 
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
@@ -149,16 +152,21 @@ local function quarry_run(pos, node)
 		meta:set_int("purge_on", 1)
 	end
 
-	local digging_allowed = false
+	local digging_allowed = true
 	local quota = quota_map[owner]
-	digging_allowed = quota and quota > 0
+
+	if enable_quota then
+		digging_allowed = quota and quota > 0
+	end
 
 
 	if digging_allowed and meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
 
 		-- decrement quota
-		quota = quota - 1
-		quota_map[owner] = quota
+		if enable_quota then
+			quota = quota - 1
+			quota_map[owner] = quota
+		end
 
 		local pdir = minetest.facedir_to_dir(node.param2)
 		if pdir.y ~= 0 then
