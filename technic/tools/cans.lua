@@ -112,3 +112,21 @@ minetest.register_craft({
 		{'technic:zinc_ingot', 'technic:stainless_steel_ingot', 'technic:zinc_ingot'},
 	}
 })
+
+technic.register_can({
+    can_name = 'technic:river_water_can',
+    can_description = S("River Water Can"),
+    can_inventory_image = "technic_river_water_can.png",
+    can_capacity = 16,
+    liquid_source_name = "default:river_water_source",
+    liquid_flowing_name = "default:river_water_flowing",
+})
+
+minetest.register_craft({
+    output = 'technic:river_water_can 1',
+    recipe = {
+        {'technic:zinc_ingot', 'technic:rubber', 'technic:zinc_ingot'},
+        {'default:steel_ingot', '', 'default:steel_ingot'},
+        {'technic:zinc_ingot', 'default:steel_ingot', 'technic:zinc_ingot'},
+    }
+})
