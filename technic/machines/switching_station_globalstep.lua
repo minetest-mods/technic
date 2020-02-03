@@ -44,19 +44,33 @@ minetest.register_abm({
 	end
 })
 
-local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "300")
+
+-- the interval between technic_run calls
+local technic_run_interval = 1.0
 
 -- iterate over all collected switching stations and execute the technic_run function
 local timer = 0
 minetest.register_globalstep(function(dtime)
 	timer = timer + dtime
-	if timer < 1.0 then
+	if timer < technic_run_interval then
 		return
 	end
 	timer = 0
 
+	local max_lag = technic.get_max_lag()
+	if max_lag > 1.5 then
+		-- slow down technic execution if the lag is higher than usual
+		technic_run_interval = 1.5
+	else
+		-- normal run_interval
+		technic_run_interval = 1.0
+	end
+
 	local now = minetest.get_us_time()
+
+	local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "300")
 	local off_delay_micros = off_delay_seconds*1000*1000
+
 	local active_switches = 0
 
 	for hash, switch in pairs(switches) do
@@ -121,3 +135,12 @@ minetest.register_globalstep(function(dtime)
 
 
 end)
+
+
+minetest.register_chatcommand("technic_flush_switch_cache", {
+	description = "removes all loaded switching stations from the cache",
+	privs = { server = true },
+	func = function()
+		switches = {}
+	end
+})

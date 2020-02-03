@@ -33,6 +33,10 @@ Recommended mods that build on the `technic mod`:
 * **technic.switch_max_range** max cable length (default: 256)
 * **technic.switch.off_delay_seconds** switching station off delay (default: 300 seconds)
 
+# Chat commands
+
+* **/technic_flush_switch_cache** clears the switching station cache (stops all unloaded switches)
+
 # Open issues
 
 * Documentation (markdown)
