@@ -32,7 +32,7 @@ if has_monitoring_mod then
 	)
 end
 
-
+-- collect all active switching stations
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station",
@@ -46,6 +46,7 @@ minetest.register_abm({
 
 local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "300")
 
+-- iterate over all collected switching stations and execute the technic_run function
 local timer = 0
 minetest.register_globalstep(function(dtime)
 	timer = timer + dtime
