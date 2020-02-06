@@ -9,7 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: textbook/git-checkout-submodule-action@master
 
     - name: test
       run: ./integration-test.sh
