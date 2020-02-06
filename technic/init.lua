@@ -47,6 +47,9 @@ dofile(modpath.."/tools/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
+-- visual effects
+dofile(modpath.."/effects.lua")
+
 if minetest.settings:get_bool("log_mods") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
