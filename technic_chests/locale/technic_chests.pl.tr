@@ -1,0 +1,43 @@
+# textdomain: technic_chests
+
+# Polish Translation for technic_chests
+# Polskie tłumaczenie technic_chests
+# by mat9117
+
+@1 Chest=@1 Skrzynia
+@1 Locked Chest=@1 Zamknięta skrzynia
+@1 Locked Chest (owned by @2)=@1 Zamknięta skrzynia (należy do @2)
+Color Filter: @1=Filtr kolorów: @1
+Edit chest description:=Edytuj opis skrzyni
+
+# Colors
+Black=Czarny
+Blue=Niebieski
+Brown=Brązowy
+Cyan=Cyan
+Dark Green=Ciemnozielony
+Dark Grey=Ciemnoszary
+Green=Zielony
+Grey=Szary
+Magenta=Magenta
+Orange=Pomarańczowy
+Pink=Różowy
+Red=Czerwony
+Violet=Fioletowy
+White=Biały
+Yellow=Żółty
+None=Żaden
+
+# Materials
+Copper=Miedziana
+Gold=Złota
+Iron=Żelazna
+Mithril=Mithrilowa
+Silver=Srebrna
+Wooden=Drewniana
+
+# Sorting
+Sort=Sortuj
+Auto-sort is @1=Autosortowanie jest @1
+Off=Wyłaczone
+On=Włączone

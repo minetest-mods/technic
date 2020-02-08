@@ -1,3 +1,6 @@
+-- Translation support
+local S = minetest.get_translator("technic_chests")
+
 if minetest.get_modpath("moreores") then
 	minetest.register_craft({
 		output = 'technic:silver_chest',
@@ -27,7 +30,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), {
 	width = 12,
 	height = 6,
 	sort = true,
@@ -35,9 +38,9 @@ technic.chests:register("Silver", {
 	infotext = true,
 	color = false,
 	locked = false,
-})
+}, "silver")
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), {
 	width = 12,
 	height = 6,
 	sort = true,
@@ -45,5 +48,5 @@ technic.chests:register("Silver", {
 	infotext = true,
 	color = false,
 	locked = true,
-})
+}, "silver")
 

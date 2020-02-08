@@ -1,3 +1,6 @@
+-- Translation support
+local S = minetest.get_translator("technic_chests")
+
 local cast_iron_ingot
 if minetest.get_modpath("technic_worldgen") then
 	cast_iron_ingot = "technic:cast_iron_ingot"
@@ -32,7 +35,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), {
 	width = 9,
 	height = 5,
 	sort = true,
@@ -40,9 +43,9 @@ technic.chests:register("Iron", {
 	infotext = false,
 	color = false,
 	locked = false,
-})
+}, "iron")
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), {
 	width = 9,
 	height = 5,
 	sort = true,
@@ -50,5 +53,5 @@ technic.chests:register("Iron", {
 	infotext = false,
 	color = false,
 	locked = true,
-})
+}, "iron")
 

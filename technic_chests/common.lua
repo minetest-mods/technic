@@ -1,3 +1,6 @@
+-- Translation support
+local S = minetest.get_translator("technic_chests")
+
 technic.chests.groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		tubedevice=1, tubedevice_receiver=1}
 technic.chests.groups_noinv = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
@@ -47,20 +50,14 @@ function technic.chests.inv_take(pos, listname, index, stack, player)
 end
 
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
-	minetest.log("action", player:get_player_name()..
-		" moves stuff in chest at "
-		..minetest.pos_to_string(pos))
+	minetest.log("action", S("@1 moves stuff in chest at @2", player:get_player_name(), minetest.pos_to_string(pos)))
 end
 
 function technic.chests.on_inv_put(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name() ..
-			" moves " .. stack:get_name() ..
-			" to chest at " .. minetest.pos_to_string(pos))
+	minetest.log("action", S("@1 moves @2 to chest at @3", player:get_player_name(), stack:get_name(), minetest.pos_to_string(pos)))
 end
 
 function technic.chests.on_inv_take(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name() ..
-			" takes " .. stack:get_name()  ..
-			" from chest at " .. minetest.pos_to_string(pos))
+	minetest.log("action", S("@1 takes @2 from chest at @3", player:get_player_name(), stack:get_name(), minetest.pos_to_string(pos)))
 end
 
