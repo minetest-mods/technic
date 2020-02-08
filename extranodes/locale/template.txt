@@ -1,7 +1,9 @@
+# textdomain: technic_extranodes
+
 # technic_extranodes translation template
 
-Marble =
-Marble Bricks =
-Granite =
-Concrete =
-
+Marble=
+Marble Bricks=
+Granite=
+Concrete=
+Insulator/cable clip=
