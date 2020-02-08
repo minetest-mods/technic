@@ -1,8 +1,10 @@
+# textdomain: technic_concrete
+
 # technic_concrete translation template
 
-Rebar =
-Concrete Block =
-Blast-resistant Concrete Block =
-Concrete Post Platform =
-Concrete Post =
+Rebar=
+Concrete Block=
+Blast-resistant Concrete Block=
+Concrete Post Platform=
+Concrete Post=
 
