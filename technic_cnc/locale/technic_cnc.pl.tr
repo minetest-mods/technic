@@ -1,0 +1,38 @@
+# textdomain: technic_cnc
+
+## CNC
+CNC Machine=Obrabiarka CNC
+@1 CNC Machine=@1 Obrabiarka CNC
+@1 Cylinder=@1 Walec
+@1 Element Cross=@1 Część krzyżowa
+@1 Element Cross Double=@1 Podwójna część krzyżowa
+@1 Element Edge=@1 Krawędź części
+@1 Element Edge Double=@1 Podwójna krawędź części
+@1 Element End=@1 Końcowa część
+@1 Element End Double=@1 Podwójna końcowa część
+@1 Element Straight=@1 Prosta część
+@1 Element Straight Double=@1 Podwójna prosta część
+@1 Element T=@1 Część T
+@1 Element T Double=@1 Podwójna część T
+@1 Horizontal Cylinder=@1 Poziomy walec
+@1 One Curved Edge Block=@1 Blok z zagiętą krawędzią
+@1 Pyramid=@1 Ostrosłup
+@1 Slope=@1 Spad
+@1 Slope Edge=@1 Krawędź spadu
+@1 Slope Inner Edge=@1 Wewnętrzna krawędź spadu
+@1 Slope Lying=@1 Leżący spad
+@1 Slope Upside Down=@1 Odwrócony spad
+@1 Slope Upside Down Edge=@1 Krawędź odwróconego spadu
+@1 Slope Upside Down Inner Edge=@1 Wewnętrzna krawędz odwróconego spadu
+@1 Sphere=@1 Kula
+@1 Spike=@1 Kolec
+@1 Stick=@1 Patyk
+@1 Two Curved Edge Block=@1 Blok z dwoma zagiętymi krawędziami
+Brick=Cegła
+Cobble=Bruk
+Dirt=Ziemia
+Leaves=Liście
+Sandstone=Piaskowiec
+Stone=Kamień
+Tree=Drzewo
+Wooden=Drewniany
