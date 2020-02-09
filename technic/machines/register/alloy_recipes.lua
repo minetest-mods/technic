@@ -1,5 +1,4 @@
-
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 technic.register_recipe_type("alloy", {
 	description = S("Alloying"),

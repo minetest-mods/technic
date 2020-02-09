@@ -1,0 +1,256 @@
+# textdomain: technic
+
+# German Translation for Technic Mod
+# Deutsche Uebersetzung des Technic Mods
+# by Xanthin
+
+## Misc
+[Technic] Loaded in @1 seconds=[Technic] ist in @1 Sekunden geladen
+
+## Items
+Silicon Wafer=Siliziumscheibe
+Doped Silicon Wafer=Dotierte Siliziumscheibe
+Enriched Uranium=Angereichertes Uran
+Uranium Fuel=Uranbrennstoff
+Diamond Drill Head=Diamantbohrkopf
+Blue Energy Crystal=Blauer Energiekristall
+Green Energy Crystal=Gruener Energiekristall
+Red Energy Crystal=Roter Energiekristall
+Copper Coil=Kupferspule
+Low Voltage Transformer=Niederspannungstransformator
+Medium Voltage Transformer=Mittelspannungstransformator
+High Voltage Transformer=Hochspannungstransformator
+Control Logic Unit=Steuer- und Regelungseinheit
+Mixed Metal Ingot=Mischmetallbarren
+Composite Plate=Verbundplatte
+Copper Plate=Kupferplatte
+Carbon Plate=Kohlefaserplatte
+Graphite=Graphit
+Carbon Cloth=Kohlefasergewebe
+Machine Casing=
+@1%-Fissile Uranium Ingot=
+@1%-Fissile Uranium Block=
+Raw Latex=Rohlatex
+Rubber Fiber=Gummifaser
+
+## Radiation
+Radiation damage=
+Corium Bucket
+Corium Source=
+Flowing Corium=
+Corium: griefing=
+Chernobylite Block=
+
+## Machine misc
+Machine cannot be removed because it is not empty=Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
+Inventory move disallowed due to protection=Das Inventar ist geschuetzt, Zugriff verweigert.
+# $1: Machine name (Includes tier)
+@1 Active (@2 EU)=@1 ist eingeschaltet (@2 EU)
+@1 Active (@2%)=@1 ist eingeschaltet (@2 %)
+@1 Active=@1 ist eingeschaltet
+@1 Disabled=@1 ist ausgeschaltet
+@1 Enabled=
+@1 Idle=@1 ist bereit
+@1 Improperly Placed=@1 ist falsch plaziert
+@1 is empty=
+@1 Unpowered=@1 hat keine Stromversorgung
+@1 Out Of Fuel=@1 hat keinen Brennstoff
+@1 Has Bad Cabling=@1 ist falsch verkabelt
+@1 Has No Network=@1 hat kein Netzwerk
+@1 Finished=@1 ist fertig
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+Range=Reichweite
+Sphere=
+Cube=
+Upgrade Slots=Verbesserungsfaecher
+Slot @1=Fach @1
+Itemwise=Einzelstuecke
+Stackwise=Ganzer Stapel
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+Owner:=
+Unlocked=
+Locked=
+Radius:=
+Enabled=
+Disabled=
+LV=
+MV=
+HV=
+@1 Nuclear Reactor Core=
+Enables or disables technic's switching station ABM=
+@1 Already Present=
+[TECHNIC] Warning: redundant switching station found near @1=
+Machines: timeout check=
+Machines: re-enable check=
+You are not allowed to edit this!=
+Machines: reactor melt-down check=
+Machines: run power radiator=
+Machines: run coal alloy furnace=
+Machines: run power monitor=
+Machines: run injector=
+Tools: tree tap=
+@1 is unpowered=
+@1 is powered (@2% of maximum power)=
+@1 tried to place @2 at protected position @3=
+@1 tried to take @2 at protected position @3 with a @4=
+@1 tried to place @2 at protected position @3 with a @4=
+
+## Machine names
+Power Monitor=
+@1 Alloy Furnace=@1 Legierungsofen
+@1 Battery Box=@1 Batteriebox
+@1 Cable=@1 Kabel
+@1 Cable Plate=
+@1 Centrifuge=
+@1 Compressor=@1 Kompressor
+@1 Extractor=@1 Extraktor
+@1 Forcefield Emitter=@1 Kraftfeld-Emitter
+@1 Furnace=@1 Ofen
+@1 Freezer=
+@1 Grinder=@1 Schleifmaschine
+@1 Music Player=@1 Musikspieler
+@1 Power Radiator=
+@1 Quarry=@1 Steinbruch
+@1 Tool Workshop=@1 Werkzeugwerkstatt
+Arrayed Solar @1 Generator=@1 Solaranlage
+Fuel-Fired @1 Generator=@1 Kohle-Generator
+Geothermal @1 Generator=@1 Geothermie-Generator
+Hydro @1 Generator=@1 Wassermuehle
+Nuclear @1 Generator Core=@1 Reaktorkern
+Small Solar @1 Generator=@1 Solarmodul
+Wind @1 Generator=@1 Windmuehle
+Constructor Mk@1=
+Self-Contained Injector=Selbstversorger-Injektor
+Constructor Mk@1=Konstruktor Modell @1
+Frame=Rahmen
+Frame Motor=Rahmenmotor
+Template=Schablone
+Template (replacing)=Schablone (ersetzend)
+Template Tool=Schablonenwerkzeug
+Template Motor=Schablonenmotor
+Supply Converter=Stromumwandler
+Switching Station=Schaltanlage
+Fuel-Fired Alloy Furnace=Kohle-Legierungsofen
+Fuel-Fired Furnace=Kohle-Ofen
+Wind Mill Frame=Windmuehlengeruest
+@1 Forcefield=@1 Kraftfeld
+Nuclear Reactor Rod Compartment=Brennstabfaecher
+Administrative World Anchor=
+Vacuum Cleaner=
+
+## Machine-specific
+Input Power=
+Digiline Channel=
+Channel=
+edit Channel=
+@1 (@2%)=
+automatic Start=
+Enable Digiline=
+Digiline Remote Channel
+Save=
+Start=
+A reactor melted down at @1=
+Start successful=
+Error=
+Restart=
+Stop=
+@1 purging cache=
+@1 Disabled=
+Charge=Aufladen
+Discharge=Entladen
+Power level=Energiestufe
+# $1: Tier $2: current_charge $3: max_charge
+@1 Battery Box: @2/@3=@1 Batteriebox: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3=@1. Versorgung: @2 Bedarf: @3
+Current track %s=Aktueller Titel %s
+Stopped=
+Keeping @1/@2 map blocks loaded=
+Digging not started=
+Digging finished=
+Digging @1 m @2 machine=
+above= 
+below=
+@1 (@2 @3 -> @4 @5)=
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+
+## Grinder Recipes
+Sawdust=
+Acacia=
+Common Tree=
+Rubber Tree=
+@1 Dust=@1staub
+Akalin=Akalin
+Alatro=Alatro
+Arol=Arol
+Brass=Messing
+Bronze=Bronze
+Carbon Steel=Kohlenstoffstahl
+Cast Iron=Gusseisen
+Chernobylite=
+Chromium=Chrom
+Coal=Kohle
+Copper=Kupfer
+Gold=Gold
+Kalite=
+Lead=
+Mithril=Mithril
+Silver=Silber
+Stainless Steel=Edelstahl
+Stone=
+Sulfur=
+Talinite=Talinite
+Tin=Zinn
+Wrought Iron=Schmiedeeisen
+Zinc=Zink
+@1%-Fissile Uranium=
+
+## Tools
+RE Battery=Akkubatterie
+Allow splitting incoming 'charge' stacks from tubes=
+Allow splitting incoming 'discharge' stacks=
+Water Can=Wasserkanister
+Lava Can=Lavakanister
+River Water Can=
+Chainsaw=Kettensaege
+Flashlight=Taschenlampe
+3 nodes deep.=3 Bloecke tief.
+3 nodes tall.=3 Bloecke hoch.
+3 nodes wide.=3 Bloecke breit.
+3x3 nodes.=3x3 Bloecke.
+Use while sneaking to change Mining Drill Mk@1 modes.=Halte die Shift-Taste beim Benutzen gedrueckt, um die Funktion des Bergbaubohrers Modell @1 zu aendern.
+Mining Drill Mk@1 Mode @2=Bergbaubohrer Modell @1 Funktion @2
+Mining Drill Mk@1=Bergbaubohrer Modell @1
+Mining Laser Mk@1=Bergbaulaser Modell @1
+Single node.=Einzelblock
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Schallschraubendreher
+Tree Tap=Baumzapfhahn
+Prospector=
+Right-click to set target block type=
+Current target:=
+No target set=
+May set new target:=
+Set target=
+No new target available=
+Region cross section:=
+Set region cross section:=
+Region depth:=
+Set region depth:=
+Accuracy:=
+ 
+## Craft descriptions
+Alloying=
+@1 Grinding=
+Grinding=
+Compressing=
+Extracting=
+Separating=
+Freezing=
+[Technic] ignored registration of garbage recipe!=

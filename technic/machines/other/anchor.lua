@@ -1,4 +1,5 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
+
 
 local desc = S("Administrative World Anchor")
 
@@ -48,12 +49,12 @@ local function forceload_on(pos, meta)
 end
 
 local function set_display(pos, meta)
-	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
+	meta:set_string("infotext", meta:get_int("enabled") ~= 0 and S("@1 Enabled", desc) or S("@1 Disabled", desc))
 	meta:set_string("formspec",
 		"size[5,3.5]"..
 		"item_image[0,0;1,1;technic:admin_anchor]"..
 		"label[1,0;"..minetest.formspec_escape(desc).."]"..
-		"label[0,1;"..minetest.formspec_escape(S("Owner:").." "..meta:get_string("owner")).."]"..
+		"label[0,1;"..minetest.formspec_escape(S("Owner: @1", meta:get_string("owner"))).."]"..
 		(meta:get_int("locked") == 0 and
 			"button[3,1;2,1;lock;"..minetest.formspec_escape(S("Unlocked")).."]" or
 			"button[3,1;2,1;unlock;"..minetest.formspec_escape(S("Locked")).."]")..
@@ -61,7 +62,9 @@ local function set_display(pos, meta)
 		(meta:get_int("enabled") == 0 and
 			"button[3,2;2,1;enable;"..minetest.formspec_escape(S("Disabled")).."]" or
 			"button[3,2;2,1;disable;"..minetest.formspec_escape(S("Enabled")).."]")..
-		"label[0,3;"..minetest.formspec_escape(S("Keeping %d/%d map blocks loaded"):format(#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta))).."]")
+		"label[0,3;"..minetest.formspec_escape(S("Keeping @1/@2 map blocks loaded",
+			string.format("%d", #currently_forceloaded_positions(meta)),
+			string.format("%d", #compute_forceload_positions(pos, meta)))).."]")
 end
 
 minetest.register_node("technic:admin_anchor", {

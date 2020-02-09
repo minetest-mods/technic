@@ -1,4 +1,6 @@
 -- MV extractor
+local S = minetest.get_translator("technic")
+
 
 minetest.register_craft({
 	output = 'technic:mv_extractor',
@@ -9,4 +11,4 @@ minetest.register_craft({
 	}
 })
 
-technic.register_extractor({tier = "MV", demand = {800, 600, 400}, speed = 2, upgrade = 1, tube = 1})
+technic.register_extractor({tier = "MV", demand = {800, 600, 400}, speed = 2, upgrade = 1, tube = 1, tier_localized=S("MV")})

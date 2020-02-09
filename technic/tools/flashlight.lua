@@ -1,9 +1,8 @@
 -- Original code comes from walkin_light mod by Echo
 -- http://minetest.net/forum/viewtopic.php?id=2621
+local S = minetest.get_translator("technic")
 
 local flashlight_max_charge = 30000
-
-local S = technic.getter
 
 technic.register_power_tool("technic:flashlight", flashlight_max_charge)
 

@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local infinite_stacks = minetest.settings:get_bool("creative_mode")
 	and minetest.get_modpath("unified_inventory") == nil
@@ -296,10 +296,9 @@ for zp = 0, 1 do
 			local pos = pointed_thing.above
 
 			if minetest.is_protected(pos, placer:get_player_name()) then
-				minetest.log("action", placer:get_player_name()
-					.. " tried to place " .. itemstack:get_name()
-					.. " at protected position "
-					.. minetest.pos_to_string(pos))
+				minetest.log("action", S("@1 tried to place @2 at protected position @3", placer:get_player_name(),
+					itemstack:get_name(),
+					minetest.pos_to_string(pos)))
 				minetest.record_protection_violation(pos, placer:get_player_name())
 				return itemstack
 			end
@@ -325,10 +324,9 @@ for zp = 0, 1 do
 		on_rightclick = function(pos, node, placer, itemstack, pointed_thing)
 			if is_supported_node(itemstack:get_name()) then
 				if minetest.is_protected(pos, placer:get_player_name()) then
-					minetest.log("action", placer:get_player_name()
-						.. " tried to place " .. itemstack:get_name()
-						.. " at protected position "
-						.. minetest.pos_to_string(pos))
+					minetest.log("action", S("@1 tried to place @2 at protected position @3", placer:get_player_name(),
+						itemstack:get_name(),
+						minetest.pos_to_string(pos)))
 					minetest.record_protection_violation(pos, placer:get_player_name())
 					return itemstack
 				end

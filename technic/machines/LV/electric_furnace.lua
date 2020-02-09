@@ -2,6 +2,7 @@
 -- This is a faster version of the stone furnace which runs on EUs
 
 -- FIXME: kpoppel I'd like to introduce an induction heating element here also
+local S = minetest.get_translator("technic")
 minetest.register_craft({
 	output = 'technic:electric_furnace',
 	recipe = {
@@ -11,6 +12,6 @@ minetest.register_craft({
 	}
 })
 
-technic.register_electric_furnace({tier="LV", demand={300}, speed = 2})
+technic.register_electric_furnace({tier="LV", demand={300}, speed = 2, tier_localized=S("LV")})
 
 

@@ -1,5 +1,5 @@
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
@@ -22,7 +22,7 @@ local function set_quarry_formspec(meta)
 	local formspec = "size[6,4.3]"..
 		"list[context;cache;0,1;4,3;]"..
 		"item_image[4.8,0;1,1;technic:quarry]"..
-		"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
+		"label[0,0.2;"..S("@1 Quarry", S("HV")).."]"..
 		"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
 		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
@@ -36,8 +36,8 @@ local function set_quarry_formspec(meta)
 			nd == 0 and S("Digging not started") or
 			(rel_y < -quarry_max_depth and S("Digging finished") or
 				(meta:get_int("purge_on") == 1 and S("Purging cache") or
-				S("Digging %d m "..(rel_y > 0 and "above" or "below").." machine")
-					:format(math.abs(rel_y))))
+				S("Digging @1 m @2 machine".." machine", string.format("%d", math.abs(rel_y)),
+					(rel_y > 0) and S("above") or S("below"))))
 			).."]"
 	formspec = formspec.."button[4,2;2,1;restart;"..S("Restart").."]"
 	meta:set_string("formspec", formspec)
@@ -46,15 +46,17 @@ end
 local function set_quarry_demand(meta)
 	local radius = meta:get_int("size")
 	local diameter = radius*2 + 1
-	local machine_name = S("%s Quarry"):format("HV")
+	local machine_name = S("@1 Quarry", S("HV"))
 	if meta:get_int("enabled") == 0 or meta:get_int("purge_on") == 1 then
-		meta:set_string("infotext", S(meta:get_int("purge_on") == 1 and "%s purging cache" or "%s Disabled"):format(machine_name))
+		meta:set_string("infotext", meta:get_int("purge_on") == 1 and S("@1 purging cache", machine_name)
+			or S("@1 Disabled", machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	elseif meta:get_int("dug") == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
-		meta:set_string("infotext", S("%s Finished"):format(machine_name))
+		meta:set_string("infotext", S("@1 Finished", machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	else
-		meta:set_string("infotext", S(meta:get_int("HV_EU_input") >= quarry_demand and "%s Active" or "%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", meta:get_int("HV_EU_input") >= quarry_demand and S("@1 Active", machine_name)
+			or S("@1 Unpowered", machine_name))
 		meta:set_int("HV_EU_demand", quarry_demand)
 	end
 end
@@ -62,7 +64,7 @@ end
 local function quarry_receive_fields(pos, formname, fields, sender)
 	local player_name = sender:get_player_name()
 	if minetest.is_protected(pos, player_name) then
-		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.chat_send_player(player_name, S("You are not allowed to edit this!"))
 		minetest.record_protection_violation(pos, player_name)
 		return
 	end
@@ -215,7 +217,7 @@ local function send_move_error(player)
 end
 
 minetest.register_node("technic:quarry", {
-	description = S("%s Quarry"):format("HV"),
+	description = S("@1 Quarry", S("HV")),
 	tiles = {
 		"technic_carbon_steel_block.png"..tube_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
@@ -242,7 +244,7 @@ minetest.register_node("technic:quarry", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s Quarry"):format("HV"))
+		meta:set_string("infotext", S("@1 Quarry", S("HV")))
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		set_quarry_demand(meta)

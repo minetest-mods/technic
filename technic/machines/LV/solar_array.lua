@@ -5,6 +5,7 @@
 -- Solar arrays are not able to store large amounts of energy.
 -- The LV arrays are used to make medium voltage arrays.
 
+local S = minetest.get_translator("technic")
 minetest.register_craft({
 	output = 'technic:solar_array_lv 1',
 	recipe = {
@@ -14,5 +15,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_solar_array({tier="LV", power=10})
+technic.register_solar_array({tier="LV", power=10, tier_localized=S("LV")})
 

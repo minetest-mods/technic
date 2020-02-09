@@ -1,4 +1,4 @@
-
+local S = minetest.get_translator("technic")
 minetest.register_alias("lv_cable", "technic:lv_cable")
 
 minetest.register_craft({
@@ -10,5 +10,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_cable("LV", 2/16)
+technic.register_cable(S("LV"), 2/16, "lv")
 

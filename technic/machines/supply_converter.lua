@@ -9,7 +9,7 @@
 
 local digilines_path = minetest.get_modpath("digilines")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -18,7 +18,7 @@ local function set_supply_converter_formspec(meta)
 		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	if digilines_path then
 		formspec = formspec..
-			"field[2.3,0.5;3,1;channel;Digiline Channel;"..meta:get_string("channel").."]"
+			"field[2.3,0.5;3,1;channel;"..S("Digiline Channel")..";"..meta:get_string("channel").."]"
 	end
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
@@ -30,9 +30,9 @@ local function set_supply_converter_formspec(meta)
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("@1 Disabled", S("Supply Converter")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("@1 Enabled", S("Supply Converter")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -153,7 +153,7 @@ local run = function(pos, node, run_stage)
 			technic.EU_string(input), from,
 			technic.EU_string(input * remain), to))
 	else
-		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
+		meta:set_string("infotext", S("@1 Has Bad Cabling", machine_name))
 		if to then
 			meta:set_int(to.."_EU_supply", 0)
 		end

@@ -1,3 +1,5 @@
+local S = minetest.get_translator("technic")
+
 local have_ui = minetest.get_modpath("unified_inventory")
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
@@ -43,7 +45,7 @@ local function register_recipe(typename, data)
 	local recipe = {time = data.time, input = {}, output = data.output}
 	local index = get_recipe_index(data.input)
 	if not index then
-		print("[Technic] ignored registration of garbage recipe!")
+		print(S("[Technic] ignored registration of garbage recipe!"))
 		return
 	end
 	for _, stack in ipairs(data.input) do
@@ -82,7 +84,7 @@ function technic.get_recipe(typename, items)
 	end
 	local index = get_recipe_index(items)
 	if not index then
-		print("[Technic] ignored registration of garbage recipe!")
+		print(S("[Technic] ignored registration of garbage recipe!"))
 		return
 	end
 	local recipe = technic.recipes[typename].recipes[index]

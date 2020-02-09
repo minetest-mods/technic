@@ -3,7 +3,7 @@ local vacuum_max_charge        = 10000 -- 10000 - Maximum charge of the vacuum c
 local vacuum_charge_per_object = 100   -- 100   - Capable of picking up 50 objects
 local vacuum_range             = 8     -- 8     - Area in which to pick up objects
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 technic.register_power_tool("technic:vacuum", vacuum_max_charge)
 

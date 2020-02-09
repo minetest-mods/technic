@@ -1,4 +1,5 @@
 -- MV alloy furnace
+local S = minetest.get_translator("technic")
 
 minetest.register_craft({
 	output = 'technic:mv_alloy_furnace',
@@ -10,5 +11,5 @@ minetest.register_craft({
 })
 
 
-technic.register_alloy_furnace({tier = "MV", speed = 1.5, upgrade = 1, tube = 1, demand = {3000, 2000, 1000}})
+technic.register_alloy_furnace({tier = "MV", speed = 1.5, upgrade = 1, tube = 1, demand = {3000, 2000, 1000}, tier_localized=S("MV")})
 

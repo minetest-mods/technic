@@ -1,0 +1,248 @@
+# textdomain: technic
+
+# Braziliam portuguese translation for technic
+# Tradução portuguesa brasileira para technic
+# By Sires
+
+## Misc
+[Technic] Loaded in @1 seconds = [Technic] Carregado em @1 segundos
+
+## Items
+Silicon Wafer=Pastilha de Silício
+Doped Silicon Wafer=Pastilha de Silício Dopada
+Enriched Uranium=Urânio Enriquecido
+Uranium Fuel=Combustivel de Urânio
+Diamond Drill Head=Cabeça de Broca de Diamante
+Blue Energy Crystal=Cristal de Energia Azul
+Green Energy Crystal=Cristal de Energia Verde
+Red Energy Crystal=Cristal de Energia Vermelho
+Copper Coil=Bobina de Cobre
+Low Voltage Transformer=Transformador de Baixa Voltagem
+Medium Voltage Transformer=Transformador de Média Voltagem
+High Voltage Transformer=Transformador de Alta Voltagem
+Control Logic Unit=Unidade de Controle Lógico
+Mixed Metal Ingot=Lingote de Metal Misturado
+Composite Plate=Placa Composta
+Copper Plate=Placa de Cobre
+Carbon Plate=Placa de Carbono
+Graphite=Grafite
+Carbon Cloth=Recido de Carbono
+Machine Casing=
+@1%-Fissile Uranium Ingot=Lingote de Urânio @1%-Físsil
+@1%-Fissile Uranium Block=Bloco de Urânio @1%-Físsil
+Raw Latex=Latex bruto
+Rubber Fiber=Fibra de Borracha
+
+## Radiation
+Radiation damage=
+Corium Bucket
+Corium Source=
+Flowing Corium=
+Corium: griefing=
+Chernobylite Block=
+
+## Machine Misc
+Machine cannot be removed because it is not empty=A máquina não pode ser removida porque ela não está vazia
+Inventory move disallowed due to protection=Movimento de inventário não permitido pela proteção
+@1 Active (@2 EU)=@1 Ativo (@2 EU)
+@1 Active (@2%)=@1 Ativo (@2%)
+@1 Active=@1 Ativo
+@1 Disabled=@1 Ativado
+@1 Enabled=@1 Desativado
+@1 Idle=Ócio
+@1 Improperly Placed=@1 Colocado Inapropriadamente
+@1 is empty=@1 está vazio
+@1 Unpowered=@1 Sem energia
+@1 Out Of Fuel=@1 Sem Combustível
+@1 Has Bad Cabling=@1 Tem Cabeamento Ruim
+@1 Has No Network=@1 Não Tem Rede
+@1 Finished=@1 Acabou
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+Range = Alcance
+Sphere=
+Cube=
+Upgrade Slots=Lugares para Melhoria
+Slot @1=Lugar @1
+Itemwise=Por item
+Stackwise=Por pilha
+Ignoring Mesecon Signal=Ignorar Sinaal de Mesecon
+Controlled by Mesecon Signal=Controlado por Sinal de Mesecon
+Owner:=Dono:
+Unlocked=Destravado
+Locked=Travado
+Radius:=Raio:
+Enabled=Ativado
+Disabled=Desativado
+LV=
+MV=
+HV=
+@1 Nuclear Reactor Core=
+Enables or disables technic's switching station ABM=
+@1 Already Present=
+[TECHNIC] Warning: redundant switching station found near @1=
+Machines: timeout check=
+Machines: re-enable check=
+You are not allowed to edit this!=
+Machines: reactor melt-down check=
+Machines: run power radiator=
+Machines: run coal alloy furnace=
+Machines: run power monitor=
+Machines: run injector=
+Tools: tree tap=
+@1 is unpowered=
+@1 is powered (@2% of maximum power)=
+@1 tried to place @2 at protected position @3=
+@1 tried to take @2 at protected position @3 with a @4=
+@1 tried to place @2 at protected position @3 with a @4=
+
+## Machine names
+Power Monitor=
+@1 Alloy Furnace=Fornalha de Liga @1
+@1 Battery Box=Caixa de Bateria @1
+@1 Cable=Cabo @1
+@1 Cable Plate=
+@1 Centrifuge=Centrifuga @1
+@1 Compressor=Compresso @1
+@1 Extractor=Extrator @1
+@1 Forcefield Emitter=Emissor de Campo de Força @1
+@1 Furnace=Fornalha @1
+@1 Freezer=
+@1 Grinder=Triturador @1
+@1 Music Player=Tocador de Música @1
+@1 Power Radiator=
+@1 Quarry=Pedreira @1
+@1 Tool Workshop=Oficina de Ferramentas @1
+Arrayed Solar @1 Generator=Gerador Solar Equipado @1
+Fuel-Fired @1 Generator=Gerador Alimentado-por-Combustível @1
+Geothermal @1 Generator=Gerador Geotermal @1
+Hydro @1 Generator=Gerador Hidráulico @1
+Nuclear @1 Generator Core=Núcleo de Gerador Nuclear @1
+Small Solar @1 Generator=Gerador Solar Pequeno @1
+Wind @1 Generator=Gerador de Energia Eólica @1
+Self-Contained Injector=Injetor Auto-Contido
+Constructor Mk@1=Construtor Nv@1
+Frame=Armação
+Frame Motor=Motor de Armação
+Template=Modelo
+Template (replacing)=Modelo (recolocando)
+Template Motor=Modelo de Motor
+Template Tool=Modelo de Ferramenta
+Battery Box=Caixa de Bateria
+Supply Converter=Conversor de Energia
+Switching Station=Estação de Comutação
+Fuel-Fired Alloy Furnace=Fornalha de Liga Alimentada-por-Combustível
+Fuel-Fired Furnace=Fornalha Alimentada-por-Combustível
+Wind Mill Frame=Armação de Moinho de Vento
+@1 Forcefield=Campo de Força @1
+Nuclear Reactor Rod Compartment=Compartimento de Barra do Reator Nuclear
+Administrative World Anchor=Âncora de Mundo Administrativa
+Vacuum Cleaner=
+
+## Machine-specific
+Input Power=
+Digiline Channel=
+Channel=
+edit Channel=
+@1 (@2%)=
+automatic Start=
+Enable Digiline=
+Digiline Remote Channel
+Save=
+Start=
+A reactor melted down at @1=
+Start successful=
+Error=
+Restart=
+Stop=
+@1 purging cache=
+@1 Disabled=
+Charge=Carregar
+Discharge=Descarregar
+Power level=Nível de Energia
+# $1: Tier $2: current_charge $3: max_charge 
+@1 Battery Box: @2/@3=Caixa de Baterias @1: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3=@1. Suprimento: @2 Demanda: @3
+Current track @1=Música Atual @1
+Stopped=Parado
+Keeping @1/@2 map blocks loaded=Mantendo @1/@2 blocos de mapa carregados
+Digging not started=Escavação não começada
+Digging finished=Escavação terminada
+Digging @1 m @2 machine=Escavando @1 m @2 da máquina
+above=acima
+below=abaixo
+@1 (@2 @3 -> @4 @5)=@1 (@2 @3 -> @4 @5)
+
+## Grinder Recipes
+Sawdust=
+Acacia=
+Common Tree=
+Rubber Tree=
+@1 Dust=Pó de @1
+Akalin=Akalin
+Alatro=Alatro
+Arol=Arol
+Brass=Latão
+Bronze=Bronze
+Carbon Steel=Aço Carbono
+Cast Iron=Ferro Fundido
+Chernobylite=
+Chromium=Crômio
+Coal=Carvão
+Copper=Cobre
+Gold=Ouro
+Kalite=
+Lead=
+Mithril=Mithril
+Silver=Prata
+Stainless Steel=Aço Inoxidável
+Stone=
+Talinite=Talinite
+Tin=Estanho
+Wrought Iron=Ferro Forjado
+Zinc=Zinco
+@1%-Fissile Uranium=Urânio @1%-Físsil
+
+## Tools
+RE Battery=Bateria RE
+Allow splitting incoming 'charge' stacks from tubes=
+Allow splitting incoming 'discharge' stacks=
+Water Can=Lata de Água
+Lava Can=Lata de Lava
+River Water Can=
+Chainsaw=Motosserra
+Flashlight=Lanterna
+3 nodes deep.=3 nodes de profundidade.
+3 nodes tall.=3 nodes de altura.
+3 nodes wide.=3 nodes de largura.
+3x3 nodes.=3x3 nodes.
+Use while sneaking to change Mining Drill Mk@1 modes.=Use enquanto esgueirando para mudar os modos da Broca de Mineração Nv@1.
+Mining Drill Mk@1 Mode @2:=Broca de Mineração Nv@1 Modo @2:
+Mining Drill Mk@1 Mode @2=Broca de Mineração Nv@1 Modo @2
+Mining Drill Mk@1=Broca de Mineração Nv@1
+Mining Laser Mk@1=Laser de Mineração Nv@1
+Single node.=Unico node.
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Chave de Fenda Sônica.
+Tree Tap=Torneira de Árvore
+Prospector=
+Right-click to set target block type=
+Current target:=
+No target set=
+May set new target:=
+Set target=
+No new target available=
+Region cross section:=
+Set region cross section:=
+Region depth:=
+Set region depth:=
+Accuracy:=
+
+## Craft descriptions
+Alloying=Cozinhando em liga
+@1 Grinding=@1 Triturando
+Grinding=Triturando
+Compressing=Comprimindo
+Extracting=Extraindo
+Separating=Separando
+Freezing=
+[Technic] ignored registration of garbage recipe!=

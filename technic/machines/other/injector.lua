@@ -1,5 +1,4 @@
-
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local fs_helpers = pipeworks.fs_helpers
 
@@ -144,7 +143,7 @@ minetest.register_node("technic:injector", {
 })
 
 minetest.register_abm({
-	label = "Machines: run injector",
+	label = S("Machines: run injector"),
 	nodenames = {"technic:injector"},
 	interval = 1,
 	chance = 1,

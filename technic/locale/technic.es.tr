@@ -1,0 +1,254 @@
+# textdomain: technic
+
+# Spanish Translation for Technic Mod
+# Traduccion al Español del Mod Technic
+# Autor: Diego Martínez <kaeza>
+
+## Misc
+[Technic] Loaded in @1 seconds=[Technic] Cargado en @1 segundos
+
+## Items
+Silicon Wafer=Oblea de Silicio
+Doped Silicon Wafer=Oblea de Silicio Dopada
+Enriched Uranium=Uranio Enriquecido
+Uranium Fuel=Combustible de Uranio
+Diamond Drill Head=Mecha de Taladro de Diamante
+Blue Energy Crystal=Cristal de Energia Azul
+Green Energy Crystal=Cristal de Energia Verde
+Red Energy Crystal=Cristal de Energia Rojo
+Copper Coil=Resorte de Cobre
+Low Voltage Transformer=Transformador de Bajo Voltaje
+Medium Voltage Transformer=Transformador de Voltaje Medio
+High Voltage Transformer=Transformador de Alto Voltaje
+Control Logic Unit=Unidad Logica de Control
+Mixed Metal Ingot=Lingote de Metal Mezclado
+Composite Plate=Placa de Compuestos
+Copper Plate=Placa de Cobre
+Carbon Plate=Placa de Carbon
+Graphite=Grafito
+Carbon Cloth=Tela de Carbon
+Machine Casing=
+@1%-Fissile Uranium Ingot =
+@1%-Fissile Uranium Block =
+Raw Latex=Latex Crudo
+Rubber Fiber=Fibra de Hule
+
+## Radiation
+Radiation damage=
+Corium Bucket
+Corium Source=
+Flowing Corium=
+Corium: griefing=
+Chernobylite Block=
+
+## Machine misc
+Machine cannot be removed because it is not empty=La maquina no puede removerse porque no esta vacia
+Inventory move disallowed due to protection=
+@1 Active (@2 EU)=@1 Activo (@2 EU)
+@1 Active (@2%)=@1 Activo (@2%)
+@1 Active=@1 Activo
+@1 Disabled=@1 Deshabilitado
+@1 Idle
+@1 Enabled=
+@1 Idle=@1 Quieto
+@1 Improperly Placed=@1 No Colocado Apropiadamente
+@1 is empty=
+@1 Unpowered=@1 Sin Energia
+@1 Out Of Fuel=@1 Sin Combustible
+@1 Has Bad Cabling=@1 Tiene Mal Cableado
+@1 Has No Network=@1 No Tiene Una Red
+@1 Finished=@1 Terminado
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+Range=Alcance
+Sphere=
+Cube=
+Upgrade Slots=
+Slot @1=
+Itemwise=
+Stackwise=
+Owner:=
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+Unlocked=
+Locked=
+Radius:=
+Enabled=
+Disabled=
+LV=
+MV=
+HV=
+@1 Nuclear Reactor Core=
+Enables or disables technic's switching station ABM=
+@1 Already Present=
+[TECHNIC] Warning: redundant switching station found near @1=
+Machines: timeout check=
+Machines: re-enable check=
+You are not allowed to edit this!=
+Machines: reactor melt-down check=
+Machines: run power radiator=
+Machines: run coal alloy furnace=
+Machines: run power monitor=
+Machines: run injector=
+Tools: tree tap=
+@1 is unpowered=
+@1 is powered (@2% of maximum power)=
+@1 tried to place @2 at protected position @3=
+@1 tried to take @2 at protected position @3 with a @4=
+@1 tried to place @2 at protected position @3 with a @4=
+
+## Machine names
+Power Monitor=
+@1 Alloy Furnace=Horno de Aleacion @1
+@1 Battery Box=Caja de Bateria @1
+@1 Cable=Cable @1
+@1 Cable Plate=
+@1 Centrifuge=
+@1 Compressor=Compresor @1
+@1 Extractor=Extractor @1
+@1 Forcefield Emitter=Emisor de Campo de Fuerza @1
+@1 Furnace=Horno @1
+@1 Freezer=
+@1 Grinder=Amoladora @1
+@1 Music Player=Reproductor de Musica @1
+@1 Quarry=Cantera @1
+@1 Tool Workshop=Taller de Herramientas @1
+Arrayed Solar @1 Generator=Panel Solar @1
+Fuel-Fired @1 Generator=Generador a Carbon @1
+Geothermal @1 Generator=Generador Geotermico @1
+Hydro @1 Generator=Molino de Agua @1
+Nuclear @1 Generator Core=Nucleo de Reactor Nuclear @1
+Small Solar @1 Generator=Panel Solar @1
+Wind @1 Generator=Molino de Viento @1
+Self-Contained Injector=
+Constructor Mk@1=
+Frame=
+Frame Motor=
+Template=
+Template (replacing)=
+Template Motor=
+Template Tool=
+Supply Converter=Convertidor de Alimentacion
+Switching Station=Estacion de Conmutacion
+Fuel-Fired Alloy Furnace=Horno de Aleacion a Carbon
+Fuel-Fired Furnace=Horno a Carbon
+Wind Mill Frame=Armazon de Molino de Viento
+@1 Forcefield=Campo de Fuerza @1
+Nuclear Reactor Rod Compartment=Compartimiento para Vara de Reactor Nuclear
+Administrative World Anchor=
+Vacuum Cleaner=
+
+## Machine-specific
+Input Power=
+Digiline Channel=
+Channel=
+edit Channel=
+@1 (@2%)=
+automatic Start=
+Enable Digiline=
+Digiline Remote Channel
+Save=
+Start=
+A reactor melted down at @1=
+Start successful=
+Error=
+Restart=
+Stop=
+@1 purging cache=
+@1 Disabled=
+Charge=Cargar
+Discharge=Descargar
+Power level=Nivel de Poder
+# $1: Tier $2: current_charge $3: max_charge
+@1 Battery Box: @2/@3=Caja de Bateria @1: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3=@1. Alimentacion: @2 Demanda: @3
+Current track @1=
+Stopped =
+Keeping @1/@2 map blocks loaded=
+Digging not started=
+Digging finished=
+Digging @1 m @2 machine=
+above= 
+below=
+@1 (@2 @3 -> @4 @5)=
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+
+## Grinder Recipes
+Sawdust=
+Acacia=
+Common Tree=
+Rubber Tree=
+@1 Dust = Polvo de @1
+Akalin=Akalina
+Alatro=Alatro
+Arol=Arol
+Brass=Laton
+Bronze=Bronce
+Carbon Steel=Acero al Carbono
+Cast Iron=Hierro Fundido
+Chernobylite=
+Chromium=Cromo
+Coal=Carbon
+Copper=Cobre
+Gold=Oro
+Kalite=
+Lead=
+Mithril=Mitrilo
+Silver=Plata
+Stainless Steel=Acero Inoxidable
+Stone=
+Talinite=Talinita
+Tin=Estanio
+Wrought Iron=Hierro Forjado
+Zinc=Zinc
+@1%-Fissile Uranium=
+
+## Tools
+RE Battery =
+Allow splitting incoming 'charge' stacks from tubes=
+Allow splitting incoming 'discharge' stacks=
+Water Can=Bidon de Agua
+Lava Can=Bidon de Lava
+River Water Can=
+Chainsaw=Motosierra
+Flashlight=Linterna
+3 nodes deep.=3 nodos de profundo.
+3 nodes tall.=3 nodos de alto.
+3 nodes wide.=3 nodos de ancho.
+3x3 nodes.=3x3 nodos.
+Use while sneaking to change Mining Drill Mk@1 modes.=Manten pulsado Mayus y Usar para cambiar el modo del Taladro de Mineria Mk@1.
+Mining Drill Mk@1 Mode @2:=Taladro de Mineria Mk@1 Modo @2:
+Mining Drill Mk@1 Mode @2=Taladro de Mineria Mk@1 Modo @2
+Mining Drill Mk@1=Taladro de Mineria Mk@1
+Mining Laser Mk@1=Laser de Mineria Mk@1
+Single node.=Nodo simple.
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Destonillador Sonico
+Tree Tap=Grifo de Arbol
+Prospector=
+Right-click to set target block type=
+Current target:=
+No target set=
+May set new target:=
+Set target=
+No new target available=
+Region cross section:=
+Set region cross section:=
+Region depth:=
+Set region depth:=
+Accuracy:=
+ 
+## Craft descriptions
+Alloying=
+@1 Grinding=
+Grinding=
+Compressing=
+Extracting=
+Separating=
+Freezing=
+[Technic] ignored registration of garbage recipe!=

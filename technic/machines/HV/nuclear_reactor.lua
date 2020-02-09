@@ -15,7 +15,7 @@ local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
 local cable_entry = "^technic_cable_connection_overlay.png"
@@ -36,19 +36,19 @@ local function make_reactor_formspec(meta)
 	"list[current_name;src;2,1;3,2;]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[]"..
-	"button[5.5,1.5;2,1;start;Start]"..
-	"checkbox[5.5,2.5;autostart;automatic Start;"..meta:get_string("autostart").."]"
+	"button[5.5,1.5;2,1;start;"..S("Start").."]"..
+	"checkbox[5.5,2.5;autostart;"..S("automatic Start")..";"..meta:get_string("autostart").."]"
 	if not digiline_remote_path then
 		return f
 	end
 	local digiline_enabled = meta:get_string("enable_digiline")
-	f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
+	f = f.."checkbox[0.5,2.8;enable_digiline;"..S("Enable Digiline")..";"..digiline_enabled.."]"
 	if digiline_enabled ~= "true" then
 		return f
 	end
 	return f..
-		"button_exit[4.6,3.69;2,1;save;Save]"..
-		"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+		"button_exit[4.6,3.69;2,1;save;"..S("Save").."]"..
+		"field[1,4;4,1;remote_channel;"..S("Digiline Remote Channel")..";${remote_channel}]"
 end
 
 local SS_OFF = 0
@@ -211,14 +211,14 @@ end
 
 
 local function melt_down_reactor(pos)
-	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
+	minetest.log("action", S("A reactor melted down at @1", minetest.pos_to_string(pos)))
 	minetest.set_node(pos, {name = "technic:corium_source"})
 end
 
 
 local function start_reactor(pos, meta)
 	local correct_fuel_count = 6
-	local msg_fuel_missing = "Error: You need to insert " .. correct_fuel_count .. " pieces of Uranium Fuel."
+	local msg_fuel_missing = S("Error: You need to insert @1 pieces of Uranium Fuel.", correct_fuel_count)
 
 	if minetest.get_node(pos).name ~= "technic:hv_nuclear_reactor_core" then
 		return msg_fuel_missing
@@ -241,7 +241,7 @@ local function start_reactor(pos, meta)
 
 	-- Check that the reactor is complete
 	if reactor_structure_badness(pos) ~= 0 then
-		return "Error: The power plant seems to be built incorrectly."
+		return S("Error: The power plant seems to be built incorrectly.")
 	end
 
 	meta:set_int("burn_time", 1)
@@ -257,7 +257,7 @@ end
 
 
 minetest.register_abm({
-	label = "Machines: reactor melt-down check",
+	label = S("Machines: reactor melt-down check"),
 	nodenames = {"technic:hv_nuclear_reactor_core_active"},
 	interval = 4,
 	chance = 1,
@@ -297,7 +297,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("%s Idle"):format(reactor_desc))
+		meta:set_string("infotext", S("@1 Idle", reactor_desc))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)
@@ -305,7 +305,7 @@ local function run(pos, node)
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
-		meta:set_string("infotext", reactor_desc.." ("..percent.."%)")
+		meta:set_string("infotext", S("@1 (@2%)", reactor_desc, percent))
 		meta:set_int("HV_EU_supply", power_supply)
 	end
 end
@@ -313,7 +313,7 @@ end
 local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
 	local player_name = sender:get_player_name()
 	if minetest.is_protected(pos, player_name) then
-		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.chat_send_player(player_name, S("You are not allowed to edit this!"))
 		minetest.record_protection_violation(pos, player_name)
 		return
 	end
@@ -325,7 +325,7 @@ local nuclear_reactor_receive_fields = function(pos, formname, fields, sender)
 	if fields.start then
 		local start_error_msg = start_reactor(pos, meta)
 		if not start_error_msg then
-			minetest.chat_send_player(player_name, "Start successful")
+			minetest.chat_send_player(player_name, S("Start successful"))
 		else
 			minetest.chat_send_player(player_name, start_error_msg)
 		end

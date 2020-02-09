@@ -1,5 +1,5 @@
 -- HV battery box
-
+local S = minetest.get_translator("technic")
 minetest.register_craft({
 	output = 'technic:hv_battery_box0',
 	recipe = {
@@ -18,5 +18,6 @@ technic.register_battery_box({
 	discharge_step = 40000,
 	upgrade        = 1,
 	tube           = 1,
+	tier_localized = S("HV")
 })
 

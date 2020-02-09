@@ -1,4 +1,4 @@
-
+local S = minetest.get_translator("technic")
 minetest.register_alias("compressor", "technic:lv_compressor")
 
 minetest.register_craft({
@@ -14,4 +14,4 @@ minetest.register_craft({
 	},
 })
 
-technic.register_compressor({tier = "LV", demand = {300}, speed = 1})
+technic.register_compressor({tier = "LV", demand = {300}, speed = 1, tier_localized=S("LV")})

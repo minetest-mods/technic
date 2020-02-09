@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 technic.register_power_tool("technic:prospector", 300000)
 
@@ -25,7 +25,7 @@ minetest.register_tool("technic:prospector", {
 		local charge_to_take = toolmeta.look_depth * (toolmeta.look_depth + 1) * look_diameter * look_diameter
 		if toolmeta.charge < charge_to_take then return end
 		if toolmeta.target == "" then
-			minetest.chat_send_player(user:get_player_name(), "Right-click to set target block type")
+			minetest.chat_send_player(user:get_player_name(), S("Right-click to set target block type"))
 			return
 		end
 		if not technic.creative_mode then
@@ -68,29 +68,29 @@ minetest.register_tool("technic:prospector", {
 			"item_image[0,0;1,1;"..toolstack:get_name().."]"..
 			"label[1,0;"..minetest.formspec_escape(toolstack:get_definition().description).."]"..
 			(toolmeta.target ~= "" and
-				"label[0,1.5;Current target:]"..
+				"label[0,1.5;"..S("Current target:").."]"..
 				"label[0,2;"..minetest.formspec_escape(minetest.registered_nodes[toolmeta.target].description).."]"..
 				"item_image[0,2.5;1,1;"..toolmeta.target.."]" or
-				"label[0,1.5;No target set]")..
+				"label[0,1.5;"..S("No target set").."]")..
 			(pointed and
-				"label[3.5,1.5;May set new target:]"..
+				"label[3.5,1.5;"..S("May set new target:").."]"..
 				"label[3.5,2;"..minetest.formspec_escape(minetest.registered_nodes[pointed].description).."]"..
 				"item_image[3.5,2.5;1,1;"..pointed.."]"..
-				"button_exit[3.5,3.65;2,0.5;target_"..pointed..";Set target]" or
-				"label[3.5,1.5;No new target available]")..
-			"label[0,4.5;Region cross section:]"..
+				"button_exit[3.5,3.65;2,0.5;target_"..pointed..";"..S("Set target").."]" or
+				"label[3.5,1.5;"..S("No new target available").."]")..
+			"label[0,4.5;"..S("Region cross section:").."]"..
 			"label[0,5;"..look_diameter.."x"..look_diameter.."]"..
-			"label[3.5,4.5;Set region cross section:]"..
+			"label[3.5,4.5;"..S("Set region cross section:").."]"..
 			"button_exit[3.5,5.15;1,0.5;look_radius_0;1x1]"..
 			"button_exit[4.5,5.15;1,0.5;look_radius_1;3x3]"..
 			"button_exit[5.5,5.15;1,0.5;look_radius_3;7x7]"..
-			"label[0,6;Region depth:]"..
+			"label[0,6;"..S("Region depth:").."]"..
 			"label[0,6.5;"..toolmeta.look_depth.."]"..
-			"label[3.5,6;Set region depth:]"..
+			"label[3.5,6;"..S("Set region depth:").."]"..
 			"button_exit[3.5,6.65;1,0.5;look_depth_7;7]"..
 			"button_exit[4.5,6.65;1,0.5;look_depth_14;14]"..
 			"button_exit[5.5,6.65;1,0.5;look_depth_21;21]"..
-			"label[0,7.5;Accuracy:]"..
+			"label[0,7.5;"..S("Accuracy:").."]"..
 			"label[0,8;98%]")
 		return
 	end,

@@ -1,5 +1,4 @@
-
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 technic.register_recipe_type("grinding", { description = S("Grinding") })
 
@@ -81,7 +80,7 @@ local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	minetest.register_craftitem("technic:"..lname.."_dust", {
-		description = S("%s Dust"):format(S(name)),
+		description = S("@1 Dust", S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
@@ -103,8 +102,8 @@ register_dust("Chernobylite",    "technic:chernobylite_block")
 register_dust("Chromium",        "technic:chromium_ingot")
 register_dust("Coal",            nil)
 register_dust("Copper",          "default:copper_ingot")
-register_dust("Lead",            "technic:lead_ingot")
 register_dust("Gold",            "default:gold_ingot")
+register_dust("Lead",            "technic:lead_ingot")
 register_dust("Mithril",         "moreores:mithril_ingot")
 register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
@@ -127,7 +126,7 @@ for p = 0, 35 do
 	local ingot = "technic:uranium"..psuffix.."_ingot"
 	local dust = "technic:uranium"..psuffix.."_dust"
 	minetest.register_craftitem(dust, {
-		description = S("%s Dust"):format(string.format(S("%.1f%%-Fissile Uranium"), p/10)),
+		description = S("@1 Dust", S("@1%-Fissile Uranium", string.format("%.1f", p/10))),
 		inventory_image = "technic_uranium_dust.png",
 		on_place_on_ground = minetest.craftitem_place_item,
 		groups = {uranium_dust=1, not_in_creative_inventory=nici},

@@ -1,6 +1,5 @@
 local sonic_screwdriver_max_charge = 15000
-
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 technic.register_power_tool("technic:sonic_screwdriver", sonic_screwdriver_max_charge)
 

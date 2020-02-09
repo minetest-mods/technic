@@ -5,6 +5,8 @@
 -- Also in addition this furnace can be attached to the pipe system from the pipeworks mod.
 
 -- FIXME: kpoppel I'd like to introduce an induction heating element here also
+local S = minetest.get_translator("technic")
+
 minetest.register_craft({
 	output = 'technic:mv_electric_furnace',
 	recipe = {
@@ -14,5 +16,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_electric_furnace({tier="MV", upgrade=1, tube=1, demand={2000, 1000, 500}, speed=4})
+technic.register_electric_furnace({tier="MV", upgrade=1, tube=1, demand={2000, 1000, 500}, speed=4, tier_localized=S("MV")})
 

@@ -1,0 +1,256 @@
+# textdomain: technic
+
+# template.txt
+# Template for translations of Technic
+
+
+## Misc
+[Technic] Loaded in @1 seconds=[Technic] Chargement en @1 secondes
+
+## Items
+Silicon Wafer=Tranche de silicium
+Doped Silicon Wafer=Tranche de silicium doppé
+Enriched Uranium=Uranium enrichi
+Uranium Fuel=Uranium 235
+Diamond Drill Head=Tête de forage en diamant
+Blue Energy Crystal=Cristal d'énergie bleu
+Green Energy Crystal=Cristal d'énergie vert
+Red Energy Crystal=Cristal d'énergie rouge
+Copper Coil=Bobine de cuivre
+Low Voltage Transformer=Transformateur basse tension
+Medium Voltage Transformer=Transformateur moyenne tension
+High Voltage Transformer=Transformateur haute tension
+Control Logic Unit=Unité de contrôle logique
+Mixed Metal Ingot=Lingot de métal allié
+Composite Plate=Plaque composite
+Copper Plate=Plaque de cuivre
+Carbon Plate=Plaque de carbone
+Graphite=Graphite
+Carbon Cloth=Fibre de carbone
+Machine Casing=Boîtier de machine
+@1%-Fissile Uranium Ingot=Lingot d'uranium fissile (@1 %)
+@1%-Fissile Uranium Block=Bloc d'uranium fissile (@1 %)
+Raw Latex=Latex brut
+Rubber Fiber=Fibre de caoutchouc
+
+## Radiation
+Radiation damage=Dommages dus aux radiations
+Corium Bucket=Seau de corium
+Corium Source=Source de corium
+Flowing Corium=Corium liquide
+Corium: griefing=Corium : griefing
+Chernobylite Block=Bloc de Chernobylite
+
+## Machine misc
+Machine cannot be removed because it is not empty=La machine ne peut pas être retirée car elle n’est pas vide
+Inventory move disallowed due to protection=Le déplacement d’inventaire n’est pas autorisé en raison de la protection
+@1 Active (@2 EU)=@1 actif (@2 EU)
+@1 Active (@2%)=@1 actif (@2 %)
+@1 Active=@1 actif
+@1 Disabled=@1 désactivé
+@1 Enabled=@1 activé
+@1 Idle=@1 au repos
+@1 Improperly Placed=@1 est mal placé
+@1 is empty=@1 est vide
+@1 Unpowered=@1 non alimenté en énergie
+@1 Out Of Fuel=@1 n’a plus de carburant
+@1 Has Bad Cabling=@1 est mal cablé
+@1 Has No Network=@1 n’a pas de réseau
+@1 Finished=@1 a fini
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=Intéragir avec le cache manuellement n’est pas possible. Si vous ne pouvez pas attendre, redémarrez ou désactivez la carrière pour commencer la purge automatique.
+Range=Plage
+Sphere=Sphère
+Cube=Cube
+Upgrade Slots=Emplacements d'amélioration
+Slot @1=Emplacement @1
+Itemwise=Item par item
+Stackwise=Stack par stack
+Ignoring Mesecon Signal=Ignorer le signal Mesecon
+Controlled by Mesecon Signal=Contrôlé par signal Mesecon
+Owner: @1=Propriétaire : @1
+Unlocked=Déverrouillé
+Locked=Verrouillé
+Radius:=Rayon :
+Enabled=Activé
+Disabled=Désactivé
+LV=faible tension
+MV=moyenne tension
+HV=haute tension
+@1 Nuclear Reactor Core=Cœur de réacteur nucléaire @1
+Enables or disables technic's switching station ABM=Active ou desactive la station de commutation de technic
+@1 Already Present=@1 déja présent
+[TECHNIC] Warning: redundant switching station found near @1=[TECHNIC] Avertissement : station de commutation redondante près de @1
+Machines: timeout check=Machines : vérification de timeout
+Machines: re-enable check=Machines : réactivation des vérifications
+You are not allowed to edit this!=Vous n’êtes pas autorisé à modifier cela !
+Machines: reactor melt-down check=Machines : vérification de la fusion des réacteurs
+Machines: run power radiator=Machines : fonctionnement du radiateur de puissance
+Machines: run coal alloy furnace=Machines : fonctionnement du four à alliages au charbon
+Machines: run power monitor=Machines : fonctionnement du contrôleur de puissance
+Machines: run injector= fonctionnement de l’injecteur
+Tools: tree tap=Outils : Robinet à sève
+@1 is unpowered=@1 est hors tension
+@1 is powered (@2% of maximum power)=@1 est alimenté (@2 % de la puissance maximale)
+@1 tried to place @2 at protected position @3=@1 a essayé de placer @2 à la position protégée @3
+@1 tried to take @2 at protected position @3 with a @4=@1 a essayé de prendre @2 à la position protégée @3 avec un @4
+@1 tried to place @2 at protected position @3 with a @4=@1 a essayé de placer @2 à la position protégée @3 avec un @4
+
+
+## Machine names
+Power Monitor=Contrôleur de puissance
+@1 Alloy Furnace=Four à alliages @1
+@1 Battery Box=Batterie @1
+@1 Cable=Câble @1
+@1 Cable Plate=Plaque de câble @1
+@1 Centrifuge=Centrifugeuse @1
+@1 Compressor=Compresseur @1
+@1 Extractor=Extracteur @1
+@1 Forcefield Emitter=Émetteur de champ de force @1
+@1 Furnace=Four @1
+@1 Freezer=Congélateur @1
+@1 Grinder=Broyeur @1
+@1 Music Player=Grammophone @1
+@1 Power Radiator=Radiateur de puissance @1
+@1 Quarry=Carrière @1
+@1 Tool Workshop=Atelier d’outillage @1
+Arrayed Solar @1 Generator=Générateur solaire @1
+Fuel-Fired @1 Generator=Générateur thermique @1
+Geothermal @1 Generator=Générateur géothermique @1
+Hydro @1 Generator=Générateur hydroélectrique @1
+Nuclear @1 Generator Core=Générateur nucléaire @1
+Small Solar @1 Generator=Petit générateur solaire @1
+Wind @1 Generator=Générateur éolien @1
+Self-Contained Injector=Injecteur autonome
+Constructor Mk@1=Constructeur Mk@1
+Frame=Cadre
+Frame Motor=Cadre de moteur
+Template=Modèle
+Template (replacing)=Modèle (remplacement)
+Template Tool=Modèle d’outil
+Template Motor=Modèle de moteur
+Supply Converter=Convertisseur de tension
+Switching Station=Station de commutation
+Fuel-Fired Alloy Furnace=Four à alliage à carburant
+Fuel-Fired Furnace=Four à carburant
+Wind Mill Frame=Cadre d’éolienne
+@1 Forcefield=Champ de force @1
+Nuclear Reactor Rod Compartment=Compartiment à barres du réacteur nucléaire
+Administrative World Anchor=Ancre pour les administrateurs du monde
+Vacuum Cleaner=Aspirateur
+
+## Machine-specific
+Input Power=Puissance d’entrée
+Digiline Channel=Cannal Digiline
+Channel=Cannal
+edit Channel=choisir le cannal
+@1 (@2%)=@1 (@2 %)
+automatic Start=démarrage automatic
+Enable Digiline=Activer Digiline
+Digiline Remote Channel=Cannal Digiline distant
+Save=Sauvegarder
+Start=Démarrer
+A reactor melted down at @1=Un réacteur a fusionné à @1
+Start successuful=Démarré avec succès
+Error=Erreur
+Restart=Redémarrer
+Stop=Stop
+@1 purging cache=@1 purge le cache
+@1 Disabled=@1 désactivé
+Charge=Charger
+Discharge=Décharger
+Power level=Niveau d'énergie
+#@1: Tier @2: current_charge @3: max_charge 
+@1 Battery Box: @2/@3=@1 batterie : @2/@3
+# @1: Machine name @2: Supply @3: Demand
+@1. Supply: @2 Demand: @3=@1. fournit : @2 demande : @3
+Current track @1=Morceau actuel @1 
+Stopped=Arrêté
+Keeping @1/@2 map blocks loaded=Garde @1/@2 blocs du monde chargés
+Digging not started=Creusage non démarré
+Digging finished=Creusage terminé
+Digging @1 m @2 machine=Creusage à @1m @2 de la machine
+above=au dessus
+below=en dessous
+@1 (@2 @3 -> @4 @5)=@1 (@2 @3 -> @4 @5)
+someone=quelqu’un
+Sorry, @1 owns that spot.=Désolé, cet endroit est la propriété de @1.
+Yellow Glowlight (thick)=Lumière jaune (forte)
+Yellow Glowlight (thin)=Lumière jaune (faible)
+White Glowlight (thick)=Lumière blanche (faible)
+White Glowlight (thin)=Lumière blanche (forte)
+Yellow Glowlight (small cube)=Lumière jaune (petit cube)
+
+
+## Grinder Recipes
+Sawdust=sciures de bois
+Acacia=Acacia
+Common Tree=arbre commun
+Rubber Tree=arbre à caoutchou
+@1 Dust=Poudre @1
+Akalin=d’akalin
+Alatro=d’alatro
+Arol=d’arol
+Brass=de laiton
+Bronze=de bronze
+Carbon Steel=d’acier au carbone
+Cast Iron=de fonte
+Chernobylite=de chernobylite
+Chromium=de chrome
+Coal=de charbon
+Copper=de cuivre
+Gold=d’or
+Kalite=de kalite
+Lead=de plomb
+Mithril=de mithril
+Silver=d’argent
+Stainless Steel=d’acier inoxydable
+Sulfur=de soufre
+Stone=de pierre
+Talinite=de Talanite
+Tin=d’étain
+Wrought Iron=de fer
+Zinc=de zinc
+@1%-Fissile Uranium=d’uranium fissile (@1 %)
+
+## Tools
+RE Battery=Batterie RE
+Allow splitting incoming 'charge' stacks from tubes=Autoriser à séparer les piles de 'charges' entrantes venant des tuyaux
+Allow splitting incoming 'discharge' stacks=Autoriser à séparer les piles de 'décharges'
+Water Can=Jerrican d’eau
+Lava Can=Jerrican de lave
+River Water Can=Jerrican d’eau de rivière
+Chainsaw=Tronçonneuse
+Flashlight=Lampe-torche
+3 nodes deep.=3 blocs de profondeur.
+3 nodes tall.=3 blocs de long.
+3 nodes wide.=3 blocs de large.
+3x3 nodes.=3×3 blocs.
+Use while sneaking to change Mining Drill Mk@1 modes.=À utiliser acroupis pour changer le mode de la foreuse Mk@1.
+Mining Drill Mk@1 Mode @2: =Foreuse Mk@1 Mode @2 : 
+Mining Drill Mk@1 Mode @2=Foreuse Mk@1 Mode @2
+Mining Drill Mk@1=Foreuse Mk@1
+Mining Laser Mk@1=Foreuse laser Mk@1
+Single node.=Mode simple.
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Tournevis supersonique (clic gauche pour tourner l’avant, clic droit pour tourner l’axe)
+Tree Tap=Robinet à sève
+Prospector=Prospecteur
+Right-click to set target block type=Clic droit pour définir un type de bloc cible
+Current target:=Cible actuelle :
+No target set=Pas de cible définie
+May set new target:=Peut définir une nouvelle cible :
+Set target=Définir une cible
+No new target available=Pas de cible disponible
+Region cross section:=Section de la zone en commun :
+Set region cross section:=Définir une section en commun :
+Region depth:=Profondeur de la zone :
+Set region depth:=Définir la profondeur de la zone :
+Accuracy:=Précision :
+
+## Craft descriptions
+Alloying=Fonderie d’alliage
+@1 Grinding=Broyage d’@1
+Compressing=Compression
+Extracting=Extraction
+Separating=Séparation
+Freezing=Congélation
+[Technic] ignored registration of garbage recipe!=[Technic] enregistrement d’une recette incohérente ignoré !

@@ -1,5 +1,5 @@
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_tier = {}
 
@@ -130,7 +130,7 @@ local function item_place_override_node(itemstack, placer, pointed, node)
 	return itemstack
 end
 
-function technic.register_cable(tier, size)
+function technic.register_cable(tier_localized, size, tier)
 	local ltier = string.lower(tier)
 	cable_tier["technic:"..ltier.."_cable"] = tier
 
@@ -149,7 +149,7 @@ function technic.register_cable(tier, size)
 	}
 
 	minetest.register_node("technic:"..ltier.."_cable", {
-		description = S("%s Cable"):format(tier),
+		description = S("@1 Cable", tier_localized),
 		tiles = {"technic_"..ltier.."_cable.png"},
 		inventory_image = "technic_"..ltier.."_cable_wield.png",
 		wield_image = "technic_"..ltier.."_cable_wield.png",
@@ -191,7 +191,7 @@ function technic.register_cable(tier, size)
 	end
 	for p, i in pairs(xyz) do
 		local def = {
-			description = S("%s Cable Plate"):format(tier),
+			description = S("@1 Cable Plate", tier_localized),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),

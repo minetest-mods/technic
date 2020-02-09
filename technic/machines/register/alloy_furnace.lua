@@ -1,6 +1,4 @@
-
-local S = technic.getter
-
+local S = minetest.get_translator("technic")
 function technic.insert_object_unique_stack(pos, node, incoming_stack, direction)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -40,7 +38,7 @@ end
 function technic.register_alloy_furnace(data)
 	data.typename = "alloy"
 	data.machine_name = "alloy_furnace"
-	data.machine_desc = S("%s Alloy Furnace")
+	data.machine_desc = S("@1 Alloy Furnace", data.tier_localized)
 
 	data.insert_object = technic.insert_object_unique_stack
 	data.can_insert = technic.can_insert_unique_stack

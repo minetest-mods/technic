@@ -1,6 +1,8 @@
 -- The high voltage solar array is an assembly of medium voltage arrays.
 -- Solar arrays are not able to store large amounts of energy.
 
+local S = minetest.get_translator("technic")
+
 minetest.register_craft({
 	output = 'technic:solar_array_hv 1',
 	recipe = {
@@ -10,5 +12,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_solar_array({tier="HV", power=100})
+technic.register_solar_array({tier="HV", power=100, tier_localized=S("HV")})
 
