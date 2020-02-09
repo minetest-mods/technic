@@ -1,0 +1,11 @@
+# textdomain: technic_wrench
+
+# technic_wrench translation template
+
+Wrench=Clé
+@1 with items=@1 avec des objets
+
+@1 wanted to place @2 at @3, but it had no data.=@1 a voulu placer @2 à la positon @3, mais il n’y avait pas de données.
+itemstack: @1=pile d’articles : @1
+@1 tried to pick up an owned node belonging to @2 at @3=@1 a essayé de prendre un bloc protégé appartenant à @2 à la position @3
+

@@ -1,7 +1,8 @@
+# textdomain: technic_wrench
+
 # German Translation for technic_wrench
 # Deutsche Übersetzung von technic_wrench
 # by Xanthin
 
-Wrench = Schraubenschluessel
-%s with items = %s mit Gegenstaenden
-
+Wrench=Schraubenschluessel
+@1 with items=@1 mit Gegenstaenden
