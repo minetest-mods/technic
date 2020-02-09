@@ -1,5 +1,5 @@
 
-local S = technic.worldgen.gettext
+local S = minetest.get_translator("technic_worldgen")
 
 minetest.register_craftitem(":technic:uranium_lump", {
 	description = S("Uranium Lump"),
@@ -187,6 +187,8 @@ end
 for_each_registered_item(function(item_name)
 	local item_def = minetest.registered_items[item_name]
 	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+		-- TODO: Fix this line
+		-- This is not the good way to do this because it breaks translations
+		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", "Iron") })
 	end
 end)
