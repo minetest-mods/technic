@@ -4,7 +4,7 @@ Technic
 
 A mod for [minetest](http://www.minetest.net)
 
-![](https://github.com/pandorabox-io/technic/workflows/integration-test/badge.svg)
+![](https://github.com/mt-mods/technic/workflows/integration-test/badge.svg)
 
 
 # Overview
