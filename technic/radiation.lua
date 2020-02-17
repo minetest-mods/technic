@@ -347,8 +347,23 @@ local function dmg_object(pos, object, strength)
 	end
 end
 
+-- max lag tracker
+local last_max_lag = 0
+local function trackMaxLag()
+	last_max_lag = technic.get_max_lag()
+	minetest.after(5, trackMaxLag)
+end
+
+-- kick off lag tracking function
+trackMaxLag()
+
 local rad_dmg_mult_sqrt = math.sqrt(1 / rad_dmg_cutoff)
 local function dmg_abm(pos, node)
+	if last_max_lag > 1.5 then
+		-- too much lag, skip radiation check entirely
+		return
+	end
+
 	local strength = minetest.get_item_group(node.name, "radioactive")
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
