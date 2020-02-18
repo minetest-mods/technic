@@ -20,6 +20,9 @@ else
 end
 local S = technic.getter
 
+-- max_lag
+dofile(modpath.."/max_lag.lua")
+
 -- Read configuration file
 dofile(modpath.."/config.lua")
 

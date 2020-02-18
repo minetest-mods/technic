@@ -7,7 +7,6 @@ dofile(path.."/LV/init.lua")
 dofile(path.."/MV/init.lua")
 dofile(path.."/HV/init.lua")
 
-dofile(path.."/max_lag.lua")
 dofile(path.."/switching_station.lua")
 dofile(path.."/switching_station_globalstep.lua")
 
