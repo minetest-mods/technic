@@ -20,6 +20,18 @@ Carbon Steel Ingot=Lingot d'acier au carbone
 Stainless Steel Ingot=Lingot d'acier inoxydable
 Iron=Fer
 
+#### Steel to iron
+Iron Axe=Hache en fer
+Iron Pickaxe=Pioche en fer
+Iron Shovel=Pelle en fer
+Iron Sword=Épée en fer
+Iron Door=Porte en fer
+Iron Hoe=Houe en fer
+Iron Hammer=Marteau en fer
+Iron Handsaw=Scie circulaire en fer
+Iron-Reinforced Crystal Glass=Verre en crystal renforcé au fer
+Heavy Iron Bottle (empty)=Bouteille lourde en fer (vide)
+
 ###nodes.lua
 Sulfur Ore=Minerai de soufre
 Lead Ore=Minerai de plomb

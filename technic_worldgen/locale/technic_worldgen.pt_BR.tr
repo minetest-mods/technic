@@ -18,6 +18,18 @@ Carbon Steel Ingot=Lingote de Aço Carbono
 Stainless Steel Ingot= Lingote de Ferro Inoxidável
 Iron=Ferro
 
+#### Steel to iron
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Heavy Iron Bottle (empty)=
+
 ###nodes.lua
 Uranium Ore=Minério de Urânio
 Chromium Ore=Minério de Crômio

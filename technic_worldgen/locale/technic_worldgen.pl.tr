@@ -18,6 +18,18 @@ Carbon Steel Ingot=Sztabka stali węglowej
 Stainless Steel Ingot=Sztabka nierdzewnej stali
 Iron=Żelazo
 
+#### Steel to iron
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Heavy Iron Bottle (empty)=
+
 ###nodes.lua
 Uranium Ore=Ruda uranu
 Chromium Ore=Ruda chromu

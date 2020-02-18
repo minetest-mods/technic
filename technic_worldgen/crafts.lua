@@ -141,54 +141,29 @@ minetest.register_craft({
 	output = "technic:wrought_iron_ingot",
 })
 
-local function for_each_registered_item(action)
-	local already_reg = {}
-	for k, _ in pairs(minetest.registered_items) do
-		table.insert(already_reg, k)
-	end
-	local really_register_craftitem = minetest.register_craftitem
-	minetest.register_craftitem = function(name, def)
-		really_register_craftitem(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	local really_register_tool = minetest.register_tool
-	minetest.register_tool = function(name, def)
-		really_register_tool(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	local really_register_node = minetest.register_node
-	minetest.register_node = function(name, def)
-		really_register_node(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	for _, name in ipairs(already_reg) do
-		action(name)
+local steel_to_iron = {
+	{name="default:axe_steel", description=S("Iron Axe")},
+	{name="default:pick_steel", description=S("Iron Pickaxe")},
+	{name="default:shovel_steel", description=S("Iron Shovel")},
+	{name="default:sword_steel", description=S("Iron Sword")},
+	{name="doors:door_steel", description=S("Iron Door")},
+	{name="farming:hoe_steel", description=S("Iron Hoe")},
+	{name="glooptest:hammer_steel", description=S("Iron Hammer")},
+	{name="glooptest:handsaw_steel", description=S("Iron Handsaw")},
+	{name="glooptest:reinforced_crystal_glass", description=S("Iron-Reinforced Crystal Glass")},
+	{name="vessels:steel_bottle", description=S("Heavy Iron Bottle (empty)")},
+}
+
+for _, v in ipairs(steel_to_iron) do
+	local item_def = minetest.registered_items[v.name]
+	if item_def then
+		-- toolranks mod compatibility
+		if minetest.get_modpath("toolranks") and item_def.original_description then
+			minetest.override_item(v.name, {
+				original_description = v.description,
+				description = toolranks.create_description(v.description, 0, 1)})
+		else
+			minetest.override_item(v.name, { description = v.description })
+		end
 	end
 end
-
-local steel_to_iron = {}
-for _, i in ipairs({
-	"default:axe_steel",
-	"default:pick_steel",
-	"default:shovel_steel",
-	"default:sword_steel",
-	"doors:door_steel",
-	"farming:hoe_steel",
-	"glooptest:hammer_steel",
-	"glooptest:handsaw_steel",
-	"glooptest:reinforced_crystal_glass",
-	"mesecons_doors:op_door_steel",
-	"mesecons_doors:sig_door_steel",
-	"vessels:steel_bottle",
-}) do
-	steel_to_iron[i] = true
-end
-
-for_each_registered_item(function(item_name)
-	local item_def = minetest.registered_items[item_name]
-	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		-- TODO: Fix this line
-		-- This is not the good way to do this because it breaks translations
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", "Iron") })
-	end
-end)

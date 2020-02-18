@@ -18,6 +18,18 @@ Carbon Steel Ingot=Karbon çelik külçe
 Stainless Steel Ingot =Paslanmaz çelik külçe
 Iron=Demir
 
+#### Steel to iron
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Heavy Iron Bottle (empty)=
+
 ###nodes.lua
 Uranium Ore=Uranyum madeni
 Chromium Ore=Krom madeni

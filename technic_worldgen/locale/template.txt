@@ -20,6 +20,19 @@ Carbon Steel Ingot=
 Stainless Steel Ingot=
 Iron=
 
+#### Steel to iron
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Heavy Iron Bottle (empty)=
+
+
 ###nodes.lua
 Sulfur Ore=
 Lead Ore=
