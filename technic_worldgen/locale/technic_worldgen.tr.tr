@@ -47,6 +47,12 @@ Stainless Steel Block=Paslanmaz çelik blok
 Brass Block=Pirinç blok
 Wrought Iron=İşlenmiş demir
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
 ###rubber.lua
 Rubber Tree Sapling=Kauçuk ağacı fidanı
 Rubber Tree=Kauçuk ağacı

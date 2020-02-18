@@ -45,6 +45,12 @@ Stainless Steel Block=Bloque de Acero Inoxidable
 Brass Block=Bloque de Latón
 Wrought Iron=Hierro Forjado
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
 ###rubber.lua
 Rubber Tree Sapling=Retoño de Árbol de Goma
 Rubber Tree=Árbol de Goma

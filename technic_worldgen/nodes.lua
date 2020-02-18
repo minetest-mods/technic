@@ -144,47 +144,42 @@ minetest.register_craft({
 minetest.register_alias("technic:diamond_block", "default:diamondblock")
 minetest.register_alias("technic:diamond", "default:diamond")
 minetest.register_alias("technic:mineral_diamond", "default:stone_with_diamond")
+ 
+local steel_to_wrought_iron = {
+	{name="stairs:stair_outer_steelblock", description=S("Outer Wrought Iron Block Stair")},
+	{name="stairs:stair_inner_steelblock", description=S("Inner Wrought Iron Block Stair")},
+	{name="stairs:stair_steelblock", description=S("Wrought Iron Block Stair")},
+	{name="stairs:slab_steelblock", description=S("Wrought Iron Block Slab")}
+}
 
-local function for_each_registered_node(action)
-	local really_register_node = minetest.register_node
-	minetest.register_node = function(name, def)
-		really_register_node(name, def)
-		action(name:gsub("^:", ""), def)
-	end
-	for name, def in pairs(minetest.registered_nodes) do
-		action(name, def)
+for _, v in ipairs(steel_to_wrought_iron) do
+	local node_name = v.name
+	local node_def = minetest.registered_items[node_name]
+	if node_def then
+		minetest.override_item(node_name, {
+			description = v.description
+		})
+
+		local tiles = node_def.tiles or node_def.tile_images
+		if tiles then
+			local new_tiles = {}
+			local do_override = false
+			if type(tiles) == "string" then
+				tiles = {tiles}
+			end
+			for i, t in ipairs(tiles) do
+				if type(t) == "string" and t == "default_steel_block.png" then
+					do_override = true
+					t = "technic_wrought_iron_block.png"
+				end
+				table.insert(new_tiles, t)
+			end
+			if do_override then
+				minetest.override_item(node_name, {
+					tiles = new_tiles
+				})
+			end
+		end
 	end
 end
-
-for_each_registered_node(function(node_name, node_def)
-	if node_name ~= "default:steelblock" and
-			node_name:find("steelblock", 1, true) and
-			node_def.description:find("Steel", 1, true) then
-		minetest.override_item(node_name, {
-			-- TODO: fix this line
-			-- This is not the good way of doing this because this breaks translations
-			description = node_def.description:gsub("Steel", "Wrought Iron"),
-		})
-	end
-	local tiles = node_def.tiles or node_def.tile_images
-	if tiles then
-		local new_tiles = {}
-		local do_override = false
-		if type(tiles) == "string" then
-			tiles = {tiles}
-		end
-		for i, t in ipairs(tiles) do
-			if type(t) == "string" and t == "default_steel_block.png" then
-				do_override = true
-				t = "technic_wrought_iron_block.png"
-			end
-			table.insert(new_tiles, t)
-		end
-		if do_override then
-			minetest.override_item(node_name, {
-				tiles = new_tiles
-			})
-		end
-	end
-end)
 

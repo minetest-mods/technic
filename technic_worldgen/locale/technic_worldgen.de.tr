@@ -47,6 +47,12 @@ Stainless Steel Block=Edelstahlblock
 Brass Block=Messingblock
 Wrought Iron=Schmiedeeisen
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
 ## rubber.lua
 Rubber Tree Sapling=Gummibaumsetzling
 Rubber Tree=Gummibaum

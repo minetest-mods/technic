@@ -53,6 +53,12 @@ Stainless Steel Block=
 Brass Block=
 Wrought Iron=
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
 ###rubber.lua
 Rubber Tree Sapling=
 Rubber Tree=

@@ -47,6 +47,12 @@ Stainless Steel Block=Blok stali nierdzewnej
 Brass Block=Blok mosiądzu
 Wrought Iron=Kute żelazo
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
 ###rubber.lua
 Rubber Tree Sapling=Sadzonka kauczukowca
 Rubber Tree=Kauczukowiec

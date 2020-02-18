@@ -52,6 +52,12 @@ Stainless Steel Block=Bloc d'acier inoxydable
 Brass Block=Bloc de laiton
 Wrought Iron=Fer forgé
 
+#### Steel to wrought iron
+Outer Wrought Iron Block Stair=Escalier extérieur en bloc de fer forgé
+Inner Wrought Iron Block Stair=Escalier intérieur en bloc de fer forgé
+Wrought Iron Block Stair=Escalier en bloc de fer forgé
+Wrought Iron Block Slab=Dalle en bloc de fer forgé
+
 ###rubber.lua
 Rubber Tree Sapling=Pousse d'arbre à caoutchouc
 Rubber Tree=Arbre à caoutchouc
