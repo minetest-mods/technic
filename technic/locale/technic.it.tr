@@ -1,9 +1,6 @@
 # textdomain: technic
 
 
-## Misc
-[Technic] Loaded in @1 seconds=[Technic] caricato in @1 secondi
-
 ## Items
 Silicon Wafer=Wafer di silicone
 Doped Silicon Wafer=Wafer di silicone dopato
@@ -75,7 +72,6 @@ HV=
 @1 Nuclear Reactor Core=
 Enables or disables technic's switching station ABM=
 @1 Already Present=
-[TECHNIC] Warning: redundant switching station found near @1=
 Machines: timeout check=
 Machines: re-enable check=
 You are not allowed to edit this!=
@@ -87,9 +83,6 @@ Machines: run injector=
 Tools: tree tap=
 @1 is unpowered=
 @1 is powered (@2% of maximum power)=
-@1 tried to place @2 at protected position @3=
-@1 tried to take @2 at protected position @3 with a @4=
-@1 tried to place @2 at protected position @3 with a @4=
 
 ## Machine names
 Power Monitor=
@@ -143,7 +136,6 @@ Enable Digiline=
 Digiline Remote Channel
 Save=
 Start=
-A reactor melted down at @1=
 Start successful=
 Error=
 Restart=
@@ -246,4 +238,3 @@ Compressing=Compressione
 Extracting=Estrazione
 Separating=
 Freezing=
-[Technic] ignored registration of garbage recipe!=

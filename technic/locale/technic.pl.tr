@@ -4,9 +4,6 @@
 # Polskie tłumaczenie Technic mod
 # by mat9117
 
-## Misc
-[Technic] Loaded in @1 seconds=[Technic] Wczytany w @1 sekund
-
 ## Items
 Silicon Wafer=Płytka krzemowa
 Doped Silicon Wafer=Domieszkowana płytka krzemowa
@@ -79,7 +76,6 @@ HV=
 @1 Nuclear Reactor Core=
 Enables or disables technic's switching station ABM=
 @1 Already Present=
-[TECHNIC] Warning: redundant switching station found near @1=
 Machines: timeout check=
 Machines: re-enable check=
 You are not allowed to edit this!=
@@ -91,9 +87,6 @@ Machines: run injector=
 Tools: tree tap=
 @1 is unpowered=
 @1 is powered (@2% of maximum power)=
-@1 tried to place @2 at protected position @3=
-@1 tried to take @2 at protected position @3 with a @4=
-@1 tried to place @2 at protected position @3 with a @4=
 
 ## Machine names
 @1 Alloy Furnace=@1 Piec stopowy
@@ -147,7 +140,6 @@ Enable Digiline=
 Digiline Remote Channel
 Save=
 Start=
-A reactor melted down at @1=
 Start successful=
 Error=
 Restart=
@@ -251,4 +243,3 @@ Compressing=Kompresowanie
 Extracting=Ekstrakcja
 Separating=Oddzielanie
 Freezing=
-[Technic] ignored registration of garbage recipe!=

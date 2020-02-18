@@ -4,9 +4,6 @@
 # Template for translations of Technic
 
 
-## Misc
-[Technic] Loaded in @1 seconds=[Technic] Chargement en @1 secondes
-
 ## Items
 Silicon Wafer=Tranche de silicium
 Doped Silicon Wafer=Tranche de silicium doppé
@@ -79,7 +76,6 @@ HV=haute tension
 @1 Nuclear Reactor Core=Cœur de réacteur nucléaire @1
 Enables or disables technic's switching station ABM=Active ou desactive la station de commutation de technic
 @1 Already Present=@1 déja présent
-[TECHNIC] Warning: redundant switching station found near @1=[TECHNIC] Avertissement : station de commutation redondante près de @1
 Machines: timeout check=Machines : vérification de timeout
 Machines: re-enable check=Machines : réactivation des vérifications
 You are not allowed to edit this!=Vous n’êtes pas autorisé à modifier cela !
@@ -91,9 +87,6 @@ Machines: run injector= fonctionnement de l’injecteur
 Tools: tree tap=Outils : Robinet à sève
 @1 is unpowered=@1 est hors tension
 @1 is powered (@2% of maximum power)=@1 est alimenté (@2 % de la puissance maximale)
-@1 tried to place @2 at protected position @3=@1 a essayé de placer @2 à la position protégée @3
-@1 tried to take @2 at protected position @3 with a @4=@1 a essayé de prendre @2 à la position protégée @3 avec un @4
-@1 tried to place @2 at protected position @3 with a @4=@1 a essayé de placer @2 à la position protégée @3 avec un @4
 
 
 ## Machine names
@@ -149,7 +142,6 @@ Enable Digiline=Activer Digiline
 Digiline Remote Channel=Cannal Digiline distant
 Save=Sauvegarder
 Start=Démarrer
-A reactor melted down at @1=Un réacteur a fusionné à @1
 Start successuful=Démarré avec succès
 Error=Erreur
 Restart=Redémarrer
@@ -253,4 +245,3 @@ Compressing=Compression
 Extracting=Extraction
 Separating=Séparation
 Freezing=Congélation
-[Technic] ignored registration of garbage recipe!=[Technic] enregistrement d’une recette incohérente ignoré !

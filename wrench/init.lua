@@ -41,9 +41,8 @@ local function restore(pos, placer, itemstack)
 	data = minetest.deserialize(data)
 	if not data then
 		minetest.remove_node(pos)
-		minetest.log("error", S("@1 wanted to place @2 at @3, but it had no data.", placer:get_player_name(),
-				name, minetest.pos_to_string(pos)))
-		minetest.log("verbose", S("itemstack: @1", itemstack:to_string()))
+		minetest.log("error", placer:get_player_name().." wanted to place "..name.." at "..minetest.pos_to_string(pos)..", but it had no data.")
+		minetest.log("verbose", "itemstack: "..itemstack:to_string())
 		return true
 	end
 	minetest.set_node(pos, {name = data.name, param2 = node.param2})
@@ -122,9 +121,7 @@ minetest.register_tool("wrench:wrench", {
 		if def.owned and not minetest.check_player_privs(placer, "protection_bypass") then
 			local owner = meta:get_string("owner")
 			if owner and owner ~= player_name then
-				minetest.log("action", S("@1 tried to pick up an owned node belonging to @2 at @3",
-					player_name, owner,
-					minetest.pos_to_string(pos)))
+				minetest.log("action", player_name.." tried to pick up an owned node belonging to "..owner.." at "..minetest.pos_to_string(pos))
 				return
 			end
 		end

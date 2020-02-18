@@ -19,7 +19,7 @@ if not minetest.get_modpath("pipeworks") then
 	local dummy = function()
 		end
 	pipeworks_meta.__index = function(table, key)
-			print(S("[technic_chests] WARNING: variable or method '@1' not present in dummy pipeworks table - assuming it is a method…", key))
+			print("[technic_chests] WARNING: variable or method '"..key.."' not present in dummy pipeworks table - assuming it is a method…")
 			pipeworks[key] = dummy
 			return dummy
 		end

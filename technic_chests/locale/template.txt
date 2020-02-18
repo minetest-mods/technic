@@ -40,8 +40,4 @@ Auto-sort is @1=
 Off=
 On=
 
-@1 moves stuff in chest at @2=
-@1 moves @2 to chest at @3=
-@1 takes @2 from chest at @3=
-[technic_chests] WARNING: variable or method '@1' not present in dummy pipeworks table - assuming it is a method…=
 Allow splitting incoming stacks from tubes=

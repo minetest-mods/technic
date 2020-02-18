@@ -12,9 +12,6 @@ local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
 
--- Translation support
-local S = minetest.get_translator("technic")
-
 -- Read configuration file
 dofile(modpath.."/config.lua")
 
@@ -43,6 +40,6 @@ dofile(modpath.."/tools/init.lua")
 dofile(modpath.."/legacy.lua")
 
 if minetest.settings:get_bool("log_mods") then
-	print(S("[Technic] Loaded in @1 seconds", string.format("%f", os.clock() - load_start)))
+	print(string.format("[Technic] Loaded in %f seconds", os.clock() - load_start))
 end
 

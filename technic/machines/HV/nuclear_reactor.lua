@@ -211,7 +211,7 @@ end
 
 
 local function melt_down_reactor(pos)
-	minetest.log("action", S("A reactor melted down at @1", minetest.pos_to_string(pos)))
+	minetest.log("action", "A reactor melted down at "..minetest.pos_to_string(pos))
 	minetest.set_node(pos, {name = "technic:corium_source"})
 end
 
