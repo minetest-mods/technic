@@ -21,6 +21,9 @@ celeron55 (Perttu Ahola) modified by Zefram (CC BY-SA 3.0):
 sdzen (Elise Staudter) (CC BY-SA 3.0):
   * most of the older 16x16 textures
 
+leftshift (CC BY-SA 3.0):
+  * technic_river_water_can.png
+
 RealBadAngel: (WTFPL)
   * Everything else.
 
