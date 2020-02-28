@@ -52,7 +52,7 @@ function technic.register_can(d)
 			if def.on_rightclick and user and not user:get_player_control().sneak then
 				return def.on_rightclick(pos, minetest.get_node(pos), user, itemstack, pointed_thing)
 			end
-			if not def.buildable_to then
+			if not def.buildable_to or minetest.get_node(pos).name == data.liquid_source_name then
 				pos = pointed_thing.above
 				def = minetest.registered_nodes[minetest.get_node(pos).name] or {}
 				if not def.buildable_to then return end
