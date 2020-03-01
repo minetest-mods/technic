@@ -55,7 +55,7 @@ function technic.register_can(d)
 			if not def.buildable_to or minetest.get_node(pos).name == data.liquid_source_name then
 				pos = pointed_thing.above
 				def = minetest.registered_nodes[minetest.get_node(pos).name] or {}
-				if not def.buildable_to then return end
+				if not def.buildable_to or minetest.get_node(pos).name == data.liquid_source_name then return end
 			end
 			local charge = get_can_level(itemstack)
 			if charge == 0 then return end
