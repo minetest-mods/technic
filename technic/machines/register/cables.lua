@@ -215,7 +215,7 @@ function technic.register_cable(tier, size)
 		if i == 1 then
 			def.on_place = function(itemstack, placer, pointed_thing)
 				local pointed_thing_diff = vector.subtract(pointed_thing.above, pointed_thing.under)
-				local num
+				local num = 1
 				local changed
 				for k, v in pairs(pointed_thing_diff) do
 					if v ~= 0 then
@@ -225,7 +225,7 @@ function technic.register_cable(tier, size)
 					end
 				end
 				local crtl = placer:get_player_control()
-				if (crtl.aux1 or crtl.sneak) and not (crtl.aux1 and crtl.sneak) then
+				if (crtl.aux1 or crtl.sneak) and not (crtl.aux1 and crtl.sneak) and changed then
 					local fine_pointed = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
 					fine_pointed = vector.subtract(fine_pointed, pointed_thing.above)
 					fine_pointed[changed] = nil
