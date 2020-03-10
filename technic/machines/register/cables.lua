@@ -149,7 +149,7 @@ function technic.register_cable(tier, size)
 	}
 
 	minetest.register_node("technic:"..ltier.."_cable", {
-		description = S("%s Cable"):format(tier),
+		description = S("@1 Cable", S(tier)),
 		tiles = {"technic_"..ltier.."_cable.png"},
 		inventory_image = "technic_"..ltier.."_cable_wield.png",
 		wield_image = "technic_"..ltier.."_cable_wield.png",
@@ -191,7 +191,7 @@ function technic.register_cable(tier, size)
 	end
 	for p, i in pairs(xyz) do
 		local def = {
-			description = S("%s Cable Plate"):format(tier),
+			description = S("@1 Cable Plate", S(tier)),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),

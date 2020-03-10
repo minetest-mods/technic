@@ -52,7 +52,7 @@ function technic.register_base_machine(data)
 		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
 		"list[current_name;dst;5,1;2,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
-		"label[0,0;"..machine_desc:format(tier).."]"..
+		"label[0,0;"..S("@1 "..machine_desc, S(tier)).."]"..
 		"listring[current_name;dst]"..
 		"listring[current_player;main]"..
 		"listring[current_name;src]"..
@@ -81,7 +81,7 @@ function technic.register_base_machine(data)
 		local inv      = meta:get_inventory()
 		local eu_input = meta:get_int(tier.."_EU_input")
 
-		local machine_desc_tier = machine_desc:format(tier)
+		local machine_desc_tier = S("@1 "..machine_desc, S(tier))
 		local machine_node      = "technic:"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
@@ -108,18 +108,18 @@ function technic.register_base_machine(data)
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", S("@1 Idle", machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
 				return
 			end
 			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
+			meta:set_string("infotext", S("@1 Active", machine_desc_tier))
 			if meta:get_int("src_time") < round(result.time*10) then
 				if not powered then
 					technic.swap_node(pos, machine_node)
-					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
+					meta:set_string("infotext", S("@1 Unpowered", machine_desc_tier))
 				end
 				return
 			end
@@ -141,7 +141,7 @@ function technic.register_base_machine(data)
 			end
 			if not room_for_output then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", S("@1 Idle", machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
 				return
@@ -158,7 +158,7 @@ function technic.register_base_machine(data)
 	end
 
 	minetest.register_node("technic:"..ltier.."_"..machine_name, {
-		description = machine_desc:format(tier),
+		description = S("@1 "..machine_desc, S(tier)),
 		tiles = {
 			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
@@ -190,7 +190,7 @@ function technic.register_base_machine(data)
 				)..pipeworks.button_label
 			end
 
-			meta:set_string("infotext", machine_desc:format(tier))
+			meta:set_string("infotext", S("@1 "..machine_desc, S(tier)))
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec..form_buttons)
 			local inv = meta:get_inventory()
@@ -228,7 +228,7 @@ function technic.register_base_machine(data)
 	})
 
 	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
-		description = machine_desc:format(tier),
+		description = S("@1 "..machine_desc, S(tier)),
 		tiles = {
 			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
 			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,

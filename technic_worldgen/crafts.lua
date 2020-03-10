@@ -141,6 +141,8 @@ minetest.register_craft({
 	output = "technic:wrought_iron_ingot",
 })
 
+--[[
+--This ruins the translations of the other mod, just by modifying steel to iron I don't think it's convenient.
 local function for_each_registered_item(action)
 	local already_reg = {}
 	for k, _ in pairs(minetest.registered_items) do
@@ -187,6 +189,6 @@ end
 for_each_registered_item(function(item_name)
 	local item_def = minetest.registered_items[item_name]
 	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", "Iron") })
 	end
-end)
+end)]]

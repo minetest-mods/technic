@@ -19,8 +19,7 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = minetest.get_translator("technic_wrench")
 
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]
@@ -41,9 +40,7 @@ local function restore(pos, placer, itemstack)
 	data = minetest.deserialize(data)
 	if not data then
 		minetest.remove_node(pos)
-		minetest.log("error", placer:get_player_name().." wanted to place "..
-				name.." at "..minetest.pos_to_string(pos)..
-				", but it had no data.")
+		minetest.log("error", S("@1 wanted to place @2 at @3, but it had no data", placer:get_player_name(), name, minetest.pos_to_string(pos)))
 		minetest.log("verbose", "itemstack: "..itemstack:to_string())
 		return true
 	end
@@ -74,7 +71,7 @@ for name, info in pairs(wrench.registered_nodes) do
 			newdef[key] = value
 		end
 		newdef.stack_max = 1
-		newdef.description = S("%s with items"):format(newdef.description)
+		newdef.description = S("@1 with items", newdef.description)
 		newdef.groups = {}
 		newdef.groups.not_in_creative_inventory = 1
 		newdef.on_construct = nil
@@ -123,10 +120,7 @@ minetest.register_tool("wrench:wrench", {
 		if def.owned and not minetest.check_player_privs(placer, "protection_bypass") then
 			local owner = meta:get_string("owner")
 			if owner and owner ~= player_name then
-				minetest.log("action", player_name..
-					" tried to pick up an owned node belonging to "..
-					owner.." at "..
-					minetest.pos_to_string(pos))
+				minetest.log("action", S("@1 tried to pick up an owned node belonging to @2 at @3" ,player_name, owner, minetest.pos_to_string(pos)))
 				return
 			end
 		end

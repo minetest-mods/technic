@@ -1053,6 +1053,8 @@ sound, such as attenuation, panning, or HRTF.  The impression of the
 sound being located in the Minetest world is also compromised by the
 subjective nature of track choice: the specific music that is played to
 a player depends on what media the player has installed.
+Install the music in the folder /technic/technic/sounds/ with the name technic_trackN.ogg
+replacing N with the number from 1 to 9
 
 ### CNC machine ###
 

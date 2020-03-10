@@ -2,7 +2,7 @@ local modpath = minetest.get_modpath("technic_worldgen")
 
 technic = rawget(_G, "technic") or {}
 technic.worldgen = {
-	gettext = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end,
+	gettext = minetest.get_translator("technic_worldgen")
 }
 
 dofile(modpath.."/config.lua")

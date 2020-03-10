@@ -1,0 +1,6 @@
+# textdomain: technic_wrench
+
+Wrench=
+@1 with items=
+@1 wanted to place @2 at @3, but it had no data=
+@1 tried to pick up an owned node belonging to @2 at @3=

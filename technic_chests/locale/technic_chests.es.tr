@@ -1,0 +1,50 @@
+# textdomain: technic_chests
+# Carlos Barraza (Actualizacion 2020)
+
+# common.lua
+
+@1 moves stuff in chest at @2=@1 mueve cosas en el cofre en @2
+@1 moves @2 to chest at @3=@1 mueve @2 al cofre en @3
+@1 takes @2 from chest at @3=@1 toma @2 del cofre en @3
+
+@1 Chest=Cofre de @1
+@1 Locked Chest=Cofre de @1 Bloqueado
+@1 Locked Chest (owned by @2)=Cofre de @1 Bloqueado (propiedad de @2)
+Color Filter: @1=Filtro por Color: @1
+Edit chest description:=Editar la descripción del cofre
+You do not own this chest.=No eres el dueño de este cofre
+a locked chest=un cofre bloqueado
+Allow splitting incoming stacks from tubes=Permitir dividir las pilas entrantes
+[technic_chests] WARNING: variable or method '@1' not present in dummy pipeworks table - assuming it is a method...=[technic_chests] ADVERTENCIA: la variable o metodo '@1' no esta presente en la tabla de tubería ficticias - suponiendo que sea un metodo...
+
+# Colors
+Black=Negro
+Blue=Azul
+Brown=Café
+Cyan=Cian
+Dark Green=Verde Oscuro
+Dark Grey=Gris Oscuro
+Green=Verde
+Grey=Gris
+Magenta=Magenta
+Orange=Naranja
+Pink=Rosado
+Red=Rojo
+Violet=Violeta
+White=Blanco
+Yellow=Amarillo
+None=Ninguno
+
+# Materials
+Copper=Cobre
+Gold=Oro
+Iron=Hierro
+Mithril=Mitrilo
+Silver=Plata
+Wooden=Madera
+
+# Sorting
+Sort=Ordenar
+Auto-sort is @1=Orden Automático @1
+Off=Apagado
+On=Encendido

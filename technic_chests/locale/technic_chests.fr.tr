@@ -1,0 +1,40 @@
+# textdomain: technic_chests
+# technic_chests translation template
+
+@1 Chest=Coffre en @1
+@1 Locked Chest=Coffre verrouillé en @1
+@1 Locked Chest (owned by @2)=Coffre verrouillé en @1 (appartient à @2)
+Color Filter: @1=Filtre couleur : @1
+Edit chest description:=Editer la description du coffre
+
+# Colors
+Black=Noir
+Blue=Bleu
+Brown=Marron
+Cyan=Cyan
+Dark Green=Vert foncé
+Dark Grey=Gris foncé
+Green=Vert
+Grey=Gris
+Magenta=Magenta
+Orange=Orange
+Pink=Rose
+Red=Rouge
+Violet=Violet
+White=Blanc
+Yellow=Jaune
+None=Rien
+
+# Materials
+Copper=cuivre
+Gold=or
+Iron=fer
+Mithril=mithril
+Silver=argent
+Wooden=bois
+
+# Sorting
+Sort=Tri
+Auto-sort is @1=Tri automatique @1
+Off=désactivé
+On=activé

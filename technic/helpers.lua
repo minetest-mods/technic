@@ -50,7 +50,7 @@ assert(technic.pretty_num(123456789) == "123.5 M")
 
 -- used to display power values
 function technic.EU_string(num)
-	return technic.pretty_num(num) .. "EU"
+	return technic.pretty_num(num) .. technic.getter("EU")
 end
 
 

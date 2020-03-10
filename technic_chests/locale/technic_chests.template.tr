@@ -1,0 +1,49 @@
+# textdomain: technic_chests
+
+# common.lua
+
+@1 moves stuff in chest at @2=
+@1 moves @2 to chest at @3=
+@1 takes @2 from chest at @3=
+
+@1 Chest=
+@1 Locked Chest=
+@1 Locked Chest (owned by @2)=
+Color Filter: @1=
+Edit chest description:=
+You do not own this chest.=
+a locked chest=
+Allow splitting incoming stacks from tubes=
+[technic_chests] WARNING: variable or method '@1' not present in dummy pipeworks table - assuming it is a method...
+
+# Colors
+Black=
+Blue=
+Brown=
+Cyan=
+Dark Green=
+Dark Grey=
+Green=
+Grey=
+Magenta=
+Orange=
+Pink=
+Red=
+Violet=
+White=
+Yellow=
+None=
+
+# Materials
+Copper=
+Gold=
+Iron=
+Mithril=
+Silver=
+Wooden=
+
+# Sorting
+Sort=
+Auto-sort is @1=
+Off=
+On=

@@ -22,7 +22,7 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 		inventory_image = inventory_image .. "^[colorize:" .. grinding_color
 	end
 	minetest.register_craftitem(grindings_name, {
-		description = S("%s Grinding"):format(S(name)),
+		description = S("@1 Grinding", S(name)),
 		inventory_image = inventory_image,
 	})
 	minetest.register_craft({

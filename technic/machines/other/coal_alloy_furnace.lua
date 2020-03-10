@@ -70,20 +70,20 @@ minetest.register_node("technic:coal_alloy_furnace_active", {
 })
 
 minetest.register_abm({
-	label = "Machines: run coal alloy furnace",
+	label = S("Machines: run coal alloy furnace"),
 	nodenames = {"technic:coal_alloy_furnace", "technic:coal_alloy_furnace_active"},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
 		local inv    = meta:get_inventory()
-		
+
 		if inv:get_size("src") == 1 then -- Old furnace -> convert it
 			inv:set_size("src", 2)
 			inv:set_stack("src", 2, inv:get_stack("src2", 1))
 			inv:set_size("src2", 0)
 		end
-		
+
 		local recipe = nil
 
 		for i, name in pairs({
@@ -122,7 +122,7 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
+			meta:set_string("infotext", S("@1 Active", machine_name).." ("..percent.."%)")
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 					"size[8,9]"..
@@ -146,7 +146,7 @@ minetest.register_abm({
 
 		if not recipe then
 			if was_active then
-				meta:set_string("infotext", S("%s is empty"):format(machine_name))
+				meta:set_string("infotext", S("@1 is empty", machine_name))
 				technic.swap_node(pos, "technic:coal_alloy_furnace")
 				meta:set_string("formspec", formspec)
 			end
@@ -163,7 +163,7 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext", S("%s Out Of Fuel"):format(machine_name))
+			meta:set_string("infotext", S("@1 Out Of Fuel", machine_name))
 			technic.swap_node(pos, "technic:coal_alloy_furnace")
 			meta:set_string("formspec", formspec)
 			return

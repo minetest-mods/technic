@@ -1,0 +1,42 @@
+# textdomain: technic_chests
+# Turkish translation
+# mahmutelmas06@hotmail.com
+# Türkçe çeviri
+
+@1 Chest=@1 Sandık
+@1 Locked Chest=@1 Kilitli sandık
+@1 Locked Chest (owned by @2)=@1 Kilitli sandık (Sahibi @2)
+Color Filter: @1=Renk süzgeci: @1
+Edit chest description:=Sandık bilgilerini düzenle
+
+# Colors - Renkler
+Black=Siyah
+Blue=Mavi
+Brown=Kahverengi
+Cyan=Cam göbeği
+Dark Green=Koyu yeşil
+Dark Grey=Koyu gri
+Green=Yeşil
+Grey=Gri
+Magenta=Mor
+Orange=Turuncu
+Pink=Pembe
+Red=Kırmızı
+Violet=Koyu mor
+White=Beyaz
+Yellow=Sarı
+None=Hiç
+
+# Materials - Metaryeller
+Copper=Bakır
+Gold=Altın
+Iron=Demir
+Mithril=Mithril
+Silver=Gümüş
+Wooden=Ahşap
+
+# Sorting  - Sıralama
+Sort=Sırala
+Auto-sort is @1=Otomatik sıralama @1
+Off=Kapalı
+On=Açık

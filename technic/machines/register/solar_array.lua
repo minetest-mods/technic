@@ -13,7 +13,7 @@ function technic.register_solar_array(data)
 		-- To take care of some of it solar panels do not work outside daylight hours or if
 		-- built below 0m
 		local pos1 = {}
-		local machine_name = S("Arrayed Solar %s Generator"):format(tier)
+		local machine_name = S("Arrayed Solar @1 Generator", S(tier))
 		pos1.y = pos.y + 1
 		pos1.x = pos.x
 		pos1.z = pos.z
@@ -34,7 +34,7 @@ function technic.register_solar_array(data)
 				technic.EU_string(charge_to_give)))
 			meta:set_int(tier.."_EU_supply", charge_to_give)
 		else
-			meta:set_string("infotext", S("%s Idle"):format(machine_name))
+			meta:set_string("infotext", S("@1 Idle", machine_name))
 			meta:set_int(tier.."_EU_supply", 0)
 		end
 	end
@@ -46,7 +46,7 @@ function technic.register_solar_array(data)
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, ["technic_"..ltier]=1},
 		connect_sides = {"bottom"},
 		sounds = default.node_sound_wood_defaults(),
-		description = S("Arrayed Solar %s Generator"):format(tier),
+		description = S("Arrayed Solar @1 Generator", S(tier)),
 		active = false,
 		drawtype = "nodebox",
 		paramtype = "light",

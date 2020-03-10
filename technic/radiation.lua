@@ -348,7 +348,7 @@ end
 
 if minetest.settings:get_bool("enable_damage") then
 	minetest.register_abm({
-		label = "Radiation damage",
+		label = S("Radiation damage"),
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 1,
@@ -449,7 +449,7 @@ if rawget(_G, "bucket") and bucket.register_liquid then
 		"technic:corium_flowing",
 		"technic:bucket_corium",
 		"technic_bucket_corium.png",
-		"Corium Bucket"
+		S("Corium Bucket")
 	)
 end
 
@@ -463,7 +463,7 @@ minetest.register_node("technic:chernobylite_block", {
 })
 
 minetest.register_abm({
-	label = "Corium: boil-off water (sources)",
+	label = S("Corium: boil-off water (sources)"),
 	nodenames = {"group:water"},
 	neighbors = {"technic:corium_source"},
 	interval = 1,
@@ -474,7 +474,7 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
-	label = "Corium: boil-off water (flowing)",
+	label = S("Corium: boil-off water (flowing)"),
 	nodenames = {"technic:corium_flowing"},
 	neighbors = {"group:water"},
 	interval = 1,
@@ -485,7 +485,7 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
-	label = "Corium: become chernobylite",
+	label = S("Corium: become chernobylite"),
 	nodenames = {"technic:corium_flowing"},
 	interval = 5,
 	chance = (griefing and 10 or 1),
@@ -496,7 +496,7 @@ minetest.register_abm({
 
 if griefing then
 	minetest.register_abm({
-		label = "Corium: griefing",
+		label = S("Corium: griefing"),
 		nodenames = {"technic:corium_source", "technic:corium_flowing"},
 		interval = 4,
 		chance = 4,

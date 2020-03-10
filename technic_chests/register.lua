@@ -1,4 +1,4 @@
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = minetest.get_translator("technic_chests")
 
 local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")
@@ -17,7 +17,7 @@ if not minetest.get_modpath("pipeworks") then
 	local dummy = function()
 		end
 	pipeworks_meta.__index = function(table, key)
-			print("[technic_chests] WARNING: variable or method '"..key.."' not present in dummy pipeworks table - assuming it is a method...")
+			print(S("[technic_chests] WARNING: variable or method '@1' not present in dummy pipeworks table - assuming it is a method...",key))
 			pipeworks[key] = dummy
 			return dummy
 		end
@@ -26,7 +26,7 @@ if not minetest.get_modpath("pipeworks") then
 	fs_helpers.cycling_button = function() return "" end
 else
 	fs_helpers = pipeworks.fs_helpers
-	allow_label = "label[0.9,0.36;Allow splitting incoming stacks from tubes]"
+	allow_label = "label[0.9,0.36;"..S("Allow splitting incoming stacks from tubes").."]"
 	shift_edit_field = 3
 	tube_entry = "^pipeworks_tube_connection_metallic.png"
 end
@@ -98,7 +98,7 @@ local function set_formspec(pos, data, page)
 
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
+		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3.1,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is @1", status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
@@ -122,7 +122,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
+		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: @1", colorName).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -188,7 +188,6 @@ end
 
 function technic.chests:definition(name, data)
 	local lname = name:lower()
-	name = S(name)
 	local d = {}
 	for k, v in pairs(data) do d[k] = v end
 	data = d
@@ -215,7 +214,7 @@ function technic.chests:definition(name, data)
 	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
 	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]"..
-			"label[0,0;"..S("%s Chest"):format(name).."]"..
+			"label[0,0;"..S("@1 Chest", S(name)).."]"..
 			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
 			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
 			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";technic_chest_form_bg.png]"..
@@ -224,7 +223,7 @@ function technic.chests:definition(name, data)
 			"listring[]"
 
 	if data.sort then
-		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
+		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1.2,0.8;sort;"..S("Sort").."]"
 	end
 	if data.color then
 		data.base_formspec = data.base_formspec..get_color_buttons(data.coleft, data.lotop)
@@ -235,8 +234,7 @@ function technic.chests:definition(name, data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
 			meta:set_string("infotext",
-					S("%s Locked Chest (owned by %s)")
-					:format(name, meta:get_string("owner")))
+					S("@1 Locked Chest (owned by @2)", S(name), meta:get_string("owner")))
 			pipeworks.after_place(pos)
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
@@ -246,9 +244,9 @@ function technic.chests:definition(name, data)
 
 	local desc
 	if data.locked then
-		desc = S("%s Locked Chest"):format(name)
+		desc = S("@1 Locked Chest", S(name))
 	else
-		desc = S("%s Chest"):format(name)
+		desc = S("@1 Chest", S(name))
 	end
 
 	local tentry = tube_entry
@@ -279,7 +277,7 @@ function technic.chests:definition(name, data)
 
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", S("%s Chest"):format(name))
+			meta:set_string("infotext", S("@1 Chest", S(name)))
 			set_formspec(pos, data, "main")
 			local inv = meta:get_inventory()
 			inv:set_size("main", data.width * data.height)
@@ -315,7 +313,7 @@ function technic.chests:definition(name, data)
 			-- verify placer is owner of lockable chest
 			if owner ~= name then
 				minetest.record_protection_violation(pos, name)
-				minetest.chat_send_player(name, "You do not own this chest.")
+				minetest.chat_send_player(name, S("You do not own this chest."))
 				return nil
 			end
 
@@ -325,7 +323,7 @@ function technic.chests:definition(name, data)
 				meta:set_string("key_lock_secret", secret)
 			end
 
-			return secret, "a locked chest", owner
+			return secret, S("a locked chest"), owner
 		end
 	end
 	return def

@@ -51,12 +51,12 @@ end
 
 local run = function(pos, node)
 	local meta = minetest.get_meta(pos)
-	local machine_name = S("Wind %s Generator"):format("MV")
+	local machine_name = S("Wind @1 Generator", S("MV"))
 
 	local check = check_wind_mill(pos)
 	if check == false then
 		meta:set_int("MV_EU_supply", 0)
-		meta:set_string("infotext", S("%s Improperly Placed"):format(machine_name))
+		meta:set_string("infotext", S("@1 Improperly Placed", machine_name))
 	elseif check == true then
 		local power = math.min(pos.y * 100, 5000)
 		meta:set_int("MV_EU_supply", power)
@@ -67,7 +67,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:wind_mill", {
-	description = S("Wind %s Generator"):format("MV"),
+	description = S("Wind @1 Generator", S("MV")),
 	tiles = {"technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
 	groups = {cracky=1, technic_machine=1, technic_mv=1},
@@ -86,7 +86,7 @@ minetest.register_node("technic:wind_mill", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Wind %s Generator"):format("MV"))
+		meta:set_string("infotext", S("Wind @1 Generator", S("MV")))
 		meta:set_int("MV_EU_supply", 0)
 	end,
 	technic_run = run,

@@ -1,0 +1,43 @@
+# textdomain: technic_worldgen
+
+###crafts.lua
+Uranium Lump=
+Uranium Ingot=
+Chromium Lump=
+Chromium Ingot=
+Zinc Lump=
+Zinc Ingot=
+Lead Lump=
+Lead Ingot=
+Sulfur Lump=
+Brass Ingot=
+Wrought Iron Ingot=
+Cast Iron Ingot=
+Carbon Steel Ingot=
+Stainless Steel Ingot=
+Iron=Hierro
+
+###nodes.lua
+Uranium Ore=
+Chromium Ore=
+Zinc Ore=
+Lead Ore=
+Sulfur Ore=
+Granite=
+Marble=
+Marble Bricks=
+Uranium Block=
+Chromium Block=
+Zinc Block=
+Lead Block=
+Wrought Iron Block=
+Cast Iron Block=
+Carbon Steel Block=
+Stainless Steel Block=
+Brass Block=
+Wrought Iron=
+
+###rubber.lua
+Rubber Tree Sapling=
+Rubber Tree=
+Rubber Tree Leaves=

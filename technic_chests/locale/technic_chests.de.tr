@@ -1,0 +1,42 @@
+# textdomain: technic_chests
+# German Translation for technic_chests
+# Deutsche Übersetzung von technic_chests
+# by Xanthin
+
+@1 Chest=@1truhe
+@1 Locked Chest=Verschlossene @1truhe
+@1 Locked Chest (owned by @2)=Verschlossene @1truhe (gehoert @2)
+Color Filter: @1=Farbfilter: @1
+Edit chest description:=Bearbeite die Beschreibung
+
+# Colors
+Black=Schwarz
+Blue=Blau
+Brown=Braun
+Cyan=Tuerkis
+Dark Green=Dunkelgruen
+Dark Grey=Dunkelgrau
+Green=Gruen
+Grey=Grau
+Magenta=Magenta
+Orange=Orange
+Pink=Rosa
+Red=Rot
+Violet=Violett
+White=Weiss
+Yellow=Gelb
+None=Farblos
+
+# Materials
+Copper=Kupfer
+Gold=Gold
+Iron=Eisen
+Mithril=Mithril
+Silver=Silber
+Wooden=Holz
+
+# Sorting
+Sort=
+Auto-sort is @1=
+Off=
+On=

@@ -21,13 +21,13 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("technic:geothermal", {
-	description = S("Geothermal %s Generator"):format("LV"),
+	description = S("Geothermal @1 Generator", S("LV")),
 })
 
 local check_node_around = function(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "default:water_source" or node.name == "default:water_flowing" then return 1 end
-	if node.name == "default:lava_source"  or node.name == "default:lava_flowing"  then return 2 end	
+	if node.name == "default:lava_source"  or node.name == "default:lava_flowing"  then return 2 end
 	return 0
 end
 
@@ -70,7 +70,7 @@ local run = function(pos, node)
 	end
 
 	meta:set_string("infotext",
-		S("Geothermal %s Generator"):format("LV").." ("..production_level.."%)")
+		S("Geothermal @1 Generator", S("LV")).." ("..production_level.."%)")
 
 	if production_level > 0 and minetest.get_node(pos).name == "technic:geothermal" then
 		technic.swap_node (pos, "technic:geothermal_active")
@@ -83,7 +83,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:geothermal", {
-	description = S("Geothermal %s Generator"):format("LV"),
+	description = S("Geothermal @1 Generator", S("LV")),
 	tiles = {"technic_geothermal_top.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
@@ -93,14 +93,14 @@ minetest.register_node("technic:geothermal", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Geothermal %s Generator"):format("LV"))
+		meta:set_string("infotext", S("Geothermal @1 Generator", S("LV")))
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
 })
 
 minetest.register_node("technic:geothermal_active", {
-	description = S("Geothermal %s Generator"):format("LV"),
+	description = S("Geothermal @1 Generator", S("LV")),
 	tiles = {"technic_geothermal_top_active.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	paramtype2 = "facedir",

@@ -1,0 +1,7 @@
+# textdomain: technic_wrench
+# technic_wrench traducido por Carlos Barraza
+
+Wrench=Llave Inglesa
+@1 with items=@1 con elementos
+@1 wanted to place @2 at @3, but it had no data=@1 quiere colocar @2 en @3 pero no tiene datos
+@1 tried to pick up an owned node belonging to @2 at @3=@1 trato de recoger un nodo protegido que pertenece a @2 en @3

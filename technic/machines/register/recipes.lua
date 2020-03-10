@@ -39,17 +39,17 @@ local function register_recipe(typename, data)
 	else
 		data.output = ItemStack(data.output):to_string()
 	end
-	
+
 	local recipe = {time = data.time, input = {}, output = data.output}
 	local index = get_recipe_index(data.input)
 	if not index then
-		print("[Technic] ignored registration of garbage recipe!")
+		print(S("[Technic] ignored registration of garbage recipe!"))
 		return
 	end
 	for _, stack in ipairs(data.input) do
 		recipe.input[ItemStack(stack):get_name()] = ItemStack(stack):get_count()
 	end
-	
+
 	technic.recipes[typename].recipes[index] = recipe
 	if have_ui and technic.recipes[typename].output_size == 1 then
 		unified_inventory.register_craft({
@@ -82,7 +82,7 @@ function technic.get_recipe(typename, items)
 	end
 	local index = get_recipe_index(items)
 	if not index then
-		print("[Technic] ignored registration of garbage recipe!")
+		print(S("[Technic] ignored registration of garbage recipe!"))
 		return
 	end
 	local recipe = technic.recipes[typename].recipes[index]

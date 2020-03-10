@@ -1,0 +1,253 @@
+# textdomain: technic
+# Spanish Translation for Technic Mod
+# Traduccion al Español del Mod Technic
+# Autor: Diego Martínez <kaeza>
+# Carlos Barraza (Actualizacion 2020)
+
+## Misc
+[Technic] Loaded in @1 seconds=[Technic] Cargado en @1 segundos
+[Technic] ignored registration of garbage recipe!=[Technic] ¡Ignoró el registro de la receta de basura!
+[TECHNIC] Warning: redundant switching station found near @1=[Technic] Advertencia: estación de conmutación redundante encontrada en @1
+Digiline Channel=Canal de Digiline
+Enable Digiline=Habilitar Digiline
+Digiline Remote Channel=Canal Remoto Digiline
+Channel=Canal
+Radiation damage=Daño por Radiacion
+
+## Comandos
+state=estado
+
+## Items
+Silicon Wafer=Oblea de Silicio
+Doped Silicon Wafer=Oblea de Silicio Dopada
+Enriched Uranium=Uranio Enriquecido
+Uranium Fuel=Combustible de Uranio
+Diamond Drill Head=Mecha de Taladro de Diamante
+Blue Energy Crystal=Cristal de Energia Azul
+Green Energy Crystal=Cristal de Energia Verde
+Red Energy Crystal=Cristal de Energia Rojo
+Fine Copper Wire=Cable Fino de Cobre
+Copper Coil=Resorte de Cobre
+Electric Motor=Motor Electrico
+Low Voltage Transformer=Transformador de Bajo Voltaje
+Medium Voltage Transformer=Transformador de Voltaje Medio
+High Voltage Transformer=Transformador de Alto Voltaje
+Control Logic Unit=Unidad Logica de Control
+Mixed Metal Ingot=Lingote de Metal Mezclado
+Composite Plate=Placa de Compuestos
+Copper Plate=Placa de Cobre
+Carbon Plate=Placa de Carbon
+Graphite=Grafito
+Carbon Cloth=Tela de Carbon
+Machine Casing=Carcasa de Máquina
+Raw Latex=Latex Crudo
+Rubber Fiber=Fibra de Hule
+@1%-Fissile Uranium Ingot=Lingote de Uranio Fisible al @1%
+@1%-Fissile Uranium Block=Bloque de Uranio Fisible al @1%
+Corium Source=Fuente de Corio
+Flowing Corium=Fluido de Corio
+Corium Bucket=Cubo de Corio
+Chernobylite=Chernóbil
+Chernobylite Block=Bloques de Chernóbil
+Corium: boil-off water (sources)=Corio: agua en ebullición (fuente)
+Corium: boil-off water (flowing)=Corio: agua en ebullicion (fluido)
+Corium: become chernobylite=Corio: conviérte en bloques de chernóbil
+Corium: griefing=Corio: dañino
+LV=BV
+MV=MV
+HV=AV
+lv=bv
+mv=mv
+hv=av
+EU=UE
+
+## Machine misc
+Machine cannot be removed because it is not empty=La maquina no puede removerse porque no esta vacia
+Inventory move disallowed due to protection=No se puede mover el inventario porque esta protegido
+# $1: Machine name (Includes tier)
+Power Monitor=Monitor de Energía
+Input Power=Potencia de Entrada
+Power Monitor. Supply: @1 Demand: @2=Monitor de Energía. Produccion: @1 Consumo: @2
+Power Monitor Has No Network=El Monitor de Energía no tiene una red
+@1 Active (@2)=@1 Activo (@2)
+@1 Active=@1 Activo
+@1 Enabled=@1 Habilitado
+@1 Idle=@1 Inactivo
+@1 Unpowered=@1 Sin Energia
+@1 Out Of Fuel=@1 Sin Combustible
+@1 Has Bad Cabling=@1 Esta mal cableado
+@1 Has No Network=@1 No tiene una red
+@1 Finished=@1 Terminado
+@1 Disabled=@1 Deshabilitado
+@1 Improperly Placed=@1 Esta mal instalado
+Range=Alcance
+Enable/Disable=Habilitar/Deshabilitar
+Itemwise=Por articulo
+Stackwise=Por grupo
+Owner:=Propietario:
+Unlocked=Desbloqueado
+Locked=Bloqueado
+Radius:=Radio:
+Enabled=Habilitado
+Disabled=Deshabilitado
+
+## Machine names
+# $1: Tier
+Allow splitting incoming 'charge' stacks from tubes=Permitir dividir los grupos de 'carga'
+Allow splitting incoming 'discharge' stacks=Permitir dividir los grupos de 'descarga'
+@1 Alloy Furnace=Horno de Aleacion @1
+Battery Box=Caja de Baterias
+@1 Battery Box=Caja de Bateria @1
+@1 Battery Box Has No Network=La Caja de Bateria @1 no tiene una red
+@1 Battery Box: @2 / @3=Caja de Bateria @1: @2 / @3
+edit Channel=Editar Canal
+@1_battery_box=caja_de_bateria_@1
+Upgrade Slots=Ranura de Actualización
+@1 Cable=Cable @1
+@1 Cable Plate=Placa de Cable @1
+@1 Compressor=Compresor @1
+@1 Extractor=Extractor @1
+@1 Forcefield Emitter=Emisor de Campo de Fuerza @1
+@1 Furnace=Horno @1
+@1 Grinder=Molienda @1
+@1 Music Player=Reproductor de Musica @1
+@1 Quarry=Cantera @1
+@1 Tool Workshop=Taller de Herramientas @1
+@1 Centrifuge=Centrifugador @1
+@1 Freezer=Congelador @1
+@1 Nuclear Reactor Core=Nucleo de Reactor Nuclear @1
+Sphere=Esfera
+Cube=Cubo
+Ignoring Mesecon Signal=Ignorando señal Mesecon
+Controlled by Mesecon Signal=Controlado por señal Mesecon
+Arrayed Solar @1 Generator=Panel Solar @1
+Fuel-Fired @1 Generator=Generador a Carbon @1
+Geothermal @1 Generator=Generador Geotermico @1
+Hydro @1 Generator=Molino de Agua @1
+Nuclear @1 Generator Core=Nucleo de Reactor Nuclear @1
+Small Solar @1 Generator=Panel Solar @1
+Wind @1 Generator=Molino de Viento @1
+Self-Contained Injector=Inyector Autocontenido
+Constructor Mk@1=Constructor Marca @1
+Slot @1=Espacio @1
+@1 tried to place @2 at protected position @3=@1 trato de poner @2 en la posicion protegida @3
+Frame=Marco
+Frame Motor=Marco del Motor
+Template=Plantilla
+Template (replacing)=Plantilla (reemplazando)
+Template Motor=Motor de plantilla
+Template Tool=Herramienta de plantilla
+Supply Converter=Convertidor de Alimentacion
+supply_converter=convertidor_de_alimentacion
+Switching Station=Estacion de Conmutacion
+@1. Supply: @2 Demand: @3=@1. Producción: @2 Consumo: @3
+switching_station=estacion_de_conmutacion
+@1 Already Present=@1 Ya existe en la red
+Enables or disables technic's switching station ABM=Habilita o deshabilita la estación de comuntación de technic en el Modificador de Bloque Activo (ABM)
+Fuel-Fired Alloy Furnace=Horno de Aleacion a Carbon
+Fuel-Fired Furnace=Horno a Carbon
+Forcefield=Campo de Fuerza
+Nuclear Reactor Rod Compartment=Compartimiento para el Combustible de Uranio
+Start=Iniciar
+automatic Start=Inicio Automatico
+A reactor melted down at @1=Un reactor se fundió en @1
+Start successful=Inicio exitoso
+Error=Error
+Machines: reactor melt-down check=Máquinas: control de fusión del reactor
+Machines: run coal alloy furnace=Máquinas: ejecutar horno de aleación a carbón
+Machines: run power monitor=Máquinas: ejecutar monitor de potencia
+Machines: timeout check=Máquinas: se acabó el tiempo
+Machines: re-enable check=Máquinas: verificación de reactivación
+Wind Mill Frame=Armazon de Molino de Viento
+Administrative World Anchor=Ancla del Mundo - Administrador
+
+## Machine-specific
+Charge=Cargar
+Discharge=Descargar
+Power level=Nivel de Poder
+Production at @1%%=Produccion en @1%%
+Stopped=Detenido
+Stop=Parar
+Current track @1=Pista Actual @1
+Keeping @1/@2 map blocks loaded=Mantener @1/@2 bloques de mapa cargado
+Digging not started=Excavación no iniciada
+Purging cache=Vaciando contenido
+@1 purging cache=@1 vaciando contenido
+Restart=Reiniciar
+Digging finished=Excavación terminada
+Digging @1 m above machine=Excavando @1 m sobre la maquina
+Digging @1 m below machine=Excavando @1 m debajo de la maquina
+You are not allowed to edit this!=¡No tienes permiso para editar esto!
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=No puedes sacar elementos de la cantera. Si no puedes esperar, reinicia o desactiva la cantera para iniciar el vaciado automatico.
+@1 is empty=@1 esta vacio
+
+## Grinder Recipes
+# $1: Name
+@1 Dust=Polvo de @1
+Akalin=Akalina
+Alatro=Alatro
+Arol=Arol
+Brass=Laton
+Bronze=Bronce
+Carbon Steel=Acero al Carbono
+Cast Iron=Hierro Fundido
+Chromium=Cromo
+Coal=Carbon
+Copper=Cobre
+Gold=Oro
+Mithril=Mitrilo
+Silver=Plata
+Stainless Steel=Acero Inoxidable
+Talinite=Talinita
+Tin=Estanio
+Wrought Iron=Hierro Forjado
+Zinc=Zinc
+@1%-Fissile Uranium=Uranio Fisible al @1%
+Sawdust=Acerrín
+
+## Tools
+RE Battery=Bateria Recargable
+Water Can=Bidon de Agua
+River Water Can=Bidon de Agua de Rio
+Lava Can=Bidon de Lava
+Chainsaw=Motosierra
+Flashlight=Linterna
+3 nodes deep.=3 nodos de profundidad.
+3 nodes tall.=3 nodos de alto.
+3 nodes wide.=3 nodos de ancho.
+3x3 nodes.=3x3 nodos.
+Use while sneaking to change Mining Drill Mk@1 modes.=Manten pulsado Mayús + Clic para cambiar el modo del Taladro de Mineria Marca @1.
+Mining Drill Mk@1 Mode @2: @3=Taladro de Mineria Marca @1 Modo @2: @3
+Mining Drill Mk@1 Mode @2=Taladro de Mineria Marca @1 Modo @2
+Mining Drill Mk@1=Taladro de Mineria Marca @1
+Mining Laser Mk@1=Laser de Mineria Marca @1
+Single node.=Nodo simple.
+Mining Laser Mk%d=Laser de Mineria Marca @1
+Prospector=Prospector
+Right-click to set target block type=Haga clic derecho para establecer el tipo de bloque objetivo
+Current target:=Objetivo actual:
+No target set=Objetivo no seleccionado
+May set new target:=Puede establecer un nuevo objetivo:
+Set target=Establecer objetivo
+No new target available=No hay un nuevo objetivo disponible
+Region cross section:=Sección de corte:
+Set region cross section:=Establecer sección de corte:
+Region depth:=Profundidad:
+Set region depth:=Establecer la profundidad:
+Accuracy:=Precisión:
+@1 is @2 in @3x@4x@5 region=@1 esta @2 en la región @3x@4x@5
+present=presente
+absent=ausente
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Destornillador Sonico@n(Clic Izquierdo gira la cara, Clic Derecho gira el eje)
+Tree Tap=Grifo de Arbol
+@1 tried to tak @2 at protected position @3  with a @4=@1 intento tomar @2 en la posicion protegida @3 con un @4
+@1 tried to place @2 at protected position @3 with a @4=@1 intento poner @2 en la posicion protegida @3 con un @4
+Tools: tree tap=Herramientas: grifo de arbol
+Vacuum Cleaner=Aspiradora
+
+## Craft descriptions
+Alloy cooking=Horno de Aleación
+Grinding=Molienda
+Compressing=Compresor
+Extracting=Extractor
+Separating=Separando

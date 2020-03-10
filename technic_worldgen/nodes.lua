@@ -145,6 +145,8 @@ minetest.register_alias("technic:diamond_block", "default:diamondblock")
 minetest.register_alias("technic:diamond", "default:diamond")
 minetest.register_alias("technic:mineral_diamond", "default:stone_with_diamond")
 
+--[[
+--This ruins the translations of the other mod, just by modifying steel to iron I don't think it's convenient.
 local function for_each_registered_node(action)
 	local really_register_node = minetest.register_node
 	minetest.register_node = function(name, def)
@@ -161,7 +163,7 @@ for_each_registered_node(function(node_name, node_def)
 			node_name:find("steelblock", 1, true) and
 			node_def.description:find("Steel", 1, true) then
 		minetest.override_item(node_name, {
-			description = node_def.description:gsub("Steel", S("Wrought Iron")),
+			description = node_def.description:gsub("Steel", "Wrought Iron"),
 		})
 	end
 	local tiles = node_def.tiles or node_def.tile_images
@@ -184,5 +186,5 @@ for_each_registered_node(function(node_name, node_def)
 			})
 		end
 	end
-end)
+end)]]
 

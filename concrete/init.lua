@@ -4,8 +4,7 @@
 local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = minetest.get_translator("technic_concrete")
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
@@ -63,7 +62,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 
 if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all("technic","blast_resistant_concrete","technic:blast_resistant_concrete",{
-		description = "Blast-resistant Concrete",
+		description = S("Blast-resistant Concrete"),
 		tiles = {"technic_blast_resistant_concrete_block.png",},
 		groups = {cracky=1, level=3, concrete=1},
 		sounds = default.node_sound_stone_defaults(),

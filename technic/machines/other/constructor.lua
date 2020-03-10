@@ -127,7 +127,7 @@ end
 
 local function make_constructor(mark, length)
 	minetest.register_node("technic:constructor_mk"..mark.."_off", {
-		description = S("Constructor Mk%d"):format(mark),
+		description = S("Constructor Mk@1", mark),
 		tiles = {"technic_constructor_mk"..mark.."_top_off.png",
 			"technic_constructor_mk"..mark.."_bottom_off.png",
 			"technic_constructor_mk"..mark.."_side2_off.png",
@@ -142,16 +142,16 @@ local function make_constructor(mark, length)
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local formspec = "size[8,9;]"..
-				"label[0,0;"..S("Constructor Mk%d"):format(mark).."]"..
+				"label[0,0;"..S("Constructor Mk@1", mark).."]"..
 				"list[current_player;main;0,5;8,4;]"
 			for i = 1, length do
 				formspec = formspec
-					.."label[5,"..(i - 1)..";"..S("Slot %d"):format(i).."]"
+					.."label[4.8,"..(i - 1)..";"..S("Slot @1", i).."]"
 					.."list[current_name;slot"..i
 						..";6,"..(i - 1)..";1,1;]"
 			end
 			meta:set_string("formspec", formspec)
-			meta:set_string("infotext", S("Constructor Mk%d"):format(mark))
+			meta:set_string("infotext", S("Constructor Mk@1", mark))
 			local inv = meta:get_inventory()
 			for i = 1, length do
 				inv:set_size("slot"..i, 1)
