@@ -32,6 +32,7 @@ Recommended mods that build on the `technic mod`:
 * **technic.quarry.maxdepth** max depth of the quarry (default: 100)
 * **technic.switch_max_range** max cable length (default: 256)
 * **technic.switch.off_delay_seconds** switching station off delay (default: 300 seconds)
+* **technic.radiation.enable_throttling** enable lag- and per-second-trottling of radiation damage
 
 # Chat commands
 

@@ -347,19 +347,24 @@ local function dmg_object(pos, object, strength)
 	end
 end
 
+local enable_radiation_throttling = minetest.settings:get_bool("technic.radiation.enable_throttling")
+
 -- max lag tracker
 local last_max_lag = 0
-local function trackMaxLag()
-	last_max_lag = technic.get_max_lag()
-	minetest.after(5, trackMaxLag)
-end
 
--- kick off lag tracking function
-trackMaxLag()
+if enable_radiation_throttling then
+	local function trackMaxLag()
+		last_max_lag = technic.get_max_lag()
+		minetest.after(5, trackMaxLag)
+	end
+
+	-- kick off lag tracking function
+	trackMaxLag()
+end
 
 local rad_dmg_mult_sqrt = math.sqrt(1 / rad_dmg_cutoff)
 local function dmg_abm(pos, node)
-	if last_max_lag > 1.5 then
+	if enable_radiation_throttling and last_max_lag > 1.5 then
 		-- too much lag, skip radiation check entirely
 		return
 	end
@@ -375,12 +380,16 @@ local function dmg_abm(pos, node)
 end
 
 if minetest.settings:get_bool("enable_damage") then
+	if enable_radiation_throttling then
+		dmg_abm = throttle(100, dmg_abm)
+	end
+
 	minetest.register_abm({
 		label = "Radiation damage",
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 2,
-		action = throttle(100, dmg_abm),
+		action = dmg_abm,
 	})
 
 	if longterm_damage then
