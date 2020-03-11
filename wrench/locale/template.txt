@@ -1,5 +1,0 @@
-# technic_wrench translation template
-
-Wrench =
-%s with items =
-
