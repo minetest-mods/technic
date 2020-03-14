@@ -11,6 +11,9 @@ local chainsaw_vines = true -- Cut down vines
 
 local timber_nodenames = {} -- Cuttable nodes
 
+local max_saw_radius = 12 -- max x/z distance away from starting position to allow cutting
+-- Prevents forest destruction, increase for extra wide trees
+
 
 -- Support for nodes not in any supported node groups (tree, leaves, leafdecay, leafdecay_drop)
 
@@ -65,60 +68,9 @@ local function handle_drops(drops)
 	end
 end
 
---- Iterator over positions to try to saw around a sawed node.
--- This returns positions in a 3x1x3 area around the position, plus the
--- position above it.  This does not return the bottom position to prevent
--- the chainsaw from cutting down nodes below the cutting position.
--- @param pos Sawing position.
-local function iterSawTries(pos)
-	-- Copy position to prevent mangling it
-	local pos = vector.new(pos)
-	local i = 0
-
-	return function()
-		i = i + 1
-		-- Given a (top view) area like so (where 5 is the starting position):
-		-- X -->
-		-- Z 123
-		-- | 456
-		-- V 789
-		-- This will return positions 1, 4, 7, 2, 8 (skip 5), 3, 6, 9,
-		-- and the position above 5.
-		if i == 1 then
-			-- Move to starting position
-			pos.x = pos.x - 1
-			pos.z = pos.z - 1
-		elseif i == 4 or i == 7 then
-			-- Move to next X and back to start of Z when we reach
-			-- the end of a Z line.
-			pos.x = pos.x + 1
-			pos.z = pos.z - 2
-		elseif i == 5 then
-			-- Skip the middle position (we've already run on it)
-			-- and double-increment the counter.
-			pos.z = pos.z + 2
-			i = i + 1
-		elseif i <= 9 then
-			-- Go to next Z.
-			pos.z = pos.z + 1
-		elseif i == 10 then
-			-- Move back to center and up.
-			-- The Y+ position must be last so that we don't dig
-			-- straight upward and not come down (since the Y-
-			-- position isn't checked).
-			pos.x = pos.x - 1
-			pos.z = pos.z - 1
-			pos.y = pos.y + 1
-		else
-			return nil
-		end
-		return pos
-	end
-end
-
 -- This function does all the hard work. Recursively we dig the node at hand
 -- if it is in the table and then search the surroundings for more stuff to dig.
-local function recursive_dig(pos, remaining_charge)
+local function recursive_dig(pos, origin, remaining_charge)
 	if remaining_charge < chainsaw_charge_per_node then
 		return remaining_charge
 	end
@@ -133,16 +85,27 @@ local function recursive_dig(pos, remaining_charge)
 	minetest.remove_node(pos)
 	remaining_charge = remaining_charge - chainsaw_charge_per_node
 
-	-- Check for snow on pine trees, etc
+	-- Check for snow on pine trees, sand/gravel on leaves, etc
 	minetest.check_for_falling(pos)
 
 	-- Check surroundings and run recursively if any charge left
-	for npos in iterSawTries(pos) do
-		if remaining_charge < chainsaw_charge_per_node then
-			break
-		end
-		if timber_nodenames[minetest.get_node(npos).name] then
-			remaining_charge = recursive_dig(npos, remaining_charge)
+	for y=-1, 1 do
+		if (pos.y + y) >= origin.y then
+			for x=-1, 1 do
+				if (pos.x + x) <= (origin.x + max_saw_radius) and (pos.x + x) >= (origin.x - max_saw_radius) then
+					for z=-1, 1 do
+						if (pos.z + z) <= (origin.z + max_saw_radius) and (pos.z + z) >= (origin.z - max_saw_radius) then
+							local npos = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
+							if remaining_charge < chainsaw_charge_per_node then
+								return remaining_charge
+							end
+							if timber_nodenames[minetest.get_node(npos).name] then
+								remaining_charge = recursive_dig(npos, origin, remaining_charge)
+							end
+						end
+					end
+				end
+			end
 		end
 	end
 	return remaining_charge
@@ -185,7 +148,7 @@ end
 -- Chainsaw entry point
 local function chainsaw_dig(pos, current_charge)
 	-- Start sawing things down
-	local remaining_charge = recursive_dig(pos, current_charge)
+	local remaining_charge = recursive_dig(pos, pos, current_charge)
 	minetest.sound_play("chainsaw", {pos = pos, gain = 1.0,
 			max_hear_distance = 10})
 
