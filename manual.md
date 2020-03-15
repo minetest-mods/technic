@@ -19,7 +19,7 @@ their own manuals:
 
 *   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
 *   [Mesecons Documentation](http://mesecons.net/items.html)
-*   [Pipeworks Documentation](https://github.com/minetest-mods/pipeworks/wiki)
+*   [Pipeworks Documentation](https://gitlab.com/VanessaE/pipeworks/-/wikis/home)
 *   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
 
 Recipes for constructable items in technic are generally not guessable,
