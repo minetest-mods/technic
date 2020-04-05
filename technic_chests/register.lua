@@ -172,7 +172,10 @@ local function get_receive_fields(name, data)
 		end
 		if data.color then
 			-- This sets the node
-			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
+			-- local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
+            local nn = "technic:"..name:lower()..
+                       (data.locked and "_locked" or "")..
+                       (data.protected and "_protected" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
 		end
 		if fields["fs_helpers_cycling:0:splitstacks"]
@@ -240,14 +243,23 @@ function technic.chests:definition(name, data)
 			pipeworks.after_place(pos)
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
-	else
+    elseif data.protected then
+        locked_after_place = function(pos, _)
+            local meta = minetest.get_meta(pos)
+            meta:set_string("infotext",
+                    S("%s Protected Chest"):format(name))
+            pipeworks.after_place(pos)
+        end
+    else
 		locked_after_place = pipeworks.after_place
 	end
 
 	local desc
 	if data.locked then
 		desc = S("%s Locked Chest"):format(name)
-	else
+	elseif data.protected then
+        desc = S("%s Protected Chest"):format(name)
+    else
 		desc = S("%s Chest"):format(name)
 	end
 
@@ -292,7 +304,10 @@ function technic.chests:definition(name, data)
 		on_blast = function(pos)
 			local drops = {}
 			default.get_inventory_drops(pos, "main", drops)
-			drops[#drops+1] = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+			-- drops[#drops+1] = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+            drops[#drops+1] = "technic:"..name:lower()..
+                       (data.locked and "_locked" or "")..
+                       (data.protected and "_protected" or "").."_chest"
 			minetest.remove_node(pos)
 			return drops
 		end,
@@ -301,6 +316,37 @@ function technic.chests:definition(name, data)
 		def.allow_metadata_inventory_move = self.inv_move
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
+		def.on_blast = function() end
+		def.can_dig = function(pos,player)
+			local meta = minetest.get_meta(pos);
+			local inv = meta:get_inventory()
+			return inv:is_empty("main") and default.can_interact_with_node(player, pos)
+		end
+		def.on_skeleton_key_use = function(pos, player, newsecret)
+			local meta = minetest.get_meta(pos)
+			local owner = meta:get_string("owner")
+			local name = player:get_player_name()
+
+			-- verify placer is owner of lockable chest
+			if owner ~= name then
+				minetest.record_protection_violation(pos, name)
+				minetest.chat_send_player(name, "You do not own this chest.")
+				return nil
+			end
+
+			local secret = meta:get_string("key_lock_secret")
+			if secret == "" then
+				secret = newsecret
+				meta:set_string("key_lock_secret", secret)
+			end
+
+			return secret, "a locked chest", owner
+		end
+	end
+	if data.protected then
+		def.allow_metadata_inventory_move = self.inv_move_protected
+		def.allow_metadata_inventory_put = self.inv_put_protected
+		def.allow_metadata_inventory_take = self.inv_take_protected
 		def.on_blast = function() end
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
@@ -364,7 +410,9 @@ local _TUBELIB_CALLBACKS = {
 function technic.chests:register(name, data)
 	local def = technic.chests:definition(name, data)
 
-	local nn = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+	local nn = "technic:"..name:lower()..
+               (data.locked and "_locked" or "")..
+               (data.protected and "_protected" or "").."_chest"
 	minetest.register_node(":"..nn, def)
 
 	if tubelib_exists then

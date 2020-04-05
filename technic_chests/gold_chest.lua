@@ -25,6 +25,17 @@ for _, material in ipairs(material_list) do
 			{'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
 		}
 	})
+
+    if minetest.get_modpath("protector") then
+        minetest.register_craft({
+            output = 'technic:gold_protected_chest',
+            recipe = {
+                {'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+                {'default:gold_ingot',"technic:"..material.."_protected_chest",'default:gold_ingot'},
+                {'default:gold_ingot','default:gold_ingot','default:gold_ingot'},
+            }
+        })
+    end
 end
 
 minetest.register_craft({
@@ -43,6 +54,7 @@ technic.chests:register("Gold", {
 	infotext = true,
 	color = true,
 	locked = false,
+    protected = false,
 })
 
 technic.chests:register("Gold", {
@@ -53,5 +65,26 @@ technic.chests:register("Gold", {
 	infotext = true,
 	color = true,
 	locked = true,
+    protected = false,
 })
 
+if minetest.get_modpath("protector") then
+    minetest.register_craft({
+        output = 'technic:gold_protected_chest',
+        recipe = {
+            {'default:copper_ingot'},
+            {'technic:gold_chest'},
+        }
+    })
+
+    technic.chests:register("Gold", {
+        width = 15,
+        height = 6,
+        sort = true,
+        autosort = true,
+        infotext = true,
+        color = true,
+        locked = false,
+        protected = true,
+    })
+end

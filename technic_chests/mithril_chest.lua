@@ -16,6 +16,16 @@ if minetest.get_modpath("moreores") then
 			{'moreores:mithril_ingot','moreores:mithril_ingot','moreores:mithril_ingot'},
 		}
 	})
+    if minetest.get_modpath("protector") then
+        minetest.register_craft({
+            output = 'technic:mithril_protected_chest 1',
+            recipe = {
+                {'moreores:mithril_ingot','moreores:mithril_ingot','moreores:mithril_ingot'},
+                {'moreores:mithril_ingot','technic:gold_protected_chest','moreores:mithril_ingot'},
+                {'moreores:mithril_ingot','moreores:mithril_ingot','moreores:mithril_ingot'},
+            }
+        })
+    end
 end
 
 minetest.register_craft({
@@ -34,6 +44,7 @@ technic.chests:register("Mithril", {
 	infotext = false,
 	color = false,
 	locked = false,
+    protected = false,
 })
 
 technic.chests:register("Mithril", {
@@ -44,5 +55,26 @@ technic.chests:register("Mithril", {
 	infotext = false,
 	color = false,
 	locked = true,
+    protected = false,
 })
 
+if minetest.get_modpath("protector") then
+    minetest.register_craft({
+        output = 'technic:mithril_protected_chest 1',
+        recipe = {
+            {'default:copper_ingot'},
+            {'technic:mithril_chest'},
+        }
+    })
+
+    technic.chests:register("Mithril", {
+        width = 15,
+        height = 6,
+        sort = true,
+        autosort = true,
+        infotext = false,
+        color = false,
+        locked = false,
+        protected = true,
+    })
+end

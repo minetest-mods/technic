@@ -36,6 +36,15 @@ local function inv_change(pos, count, player)
 	return count
 end
 
+local function inv_change_protected(pos, count, player)
+	-- Skip check for pipeworks (fake player)
+	if minetest.is_player(player) and
+			minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	return count
+end
+
 function technic.chests.inv_move(pos, from_list, from_index, to_list, to_index, count, player)
 	return inv_change(pos, count, player)
 end
@@ -44,6 +53,16 @@ function technic.chests.inv_put(pos, listname, index, stack, player)
 end
 function technic.chests.inv_take(pos, listname, index, stack, player)
 	return inv_change(pos, stack:get_count(), player)
+end
+
+function technic.chests.inv_move_protected(pos, from_list, from_index, to_list, to_index, count, player)
+	return inv_change_protected(pos, count, player)
+end
+function technic.chests.inv_put_protected(pos, listname, index, stack, player)
+	return inv_change_protected(pos, stack:get_count(), player)
+end
+function technic.chests.inv_take_protected(pos, listname, index, stack, player)
+	return inv_change_protected(pos, stack:get_count(), player)
 end
 
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
