@@ -11,12 +11,13 @@ technic.power_tools = {}
 technic.networks = {}
 
 
-function technic.register_tier(tier, description)
+function technic.register_tier(tier)
 	technic.machines[tier] = {}
 end
 
 function technic.register_machine(tier, nodename, machine_type)
 	if not technic.machines[tier] then
+		print("Warning: trying to register a machine with an unregistered tier")
 		return
 	end
 	technic.machines[tier][nodename] = machine_type

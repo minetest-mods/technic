@@ -1,5 +1,5 @@
 
-technic.register_tier("MV", "Medium Voltage")
+technic.register_tier("MV")
 
 local path = technic.modpath.."/machines/MV"
 
