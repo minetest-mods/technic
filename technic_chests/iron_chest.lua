@@ -39,7 +39,7 @@ technic.chests:register("Iron", {
 	infotext = false,
 	color = false,
 	locked = false,
-    protected = false,
+	protected = false,
 })
 
 technic.chests:register("Iron", {
@@ -50,35 +50,35 @@ technic.chests:register("Iron", {
 	infotext = false,
 	color = false,
 	locked = true,
-    protected = false,
+	protected = false,
 })
 
 if minetest.get_modpath("protector") then
-    minetest.register_craft({
-        output = 'technic:iron_protected_chest 1',
-        recipe = {
-            {cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
-            {cast_iron_ingot,'protector:chest',cast_iron_ingot},
-            {cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
-        }
-    })
+	minetest.register_craft({
+		output = 'technic:iron_protected_chest 1',
+		recipe = {
+			{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
+			{cast_iron_ingot,'protector:chest',cast_iron_ingot},
+			{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
+		}
+	})
 
-    minetest.register_craft({
-        output = 'technic:iron_protected_chest 1',
-        recipe = {
-            {'default:copper_ingot'},
-            {'technic:iron_chest'},
-        }
-    })
+	minetest.register_craft({
+		output = 'technic:iron_protected_chest 1',
+		recipe = {
+			{'default:copper_ingot'},
+			{'technic:iron_chest'},
+		}
+	})
 
-    technic.chests:register("Iron", {
-        width = 9,
-        height = 5,
-        sort = true,
-        autosort = false,
-        infotext = false,
-        color = false,
-        locked = false,
-        protected = true,
-    })
+	technic.chests:register("Iron", {
+		width = 9,
+		height = 5,
+		sort = true,
+		autosort = false,
+		infotext = false,
+		color = false,
+		locked = false,
+		protected = true,
+	})
 end
