@@ -95,6 +95,7 @@ register_block("technic:lead_block", "technic:lead_ingot")
 register_block("technic:cast_iron_block", "technic:cast_iron_ingot")
 register_block("technic:carbon_steel_block", "technic:carbon_steel_ingot")
 register_block("technic:stainless_steel_block", "technic:stainless_steel_ingot")
+register_block("technic:sulfur_block", "technic:sulfur_lump")
 
 minetest.register_craft({
 	type = 'cooking',
