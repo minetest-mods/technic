@@ -105,7 +105,7 @@ function technic.register_base_machine(data)
 			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
 		while true do
-			local result = technic.get_recipe(typename, inv:get_list("src"))
+			local result = inv:get_list("src") and technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
