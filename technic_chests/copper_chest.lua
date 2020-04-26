@@ -18,6 +18,7 @@ minetest.register_craft({
 
 minetest.register_craft({
 	output = 'technic:copper_locked_chest 1',
+	type = "shapeless",
 	recipe = {
 		{'basic_materials:padlock'},
 		{'technic:copper_chest'},
