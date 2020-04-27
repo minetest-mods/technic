@@ -77,14 +77,12 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
 		local inv    = meta:get_inventory()
-		
+
 		if inv:get_size("src") == 1 then -- Old furnace -> convert it
 			inv:set_size("src", 2)
 			inv:set_stack("src", 2, inv:get_stack("src2", 1))
 			inv:set_size("src2", 0)
 		end
-		
-		local recipe = nil
 
 		for i, name in pairs({
 				"fuel_totaltime",

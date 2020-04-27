@@ -19,7 +19,7 @@ wrench.META_TYPE_INT = 0
 wrench.META_TYPE_FLOAT = 1
 wrench.META_TYPE_STRING = 2
 
-local INT, STRING, FLOAT  =
+local _, STRING, FLOAT  =
 	wrench.META_TYPE_INT,
 	wrench.META_TYPE_STRING,
 	wrench.META_TYPE_FLOAT

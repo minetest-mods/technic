@@ -41,9 +41,9 @@ function technic.register_generator(data)
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"listring[]"
-	
+
 	local desc = S("Fuel-Fired %s Generator"):format(tier)
-	
+
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
 		local burn_time = meta:get_int("burn_time")
@@ -162,7 +162,6 @@ function technic.register_generator(data)
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
-			local form = generator_formspec
 			local form_buttons = ""
 			if not string.find(node.name, ":lv_") then
 				form_buttons = fs_helpers.cycling_button(
@@ -204,15 +203,15 @@ function technic.register_generator(data)
 		technic_run = run,
 		technic_on_disable = function(pos, node)
 			local timer = minetest.get_node_timer(pos)
-        		timer:start(1)
-        	end,
+				timer:start(1)
+			end,
 		on_timer = function(pos, node)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
 
 			-- Connected back?
 			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
-			
+
 			local burn_time = meta:get_int("burn_time") or 0
 
 			if burn_time <= 0 then

@@ -45,7 +45,6 @@ function technic_homedecor_node_is_owned(pos, placer)
         end
 end
 
-local dirs1 = {20, 23, 22, 21}
 local dirs2 = {9,  18,  7, 12}
 
 local technic_homedecor_rotate_and_place = function(itemstack, placer, pointed_thing)
@@ -58,7 +57,6 @@ local technic_homedecor_rotate_and_place = function(itemstack, placer, pointed_t
 			local under = pointed_thing.under
 			local pitch = placer:get_look_pitch()
 			local pname = minetest.get_node(under).name
-			local node = minetest.get_node(above)
 			local fdir = minetest.dir_to_facedir(placer:get_look_dir())
 			local wield_name = itemstack:get_name()
 

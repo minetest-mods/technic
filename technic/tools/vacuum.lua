@@ -44,7 +44,7 @@ minetest.register_tool("technic:vacuum", {
 				end
 			end
 		end
-		
+
 		technic.set_RE_wear(itemstack, meta.charge, vacuum_max_charge)
 		itemstack:set_metadata(minetest.serialize(meta))
 		return itemstack

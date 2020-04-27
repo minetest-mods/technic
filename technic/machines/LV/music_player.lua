@@ -24,7 +24,6 @@ local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local eu_input     = meta:get_int("LV_EU_input")
 	local machine_name = S("%s Music Player"):format("LV")
-	local machine_node = "technic:music_player"
 	local demand       = 150
 
 	local current_track = meta:get_int("current_track")

@@ -99,7 +99,7 @@ minetest.register_globalstep(function(dtime)
 			if node and node.name == "air" then
 				minetest.set_node(rounded_pos, {name="technic:light"})
 			end
-			local node = minetest.get_node_or_nil(old_pos)
+			node = minetest.get_node_or_nil(old_pos)
 			if node and node.name == "technic:light" then
 				minetest.remove_node(old_pos)
 			end
