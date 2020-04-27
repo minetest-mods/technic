@@ -21,10 +21,7 @@ end
 minetest.register_craft({
 	output = 'technic:mithril_locked_chest 1',
 	type = "shapeless",
-	recipe = {
-		{'basic_materials:padlock'},
-		{'technic:mithril_chest'},
-	}
+	recipe = {'basic_materials:padlock', 'technic:mithril_chest'}
 })
 
 -- plain chest

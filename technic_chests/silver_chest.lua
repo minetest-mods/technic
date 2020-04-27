@@ -21,10 +21,7 @@ end
 minetest.register_craft({
 	output = 'technic:silver_locked_chest',
 	type = "shapeless",
-	recipe = {
-		{'basic_materials:padlock'},
-		{'technic:silver_chest'},
-	}
+	recipe = {'basic_materials:padlock', 'technic:silver_chest'}
 })
 
 technic.chests:register("Silver", {
@@ -46,4 +43,3 @@ technic.chests:register("Silver", {
 	color = false,
 	locked = true,
 })
-
