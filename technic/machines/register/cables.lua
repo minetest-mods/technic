@@ -130,9 +130,20 @@ local function item_place_override_node(itemstack, placer, pointed, node)
 	return itemstack
 end
 
-function technic.register_cable(tier, size)
+local function override_table(target, source)
+	if target and source then
+		for k,v in pairs(source) do
+			target[k] = v
+		end
+	end
+	return target
+end
+
+function technic.register_cable(tier, size, description, prefix, override_cable, override_cable_plate)
+	prefix = prefix or ""
+	override_cable_plate = override_cable_plate or override_cable
 	local ltier = string.lower(tier)
-	cable_tier["technic:"..ltier.."_cable"] = tier
+	cable_tier["technic:"..ltier..prefix.."_cable"] = tier
 
 	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 			["technic_"..ltier.."_cable"] = 1}
@@ -148,14 +159,14 @@ function technic.register_cable(tier, size)
 		connect_right  = {-size, -size, -size, 0.5,   size, size}, -- x+
 	}
 
-	minetest.register_node("technic:"..ltier.."_cable", {
+	minetest.register_node("technic:"..ltier..prefix.."_cable", override_table({
 		description = S("%s Cable"):format(tier),
-		tiles = {"technic_"..ltier.."_cable.png"},
-		inventory_image = "technic_"..ltier.."_cable_wield.png",
-		wield_image = "technic_"..ltier.."_cable_wield.png",
+		tiles = {"technic_"..ltier..prefix.."_cable.png"},
+		inventory_image = "technic_"..ltier..prefix.."_cable_wield.png",
+		wield_image = "technic_"..ltier..prefix.."_cable_wield.png",
 		groups = groups,
 		sounds = default.node_sound_wood_defaults(),
-		drop = "technic:"..ltier.."_cable",
+		drop = "technic:"..ltier..prefix.."_cable",
 		paramtype = "light",
 		sunlight_propagates = true,
 		drawtype = "nodebox",
@@ -164,7 +175,7 @@ function technic.register_cable(tier, size)
 			"group:technic_"..ltier, "group:technic_all_tiers"},
 		on_construct = clear_networks,
 		on_destruct = clear_networks,
-	})
+	}, override_cable))
 
 	local xyz = {
 		["-x"] = 1,
@@ -192,10 +203,10 @@ function technic.register_cable(tier, size)
 	for p, i in pairs(xyz) do
 		local def = {
 			description = S("%s Cable Plate"):format(tier),
-			tiles = {"technic_"..ltier.."_cable.png"},
+			tiles = {"technic_"..ltier..prefix.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),
-			drop = "technic:"..ltier.."_cable_plate_1",
+			drop = "technic:"..ltier..prefix.."_cable_plate_1",
 			paramtype = "light",
 			sunlight_propagates = true,
 			drawtype = "nodebox",
@@ -244,7 +255,7 @@ function technic.register_cable(tier, size)
 				if num == nil then num = 1 end
 				return item_place_override_node(
 					itemstack, placer, pointed_thing,
-					{name = "technic:"..ltier.."_cable_plate_"..num}
+					{name = "technic:"..ltier..prefix.."_cable_plate_"..num}
 				)
 			end
 		else
@@ -261,15 +272,15 @@ function technic.register_cable(tier, size)
 			num = num + dir
 			num = (num >= 1 and num) or num + 6
 			num = (num <= 6 and num) or num - 6
-			minetest.swap_node(pos, {name = "technic:"..ltier.."_cable_plate_"..num})
+			minetest.swap_node(pos, {name = "technic:"..ltier..prefix.."_cable_plate_"..num})
 		end
-		minetest.register_node("technic:"..ltier.."_cable_plate_"..i, def)
-		cable_tier["technic:"..ltier.."_cable_plate_"..i] = tier
+		minetest.register_node("technic:"..ltier..prefix.."_cable_plate_"..i, override_table(def, override_cable_plate))
+		cable_tier["technic:"..ltier..prefix.."_cable_plate_"..i] = tier
 	end
 
-	local c = "technic:"..ltier.."_cable"
+	local c = "technic:"..ltier..prefix.."_cable"
 	minetest.register_craft({
-		output = "technic:"..ltier.."_cable_plate_1 5",
+		output = "technic:"..ltier..prefix.."_cable_plate_1 5",
 		recipe = {
 			{"", "", c},
 			{c , c , c},
@@ -280,7 +291,7 @@ function technic.register_cable(tier, size)
 	minetest.register_craft({
 		output = c,
 		recipe = {
-			{"technic:"..ltier.."_cable_plate_1"},
+			{"technic:"..ltier..prefix.."_cable_plate_1"},
 		}
 	})
 end
