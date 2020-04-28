@@ -54,6 +54,7 @@ Recommended mods that build on the `technic mod`:
 * @BuckarooBanzay
 * @OgelGames
 * @int-ua
+* @S-X-X
 * And many others...
 
 # FAQ
