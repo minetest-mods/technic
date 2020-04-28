@@ -16,6 +16,7 @@ Suitable for multiplayer environments.
 * Switching station lag/polyfuse and globalstep execution (@BuckarooBanzay)
 * No forceload hacks
 * Additional HV machines (furnace, grinder, thx to @h-v-smacker)
+* HV-digiline cables (@S-S-X)
 * various others...
 
 # Recommended mods
@@ -54,7 +55,7 @@ Recommended mods that build on the `technic mod`:
 * @BuckarooBanzay
 * @OgelGames
 * @int-ua
-* @S-X-X
+* @S-S-X
 * And many others...
 
 # FAQ
