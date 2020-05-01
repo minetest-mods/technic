@@ -54,7 +54,8 @@ function technic.register_can(d)
 				return def.on_rightclick(pos, minetest.get_node(pos), user, itemstack, pointed_thing)
 			end
 			if not def.buildable_to or node_name == data.liquid_source_name then
-				node_name = minetest.get_node(pointed_thing.above).name
+				pos = pointed_thing.above
+				node_name = minetest.get_node(pos).name
 				def = minetest.registered_nodes[node_name] or {}
 				-- Try to place node above the pointed source, or abort.
 				if not def.buildable_to or node_name == data.liquid_source_name then return end
