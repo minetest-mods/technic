@@ -48,14 +48,16 @@ function technic.register_can(d)
 		on_place = function(itemstack, user, pointed_thing)
 			if pointed_thing.type ~= "node" then return end
 			local pos = pointed_thing.under
-			local def = minetest.registered_nodes[minetest.get_node(pos).name] or {}
+			local node_name = minetest.get_node(pos).name
+			local def = minetest.registered_nodes[node_name] or {}
 			if def.on_rightclick and user and not user:get_player_control().sneak then
 				return def.on_rightclick(pos, minetest.get_node(pos), user, itemstack, pointed_thing)
 			end
-			if not def.buildable_to or minetest.get_node(pos).name == data.liquid_source_name then
-				pos = pointed_thing.above
-				def = minetest.registered_nodes[minetest.get_node(pos).name] or {}
-				if not def.buildable_to or minetest.get_node(pos).name == data.liquid_source_name then return end
+			if not def.buildable_to or node_name == data.liquid_source_name then
+				node_name = minetest.get_node(pointed_thing.above).name
+				def = minetest.registered_nodes[node_name] or {}
+				-- Try to place node above the pointed source, or abort.
+				if not def.buildable_to or node_name == data.liquid_source_name then return end
 			end
 			local charge = get_can_level(itemstack)
 			if charge == 0 then return end
