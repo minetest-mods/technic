@@ -13,6 +13,7 @@ The technic modpack depends on some other modpacks:
     signalling elements
 *   pipeworks, which supports the automation of item transport
 *   moreores, which provides some additional ore types
+*   basic_materials, which provides some basic craft items
 
 This manual doesn't explain how to use these other modpacks, which have
 their own manuals:
@@ -21,6 +22,7 @@ their own manuals:
 *   [Mesecons Documentation](http://mesecons.net/items.html)
 *   [Pipeworks Documentation](https://gitlab.com/VanessaE/pipeworks/-/wikis/home)
 *   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
+*   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
 
 Recipes for constructable items in technic are generally not guessable,
 and are also not specifically documented here.  You should use a
