@@ -72,6 +72,7 @@ local nodes = {
 	-- Support moretrees (fruit)
 	{"moretrees:acorn", false},
 	{"moretrees:apple_blossoms", false},
+	{"moretrees:cedar_cone", false},
 	{"moretrees:coconut", false},
 	{"moretrees:coconut_0", false},
 	{"moretrees:coconut_1", false},
