@@ -24,6 +24,16 @@ local nodes = {
 	{"default:jungleleaves", false},
 	{"default:pine_needles", false},
 
+	-- The default bushes
+	{"default:acacia_bush_stem", true},
+	{"default:bush_stem", true},
+	{"default:pine_bush_stem", true},
+	{"default:acacia_bush_leaves", false},
+	{"default:blueberry_bush_leaves", false},
+	{"default:blueberry_bush_leaves_with_berries", false},
+	{"default:bush_leaves", false},
+	{"default:pine_bush_needles", false},
+
 	-- Rubber trees from moretrees or technic_worldgen if moretrees isn't installed
 	{"moretrees:rubber_tree_trunk_empty", true},
 	{"moretrees:rubber_tree_trunk", true},
