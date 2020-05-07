@@ -194,6 +194,25 @@ local S = technic.getter
 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
 
+-- This function checks if the specified node should be sawed
+local function check_if_node_sawed(pos)
+
+	if chainsaw_leaves then
+		if minetest.get_item_group( minetest.get_node(pos).name, "leaves" ) ~= 0
+		or minetest.get_item_group( minetest.get_node(pos).name, "tree" ) ~= 0
+		or timber_nodenames[minetest.get_node(pos).name] then
+			return true
+		end
+	else
+		if minetest.get_item_group( minetest.get_node(pos).name, "tree" ) ~= 0
+		or timber_nodenames[minetest.get_node(pos).name] then
+			return true
+		end
+	end
+
+	return false
+end
+
 -- Table for saving what was sawed down
 local produced = {}
 
@@ -270,7 +289,7 @@ local function recursive_dig(pos, remaining_charge)
 	end
 	local node = minetest.get_node(pos)
 
-	if not timber_nodenames[node.name] then
+	if not check_if_node_sawed(pos) then
 		return remaining_charge
 	end
 
@@ -284,7 +303,7 @@ local function recursive_dig(pos, remaining_charge)
 		if remaining_charge < chainsaw_charge_per_node then
 			break
 		end
-		if timber_nodenames[minetest.get_node(npos).name] then
+		if check_if_node_sawed(npos) then
 			remaining_charge = recursive_dig(npos, remaining_charge)
 		end
 	end
