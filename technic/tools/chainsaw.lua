@@ -196,18 +196,11 @@ technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
 
 -- This function checks if the specified node should be sawed
 local function check_if_node_sawed(pos)
-
-	if chainsaw_leaves then
-		if minetest.get_item_group( minetest.get_node(pos).name, "leaves" ) ~= 0
-		or minetest.get_item_group( minetest.get_node(pos).name, "tree" ) ~= 0
-		or timber_nodenames[minetest.get_node(pos).name] then
-			return true
-		end
-	else
-		if minetest.get_item_group( minetest.get_node(pos).name, "tree" ) ~= 0
-		or timber_nodenames[minetest.get_node(pos).name] then
-			return true
-		end
+	local node_name = minetest.get_node(pos).name
+	if timber_nodenames[node_name]
+			or (chainsaw_leaves and minetest.get_item_group(node_name, "leaves") ~= 0)
+			or minetest.get_item_group(node_name, "tree") ~= 0 then
+		return true
 	end
 
 	return false
