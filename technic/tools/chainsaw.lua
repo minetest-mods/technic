@@ -298,6 +298,8 @@ local function recursive_dig(pos, remaining_charge)
 		end
 		if check_if_node_sawed(npos) then
 			remaining_charge = recursive_dig(npos, remaining_charge)
+		else
+			minetest.check_for_falling(npos)
 		end
 	end
 	return remaining_charge
