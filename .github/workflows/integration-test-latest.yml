@@ -1,4 +1,4 @@
-name: integration-test
+name: integration-test-latest
 
 on: [push, pull_request]
 
