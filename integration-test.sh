@@ -21,6 +21,6 @@ docker run --rm -i \
 	-v ${CFG}:/etc/minetest/minetest.conf:ro \
 	-v ${MTDIR}:/var/lib/minetest/.minetest \
 	-v $(pwd):/var/lib/minetest/.minetest/worlds/world/worldmods/technic \
-	registry.gitlab.com/minetest/minetest/server:5.2.0
+	registry.gitlab.com/minetest/minetest/server:${MINETEST_VERSION}
 
 test -f ${WORLDDIR}/integration_test.json && exit 0 || exit 1

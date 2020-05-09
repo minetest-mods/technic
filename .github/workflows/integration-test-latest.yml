@@ -11,4 +11,4 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: test
-      run: MINETEST_VERSION=5.2.0 ./integration-test.sh
+      run: MINETEST_VERSION=latest ./integration-test.sh
