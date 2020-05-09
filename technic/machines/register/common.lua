@@ -65,7 +65,7 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 	if output_name == nil then
 		output_name = "dst"
 	end
-	
+
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local i = 0
@@ -74,7 +74,7 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 		if stack then
 			local item0 = stack:to_table()
 			if item0 then
-				item0["count"] = "1"
+				item0["count"] = 1
 				technic.tube_inject_item(pos, pos, vector.new(x_velocity, 0, z_velocity), item0)
 				stack:take_item(1)
 				inv:set_stack(output_name, i, stack)
@@ -109,7 +109,7 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 	if send_function == nil then
 		send_function = technic.send_items
 	end
-	
+
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -211,4 +211,3 @@ function technic.machine_inventory_move(pos, from_list, from_index,
 	local stack = minetest.get_meta(pos):get_inventory():get_stack(from_list, from_index)
 	return inv_change(pos, player, count, from_list, to_list, stack)
 end
-

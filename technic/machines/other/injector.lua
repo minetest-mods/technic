@@ -16,7 +16,7 @@ local function inject_items (pos)
 				if stack then
 				local item0=stack:to_table()
 				if item0 then
-					item0["count"] = "1"
+					item0["count"] = 1
 					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:take_item(1)
 					inv:set_stack("main", i, stack)
@@ -40,7 +40,7 @@ local function inject_items (pos)
 				end
 			end
 		end
-		
+
 end
 
 minetest.register_craft({
@@ -148,4 +148,3 @@ minetest.register_abm({
 		end
 	end,
 })
-
