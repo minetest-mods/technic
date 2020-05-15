@@ -74,6 +74,12 @@ function technic.get_recipe(typename, items)
 		-- Compatibility layer
 		if not result or result.time == 0 then
 			return nil
+		-- Workaround for recipes with replacements
+		elseif not new_input.items[1]:is_empty() and new_input.items[1]:get_name() ~= items[1]:get_name() then
+			items[1]:take_item(1)
+			return {time = result.time,
+			        new_input = {items[1]},
+			        output = {new_input.items[1], result.item}}
 		else
 			return {time = result.time,
 			        new_input = new_input.items,
