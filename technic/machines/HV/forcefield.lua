@@ -172,8 +172,12 @@ local mesecons = {
 }
 
 local digiline_def = {
-	receptor = {action = function() end},
+	receptor = {
+		rules = technic.digilines.rules,
+		action = function() end
+	},
 	effector = {
+		rules = technic.digilines.rules,
 		action = function(pos, node, channel, msg)
 			local meta = minetest.get_meta(pos)
 			if channel ~= meta:get_string("channel") then
@@ -203,7 +207,7 @@ local digiline_def = {
 				return
 			end
 			if msg.command == "get" then
-				digilines.receptor_send(pos, digilines.rules.default, channel, {
+				digilines.receptor_send(pos, technic.digilines.rules, channel, {
 					enabled = meta:get_int("enabled"),
 					range   = meta:get_int("range"),
 					shape   = meta:get_int("shape")

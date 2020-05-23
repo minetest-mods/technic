@@ -358,8 +358,12 @@ function technic.register_battery_box(data)
 				end
 			end,
 			digiline = {
-				receptor = {action = function() end},
+				receptor = {
+					rules = technic.digilines.rules,
+					action = function() end
+				},
 				effector = {
+					rules = technic.digilines.rules,
 					action = function(pos, node, channel, msg)
 						if msg ~= "GET" and msg ~= "get" then
 							return
@@ -369,7 +373,7 @@ function technic.register_battery_box(data)
 							return
 						end
 						local inv = meta:get_inventory()
-						digilines.receptor_send(pos, digilines.rules.default, channel, {
+						digilines.receptor_send(pos, technic.digilines.rules, channel, {
 							demand = meta:get_int(tier.."_EU_demand"),
 							supply = meta:get_int(tier.."_EU_supply"),
 							input  = meta:get_int(tier.."_EU_input"),
