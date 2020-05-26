@@ -46,7 +46,7 @@ local function laser_node(pos, node, player)
 		})
 		return
 	end
-	minetest.node_dig(pos, node, player)
+	def.on_dig(pos, node, player)
 end
 
 local keep_node = {air = true}
