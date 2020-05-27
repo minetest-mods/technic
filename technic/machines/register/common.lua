@@ -74,7 +74,7 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 		if stack then
 			local item0 = stack:to_table()
 			if item0 then
-				item0["count"] = "1"
+				item0["count"] = 1
 				technic.tube_inject_item(pos, pos, vector.new(x_velocity, 0, z_velocity), item0)
 				stack:take_item(1)
 				inv:set_stack(output_name, i, stack)
