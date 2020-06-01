@@ -4,8 +4,6 @@ local S = technic.getter
 local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
-data.modname = data.modname or "technic"
-
 function technic.default_can_insert(pos, node, stack, direction)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -40,6 +38,8 @@ function technic.register_base_machine(data)
 	local machine_desc = data.machine_desc
 	local tier = data.tier
 	local ltier = string.lower(tier)
+	
+	data.modname = data.modname or minetest.get_current_modname()
 
 	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
 	if data.tube then
