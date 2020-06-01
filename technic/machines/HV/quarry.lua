@@ -3,7 +3,7 @@ local S = technic.getter
 
 local quarry_dig_above_nodes = tonumber(minetest.settings:get("technic.quarry.dig_above_nodes") or "3")
 local quarry_max_depth = tonumber(minetest.settings:get("technic.quarry.maxdepth") or "100")
-local quarry_time_limit = tonumber(minetest.settings:get("technic.quarry.time_limit") or "1000")
+local quarry_time_limit = tonumber(minetest.settings:get("technic.quarry.time_limit") or "5000")
 
 local quarry_demand = 10000
 local quarry_eject_dir = vector.new(0, 1, 0)
@@ -182,8 +182,9 @@ local function execute_dig(pos, node, meta)
 		local dig_steps = meta:get_int("dig_steps")
 		local dig_index = meta:get_int("dig_index")
 		local t0 = minetest.get_us_time()
+		local us_used = 0
 		-- search for something to dig
-		while (minetest.get_us_time() - t0) < quarry_time_limit do
+		while us_used < quarry_time_limit do
 			dig_pos, dig_index = get_dig_pos(pos, quarry_dir, dig_pos, dig_index, dig_steps, meta)
 			if not dig_pos then
 				-- finished digging
@@ -210,6 +211,7 @@ local function execute_dig(pos, node, meta)
 					break
 				end
 			end
+			us_used = minetest.get_us_time() - t0
 		end
 		meta:set_int("dig_index", dig_index)
 	end
