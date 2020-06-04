@@ -34,7 +34,6 @@ read_globals = {
 }
 
 files["concrete/init.lua"].ignore = { "steel_ingot" }
-files["technic/machines/MV/lighting.lua"].read_globals = { "LIGHT_MAX" }
 files["technic/machines/MV/tool_workshop.lua"].ignore = { "pos" }
 files["technic/machines/other/frames.lua"].ignore = { "item_texture", "item_type", "adj", "connected", "" }
 files["technic/machines/register/battery_box.lua"].ignore = { "pos", "tube_upgrade" }
@@ -45,7 +44,6 @@ files["technic/machines/register/generator.lua"].ignore = { "node" }
 files["technic/machines/switching_station.lua"].ignore = { "pos1", "tier", "poshash" }
 files["technic/radiation.lua"].ignore = { "LAVA_VISC" }
 files["technic/tools/chainsaw.lua"].ignore = { "pos" }
-files["technic/tools/flashlight.lua"].read_globals = { "LIGHT_MAX" }
 files["technic/tools/mining_drill.lua"].ignore = { "mode" }
 files["technic_chests/register.lua"].ignore = { "fs_helpers", "name", "locked_after_place" }
 

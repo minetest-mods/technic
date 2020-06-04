@@ -15,12 +15,10 @@ Syntax:
 	inventory is always stored (Ex. active state for machines)
 --]]
 
-wrench.META_TYPE_INT = 0
 wrench.META_TYPE_FLOAT = 1
 wrench.META_TYPE_STRING = 2
 
-local _, STRING, FLOAT  =
-	wrench.META_TYPE_INT,
+local STRING, FLOAT  =
 	wrench.META_TYPE_STRING,
 	wrench.META_TYPE_FLOAT
 

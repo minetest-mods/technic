@@ -118,6 +118,6 @@ minetest.register_node("technic:light", {
 	walkable = false,
 	buildable_to = true,
 	sunlight_propagates = true,
-	light_source = LIGHT_MAX,
+	light_source = minetest.LIGHT_MAX,
 	pointable = false,
 })

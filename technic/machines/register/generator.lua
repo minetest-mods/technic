@@ -203,8 +203,8 @@ function technic.register_generator(data)
 		technic_run = run,
 		technic_on_disable = function(pos, node)
 			local timer = minetest.get_node_timer(pos)
-				timer:start(1)
-			end,
+			timer:start(1)
+		end,
 		on_timer = function(pos, node)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
