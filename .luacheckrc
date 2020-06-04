@@ -26,9 +26,6 @@ read_globals = {
     "Settings", "mesecon",
     "digiline_remote",
 
-    "IsPlayerNodeOwner", "HasOwner",
-    "getLastOwner", "GetNodeOwnerName",
-
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
 }
