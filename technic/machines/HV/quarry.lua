@@ -207,7 +207,11 @@ local function execute_dig(pos, node, meta)
 							left = inv:add_item("cache", left)
 						end
 					end
-					meta:set_int("dug", meta:get_int("dug") + 1)
+					local dug_nodes = meta:get_int("dug") + 1
+					meta:set_int("dug", dug_nodes)
+					if dug_nodes % 100 == 0 then
+						meta:set_int("purge_on", 1)
+					end
 					break
 				end
 			end
