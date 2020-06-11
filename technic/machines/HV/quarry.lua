@@ -31,6 +31,17 @@ local quarry_dig_pattern = {
 	3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 }
 
+local function is_player_allowed(pos, name)
+	local owner = minetest.get_meta(pos):get_string("owner")
+	if owner == "" or owner == name then
+		return true
+	end
+	if not minetest.is_protected(pos, name) then
+		return true
+	end
+	return false
+end
+
 local function reset_quarry(pos)
 	local meta = minetest.get_meta(pos)
 	local node = technic.get_or_load_node(pos) or minetest.get_node(pos)
@@ -77,7 +88,7 @@ end
 
 local function quarry_receive_fields(pos, formname, fields, sender)
 	local player_name = sender:get_player_name()
-	if minetest.is_protected(pos, player_name) then
+	if not is_player_allowed(pos, player_name) then
 		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
 		minetest.record_protection_violation(pos, player_name)
 		return
@@ -283,13 +294,13 @@ minetest.register_node("technic:quarry", {
 	on_receive_fields = quarry_receive_fields,
 	technic_run = quarry_run,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		return minetest.is_protected(pos, player:get_player_name()) and 0 or count
+		return is_player_allowed(pos, player:get_player_name()) and count or 0
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		return minetest.is_protected(pos, player:get_player_name()) and 0 or stack:get_count()
+		return is_player_allowed(pos, player:get_player_name()) and stack:get_count() or 0
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		return minetest.is_protected(pos, player:get_player_name()) and 0 or stack:get_count()
+		return is_player_allowed(pos, player:get_player_name()) and stack:get_count() or 0
 	end,
 	mesecons = {
 		effector = {
