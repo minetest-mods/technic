@@ -17,7 +17,7 @@ local quarry_formspec =
 	"listring[current_player;main]"..
 	"label[0,0;"..machine_name.."]"..
 	"button[5,1.9;2,1;restart;"..S("Restart").."]"
-	
+
 -- hard-coded spiral dig pattern for up to 17x17 dig area
 local quarry_dig_pattern = {
 	0,1,2,2,3,3,0,0,0,1,1,1,2,2,2,2,3,3,3,3,0,0,0,0,0,1,1,1,1,1,2,2,
@@ -290,7 +290,21 @@ minetest.register_node("technic:quarry", {
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		return minetest.is_protected(pos, player:get_player_name()) and 0 or stack:get_count()
-	end
+	end,
+	mesecons = {
+		effector = {
+			action_on = function(pos)
+				local meta = minetest.get_meta(pos)
+				meta:set_int("enabled", 1)
+				set_quarry_status(pos)
+			end,
+			action_off = function(pos)
+				local meta = minetest.get_meta(pos)
+				meta:set_int("enabled", 0)
+				set_quarry_status(pos)
+			end
+		}
+	}
 })
 
 minetest.register_craft({
