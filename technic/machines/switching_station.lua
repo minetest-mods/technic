@@ -249,12 +249,8 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
 		local meta             = minetest.get_meta(pos)
-		local meta1            = nil
+		local meta1
 		local pos1             = {}
-		local PR_EU            = 0 -- EUs from PR nodes
-		local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
-		local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
-		local RE_EU            = 0 -- EUs to RE nodes
 
 		local tier      = ""
 		local PR_nodes

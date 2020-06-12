@@ -40,7 +40,7 @@ local function inject_items (pos)
 				end
 			end
 		end
-		
+
 end
 
 minetest.register_craft({

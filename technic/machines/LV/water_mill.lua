@@ -29,8 +29,8 @@ end
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
 	local water_flow       = 0
-	local production_level = 0
-	local eu_supply        = 0
+	local production_level
+	local eu_supply
 	local max_output       = 4 * 45 -- keeping it around 180, little more than previous 150 :)
 
 	local positions = {

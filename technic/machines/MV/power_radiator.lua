@@ -177,8 +177,6 @@ minetest.register_abm({
 			-- The supply radius
 			local rad = power_radius
 
-			local meta1            = nil
-			local pos1             = {}
 			local used_charge      = 0
 
 			-- Index all nodes within supply range
