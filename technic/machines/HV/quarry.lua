@@ -133,15 +133,15 @@ local function quarry_handle_purge(pos)
 	end
 end
 
-local function can_dig_node(pos, node, digger)
-	if node.name == "air" or node.name == "vacuum:vacuum" then
+local function can_dig_node(pos, node_name, owner, digger)
+	if node_name == "air" or node_name == "vacuum:vacuum" then
 		return false
 	end
-	local def = minetest.registered_nodes[node.name]
-	if not def or not def.diggable then
+	local def = minetest.registered_nodes[node_name]
+	if not def or not def.diggable or (def.can_dig and not def.can_dig(pos, digger)) then
 		return false
 	end
-	if def.can_dig and not def.can_dig(pos, digger) then
+	if minetest.is_protected(dig_pos, owner) then
 		return false
 	end
 	return true
@@ -203,28 +203,26 @@ local function execute_dig(pos, node, meta)
 				meta:set_int("purge_on", 1)
 				break
 			end
-			if not minetest.is_protected(dig_pos, owner) then
-				local dig_node = technic.get_or_load_node(dig_pos) or minetest.get_node(dig_pos)
-				if can_dig_node(dig_pos, dig_node, digger) then
-					-- found something to dig, dig it and stop searching
-					minetest.remove_node(dig_pos)
-					local inv = meta:get_inventory()
-					local drops = minetest.get_node_drops(dig_node.name, "")
-					for _, dropped_item in ipairs(drops) do
-						local left = inv:add_item("cache", dropped_item)
-						while not left:is_empty() do
-							meta:set_int("purge_on", 1)
-							quarry_handle_purge(pos)
-							left = inv:add_item("cache", left)
-						end
-					end
-					local dug_nodes = meta:get_int("dug") + 1
-					meta:set_int("dug", dug_nodes)
-					if dug_nodes % 100 == 0 then
+			local dig_node = technic.get_or_load_node(dig_pos) or minetest.get_node(dig_pos)
+			if can_dig_node(dig_pos, dig_node.name, owner, digger) then
+				-- found something to dig, dig it and stop searching
+				minetest.remove_node(dig_pos)
+				local inv = meta:get_inventory()
+				local drops = minetest.get_node_drops(dig_node.name, "")
+				for _, dropped_item in ipairs(drops) do
+					local left = inv:add_item("cache", dropped_item)
+					while not left:is_empty() do
 						meta:set_int("purge_on", 1)
+						quarry_handle_purge(pos)
+						left = inv:add_item("cache", left)
 					end
-					break
 				end
+				local dug_nodes = meta:get_int("dug") + 1
+				meta:set_int("dug", dug_nodes)
+				if dug_nodes % 100 == 0 then
+					meta:set_int("purge_on", 1)
+				end
+				break
 			end
 			us_used = minetest.get_us_time() - t0
 		end
