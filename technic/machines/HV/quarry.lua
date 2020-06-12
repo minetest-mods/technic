@@ -141,7 +141,7 @@ local function can_dig_node(pos, node_name, owner, digger)
 	if not def or not def.diggable or (def.can_dig and not def.can_dig(pos, digger)) then
 		return false
 	end
-	if minetest.is_protected(dig_pos, owner) then
+	if minetest.is_protected(pos, owner) then
 		return false
 	end
 	return true
