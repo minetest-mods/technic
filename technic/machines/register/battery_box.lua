@@ -312,7 +312,6 @@ function technic.register_battery_box(data)
 				local charge = meta:get_int("internal_EU_charge")
 				local cpercent = math.floor(charge / max_charge * 100)
 				local inv = meta:get_inventory()
-				local node = minetest.get_node(pos)
 				meta:set_string("infotext", S("%s Battery Box"):format(tier))
 				meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
 				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
@@ -335,7 +334,6 @@ function technic.register_battery_box(data)
 			after_dig_node = technic.machine_after_dig_node,
 			on_receive_fields = function(pos, formname, fields, sender)
 				local meta = minetest.get_meta(pos)
-				local nodename = minetest.get_node(pos).name
 				if fields.edit_channel then
 					minetest.show_formspec(sender:get_player_name(),
 						"technic:battery_box_edit_channel"..minetest.pos_to_string(pos),
@@ -344,7 +342,7 @@ function technic.register_battery_box(data)
 				  or   fields["fs_helpers_cycling:0:split_dst_stacks"]
 				  or   fields["fs_helpers_cycling:1:split_src_stacks"]
 				  or   fields["fs_helpers_cycling:1:split_dst_stacks"] then
-					local meta = minetest.get_meta(pos)
+					meta = minetest.get_meta(pos)
 					if not pipeworks.may_configure(pos, sender) then return end
 					fs_helpers.on_receive_fields(pos, fields)
 					local EU_upgrade, tube_upgrade = 0, 0

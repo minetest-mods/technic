@@ -237,7 +237,7 @@ technic_cnc.programs = {
 			type = "fixed",
 			fixed = {
 				{  4/16, -8/16,  4/16,  8/16, 8/16, 8/16 },
-				{     0, -8/16,     0,  4/16, 8/16, 8/16 },				
+				{     0, -8/16,     0,  4/16, 8/16, 8/16 },
 				{ -4/16, -8/16, -4/16,     0, 8/16, 8/16 },
 				{ -8/16, -8/16, -8/16, -4/16, 8/16, 8/16 }
 			}
@@ -257,7 +257,7 @@ technic_cnc.programs = {
 			}
 		}
 	},
-	
+
 }
 
 -- Allow disabling certain programs for some node. Default is allowing all types for all nodes

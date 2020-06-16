@@ -56,7 +56,6 @@ function technic.register_solar_array(data)
 		},
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			local name = minetest.get_node(pos).name
 			meta:set_int(tier.."_EU_supply", 0)
 		end,
 		technic_run = run,

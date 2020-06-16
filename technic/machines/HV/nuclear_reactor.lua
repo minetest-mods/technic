@@ -479,7 +479,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	technic_run = run,
 	technic_on_disable = function(pos, node)
 		local timer = minetest.get_node_timer(pos)
-				timer:start(1)
+		timer:start(1)
         end,
 	on_timer = function(pos, node)
 		local meta = minetest.get_meta(pos)

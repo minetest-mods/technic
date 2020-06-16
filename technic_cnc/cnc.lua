@@ -72,7 +72,6 @@ else
 	end
 end
 
-local shape = {}
 local onesize_products = {
 	slope                    = 2,
 	slope_edge               = 1,

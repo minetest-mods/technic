@@ -84,7 +84,6 @@ function technic.send_items(pos, x_velocity, z_velocity, output_name)
 	end
 end
 
-
 function technic.smelt_item(meta, result, speed)
 	local inv = meta:get_inventory()
 	meta:set_int("cook_time", meta:get_int("cook_time") + 1)
@@ -112,7 +111,6 @@ function technic.handle_machine_pipeworks(pos, tube_upgrade, send_function)
 
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
 	local pos1 = vector.new(pos)
 	local x_velocity = 0
 	local z_velocity = 0

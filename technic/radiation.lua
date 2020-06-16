@@ -247,7 +247,6 @@ to be safe, and limits the range at which source/player interactions
 need to be considered.
 --]]
 local abdomen_offset = 1
-local cache_scaled_shielding = {}
 local rad_dmg_cutoff = 0.2
 local radiated_players = {}
 

@@ -39,7 +39,6 @@ local run = function(pos, node)
 	local inv          = meta:get_inventory()
 	local eu_input     = meta:get_int("MV_EU_input")
 	local machine_name = S("%s Tool Workshop"):format("MV")
-	local machine_node = "technic:tool_workshop"
 
 	-- Setup meta data if it does not exist.
 	if not eu_input then
@@ -71,7 +70,7 @@ local run = function(pos, node)
 		meta:set_int("MV_EU_demand", 0)
 		return
 	end
-	
+
 	if eu_input < workshop_demand[EU_upgrade+1] then
 		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 	elseif eu_input >= workshop_demand[EU_upgrade+1] then
@@ -105,7 +104,7 @@ minetest.register_node("technic:tool_workshop", {
 		inv:set_size("src", 1)
 		inv:set_size("upgrade1", 1)
 		inv:set_size("upgrade2", 1)
-	end,	
+	end,
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
