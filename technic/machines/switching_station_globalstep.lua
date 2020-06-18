@@ -115,9 +115,15 @@ minetest.register_globalstep(function(dtime)
 				end
 
 				if switch.skip > 0 then
+					-- calculate efficiency in percent and display it
 					local efficiency = math.floor(1/switch.skip*100)
 					meta:set_string("infotext", "Polyfuse triggered, current efficiency: " ..
 						efficiency .. "% generated lag : " .. math.floor(switch_diff/1000) .. " ms")
+
+					-- remove laggy switching station from active index
+					-- it will be reactivated when a player is near it
+					-- laggy switching stations won't work well in unloaded areas this way
+					switches[hash] = nil
 				end
 
 			else
