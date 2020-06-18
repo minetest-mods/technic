@@ -7,12 +7,10 @@ local S = technic.getter
 
 
 local illuminate = function(pos, mode)
-	local loc = {}
--- 	loc.x, loc.y, loc.z = pos.x, pos.y, pos.z
 	for y=1,3,1 do
 		for x=-3,3,1 do
 			for z = -3,3,1 do
-				loc = {x = pos.x - x, y = pos.y - y, z = pos.z - z}
+				local loc = {x = pos.x - x, y = pos.y - y, z = pos.z - z}
 				if mode then
 					if minetest.get_node(loc).name == "air" then
 						minetest.swap_node(loc, {name = "technic:dummy_light_source"})
@@ -47,13 +45,12 @@ end
 
 local led_off = function(pos, node)
 	local meta         = minetest.get_meta(pos)
-	local eu_input     = meta:get_int("LV_EU_input")
 	local machine_name = S("%s LED"):format("LV")
 	local machine_node = "technic:lv_led"
 
 	technic.swap_node(pos, machine_node)
 	meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
-	
+
 	meta:set_int("LV_EU_demand", 0)
 end
 
@@ -80,7 +77,6 @@ end
 
 local lamp_off = function(pos, node)
 	local meta         = minetest.get_meta(pos)
-	local eu_input     = meta:get_int("LV_EU_input")
 	local machine_name = S("%s Lamp"):format("LV")
 	local machine_node = "technic:lv_lamp"
 

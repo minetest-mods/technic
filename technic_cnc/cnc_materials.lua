@@ -313,39 +313,39 @@ if minetest.get_modpath("ethereal") then
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"crystal_block.png"},
                 S("Crystal"))
-	
+
 	-- Misc. Wood types
 	-------------------
 	technic_cnc.register_all("ethereal:banana_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"banana_wood.png"},
                 S("Banana Wood"))
-	
+
 	technic_cnc.register_all("ethereal:birch_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"moretrees_birch_wood.png"},
                 S("Birch Wood"))
-	
+
 	technic_cnc.register_all("ethereal:frost_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"frost_wood.png"},
                 S("Frost Wood"))
-	
+
 	technic_cnc.register_all("ethereal:palm_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"moretrees_palm_wood.png"},
                 S("Palm Wood"))
-	
+
 	technic_cnc.register_all("ethereal:willow_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"willow_wood.png"},
                 S("Willow Wood"))
-	
+
 	technic_cnc.register_all("ethereal:yellow_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"yellow_wood.png"},
                 S("Healing Tree Wood"))
-	
+
 	technic_cnc.register_all("ethereal:redwood_wood",
                 {snappy=2, choppy=2, oddly_breakable_by_hand=2, not_in_creative_inventory=1},
                 {"redwood_wood.png"},
@@ -360,56 +360,56 @@ if minetest.get_modpath("moreblocks") then
 			{stone=1, cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_stone_tile.png"},
 			S("Stone Tile"))
-	
+
 	technic_cnc.register_all("moreblocks:split_stone_tile",
 			{stone=1, cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_split_stone_tile.png"},
 			S("Split Stone Tile"))
-	
+
 	technic_cnc.register_all("moreblocks:checker_stone_tile",
 			{stone=1, cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_checker_stone_tile.png"},
 			S("Checker Stone Tile"))
-	
+
 	technic_cnc.register_all("moreblocks:cactus_checker",
 			{stone=1, cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_cactus_checker.png"},
 			S("Cactus Checker"))
-	
+
 	-- Bricks
 	------------
 	technic_cnc.register_all("moreblocks:cactus_brick",
 			{cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_cactus_brick.png"},
 			S("Cactus Brick"))
-	
+
 	technic_cnc.register_all("moreblocks:grey_bricks",
 			{cracky=3, not_in_creative_inventory=1},
 			{"moreblocks_grey_bricks.png"},
 			S("Grey Bricks"))
-	
+
 	-- Metals
 	------------
 	technic_cnc.register_all("moreblocks:copperpatina",
 			{cracky=1, level=2, not_in_creative_inventory=1},
 			{"moreblocks_copperpatina.png"},
 			S("Copper Patina"))
-	
+
 	-- Clay
 	------------
 	technic_cnc.register_all("bakedclay:red",
 			{cracky=3, not_in_creative_inventory=1},
 			{"baked_clay_red.png"},
 			S("Red Clay"))
-	
+
 	technic_cnc.register_all("bakedclay:orange",
 			{cracky=3, not_in_creative_inventory=1},
 			{"baked_clay_orange.png"},
 			S("Orange Clay"))
-	
+
 	technic_cnc.register_all("bakedclay:grey",
 			{cracky=3, not_in_creative_inventory=1},
 			{"baked_clay_grey.png"},
 			S("Grey Clay"))
-	
+
 end

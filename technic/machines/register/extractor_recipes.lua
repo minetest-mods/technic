@@ -35,7 +35,7 @@ if minetest.get_modpath("dye") then
 	if minetest.get_modpath("hunger") and minetest.get_modpath("ethereal") then
 		table.insert(dye_recipes, {"ethereal:willow_twig 12", "technic:aspirin_pill"})
 	end
-	
+
 	if minetest.get_modpath("farming") then
 		-- Dyes ---
 		-- better recipes for farming's crafting methods (twice the output)
@@ -50,7 +50,7 @@ if minetest.get_modpath("dye") then
 		table.insert(dye_recipes, {"farming:blueberries", "dye:blue 4"})
 		table.insert(dye_recipes, {"farming:raspberries", "dye:red 4"})
 	end
-	
+
 	if minetest.get_modpath("ethereal") then
 		table.insert(dye_recipes, {"ethereal:seaweed", "dye:dark_green 6"})
 		table.insert(dye_recipes, {"ethereal:coral2", "dye:cyan 6"})
@@ -61,7 +61,7 @@ if minetest.get_modpath("dye") then
 		table.insert(dye_recipes, {"ethereal:snowygrass", "dye:grey 4"})
 		table.insert(dye_recipes, {"ethereal:crystalgrass", "dye:blue 4"})
 	end
-	
+
 	if minetest.get_modpath("bakedclay") then
 		table.insert(dye_recipes, {"bakedclay:delphinium", "dye:cyan 8"})
 		table.insert(dye_recipes, {"bakedclay:thistle", "dye:magenta 8"})
@@ -69,12 +69,12 @@ if minetest.get_modpath("dye") then
 		table.insert(dye_recipes, {"bakedclay:mannagrass", "dye:dark_green 8"})
 	end
 
-	
+
 	if minetest.get_modpath("bonemeal") then
 		table.insert(dye_recipes, {"bonemeal:bone", "dye:white 8"})
 		table.insert(dye_recipes, {"bonemeal:bonemeal", "dye:white 4"})
 	end
-	
+
 	for _, data in ipairs(dye_recipes) do
 		technic.register_extractor_recipe({input = {data[1]}, output = data[2]})
 	end

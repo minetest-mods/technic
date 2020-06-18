@@ -258,12 +258,8 @@ technic.switching_station_run = function(pos)
 
 	local t0 	       = minetest.get_us_time()
 	local meta             = minetest.get_meta(pos)
-	local meta1            = nil
+	local meta1
 	local pos1             = {}
-	local PR_EU            = 0 -- EUs from PR nodes
-	local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
-	local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
-	local RE_EU            = 0 -- EUs to RE nodes
 
 	local tier      = ""
 	local PR_nodes
