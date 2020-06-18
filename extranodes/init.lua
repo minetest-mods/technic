@@ -57,7 +57,7 @@ if minetest.get_modpath("moreblocks") then
 		tiles={"technic_stainless_steel_block.png"},
 	})
 
-	function register_technic_stairs_alias(modname, origname, newmod, newname)
+	local function register_technic_stairs_alias(modname, origname, newmod, newname)
 		minetest.register_alias(modname .. ":slab_" .. origname, newmod..":slab_" .. newname)
 		minetest.register_alias(modname .. ":slab_" .. origname .. "_inverted", newmod..":slab_" .. newname .. "_inverted")
 		minetest.register_alias(modname .. ":slab_" .. origname .. "_wall", newmod..":slab_" .. newname .. "_wall")
