@@ -49,6 +49,7 @@ Ingame:
 * [Generators](./technic/doc/generators.md)
 * [Forceload anchor](./technic/doc/anchor.md)
 * [Digilines](./technic/doc/digilines.md)
+* [Mesecons](./technic/doc/mesecons.md)
 
 Mod development:
 * [Api](./technic/doc/api.md)
