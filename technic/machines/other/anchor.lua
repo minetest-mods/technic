@@ -106,4 +106,16 @@ minetest.register_node("technic:admin_anchor", {
 		end
 		set_display(pos, meta)
 	end,
+	mesecons = {
+		effector = {
+			action_on = function(pos)
+				local meta = minetest.get_meta(pos)
+				forceload_on(pos, meta)
+			end,
+			action_off = function(pos)
+				local meta = minetest.get_meta(pos)
+				forceload_off(pos, meta)
+			end
+		}
+	}
 })
