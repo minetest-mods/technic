@@ -85,7 +85,8 @@ minetest.register_node("technic:switching_station",{
 				end
 				digilines.receptor_send(pos, technic.digilines.rules, channel, {
 					supply = meta:get_int("supply"),
-					demand = meta:get_int("demand")
+					demand = meta:get_int("demand"),
+					lag = meta:get_int("lag")
 				})
 			end
 		},

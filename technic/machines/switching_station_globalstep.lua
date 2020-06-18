@@ -103,6 +103,9 @@ minetest.register_globalstep(function(dtime)
 
 				local meta = minetest.get_meta(pos)
 
+				-- set lag in microseconds into the "lag" meta field
+				meta:set_int("lag", switch_diff)
+
 				-- overload detection
 				if switch_diff > 250000 then
 					switch.skip = 30
