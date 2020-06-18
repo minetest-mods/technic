@@ -48,6 +48,7 @@ Ingame:
 * [Powered machines](./technic/doc/machines.md)
 * [Generators](./technic/doc/generators.md)
 * [Forceload anchor](./technic/doc/anchor.md)
+* [Digilines](./technic/doc/digilines.md)
 
 Mod development:
 * [Api](./technic/doc/api.md)
