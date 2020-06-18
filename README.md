@@ -5,6 +5,8 @@ Technic
 A mod for [minetest](http://www.minetest.net)
 
 ![](https://github.com/mt-mods/technic/workflows/integration-test/badge.svg)
+![](https://github.com/mt-mods/technic/workflows/luacheck/badge.svg)
+[![License](https://img.shields.io/badge/license-LGPLv2.0%2B-purple.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.en.html)
 
 # Overview
 

@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: Check & Release
+name: luacheck
 jobs:
   lint:
     runs-on: ubuntu-latest
