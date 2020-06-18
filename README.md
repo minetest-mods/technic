@@ -6,8 +6,74 @@ A mod for [minetest](http://www.minetest.net)
 
 ![](https://github.com/mt-mods/technic/workflows/integration-test/badge.svg)
 
-
 # Overview
+
+The technic modpack extends the Minetest game with many new elements,
+mainly constructable machines and tools.  It is a large modpack, and
+tends to dominate gameplay when it is used.  This manual describes how
+to use the technic modpack, mainly from a player's perspective.
+
+The technic modpack depends on some other modpacks:
+
+*   the basic Minetest game
+*   mesecons, which supports the construction of logic systems based on
+    signalling elements
+*   pipeworks, which supports the automation of item transport
+*   moreores, which provides some additional ore types
+*   basic_materials, which provides some basic craft items
+
+This manual doesn't explain how to use these other modpacks, which have
+their own manuals:
+
+*   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
+*   [Mesecons Documentation](http://mesecons.net/items.html)
+*   [Pipeworks Documentation](https://gitlab.com/VanessaE/pipeworks/-/wikis/home)
+*   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
+*   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
+
+Recipes for constructable items in technic are generally not guessable,
+and are also not specifically documented here.  You should use a
+craft guide mod to look up the recipes in-game.  For the best possible
+guidance, use the unified\_inventory mod, with which technic registers
+its specialised recipe types.
+
+# Documentation
+
+Ingame:
+* [Substances](./technic/doc/substances.md)
+* [Processes](./technic/doc/processes.md)
+* [Chests](./technic/doc/chests.md)
+* [Radioactivity](./technic/doc/radioactivity.md)
+* [Electrical power](./technic/doc/power.md)
+* [Powered machines](./technic/doc/machines.md)
+* [Generators](./technic/doc/generators.md)
+* [Forceload anchor](./technic/doc/anchor.md)
+
+Mod development:
+* [Api](./technic/doc/api.md)
+
+subjects missing from this manual:
+* powered tools
+  * tool charging
+  * battery and energy crystals
+  * chainsaw
+  * flashlight
+  * mining lasers
+  * mining drills
+  * prospector
+  * sonic screwdriver
+* liquid cans
+* wrench
+* frames
+* templates
+
+
+## FAQ
+
+1. My technic circuit doesn't work.  No power is distributed.
+  * A: Make sure you have a switching station connected.
+
+# Notes
 
 This is a maintained fork of https://github.com/minetest-mods/technic with various enhancements.
 Suitable for multiplayer environments.
@@ -57,13 +123,6 @@ Recommended mods that build on the `technic mod`:
 * @int-ua
 * @S-S-X
 * And many others...
-
-# FAQ
-
-* [Manual](./manual.md)
-
-1. My technic circuit doesn't work.  No power is distributed.
-  * A: Make sure you have a switching station connected.
 
 # License
 
