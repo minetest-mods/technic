@@ -74,7 +74,7 @@ minetest.register_globalstep(function(dtime)
 
 	local now = minetest.get_us_time()
 
-	local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "300")
+	local off_delay_seconds = tonumber(minetest.settings:get("technic.switch.off_delay_seconds") or "1800")
 	local off_delay_micros = off_delay_seconds*1000*1000
 
 	local active_switches = 0
