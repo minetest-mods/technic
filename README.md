@@ -10,6 +10,9 @@ A mod for [minetest](http://www.minetest.net)
 
 # Overview
 
+<img src="./technic/doc/images/Technic Screenshot.png"/>
+
+
 The technic modpack extends the Minetest game with many new elements,
 mainly constructable machines and tools.  It is a large modpack, and
 tends to dominate gameplay when it is used.  This manual describes how
@@ -42,6 +45,7 @@ its specialised recipe types.
 # Documentation
 
 Ingame:
+* [Resources](./technic/doc/resources.md)
 * [Substances](./technic/doc/substances.md)
 * [Processes](./technic/doc/processes.md)
 * [Chests](./technic/doc/chests.md)
@@ -52,22 +56,12 @@ Ingame:
 * [Forceload anchor](./technic/doc/anchor.md)
 * [Digilines](./technic/doc/digilines.md)
 * [Mesecons](./technic/doc/mesecons.md)
+* [Tools](./technic/doc/tools.md)
 
 Mod development:
 * [Api](./technic/doc/api.md)
 
 subjects missing from this manual:
-* powered tools
-  * tool charging
-  * battery and energy crystals
-  * chainsaw
-  * flashlight
-  * mining lasers
-  * mining drills
-  * prospector
-  * sonic screwdriver
-* liquid cans
-* wrench
 * frames
 * templates
 

@@ -2,6 +2,26 @@
 powered machines
 ----------------
 
+## Overview
+Many of the important machines in Technic run on electricity, using wires to connect generators with the consuming machines. These electric circuits consist of a generator, a consumer, wiring, and a switching station. Every independent circuit requires all 4 of these elements to function. In general the machines are all connected on the bottom by wire. Machines should be placed first and then the wire placed under and around them. The wiring should automatically adjust itself to connect to each machine and adjacent wires. If the wiring looks incorrect, it's likely that it won't work so be sure to check this!
+
+Circuits are also grouped into 3 different categories based on how much power they transfer and the corresponding voltage: low voltage (LV), medium voltage (MV), and high voltage (HV). The base level for all electronics is low voltage, so if voltage isn't specified for a electrical component, you may safely assume it's low voltage. Most low-voltage components are upgradable to medium- and high-voltage through further crafting. To get started, you won't need to worry about any MV or HV components, and the basic low-voltage components are fine.
+
+## Getting started
+The first step to working with the more advanced machines are to get a basic electrical circuit set up for converting coal into power for other machines. This will rely on the following:
+
+<img src="./images/LV_Fuel_Fired_Generator_Crafting.png"/>
+1x LV Fuel Fired Generator
+
+<img src="./images/Switching_station_crafting.png"/>
+1x Switching station
+
+<img src="./images/LV_cable_Crafting.png"/>
+2x LV Cable
+
+The generator and switching station should be placed side-by-side with the wire underneath connecting both of them. Once this is done, additional consumers can be added to the network. A grinder or extractor are both good choices to expand the capabilities of the coal-fired smelter and coal-fired alloy furnace that you already have.
+
+
 ### powered machine tiers ###
 
 Each powered machine takes its power in some specific form, being
