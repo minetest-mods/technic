@@ -64,6 +64,6 @@ The water can works similarly to the bucket tool from minetest_game, but it can 
 
 ## Wrench
 
-<img src="../textures/technic_wrench.png"/>
+<img src="../../wrench/textures/technic_wrench.png"/>
 
 The manual tool allows for moving blocks which contain an inventory, like chests. A shift-right-click on a machine/chest will immediately add it to the inventory.
