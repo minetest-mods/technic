@@ -123,12 +123,7 @@ Recommended mods that build on the `technic mod`:
 # Chat commands
 
 * **/technic_flush_switch_cache** clears the switching station cache (stops all unloaded switches)
-
-# Open issues
-
-* Documentation (markdown)
-* Luacheck / testing
-* More settings, remove hardcoded values
+* **/powerctrl [on|off]** enable/disable technic power distribution globally
 
 # Contributors
 
