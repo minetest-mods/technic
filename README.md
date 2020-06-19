@@ -83,7 +83,28 @@ Suitable for multiplayer environments.
 * HV-digiline cables (@S-S-X)
 * various others...
 
+## Compatibility
+
+This mod is meant as a **drop-in replacement** for the upstream `technic` mod.
+It also provides some additional machines and items, notably:
+
+* HV Grinder
+* HV Furnace
+* LV Lamp
+* HV Digiline cables
+
 # Recommended mods
+
+Dependencies:
+
+* https://github.com/minetest-mods/mesecons
+* https://github.com/minetest-mods/moreores
+* https://gitlab.com/VanessaE/pipeworks
+* https://gitlab.com/VanessaE/basic_materials
+
+Recommended optional Dependencies:
+
+* https://github.com/minetest-mods/digilines
 
 Recommended mods that build on the `technic mod`:
 
@@ -116,10 +137,11 @@ Recommended mods that build on the `technic mod`:
 * Nore/Ekdohibs
 * ShadowNinja
 * VanessaE
-* @BuckarooBanzay
-* @OgelGames
-* @int-ua
-* @S-S-X
+* BuckarooBanzay
+* OgelGames
+* int-ua
+* S-S-X
+* H-V-Smacker
 * And many others...
 
 # License
