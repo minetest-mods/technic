@@ -464,9 +464,13 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 
 	-- digiline interface
 	digiline = {
-		receptor = {action = function() end},
+		receptor = {
+			rules = technic.digilines.rules,
+			action = function() end,
+		},
 		effector = {
-			action = digiline_def
+			rules = technic.digilines.rules,
+			action = digiline_def,
 		},
 	},
 
