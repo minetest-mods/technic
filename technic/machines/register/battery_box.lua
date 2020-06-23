@@ -92,7 +92,6 @@ local dirtab = {
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
-		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return stack
@@ -106,7 +105,6 @@ local tube = {
 		end
 	end,
 	can_insert = function(pos, node, stack, direction)
-		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return false
