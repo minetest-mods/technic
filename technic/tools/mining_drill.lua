@@ -52,17 +52,14 @@ local function drill_dig_it0 (pos,player)
 		return
 	end
 	local node = minetest.get_node(pos)
-    local def = minetest.registered_nodes[node.name]
 	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
 	if node.name == "default:lava_flowing" then return end
 	if node.name == "default:water_source" then minetest.remove_node(pos) return end
 	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
-    if node.name == "ignore" or not def then
-	    return
-    else 
-        def.on_dig(pos, node, player)
-	end
+    local def = minetest.registered_nodes[node.name]
+    if not def then return end
+    def.on_dig(pos, node, player)
 end
 
 local function drill_dig_it1 (player)
