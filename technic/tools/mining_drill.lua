@@ -51,7 +51,7 @@ local function drill_dig_it0 (pos,player)
 		minetest.record_protection_violation(pos, player:get_player_name())
 		return
 	end
-	local node=minetest.get_node(pos)
+	local node = minetest.get_node(pos)
 	if node.name == "air" or node.name == "ignore" then return end
 	if node.name == "default:lava_source" then return end
 	if node.name == "default:lava_flowing" then return end
@@ -59,7 +59,7 @@ local function drill_dig_it0 (pos,player)
 	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
 	local def = minetest.registered_nodes[node.name]
 	if not def then return end
-	def.on_dig(pos,node,player)
+	def.on_dig(pos, node, player)
 end
 
 local function drill_dig_it1 (player)
