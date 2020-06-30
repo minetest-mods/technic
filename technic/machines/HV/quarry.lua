@@ -1,6 +1,8 @@
 
 local S = technic.getter
 
+local has_digilines = minetest.get_modpath("digilines")
+
 local quarry_dig_above_nodes = tonumber(minetest.settings:get("technic.quarry.dig_above_nodes") or "3")
 local quarry_max_depth = tonumber(minetest.settings:get("technic.quarry.maxdepth") or "100")
 local quarry_time_limit = tonumber(minetest.settings:get("technic.quarry.time_limit") or "5000")
@@ -11,12 +13,17 @@ local machine_name = S("%s Quarry"):format("HV")
 local quarry_formspec =
 	"size[8,9]"..
 	"item_image[7,0;1,1;technic:quarry]"..
-	"list[context;cache;1,1;4,3;]"..
+	"list[context;cache;0,1;4,3;]"..
 	"listring[context;cache]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[current_player;main]"..
 	"label[0,0;"..machine_name.."]"..
-	"button[5,1.9;2,1;restart;"..S("Restart").."]"
+	"button[6,0.9;2,1;restart;"..S("Restart").."]"
+
+if has_digilines then
+	quarry_formspec = quarry_formspec
+			.. "field[4.3,3.4;4,1;channel;Channel;${channel}]"
+end
 
 -- hard-coded spiral dig pattern for up to 17x17 dig area
 local quarry_dig_pattern = {
@@ -60,10 +67,10 @@ end
 
 local function set_quarry_status(pos)
 	local meta = minetest.get_meta(pos)
-	local formspec = quarry_formspec.."field[5.3,3.4;2,1;size;"..S("Radius:")..";"..meta:get_int("size").."]"
+	local formspec = quarry_formspec.."field[4.3,2.4;2,1;size;"..S("Radius:")..";"..meta:get_int("size").."]"
 	local status = S("Digging not started")
 	if meta:get_int("enabled") == 1 then
-		formspec = formspec.."button[5,0.9;2,1;disable;"..S("Enabled").."]"
+		formspec = formspec.."button[4,0.9;2,1;disable;"..S("Enabled").."]"
 		if meta:get_int("purge_on") == 1 then
 			status = S("Purging cache")
 			meta:set_string("infotext", S("%s purging cache"):format(machine_name))
@@ -79,7 +86,7 @@ local function set_quarry_status(pos)
 			meta:set_int("HV_EU_demand", quarry_demand)
 		end
 	else
-		formspec = formspec.."button[5,0.9;2,1;enable;"..S("Disabled").."]"
+		formspec = formspec.."button[4,0.9;2,1;enable;"..S("Disabled").."]"
 		meta:set_string("infotext", S("%s Disabled"):format(machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	end
@@ -100,6 +107,9 @@ local function quarry_receive_fields(pos, formname, fields, sender)
 			meta:set_int("size", size)
 			reset_quarry(pos)
 		end
+	end
+	if fields.channel then
+		meta:set_string("channel", fields.channel)
 	end
 	if fields.enable then meta:set_int("enabled", 1) end
 	if fields.disable then meta:set_int("enabled", 0) end
@@ -248,6 +258,62 @@ local function quarry_run(pos, node)
 	set_quarry_status(pos)
 end
 
+local digiline_def = function(pos, _, channel, msg)
+	local meta = minetest.get_meta(pos)
+	if channel ~= meta:get_string("channel") then
+		return
+	end
+	-- Convert string messages to tables:
+	if type(msg) == "string" then
+		local smsg = msg:lower()
+		msg = {}
+		if smsg == "get" then
+			msg.command = "get"
+		elseif smsg:sub(1,7) == "radius " then
+			msg.command = "radius"
+			msg.value = smsg:sub(8,-1)
+		elseif smsg == "on" then
+			msg.command = "on"
+		elseif smsg == "off" then
+			msg.command = "off"
+		elseif smsg == "restart" then
+			msg.command = "restart"
+		end
+	end
+
+	if type(msg) ~= "table" then
+		return
+	end
+
+	if msg.command == "get" then
+		digilines.receptor_send(pos, technic.digilines.rules, channel, {
+			enabled = meta:get_int("enabled"),
+			radius = meta:get_int("size"),
+			finished = meta:get_int("finished"),
+			dug_nodes = meta:get_int("dug"),
+			dig_level = meta:get_int("dig_level") - pos.y
+		})
+	elseif msg.command == "radius" then
+		local size = tonumber(msg.value)
+		if not size or size < 1 or size > 8 or size == meta:get_int("size") then
+			return
+		end
+		meta:set_int("size", size)
+		reset_quarry(pos)
+		set_quarry_status(pos)
+	elseif msg.command == "on" then
+		meta:set_int("enabled", 1)
+		set_quarry_status(pos)
+	elseif msg.command == "off" then
+		meta:set_int("enabled", 0)
+		set_quarry_status(pos)
+	elseif msg.command == "restart" then
+		reset_quarry(pos)
+		set_quarry_status(pos)
+	end
+
+end
+
 minetest.register_node("technic:quarry", {
 	description = S("%s Quarry"):format("HV"),
 	tiles = {
@@ -327,7 +393,17 @@ minetest.register_node("technic:quarry", {
 				set_quarry_status(pos)
 			end
 		}
-	}
+	},
+	digiline = {
+		receptor = {
+			rules = technic.digilines.rules,
+			action = function() end,
+		},
+		effector = {
+			rules = technic.digilines.rules,
+			action = digiline_def,
+		},
+	},
 })
 
 minetest.register_craft({
