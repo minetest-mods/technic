@@ -38,6 +38,12 @@ if event.type == "digiline" and event.channel == "switch" then
 end
 ```
 
+## Power monitor
+The commands:
+- `"get"`: The power monitor sends back information about the attached network
+  - `"supply"`, `"demand"` and `"lag"`: Same as switching station
+  - `"battery_count"`, `"battery_charge"` and `"battery_charge_max"`: Totaled information about the attached batteries.
+
 
 ## Supply Converter
 You can send the following to it:
