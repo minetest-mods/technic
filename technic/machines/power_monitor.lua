@@ -6,6 +6,15 @@ local S = technic.getter
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
+-- return the position of the associated switching station or nil
+local function get_swpos(pos)
+	local network_hash = technic.cables[minetest.hash_node_position(pos)]
+	local network = network_hash and minetest.get_position_from_hash(network_hash)
+	local swpos = network and {x=network.x,y=network.y+1,z=network.z}
+	local is_powermonitor = swpos and minetest.get_node(swpos).name == "technic:switching_station"
+	return is_powermonitor and swpos or nil
+end
+
 minetest.register_craft({
 	output = "technic:power_monitor",
 	recipe = {
@@ -32,7 +41,54 @@ minetest.register_node("technic:power_monitor",{
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Power Monitor"))
+		meta:set_string("channel", "power_monitor"..minetest.pos_to_string(pos))
+		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 	end,
+	on_receive_fields = function(pos, formname, fields, sender)
+		if not fields.channel then
+			return
+		end
+		local plname = sender:get_player_name()
+    if minetest.is_protected(pos, plname) and not minetest.check_player_privs(sender, "protection_bypass") then
+			minetest.record_protection_violation(pos, plname)
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		meta:set_string("channel", fields.channel)
+	end,
+	digiline = {
+		receptor = {
+			rules = technic.digilines.rules,
+			action = function() end
+		},
+		effector = {
+			rules = technic.digilines.rules,
+			action = function(pos, node, channel, msg)
+				if msg ~= "GET" and msg ~= "get" then
+					return
+				end
+				local meta = minetest.get_meta(pos)
+				if channel ~= meta:get_string("channel") then
+					return
+				end
+
+				local sw_pos = get_swpos(pos)
+				if not sw_pos then
+					return
+				end
+
+				local sw_meta = minetest.get_meta(sw_pos)
+				digilines.receptor_send(pos, technic.digilines.rules, channel, {
+					supply = sw_meta:get_int("supply"),
+					demand = sw_meta:get_int("demand"),
+					lag = sw_meta:get_int("lag"),
+					battery_count = sw_meta:get_int("battery_count"),
+					battery_charge = sw_meta:get_int("battery_charge"),
+					battery_charge_max = sw_meta:get_int("battery_charge_max"),
+				})
+			end
+		},
+	},
 })
 
 minetest.register_abm({
@@ -42,14 +98,12 @@ minetest.register_abm({
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
-		local network_hash = technic.cables[minetest.hash_node_position(pos)]
-		local network = network_hash and minetest.get_position_from_hash(network_hash)
-		local sw_pos = network and {x=network.x,y=network.y+1,z=network.z}
+		local sw_pos = get_swpos(pos)
 		local timeout = 0
 		for tier in pairs(technic.machines) do
 			timeout = math.max(meta:get_int(tier.."_EU_timeout"),timeout)
 		end
-		if timeout > 0 and sw_pos and minetest.get_node(sw_pos).name == "technic:switching_station" then
+		if timeout > 0 and sw_pos then
 			local sw_meta = minetest.get_meta(sw_pos)
 			local supply = sw_meta:get_int("supply")
 			local demand = sw_meta:get_int("demand")

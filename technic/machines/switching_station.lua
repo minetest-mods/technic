@@ -306,9 +306,16 @@ technic.switching_station_run = function(pos)
 	local charge_total = 0
 	local battery_count = 0
 
+	local BA_charge = 0
+	local BA_charge_max = 0
+
 	for n, pos1 in pairs(BA_nodes) do
 		meta1 = minetest.get_meta(pos1)
 		local charge = meta1:get_int("internal_EU_charge")
+		local charge_max = meta1:get_int("internal_EU_charge_max")
+
+		BA_charge = BA_charge + charge
+		BA_charge_max = BA_charge_max + charge_max
 
 		if (meta1:get_int(eu_demand_str) ~= 0) then
 			charge_total = charge_total + charge
@@ -378,6 +385,9 @@ technic.switching_station_run = function(pos)
 	-- Data that will be used by the power monitor
 	meta:set_int("supply",PR_eu_supply)
 	meta:set_int("demand",RE_eu_demand)
+	meta:set_int("battery_count",#BA_nodes)
+	meta:set_int("battery_charge",BA_charge)
+	meta:set_int("battery_charge_max",BA_charge_max)
 
 	-- If the PR supply is enough for the RE demand supply them all
 	if PR_eu_supply >= RE_eu_demand then

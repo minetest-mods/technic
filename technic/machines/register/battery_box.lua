@@ -240,6 +240,7 @@ function technic.register_battery_box(data)
 		meta:set_int(tier.."_EU_supply",
 				math.min(data.discharge_rate, current_charge))
 			meta:set_int("internal_EU_charge", current_charge)
+		meta:set_int("internal_EU_charge_max", max_charge)
 
 		-- Select node textures
 		local charge_count = math.ceil((current_charge / max_charge) * 8)
