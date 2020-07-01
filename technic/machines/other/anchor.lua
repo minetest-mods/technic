@@ -114,7 +114,7 @@ minetest.register_node("technic:admin_anchor", {
 			end,
 			action_off = function(pos)
 				local meta = minetest.get_meta(pos)
-				forceload_off(pos, meta)
+				forceload_off(meta)
 			end
 		}
 	}
