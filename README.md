@@ -135,6 +135,7 @@ Recommended mods that build on the `technic mod`:
 * int-ua
 * S-S-X
 * H-V-Smacker
+* groxxda
 * And many others...
 
 # License
