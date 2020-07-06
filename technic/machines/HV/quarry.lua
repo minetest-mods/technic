@@ -281,6 +281,20 @@ minetest.register_node("technic:quarry", {
 		reset_quarry(pos)
 		set_quarry_status(pos)
 	end,
+	on_rotate = function(pos, node, player, click, new_param2)
+		local meta = minetest.get_meta(pos)
+		if meta:get_int("enabled") == 1 then
+			return false
+		end
+
+		-- only allow rotation around y-axis
+		node.param2 = new_param2 % 4
+
+		minetest.swap_node(pos, node)
+		reset_quarry(pos)
+		set_quarry_status(pos)
+		return true
+	end,
 	after_place_node = function(pos, placer, itemstack)
 		minetest.get_meta(pos):set_string("owner", placer:get_player_name())
 		pipeworks.scan_for_tube_objects(pos)
