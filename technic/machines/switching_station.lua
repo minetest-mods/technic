@@ -192,6 +192,7 @@ local get_network = function(sw_pos, pos1, tier)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
 			meta:set_string("active_pos", minetest.serialize(sw_pos))
+			meta:set_int(tier.."_EU_timeout", 2) -- Touch node
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
