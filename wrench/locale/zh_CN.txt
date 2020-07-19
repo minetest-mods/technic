@@ -1,0 +1,2 @@
+Wrench =扳手
+%s with items =%s带物品
