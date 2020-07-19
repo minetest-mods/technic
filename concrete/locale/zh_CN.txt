@@ -1,0 +1,5 @@
+Rebar =钢筋
+Concrete Block =混凝土块
+Blast-resistant Concrete Block =抗爆混凝土块
+Concrete Post Platform =混凝土柱平台
+Concrete Post =混凝土柱
