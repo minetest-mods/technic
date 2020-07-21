@@ -134,7 +134,8 @@ local run = function(pos, node, run_stage)
 		minetest.registered_nodes["technic:supply_converter"].on_construct(pos)
 		enabled = true
 	else
-		enabled = enabled == "1"
+		-- compatibility case for #71
+		enabled = meta:get_int("enabled") == 1
 	end
 	enabled = enabled and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
 	local demand = enabled and meta:get_int("power") or 0
