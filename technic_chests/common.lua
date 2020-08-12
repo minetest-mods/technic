@@ -1,6 +1,3 @@
--- Translation support
-local S = minetest.get_translator("technic_chests")
-
 technic.chests.groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		tubedevice=1, tubedevice_receiver=1}
 technic.chests.groups_noinv = {snappy=2, choppy=2, oddly_breakable_by_hand=2,

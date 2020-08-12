@@ -1,5 +1,3 @@
-local S = minetest.get_translator("technic")
-
 local have_ui = minetest.get_modpath("unified_inventory")
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }

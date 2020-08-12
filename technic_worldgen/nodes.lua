@@ -144,7 +144,7 @@ minetest.register_craft({
 minetest.register_alias("technic:diamond_block", "default:diamondblock")
 minetest.register_alias("technic:diamond", "default:diamond")
 minetest.register_alias("technic:mineral_diamond", "default:stone_with_diamond")
- 
+
 local steel_to_wrought_iron = {
 	{name="stairs:stair_outer_steelblock", description=S("Outer Wrought Iron Block Stair")},
 	{name="stairs:stair_inner_steelblock", description=S("Inner Wrought Iron Block Stair")},
