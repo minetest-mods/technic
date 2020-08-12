@@ -11,7 +11,7 @@ read_globals = {
     string = {fields = {"split", "trim"}},
     table = {fields = {"copy", "getn"}},
 
-    "intllib", "VoxelArea",
+    "VoxelArea",
     "default", "stairsplus",
 
     "PseudoRandom", "ItemStack",
@@ -28,6 +28,8 @@ read_globals = {
 
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
+
+    "toolranks",
 }
 
 files["concrete/init.lua"].ignore = { "steel_ingot" }

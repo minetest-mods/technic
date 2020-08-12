@@ -161,7 +161,7 @@ for _, v in ipairs(steel_to_iron) do
 		if minetest.get_modpath("toolranks") and item_def.original_description then
 			minetest.override_item(v.name, {
 				original_description = v.description,
-				description = toolranks.create_description(v.description, 0, 1)})
+				description = toolranks.create_description(v.description)})
 		else
 			minetest.override_item(v.name, { description = v.description })
 		end
