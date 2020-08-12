@@ -195,7 +195,7 @@ function technic.register_battery_box(data)
 		local meta           = minetest.get_meta(pos)
 
 		if not technic.is_tier_cable(below.name, tier) then
-			meta:set_string("infotext", S("@1 Has No Network", S("@1 Battery Box", tier_localized)))
+			meta:set_string("infotext", S("@1 Has No Network", S("@1 Battery Box", data.tier_localized)))
 			return
 		end
 
@@ -254,7 +254,7 @@ function technic.register_battery_box(data)
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
 		meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, charge_percent))
-		local infotext = S("@1 Battery Box: @2 / @3", tier_localized,
+		local infotext = S("@1 Battery Box: @2 / @3", data.tier_localized,
 				technic.EU_string(current_charge),
 				technic.EU_string(max_charge))
 		if eu_input == 0 then
