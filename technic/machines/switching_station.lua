@@ -4,6 +4,20 @@ technic.networks = {}
 technic.cables = {}
 technic.redundant_warn = {}
 
+local overload_reset_time = tonumber(minetest.settings:get("technic.overload_reset_time") or "20")
+local overloaded_networks = {}
+local reset_overloaded = function(network_id)
+	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
+	if remaining == 0 then
+		-- Clear cache, remove overload and restart network
+		print("Removing overloaded network and clearing cache")
+		overloaded_networks[network_id] = nil
+		technic.networks[network_id] = nil
+	end
+	return remaining
+end
+
+
 local switch_max_range = tonumber(minetest.settings:get("technic.switch_max_range") or "256")
 
 local mesecons_path = minetest.get_modpath("mesecons")
@@ -137,8 +151,23 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 		add_cable_node(all_nodes, pos,network_id, queue)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
+
 		local meta = minetest.get_meta(pos)
-		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
+		local net_id_key = tier.."_network"
+		local net_id_new = network_id
+		local net_id_old = meta:get_string(net_id_key)
+		if net_id_old == "" then
+			meta:set_string(net_id_key, net_id_new)
+		elseif net_id_old ~= net_id_new then
+			-- do not allow running pos from multiple networks, also disable switch
+			overloaded_networks[net_id_old] = minetest.get_us_time() + (overload_reset_time * 1000 * 1000)
+			overloaded_networks[net_id_new] = overloaded_networks[net_id_old]
+			-- delete caches for conflicting network
+			technic.networks[net_id_old] = nil
+			meta:set_string(net_id_key, net_id_new)
+			meta:set_string("infotext",S("Network Overloaded"))
+		end
+
 		if     machines[name] == technic.producer then
 			add_network_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
@@ -181,8 +210,7 @@ local touch_nodes = function(list, tier)
 	end
 end
 
-local get_network = function(sw_pos, pos1, tier)
-	local network_id = minetest.hash_node_position(pos1)
+local get_network = function(network_id, sw_pos, pos1, tier)
 	local cached = technic.networks[network_id]
 	if cached and cached.tier == tier then
 		touch_nodes(cached.PR_nodes, tier)
@@ -285,9 +313,22 @@ technic.switching_station_run = function(pos)
 	end
 
 	local name = minetest.get_node(pos1).name
+	local network_id = tostring(minetest.hash_node_position(pos1))
+	-- Check if network is overloaded / conflicts with another network
+	if overloaded_networks[network_id] then
+		local remaining = reset_overloaded(network_id)
+		if remaining > 0 then
+			meta:set_string("infotext",S("%s Network Overloaded, Restart in %dms"):format(machine_name, remaining / 1000))
+			return
+		end
+		meta:set_string("infotext",S("%s Restarting Network"):format(machine_name))
+		return
+	end
+
 	local tier = technic.get_cable_tier(name)
 	if tier then
-		PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
+		PR_nodes, BA_nodes, RE_nodes = get_network(network_id, pos, pos1, tier)
+		if overloaded_networks[network_id] then return end
 	else
 		--dprint("Not connected to a network")
 		meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
