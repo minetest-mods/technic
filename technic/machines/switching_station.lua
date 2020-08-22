@@ -10,13 +10,12 @@ local reset_overloaded = function(network_id)
 	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
 	if remaining == 0 then
 		-- Clear cache, remove overload and restart network
-		print("Removing overloaded network and clearing cache")
 		overloaded_networks[network_id] = nil
 		technic.networks[network_id] = nil
 	end
+	-- Returns 0 when network reset or remaining time if reset timer has not expired yet
 	return remaining
 end
-
 
 local switch_max_range = tonumber(minetest.settings:get("technic.switch_max_range") or "256")
 
