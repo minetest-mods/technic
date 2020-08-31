@@ -26,7 +26,7 @@ read_globals = {
 
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
-    "monitoring"
+    "monitoring", "drawers"
 }
 
 files["concrete/init.lua"].ignore = { "steel_ingot" }
