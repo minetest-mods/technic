@@ -52,7 +52,8 @@ minetest.register_alias("technic:wrought_iron_ingot", "default:steel_ingot")
 
 minetest.override_item("default:steel_ingot", {
 	description = S("Wrought Iron Ingot"),
-	inventory_image = "technic_wrought_iron_ingot.png",
+	-- make the color of the ingot a bit darker to separate it better from tin
+	inventory_image = "technic_wrought_iron_ingot.png^[multiply:#bbbbbbff",
 })
 
 minetest.register_craftitem(":technic:cast_iron_ingot", {
