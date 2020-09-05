@@ -209,4 +209,3 @@ function technic.machine_inventory_move(pos, from_list, from_index,
 	local stack = minetest.get_meta(pos):get_inventory():get_stack(from_list, from_index)
 	return inv_change(pos, player, count, from_list, to_list, stack)
 end
-

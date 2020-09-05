@@ -55,4 +55,3 @@ technic.chests:register("Gold", {
 	color = true,
 	locked = true,
 })
-

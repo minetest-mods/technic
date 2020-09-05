@@ -1,0 +1,8 @@
+version: "1"
+rules:
+  - base: upstream
+    upstream: minetest-mods:master
+    mergeMethod: hardreset
+  - base: master
+    upstream: minetest-mods:master
+    mergeMethod: merge

@@ -18,7 +18,7 @@ minetest.register_craft({
 
 local function get_water_flow(pos)
 	local node = minetest.get_node(pos)
-	if minetest.get_item_group(node.name, "water") == 3 and string.find(node.name, "flowing") then
+	if minetest.get_item_group(node.name, "water") == 3 then
 		return node.param2 -- returns approx. water flow, if any
 	end
 	return 0

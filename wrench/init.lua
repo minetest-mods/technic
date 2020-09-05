@@ -18,6 +18,7 @@ wrench = {}
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
+dofile(modpath.."/drawers.lua")
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
@@ -79,7 +80,18 @@ for name, info in pairs(wrench.registered_nodes) do
 		newdef.groups.not_in_creative_inventory = 1
 		newdef.on_construct = nil
 		newdef.on_destruct = nil
-		newdef.after_place_node = restore
+		newdef.after_place_node = function(pos, placer, itemstack)
+
+			-- call restoration function with on_plcae callbacks
+			local new_stack = restore(pos, placer, itemstack)
+
+			if type(info.after_place) == "function" then
+				-- call custom after_place function
+				info.after_place(pos)
+			end
+
+			return new_stack
+		end
 		minetest.register_node(":"..get_pickup_name(name), newdef)
 	end
 end

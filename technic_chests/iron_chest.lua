@@ -51,4 +51,3 @@ technic.chests:register("Iron", {
 	color = false,
 	locked = true,
 })
-

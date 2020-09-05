@@ -1,5 +1,5 @@
-local max_charge = {50000, 200000, 650000}
-local power_usage_per_node = {200, 500, 800}
+local max_charge = {50000, 200000, 300000}
+local power_usage_per_node = {200, 500, 600}
 
 local S = technic.getter
 

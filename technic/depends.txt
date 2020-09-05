@@ -8,6 +8,7 @@ mesecons?
 mesecons_mvps?
 digilines?
 digiline_remote?
+digistuff?
 intllib?
 unified_inventory?
 vector_extras?

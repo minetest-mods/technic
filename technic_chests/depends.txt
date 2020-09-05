@@ -4,4 +4,6 @@ moreblocks?
 moreores?
 pipeworks?
 intllib?
+protector?
+areas?
 tubelib?

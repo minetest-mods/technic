@@ -4,7 +4,7 @@ local conf_table = technic.config:to_table()
 
 local defaults = {
 	enable_mining_drill = "true",
-	enable_mining_laser = "true",
+	enable_mining_laser = "false",
 	enable_flashlight = "false",
 	enable_wind_mill = "false",
 	enable_frames = "false",

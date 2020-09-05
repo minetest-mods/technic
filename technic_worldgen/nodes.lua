@@ -133,6 +133,14 @@ minetest.register_node(":technic:stainless_steel_block", {
 	sounds = default.node_sound_stone_defaults()
 })
 
+minetest.register_node(":technic:sulfur_block", {
+	description = S("Sulfur Block"),
+	tiles = { "technic_sulfur_block.png" },
+	is_ground_content = true,
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults()
+})
+
 minetest.register_craft({
 	output = 'technic:marble_bricks 4',
 	recipe = {

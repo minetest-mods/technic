@@ -13,13 +13,20 @@ local recipes = {
 	{"default:sand 2",             "default:sandstone"},
 	{"default:desert_sand 2",      "default:desert_sandstone"},
 	{"default:silver_sand 2",      "default:silver_sandstone"},
-	{"default:desert_sand",        "default:desert_stone"},
+	{"default:desert_sandstone",   "default:desert_stone"},
 	{"technic:mixed_metal_ingot",  "technic:composite_plate"},
 	{"default:copper_ingot 5",     "technic:copper_plate"},
 	{"technic:coal_dust 4",        "technic:graphite"},
 	{"technic:carbon_cloth",       "technic:carbon_plate"},
 	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
+	{"technic:graphite 25",        "default:diamond"}
 }
+
+if minetest.get_modpath("ethereal") then
+	-- the density of charcoal is ~1/10 of coal, otherwise it's pure carbon
+	table.insert(recipes, {"ethereal:charcoal_lump 10", "default:coal_lump 1"})
+end
+
 
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
 minetest.clear_craft({

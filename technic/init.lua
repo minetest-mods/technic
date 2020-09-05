@@ -20,6 +20,9 @@ else
 end
 local S = technic.getter
 
+-- max_lag
+dofile(modpath.."/max_lag.lua")
+
 -- Read configuration file
 dofile(modpath.."/config.lua")
 
@@ -47,7 +50,13 @@ dofile(modpath.."/tools/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
+-- visual effects
+dofile(modpath.."/effects.lua")
+
 if minetest.settings:get_bool("log_mods") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
 
+if minetest.settings:get_bool("enable_technic_integration_test") then
+	dofile(modpath.."/integration_test.lua")
+end

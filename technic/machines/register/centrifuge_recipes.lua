@@ -15,7 +15,7 @@ local recipes = {
 	{ "technic:stainless_steel_dust 5",    "technic:wrought_iron_dust 4", "technic:chromium_dust" },
 	{ "technic:brass_dust 3",              "technic:copper_dust 2",       "technic:zinc_dust"     },
 	{ "technic:chernobylite_dust",         "default:sand",                "technic:uranium3_dust" },
-	{ "default:dirt 4",                    "default:sand",                "default:gravel",       "default:clay_lump 2"     },
+	{ "default:dirt 4",                    "default:sand",                "default:gravel",       "default:clay_lump 4" },
 }
 
 local function uranium_dust(p)
@@ -32,7 +32,15 @@ if minetest.get_modpath("bushes_classic") then
 end
 
 if minetest.get_modpath("farming") then
-	table.insert(recipes, { "farming:wheat 4", "farming:seed_wheat 3", "default:dry_shrub 1" })
+	if minetest.get_modpath("cottages") then
+		-- work as a mechanized threshing floor
+		table.insert(recipes, { "farming:wheat", "farming:seed_wheat", "cottages:straw_mat" })
+		table.insert(recipes, { "farming:barley", "farming:seed_barley", "cottages:straw_mat" })
+	else
+		-- work in a less fancy and less efficient manner
+		table.insert(recipes, { "farming:wheat 4", "farming:seed_wheat 3", "default:dry_shrub 1" })
+		table.insert(recipes, { "farming:barley 4", "farming:seed_barley 3", "default:dry_shrub 1" })
+	end
 end
 
 for _, data in pairs(recipes) do

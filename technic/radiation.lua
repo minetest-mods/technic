@@ -28,6 +28,9 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
+local MP = minetest.get_modpath("technic")
+local throttle = dofile(MP .. "/util/throttle.lua")
+
 local S = technic.getter
 
 local rad_resistance_node = {
@@ -247,6 +250,12 @@ local abdomen_offset = 1
 local rad_dmg_cutoff = 0.2
 local radiated_players = {}
 
+-- radiation callback function for external use
+-- (radiation counters, etc)
+-- parameters: object / damage (before armor calculations)
+function technic.radiation_callback(object, damage)
+end
+
 local armor_enabled = technic.config:get_bool("enable_radiation_protection")
 local entity_damage = technic.config:get_bool("enable_entity_radiation_damage")
 local longterm_damage = technic.config:get_bool("enable_longterm_radiation_damage")
@@ -323,6 +332,10 @@ local function dmg_object(pos, object, strength)
 	if not dmg then
 		return
 	end
+
+	-- execute radiation callback
+	technic.radiation_callback(object, dmg)
+
 	if armor_enabled then
 		dmg = dmg * mul
 	end
@@ -333,8 +346,28 @@ local function dmg_object(pos, object, strength)
 	end
 end
 
+local enable_radiation_throttling = minetest.settings:get_bool("technic.radiation.enable_throttling")
+
+-- max lag tracker
+local last_max_lag = 0
+
+if enable_radiation_throttling then
+	local function trackMaxLag()
+		last_max_lag = technic.get_max_lag()
+		minetest.after(5, trackMaxLag)
+	end
+
+	-- kick off lag tracking function
+	trackMaxLag()
+end
+
 local rad_dmg_mult_sqrt = math.sqrt(1 / rad_dmg_cutoff)
 local function dmg_abm(pos, node)
+	if enable_radiation_throttling and last_max_lag > 1.5 then
+		-- too much lag, skip radiation check entirely
+		return
+	end
+
 	local strength = minetest.get_item_group(node.name, "radioactive")
 	local max_dist = strength * rad_dmg_mult_sqrt
 	for _, o in pairs(minetest.get_objects_inside_radius(pos,
@@ -346,11 +379,15 @@ local function dmg_abm(pos, node)
 end
 
 if minetest.settings:get_bool("enable_damage") then
+	if enable_radiation_throttling then
+		dmg_abm = throttle(100, dmg_abm)
+	end
+
 	minetest.register_abm({
 		label = "Radiation damage",
 		nodenames = {"group:radioactive"},
 		interval = 1,
-		chance = 1,
+		chance = 2,
 		action = dmg_abm,
 	})
 
@@ -466,7 +503,7 @@ minetest.register_abm({
 	nodenames = {"group:water"},
 	neighbors = {"technic:corium_source"},
 	interval = 1,
-	chance = 1,
+	chance = 3,
 	action = function(pos, node)
 		minetest.remove_node(pos)
 	end,
@@ -477,7 +514,7 @@ minetest.register_abm({
 	nodenames = {"technic:corium_flowing"},
 	neighbors = {"group:water"},
 	interval = 1,
-	chance = 1,
+	chance = 3,
 	action = function(pos, node)
 		minetest.set_node(pos, {name="technic:chernobylite_block"})
 	end,

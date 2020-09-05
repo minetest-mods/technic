@@ -46,4 +46,3 @@ technic.chests:register("Silver", {
 	color = false,
 	locked = true,
 })
-

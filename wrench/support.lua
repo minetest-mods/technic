@@ -17,6 +17,7 @@ Syntax:
 
 wrench.META_TYPE_FLOAT = 1
 wrench.META_TYPE_STRING = 2
+wrench.META_TYPE_INT = 3
 
 local STRING, FLOAT  =
 	wrench.META_TYPE_STRING,
@@ -68,4 +69,3 @@ function wrench:register_node(name, def)
 	    self.registered_nodes[name] = def
 	end
 end
-

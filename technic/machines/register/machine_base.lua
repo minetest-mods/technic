@@ -38,7 +38,7 @@ function technic.register_base_machine(data)
 	local machine_desc = data.machine_desc
 	local tier = data.tier
 	local ltier = string.lower(tier)
-	
+
 	data.modname = data.modname or minetest.get_current_modname()
 
 	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
@@ -107,7 +107,7 @@ function technic.register_base_machine(data)
 			meta:set_int("src_time", meta:get_int("src_time") + round(data.speed*10))
 		end
 		while true do
-			local result = technic.get_recipe(typename, inv:get_list("src"))
+			local result = inv:get_list("src") and technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
 				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))

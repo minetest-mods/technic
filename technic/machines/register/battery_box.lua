@@ -92,7 +92,6 @@ local dirtab = {
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
-		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return stack
@@ -106,7 +105,6 @@ local tube = {
 		end
 	end,
 	can_insert = function(pos, node, stack, direction)
-		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return false
@@ -242,6 +240,7 @@ function technic.register_battery_box(data)
 		meta:set_int(tier.."_EU_supply",
 				math.min(data.discharge_rate, current_charge))
 			meta:set_int("internal_EU_charge", current_charge)
+		meta:set_int("internal_EU_charge_max", max_charge)
 
 		-- Select node textures
 		local charge_count = math.ceil((current_charge / max_charge) * 8)
@@ -356,8 +355,12 @@ function technic.register_battery_box(data)
 				end
 			end,
 			digiline = {
-				receptor = {action = function() end},
+				receptor = {
+					rules = technic.digilines.rules,
+					action = function() end
+				},
 				effector = {
+					rules = technic.digilines.rules,
 					action = function(pos, node, channel, msg)
 						if msg ~= "GET" and msg ~= "get" then
 							return
@@ -367,7 +370,7 @@ function technic.register_battery_box(data)
 							return
 						end
 						local inv = meta:get_inventory()
-						digilines.receptor_send(pos, digilines.rules.default, channel, {
+						digilines.receptor_send(pos, technic.digilines.rules, channel, {
 							demand = meta:get_int(tier.."_EU_demand"),
 							supply = meta:get_int(tier.."_EU_supply"),
 							input  = meta:get_int(tier.."_EU_input"),

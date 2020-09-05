@@ -44,4 +44,3 @@ technic.chests:register("Copper", {
 	color = false,
 	locked = true,
 })
-

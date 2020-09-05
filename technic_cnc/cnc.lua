@@ -236,7 +236,7 @@ local run = function(pos, node)
 		meta:set_int("src_time", meta:get_int("src_time") + 1)
 		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
 			meta:set_int("src_time", 0)
-			srcstack = inv:get_stack("src", 1)
+			local srcstack = inv:get_stack("src", 1)
 			srcstack:take_item()
 			inv:set_stack("src", 1, srcstack)
 			inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))

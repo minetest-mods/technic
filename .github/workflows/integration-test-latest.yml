@@ -1,0 +1,14 @@
+name: integration-test-latest
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: test
+      run: MINETEST_VERSION=latest ./integration-test.sh

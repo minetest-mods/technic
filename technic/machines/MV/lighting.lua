@@ -12,7 +12,7 @@ else
 	S = function (s) return s end
 end
 
-function technic_homedecor_node_is_owned(pos, placer)
+local function technic_homedecor_node_is_owned(pos, placer)
         local ownername = false
         if type(isprotect) == "function" then -- glomie's protection mod
                 if not isprotect(5, pos, placer) then

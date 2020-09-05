@@ -1,10 +1,8 @@
 unused_args = false
-allow_defined_top = true
 max_line_length = 999
 
 globals = {
-    "technic", "minetest",
-    "srcstack",
+    "technic", "technic_cnc", "minetest", "wrench"
 }
 
 read_globals = {
@@ -28,6 +26,7 @@ read_globals = {
 
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
+    "monitoring", "drawers"
 }
 
 files["concrete/init.lua"].ignore = { "steel_ingot" }
