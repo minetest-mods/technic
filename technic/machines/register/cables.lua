@@ -38,7 +38,6 @@ end
 
 local function clear_networks(pos)
 	local node = minetest.get_node(pos)
-	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
 	local positions = check_connections(pos)
 	if #positions < 1 then return end
@@ -66,7 +65,6 @@ local function clear_networks(pos)
 				if technic.is_tier_cable(name, tier) then
 					table.insert(network.all_nodes,pos)
 				elseif technic.machines[tier][node.name] then
-					meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 					if     technic.machines[tier][node.name] == technic.producer then
 						table.insert(network.PR_nodes,pos)
 					elseif technic.machines[tier][node.name] == technic.receiver then
