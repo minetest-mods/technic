@@ -214,26 +214,26 @@ local function traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_node
 	return true
 end
 
-technic.node_timeout = {}
+local node_timeout = {}
 
 technic.pos2network = function(pos)
 	return technic.cables[minetest.hash_node_position(pos)]
 end
 
 technic.get_timeout = function(tier, pos)
-	if technic.node_timeout[tier] == nil then
+	if node_timeout[tier] == nil then
 		-- it is normal that some multi tier nodes always drop here when checking all LV, MV and HV tiers
 		return 0
 	end
-	return technic.node_timeout[tier][minetest.hash_node_position(pos)] or 0
+	return node_timeout[tier][minetest.hash_node_position(pos)] or 0
 end
 
 technic.touch_node = function(tier, pos, timeout)
-	if technic.node_timeout[tier] == nil then
+	if node_timeout[tier] == nil then
 		-- this should get built up during registration
-		technic.node_timeout[tier] = {}
+		node_timeout[tier] = {}
 	end
-	technic.node_timeout[tier][minetest.hash_node_position(pos)] = timeout or 2
+	node_timeout[tier][minetest.hash_node_position(pos)] = timeout or 2
 end
 
 local function touch_nodes(list, tier)
