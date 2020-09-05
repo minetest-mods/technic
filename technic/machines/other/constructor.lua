@@ -103,7 +103,9 @@ local function make_on(mark, length)
 			minetest.check_for_falling(pos)
 			for i = 1, length do
 				place_pos = vector.add(place_pos, dir)
-				if owner ~= "" and minetest.is_protected(place_pos, owner) then return end
+				if owner ~= "" and minetest.is_protected(place_pos, owner) then
+					return
+				end
 				local place_node = minetest.get_node(place_pos)
 				deploy_node(inv, "slot"..i, place_pos, place_node, node)
 			end
@@ -161,7 +163,7 @@ local function make_constructor(mark, length)
 		end,
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("owner", placer:get_player_name() or "")
+			meta:set_string("owner", (placer and placer:get_player_name() or ""))
 		end,
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
