@@ -10,6 +10,12 @@ local reset_overloaded = function(network_id)
 	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
 	if remaining == 0 then
 		-- Clear cache, remove overload and restart network
+		local cables = technic.cables
+		for pos_hash,cable_net_id in pairs(cables) do
+			if cable_net_id == network_id then
+				cables[pos_hash] = nil
+			end
+		end
 		overloaded_networks[network_id] = nil
 		technic.networks[network_id] = nil
 	end
@@ -163,7 +169,8 @@ local function check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes
 			overloaded_networks[net_id_new] = overloaded_networks[net_id_old]
 			-- delete caches for conflicting network
 			technic.networks[net_id_old] = nil
-			technic.cables[pos] = net_id_new
+			technic.networks[net_id_new] = nil
+			technic.cables[pos_hash] = net_id_new
 			meta:set_string("infotext",S("Network Overloaded"))
 			return false
 		end
@@ -185,7 +192,7 @@ local function check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes
 			add_network_node(BA_nodes, pos, network_id)
 		end
 
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		technic.touch_node(tier, pos, 2) -- Touch node
 	end
 	return true
 end
@@ -207,10 +214,32 @@ local function traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_node
 	return true
 end
 
+technic.node_timeout = {}
+
+technic.pos2network = function(pos)
+	return technic.cables[minetest.hash_node_position(pos)]
+end
+
+technic.get_timeout = function(tier, pos)
+	if technic.node_timeout[tier] == nil then
+		-- it is normal that some multi tier nodes always drop here when checking all LV, MV and HV tiers
+		return 0
+	end
+	return technic.node_timeout[tier][minetest.hash_node_position(pos)] or 0
+end
+
+technic.touch_node = function(tier, pos, timeout)
+	if technic.node_timeout[tier] == nil then
+		-- this should get built up during registration
+		technic.node_timeout[tier] = {}
+	end
+	technic.node_timeout[tier][minetest.hash_node_position(pos)] = timeout or 2
+end
+
 local function touch_nodes(list, tier)
+	local touch_node = technic.touch_node
 	for _, pos in ipairs(list) do
-		local meta = minetest.get_meta(pos)
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		touch_node(tier, pos, 2) -- Touch node
 	end
 end
 
@@ -224,7 +253,7 @@ local function get_network(network_id, sw_pos, pos1, tier)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
 			meta:set_string("active_pos", minetest.serialize(sw_pos))
-			meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+			technic.touch_node(tier, pos, 2) -- Touch node
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
@@ -524,13 +553,13 @@ end
 -- Timeout for a node in case it was disconnected from the network
 -- A node must be touched by the station continuously in order to function
 local function switching_station_timeout_count(pos, tier)
-	local meta = minetest.get_meta(pos)
-	local timeout = meta:get_int(tier.."_EU_timeout")
+	local timeout = technic.get_timeout(tier, pos)
 	if timeout <= 0 then
+		local meta = minetest.get_meta(pos)
 		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
-		meta:set_int(tier.."_EU_timeout", timeout - 1)
+		technic.touch_node(tier, pos, timeout - 1)
 		return false
 	end
 end

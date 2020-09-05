@@ -101,7 +101,7 @@ minetest.register_abm({
 		local sw_pos = get_swpos(pos)
 		local timeout = 0
 		for tier in pairs(technic.machines) do
-			timeout = math.max(meta:get_int(tier.."_EU_timeout"),timeout)
+			timeout = math.max(technic.get_timeout(tier, pos),timeout)
 		end
 		if timeout > 0 and sw_pos then
 			local sw_meta = minetest.get_meta(sw_pos)
