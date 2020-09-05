@@ -160,10 +160,11 @@ local function make_constructor(mark, length)
 			for i = 1, length do
 				inv:set_size("slot"..i, 1)
 			end
+			meta:set_string("owner", "?")
 		end,
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("owner", (placer and placer:get_player_name() or ""))
+			meta:set_string("owner", (placer and placer:get_player_name() or "?"))
 		end,
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
