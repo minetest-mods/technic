@@ -7,6 +7,13 @@ minetest.clear_craft({
 	type = "shapeless",
 	output = "default:bronze_ingot"
 })
+-- Restore recipe for bronze block to ingots
+minetest.register_craft({
+	output = "default:bronze_ingot 9",
+	recipe = {
+		{"default:bronzeblock"}
+	}
+})
 
 -- Accelerator tube
 if pipeworks.enable_accelerator_tube then
