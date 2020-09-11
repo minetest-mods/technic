@@ -61,6 +61,9 @@ local function set_injector_formspec(meta)
 		(is_stack and
 			"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
 			"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
+		(meta:get_int("public") == 1 and
+			"button[2,1;2,1;mode_private;"..S("Public").."]" or
+			"button[2,1;2,1;mode_public;"..S("Private").."]")..
 		"list[current_name;main;0,2;8,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"listring[]"..
@@ -120,6 +123,9 @@ minetest.register_node("technic:injector", {
 		local meta = minetest.get_meta(pos)
 		if fields.mode_item then meta:set_string("mode", "single items") end
 		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
+
+		if fields.mode_private then meta:set_int("public", 0) end
+		if fields.mode_public then meta:set_int("public", 1) end
 
 		if fields["fs_helpers_cycling:0:splitstacks"]
 		  or fields["fs_helpers_cycling:1:splitstacks"] then
