@@ -117,6 +117,8 @@ minetest.register_node("technic:injector", {
 		return inv:is_empty("main")
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
+		if minetest.is_protected(pos, sender:get_player_name()) then return end
+
 		local meta = minetest.get_meta(pos)
 		if fields.mode_item then meta:set_string("mode", "single items") end
 		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
