@@ -143,9 +143,6 @@ local function make_constructor(mark, length)
 			mesecon = 2, technic_constructor = 1},
 		mesecons = {effector = {action_on = make_on(mark, length)}},
 		sounds = default.node_sound_stone_defaults(),
-		after_place_node = function (pos, placer)
-			minetest.get_meta(pos):set_string("owner", placer:get_player_name())
-		end,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local formspec = "size[8,9;]"..
