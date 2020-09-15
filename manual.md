@@ -1,22 +1,10 @@
-Minetest technic modpack user manual
-====================================
+# Technic User Manual
 
-The technic modpack extends the Minetest game with many new elements,
-mainly constructable machines and tools.  It is a large modpack, and
-tends to dominate gameplay when it is used.  This manual describes how
-to use the technic modpack, mainly from a player's perspective.
+The technic modpack extends Minetest Game (shipped with Minetest by default)
+with many new elements, mainly constructable machines and tools. This manual
+describes how to use the modpack, mainly from a player's perspective.
 
-The technic modpack depends on some other modpacks:
-
-*   the basic Minetest game
-*   mesecons, which supports the construction of logic systems based on
-    signalling elements
-*   pipeworks, which supports the automation of item transport
-*   moreores, which provides some additional ore types
-*   basic_materials, which provides some basic craft items
-
-This manual doesn't explain how to use these other modpacks, which have
-their own manuals:
+Documentation of the mod dependencies can be found here:
 
 *   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
 *   [Mesecons Documentation](http://mesecons.net/items.html)
@@ -24,87 +12,75 @@ their own manuals:
 *   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
 *   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
 
-Recipes for constructable items in technic are generally not guessable,
-and are also not specifically documented here.  You should use a
-craft guide mod to look up the recipes in-game.  For the best possible
-guidance, use the unified\_inventory mod, with which technic registers
-its specialised recipe types.
+## Recipes
 
-substances
-----------
+Recipes for items registered by technic are not specifically documented here.
+Please consult a craft guide mod to look up the recipes in-game.
 
-### ore ###
+**Recommended mod:** [Unified Inventory](https://github.com/minetest-mods/unified_inventory)
 
-The technic mod makes extensive use of not just the default ores but also
-some that are added by mods.  You will need to mine for all the ore types
-in the course of the game.  Each ore type is found at a specific range of
-elevations, and while the ranges mostly overlap, some have non-overlapping
-ranges, so you will ultimately need to mine at more than one elevation
-to find all the ores.  Also, because one of the best elevations to mine
-at is very deep, you will be unable to mine there early in the game.
+## Substances
 
-Elevation is measured in meters, relative to a reference plane that
-is not quite sea level.  (The standard sea level is at an elevation
-of about +1.4.)  Positive elevations are above the reference plane and
-negative elevations below.  Because elevations are always described this
-way round, greater numbers when higher, we avoid the word "depth".
+### Ores
 
-The ores that matter in technic are coal, iron, copper, tin, zinc,
-chromium, uranium, silver, gold, mithril, mese, and diamond.
+Technic registers a few ores which are needed to craft machines or items.
+Each ore type is found at a specific range of elevations so you will
+ultimately need to mine at more than one elevation to find all the ores.
 
-Coal is part of the basic Minetest game.  It is found from elevation
-+64 downwards, so is available right on the surface at the start of
-the game, but it is far less abundant above elevation 0 than below.
-It is initially used as a fuel, driving important machines in the early
-part of the game.  It becomes less important as a fuel once most of your
-machines are electrically powered, but burning fuel remains a way to
-generate electrical power.  Coal is also used, usually in dust form, as
-an ingredient in alloying recipes, wherever elemental carbon is required.
+Elevation (Y axis) is measured in meters. The reference is usually at sea
+level. Ores can generally be found more commonly by going downwards to -1000m.
 
-Iron is part of the basic Minetest game.  It is found from elevation
-+2 downwards, and its abundance increases in stages as one descends,
-reaching its maximum from elevation -64 downwards.  It is a common metal,
-used frequently as a structural component.  In technic, unlike the basic
-game, iron is used in multiple forms, mainly alloys based on iron and
-including carbon (coal).
+Note ¹: *These ores are provided by Minetest Game. See [Ores](https://wiki.minetest.net/Ores#Ores_overview) for a rough overview*
 
-Copper is part of the basic Minetest game (having migrated there from
-moreores).  It is found from elevation -16 downwards, but is more abundant
-from elevation -64 downwards.  It is a common metal, used either on its
-own for its electrical conductivity, or as the base component of alloys.
+Note ²: *These ores are provided by moreores. TODO: Add reference link*
+
+#### Coal ¹
+Use: Fuel, alloy as carbon
+
+Burning coal is a way to generate electrical power. Coal is also used,
+usually in dust form, as an ingredient in alloying recipes, wherever
+elemental carbon is required.
+
+#### Iron ¹
+Use: multiple, mainly for alloys with carbon (coal).
+
+#### Copper ¹
+Copper is a common metal, used either on its own for its electrical
+conductivity, or as the base component of alloys.
 Although common, it is very heavily used, and most of the time it will
 be the material that most limits your activity.
 
-Tin is part of the basic Minetest game (having migrated there from
-moreores).  It is found from elevation +8 downwards, with no
-elevation-dependent variations in abundance beyond that point.
-It is a common metal.  Its main use in pure form is as a component
-of electrical batteries.  Apart from that its main purpose is
-as the secondary ingredient in bronze (the base being copper), but bronze
-is itself little used.  Its abundance is well in excess of its usage,
-so you will usually have a surplus of it.
+#### Tin ¹
+Use: batteries, bronze
 
-Zinc is supplied by technic.  It is found from elevation +2 downwards,
-with no elevation-dependent variations in abundance beyond that point.
-It is a common metal.  Its main use is as the secondary ingredient
-in brass (the base being copper), but brass is itself little used.
-Its abundance is well in excess of its usage, so you will usually have
-a surplus of it.
+Tin is a common metal but is used rarely. Its abundance is well in excess
+of its usage, so you will usually have a surplus of it.
 
-Chromium is supplied by technic.  It is found from elevation -100
-downwards, with no elevation-dependent variations in abundance beyond
-that point.  It is a moderately common metal.  Its main use is as the
-secondary ingredient in stainless steel (the base being iron).
+#### Zinc
+Use: brass
 
-Uranium is supplied by technic.  It is found only from elevation -80 down
-to -300; using it therefore requires one to mine above elevation -300 even
-though deeper mining is otherwise more productive.  It is a moderately
-common metal, useful only for reasons related to radioactivity: it forms
-the fuel for nuclear reactors, and is also one of the best radiation
-shielding materials available.  It is not difficult to find enough uranium
-ore to satisfy these uses.  Beware that the ore is slightly radioactive:
-it will slightly harm you if you stand as close as possible to it.
-It is safe when more than a meter away or when mined.
+Depth: 2m, more commonly below -32m
+
+Zinc only has a few uses but is a common metal.
+
+#### Chromium
+Use: stainless steel
+
+Depth: -100m, more commonly below -200m
+
+#### Uranium
+Use: nuclear reactor fuel
+
+Depth: -80m until -300m, more commonly between -100m and -200m
+
+It is a moderately common metal, useful only for reasons related to radioactivity:
+it forms the fuel for nuclear reactors, and is also one of the best radiation
+shielding materials available.
+
+Keep a safety distance of a meter to avoid being harmed by radiation.
+
+
+#### Silver ²
 
 Silver is supplied by the moreores mod.  It is found from elevation -2
 downwards, with no elevation-dependent variations in abundance beyond
@@ -112,6 +88,7 @@ that point.  It is a semi-precious metal.  It is little used, being most
 notably used in electrical items due to its conductivity, being the best
 conductor of all the pure elements.
 
+#### Gold ¹
 Gold is part of the basic Minetest game (having migrated there from
 moreores).  It is found from elevation -64 downwards, but is more
 abundant from elevation -256 downwards.  It is a precious metal.  It is
@@ -119,6 +96,7 @@ little used, being most notably used in electrical items due to its
 combination of good conductivity (third best of all the pure elements)
 and corrosion resistance.
 
+#### Mithril ²
 Mithril is supplied by the moreores mod.  It is found from elevation
 -512 downwards, the deepest ceiling of any minable substance, with
 no elevation-dependent variations in abundance beyond that point.
@@ -126,6 +104,7 @@ It is a rare precious metal, and unlike all the other metals described
 here it is entirely fictional, being derived from J. R. R. Tolkien's
 Middle-Earth setting.  It is little used.
 
+#### Mese ¹
 Mese is part of the basic Minetest game.  It is found from elevation
 -64 downwards.  The ore is more abundant from elevation -256 downwards,
 and from elevation -1024 downwards there are also occasional blocks of
@@ -134,12 +113,13 @@ precious gemstone, and unlike diamond it is entirely fictional.  It is
 used in many recipes, though mainly not in large quantities, wherever
 some magical quality needs to be imparted.
 
+#### Diamond ¹
 Diamond is part of the basic Minetest game (having migrated there from
 technic).  It is found from elevation -128 downwards, but is more abundant
 from elevation -256 downwards.  It is a precious gemstone.  It is used
 moderately, mainly for reasons connected to its extreme hardness.
 
-### rock ###
+### Rock
 
 In addition to the ores, there are multiple kinds of rock that need to be
 mined in their own right, rather than for minerals.  The rock types that
