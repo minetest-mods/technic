@@ -79,151 +79,108 @@ shielding materials available.
 
 Keep a safety distance of a meter to avoid being harmed by radiation.
 
-
 #### Silver ²
+Use: conductors
 
-Silver is supplied by the moreores mod.  It is found from elevation -2
-downwards, with no elevation-dependent variations in abundance beyond
-that point.  It is a semi-precious metal.  It is little used, being most
-notably used in electrical items due to its conductivity, being the best
-conductor of all the pure elements.
+Depth: -2m, evenly common
+
+Silver is a semi-precious metal and is the best conductor of all the pure elements.
 
 #### Gold ¹
-Gold is part of the basic Minetest game (having migrated there from
-moreores).  It is found from elevation -64 downwards, but is more
-abundant from elevation -256 downwards.  It is a precious metal.  It is
-little used, being most notably used in electrical items due to its
-combination of good conductivity (third best of all the pure elements)
-and corrosion resistance.
+Use: various
+
+Depth: -64m, more commonly below -256m
+
+Gold is a precious metal. It is most notably used in electrical items due to
+its combination of good conductivity and corrosion resistance.
 
 #### Mithril ²
-Mithril is supplied by the moreores mod.  It is found from elevation
--512 downwards, the deepest ceiling of any minable substance, with
-no elevation-dependent variations in abundance beyond that point.
-It is a rare precious metal, and unlike all the other metals described
-here it is entirely fictional, being derived from J. R. R. Tolkien's
+Use: chests
+
+Depth: -512m, evenly common
+
+Mithril is a fictional ore, being derived from J. R. R. Tolkien's
 Middle-Earth setting.  It is little used.
 
 #### Mese ¹
-Mese is part of the basic Minetest game.  It is found from elevation
--64 downwards.  The ore is more abundant from elevation -256 downwards,
-and from elevation -1024 downwards there are also occasional blocks of
-solid mese (each yielding as much mese as nine blocks of ore).  It is a
-precious gemstone, and unlike diamond it is entirely fictional.  It is
-used in many recipes, though mainly not in large quantities, wherever
-some magical quality needs to be imparted.
+Use: various
+
+Mese is a precious gemstone, and unlike diamond it is entirely fictional.
+It is used in small quantities, wherever some magic needs to be imparted.
 
 #### Diamond ¹
-Diamond is part of the basic Minetest game (having migrated there from
-technic).  It is found from elevation -128 downwards, but is more abundant
-from elevation -256 downwards.  It is a precious gemstone.  It is used
-moderately, mainly for reasons connected to its extreme hardness.
+Use: mainly for cutting machines
 
-### Rock
+Diamond is a precious gemstone. It is used moderately, mainly for reasons
+connected to its extreme hardness.
 
-In addition to the ores, there are multiple kinds of rock that need to be
-mined in their own right, rather than for minerals.  The rock types that
-matter in technic are standard stone, desert stone, marble, and granite.
+### Rocks
 
-Standard stone is part of the basic Minetest game.  It is extremely
-common.  As in the basic game, when dug it yields cobblestone, which can
-be cooked to turn it back into standard stone.  Cobblestone is used in
-recipes only for some relatively primitive machines.  Standard stone is
-used in a couple of machine recipes.  These rock types gain additional
-significance with technic because the grinder can be used to turn them
-into dirt and sand.  This, especially when combined with an automated
-cobblestone generator, can be an easier way to acquire sand than
-collecting it where it occurs naturally.
+This section describes the rock types added by technic. Further rock types
+are supported by technic machines. These can be processed using the grinder:
 
-Desert stone is part of the basic Minetest game.  It is found specifically
-in desert biomes, and only from elevation +2 upwards.  Although it is
-easily accessible, therefore, its quantity is ultimately quite limited.
-It is used in a few recipes.
+ * Stone (plain)
+ * Cobblestone
+ * Desert Stone
 
-Marble is supplied by technic.  It is found in dense clusters from
-elevation -50 downwards.  It has mainly decorative use, but also appears
-in one machine recipe.
+#### Marble
+Depth: -50m, evenly common
 
-Granite is supplied by technic.  It is found in dense clusters from
-elevation -150 downwards.  It is much harder to dig than standard stone,
-so impedes mining when it is encountered.  It has mainly decorative use,
-but also appears in a couple of machine recipes.
+Marble is found in dense clusters and has mainly decorative use, but also
+appears in one machine recipe.
 
-### rubber ###
+#### Granite
+Depth: -150m, evenly common
 
+Granite is found in dense clusters and is much harder to dig than standard
+stone. It has mainly decorative use, but also appears in a couple of
+machine recipes.
+
+### Rubber
 Rubber is a biologically-derived material that has industrial uses due
 to its electrical resistivity and its impermeability.  In technic, it
 is used in a few recipes, and it must be acquired by tapping rubber trees.
 
-If you have the moretrees mod installed, the rubber trees you need
-are those defined by that mod.  If not, technic supplies a copy of the
-moretrees rubber tree.
+Rubber trees are provided by technic if the moretrees mod is not present.
 
-Extracting rubber requires a specific tool, a tree tap.  Using the tree
-tap (by left-clicking) on a rubber tree trunk block extracts a lump of
-raw latex from the trunk.  Each trunk block can be repeatedly tapped for
-latex, at intervals of several minutes; its appearance changes to show
-whether it is currently ripe for tapping.  Each tree has several trunk
-blocks, so several latex lumps can be extracted from a tree in one visit.
+Extract raw latex from rubber using the "Tree Tap" tool. Punch/left-click the
+tool on a rubber tree trunk to extract a lump of raw latex from the trunk.
+Emptied trunks will regenerate at intervals of several minutes, which can be
+observed by its appearance.
 
-Raw latex isn't used directly.  It must be vulcanized to produce finished
-rubber.  This can be performed by alloying the latex with coal dust.
+To obtain rubber from latex, alloy latex with coal dust.
 
-### metal ###
+### Metals
+Generally, each metal can exist in five forms:
 
-Many of the substances important in technic are metals, and there is
-a common pattern in how metals are handled.  Generally, each metal can
-exist in five forms: ore, lump, dust, ingot, and block.  With a couple of
-tricky exceptions in mods outside technic, metals are only *used* in dust,
-ingot, and block forms.  Metals can be readily converted between these
-three forms, but can't be converted from them back to ore or lump forms.
+ * ore -> stone containing the lump
+ * lump -> draw metal obtained by digging ("nuggets")
+ * dust -> grinder output
+ * ingot -> melted/cooked lump or dust
+ * block -> placeable node
 
-As in the basic Minetest game, a "lump" of metal is acquired directly by
-digging ore, and will then be processed into some other form for use.
-A lump is thus more akin to ore than to refined metal.  (In real life,
-metal ore rarely yields lumps ("nuggets") of pure metal directly.
-More often the desired metal is chemically bound into the rock as an
-oxide or some other compound, and the ore must be chemically processed
-to yield pure metal.)
+Metals can be converted between dust, ingot and block, but can't be converted
+from them back to ore or lump forms.
 
-Not all metals occur directly as ore.  Generally, elemental metals (those
-consisting of a single chemical element) occur as ore, and alloys (those
-consisting of a mixture of multiple elements) do not.  In fact, if the
-fictional mithril is taken to be elemental, this pattern is currently
-followed perfectly.  (It is not clear in the Middle-Earth setting whether
-mithril is elemental or an alloy.)  This might change in the future:
-in real life some alloys do occur as ore, and some elemental metals
-rarely occur naturally outside such alloys.  Metals that do not occur
-as ore also lack the "lump" form.
+#### Grinding
+Ores can be processed as follows:
 
-The basic Minetest game offers a single way to refine metals: cook a lump
-in a furnace to produce an ingot.  With technic this refinement method
-still exists, but is rarely used outside the early part of the game,
-because technic offers a more efficient method once some machines have
-been built.  The grinder, available only in electrically-powered forms,
-can grind a metal lump into two piles of metal dust.  Each dust pile
-can then be cooked into an ingot, yielding two ingots from one lump.
-This doubling of material value means that you should only cook a lump
-directly when you have no choice, mainly early in the game when you
-haven't yet built a grinder.
+ * ore -> lump (digging) -> ingot (melting)
+ * ore -> lump (digging) -> 2x dust (grinding) -> 2x ingot (melting)
 
-An ingot can also be ground back to (one pile of) dust.  Thus it is always
-possible to convert metal between ingot and dust forms, at the expense
-of some energy consumption.  Nine ingots of a metal can be crafted into
-a block, which can be used for building.  The block can also be crafted
-back to nine ingots.  Thus it is possible to freely convert metal between
-ingot and block forms, which is convenient to store the metal compactly.
-Every metal has dust, ingot, and block forms.
+At the expense of some energy consumption, the grinder can extract more material
+from the lump, resulting in 2x dust which can be melted to two ingots in total.
 
+#### Alloying
 Alloying recipes in which a metal is the base ingredient, to produce a
 metal alloy, always come in two forms, using the metal either as dust
 or as an ingot.  If the secondary ingredient is also a metal, it must
 be supplied in the same form as the base ingredient.  The output alloy
-is also returned in the same form.  For example, brass can be produced
-by alloying two copper ingots with one zinc ingot to make three brass
-ingots, or by alloying two piles of copper dust with one pile of zinc
-dust to make three piles of brass dust.  The two ways of alloying produce
-equivalent results.
+is also returned in the same form.
+
+Example: 2x copper ingots + zinc ingot -> 3x brass ingot (alloying)
+
+The same will also work for dust ingredients, resulting in brass dist.
 
 ### iron and its alloys ###
 
