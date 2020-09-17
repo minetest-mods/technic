@@ -13,8 +13,8 @@ EOF
 
 rm -rf ${WORLDDIR}
 mkdir -p ${WORLDMODDIR}
-git clone https://gitlab.com/VanessaE/basic_materials.git ${WORLDMODDIR}/basic_materials
-git clone https://gitlab.com/VanessaE/pipeworks.git ${WORLDMODDIR}/pipeworks
+git clone --depth 1 https://gitlab.com/VanessaE/basic_materials.git ${WORLDMODDIR}/basic_materials
+git clone --depth 1 https://gitlab.com/VanessaE/pipeworks.git ${WORLDMODDIR}/pipeworks
 
 chmod 777 ${MTDIR} -R
 docker run --rm -i \
