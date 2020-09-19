@@ -60,10 +60,11 @@ local function clear_networks(pos)
 
 				-- Actually add it to the (cached) network
 				-- This is similar to check_node_subp
-				technic.cables[minetest.hash_node_position(pos)] = network_id
+				local pos_hash = minetest.hash_node_position(pos)
+				technic.cables[pos_hash] = network_id
 				pos.visited = 1
 				if technic.is_tier_cable(name, tier) then
-					table.insert(network.all_nodes,pos)
+					network.all_nodes[pos_hash] = pos
 				elseif technic.machines[tier][node.name] then
 					if     technic.machines[tier][node.name] == technic.producer then
 						table.insert(network.PR_nodes,pos)

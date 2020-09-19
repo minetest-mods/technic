@@ -6,7 +6,7 @@ technic.redundant_warn = {}
 
 local overload_reset_time = tonumber(minetest.settings:get("technic.overload_reset_time") or "20")
 local overloaded_networks = {}
-local reset_overloaded = function(network_id)
+local function reset_overloaded(network_id)
 	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
 	if remaining == 0 then
 		-- Clear cache, remove overload and restart network
@@ -216,11 +216,23 @@ end
 
 local node_timeout = {}
 
-technic.pos2network = function(pos)
-	return technic.cables[minetest.hash_node_position(pos)]
+function technic.pos2network(pos)
+	return pos and technic.cables[minetest.hash_node_position(pos)]
 end
 
-technic.get_timeout = function(tier, pos)
+function technic.network2pos(network_id)
+	return network_id and minetest.get_position_from_hash(network_id)
+end
+
+function technic.network2sw_pos(network_id)
+	-- Return switching station position for network.
+	-- It is not guaranteed that position actually contains switching station.
+	local sw_pos = minetest.get_position_from_hash(network_id)
+	sw_pos.y = sw_pos.y + 1
+	return sw_pos
+end
+
+function technic.get_timeout(tier, pos)
 	if node_timeout[tier] == nil then
 		-- it is normal that some multi tier nodes always drop here when checking all LV, MV and HV tiers
 		return 0
@@ -228,7 +240,7 @@ technic.get_timeout = function(tier, pos)
 	return node_timeout[tier][minetest.hash_node_position(pos)] or 0
 end
 
-technic.touch_node = function(tier, pos, timeout)
+function technic.touch_node(tier, pos, timeout)
 	if node_timeout[tier] == nil then
 		-- this should get built up during registration
 		node_timeout[tier] = {}
@@ -278,7 +290,6 @@ local function get_network(network_id, sw_pos, pos1, tier)
 	BA_nodes = flatten(BA_nodes)
 	RE_nodes = flatten(RE_nodes)
 	SP_nodes = flatten(SP_nodes)
-	all_nodes = flatten(all_nodes)
 	technic.networks[network_id] = {tier = tier, all_nodes = all_nodes, SP_nodes = SP_nodes,
 			PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
@@ -317,7 +328,7 @@ local function run_nodes(list, run_stage)
 	end
 end
 
-technic.switching_station_run = function(pos)
+function technic.switching_station_run(pos)
 	if not technic.powerctrl_state then return end
 
 	local t0 	       = minetest.get_us_time()
