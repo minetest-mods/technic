@@ -32,8 +32,7 @@ The modpack is explained in the [Manual](manual.md) included in this repository.
     * Each machine type requires its own cable type. If you do not have a
       matching circuit, consider using a "Supply Converter" for simplicity.
 
-For modders: There is currently no API documentation. Any help to improve this
-situation is greatly welcome. Please do not hesitate to submit a Pull Request.
+The API documentation can be found here: [Technic API](technic/doc/api.md)
 
 
 ## License
