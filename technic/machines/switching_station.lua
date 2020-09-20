@@ -126,6 +126,21 @@ local function flatten(map)
 	return list
 end
 
+local function attach_network_machine(network_id, pos)
+	local pos_hash = minetest.hash_node_position(pos)
+	local net_id_old = technic.cables[pos_hash]
+	if net_id_old == nil then
+		technic.cables[pos_hash] = network_id
+	elseif net_id_old ~= network_id then
+		-- do not allow running pos from multiple networks, also disable switch
+		overload_network(network_id, pos)
+		overload_network(net_id_old, pos)
+		technic.cables[pos_hash] = network_id
+		local meta = minetest.get_meta(pos)
+		meta:set_string("infotext",S("Network Overloaded"))
+	end
+end
+
 -- Add a wire node to the LV/MV/HV network
 local function add_network_node(nodes, pos, network_id)
 	local node_id = minetest.hash_node_position(pos)
@@ -160,34 +175,26 @@ local function check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
 
-		local meta = minetest.get_meta(pos)
-		local pos_hash = minetest.hash_node_position(pos)
-		local net_id_new = network_id
-		local net_id_old = technic.cables[pos_hash]
-		if net_id_old == nil then
-			technic.cables[pos_hash] = net_id_new
-		elseif net_id_old ~= net_id_new then
-			-- do not allow running pos from multiple networks, also disable switch
-			overload_network(net_id_new, pos)
-			overload_network(net_id_old, pos)
-			technic.cables[pos_hash] = net_id_new
-			meta:set_string("infotext",S("Network Overloaded"))
-		end
-
 		if     machines[name] == technic.producer then
+			attach_network_machine(network_id, pos)
 			add_network_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
+			attach_network_machine(network_id, pos)
 			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == technic.producer_receiver then
+			--attach_network_machine(network_id, pos)
 			add_network_node(PR_nodes, pos, network_id)
 			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == "SPECIAL" and
 				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
 				from_below then
 			-- Another switching station -> disable it
+			attach_network_machine(network_id, pos)
 			add_network_node(SP_nodes, pos, network_id)
+			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
 		elseif machines[name] == technic.battery then
+			attach_network_machine(network_id, pos)
 			add_network_node(BA_nodes, pos, network_id)
 		end
 
@@ -357,6 +364,8 @@ function technic.switching_station_run(pos)
 		local remaining = reset_overloaded(network_id)
 		if remaining > 0 then
 			meta:set_string("infotext",S("%s Network Overloaded, Restart in %dms"):format(machine_name, remaining / 1000))
+			-- Set switching station supply value to zero to clean up power monitor supply info
+			meta:set_int("supply",0)
 			return
 		end
 		meta:set_string("infotext",S("%s Restarting Network"):format(machine_name))
