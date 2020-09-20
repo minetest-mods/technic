@@ -66,7 +66,17 @@ minetest.register_node("technic:switching_station",{
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
-		meta:set_string("active", 1)
+		local network_id = technic.sw_pos2network(pos)
+		local net_sw_pos = network_id and technic.network2sw_pos(network_id)
+		local net_sw_node = net_sw_pos and minetest.get_node(net_sw_pos)
+		if net_sw_node and net_sw_node.name == "technic:switching_station" then
+			-- There's already network with same id, check if it already has active switching station
+			-- set active to 0 for this switch if there's already another active
+			local net_sw_meta = minetest.get_meta(net_sw_pos)
+			meta:set_string("active", net_sw_meta:get_int("active") == 1 and 0 or 1)
+		else
+			meta:set_string("active", 1)
+		end
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 		local poshash = minetest.hash_node_position(pos)
@@ -214,6 +224,10 @@ local function traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_node
 	for i, cur_pos in pairs(positions) do
 		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id, queue)
 	end
+end
+
+function technic.sw_pos2network(pos)
+	return pos and technic.cables[minetest.hash_node_position({x=pos.x,y=pos.y-1,z=pos.z})]
 end
 
 function technic.pos2network(pos)
