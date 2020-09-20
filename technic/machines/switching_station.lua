@@ -13,14 +13,8 @@ local function reset_overloaded(network_id)
 	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
 	if remaining == 0 then
 		-- Clear cache, remove overload and restart network
-		local cables = technic.cables
-		for pos_hash,cable_net_id in pairs(cables) do
-			if cable_net_id == network_id then
-				cables[pos_hash] = nil
-			end
-		end
+		technic.remove_network(network_id)
 		overloaded_networks[network_id] = nil
-		technic.networks[network_id] = nil
 	end
 	-- Returns 0 when network reset or remaining time if reset timer has not expired yet
 	return remaining
@@ -68,13 +62,20 @@ minetest.register_node("technic:switching_station",{
 		meta:set_string("infotext", S("Switching Station"))
 		local network_id = technic.sw_pos2network(pos)
 		local net_sw_pos = network_id and technic.network2sw_pos(network_id)
-		local net_sw_node = net_sw_pos and minetest.get_node(net_sw_pos)
-		if net_sw_node and net_sw_node.name == "technic:switching_station" then
+		local net_sw_node = net_sw_pos and minetest.get_node_or_nil(net_sw_pos)
+		if net_sw_node then
 			-- There's already network with same id, check if it already has active switching station
-			-- set active to 0 for this switch if there's already another active
-			local net_sw_meta = minetest.get_meta(net_sw_pos)
-			meta:set_string("active", net_sw_meta:get_int("active") == 1 and 0 or 1)
+			if net_sw_node.name == "technic:switching_station" then
+				-- Another switch found set active to 0 for this switch if another is already active
+				local net_sw_meta = minetest.get_meta(net_sw_pos)
+				meta:set_string("active", net_sw_meta:get_int("active") == 1 and 0 or 1)
+			else
+				-- Network switching station disappeared, cleanup caches and start new network
+				technic.remove_network(network_id)
+				meta:set_string("active", 1)
+			end
 		else
+			-- Clean start, not previous networks, no other switching stations
 			meta:set_string("active", 1)
 		end
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
@@ -224,6 +225,16 @@ local function traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_node
 	for i, cur_pos in pairs(positions) do
 		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id, queue)
 	end
+end
+
+function technic.remove_network(network_id)
+	local cables = technic.cables
+	for pos_hash,cable_net_id in pairs(cables) do
+		if cable_net_id == network_id then
+			cables[pos_hash] = nil
+		end
+	end
+	technic.networks[network_id] = nil
 end
 
 function technic.sw_pos2network(pos)
