@@ -206,11 +206,11 @@ function technic.register_generator(data)
 			timer:start(1)
 		end,
 		on_timer = function(pos, node)
+			-- Connected back?
+			if technic.get_timeout(tier, pos) > 0 then return false end
+
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
-
-			-- Connected back?
-			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
 
 			local burn_time = meta:get_int("burn_time") or 0
 

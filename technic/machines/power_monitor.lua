@@ -6,13 +6,38 @@ local S = technic.getter
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
+-- Get registered cable or nil, returns nil if area is not loaded
+local function get_cable(pos)
+	local node = minetest.get_node_or_nil(pos)
+	return (node and technic.get_cable_tier(node.name)) and node
+end
+
+-- return the position of connected cable or nil
+local function get_connected_cable_network(pos)
+	local param2 = minetest.get_node(pos).param2
+	-- should probably also work sideways or upside down but for now it wont
+	if param2 > 3 then return end
+	-- Below?
+	local checkpos = {x=pos.x,y=pos.y-1,z=pos.z}
+	local network_id = get_cable(checkpos) and technic.pos2network(checkpos)
+	if network_id then
+		return network_id
+	end
+	-- Behind?
+	checkpos = vector.add(minetest.facedir_to_dir(param2),pos)
+	network_id = get_cable(checkpos) and technic.pos2network(checkpos)
+	if network_id then
+		return network_id
+	end
+end
+
 -- return the position of the associated switching station or nil
 local function get_swpos(pos)
-	local network_hash = technic.cables[minetest.hash_node_position(pos)]
-	local network = network_hash and minetest.get_position_from_hash(network_hash)
-	local swpos = network and {x=network.x,y=network.y+1,z=network.z}
+	local network_id = get_connected_cable_network(pos)
+	local network = network_id and technic.networks[network_id]
+	local swpos = network and technic.network2sw_pos(network_id)
 	local is_powermonitor = swpos and minetest.get_node(swpos).name == "technic:switching_station"
-	return is_powermonitor and swpos or nil
+	return (is_powermonitor and network.all_nodes[network_id]) and swpos
 end
 
 minetest.register_craft({
@@ -99,11 +124,7 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos)
 		local sw_pos = get_swpos(pos)
-		local timeout = 0
-		for tier in pairs(technic.machines) do
-			timeout = math.max(meta:get_int(tier.."_EU_timeout"),timeout)
-		end
-		if timeout > 0 and sw_pos then
+		if sw_pos then
 			local sw_meta = minetest.get_meta(sw_pos)
 			local supply = sw_meta:get_int("supply")
 			local demand = sw_meta:get_int("demand")
@@ -115,9 +136,3 @@ minetest.register_abm({
 		end
 	end,
 })
-
-for tier in pairs(technic.machines) do
-	-- RE in order to use the "timeout" functions, although it consumes 0 power
-	technic.register_machine(tier, "technic:power_monitor", "RE")
-end
-

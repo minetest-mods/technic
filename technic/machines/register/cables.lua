@@ -38,7 +38,6 @@ end
 
 local function clear_networks(pos)
 	local node = minetest.get_node(pos)
-	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
 	local positions = check_connections(pos)
 	if #positions < 1 then return end
@@ -61,12 +60,12 @@ local function clear_networks(pos)
 
 				-- Actually add it to the (cached) network
 				-- This is similar to check_node_subp
-				technic.cables[minetest.hash_node_position(pos)] = network_id
+				local pos_hash = minetest.hash_node_position(pos)
+				technic.cables[pos_hash] = network_id
 				pos.visited = 1
 				if technic.is_tier_cable(name, tier) then
-					table.insert(network.all_nodes,pos)
+					network.all_nodes[pos_hash] = pos
 				elseif technic.machines[tier][node.name] then
-					meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 					if     technic.machines[tier][node.name] == technic.producer then
 						table.insert(network.PR_nodes,pos)
 					elseif technic.machines[tier][node.name] == technic.receiver then

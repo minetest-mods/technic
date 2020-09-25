@@ -490,11 +490,10 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 		timer:start(1)
         end,
 	on_timer = function(pos, node)
-		local meta = minetest.get_meta(pos)
-
 		-- Connected back?
-		if meta:get_int("HV_EU_timeout") > 0 then return false end
+		if technic.get_timeout("HV", pos) > 0 then return false end
 
+		local meta = minetest.get_meta(pos)
 		local burn_time = meta:get_int("burn_time") or 0
 
 		if burn_time >= burn_ticks or burn_time == 0 then

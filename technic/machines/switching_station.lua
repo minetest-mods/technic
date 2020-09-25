@@ -6,12 +6,15 @@ technic.redundant_warn = {}
 
 local overload_reset_time = tonumber(minetest.settings:get("technic.overload_reset_time") or "20")
 local overloaded_networks = {}
-local reset_overloaded = function(network_id)
+local function overload_network(network_id)
+	overloaded_networks[network_id] = minetest.get_us_time() + (overload_reset_time * 1000 * 1000)
+end
+local function reset_overloaded(network_id)
 	local remaining = math.max(0, overloaded_networks[network_id] - minetest.get_us_time())
 	if remaining == 0 then
 		-- Clear cache, remove overload and restart network
+		technic.remove_network(network_id)
 		overloaded_networks[network_id] = nil
-		technic.networks[network_id] = nil
 	end
 	-- Returns 0 when network reset or remaining time if reset timer has not expired yet
 	return remaining
@@ -57,7 +60,24 @@ minetest.register_node("technic:switching_station",{
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))
-		meta:set_string("active", 1)
+		local network_id = technic.sw_pos2network(pos)
+		local net_sw_pos = network_id and technic.network2sw_pos(network_id)
+		local net_sw_node = net_sw_pos and minetest.get_node_or_nil(net_sw_pos)
+		if net_sw_node then
+			-- There's already network with same id, check if it already has active switching station
+			if net_sw_node.name == "technic:switching_station" then
+				-- Another switch found set active to 0 for this switch if another is already active
+				local net_sw_meta = minetest.get_meta(net_sw_pos)
+				meta:set_string("active", net_sw_meta:get_int("active") == 1 and 0 or 1)
+			else
+				-- Network switching station disappeared, cleanup caches and start new network
+				technic.remove_network(network_id)
+				meta:set_string("active", 1)
+			end
+		else
+			-- Clean start, not previous networks, no other switching stations
+			meta:set_string("active", 1)
+		end
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
 		local poshash = minetest.hash_node_position(pos)
@@ -117,6 +137,21 @@ local function flatten(map)
 	return list
 end
 
+local function attach_network_machine(network_id, pos)
+	local pos_hash = minetest.hash_node_position(pos)
+	local net_id_old = technic.cables[pos_hash]
+	if net_id_old == nil then
+		technic.cables[pos_hash] = network_id
+	elseif net_id_old ~= network_id then
+		-- do not allow running pos from multiple networks, also disable switch
+		overload_network(network_id, pos)
+		overload_network(net_id_old, pos)
+		technic.cables[pos_hash] = network_id
+		local meta = minetest.get_meta(pos)
+		meta:set_string("infotext",S("Network Overloaded"))
+	end
+end
+
 -- Add a wire node to the LV/MV/HV network
 local function add_network_node(nodes, pos, network_id)
 	local node_id = minetest.hash_node_position(pos)
@@ -135,7 +170,7 @@ local function add_cable_node(nodes, pos, network_id, queue)
 end
 
 -- Generic function to add found connected nodes to the right classification array
-local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
+local function check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
 
 	local distance_to_switch = vector.distance(pos, sw_pos)
 	if distance_to_switch > switch_max_range then
@@ -147,49 +182,39 @@ local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nod
 	local name = minetest.get_node(pos).name
 
 	if technic.is_tier_cable(name, tier) then
-		add_cable_node(all_nodes, pos,network_id, queue)
+		add_cable_node(all_nodes, pos, network_id, queue)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
 
-		local meta = minetest.get_meta(pos)
-		local net_id_key = tier.."_network"
-		local net_id_new = network_id
-		local net_id_old = meta:get_string(net_id_key)
-		if net_id_old == "" then
-			meta:set_string(net_id_key, net_id_new)
-		elseif net_id_old ~= net_id_new then
-			-- do not allow running pos from multiple networks, also disable switch
-			overloaded_networks[net_id_old] = minetest.get_us_time() + (overload_reset_time * 1000 * 1000)
-			overloaded_networks[net_id_new] = overloaded_networks[net_id_old]
-			-- delete caches for conflicting network
-			technic.networks[net_id_old] = nil
-			meta:set_string(net_id_key, net_id_new)
-			meta:set_string("infotext",S("Network Overloaded"))
-		end
-
 		if     machines[name] == technic.producer then
+			attach_network_machine(network_id, pos)
 			add_network_node(PR_nodes, pos, network_id)
 		elseif machines[name] == technic.receiver then
+			attach_network_machine(network_id, pos)
 			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == technic.producer_receiver then
+			--attach_network_machine(network_id, pos)
 			add_network_node(PR_nodes, pos, network_id)
 			add_network_node(RE_nodes, pos, network_id)
 		elseif machines[name] == "SPECIAL" and
 				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
 				from_below then
 			-- Another switching station -> disable it
+			attach_network_machine(network_id, pos)
 			add_network_node(SP_nodes, pos, network_id)
+			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
 		elseif machines[name] == technic.battery then
+			attach_network_machine(network_id, pos)
 			add_network_node(BA_nodes, pos, network_id)
 		end
 
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		technic.touch_node(tier, pos, 2) -- Touch node
 	end
 end
 
 -- Traverse a network given a list of machines and a cable type name
-local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, network_id, queue)
+local function traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, network_id, queue)
 	local positions = {
 		{x=pos.x+1, y=pos.y,   z=pos.z},
 		{x=pos.x-1, y=pos.y,   z=pos.z},
@@ -202,14 +227,62 @@ local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_no
 	end
 end
 
-local touch_nodes = function(list, tier)
+function technic.remove_network(network_id)
+	local cables = technic.cables
+	for pos_hash,cable_net_id in pairs(cables) do
+		if cable_net_id == network_id then
+			cables[pos_hash] = nil
+		end
+	end
+	technic.networks[network_id] = nil
+end
+
+function technic.sw_pos2network(pos)
+	return pos and technic.cables[minetest.hash_node_position({x=pos.x,y=pos.y-1,z=pos.z})]
+end
+
+function technic.pos2network(pos)
+	return pos and technic.cables[minetest.hash_node_position(pos)]
+end
+
+function technic.network2pos(network_id)
+	return network_id and minetest.get_position_from_hash(network_id)
+end
+
+function technic.network2sw_pos(network_id)
+	-- Return switching station position for network.
+	-- It is not guaranteed that position actually contains switching station.
+	local sw_pos = minetest.get_position_from_hash(network_id)
+	sw_pos.y = sw_pos.y + 1
+	return sw_pos
+end
+
+local node_timeout = {}
+
+function technic.get_timeout(tier, pos)
+	if node_timeout[tier] == nil then
+		-- it is normal that some multi tier nodes always drop here when checking all LV, MV and HV tiers
+		return 0
+	end
+	return node_timeout[tier][minetest.hash_node_position(pos)] or 0
+end
+
+function technic.touch_node(tier, pos, timeout)
+	if node_timeout[tier] == nil then
+		-- this should get built up during registration
+		node_timeout[tier] = {}
+	end
+	node_timeout[tier][minetest.hash_node_position(pos)] = timeout or 2
+end
+
+local function touch_nodes(list, tier)
+	local touch_node = technic.touch_node
 	for _, pos in ipairs(list) do
-		local meta = minetest.get_meta(pos)
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+		touch_node(tier, pos, 2) -- Touch node
 	end
 end
 
-local get_network = function(network_id, sw_pos, pos1, tier)
+local function get_network(network_id, sw_pos, pos1, tier)
 	local cached = technic.networks[network_id]
 	if cached and cached.tier == tier then
 		touch_nodes(cached.PR_nodes, tier)
@@ -219,7 +292,7 @@ local get_network = function(network_id, sw_pos, pos1, tier)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
 			meta:set_string("active_pos", minetest.serialize(sw_pos))
-			meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+			technic.touch_node(tier, pos, 2) -- Touch node
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
@@ -242,7 +315,6 @@ local get_network = function(network_id, sw_pos, pos1, tier)
 	BA_nodes = flatten(BA_nodes)
 	RE_nodes = flatten(RE_nodes)
 	SP_nodes = flatten(SP_nodes)
-	all_nodes = flatten(all_nodes)
 	technic.networks[network_id] = {tier = tier, all_nodes = all_nodes, SP_nodes = SP_nodes,
 			PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
 	return PR_nodes, BA_nodes, RE_nodes
@@ -281,7 +353,7 @@ local function run_nodes(list, run_stage)
 	end
 end
 
-technic.switching_station_run = function(pos)
+function technic.switching_station_run(pos)
 	if not technic.powerctrl_state then return end
 
 	local t0 	       = minetest.get_us_time()
@@ -311,19 +383,21 @@ technic.switching_station_run = function(pos)
 		return
 	end
 
-	local name = minetest.get_node(pos1).name
-	local network_id = tostring(minetest.hash_node_position(pos1))
+	local network_id = minetest.hash_node_position(pos1)
 	-- Check if network is overloaded / conflicts with another network
 	if overloaded_networks[network_id] then
 		local remaining = reset_overloaded(network_id)
 		if remaining > 0 then
 			meta:set_string("infotext",S("%s Network Overloaded, Restart in %dms"):format(machine_name, remaining / 1000))
+			-- Set switching station supply value to zero to clean up power monitor supply info
+			meta:set_int("supply",0)
 			return
 		end
 		meta:set_string("infotext",S("%s Restarting Network"):format(machine_name))
 		return
 	end
 
+	local name = minetest.get_node(pos1).name
 	local tier = technic.get_cable_tier(name)
 	if tier then
 		PR_nodes, BA_nodes, RE_nodes = get_network(network_id, pos, pos1, tier)
@@ -517,13 +591,13 @@ end
 -- Timeout for a node in case it was disconnected from the network
 -- A node must be touched by the station continuously in order to function
 local function switching_station_timeout_count(pos, tier)
-	local meta = minetest.get_meta(pos)
-	local timeout = meta:get_int(tier.."_EU_timeout")
+	local timeout = technic.get_timeout(tier, pos)
 	if timeout <= 0 then
+		local meta = minetest.get_meta(pos)
 		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
-		meta:set_int(tier.."_EU_timeout", timeout - 1)
+		technic.touch_node(tier, pos, timeout - 1)
 		return false
 	end
 end
