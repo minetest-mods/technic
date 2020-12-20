@@ -217,7 +217,7 @@ end
 
 
 local function start_reactor(pos, meta)
-    msg_fuel_missing = "Error: You need to insert 6 pieces of Uranium Fuel."
+	local msg_fuel_missing = "Error: You need to insert 6 pieces of Uranium Fuel."
 
 	if minetest.get_node(pos).name ~= "technic:hv_nuclear_reactor_core" then
 		return msg_fuel_missing
@@ -238,9 +238,9 @@ local function start_reactor(pos, meta)
 		return msg_fuel_missing
 	end
 
-    if reactor_structure_badness(pos) ~= 0 then
-        return "Error: The power plant seems to be built incorrectly."
-    end
+	if reactor_structure_badness(pos) ~= 0 then
+		return "Error: The power plant seems to be built incorrectly."
+	end
 
 	meta:set_int("burn_time", 1)
 	technic.swap_node(pos, "technic:hv_nuclear_reactor_core_active")
