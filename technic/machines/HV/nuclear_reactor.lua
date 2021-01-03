@@ -217,7 +217,8 @@ end
 
 
 local function start_reactor(pos, meta)
-	local msg_fuel_missing = "Error: You need to insert 6 pieces of Uranium Fuel."
+	local correct_fuel_count = 6
+	local msg_fuel_missing = "Error: You need to insert " .. correct_fuel_count .. " pieces of Uranium Fuel."
 
 	if minetest.get_node(pos).name ~= "technic:hv_nuclear_reactor_core" then
 		return msg_fuel_missing
@@ -227,17 +228,18 @@ local function start_reactor(pos, meta)
 		return msg_fuel_missing
 	end
 	local src_list = inv:get_list("src")
-	local correct_fuel_count = 0
+	local fuel_count = 0
 	for _, src_stack in pairs(src_list) do
 		if src_stack and src_stack:get_name() == fuel_type then
-			correct_fuel_count = correct_fuel_count + 1
+			fuel_count = fuel_count + 1
 		end
 	end
-	-- Check that the reactor is complete and has the correct fuel
-	if correct_fuel_count ~= 6 then
+	-- Check that the has the correct fuel
+	if fuel_count ~= correct_fuel_count then
 		return msg_fuel_missing
 	end
 
+	-- Check that the reactor is complete
 	if reactor_structure_badness(pos) ~= 0 then
 		return "Error: The power plant seems to be built incorrectly."
 	end
