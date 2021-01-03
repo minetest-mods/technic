@@ -234,7 +234,7 @@ local function start_reactor(pos, meta)
 		end
 	end
 	-- Check that the reactor is complete and has the correct fuel
-	if correct_fuel_count ~= 6 or reactor_structure_badness(pos) ~= 0 then
+	if correct_fuel_count ~= 6 then
 		return msg_fuel_missing
 	end
 
