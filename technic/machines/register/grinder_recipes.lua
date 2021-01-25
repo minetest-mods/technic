@@ -23,6 +23,8 @@ local recipes = {
 	{"technic:sulfur_lump",        "technic:sulfur_dust 2"},
 	{"default:stone",              "technic:stone_dust"},
 	{"default:sand",               "technic:stone_dust"},
+	{"default:desert_sand",        "technic:stone_dust"},
+	{"default:silver_sand",        "technic:stone_dust"},
 
 	-- Other
 	{"default:cobble",           "default:gravel"},
