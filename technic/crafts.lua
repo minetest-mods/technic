@@ -174,7 +174,6 @@ minetest.register_craft({
 	},
 })
 
-
 minetest.register_craft({
 	output = "default:dirt 2",
 	type = "shapeless",
@@ -185,4 +184,26 @@ minetest.register_craft({
 		"bucket:bucket_water",
 		"group:sand",
 	},
+})
+
+minetest.register_craft({
+	output = "technic:rubber_goo",
+	type = "shapeless",
+	recipe = {
+		"technic:raw_latex",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+		"default:coal_lump",
+	},
+})
+
+minetest.register_craft({
+	output = "technic:rubber",
+	type = "cooking",
+	recipe = "technic:rubber_goo",
 })

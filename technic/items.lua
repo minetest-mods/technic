@@ -134,6 +134,11 @@ minetest.register_node("technic:machine_casing", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_craftitem("technic:rubber_goo", {
+	description = S("Rubber Goo"),
+	inventory_image = "technic_rubber_goo.png",
+})
+
 for p = 0, 35 do
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
