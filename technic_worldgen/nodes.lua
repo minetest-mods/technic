@@ -46,6 +46,16 @@ minetest.register_node( ":technic:mineral_sulfur", {
 	drop = "technic:sulfur_lump",
 })
 
+if minetest.get_modpath("underch") then
+
+   minetest.register_alias("technic:granite", "underch:granite")
+
+   minetest.register_alias("technic:marble", "underch:marble")
+
+   minetest.register_alias("technic:marble_bricks", "underch:marble_brick")
+   
+else
+   
 minetest.register_node( ":technic:granite", {
 	description = S("Granite"),
 	tiles = { "technic_granite.png" },
@@ -69,6 +79,8 @@ minetest.register_node( ":technic:marble_bricks", {
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 })
+
+end
 
 minetest.register_node(":technic:uranium_block", {
 	description = S("Uranium Block"),

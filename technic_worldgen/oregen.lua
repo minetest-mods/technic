@@ -189,7 +189,8 @@ minetest.register_on_generated(function(minp, maxp)
 	vm:write_to_map(data)
 end)
 
-
+if not minetest.get_modpath("underch") then
+   
 if technic.config:get_bool("enable_marble_generation") then
 	minetest.register_ore({
 		ore_type = "sheet",
@@ -224,4 +225,6 @@ if technic.config:get_bool("enable_granite_generation") then
 			seed = 24, octaves = 3, persist = 0.70
 		}
 	})
+end
+
 end
