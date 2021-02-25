@@ -50,7 +50,15 @@ if minetest.get_modpath("underch") then
 
    minetest.register_alias("technic:granite", "underch:granite")
 
+      minetest.override_item("underch:granite", {
+				groups = {cracky=1}
+   })
+
    minetest.register_alias("technic:marble", "underch:marble")
+
+   minetest.override_item("underch:marble", {
+			     groups = {cracky=3, marble=1}
+   })
 
    minetest.register_alias("technic:marble_bricks", "underch:marble_brick")
    
