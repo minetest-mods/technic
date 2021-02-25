@@ -49,45 +49,43 @@ minetest.register_node( ":technic:mineral_sulfur", {
 if minetest.get_modpath("underch") then
 
    minetest.register_alias("technic:granite", "underch:granite")
-
-      minetest.override_item("underch:granite", {
-				groups = {cracky=1}
+   minetest.override_item("underch:granite", {
+			     groups = {cracky=1}
    })
-
+   
    minetest.register_alias("technic:marble", "underch:marble")
-
    minetest.override_item("underch:marble", {
 			     groups = {cracky=3, marble=1}
    })
-
+   
    minetest.register_alias("technic:marble_bricks", "underch:marble_brick")
    
 else
    
-minetest.register_node( ":technic:granite", {
-	description = S("Granite"),
-	tiles = { "technic_granite.png" },
-	is_ground_content = true,
-	groups = {cracky=1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node( ":technic:marble", {
-	description = S("Marble"),
-	tiles = { "technic_marble.png" },
-	is_ground_content = true,
-	groups = {cracky=3, marble=1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node( ":technic:marble_bricks", {
-	description = S("Marble Bricks"),
-	tiles = { "technic_marble_bricks.png" },
-	is_ground_content = true,
-	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
-})
-
+   minetest.register_node( ":technic:granite", {
+			      description = S("Granite"),
+			      tiles = { "technic_granite.png" },
+			      is_ground_content = true,
+			      groups = {cracky=1},
+			      sounds = default.node_sound_stone_defaults(),
+   })
+   
+   minetest.register_node( ":technic:marble", {
+			      description = S("Marble"),
+			      tiles = { "technic_marble.png" },
+			      is_ground_content = true,
+			      groups = {cracky=3, marble=1},
+			      sounds = default.node_sound_stone_defaults(),
+   })
+   
+   minetest.register_node( ":technic:marble_bricks", {
+			      description = S("Marble Bricks"),
+			      tiles = { "technic_marble_bricks.png" },
+			      is_ground_content = true,
+			      groups = {cracky=3},
+			      sounds = default.node_sound_stone_defaults(),
+   })
+   
 end
 
 minetest.register_node(":technic:uranium_block", {
