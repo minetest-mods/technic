@@ -12,10 +12,9 @@ Tier are network types. List of pre-registered tiers:
 
 Available functions:
 
-* `technic.register_tier(tier, description)`
+* `technic.register_tier(tier)`
 	* Registers a network type (tier)
 	* `tier`: string, short name (ex. `LV`)
-	* `description`: string, long name (ex. `Low Voltage`)
 	* See also `tiers`
 
 
