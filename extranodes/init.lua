@@ -1,7 +1,7 @@
 -- Minetest 0.4.6 mod: extranodes
 -- namespace: technic
 -- Translation support
-local S = minetest.get_translator("technic_extranodes")
+local S = minetest.get_translator("extranodes")
 
 if minetest.get_modpath("moreblocks") then
 

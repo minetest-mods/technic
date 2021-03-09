@@ -1,12 +1,12 @@
-# textdomain: technic_concrete
+# textdomain: concrete
 
 # Polish Translation for technic_concrete
 # Polskie tłumaczenie technic_concrete
 # by mat9117
 
-Rebar=Pręt zbrojeniowy
-Concrete Block=Blok betonu
+
+### init.lua ###
+
 Blast-resistant Concrete Block=Przeciwwybuchowy blok betonu
 Concrete Post Platform=Betonowa platforma
 Concrete Post=Betonowy słup
-

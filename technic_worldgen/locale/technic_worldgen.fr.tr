@@ -1,26 +1,20 @@
 # textdomain: technic_worldgen
 
-# template.txt
-# technic_worldgen translation template
+### crafts.lua ###
 
-###crafts.lua
-Sulfur Lump=Morceau de soufre
-Lead Lump=Morceau de plomb
-Lead Ingot=Lingot de plomb
 Uranium Lump=Morceau d'uranium
 Uranium Ingot=Lingot d'uranium
 Chromium Lump=Morceau de chrome
 Chromium Ingot=Lingot de chrome
 Zinc Lump=Morceau de zinc
 Zinc Ingot=Lingot de zinc
-Brass Ingot=Lingot de laiton
+Lead Lump=Morceau de plomb
+Lead Ingot=Lingot de plomb
+Sulfur Lump=Morceau de soufre
 Wrought Iron Ingot=Lingot de fer forgé
 Cast Iron Ingot=Lingot de fonte
 Carbon Steel Ingot=Lingot d'acier au carbone
 Stainless Steel Ingot=Lingot d'acier inoxydable
-Iron=Fer
-
-#### Steel to iron
 Iron Axe=Hache en fer
 Iron Pickaxe=Pioche en fer
 Iron Shovel=Pelle en fer
@@ -32,33 +26,31 @@ Iron Handsaw=Scie circulaire en fer
 Iron-Reinforced Crystal Glass=Verre en crystal renforcé au fer
 Heavy Iron Bottle (empty)=Bouteille lourde en fer (vide)
 
-###nodes.lua
-Sulfur Ore=Minerai de soufre
-Lead Ore=Minerai de plomb
+### nodes.lua ###
+
 Uranium Ore=Minerai d'uranium
 Chromium Ore=Minerai de chrome
 Zinc Ore=Minerai de zinc
+Lead Ore=Minerai de plomb
+Sulfur Ore=Minerai de soufre
 Granite=Granite
 Marble=Marbre
 Marble Bricks=Briques en marbre
-Lead Block=Bloc de plomb
 Uranium Block=Bloc d'uranium
 Chromium Block=Bloc de chrome
 Zinc Block=Bloc de zinc
+Lead Block=Bloc de plomb
 Wrought Iron Block=Bloc de fer forgé
 Cast Iron Block=Bloc de fonte
 Carbon Steel Block=Bloc d'acier au carbone
 Stainless Steel Block=Bloc d'acier inoxydable
-Brass Block=Bloc de laiton
-Wrought Iron=Fer forgé
-
-#### Steel to wrought iron
 Outer Wrought Iron Block Stair=Escalier extérieur en bloc de fer forgé
 Inner Wrought Iron Block Stair=Escalier intérieur en bloc de fer forgé
 Wrought Iron Block Stair=Escalier en bloc de fer forgé
 Wrought Iron Block Slab=Dalle en bloc de fer forgé
 
-###rubber.lua
+### rubber.lua ###
+
 Rubber Tree Sapling=Pousse d'arbre à caoutchouc
 Rubber Tree=Arbre à caoutchouc
 Rubber Tree Leaves=Feuilles d’arbre à caoutchouc

@@ -1,0 +1,8 @@
+# textdomain: wrench
+
+# traducido por Carlos Barraza
+
+### init.lua ###
+
+@1 with items=@1 con elementos
+Wrench=Llave Inglesa

@@ -1,0 +1,19 @@
+# textdomain: extranodes
+
+# German Translation for technic_extranodes
+# Deutsche Übersetzung von technic_extranodes
+# by Xanthin
+
+
+### init.lua ###
+
+Marble=Marmor
+Marble Bricks=Marmorziegel
+Granite=Granit
+Concrete=Beton
+Zinc Block=Zinkblock
+Cast Iron Block=Gusseisenblock
+Carbon Steel Block=Kohlenstoffstahlblock
+Stainless Steel Block=Edelstahlblock
+Insulator/cable clip=
+Steel strut with insulator/cable clip=

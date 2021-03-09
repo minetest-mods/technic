@@ -1,0 +1,11 @@
+# textdomain: wrench
+
+# Polish Translation for wrench
+# Polskie tłumaczenie wrench
+# by mat9117
+
+
+### init.lua ###
+
+@1 with items=@1 z rzeczami
+Wrench=Klucz

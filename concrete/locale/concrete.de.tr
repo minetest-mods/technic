@@ -1,12 +1,12 @@
-# textdomain: technic_concrete
+# textdomain: concrete
 
 # German Translation for technic_concrete
 # Deutsche Übersetzung von technic_concrete
 # by Xanthin
 
-Rebar=Bewehrungsstab
-Concrete Block=Betonblock
+
+### init.lua ###
+
 Blast-resistant Concrete Block=Explosionsbestaendiger Betonblock
 Concrete Post Platform=Betonpfostenplattform
 Concrete Post=Betonpfosten
-

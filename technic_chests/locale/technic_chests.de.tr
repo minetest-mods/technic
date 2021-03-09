@@ -1,15 +1,27 @@
 # textdomain: technic_chests
 
-# German Translation for technic_chests
-# Deutsche Übersetzung von technic_chests
-# by Xanthin
 
-@1 Chest=@1truhe
-@1 Locked Chest=Verschlossene @1truhe
-@1 Locked Chest (owned by @2)=Verschlossene @1truhe (gehoert @2)
-Color Filter: @1=Farbfilter: @1
-Edit chest description:=Bearbeite die Beschreibung
 
+### copper_chest.lua ###
+
+# Materials
+Copper=Kupfer
+
+### gold_chest.lua ###
+
+Gold=Gold
+
+### iron_chest.lua ###
+
+Iron=Eisen
+
+### mithril_chest.lua ###
+
+Mithril=Mithril
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
 # Colors
 Black=Schwarz
 Blue=Blau
@@ -26,12 +38,21 @@ Red=Rot
 Violet=Violett
 White=Weiss
 Yellow=Gelb
+Auto-sort is @1=
+On=
+Off=
+Edit chest description:=Bearbeite die Beschreibung
 None=Farblos
+Color Filter: @1=Farbfilter: @1
+# textdomain: technic_chests
+# German Translation for technic_chests
+# Deutsche Übersetzung von technic_chests
+# by Xanthin
+@1 Chest=@1truhe
+Sort=
+@1 Locked Chest (owned by @2)=Verschlossene @1truhe (gehoert @2)
+@1 Locked Chest=Verschlossene @1truhe
 
-# Materials
-Copper=Kupfer
-Gold=Gold
-Iron=Eisen
-Mithril=Mithril
+### silver_chest.lua ###
+
 Silver=Silber
-Wooden=Holz

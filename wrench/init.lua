@@ -20,7 +20,7 @@ dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
 -- Translation support
-local S = minetest.get_translator("technic_wrench")
+local S = minetest.get_translator("wrench")
 
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]

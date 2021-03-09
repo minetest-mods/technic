@@ -1,9 +1,17 @@
-# textdomain: technic_extranodes
+# textdomain: extranodes
 
-# technic_extranodes translation template
+# extranodes translation template
+
+
+### init.lua ###
 
 Marble=
 Marble Bricks=
 Granite=
 Concrete=
+Zinc Block=
+Cast Iron Block=
+Carbon Steel Block=
+Stainless Steel Block=
 Insulator/cable clip=
+Steel strut with insulator/cable clip=

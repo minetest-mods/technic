@@ -1,13 +1,238 @@
 # textdomain: technic
 
+
+
+### alloy_furnace.lua ###
+
+@1 Alloy Furnace=
+
+### alloy_recipes.lua ###
+
+## Craft descriptions
+Alloying=
+
+### anchor.lua ###
+
+Administrative World Anchor=
+Owner: @1=
+Unlocked=
+Locked=
+Keeping @1/@2 map blocks loaded=
+
+### battery_box.lua ###
+
+## Tools
+RE Battery=
+Allow splitting incoming 'charge' stacks from tubes=
+Allow splitting incoming 'discharge' stacks=
+@1 Battery Box=
+Charge=
+Discharge=
+Power level=
+edit Channel=
+@1 Battery Box: @2 / @3=
+
+### cables.lua ###
+
+@1 Cable=
+@1 Cable Plate=
+
+### cans.lua ###
+
+Water Can=
+Lava Can=
+River Water Can=
+
+### centrifuge.lua ###
+
+@1 Centrifuge=
+
+### centrifuge_recipes.lua ###
+
+Separating=
+
+### chainsaw.lua ###
+
+Chainsaw=
+
+### coal_alloy_furnace.lua ###
+
+Fuel-Fired Alloy Furnace=
+Machines: run coal alloy furnace=
+@1 Active (@2%)=
+@1 is empty=
+
+### coal_alloy_furnace.lua ###
+### generator.lua ###
+
+@1 Out Of Fuel=
+
+### coal_furnace.lua ###
+
+Fuel-Fired Furnace=
+
+### common.lua ###
+
+## Machine misc
+Machine cannot be removed because it is not empty=
+Inventory move disallowed due to protection=
+
+### compressor.lua ###
+
+@1 Compressor=
+
+### compressor_recipes.lua ###
+
+Compressing=
+
+### constructor.lua ###
+
+Constructor Mk@1=
+Slot @1=
+
+### electric_furnace.lua ###
+
+@1 Furnace=
+
+### extractor.lua ###
+
+@1 Extractor=
+
+### extractor_recipes.lua ###
+
+Extracting=
+
+### flashlight.lua ###
+
+Flashlight=
+
+### forcefield.lua ###
+
+Range=
+Sphere=
+Cube=
+@1 Forcefield Emitter=
+@1 Forcefield=
+
+### forcefield.lua ###
+### anchor.lua ###
+### supply_converter.lua ###
+
+@1 Enabled=
+
+### forcefield.lua ###
+### battery_box.lua ###
+### supply_converter.lua ###
+
+Digiline Channel=
+
+### forcefield.lua ###
+### generator.lua ###
+### quarry.lua ###
+### cables.lua ###
+### battery_box.lua ###
+### solar_array.lua ###
+### nuclear_reactor.lua ###
+
+HV=
+
+### forcefield.lua ###
+### machine_base.lua ###
+### tool_workshop.lua ###
+### quarry.lua ###
+### music_player.lua ###
+
+@1 Unpowered=
+@1 Active=
+
+### forcefield.lua ###
+### supply_converter.lua ###
+
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+
+### frames.lua ###
+
+Frame=
+Frame Motor=
+Template=
+Template (replacing)=
+Template Tool=
+Template Motor=
+
+### freezer.lua ###
+
+@1 Freezer=
+
+### freezer_recipes.lua ###
+
+Freezing=
+
+### generator.lua ###
+
+Fuel-Fired @1 Generator=
+
+### generator.lua ###
+### water_mill.lua ###
+### hydro_turbine.lua ###
+### geothermal.lua ###
+### nuclear_reactor.lua ###
+
+@1 (@2%)=
+
+### geothermal.lua ###
+
+Geothermal @1 Generator=
+
+### grinder.lua ###
+
+@1 Grinder=
+
+### grinder.lua ###
+### generator.lua ###
+### extractor.lua ###
+### water_mill.lua ###
+### music_player.lua ###
+### solar_panel.lua ###
+### battery_box.lua ###
+### cables.lua ###
+### electric_furnace.lua ###
+### solar_array.lua ###
+### compressor.lua ###
+### geothermal.lua ###
+### alloy_furnace.lua ###
+
+LV=
+
+### grinder_recipes.lua ###
+
+Grinding=
+@1 Dust=
+@1%-Fissile Uranium=
+
+### grindings.lua ###
+
+## Grinder Recipes
+Sawdust=
+@1 Grinding=
+
+### injector.lua ###
+
+Self-Contained Injector=
+Stackwise=
+Itemwise=
+Public=
+Private=
+Machines: run injector=
+
+### items.lua ###
+
+# textdomain: technic
 # template.txt
 # Template for translations of Technic
-
-
 ## Items
 Silicon Wafer=
 Doped Silicon Wafer=
-Enriched Uranium=
 Uranium Fuel=
 Diamond Drill Head=
 Blue Energy Crystal=
@@ -25,145 +250,12 @@ Carbon Plate=
 Graphite=
 Carbon Cloth=
 Machine Casing=
+Rubber Goo=
 @1%-Fissile Uranium Ingot=
 @1%-Fissile Uranium Block=
-Raw Latex=
-Rubber Fiber=
 
-## Radiation
-Radiation damage=
-Corium Bucket
-Corium Source=
-Flowing Corium=
-Corium: griefing=
-Chernobylite Block=
+### lighting.lua ###
 
-## Machine misc
-Machine cannot be removed because it is not empty=
-Inventory move disallowed due to protection=
-@1 Active (@2 EU)=
-@1 Active (@2%)=
-@1 Active=
-@1 Disabled=
-@1 Enabled=
-@1 Idle=
-@1 Improperly Placed=
-@1 is empty=
-@1 Unpowered=
-@1 Out Of Fuel=
-@1 Has Bad Cabling=
-@1 Has No Network=
-@1 Finished=
-Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
-Range=
-Sphere=
-Cube=
-Upgrade Slots=
-Slot @1=
-Itemwise=
-Stackwise=
-Ignoring Mesecon Signal=
-Controlled by Mesecon Signal=
-Owner: @1=
-Unlocked=
-Locked=
-Radius:=
-Enabled=
-Disabled=
-LV=
-MV=
-HV=
-@1 Nuclear Reactor Core=
-Enables or disables technic's switching station ABM=
-@1 Already Present=
-Machines: timeout check=
-Machines: re-enable check=
-You are not allowed to edit this!=
-Machines: reactor melt-down check=
-Machines: run power radiator=
-Machines: run coal alloy furnace=
-Machines: run power monitor=
-Machines: run injector=
-Tools: tree tap=
-@1 is unpowered=
-@1 is powered (@2% of maximum power)=
-
-
-## Machine names
-Power Monitor=
-@1 Alloy Furnace=
-@1 Battery Box=
-@1 Cable=
-@1 Cable Plate=
-@1 Centrifuge=
-@1 Compressor=
-@1 Extractor=
-@1 Forcefield Emitter=
-@1 Furnace=
-@1 Freezer=
-@1 Grinder=
-@1 Music Player=
-@1 Power Radiator=
-@1 Quarry=
-@1 Tool Workshop=
-Arrayed Solar @1 Generator=
-Fuel-Fired @1 Generator=
-Geothermal @1 Generator=
-Hydro @1 Generator=
-Nuclear @1 Generator Core=
-Small Solar @1 Generator=
-Wind @1 Generator=
-Self-Contained Injector=
-Constructor Mk@1=
-Frame=
-Frame Motor=
-Template=
-Template (replacing)=
-Template Tool=
-Template Motor=
-Supply Converter=
-Switching Station=
-Fuel-Fired Alloy Furnace=
-Fuel-Fired Furnace=
-Wind Mill Frame=
-@1 Forcefield=
-Nuclear Reactor Rod Compartment=
-Administrative World Anchor=
-Vacuum Cleaner=
- 
-## Machine-specific
-Input Power=
-Digiline Channel=
-Channel=
-edit Channel=
-@1 (@2%)=
-automatic Start=
-Enable Digiline=
-Digiline Remote Channel
-Save=
-Start=
-Start successful=
-Error=
-Restart=
-Stop=
-@1 purging cache=
-@1 Disabled=
-Charge=
-Discharge=
-Power level=
-#@1: Tier @2: current_charge @3: max_charge
-@1 Battery Box: @2/@3=
-#@1: Machine name @2: Supply @3: Demand
-@1. Supply: @2 Demand: @3=
-Current track @1=
-Stopped=
-Keeping @1/@2 map blocks loaded=
-Digging not started=
-Digging finished=
-Digging @1 m @2 machine=
-above= 
-below=
-@1 (@2 @3 -> @4 @5)=
 someone=
 Sorry, @1 owns that spot.=
 Yellow Glowlight (thick)=
@@ -171,60 +263,102 @@ Yellow Glowlight (thin)=
 White Glowlight (thick)=
 White Glowlight (thin)=
 Yellow Glowlight (small cube)=
- 
- 
-## Grinder Recipes
-Sawdust=
-Acacia=
-Common Tree=
-Rubber Tree=
-@1 Dust=
-Akalin=
-Alatro=
-Arol=
-Brass=
-Bronze=
-Carbon Steel=
-Cast Iron=
-Chernobylite=
-Chromium=
-Coal=
-Copper=
-Gold=
-Kalite=
-Lead=
-Mithril=
-Silver=
-Stainless Steel=
-Stone=
-Sulfur=
-Talinite=
-Tin=
-Wrought Iron=
-Zinc=
-@1%-Fissile Uranium=
- 
-## Tools
-RE Battery=
-Allow splitting incoming 'charge' stacks from tubes=
-Allow splitting incoming 'discharge' stacks=
-Water Can=
-Lava Can=
-River Water Can=
-Chainsaw=
-Flashlight=
+White Glowlight (small cube)=
+
+### machine_base.lua ###
+### battery_box.lua ###
+### tool_workshop.lua ###
+
+Upgrade Slots=
+
+### machine_base.lua ###
+### tool_workshop.lua ###
+### music_player.lua ###
+### solar_panel.lua ###
+### battery_box.lua ###
+### solar_array.lua ###
+### nuclear_reactor.lua ###
+
+@1 Idle=
+
+### mining_drill.lua ###
+
+Single node.=
 3 nodes deep.=
-3 nodes tall.=
 3 nodes wide.=
+3 nodes tall.=
 3x3 nodes.=
 Use while sneaking to change Mining Drill Mk@1 modes.=
 Mining Drill Mk@1 Mode @2: =
-Mining Drill Mk@1 Mode @2=
 Mining Drill Mk@1=
+Mining Drill Mk@1 Mode @2=
+
+### mining_lasers.lua ###
+
 Mining Laser Mk@1=
-Single node.=
-Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
-Tree Tap=
+
+### music_player.lua ###
+
+@1 Music Player=
+Stop=
+Stopped=
+Current track @1=
+
+### nuclear_reactor.lua ###
+
+@1 Nuclear Reactor Core=
+Nuclear Reactor Rod Compartment=
+Start=
+automatic Start=
+Enable Digiline=
+Save=
+Digiline Remote Channel=
+Error: You need to insert @1 pieces of Uranium Fuel.=
+Error: The power plant seems to be built incorrectly.=
+Machines: reactor melt-down check=
+Start successful=
+
+### power_monitor.lua ###
+
+## Machine names
+Power Monitor=
+Machines: run power monitor=
+#@1: Machine name @2: Supply @3: Demand
+@1. Supply: @2 Demand: @3=
+
+### power_monitor.lua ###
+### switching_station.lua ###
+### battery_box.lua ###
+
+@1 Has No Network=
+
+### power_radiator.lua ###
+
+@1 Power Radiator=
+Machines: run power radiator=
+@1 is unpowered=
+@1 is powered (@2% of maximum power)=
+
+### power_radiator.lua ###
+### grinder.lua ###
+### generator.lua ###
+### extractor.lua ###
+### freezer.lua ###
+### tool_workshop.lua ###
+### hydro_turbine.lua ###
+### cables.lua ###
+### wind_mill.lua ###
+### battery_box.lua ###
+### electric_furnace.lua ###
+### solar_array.lua ###
+### centrifuge.lua ###
+### compressor.lua ###
+### alloy_furnace.lua ###
+
+MV=
+
+### prospector.lua ###
+
 Prospector=
 Right-click to set target block type=
 Current target:=
@@ -237,12 +371,105 @@ Set region cross section:=
 Region depth:=
 Set region depth:=
 Accuracy:=
- 
-## Craft descriptions
-Alloying=
-@1 Grinding=
-Grinding=
-Compressing=
-Extracting=
-Separating=
-Freezing=
+
+### quarry.lua ###
+
+@1 Quarry=
+Digging not started=
+Digging finished=
+Purging cache=
+Digging @1 m @2 machine=
+above= 
+below=
+Restart=
+@1 purging cache=
+@1 Finished=
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+
+### quarry.lua ###
+### anchor.lua ###
+
+Radius:=
+Disabled=
+Enabled=
+
+### quarry.lua ###
+### forcefield.lua ###
+### anchor.lua ###
+### supply_converter.lua ###
+
+@1 Disabled=
+
+### quarry.lua ###
+### forcefield.lua ###
+### nuclear_reactor.lua ###
+
+You are not allowed to edit this!=
+
+### radiation.lua ###
+
+## Radiation
+Radiation damage=
+Corium Source=
+Flowing Corium=
+Corium Bucket=
+Chernobylite Block=
+Corium: griefing=
+
+### solar_array.lua ###
+
+Arrayed Solar @1 Generator=
+@1 Active (@2)=
+
+### solar_panel.lua ###
+
+Small Solar @1 Generator=
+@1 Active (@2 EU)=
+
+### sonic_screwdriver.lua ###
+
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
+
+### supply_converter.lua ###
+
+## Machine-specific
+Input Power=
+Supply Converter=
+@1 (@2 @3 -> @4 @5)=
+@1 Has Bad Cabling=
+
+### switching_station.lua ###
+
+Switching Station=
+Channel=
+Enables or disables technic's switching station ABM=
+@1 Already Present=
+@1. Supply: @2 Demand: @3=
+Machines: timeout check=
+
+### tool_workshop.lua ###
+
+@1 Tool Workshop=
+
+### tree_tap.lua ###
+
+Tree Tap=
+Raw Latex=
+Rubber Fiber=
+Tools: tree tap=
+
+### vacuum.lua ###
+
+Vacuum Cleaner=
+
+### water_mill.lua ###
+### hydro_turbine.lua ###
+
+Hydro @1 Generator=
+
+### wind_mill.lua ###
+
+Wind Mill Frame=
+Wind @1 Generator=
+@1 Improperly Placed=
+Active @1 (@2 EU)=

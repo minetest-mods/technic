@@ -5,7 +5,7 @@ local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
 -- Translation support
-local S = minetest.get_translator("technic_concrete")
+local S = minetest.get_translator("concrete")
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
@@ -63,6 +63,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 
 if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all("technic","blast_resistant_concrete","technic:blast_resistant_concrete",{
+		-- TODO: translation
 		description = "Blast-resistant Concrete",
 		tiles = {"technic_blast_resistant_concrete_block.png",},
 		groups = {cracky=1, level=3, concrete=1},

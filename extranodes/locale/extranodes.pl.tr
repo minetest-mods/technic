@@ -1,0 +1,19 @@
+# textdomain: extranodes
+
+# Polish Translation for extranodes
+# Polskie tłumaczenie extranodes
+# by mat9117
+
+
+### init.lua ###
+
+Marble=Marmur
+Marble Bricks=Marmurowe cegły
+Granite=Granit
+Concrete=Beton
+Zinc Block=Blok cynku
+Cast Iron Block=Blok żelaziwa
+Carbon Steel Block=Blok stali węglowej
+Stainless Steel Block=Blok stali nierdzewnej
+Insulator/cable clip=
+Steel strut with insulator/cable clip=

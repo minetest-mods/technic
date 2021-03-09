@@ -1,15 +1,27 @@
 # textdomain: technic_chests
 
-# Braziliam portuguese translation for technic_chests
-# Tradução portuguesa brasileira para technic_chests
-# By Sires
 
-@1 Chest=Baú @1
-@1 Locked Chest=Baú Trancado @1
-@1 Locked Chest (owned by @2)=Baú Trancado @1 (pertence a/à @2)
-Color Filter: @1=Filtro de Cor: @1
-Edit chest description:=Editar descrição do baú:
 
+### copper_chest.lua ###
+
+# Materials
+Copper=Cobre
+
+### gold_chest.lua ###
+
+Gold=Ouro
+
+### iron_chest.lua ###
+
+Iron=Ferro
+
+### mithril_chest.lua ###
+
+Mithril=Mithril
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
 # Colors
 Black=Preto
 Blue=Azul
@@ -26,18 +38,22 @@ Red=Vermelho
 Violet=Violeta
 White=Branco
 Yellow=Amarelo
+Auto-sort is @1=Auto-ordenação está @1
+On=Ligada
+Off=Desligada
+Edit chest description:=Editar descrição do baú:
 None=Nada
-
-# Materials
-Copper=Cobre
-Gold=Ouro
-Iron=Ferro
-Mithril=Mithril
-Silver=Prata
-Wooden=de Madeira
-
+Color Filter: @1=Filtro de Cor: @1
+# textdomain: technic_chests
+# Braziliam portuguese translation for technic_chests
+# Tradução portuguesa brasileira para technic_chests
+# By Sires
+@1 Chest=Baú @1
 # Sorting
 Sort=Ordenar
-Auto-sort is @1=Auto-ordenação está @1
-Off=Desligada
-On=Ligada
+@1 Locked Chest (owned by @2)=Baú Trancado @1 (pertence a/à @2)
+@1 Locked Chest=Baú Trancado @1
+
+### silver_chest.lua ###
+
+Silver=Prata

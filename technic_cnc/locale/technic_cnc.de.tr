@@ -1,38 +1,67 @@
 # textdomain: technic_cnc
 
+
+
+### cnc.lua ###
+
+# textdomain: technic_cnc
 ## CNC
 CNC Machine=CNC-Maschine
 @1 CNC Machine=@1 CNC-Maschine
-@1 Cylinder=@1 Zylinder
-@1 Element Cross=@1 Halbes Kreuzelement
-@1 Element Cross Double=@1 Kreuzelement
-@1 Element Edge=@1 Halbes Eckelement
-@1 Element Edge Double=@1 Eckelement
-@1 Element End=@1 Halbes Endelement
-@1 Element End Double=@1 Endelement
-@1 Element Straight=@1 Halbes aufrechtes Element
-@1 Element Straight Double=@1 Aufrechtes Element
-@1 Element T=@1 Halbes T-Element
-@1 Element T Double=@1 T-Element
-@1 Horizontal Cylinder=@1 Liegender Zylinder
-@1 One Curved Edge Block=@1 Block mit einer abgerundeten Kante
-@1 Pyramid=@1 Pyramide
-@1 Slope=@1 Schraege
-@1 Slope Edge=@1 Schraege mit Ecke
-@1 Slope Inner Edge=@1 Schraege mit Innenecke
-@1 Slope Lying=@1 Liegende Schraege
-@1 Slope Upside Down=@1 Umgedrehte Schraege
-@1 Slope Upside Down Edge=@1 Umgedrehte Schraege mit Ecke
-@1 Slope Upside Down Inner Edge=@1 Umgedrehte Schraege mit Innenecke
-@1 Sphere=@1 Kugel
-@1 Spike=@1 Spitze
+LV=
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+@1 Idle=
+@1 Unpowered=
+@1 Active=
+
+### cnc_api.lua ###
+
 @1 Stick=@1 Stange
-@1 Two Curved Edge Block=@1 Block mit zwei abgerundeten Kanten
-Brick=Ziegel:
-Cobble=Pflasterstein:
+@1 Element End Double=@1 Endelement
+@1 Element Cross Double=@1 Kreuzelement
+@1 Element T Double=@1 T-Element
+@1 Element Edge Double=@1 Eckelement
+@1 Element Straight Double=@1 Aufrechtes Element
+@1 Element End=@1 Halbes Endelement
+@1 Element Cross=@1 Halbes Kreuzelement
+@1 Element T=@1 Halbes T-Element
+@1 Element Edge=@1 Halbes Eckelement
+@1 Element Straight=@1 Halbes aufrechtes Element
+@1 Oblate spheroid=
+@1 Sphere=@1 Kugel
+@1 Horizontal Cylinder=@1 Liegender Zylinder
+@1 Cylinder=@1 Zylinder
+@1 Two Curved Edge/Corner Block=
+@1 One Curved Edge Block=@1 Block mit einer abgerundeten Kante
+@1 Spike=@1 Spitze
+@1 Pyramid=@1 Pyramide
+@1 Slope Upside Down Inner Edge/Corner=
+@1 Slope Upside Down Outer Edge/Corner=
+@1 Slope Inner Edge/Corner=
+@1 Slope Outer Edge/Corner=
+@1 Slope Upside Down=@1 Umgedrehte Schraege
+@1 Slope Lying=@1 Liegende Schraege
+@1 Slope=@1 Schraege
+
+### cnc_materials.lua ###
+
 Dirt=Erde:
-Leaves=Laub:
-Sandstone=Sandstein:
-Stone=Stein:
-Tree=Baumstamm:
+Grassy dirt=
 Wooden=Holz:
+Stone=Stein:
+Cobble=Pflasterstein:
+Brick=Ziegel:
+Sandstone=Sandstein:
+Leaves=Laub:
+Tree=Baumstamm:
+Bronze=
+Stainless Steel=
+Marble=
+Granite=
+Blast-resistant concrete=
+Concrete=
+Cement=
+Brass block=

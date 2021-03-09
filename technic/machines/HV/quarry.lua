@@ -36,7 +36,7 @@ local function set_quarry_formspec(meta)
 			nd == 0 and S("Digging not started") or
 			(rel_y < -quarry_max_depth and S("Digging finished") or
 				(meta:get_int("purge_on") == 1 and S("Purging cache") or
-				S("Digging @1 m @2 machine".." machine", string.format("%d", math.abs(rel_y)),
+				S("Digging @1 m @2 machine", string.format("%d", math.abs(rel_y)),
 					(rel_y > 0) and S("above") or S("below"))))
 			).."]"
 	formspec = formspec.."button[4,2;2,1;restart;"..S("Restart").."]"

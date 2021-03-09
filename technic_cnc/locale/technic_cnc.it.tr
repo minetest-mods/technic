@@ -1,38 +1,67 @@
 # textdomain: technic_cnc
 
+
+
+### cnc.lua ###
+
+# textdomain: technic_cnc
 ## CNC
 CNC Machine=Tornio CNC
 @1 CNC Machine=Tornio CNC @1
-@1 Cylinder=@1 Cilindro
-@1 Element Cross=@1 Elemento a croce
-@1 Element Cross Double=@1 Elemento a croce doppio
-@1 Element Edge=@1 Elemento bordo
-@1 Element Edge Double=@1 Elemento bordo doppio
-@1 Element End=@1 Elemento finale
-@1 Element End Double=@1 Elemento finale doppio
-@1 Element Straight=@1 Elemento dritto
-@1 Element Straight Double=@1 Elemento dritto doppio
-@1 Element T=@1 Elemento a T
-@1 Element T Double=@1 Elemento a T doppio
-@1 Horizontal Cylinder=@1 Cilindro orizzontale
-@1 One Curved Edge Block=@1 Blocco con bordo curvo
-@1 Pyramid=@1 Piramide
-@1 Slope=@1 Inclinato
-@1 Slope Edge=@1 Bordo inclinato
-@1 Slope Inner Edge=@1 Bordo interno inclinato
-@1 Slope Lying=@1 Pendenza bugiarda
-@1 Slope Upside Down=@1 Pendenza capovolta
-@1 Slope Upside Down Edge=@1 Bordo inclinato capovolto
-@1 Slope Upside Down Inner Edge=@1 Bordo interno inclinato capovolto
-@1 Sphere=@1 Sfera
-@1 Spike=@1 Spuntone
+LV=
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+@1 Idle=
+@1 Unpowered=
+@1 Active=
+
+### cnc_api.lua ###
+
 @1 Stick=@1 Bastone
-@1 Two Curved Edge Block=@1 Blocco con bordo a doppia curva
-Brick=Mattone
-Cobble=Ciottolato
+@1 Element End Double=@1 Elemento finale doppio
+@1 Element Cross Double=@1 Elemento a croce doppio
+@1 Element T Double=@1 Elemento a T doppio
+@1 Element Edge Double=@1 Elemento bordo doppio
+@1 Element Straight Double=@1 Elemento dritto doppio
+@1 Element End=@1 Elemento finale
+@1 Element Cross=@1 Elemento a croce
+@1 Element T=@1 Elemento a T
+@1 Element Edge=@1 Elemento bordo
+@1 Element Straight=@1 Elemento dritto
+@1 Oblate spheroid=
+@1 Sphere=@1 Sfera
+@1 Horizontal Cylinder=@1 Cilindro orizzontale
+@1 Cylinder=@1 Cilindro
+@1 Two Curved Edge/Corner Block=
+@1 One Curved Edge Block=@1 Blocco con bordo curvo
+@1 Spike=@1 Spuntone
+@1 Pyramid=@1 Piramide
+@1 Slope Upside Down Inner Edge/Corner=
+@1 Slope Upside Down Outer Edge/Corner=
+@1 Slope Inner Edge/Corner=
+@1 Slope Outer Edge/Corner=
+@1 Slope Upside Down=@1 Pendenza capovolta
+@1 Slope Lying=@1 Pendenza bugiarda
+@1 Slope=@1 Inclinato
+
+### cnc_materials.lua ###
+
 Dirt=Terra
-Leaves=Foglie
-Sandstone=Arenaria
-Stone=Pietra
-Tree=Albero
+Grassy dirt=
 Wooden=Legno
+Stone=Pietra
+Cobble=Ciottolato
+Brick=Mattone
+Sandstone=Arenaria
+Leaves=Foglie
+Tree=Albero
+Bronze=
+Stainless Steel=
+Marble=
+Granite=
+Blast-resistant concrete=
+Concrete=
+Cement=
+Brass block=

@@ -1,13 +1,27 @@
 # textdomain: technic_chests
 
-# technic_chests translation template
 
-@1 Chest=Cofre de @1
-@1 Locked Chest=Cofre de @1 Bloqueado
-@1 Locked Chest (owned by @2)=Cofre de @1 Bloqueado (propiedad de @2)
-Color Filter: @1=Filtro por Color: @1
-Edit chest description:=Editar la descripción del cofre
 
+### copper_chest.lua ###
+
+# Materials
+Copper=Cobre
+
+### gold_chest.lua ###
+
+Gold=Oro
+
+### iron_chest.lua ###
+
+Iron=Hierro
+
+### mithril_chest.lua ###
+
+Mithril=Mitrilo
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
 # Colors
 Black=Negro
 Blue=Azul
@@ -24,18 +38,20 @@ Red=Rojo
 Violet=Violeta
 White=Blanco
 Yellow=Amarillo
+Auto-sort is @1=El orden Automático esta @1
+On=Encendido
+Off=Apagado
+Edit chest description:=Editar la descripción del cofre
 None=Ninguno
-
-# Materials
-Copper=Cobre
-Gold=Oro
-Iron=Hierro
-Mithril=Mitrilo
-Silver=Plata
-Wooden=Madera
-
+Color Filter: @1=Filtro por Color: @1
+# textdomain: technic_chests
+# technic_chests translation template
+@1 Chest=Cofre de @1
 # Sorting
 Sort=Ordenar
-Auto-sort is @1=El orden Automático esta @1
-Off=Apagado
-On=Encendido
+@1 Locked Chest (owned by @2)=Cofre de @1 Bloqueado (propiedad de @2)
+@1 Locked Chest=Cofre de @1 Bloqueado
+
+### silver_chest.lua ###
+
+Silver=Plata

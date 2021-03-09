@@ -3,24 +3,22 @@
 # template.txt
 # technic_worldgen translation template
 
-###crafts.lua
-Sulfur Lump=
-Lead Lump=
-Lead Ingot=
+
+### crafts.lua ###
+
 Uranium Lump=
 Uranium Ingot=
 Chromium Lump=
 Chromium Ingot=
 Zinc Lump=
 Zinc Ingot=
-Brass Ingot=
+Lead Lump=
+Lead Ingot=
+Sulfur Lump=
 Wrought Iron Ingot=
 Cast Iron Ingot=
 Carbon Steel Ingot=
 Stainless Steel Ingot=
-Iron=
-
-#### Steel to iron
 Iron Axe=
 Iron Pickaxe=
 Iron Shovel=
@@ -32,34 +30,31 @@ Iron Handsaw=
 Iron-Reinforced Crystal Glass=
 Heavy Iron Bottle (empty)=
 
+### nodes.lua ###
 
-###nodes.lua
-Sulfur Ore=
-Lead Ore=
 Uranium Ore=
 Chromium Ore=
 Zinc Ore=
+Lead Ore=
+Sulfur Ore=
 Granite=
 Marble=
 Marble Bricks=
-Lead Block=
 Uranium Block=
 Chromium Block=
 Zinc Block=
+Lead Block=
 Wrought Iron Block=
 Cast Iron Block=
 Carbon Steel Block=
 Stainless Steel Block=
-Brass Block=
-Wrought Iron=
-
-#### Steel to wrought iron
 Outer Wrought Iron Block Stair=
 Inner Wrought Iron Block Stair=
 Wrought Iron Block Stair=
 Wrought Iron Block Slab=
 
-###rubber.lua
+### rubber.lua ###
+
 Rubber Tree Sapling=
 Rubber Tree=
 Rubber Tree Leaves=

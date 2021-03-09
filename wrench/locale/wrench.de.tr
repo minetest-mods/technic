@@ -1,8 +1,11 @@
-# textdomain: technic_wrench
-
+# textdomain: wrench
 # German Translation for technic_wrench
 # Deutsche Übersetzung von technic_wrench
 # by Xanthin
 
-Wrench=Schraubenschluessel
+
+
+### init.lua ###
+
 @1 with items=@1 mit Gegenstaenden
+Wrench=Schraubenschluessel

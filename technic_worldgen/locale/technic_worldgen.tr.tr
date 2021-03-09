@@ -4,21 +4,22 @@
 # mahmutelmas06@hotmail.com
 # Türkçe çeviri
 
-###crafts.lua
+
+### crafts.lua ###
+
 Uranium Lump=Uranyum yığını
 Uranium Ingot=Uranyum külçesi
 Chromium Lump=Krom yığını
 Chromium Ingot=Krom külçesi
 Zinc Lump=Çinko yığını
 Zinc Ingot=Çünko külçesi
-Brass Ingot=Pirinç yığını
+Lead Lump=
+Lead Ingot=
+Sulfur Lump=
 Wrought Iron Ingot=İşlenmiş demir yığını
 Cast Iron Ingot=Döküm demir yığını
 Carbon Steel Ingot=Karbon çelik külçe
-Stainless Steel Ingot =Paslanmaz çelik külçe
-Iron=Demir
-
-#### Steel to iron
+Stainless Steel Ingot=
 Iron Axe=
 Iron Pickaxe=
 Iron Shovel=
@@ -30,29 +31,32 @@ Iron Handsaw=
 Iron-Reinforced Crystal Glass=
 Heavy Iron Bottle (empty)=
 
-###nodes.lua
+### nodes.lua ###
+
 Uranium Ore=Uranyum madeni
 Chromium Ore=Krom madeni
 Zinc Ore=Çinko madeni
+Lead Ore=
+Sulfur Ore=
 Granite=Granit
 Marble=Mermer
 Marble Bricks=Mermer tuğla
 Uranium Block=Uranyum blok
 Chromium Block=Karbon blok
 Zinc Block=Çinko blok
+Lead Block=
 Wrought Iron Block=İşlenmiş demir blok
 Cast Iron Block=Döküm demir blok
 Carbon Steel Block=Karbon çelik blok
 Stainless Steel Block=Paslanmaz çelik blok
-Brass Block=Pirinç blok
-Wrought Iron=İşlenmiş demir
-
-#### Steel to wrought iron
 Outer Wrought Iron Block Stair=
 Inner Wrought Iron Block Stair=
 Wrought Iron Block Stair=
 Wrought Iron Block Slab=
 
-###rubber.lua
+### rubber.lua ###
+
 Rubber Tree Sapling=Kauçuk ağacı fidanı
 Rubber Tree=Kauçuk ağacı
+Rubber Tree Leaves=
+Worldgen: grow rubber tree sapling=

@@ -1,10 +1,10 @@
-# textdomain: technic_concrete
+# textdomain: concrete
 
-# technic_concrete traducido por Carlos Barraza
+# traducido por Carlos Barraza
 
-Rebar=Barra de refuerzo
-Concrete Block=Bloque de concreto
+
+### init.lua ###
+
 Blast-resistant Concrete Block=Bloque de concreto resistente a explosiones
 Concrete Post Platform=Plataforma de concreto
 Concrete Post=Postes de concreto
-
