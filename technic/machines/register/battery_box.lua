@@ -1,7 +1,6 @@
-
 local digilines_path = minetest.get_modpath("digilines")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -142,7 +141,7 @@ local function add_on_off_buttons(meta, ltier, charge_percent)
 					pipeworks.button_off,
 					pipeworks.button_on
 				}
-			).."label[3.9,2.01;Allow splitting incoming 'charge' stacks from tubes]"..
+			).."label[3.9,2.01;"..S("Allow splitting incoming 'charge' stacks from tubes").."]"..
 			fs_helpers.cycling_button(
 				meta,
 				"image_button[3,2.5;1,0.6",
@@ -151,7 +150,7 @@ local function add_on_off_buttons(meta, ltier, charge_percent)
 					pipeworks.button_off,
 					pipeworks.button_on
 				}
-			).."label[3.9,2.51;Allow splitting incoming 'discharge' stacks]"
+			).."label[3.9,2.51;"..S("Allow splitting incoming 'discharge' stacks").."]"
 	end
 	return formspec
 end
@@ -166,7 +165,7 @@ function technic.register_battery_box(data)
 		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
 		"list[context;dst;5,1;1,1;]"..
-		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+		"label[0,0;"..S("@1 Battery Box", data.tier_localized).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
@@ -177,7 +176,7 @@ function technic.register_battery_box(data)
 		"listring[current_player;main]"
 
 	if digilines_path then
-		formspec = formspec.."button[0.6,3.7;2,1;edit_channel;edit Channel]"
+		formspec = formspec.."button[0.6,3.7;2,1;edit_channel;"..S("edit Channel").."]"
 	end
 
 	if data.upgrade then
@@ -196,7 +195,7 @@ function technic.register_battery_box(data)
 		local meta           = minetest.get_meta(pos)
 
 		if not technic.is_tier_cable(below.name, tier) then
-			meta:set_string("infotext", S("%s Battery Box Has No Network"):format(tier))
+			meta:set_string("infotext", S("@1 Has No Network", S("@1 Battery Box", data.tier_localized)))
 			return
 		end
 
@@ -255,11 +254,11 @@ function technic.register_battery_box(data)
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
 		meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, charge_percent))
-		local infotext = S("@1 Battery Box: @2 / @3", tier,
+		local infotext = S("@1 Battery Box: @2 / @3", data.tier_localized,
 				technic.EU_string(current_charge),
 				technic.EU_string(max_charge))
 		if eu_input == 0 then
-			infotext = S("%s Idle"):format(infotext)
+			infotext = S("@1 Idle", infotext)
 		end
 		meta:set_string("infotext", infotext)
 	end
@@ -288,7 +287,7 @@ function technic.register_battery_box(data)
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
-			description = S("%s Battery Box"):format(tier),
+			description = S("@1 Battery Box", data.tier_localized),
 			tiles = {
 				top_tex,
 				bottom_tex,
@@ -312,7 +311,7 @@ function technic.register_battery_box(data)
 				local charge = meta:get_int("internal_EU_charge")
 				local cpercent = math.floor(charge / max_charge * 100)
 				local inv = meta:get_inventory()
-				meta:set_string("infotext", S("%s Battery Box"):format(tier))
+				meta:set_string("infotext", S("@1 Battery Box", data.tier_localized))
 				meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
 				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)
@@ -337,7 +336,7 @@ function technic.register_battery_box(data)
 				if fields.edit_channel then
 					minetest.show_formspec(sender:get_player_name(),
 						"technic:battery_box_edit_channel"..minetest.pos_to_string(pos),
-						"field[channel;Digiline Channel;"..meta:get_string("channel").."]")
+						"field[channel;"..S("Digiline Channel")..";"..meta:get_string("channel").."]")
 				elseif fields["fs_helpers_cycling:0:split_src_stacks"]
 				  or   fields["fs_helpers_cycling:0:split_dst_stacks"]
 				  or   fields["fs_helpers_cycling:1:split_src_stacks"]

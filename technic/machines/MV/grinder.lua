@@ -1,4 +1,6 @@
 -- MV grinder
+local S = minetest.get_translator("technic")
+
 
 minetest.register_craft({
 	output = 'technic:mv_grinder',
@@ -9,5 +11,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_grinder({tier="MV", demand={600, 450, 300}, speed=2, upgrade=1, tube=1})
+technic.register_grinder({tier="MV", demand={600, 450, 300}, speed=2, upgrade=1, tube=1, tier_localized=S("MV")})
 

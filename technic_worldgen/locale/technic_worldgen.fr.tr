@@ -1,0 +1,57 @@
+# textdomain: technic_worldgen
+
+### crafts.lua ###
+
+Uranium Lump=Morceau d'uranium
+Uranium Ingot=Lingot d'uranium
+Chromium Lump=Morceau de chrome
+Chromium Ingot=Lingot de chrome
+Zinc Lump=Morceau de zinc
+Zinc Ingot=Lingot de zinc
+Lead Lump=Morceau de plomb
+Lead Ingot=Lingot de plomb
+Sulfur Lump=Morceau de soufre
+Wrought Iron Ingot=Lingot de fer forgé
+Cast Iron Ingot=Lingot de fonte
+Carbon Steel Ingot=Lingot d'acier au carbone
+Stainless Steel Ingot=Lingot d'acier inoxydable
+Iron Axe=Hache en fer
+Iron Pickaxe=Pioche en fer
+Iron Shovel=Pelle en fer
+Iron Sword=Épée en fer
+Iron Door=Porte en fer
+Iron Hoe=Houe en fer
+Iron Hammer=Marteau en fer
+Iron Handsaw=Scie circulaire en fer
+Iron-Reinforced Crystal Glass=Verre en crystal renforcé au fer
+Heavy Iron Bottle (empty)=Bouteille lourde en fer (vide)
+
+### nodes.lua ###
+
+Uranium Ore=Minerai d'uranium
+Chromium Ore=Minerai de chrome
+Zinc Ore=Minerai de zinc
+Lead Ore=Minerai de plomb
+Sulfur Ore=Minerai de soufre
+Granite=Granite
+Marble=Marbre
+Marble Bricks=Briques en marbre
+Uranium Block=Bloc d'uranium
+Chromium Block=Bloc de chrome
+Zinc Block=Bloc de zinc
+Lead Block=Bloc de plomb
+Wrought Iron Block=Bloc de fer forgé
+Cast Iron Block=Bloc de fonte
+Carbon Steel Block=Bloc d'acier au carbone
+Stainless Steel Block=Bloc d'acier inoxydable
+Outer Wrought Iron Block Stair=Escalier extérieur en bloc de fer forgé
+Inner Wrought Iron Block Stair=Escalier intérieur en bloc de fer forgé
+Wrought Iron Block Stair=Escalier en bloc de fer forgé
+Wrought Iron Block Slab=Dalle en bloc de fer forgé
+
+### rubber.lua ###
+
+Rubber Tree Sapling=Pousse d'arbre à caoutchouc
+Rubber Tree=Arbre à caoutchouc
+Rubber Tree Leaves=Feuilles d’arbre à caoutchouc
+Worldgen: grow rubber tree sapling=Worldgen : pousse des arbres à caoutchouc

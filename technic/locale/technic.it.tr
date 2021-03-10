@@ -1,0 +1,473 @@
+# textdomain: technic
+
+
+
+### alloy_furnace.lua ###
+
+@1 Alloy Furnace=@1 Fornace per leghe
+
+### alloy_recipes.lua ###
+
+## Craft descriptions
+Alloying=Cottura lege
+
+### anchor.lua ###
+
+Administrative World Anchor=Ancora-mondo amministrativa
+Owner: @1=
+Unlocked=Non chiuso a chiave
+Locked=Chiuso a chiave
+Keeping @1/@2 map blocks loaded=Mantenimento di @1/@2 blocchi mappa caricati
+
+### battery_box.lua ###
+
+## Tools
+RE Battery=Batteria RE
+Allow splitting incoming 'charge' stacks from tubes=
+Allow splitting incoming 'discharge' stacks=
+@1 Battery Box= @1 Box batterie
+Charge=Carica
+Discharge=Scarica
+Power level=Livello di potenza
+edit Channel=
+@1 Battery Box: @2 / @3=
+
+### cables.lua ###
+
+@1 Cable=Cavo @1
+@1 Cable Plate=
+
+### cans.lua ###
+
+Water Can=Serbatoio d'acqua
+Lava Can=Serbatoio di lava
+River Water Can=
+
+### centrifuge.lua ###
+
+@1 Centrifuge=
+
+### centrifuge_recipes.lua ###
+
+Separating=
+
+### chainsaw.lua ###
+
+Chainsaw=Motosega
+
+### coal_alloy_furnace.lua ###
+
+Fuel-Fired Alloy Furnace=Fornace per leghe a carbone
+Machines: run coal alloy furnace=
+@1 Active (@2%)=@1 Attivo (@2%)
+@1 is empty=
+
+### coal_alloy_furnace.lua ###
+### generator.lua ###
+
+@1 Out Of Fuel=@1 senza carburante
+
+### coal_furnace.lua ###
+
+Fuel-Fired Furnace=Fornace a carbone
+
+### common.lua ###
+
+## Machine misc
+Machine cannot be removed because it is not empty=La macchina non può essere rimossa perchè non è vuota
+Inventory move disallowed due to protection=Impossibile muovere l'inventario a causa della protezione
+
+### compressor.lua ###
+
+@1 Compressor=Compressore @1
+
+### compressor_recipes.lua ###
+
+Compressing=Compressione
+
+### constructor.lua ###
+
+Constructor Mk@1=Costruttore Mk@1
+Slot @1=Alloggio @1
+
+### electric_furnace.lua ###
+
+@1 Furnace=@1 Fornace
+
+### extractor.lua ###
+
+@1 Extractor=Estrattore @1
+
+### extractor_recipes.lua ###
+
+Extracting=Estrazione
+
+### flashlight.lua ###
+
+Flashlight=Torcia
+
+### forcefield.lua ###
+
+Range=Raggio
+Sphere=
+Cube=
+@1 Forcefield Emitter=Emettitore di campo di forza @1
+@1 Forcefield=Campo di forza @1
+
+### forcefield.lua ###
+### anchor.lua ###
+### supply_converter.lua ###
+
+@1 Enabled=@1 Abilitato
+
+### forcefield.lua ###
+### battery_box.lua ###
+### supply_converter.lua ###
+
+Digiline Channel=
+
+### forcefield.lua ###
+### generator.lua ###
+### quarry.lua ###
+### cables.lua ###
+### battery_box.lua ###
+### solar_array.lua ###
+### nuclear_reactor.lua ###
+
+HV=
+
+### forcefield.lua ###
+### machine_base.lua ###
+### tool_workshop.lua ###
+### quarry.lua ###
+### music_player.lua ###
+
+@1 Unpowered=@1 Non alimentato
+@1 Active=@1 Attivo
+
+### forcefield.lua ###
+### supply_converter.lua ###
+
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+
+### frames.lua ###
+
+Frame=Cornice
+Frame Motor=Cornice del motore
+Template=Sagoma
+Template (replacing)=Sagoma (di rimpiazzo)
+Template Tool=Strumento per sagome
+Template Motor=Motore per sagome
+
+### freezer.lua ###
+
+@1 Freezer=
+
+### freezer_recipes.lua ###
+
+Freezing=
+
+### generator.lua ###
+
+Fuel-Fired @1 Generator=@1 Generatore a carbone
+
+### generator.lua ###
+### water_mill.lua ###
+### hydro_turbine.lua ###
+### geothermal.lua ###
+### nuclear_reactor.lua ###
+
+@1 (@2%)=
+
+### geothermal.lua ###
+
+Geothermal @1 Generator=@1 Generatore Geotermico
+
+### grinder.lua ###
+
+@1 Grinder=@1 Tritatutto
+
+### grinder.lua ###
+### generator.lua ###
+### extractor.lua ###
+### water_mill.lua ###
+### music_player.lua ###
+### solar_panel.lua ###
+### battery_box.lua ###
+### cables.lua ###
+### electric_furnace.lua ###
+### solar_array.lua ###
+### compressor.lua ###
+### geothermal.lua ###
+### alloy_furnace.lua ###
+
+LV=
+
+### grinder_recipes.lua ###
+
+Grinding=Macinazione
+@1 Dust=Polvere di @1
+@1%-Fissile Uranium=@1%-Uranio fissile
+
+### grindings.lua ###
+
+## Grinder Recipes
+Sawdust=
+@1 Grinding=Macinazione @1
+
+### injector.lua ###
+
+Self-Contained Injector=Ignettore
+Stackwise=pila completa
+Itemwise=Singolo elemento
+Public=
+Private=
+Machines: run injector=
+
+### items.lua ###
+
+# textdomain: technic
+## Items
+Silicon Wafer=Wafer di silicone
+Doped Silicon Wafer=Wafer di silicone dopato
+Uranium Fuel=Uranio Combustibile
+Diamond Drill Head=Trivella diamantata
+Blue Energy Crystal=Cristallo energetico blu
+Green Energy Crystal=Cristallo energetico verde
+Red Energy Crystal=Cristallo energetico rosso
+Copper Coil=Bobina di rame
+Low Voltage Transformer=Trasformatore in bassa tensione
+Medium Voltage Transformer=Trasformatore in media tensione
+High Voltage Transformer=Trasformatore in alta tensione
+Control Logic Unit=Unità di controllo logica
+Mixed Metal Ingot=Lingotto in lega ibrida
+Composite Plate=Lastra composita
+Copper Plate=Lastra di rame
+Carbon Plate=Lastra in carbonio
+Graphite=Lastra in graffite
+Carbon Cloth=Fibra di carbonio
+Machine Casing=
+Rubber Goo=
+@1%-Fissile Uranium Ingot=@1%-Lingotto di uranio fissile
+@1%-Fissile Uranium Block=@1%-Blocco di uranio fissile
+
+### lighting.lua ###
+
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+White Glowlight (small cube)=
+
+### machine_base.lua ###
+### battery_box.lua ###
+### tool_workshop.lua ###
+
+Upgrade Slots=Alloggi di aggiornamento
+
+### machine_base.lua ###
+### tool_workshop.lua ###
+### music_player.lua ###
+### solar_panel.lua ###
+### battery_box.lua ###
+### solar_array.lua ###
+### nuclear_reactor.lua ###
+
+@1 Idle=@1 Inattivo
+
+### mining_drill.lua ###
+
+Single node.=
+3 nodes deep.=3 nodi in profondità.
+3 nodes wide.=3 nodi in larghezza.
+3 nodes tall.=3 nodi in altezza.
+3x3 nodes.=3x3 nodi.
+Use while sneaking to change Mining Drill Mk@1 modes.=Premi shift (freccia grossa) e usa per cambiare modalità nella trivella da miniera Mk@1.
+Mining Drill Mk@1 Mode @2: =
+Mining Drill Mk@1=Trivella da miniera mk@1
+Mining Drill Mk@1 Mode @2=Trivella mk@1 in modalità @2
+
+### mining_lasers.lua ###
+
+Mining Laser Mk@1=Laser da miniera mk@1
+
+### music_player.lua ###
+
+@1 Music Player=Music Player @1
+Stop=
+Stopped=Fermato
+Current track @1=Traccia corrente @1
+
+### nuclear_reactor.lua ###
+
+@1 Nuclear Reactor Core=
+Nuclear Reactor Rod Compartment=Compartimento combustibile nucleare
+Start=
+automatic Start=
+Enable Digiline=
+Save=
+Digiline Remote Channel=
+Error: You need to insert @1 pieces of Uranium Fuel.=
+Error: The power plant seems to be built incorrectly.=
+Machines: reactor melt-down check=
+Start successful=
+
+### power_monitor.lua ###
+
+## Machine names
+Power Monitor=
+Machines: run power monitor=
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3=@1. Prodotto: @2 Consumato: @3
+
+### power_monitor.lua ###
+### switching_station.lua ###
+### battery_box.lua ###
+
+@1 Has No Network=@1 non è collegata
+
+### power_radiator.lua ###
+
+@1 Power Radiator=
+Machines: run power radiator=
+@1 is unpowered=
+@1 is powered (@2% of maximum power)=
+
+### power_radiator.lua ###
+### grinder.lua ###
+### generator.lua ###
+### extractor.lua ###
+### freezer.lua ###
+### tool_workshop.lua ###
+### hydro_turbine.lua ###
+### cables.lua ###
+### wind_mill.lua ###
+### battery_box.lua ###
+### electric_furnace.lua ###
+### solar_array.lua ###
+### centrifuge.lua ###
+### compressor.lua ###
+### alloy_furnace.lua ###
+
+MV=
+
+### prospector.lua ###
+
+Prospector=
+Right-click to set target block type=
+Current target:=
+No target set=
+May set new target:=
+Set target=
+No new target available=
+Region cross section:=
+Set region cross section:=
+Region depth:=
+Set region depth:=
+Accuracy:=
+
+### quarry.lua ###
+
+@1 Quarry=Cava @1
+Digging not started=Scavo non iniziato
+Digging finished=Scavo finito
+Purging cache=
+Digging @1 m @2 machine=Scavo di @1 m @2 la macchina
+above=sopra
+below=sotto
+Restart=
+@1 purging cache=
+@1 Finished=@1 Finito
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+
+### quarry.lua ###
+### anchor.lua ###
+
+Radius:=Raggio:
+Disabled=Disabilitato
+Enabled=Abilitato
+
+### quarry.lua ###
+### forcefield.lua ###
+### anchor.lua ###
+### supply_converter.lua ###
+
+@1 Disabled=
+
+### quarry.lua ###
+### forcefield.lua ###
+### nuclear_reactor.lua ###
+
+You are not allowed to edit this!=
+
+### radiation.lua ###
+
+## Radiation
+Radiation damage=
+Corium Source=
+Flowing Corium=
+Corium Bucket=
+Chernobylite Block=
+Corium: griefing=
+
+### solar_array.lua ###
+
+Arrayed Solar @1 Generator=@1 Pannello Solare
+@1 Active (@2)=
+
+### solar_panel.lua ###
+
+Small Solar @1 Generator=@1 Pannello solare
+@1 Active (@2 EU)=@1 Attivo (@2 EU)
+
+### sonic_screwdriver.lua ###
+
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=Cacciavite sonico
+
+### supply_converter.lua ###
+
+## Machine-specific
+Input Power=
+Supply Converter=Trasformatore
+@1 (@2 @3 -> @4 @5)=
+@1 Has Bad Cabling=@1 ha un cablaggio scorretto
+
+### switching_station.lua ###
+
+Switching Station=Stazione di controllo
+Channel=
+Enables or disables technic's switching station ABM=
+@1 Already Present=
+@1. Supply: @2 Demand: @3=
+Machines: timeout check=
+
+### tool_workshop.lua ###
+
+@1 Tool Workshop=Officina per attrezzi @1
+
+### tree_tap.lua ###
+
+Tree Tap=Batti albero
+Raw Latex=Latex grezzo
+Rubber Fiber=Fibra di gomma
+Tools: tree tap=
+
+### vacuum.lua ###
+
+Vacuum Cleaner=
+
+### water_mill.lua ###
+### hydro_turbine.lua ###
+
+Hydro @1 Generator=Turbina Elettrica @1
+
+### wind_mill.lua ###
+
+Wind Mill Frame=Pala eolica
+Wind @1 Generator=@1 Generatore eolico
+@1 Improperly Placed=@1 Piazzato impropiamente
+Active @1 (@2 EU)=

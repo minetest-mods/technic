@@ -1,4 +1,4 @@
-
+local S = minetest.get_translator("technic")
 minetest.register_craft({
 	output = 'technic:hv_cable 3',
 	recipe = {
@@ -8,5 +8,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_cable("HV", 3/16)
+technic.register_cable(S("HV"), 3/16, "HV")
 

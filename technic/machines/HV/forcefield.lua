@@ -10,14 +10,14 @@ local digilines_path = minetest.get_modpath("digilines")
 
 local forcefield_power_drain   = 10
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
 minetest.register_craft({
 	output = "technic:forcefield_emitter_off",
 	recipe = {
-		{"default:mese",         "basic_materials:motor",          "default:mese"        },
+		{"default:mese",         "basic_materials:motor",  "default:mese"        },
 		{"technic:deployer_off", "technic:machine_casing", "technic:deployer_off"},
 		{"default:mese",         "technic:hv_cable",       "default:mese"        },
 	}
@@ -92,7 +92,7 @@ local function set_forcefield_formspec(meta)
 	local formspec
 	if digilines_path then
 		formspec = "size[5,3.25]"..
-			"field[0.3,3;5,1;channel;Digiline Channel;"..meta:get_string("channel").."]"
+			"field[0.3,3;5,1;channel;"..S("Digiline Channel")..";"..meta:get_string("channel").."]"
 	else
 		formspec = "size[5,2.25]"
 	end
@@ -113,9 +113,9 @@ local function set_forcefield_formspec(meta)
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("@1 Disabled", S("@1 Forcefield Emitter", S("HV"))).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("@1 Enabled", S("@1 Forcefield Emitter", S("HV"))).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -123,7 +123,7 @@ end
 local forcefield_receive_fields = function(pos, formname, fields, sender)
 	local player_name = sender:get_player_name()
 	if minetest.is_protected(pos, player_name) then
-		minetest.chat_send_player(player_name, "You are not allowed to edit this!")
+		minetest.chat_send_player(player_name, S("You are not allowed to edit this!"))
 		minetest.record_protection_violation(pos, player_name)
 		return
 	end
@@ -246,7 +246,7 @@ local function run(pos, node)
 	local eu_input   = meta:get_int("HV_EU_input")
 	local enabled = meta:get_int("enabled") ~= 0 and
 		(meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
-	local machine_name = S("%s Forcefield Emitter"):format("HV")
+	local machine_name = S("@1 Forcefield Emitter", S("HV"))
 
 	local range = meta:get_int("range")
 	local power_requirement
@@ -261,14 +261,14 @@ local function run(pos, node)
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
-			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+			meta:set_string("infotext", S("@1 Disabled", machine_name))
 		end
 		meta:set_int("HV_EU_demand", 0)
 		return
 	end
 	meta:set_int("HV_EU_demand", power_requirement)
 	if eu_input < power_requirement then
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", S("@1 Unpowered", machine_name))
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
@@ -276,14 +276,14 @@ local function run(pos, node)
 	elseif eu_input >= power_requirement then
 		if node.name == "technic:forcefield_emitter_off" then
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
+			meta:set_string("infotext", S("@1 Active", machine_name))
 		end
 		update_forcefield(pos, meta, true)
 	end
 end
 
 minetest.register_node("technic:forcefield_emitter_off", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = S("@1 Forcefield Emitter", S("HV")),
 	tiles = {
 		"technic_forcefield_emitter_off.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -305,7 +305,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		if digilines_path then
 			meta:set_string("channel", "forcefield"..minetest.pos_to_string(pos))
 		end
-		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
+		meta:set_string("infotext", S("@1 Forcefield Emitter", S("HV")))
 		set_forcefield_formspec(meta)
 	end,
 	mesecons = mesecons,
@@ -314,7 +314,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = S("@1 Forcefield Emitter", S("HV")),
 	tiles = {
 		"technic_forcefield_emitter_on.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -346,7 +346,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 })
 
 minetest.register_node("technic:forcefield", {
-	description = S("%s Forcefield"):format("HV"),
+	description = S("@1 Forcefield", S("HV")),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1},

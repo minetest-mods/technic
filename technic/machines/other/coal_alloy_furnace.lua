@@ -1,7 +1,6 @@
-
 -- Fuel driven alloy furnace. This uses no EUs:
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',
@@ -70,7 +69,7 @@ minetest.register_node("technic:coal_alloy_furnace_active", {
 })
 
 minetest.register_abm({
-	label = "Machines: run coal alloy furnace",
+	label = S("Machines: run coal alloy furnace"),
 	nodenames = {"technic:coal_alloy_furnace", "technic:coal_alloy_furnace_active"},
 	interval = 1,
 	chance = 1,
@@ -120,7 +119,7 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
+			meta:set_string("infotext", S("@1 Active (@2%)", machine_name, percent))
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 					"size[8,9]"..
@@ -144,7 +143,7 @@ minetest.register_abm({
 
 		if not recipe then
 			if was_active then
-				meta:set_string("infotext", S("%s is empty"):format(machine_name))
+				meta:set_string("infotext", S("@1 is empty", machine_name))
 				technic.swap_node(pos, "technic:coal_alloy_furnace")
 				meta:set_string("formspec", formspec)
 			end
@@ -161,7 +160,7 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext", S("%s Out Of Fuel"):format(machine_name))
+			meta:set_string("infotext", S("@1 Out Of Fuel", machine_name))
 			technic.swap_node(pos, "technic:coal_alloy_furnace")
 			meta:set_string("formspec", formspec)
 			return

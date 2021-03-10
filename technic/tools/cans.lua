@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local function set_can_wear(itemstack, level, max_level)
 	local temp

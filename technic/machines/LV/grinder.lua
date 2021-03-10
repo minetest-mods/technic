@@ -1,4 +1,4 @@
-
+local S = minetest.get_translator("technic")
 minetest.register_alias("grinder", "technic:lv_grinder")
 minetest.register_craft({
 	output = 'technic:lv_grinder',
@@ -9,5 +9,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_grinder({tier="LV", demand={200}, speed=1})
+technic.register_grinder({tier="LV", demand={200}, speed=1, tier_localized=S("LV")})
 

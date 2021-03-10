@@ -1,3 +1,5 @@
+local S = minetest.get_translator("technic")
+
 minetest.register_craft({
 	output = "technic:mv_centrifuge",
 	recipe = {
@@ -13,4 +15,5 @@ technic.register_centrifuge({
 	speed = 2,
 	upgrade = 1,
 	tube = 1,
+	tier_localized = S("MV"),
 })

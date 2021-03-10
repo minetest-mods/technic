@@ -7,7 +7,7 @@ technic.redundant_warn = {}
 local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -44,7 +44,7 @@ minetest.register_node("technic:switching_station",{
 		meta:set_string("infotext", S("Switching Station"))
 		meta:set_string("active", 1)
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
-		meta:set_string("formspec", "field[channel;Channel;${channel}]")
+		meta:set_string("formspec", "field[channel;"..S("Channel")..";${channel}]")
 		local poshash = minetest.hash_node_position(pos)
 		technic.redundant_warn.poshash = nil
 	end,
@@ -216,7 +216,7 @@ technic.powerctrl_state = true
 
 minetest.register_chatcommand("powerctrl", {
 	params = "state",
-	description = "Enables or disables technic's switching station ABM",
+	description = S("Enables or disables technic's switching station ABM"),
 	privs = { basic_privs = true },
 	func = function(name, state)
 		if state == "on" then
@@ -243,7 +243,7 @@ end
 
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
-	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
+	label = S("Switching Station"), -- allows the mtt profiler to profile this abm individually
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
@@ -265,7 +265,7 @@ minetest.register_abm({
 		if meta:get_int("active") ~= 1 then
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(pos1)
-			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+			meta:set_string("infotext",S("@1 Already Present", machine_name))
 
 			local poshash = minetest.hash_node_position(pos)
 
@@ -285,7 +285,7 @@ minetest.register_abm({
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
 		else
 			--dprint("Not connected to a network")
-			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+			meta:set_string("infotext", S("@1 Has No Network", machine_name))
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(pos1)
 			return
@@ -457,7 +457,7 @@ local function switching_station_timeout_count(pos, tier)
 	end
 end
 minetest.register_abm({
-	label = "Machines: timeout check",
+	label = S("Machines: timeout check"),
 	nodenames = {"group:technic_machine"},
 	interval   = 1,
 	chance     = 1,
@@ -473,7 +473,7 @@ minetest.register_abm({
 				end
 				if nodedef then
 					local meta = minetest.get_meta(pos)
-					meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+					meta:set_string("infotext", S("@1 Has No Network", nodedef.description))
 				end
 			end
 		end

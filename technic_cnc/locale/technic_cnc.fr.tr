@@ -1,0 +1,67 @@
+# textdomain: technic_cnc
+
+
+
+### cnc.lua ###
+
+# textdomain: technic_cnc
+## CNC
+CNC Machine=Machine CNC
+@1 CNC Machine=Machine CNC @1
+LV=faible tension
+Choose Milling Program:=Choisissez le programme de faisage
+Slim Elements half / normal height:=Épaisseur de l’élément (moitié / normale)
+In:=Entrée
+Out:=Sortie
+@1 Idle=@1 inactive
+@1 Unpowered=@1 hors-tension 
+@1 Active=@1 active
+
+### cnc_api.lua ###
+
+@1 Stick=Baton @1
+@1 Element End Double=Double enbout @1
+@1 Element Cross Double=Croix double @1
+@1 Element T Double=Double T @1
+@1 Element Edge Double=Coin double @1
+@1 Element Straight Double=Double élément droit @1
+@1 Element End=Embout @1
+@1 Element Cross=Croix @1
+@1 Element T=T @
+@1 Element Edge=Coin @1
+@1 Element Straight=Élément droit @1
+@1 Oblate spheroid=Sphéroïde aplati @1
+@1 Sphere=Sphère @1
+@1 Horizontal Cylinder=Cylindre horizontal @1
+@1 Cylinder=Cylindre @1
+@1 Two Curved Edge/Corner Block=
+@1 One Curved Edge Block=Coin incurvé @1
+@1 Spike=Pique @1
+@1 Pyramid=Pyramide @1
+@1 Slope Upside Down Inner Edge/Corner=
+@1 Slope Upside Down Outer Edge/Corner=
+@1 Slope Inner Edge/Corner=
+@1 Slope Outer Edge/Corner=
+@1 Slope Upside Down=Pente retournée @1
+@1 Slope Lying=Pente couchée @1
+@1 Slope=Pente @1
+
+### cnc_materials.lua ###
+
+Dirt=en terre
+Grassy dirt=
+Wooden=en bois
+Stone=en pierre
+Cobble=en pierre taillée
+Brick=en brique
+Sandstone=en grès
+Leaves=en feuilles
+Tree=en bloc d’arbre
+Bronze=Bronze
+Stainless Steel=Acier inoxydable
+Marble=Marbre
+Granite=Granite
+Blast-resistant concrete=Béton résistant aux explosions
+Concrete=Béton
+Cement=Ciment
+Brass block=Bloc de laiton

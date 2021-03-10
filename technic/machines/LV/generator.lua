@@ -3,6 +3,7 @@
 -- Inefficient and expensive in fuel (200EU per tick)
 -- Also only allows for LV machinery to run.
 
+local S = minetest.get_translator("technic")
 minetest.register_alias("lv_generator", "technic:lv_generator")
 
 minetest.register_craft({
@@ -14,5 +15,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_generator({tier="LV", supply=200})
+technic.register_generator({tier="LV", supply=200, tier_localized=S("LV")})
 

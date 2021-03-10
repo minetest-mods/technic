@@ -2,7 +2,7 @@
 -- The power monitor can be used to monitor how much power is available on a network,
 -- similarly to the old "slave" switching stations.
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -37,7 +37,7 @@ minetest.register_node("technic:power_monitor",{
 
 minetest.register_abm({
 	nodenames = {"technic:power_monitor"},
-	label = "Machines: run power monitor",
+	label = S("Machines: run power monitor"),
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
@@ -54,10 +54,10 @@ minetest.register_abm({
 			local supply = sw_meta:get_int("supply")
 			local demand = sw_meta:get_int("demand")
 			meta:set_string("infotext",
-					S("Power Monitor. Supply: @1 Demand: @2",
+					S("@1. Supply: @2 Demand: @3", S("Power Monitor"),
 					technic.EU_string(supply), technic.EU_string(demand)))
 		else
-			meta:set_string("infotext",S("Power Monitor Has No Network"))
+			meta:set_string("infotext",S("@1 Has No Network",S("Power Monitor")))
 		end
 	end,
 })

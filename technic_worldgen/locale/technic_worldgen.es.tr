@@ -1,0 +1,61 @@
+# textdomain: technic_worldgen
+
+# technic_worldgen traducido por Carlos Barraza
+
+
+### crafts.lua ###
+
+Uranium Lump=Pepita de Uranio
+Uranium Ingot=Lingote de Uranio
+Chromium Lump=Pepita de Cromo
+Chromium Ingot=Lingote de Cromo
+Zinc Lump=Pepita de Zinc
+Zinc Ingot=Lingote de Zinc
+Lead Lump=
+Lead Ingot=
+Sulfur Lump=
+Wrought Iron Ingot=Lingote de Hierro Forjado
+Cast Iron Ingot=Lingote de Hierro Fundido
+Carbon Steel Ingot=Lingote de Acero al Carbon
+Stainless Steel Ingot=Lingote de Acero inoxidable
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Heavy Iron Bottle (empty)=
+
+### nodes.lua ###
+
+Uranium Ore=Mineral de Uranio
+Chromium Ore=Mineral de Cromo
+Zinc Ore=Mineral de Zinc
+Lead Ore=
+Sulfur Ore=
+Granite=Granito
+Marble=Mármol
+Marble Bricks=Ladrillos de Mármol
+Uranium Block=Bloque de Uranio
+Chromium Block=Bloque de Cromo
+Zinc Block=Bloque de Zinc
+Lead Block=
+Wrought Iron Block=Bloque de Hierro Forjado
+Cast Iron Block=Bloque de Hierro Fundido
+Carbon Steel Block=Bloque de Acero al Carbon
+Stainless Steel Block=Bloque de Acero Inoxidable
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
+Wrought Iron Block Stair=
+Wrought Iron Block Slab=
+
+### rubber.lua ###
+
+Rubber Tree Sapling=Retoño de Árbol de Goma
+Rubber Tree=Árbol de Goma
+Rubber Tree Leaves=
+Worldgen: grow rubber tree sapling=
+

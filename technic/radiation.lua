@@ -28,7 +28,7 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local rad_resistance_node = {
 	["default:brick"] = 13,
@@ -347,7 +347,7 @@ end
 
 if minetest.settings:get_bool("enable_damage") then
 	minetest.register_abm({
-		label = "Radiation damage",
+		label = S("Radiation damage"),
 		nodenames = {"group:radioactive"},
 		interval = 1,
 		chance = 1,
@@ -383,7 +383,7 @@ local griefing = technic.config:get_bool("enable_corium_griefing")
 
 for _, state in pairs({"flowing", "source"}) do
 	minetest.register_node("technic:corium_"..state, {
-		description = S(state == "source" and "Corium Source" or "Flowing Corium"),
+		description = (state == "source") and S("Corium Source") or S("Flowing Corium"),
 		drawtype = (state == "source" and "liquid" or "flowingliquid"),
 		tiles = {{
 			name = "technic_corium_"..state.."_animated.png",
@@ -448,7 +448,7 @@ if rawget(_G, "bucket") and bucket.register_liquid then
 		"technic:corium_flowing",
 		"technic:bucket_corium",
 		"technic_bucket_corium.png",
-		"Corium Bucket"
+		S("Corium Bucket")
 	)
 end
 
@@ -495,7 +495,7 @@ minetest.register_abm({
 
 if griefing then
 	minetest.register_abm({
-		label = "Corium: griefing",
+		label = S("Corium: griefing"),
 		nodenames = {"technic:corium_source", "technic:corium_flowing"},
 		interval = 4,
 		chance = 4,

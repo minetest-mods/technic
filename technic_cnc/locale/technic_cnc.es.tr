@@ -1,0 +1,67 @@
+# textdomain: technic_cnc
+
+
+
+### cnc.lua ###
+
+# textdomain: technic_cnc
+## CNC
+CNC Machine=Maquina CNC
+@1 CNC Machine=Maquina CNC @1
+LV=
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+@1 Idle=
+@1 Unpowered=
+@1 Active=
+
+### cnc_api.lua ###
+
+@1 Stick=@1 Varita
+@1 Element End Double=@1 Doble Fin de Elemento
+@1 Element Cross Double=@1 Elemento Cruz Doble
+@1 Element T Double=
+@1 Element Edge Double=@1 Elemento Borde Doble
+@1 Element Straight Double=@1 Elemento Doble Recto
+@1 Element End=@1 Fin de Elemento
+@1 Element Cross=@1 Cruce de Elementos
+@1 Element T=
+@1 Element Edge=@1 Elemento Borde
+@1 Element Straight=@1 Recta de Elemento
+@1 Oblate spheroid=
+@1 Sphere=@1 Esfera
+@1 Horizontal Cylinder=@1 Cilindro Horizontal
+@1 Cylinder=
+@1 Two Curved Edge/Corner Block=
+@1 One Curved Edge Block=@1 Un Bloque de Borde Curvado
+@1 Spike=@1 Pica
+@1 Pyramid=@1 Piramide
+@1 Slope Upside Down Inner Edge/Corner=
+@1 Slope Upside Down Outer Edge/Corner=
+@1 Slope Inner Edge/Corner=
+@1 Slope Outer Edge/Corner=
+@1 Slope Upside Down=@1 Rampa Al Reves
+@1 Slope Lying=@1 Rampa en Reposo
+@1 Slope=@1 Rampa
+
+### cnc_materials.lua ###
+
+Dirt=Tierra
+Grassy dirt=
+Wooden=Madera
+Stone=Piedra
+Cobble=Adoquines
+Brick=Ladrillo
+Sandstone=Arenisca
+Leaves=Hojas
+Tree=Arbol
+Bronze=
+Stainless Steel=
+Marble=
+Granite=
+Blast-resistant concrete=
+Concrete=
+Cement=
+Brass block=

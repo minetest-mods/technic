@@ -1,0 +1,59 @@
+# textdomain: technic_chests
+
+
+
+### copper_chest.lua ###
+
+# Materials
+Copper=Miedziana
+
+### gold_chest.lua ###
+
+Gold=Złota
+
+### iron_chest.lua ###
+
+Iron=Żelazna
+
+### mithril_chest.lua ###
+
+Mithril=Mithrilowa
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
+# Colors
+Black=Czarny
+Blue=Niebieski
+Brown=Brązowy
+Cyan=Cyan
+Dark Green=Ciemnozielony
+Dark Grey=Ciemnoszary
+Green=Zielony
+Grey=Szary
+Magenta=Magenta
+Orange=Pomarańczowy
+Pink=Różowy
+Red=Czerwony
+Violet=Fioletowy
+White=Biały
+Yellow=Żółty
+Auto-sort is @1=Autosortowanie jest @1
+On=Włączone
+Off=Wyłaczone
+Edit chest description:=Edytuj opis skrzyni
+None=Żaden
+Color Filter: @1=Filtr kolorów: @1
+# textdomain: technic_chests
+# Polish Translation for technic_chests
+# Polskie tłumaczenie technic_chests
+# by mat9117
+@1 Chest=@1 Skrzynia
+# Sorting
+Sort=Sortuj
+@1 Locked Chest (owned by @2)=@1 Zamknięta skrzynia (należy do @2)
+@1 Locked Chest=@1 Zamknięta skrzynia
+
+### silver_chest.lua ###
+
+Silver=Srebrna

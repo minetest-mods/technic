@@ -1,0 +1,11 @@
+# textdomain: wrench
+
+# Braziliam portuguese translation for wrench
+# Tradução portuguesa brasileira para wrench
+# By Sires
+
+
+### init.lua ###
+
+@1 with items=@1 com items
+Wrench=Chave Inglesa

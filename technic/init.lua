@@ -12,14 +12,6 @@ local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
 
--- Boilerplate to support intllib
-if rawget(_G, "intllib") then
-	technic.getter = intllib.Getter()
-else
-	technic.getter = function(s,a,...)if a==nil then return s end a={a,...}return s:gsub("(@?)@(%(?)(%d+)(%)?)",function(e,o,n,c)if e==""then return a[tonumber(n)]..(o==""and c or"")else return"@"..o..n..c end end) end
-end
-local S = technic.getter
-
 -- Read configuration file
 dofile(modpath.."/config.lua")
 
@@ -48,6 +40,6 @@ dofile(modpath.."/tools/init.lua")
 dofile(modpath.."/legacy.lua")
 
 if minetest.settings:get_bool("log_mods") then
-	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
+	print(string.format("[Technic] Loaded in %f seconds", os.clock() - load_start))
 end
 

@@ -1,5 +1,4 @@
-
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 -- handles the machine upgrades every tick
 function technic.handle_machine_upgrades(meta)

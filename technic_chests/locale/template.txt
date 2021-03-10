@@ -1,39 +1,57 @@
-# technic_chests translation template
+# textdomain: technic_chests
 
-%s Chest =
-%s Locked Chest =
-%s Locked Chest (owned by %s) =
-Color Filter: %s =
-Edit chest description: =
 
-# Colors
-Black =
-Blue =
-Brown =
-Cyan =
-Dark Green =
-Dark Grey =
-Green =
-Grey =
-Magenta =
-Orange =
-Pink =
-Red =
-Violet =
-White =
-Yellow =
-None =
+
+### copper_chest.lua ###
 
 # Materials
-Copper =
-Gold =
-Iron =
-Mithril =
-Silver =
-Wooden =
+Copper=
 
+### gold_chest.lua ###
+
+Gold=
+
+### iron_chest.lua ###
+
+Iron=
+
+### mithril_chest.lua ###
+
+Mithril=
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
+# Colors
+Black=
+Blue=
+Brown=
+Cyan=
+Dark Green=
+Dark Grey=
+Green=
+Grey=
+Magenta=
+Orange=
+Pink=
+Red=
+Violet=
+White=
+Yellow=
+Auto-sort is @1=
+On=
+Off=
+Edit chest description:=
+None=
+Color Filter: @1=
+# textdomain: technic_chests
+# technic_chests translation template
+@1 Chest=
 # Sorting
-Sort =
-Auto-sort is %s =
-Off =
-On =
+Sort=
+@1 Locked Chest (owned by @2)=
+@1 Locked Chest=
+
+### silver_chest.lua ###
+
+Silver=

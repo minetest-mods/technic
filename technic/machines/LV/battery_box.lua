@@ -1,4 +1,5 @@
 -- LV Battery box
+local S = minetest.get_translator("technic")
 
 minetest.register_craft({
 	output = 'technic:lv_battery_box0',
@@ -16,5 +17,6 @@ technic.register_battery_box({
 	discharge_rate = 4000,
 	charge_step    = 500,
 	discharge_step = 800,
+	tier_localized = S("LV"),
 })
 

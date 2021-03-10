@@ -47,20 +47,14 @@ function technic.chests.inv_take(pos, listname, index, stack, player)
 end
 
 function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
-	minetest.log("action", player:get_player_name()..
-		" moves stuff in chest at "
-		..minetest.pos_to_string(pos))
+	minetest.log("action", player:get_player_name().." moves stuff in chest at "..minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_put(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name() ..
-			" moves " .. stack:get_name() ..
-			" to chest at " .. minetest.pos_to_string(pos))
+	minetest.log("action", player:get_player_name().." moves "..stack:get_name().." to chest at "..minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_take(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name() ..
-			" takes " .. stack:get_name()  ..
-			" from chest at " .. minetest.pos_to_string(pos))
+	minetest.log("action", player:get_player_name().." takes "..stack:get_name().." from chest at "..minetest.pos_to_string(pos))
 end
 

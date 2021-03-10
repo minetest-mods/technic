@@ -1,0 +1,59 @@
+# textdomain: technic_chests
+
+
+
+### copper_chest.lua ###
+
+# Materials - Metaryeller
+Copper=Bakır
+
+### gold_chest.lua ###
+
+Gold=Altın
+
+### iron_chest.lua ###
+
+Iron=Demir
+
+### mithril_chest.lua ###
+
+Mithril=Mithril
+
+### register.lua ###
+
+Allow splitting incoming stacks from tubes=
+# Colors - Renkler
+Black=Siyah
+Blue=Mavi
+Brown=Kahverengi
+Cyan=Cam göbeği
+Dark Green=Koyu yeşil
+Dark Grey=Koyu gri
+Green=Yeşil
+Grey=Gri
+Magenta=Mor
+Orange=Turuncu
+Pink=Pembe
+Red=Kırmızı
+Violet=Koyu mor
+White=Beyaz
+Yellow=Sarı
+Auto-sort is @1=Otomatik sıralama @1
+On=Açık
+Off=Kapalı
+Edit chest description:=Sandık bilgilerini düzenle
+None=Hiç
+Color Filter: @1=Renk süzgeci: @1
+# textdomain: technic_chests
+# Turkish translation
+# mahmutelmas06@hotmail.com
+# Türkçe çeviri
+@1 Chest=@1 Sandık
+# Sorting  - Sıralama
+Sort=Sırala
+@1 Locked Chest (owned by @2)=@1 Kilitli sandık (Sahibi @2)
+@1 Locked Chest=@1 Kilitli sandık
+
+### silver_chest.lua ###
+
+Silver=Gümüş

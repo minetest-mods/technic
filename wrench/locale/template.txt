@@ -1,5 +1,8 @@
-# technic_wrench translation template
+# textdomain: wrench
 
-Wrench =
-%s with items =
 
+
+### init.lua ###
+
+@1 with items=
+Wrench=

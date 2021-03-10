@@ -1,7 +1,7 @@
 -- API for the technic CNC machine
 -- Again code is adapted from the NonCubic Blocks MOD v1.4 by yves_de_beck
 
-local S = technic_cnc.getter
+local S = minetest.get_translator("technic_cnc")
 
 -- REGISTER NONCUBIC FORMS, CREATE MODELS AND RECIPES:
 ------------------------------------------------------
@@ -11,12 +11,12 @@ local S = technic_cnc.getter
 technic_cnc.programs = {
 	{ suffix  = "technic_cnc_stick",
 		model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-		desc  = S("Stick")
+		desc  = function(p1) return S("@1 Stick", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_end_double",
 		model = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-		desc  = S("Element End Double")
+		desc  = function(p1) return S("@1 Element End Double", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_cross_double",
@@ -24,7 +24,7 @@ technic_cnc.programs = {
 			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-		desc  = S("Element Cross Double")
+		desc  = function(p1) return S("@1 Element Cross Double", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_t_double",
@@ -32,24 +32,24 @@ technic_cnc.programs = {
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
 			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
-		desc  = S("Element T Double")
+		desc  = function(p1) return S("@1 Element T Double", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_edge_double",
 		model = {
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-		desc  = S("Element Edge Double")
+		desc  = function(p1) return S("@1 Element Edge Double", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_straight_double",
 		model = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-		desc  = S("Element Straight Double")
+		desc  = function(p1) return S("@1 Element Straight Double", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_end",
 		model = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-		desc  = S("Element End")
+		desc  = function(p1) return S("@1 Element End", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_cross",
@@ -57,7 +57,7 @@ technic_cnc.programs = {
 			{0.3, -0.5, -0.3, 0.5, 0, 0.3},
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-		desc  = S("Element Cross")
+		desc  = function(p1) return S("@1 Element Cross", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_t",
@@ -65,24 +65,24 @@ technic_cnc.programs = {
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
 			{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
-		desc  = S("Element T")
+		desc  = function(p1) return S("@1 Element T", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_edge",
 		model = {
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-		desc  = S("Element Edge")
+		desc  = function(p1) return S("@1 Element Edge", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_element_straight",
 		model = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-		desc  = S("Element Straight")
+		desc  = function(p1) return S("@1 Element Straight", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_oblate_spheroid",
 		model = "technic_cnc_oblate_spheroid.obj",
-		desc  = S("Oblate spheroid"),
+		desc  = function(p1) return S("@1 Oblate spheroid", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -95,32 +95,32 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_sphere",
 		model = "technic_cnc_sphere.obj",
-		desc  = S("Sphere")
+		desc  = function(p1) return S("@1 Sphere", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_cylinder_horizontal",
 		model = "technic_cnc_cylinder_horizontal.obj",
-		desc  = S("Horizontal Cylinder")
+		desc  = function(p1) return S("@1 Horizontal Cylinder", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_cylinder",
 		model = "technic_cnc_cylinder.obj",
-		desc  = S("Cylinder")
+		desc  = function(p1) return S("@1 Cylinder", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_twocurvededge",
 		model = "technic_cnc_two_curved_edge.obj",
-		desc  = S("Two Curved Edge/Corner Block")
+		desc  = function(p1) return S("@1 Two Curved Edge/Corner Block", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_onecurvededge",
 		model = "technic_cnc_one_curved_edge.obj",
-		desc  = S("One Curved Edge Block")
+		desc  = function(p1) return S("@1 One Curved Edge Block", p1) end,
 	},
 
 	{ suffix  = "technic_cnc_spike",
 		model = "technic_cnc_pyramid_spike.obj",
-		desc  = S("Spike"),
+		desc  = function(p1) return S("@1 Spike", p1) end,
 		cbox    = {
 			type = "fixed",
 			fixed = {
@@ -134,7 +134,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_pyramid",
 		model = "technic_cnc_pyramid.obj",
-		desc  = S("Pyramid"),
+		desc  = function(p1) return S("@1 Pyramid", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -148,7 +148,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_inner_edge_upsdown",
 		model = "technic_cnc_innercorner_upsdown.obj",
-		desc  = S("Slope Upside Down Inner Edge/Corner"),
+		desc  = function(p1) return S("@1 Slope Upside Down Inner Edge/Corner", p1) end,
 		sbox  = {
 			type = "fixed",
 			fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
@@ -169,7 +169,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_edge_upsdown",
 		model = "technic_cnc_outercorner_upsdown.obj",
-		desc  = S("Slope Upside Down Outer Edge/Corner"),
+		desc  = function(p1) return S("@1 Slope Upside Down Outer Edge/Corner", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -183,7 +183,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_inner_edge",
 		model = "technic_cnc_innercorner.obj",
-		desc  = S("Slope Inner Edge/Corner"),
+		desc  = function(p1) return S("@1 Slope Inner Edge/Corner", p1) end,
 		sbox  = {
 			type = "fixed",
 			fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
@@ -204,7 +204,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_edge",
 		model = "technic_cnc_outercorner.obj",
-		desc  = S("Slope Outer Edge/Corner"),
+		desc  = function(p1) return S("@1 Slope Outer Edge/Corner", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -218,7 +218,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_upsdown",
 		model = "technic_cnc_slope_upsdown.obj",
-		desc  = S("Slope Upside Down"),
+		desc  = function(p1) return S("@1 Slope Upside Down", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -232,7 +232,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope_lying",
 		model = "technic_cnc_slope_horizontal.obj",
-		desc  = S("Slope Lying"),
+		desc  = function(p1) return S("@1 Slope Lying", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -246,7 +246,7 @@ technic_cnc.programs = {
 
 	{ suffix  = "technic_cnc_slope",
 		model = "technic_cnc_slope.obj",
-		desc  = S("Slope"),
+		desc  = function(p1) return S("@1 Slope", p1) end,
 		cbox  = {
 			type = "fixed",
 			fixed = {
@@ -320,7 +320,7 @@ function technic_cnc.register_all(recipeitem, groups, images, description)
 		-- Create the node if it passes the test
 		if do_register then
 			technic_cnc.register_program(recipeitem, data.suffix, data.model,
-			    groups, images, description.." "..data.desc, data.cbox, data.sbox)
+			    groups, images, data.desc(description), data.cbox, data.sbox)
 		end
 	end
 end

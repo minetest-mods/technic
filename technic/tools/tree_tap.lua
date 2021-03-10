@@ -1,5 +1,5 @@
+local S = minetest.get_translator("technic")
 
-local S = technic.getter
 local mesecons_materials = minetest.get_modpath("mesecons_materials")
 
 minetest.register_tool("technic:treetap", {
@@ -62,7 +62,7 @@ minetest.register_craftitem("technic:rubber", {
 })
 
 minetest.register_abm({
-	label = "Tools: tree tap",
+	label = S("Tools: tree tap"),
 	nodenames = {"moretrees:rubber_tree_trunk_empty"},
 	interval = 60,
 	chance = 15,

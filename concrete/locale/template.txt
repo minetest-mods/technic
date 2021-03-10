@@ -1,8 +1,9 @@
-# technic_concrete translation template
+# textdomain: concrete
 
-Rebar =
-Concrete Block =
-Blast-resistant Concrete Block =
-Concrete Post Platform =
-Concrete Post =
 
+
+### init.lua ###
+
+Blast-resistant Concrete Block=
+Concrete Post Platform=
+Concrete Post=

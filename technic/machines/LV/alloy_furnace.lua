@@ -1,4 +1,5 @@
 -- LV Alloy furnace
+local S = minetest.get_translator("technic")
 
 -- FIXME: kpoppel: I'd like to introduce an induction heating element here...
 minetest.register_craft({
@@ -10,5 +11,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_alloy_furnace({tier = "LV", speed = 1, demand = {300}})
+technic.register_alloy_furnace({tier = "LV", speed = 1, demand = {300}, tier_localized=S("LV")})
 

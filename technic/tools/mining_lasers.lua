@@ -6,7 +6,7 @@ local mining_lasers_list = {
 }
 local allow_entire_discharging = true
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 minetest.register_craft({
 	output = "technic:laser_mk1",
@@ -94,7 +94,7 @@ end
 for _, m in pairs(mining_lasers_list) do
 	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
 	minetest.register_tool("technic:laser_mk"..m[1], {
-		description = S("Mining Laser Mk%d"):format(m[1]),
+		description = S("Mining Laser Mk@1", string.format("%d", m[1])),
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		range = 0,
 		stack_max = 1,

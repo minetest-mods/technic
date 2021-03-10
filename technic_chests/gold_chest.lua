@@ -1,3 +1,5 @@
+-- Translation support
+local S = minetest.get_translator("technic_chests")
 
 local material_list
 if minetest.get_modpath("moreores") then
@@ -36,7 +38,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), {
 	width = 15,
 	height = 6,
 	sort = true,
@@ -44,9 +46,9 @@ technic.chests:register("Gold", {
 	infotext = true,
 	color = true,
 	locked = false,
-})
+}, "gold")
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), {
 	width = 15,
 	height = 6,
 	sort = true,
@@ -54,5 +56,5 @@ technic.chests:register("Gold", {
 	infotext = true,
 	color = true,
 	locked = true,
-})
+}, "gold")
 

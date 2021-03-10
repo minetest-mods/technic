@@ -1,3 +1,4 @@
+local S = minetest.get_translator("technic")
 minetest.register_alias("hv_generator", "technic:hv_generator")
 
 minetest.register_craft({
@@ -9,5 +10,5 @@ minetest.register_craft({
 	}
 })
 
-technic.register_generator({tier="HV", tube=1, supply=1200})
+technic.register_generator({tier="HV", tube=1, supply=1200, tier_localized=S("HV")})
 

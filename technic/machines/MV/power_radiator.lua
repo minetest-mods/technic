@@ -10,6 +10,8 @@
 --
 -- Punching the radiator will toggle the power state of all attached appliances.
 
+local S = minetest.get_translator("technic")
+
 local power_radius = 12
 
 
@@ -118,7 +120,7 @@ local toggle_on_off_inductive_appliances = function(pos, node, puncher)
 end
 
 minetest.register_node("technic:power_radiator", {
-	description = "MV Power Radiator",
+	description = S("@1 Power Radiator", S("MV")),
 	tiles  = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
 	          "technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
@@ -134,7 +136,7 @@ minetest.register_node("technic:power_radiator", {
 		local meta = minetest.get_meta(pos)
 		meta:set_int("MV_EU_demand",1)               -- Demand on the primary side when idle
 		meta:set_int("connected_EU_demand",0)        -- Potential demand of connected appliances
-		meta:set_string("infotext", "MV Power Radiator")
+		meta:set_string("infotext", S("@1 Power Radiator", S("MV")))
 	end,
 	on_dig = function(pos, node, digger)
 		shutdown_inductive_appliances(pos)
@@ -146,7 +148,7 @@ minetest.register_node("technic:power_radiator", {
 })
 
 minetest.register_abm({
-	label = "Machines: run power radiator",
+	label = S("Machines: run power radiator"),
 	nodenames = {"technic:power_radiator"},
 	interval   = 1,
 	chance     = 1,
@@ -160,7 +162,7 @@ minetest.register_abm({
 
 		if eu_input == 0 then
 			-- No power
-			meta:set_string("infotext", "MV Power Radiator is unpowered");
+			meta:set_string("infotext", S("@1 is unpowered", S("@1 Power Radiator", S("MV"))));
 			-- meta:set_int("active", 1) -- used for setting textures someday maybe
 			shutdown_inductive_appliances(pos)
 			meta:set_int("connected_EU_demand", 0)
@@ -201,9 +203,8 @@ minetest.register_abm({
 					-- The appliance has power from this node. Spend power if it is on.
 					used_charge = used_charge + math.floor(meta1:get_int("EU_charge") / eff_factor)
 				end
-				meta:set_string("infotext", "MV Power Radiator is powered ("
-					..math.floor(used_charge / max_charge * 100)
-					.."% of maximum power)");
+				meta:set_string("infotext", S("@1 is powered (@2% of maximum power)", S("@1 Power Radiator", S("MV")),
+					math.floor(used_charge / max_charge * 100)))
 				if used_charge == 0 then
 					meta:set_int("MV_EU_demand", 1) -- Still idle
 				else

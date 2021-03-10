@@ -2,7 +2,8 @@
 -- It is a LV EU supplier and fairly low yield (max 180EUs)
 -- It is a little over half as good as the thermal generator.
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
+
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -53,7 +54,7 @@ local run = function(pos, node)
 	meta:set_int("LV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
-		S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
+		S("@1 (@2%)", S("Hydro @1 Generator", S("LV")), production_level))
 
 	if production_level > 0 and
 	   minetest.get_node(pos).name == "technic:water_mill" then
@@ -67,7 +68,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:water_mill", {
-	description = S("Hydro %s Generator"):format("LV"),
+	description = S("Hydro @1 Generator", S("LV")),
 	tiles = {
 		"technic_water_mill_top.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -83,14 +84,14 @@ minetest.register_node("technic:water_mill", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Hydro %s Generator"):format("LV"))
+		meta:set_string("infotext", S("Hydro @1 Generator", S("LV")))
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
 })
 
 minetest.register_node("technic:water_mill_active", {
-	description = S("Hydro %s Generator"):format("LV"),
+	description = S("Hydro @1 Generator", S("LV")),
 	tiles = {"technic_water_mill_top_active.png", "technic_machine_bottom.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png"},

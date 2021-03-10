@@ -1,3 +1,6 @@
+-- Translation support
+local S = minetest.get_translator("technic_chests")
+
 minetest.register_craft({
 	output = 'technic:copper_chest 1',
 	recipe = {
@@ -25,7 +28,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Copper", {
+technic.chests:register(S("Copper"), {
 	width = 12,
 	height = 5,
 	sort = true,
@@ -33,9 +36,9 @@ technic.chests:register("Copper", {
 	infotext = false,
 	color = false,
 	locked = false,
-})
+}, "copper")
 
-technic.chests:register("Copper", {
+technic.chests:register(S("Copper"), {
 	width = 12,
 	height = 5,
 	sort = true,
@@ -43,5 +46,5 @@ technic.chests:register("Copper", {
 	infotext = false,
 	color = false,
 	locked = true,
-})
+}, "copper")
 

@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
@@ -36,13 +36,13 @@ function technic.register_generator(data)
 
 	local generator_formspec =
 		"size[8,9;]"..
-		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
+		"label[0,0;"..S("Fuel-Fired @1 Generator", data.tier_localized).."]"..
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"listring[]"
 
-	local desc = S("Fuel-Fired %s Generator"):format(tier)
+	local desc = S("Fuel-Fired @1 Generator", data.tier_localized)
 
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
@@ -65,7 +65,7 @@ function technic.register_generator(data)
 						{method = "fuel", width = 1,
 						items = fuellist})
 				if not fuel or fuel.time == 0 then
-					meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
+					meta:set_string("infotext", S("@1 Out Of Fuel", desc))
 					technic.swap_node(pos, "technic:"..ltier.."_generator")
 					meta:set_int(tier.."_EU_supply", 0)
 					return
@@ -82,7 +82,7 @@ function technic.register_generator(data)
 		end
 		if burn_totaltime == 0 then burn_totaltime = 1 end
 		local percent = math.floor((burn_time / burn_totaltime) * 100)
-		meta:set_string("infotext", desc.." ("..percent.."%)")
+		meta:set_string("infotext", S("@1 (@2%)", desc, percent))
 
 		local form_buttons = ""
 		if ltier ~= "lv" then

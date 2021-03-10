@@ -3,14 +3,8 @@
 
 -- This file supplies electric powered glowlights
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if (minetest.get_modpath("intllib")) then
-	dofile(minetest.get_modpath("intllib").."/intllib.lua")
-	S = intllib.Getter(minetest.get_current_modname())
-else
-	S = function (s) return s end
-end
+local S = minetest.get_translator("technic")
+
 
 function technic_homedecor_node_is_owned(pos, placer)
         local ownername = false
@@ -25,7 +19,7 @@ function technic_homedecor_node_is_owned(pos, placer)
         end
 
         if ownername ~= false then
-                minetest.chat_send_player(placer:get_player_name(), S("Sorry, %s owns that spot."):format(ownername) )
+                minetest.chat_send_player(placer:get_player_name(), S("Sorry, @1 owns that spot.", ownername) )
                 return true
         else
                 return false
@@ -113,7 +107,7 @@ minetest.register_node('technic:homedecor_glowlight_half_yellow', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "Yellow Glowlight (thick)")
+			  technic.inductive_on_construct(pos, 100, S("Yellow Glowlight (thick)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 100, "technic:homedecor_glowlight_half_yellow_active")
@@ -154,7 +148,7 @@ minetest.register_node('technic:homedecor_glowlight_half_yellow_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "Yellow Glowlight (thick)")
+			  technic.inductive_on_construct(pos, 100, S("Yellow Glowlight (thick)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_half_yellow")
@@ -194,7 +188,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_yellow', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "Yellow Glowlight (thin)")
+			  technic.inductive_on_construct(pos, 100, S("Yellow Glowlight (thin)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 100, "technic:homedecor_glowlight_quarter_yellow_active")
@@ -235,7 +229,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_yellow_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "Yellow Glowlight (thin)")
+			  technic.inductive_on_construct(pos, 100, S("Yellow Glowlight (thin)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_quarter_yellow")
@@ -276,7 +270,7 @@ minetest.register_node('technic:homedecor_glowlight_half_white', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "White Glowlight (thick)")
+			  technic.inductive_on_construct(pos, 100, S("White Glowlight (thick)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 100, "technic:homedecor_glowlight_half_white_active")
@@ -317,7 +311,7 @@ minetest.register_node('technic:homedecor_glowlight_half_white_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "White Glowlight (thick)")
+			  technic.inductive_on_construct(pos, 100, S("White Glowlight (thick)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_half_white")
@@ -357,7 +351,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_white', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "White Glowlight (thin)")
+			  technic.inductive_on_construct(pos, 100, S("White Glowlight (thin)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 100, "technic:homedecor_glowlight_quarter_white_active")
@@ -398,7 +392,7 @@ minetest.register_node('technic:homedecor_glowlight_quarter_white_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 100, "White Glowlight (thin)")
+			  technic.inductive_on_construct(pos, 100, S("White Glowlight (thin)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_quarter_white")
@@ -438,7 +432,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_yellow', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 50, "Yellow Glowlight (small cube)")
+			  technic.inductive_on_construct(pos, 50, S("Yellow Glowlight (small cube)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 50, "technic:homedecor_glowlight_small_cube_yellow_active")
@@ -479,7 +473,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_yellow_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 50, "Yellow Glowlight (small cube)")
+			  technic.inductive_on_construct(pos, 50, S("Yellow Glowlight (small cube)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_small_cube_yellow")
@@ -519,7 +513,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_white', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 50, "White Glowlight (small cube)")
+			  technic.inductive_on_construct(pos, 50, S("White Glowlight (small cube)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_off(pos, 50, "technic:homedecor_glowlight_small_cube_white_active")
@@ -560,7 +554,7 @@ minetest.register_node('technic:homedecor_glowlight_small_cube_white_active', {
 		return itemstack
 	     end,
 	on_construct = function(pos)
-			  technic.inductive_on_construct(pos, 50, "White Glowlight (small cube)")
+			  technic.inductive_on_construct(pos, 50, S("White Glowlight (small cube)"))
 		       end,
 	on_punch = function(pos, node, puncher)
 		      technic.inductive_on_punch_on(pos, 0, "technic:homedecor_glowlight_small_cube_white")
