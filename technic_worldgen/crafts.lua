@@ -50,11 +50,6 @@ minetest.register_craftitem(":technic:sulfur_lump", {
 
 minetest.register_alias("technic:wrought_iron_ingot", "default:steel_ingot")
 
-minetest.override_item("default:steel_ingot", {
-	description = S("Wrought Iron Ingot"),
-	inventory_image = "technic_wrought_iron_ingot.png",
-})
-
 minetest.register_craftitem(":technic:cast_iron_ingot", {
 	description = S("Cast Iron Ingot"),
 	inventory_image = "technic_cast_iron_ingot.png",
@@ -167,6 +162,11 @@ local function for_each_registered_item(action)
 end
 
 if technic.config:get_bool("enable_steel_override") then
+	minetest.override_item("default:steel_ingot", {
+		description = S("Wrought Iron Ingot"),
+		inventory_image = "technic_wrought_iron_ingot.png",
+	})
+
 	local steel_to_iron = {}
 	for _, i in ipairs({
 		"default:axe_steel",
