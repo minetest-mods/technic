@@ -166,27 +166,29 @@ local function for_each_registered_item(action)
 	end
 end
 
-local steel_to_iron = {}
-for _, i in ipairs({
-	"default:axe_steel",
-	"default:pick_steel",
-	"default:shovel_steel",
-	"default:sword_steel",
-	"doors:door_steel",
-	"farming:hoe_steel",
-	"glooptest:hammer_steel",
-	"glooptest:handsaw_steel",
-	"glooptest:reinforced_crystal_glass",
-	"mesecons_doors:op_door_steel",
-	"mesecons_doors:sig_door_steel",
-	"vessels:steel_bottle",
-}) do
-	steel_to_iron[i] = true
-end
-
-for_each_registered_item(function(item_name)
-	local item_def = minetest.registered_items[item_name]
-	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+if technic.config:get_bool("enable_steel_override") then
+	local steel_to_iron = {}
+	for _, i in ipairs({
+		"default:axe_steel",
+		"default:pick_steel",
+		"default:shovel_steel",
+		"default:sword_steel",
+		"doors:door_steel",
+		"farming:hoe_steel",
+		"glooptest:hammer_steel",
+		"glooptest:handsaw_steel",
+		"glooptest:reinforced_crystal_glass",
+		"mesecons_doors:op_door_steel",
+		"mesecons_doors:sig_door_steel",
+		"vessels:steel_bottle",
+	}) do
+		steel_to_iron[i] = true
 	end
-end)
+
+	for_each_registered_item(function(item_name)
+		local item_def = minetest.registered_items[item_name]
+		if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
+			minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+		end
+	end)
+end
