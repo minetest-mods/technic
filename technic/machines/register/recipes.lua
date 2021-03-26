@@ -17,10 +17,8 @@ function technic.register_recipe_type(typename, origdata)
 	if have_cg and craftguide.register_craft_type and data.output_size == 1 then
 		craftguide.register_craft_type(typename, {
 			description = data.description,
-			--width = data.input_size,
-			--height = 1,
 		})
-  end
+	end
 	data.recipes = {}
 	technic.recipes[typename] = data
 end
@@ -68,26 +66,26 @@ local function register_recipe(typename, data)
 		})
 	end
 	if have_cg and technic.recipes[typename].output_size == 1 then
-    if craftguide.register_craft then
-      local result = data.output;
-      if (type(result)=="table") then
-        result = result[1];
-      end
-      local items = "";
-      for index, input in pairs(data.input) do
-        if (items=="") then
-          items = items..input;
-        else
-          items = items..", "..input;
-        end
-      end
-      craftguide.register_craft({
-        type = typename,
-        result = result,
-        items = {items},
-      })
-    end
-  end
+		if craftguide.register_craft then
+			local result = data.output;
+			if (type(result)=="table") then
+				result = result[1];
+			end
+			local items = "";
+			for _, input in pairs(data.input) do
+				if (items=="") then
+					items = items..input;
+				else
+					items = items..", "..input;
+				end
+			end
+			craftguide.register_craft({
+				type = typename,
+				result = result,
+				items = {items},
+			})
+		end
+	end
 end
 
 function technic.register_recipe(typename, data)
