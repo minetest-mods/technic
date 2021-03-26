@@ -81,10 +81,6 @@ local function register_recipe(typename, data)
           items = items..", "..input;
         end
       end
-      if (result=="default:bronze_ingot 8") then
-        minetest.log("warning", dump(data));
-        minetest.log("warning", items);
-      end
       craftguide.register_craft({
         type = typename,
         result = result,
