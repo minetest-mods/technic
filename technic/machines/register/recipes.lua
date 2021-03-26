@@ -1,4 +1,5 @@
 local have_ui = minetest.get_modpath("unified_inventory")
+local have_cg = minetest.get_modpath("craftguide")
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
 function technic.register_recipe_type(typename, origdata)
@@ -13,6 +14,13 @@ function technic.register_recipe_type(typename, origdata)
 			height = 1,
 		})
 	end
+	if have_cg and craftguide.register_craft_type and data.output_size == 1 then
+		craftguide.register_craft_type(typename, {
+			description = data.description,
+			--width = data.input_size,
+			--height = 1,
+		})
+  end
 	data.recipes = {}
 	technic.recipes[typename] = data
 end
@@ -59,6 +67,31 @@ local function register_recipe(typename, data)
 			width = 0,
 		})
 	end
+	if have_cg and technic.recipes[typename].output_size == 1 then
+    if craftguide.register_craft then
+      local result = data.output;
+      if (type(result)=="table") then
+        result = result[1];
+      end
+      local items = "";
+      for index, input in pairs(data.input) do
+        if (items=="") then
+          items = items..input;
+        else
+          items = items..", "..input;
+        end
+      end
+      if (result=="default:bronze_ingot 8") then
+        minetest.log("warning", dump(data));
+        minetest.log("warning", items);
+      end
+      craftguide.register_craft({
+        type = typename,
+        result = result,
+        items = {items},
+      })
+    end
+  end
 end
 
 function technic.register_recipe(typename, data)
