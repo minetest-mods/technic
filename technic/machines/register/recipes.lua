@@ -1,5 +1,6 @@
 local have_ui = minetest.get_modpath("unified_inventory")
 local have_cg = minetest.get_modpath("craftguide")
+local have_i3 = minetest.get_modpath("i3")
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
 function technic.register_recipe_type(typename, origdata)
@@ -16,6 +17,11 @@ function technic.register_recipe_type(typename, origdata)
 	end
 	if have_cg and craftguide.register_craft_type and data.output_size == 1 then
 		craftguide.register_craft_type(typename, {
+			description = data.description,
+		})
+	end
+	if have_i3 and i3.register_craft_type and data.output_size == 1 then
+		i3.register_craft_type(typename, {
 			description = data.description,
 		})
 	end
@@ -65,8 +71,8 @@ local function register_recipe(typename, data)
 			width = 0,
 		})
 	end
-	if have_cg and technic.recipes[typename].output_size == 1 then
-		if craftguide.register_craft then
+	if (have_cg or have_i3) and technic.recipes[typename].output_size == 1 then
+		if (craftguide.register_craft or have_i3) then
 			local result = data.output;
 			if (type(result)=="table") then
 				result = result[1];
@@ -79,11 +85,20 @@ local function register_recipe(typename, data)
 					items = items..", "..input;
 				end
 			end
-			craftguide.register_craft({
-				type = typename,
-				result = result,
-				items = {items},
-			})
+			if craftguide.register_craft then
+				craftguide.register_craft({
+					type = typename,
+					result = result,
+					items = {items},
+				})
+			end
+			if have_i3 then
+				i3.register_craft({
+					type = typename,
+					result = result,
+					items = {items},
+				})
+			end
 		end
 	end
 end

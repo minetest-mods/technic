@@ -29,7 +29,7 @@ read_globals = {
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
     
-    "craftguide",
+    "craftguide", "i3"
 }
 
 files["concrete/init.lua"].ignore = { "steel_ingot" }
