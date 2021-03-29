@@ -74,26 +74,24 @@ local function register_recipe(typename, data)
 		})
 	end
 	if (have_cg or have_i3) and technic.recipes[typename].output_size == 1 then
-		if (have_cg or have_i3) then
-			local result = data.output;
-			if (type(result)=="table") then
-				result = result[1];
-			end
-			local items = table.concat(data.input, ", ");
-			if have_cg and craftguide.register_craft then
-				craftguide.register_craft({
-					type = typename,
-					result = result,
-					items = {items},
-				})
-			end
-			if have_i3 then
-				i3.register_craft({
-					type = typename,
-					result = result,
-					items = {items},
-				})
-			end
+		local result = data.output
+		if (type(result)=="table") then
+			result = result[1]
+		end
+		local items = table.concat(data.input, ", ")
+		if have_cg and craftguide.register_craft then
+			craftguide.register_craft({
+				type = typename,
+				result = result,
+				items = {items},
+			})
+		end
+		if have_i3 then
+			i3.register_craft({
+				type = typename,
+				result = result,
+				items = {items},
+			})
 		end
 	end
 end
