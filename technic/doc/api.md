@@ -140,6 +140,9 @@ Additional definition fields:
 	* This function is currently used to update the node.
 	  Modders have to manually change the information about supply etc. in the
 	  node metadata.
+* `<itemdef>.technic_on_disable(pos, node)`
+	* This function is currently used to update the node when node is not connected to technic power network.
+	  Modders can use this to do some machine specific operations when no network is aviable.
 
 ## Node Metadata fields
 Nodes connected to the network will have one or more of these parameters as meta
