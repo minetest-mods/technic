@@ -136,15 +136,15 @@ Additional definition fields:
 	* Specifies how the tool wear level is handled. Available modes:
 		* `"mechanical_wear"`: represents physical damage
 		* `"technic_RE_charge"`: represents electrical charge
-* `<itemdef>.technic_run(pos, node)`
-	* This function is currently used to update the node.
+* `<itemdef>.technic_run = function(pos, node) ...`
+	* This callback is used to update the node.
 	  Modders have to manually change the information about supply etc. in the
 	  node metadata.
 * `<itemdef>.technic_disabled_machine_name = "string"`
-	* If this field is defined and machine is not connected to network, node will be swaped to node with name defined in this field.
-* `<itemdef>.technic_on_disable(pos, node)`
-	* This function is currently used to update the node when node is not connected to technic power network.
-	  Modders can use this to do some machine specific operations when no network is aviable.
+	* Specifies the machine's node name to use when it's not connected connected to a network
+* `<itemdef>.technic_on_disable = function(pos, node) ...`
+	* This callback is run when the machine is no longer connected to a technic-powered network.
+
 
 ## Node Metadata fields
 Nodes connected to the network will have one or more of these parameters as meta
