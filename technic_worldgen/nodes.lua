@@ -54,6 +54,14 @@ minetest.register_node( ":technic:granite", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node( ":technic:granite_bricks", {
+	description = S("Granite Bricks"),
+	tiles = { "technic_granite_bricks.png" },
+	is_ground_content = false,
+	groups = {cracky=1},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 minetest.register_node( ":technic:marble", {
 	description = S("Marble"),
 	tiles = { "technic_marble.png" },
@@ -65,7 +73,7 @@ minetest.register_node( ":technic:marble", {
 minetest.register_node( ":technic:marble_bricks", {
 	description = S("Marble Bricks"),
 	tiles = { "technic_marble_bricks.png" },
-	is_ground_content = true,
+	is_ground_content = false,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -131,6 +139,14 @@ minetest.register_node(":technic:stainless_steel_block", {
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
 	sounds = default.node_sound_stone_defaults()
+})
+
+minetest.register_craft({
+	output = 'technic:granite_bricks 4',
+	recipe = {
+		{'technic:granite','technic:granite'},
+		{'technic:granite','technic:granite'}
+	}
 })
 
 minetest.register_craft({

@@ -27,6 +27,12 @@ if minetest.get_modpath("moreblocks") then
 		tiles={"technic_granite.png"},
 	})
 
+	stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
+		description=S("Granite Bricks"),
+		groups={cracky=1, not_in_creative_inventory=1},
+		tiles={"technic_granite_bricks.png"},
+	})
+
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
