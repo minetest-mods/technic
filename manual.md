@@ -8,7 +8,7 @@ Documentation of the mod dependencies can be found here:
 
 *   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
 *   [Mesecons Documentation](http://mesecons.net/items.html)
-*   [Pipeworks Documentation](https://gitlab.com/VanessaE/pipeworks/-/wikis/home)
+*   [Pipeworks Documentation](https://github.com/mt-mods/pipeworks/wiki/)
 *   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
 *   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
 
