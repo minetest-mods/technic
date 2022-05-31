@@ -419,7 +419,7 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 	-- get tool charge
 	local item_max_charge
 	local tool_charge
-	
+
 	local src_def = src_stack:get_definition()
 	if src_def.technic_get_charge then
 		-- use get_charge callback
@@ -452,7 +452,7 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 		src_def.technic_set_charge(src_stack, tool_charge)
 	else
 		technic.set_RE_wear(src_stack, tool_charge, item_max_charge)
-		src_meta.charge = tool_charge
+		local src_meta = {charge = tool_charge}
 		src_stack:set_metadata(minetest.serialize(src_meta))
 	end
 	inv:set_stack("src", 1, src_stack)
@@ -469,7 +469,7 @@ function technic.discharge_tools(meta, batt_charge, charge_step, max_charge)
 	-- get tool charge
 	local item_max_charge
 	local tool_charge
-	
+
 	local src_def = src_stack:get_definition()
 	if src_def.technic_get_charge then
 		-- use get_charge callback
@@ -502,7 +502,7 @@ function technic.discharge_tools(meta, batt_charge, charge_step, max_charge)
 		src_def.technic_set_charge(src_stack, tool_charge)
 	else
 		technic.set_RE_wear(src_stack, tool_charge, item_max_charge)
-		src_meta.charge = tool_charge
+		local src_meta = {charge = tool_charge}
 		src_stack:set_metadata(minetest.serialize(src_meta))
 	end
 	inv:set_stack("dst", 1, src_stack)
