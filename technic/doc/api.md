@@ -144,6 +144,10 @@ Additional definition fields:
 	* Specifies the machine's node name to use when it's not connected connected to a network
 * `<itemdef>.technic_on_disable = function(pos, node) ...`
 	* This callback is run when the machine is no longer connected to a technic-powered network.
+* `<itemdef>.technic_get_charge = function(itemstack) ...`
+	* This optional callback will be used to get itemstack charge and max\_charge
+* `<itemdef>.technic_set_charge = function(itemstack, charge) ...`
+	* This optional callback will be used to set itemstack charge
 
 
 ## Node Metadata fields
