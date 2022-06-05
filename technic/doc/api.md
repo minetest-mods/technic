@@ -146,6 +146,8 @@ Additional definition fields:
 	* This callback is run when the machine is no longer connected to a technic-powered network.
 * `<itemdef>.technic_get_charge = function(itemstack) ...`
 	* This optional callback will be used to get itemstack charge and max\_charge
+	* Have to return values `charge, max_charge`
+	* Etc. `local charge, maxcharge = itemdef.technic_get_charge(itemstack)`
 * `<itemdef>.technic_set_charge = function(itemstack, charge) ...`
 	* This optional callback will be used to set itemstack charge
 
