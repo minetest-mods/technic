@@ -11,7 +11,7 @@ if rawget(_G, "intllib") then
 	technic_cnc.getter = intllib.Getter()
 else
 	-- Intllib copypasta: TODO replace with the client-side translation API
-	technic.getter = function(s,a,...)
+	technic_cnc.getter = function(s,a,...)
 		if a==nil then return s end
 		a={a,...}
 		return s:gsub("(@?)@(%(?)(%d+)(%)?)", function(e,o,n,c)

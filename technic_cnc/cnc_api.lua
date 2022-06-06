@@ -2,6 +2,7 @@
 -- Again code is adapted from the NonCubic Blocks MOD v1.4 by yves_de_beck
 
 local S = technic_cnc.getter
+local ALPHA_CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
 
 -- REGISTER NONCUBIC FORMS, CREATE MODELS AND RECIPES:
 ------------------------------------------------------
@@ -298,6 +299,7 @@ function technic_cnc.register_program(recipeitem, suffix, model, groups, images,
 		tiles         = images,
 		paramtype     = "light",
 		paramtype2    = "facedir",
+		use_texture_alpha = ALPHA_CLIP,
 		walkable      = true,
 		groups        = groups,
 		selection_box = sbox,
