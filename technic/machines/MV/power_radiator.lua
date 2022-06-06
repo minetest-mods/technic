@@ -36,7 +36,8 @@ technic.register_inductive_machine = function(name)
 end
 
 -- Appliances:
---  has_supply: pos of supply node if the appliance has a power radiator near with sufficient power for the demand else ""
+--  has_supply: pos of supply node if the appliance has a power radiator near
+--              with sufficient power for the demand else ""
 --  EU_demand: The power demand of the device.
 --  EU_charge: Actual use. set to EU_demand if active==1
 --  active: set to 1 if the device is on

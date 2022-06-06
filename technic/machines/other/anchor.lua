@@ -48,20 +48,23 @@ local function forceload_on(pos, meta)
 end
 
 local function set_display(pos, meta)
+	local ESC = minetest.formspec_escape
 	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
 	meta:set_string("formspec",
 		"size[5,3.5]"..
 		"item_image[0,0;1,1;technic:admin_anchor]"..
-		"label[1,0;"..minetest.formspec_escape(desc).."]"..
-		"label[0,1;"..minetest.formspec_escape(S("Owner:").." "..meta:get_string("owner")).."]"..
+		"label[1,0;"..ESC(desc).."]"..
+		"label[0,1;"..ESC(S("Owner:").." "..meta:get_string("owner")).."]"..
 		(meta:get_int("locked") == 0 and
-			"button[3,1;2,1;lock;"..minetest.formspec_escape(S("Unlocked")).."]" or
-			"button[3,1;2,1;unlock;"..minetest.formspec_escape(S("Locked")).."]")..
-		"field[0.25,2.3;1,1;radius;"..minetest.formspec_escape(S("Radius:"))..";"..meta:get_int("radius").."]"..
+			"button[3,1;2,1;lock;"..ESC(S("Unlocked")).."]" or
+			"button[3,1;2,1;unlock;"..ESC(S("Locked")).."]")..
+		"field[0.25,2.3;1,1;radius;"..ESC(S("Radius:"))..";"..meta:get_int("radius").."]"..
 		(meta:get_int("enabled") == 0 and
-			"button[3,2;2,1;enable;"..minetest.formspec_escape(S("Disabled")).."]" or
-			"button[3,2;2,1;disable;"..minetest.formspec_escape(S("Enabled")).."]")..
-		"label[0,3;"..minetest.formspec_escape(S("Keeping %d/%d map blocks loaded"):format(#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta))).."]")
+			"button[3,2;2,1;enable;"..ESC(S("Disabled")).."]" or
+			"button[3,2;2,1;disable;"..ESC(S("Enabled")).."]")..
+		"label[0,3;"..ESC(S("Keeping %d/%d map blocks loaded"):format(
+			#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta)
+		)).."]")
 end
 
 minetest.register_node("technic:admin_anchor", {
@@ -80,7 +83,8 @@ minetest.register_node("technic:admin_anchor", {
 	end,
 	can_dig = function (pos, player)
 		local meta = minetest.get_meta(pos)
-		return meta:get_int("locked") == 0 or (player and player:is_player() and player:get_player_name() == meta:get_string("owner"))
+		return meta:get_int("locked") == 0 or
+			(player and player:is_player() and player:get_player_name() == meta:get_string("owner"))
 	end,
 	on_destruct = function (pos)
 		local meta = minetest.get_meta(pos)
@@ -99,7 +103,11 @@ minetest.register_node("technic:admin_anchor", {
 			forceload_off(meta)
 			if fields.disable then meta:set_int("enabled", 0) end
 			if fields.enable then meta:set_int("enabled", 1) end
-			if fields.radius and string.find(fields.radius, "^[0-9]+$") and tonumber(fields.radius) < 256 then meta:set_int("radius", fields.radius) end
+			if fields.radius
+					and string.find(fields.radius, "^[0-9]+$")
+					and tonumber(fields.radius) < 256 then
+				meta:set_int("radius", fields.radius)
+			end
 			if meta:get_int("enabled") ~= 0 then
 				forceload_on(pos, meta)
 			end

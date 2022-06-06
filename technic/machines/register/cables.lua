@@ -63,22 +63,27 @@ local function clear_networks(pos)
 				-- This is similar to check_node_subp
 				technic.cables[minetest.hash_node_position(pos)] = network_id
 				pos.visited = 1
-				if technic.is_tier_cable(name, tier) then
+				if technic.is_tier_cable(node.name, tier) then
+					-- Found a cable
 					table.insert(network.all_nodes,pos)
 				elseif technic.machines[tier][node.name] then
-					meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
-					if     technic.machines[tier][node.name] == technic.producer then
+					-- Found a machine
+					local eu_type = technic.machines[tier][node.name]
+					meta:set_string(tier.."_network", minetest.pos_to_string(sw_pos))
+					if     eu_type == technic.producer then
 						table.insert(network.PR_nodes,pos)
-					elseif technic.machines[tier][node.name] == technic.receiver then
+					elseif eu_type == technic.receiver then
 						table.insert(network.RE_nodes,pos)
-					elseif technic.machines[tier][node.name] == technic.producer_receiver then
+					elseif eu_type == technic.producer_receiver then
 						table.insert(network.PR_nodes,pos)
 						table.insert(network.RE_nodes,pos)
-					elseif technic.machines[tier][node.name] == "SPECIAL" and
+					elseif eu_type == "SPECIAL" and
 							(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
-							from_below then
+							nil then
+						-- TODO: This case was never executed. Needs testing!
+						-- Supply converter.
 						table.insert(network.SP_nodes,pos)
-					elseif technic.machines[tier][node.name] == technic.battery then
+					elseif eu_type == technic.battery then
 						table.insert(network.BA_nodes,pos)
 					end
 				end

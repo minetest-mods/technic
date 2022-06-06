@@ -33,6 +33,7 @@ minetest.register_tool("technic:prospector", {
 			toolstack:set_metadata(minetest.serialize(toolmeta))
 			technic.set_RE_wear(toolstack, toolmeta.charge, technic.power_tools[toolstack:get_name()])
 		end
+		-- What in the heaven's name is this evil sorcery ?
 		local start_pos = pointed_thing.under
 		local forward = minetest.facedir_to_dir(minetest.dir_to_facedir(user:get_look_dir(), true))
 		local right = forward.x ~= 0 and { x=0, y=1, z=0 } or (forward.y ~= 0 and { x=0, y=0, z=1 } or { x=1, y=0, z=0 })
@@ -42,13 +43,36 @@ minetest.register_tool("technic:prospector", {
 		for f = 0, toolmeta.look_depth-1 do
 			for r = 0, look_diameter-1 do
 				for u = 0, look_diameter-1 do
-					if minetest.get_node(vector.add(vector.add(vector.add(base_pos, vector.multiply(forward, f)), vector.multiply(right, r)), vector.multiply(up, u))).name == toolmeta.target then found = true end
+					if minetest.get_node(
+							vector.add(
+								vector.add(
+									vector.add(base_pos,
+										vector.multiply(forward, f)),
+									vector.multiply(right, r)),
+								vector.multiply(up, u))
+							).name == toolmeta.target then
+						found = true
+						break
+					end
 				end
+				if found then break end
 			end
+			if found then break end
 		end
-		if math.random() < 0.02 then found = not found end
-		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description.." is "..(found and "present" or "absent").." in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
-		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), { pos = vector.add(user:get_pos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
+		if math.random() < 0.02 then
+			found = not found
+		end
+
+		local ndef = minetest.registered_nodes[toolmeta.target]
+		minetest.chat_send_player(user:get_player_name(),
+			ndef.description.." is "..(found and "present" or "absent")..
+			" in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
+
+		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), {
+			pos = vector.add(user:get_pos(), { x = 0, y = 1, z = 0 }),
+			gain = 1.0,
+			max_hear_distance = 10
+		})
 		return toolstack
 	end,
 	on_place = function(toolstack, user, pointed_thing)

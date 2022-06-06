@@ -1,7 +1,7 @@
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local pipeworks = rawget(_G, "pipeworks")
-local fs_helpers = rawget(_G, "fs_helpers")
+local fs_helpers
 local tubelib_exists = minetest.global_exists("tubelib")
 
 local allow_label = ""
@@ -97,7 +97,8 @@ local function set_formspec(pos, data, page)
 
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
+		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..
+			S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
@@ -221,7 +222,6 @@ function technic.chests:definition(name, data)
 	data.lotop = data.height + 2
 	data.ovheight = data.lotop + 4
 
-	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
 	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]"..
 			"label[0,0;"..S("%s Chest"):format(name).."]"..
@@ -239,6 +239,7 @@ function technic.chests:definition(name, data)
 		data.base_formspec = data.base_formspec..get_color_buttons(data.coleft, data.lotop)
 	end
 
+	local locked_after_place
 	if data.locked then
 		locked_after_place = function(pos, placer)
 			local meta = minetest.get_meta(pos)

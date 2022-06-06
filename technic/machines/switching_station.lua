@@ -45,14 +45,12 @@ minetest.register_node("technic:switching_station",{
 		meta:set_string("active", 1)
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
-		local poshash = minetest.hash_node_position(pos)
 		technic.redundant_warn.poshash = nil
 	end,
 	after_dig_node = function(pos)
 		minetest.forceload_free_block(pos)
 		pos.y = pos.y - 1
 		minetest.forceload_free_block(pos)
-		local poshash = minetest.hash_node_position(pos)
 		technic.redundant_warn.poshash = nil
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
@@ -248,18 +246,15 @@ minetest.register_abm({
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
-		local meta             = minetest.get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local meta1
-		local pos1             = {}
-
-		local tier      = ""
 		local PR_nodes
 		local BA_nodes
 		local RE_nodes
 		local machine_name = S("Switching Station")
 
 		-- Which kind of network are we on:
-		pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
+		local pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
 
 		--Disable if necessary
 		if meta:get_int("active") ~= 1 then

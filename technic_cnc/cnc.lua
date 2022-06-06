@@ -163,12 +163,12 @@ local function form_handler(pos, formname, fields, sender)
 	local inv        = meta:get_inventory()
 	local inputstack = inv:get_stack("src", 1)
 	local inputname  = inputstack:get_name()
-	local multiplier = 0
 	local size       = meta:get_int("size")
 	if size < 1 then size = 1 end
 
 	for k, _ in pairs(fields) do
 		-- Set a multipier for the half/full size capable blocks
+		local multiplier
 		if twosize_products[k] ~= nil then
 			multiplier = size * twosize_products[k]
 		else

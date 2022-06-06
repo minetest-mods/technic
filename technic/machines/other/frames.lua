@@ -88,22 +88,22 @@ local function pos_in_list(l, pos)
 	return false
 end
 
-local function table_empty(table)
-	for _, __ in pairs(table) do
+local function table_empty(what)
+	for _ in pairs(what) do
 		return false
 	end
 	return true
 end
 
-local function add_table(table, toadd)
+local function add_table(what, toadd)
 	local i = 1
 	while true do
-		local o = table[i]
+		local o = what[i]
 		if o == toadd then return end
 		if o == nil then break end
 		i = i + 1
 	end
-	table[i] = toadd
+	what[i] = toadd
 end
 
 local function move_nodes_vect(poslist, vect, must_not_move, owner)
@@ -398,20 +398,6 @@ minetest.register_entity("technic:frame_entity", {
 		local pos = vector.round(self.object:getpos())
 		frames_pos[pos_to_string(pos)] = node.name
 
-		local stack = ItemStack(node.name)
-		local itemtable = stack:to_table()
-		local itemname = nil
-
-		if itemtable then
-			itemname = stack:to_table().name
-		end
-
-		local item_texture = nil
-		local item_type = ""
-		if minetest.registered_items[itemname] then
-			item_texture = minetest.registered_items[itemname].inventory_image
-			item_type = minetest.registered_items[itemname].type
-		end
 		local prop = {
 			is_visible = true,
 			textures = { node.name },

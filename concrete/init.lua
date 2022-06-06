@@ -16,13 +16,6 @@ for i = 32, 63 do
 			"technic:concrete_post_with_platform")
 end
 
-local steel_ingot
-if minetest.get_modpath("technic_worldgen") then
-	steel_ingot = "technic:carbon_steel_ingot"
-else
-	steel_ingot = "default:steel_ingot"
-end
-
 minetest.register_craft({
 	output = 'technic:concrete_post_platform 6',
 	recipe = {

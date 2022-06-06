@@ -112,10 +112,13 @@ local function set_forcefield_formspec(meta)
 	else
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
+	-- TODO: String replacement with %s will stop working with client-side translations
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..
+			S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..
+			S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end

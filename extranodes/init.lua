@@ -57,36 +57,47 @@ if minetest.get_modpath("moreblocks") then
 		tiles={"technic_stainless_steel_block.png"},
 	})
 
-	function register_technic_stairs_alias(modname, origname, newmod, newname)
-		minetest.register_alias(modname .. ":slab_" .. origname, newmod..":slab_" .. newname)
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_inverted", newmod..":slab_" .. newname .. "_inverted")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_wall", newmod..":slab_" .. newname .. "_wall")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_quarter", newmod..":slab_" .. newname .. "_quarter")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_quarter_inverted", newmod..":slab_" .. newname .. "_quarter_inverted")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_quarter_wall", newmod..":slab_" .. newname .. "_quarter_wall")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_three_quarter", newmod..":slab_" .. newname .. "_three_quarter")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_three_quarter_inverted", newmod..":slab_" .. newname .. "_three_quarter_inverted")
-		minetest.register_alias(modname .. ":slab_" .. origname .. "_three_quarter_wall", newmod..":slab_" .. newname .. "_three_quarter_wall")
-		minetest.register_alias(modname .. ":stair_" .. origname, newmod..":stair_" .. newname)
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_inverted", newmod..":stair_" .. newname .. "_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_wall", newmod..":stair_" .. newname .. "_wall")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_wall_half", newmod..":stair_" .. newname .. "_wall_half")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_wall_half_inverted", newmod..":stair_" .. newname .. "_wall_half_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_half", newmod..":stair_" .. newname .. "_half")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_half_inverted", newmod..":stair_" .. newname .. "_half_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_right_half", newmod..":stair_" .. newname .. "_right_half")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_right_half_inverted", newmod..":stair_" .. newname .. "_right_half_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_wall_half", newmod..":stair_" .. newname .. "_wall_half")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_wall_half_inverted", newmod..":stair_" .. newname .. "_wall_half_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_inner", newmod..":stair_" .. newname .. "_inner")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_inner_inverted", newmod..":stair_" .. newname .. "_inner_inverted")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_outer", newmod..":stair_" .. newname .. "_outer")
-		minetest.register_alias(modname .. ":stair_" .. origname .. "_outer_inverted", newmod..":stair_" .. newname .. "_outer_inverted")
-		minetest.register_alias(modname .. ":panel_" .. origname .. "_bottom", newmod..":panel_" .. newname .. "_bottom")
-		minetest.register_alias(modname .. ":panel_" .. origname .. "_top", newmod..":panel_" .. newname .. "_top")
-		minetest.register_alias(modname .. ":panel_" .. origname .. "_vertical", newmod..":panel_" .. newname .. "_vertical")
-		minetest.register_alias(modname .. ":micro_" .. origname .. "_bottom", newmod..":micro_" .. newname .. "_bottom")
-		minetest.register_alias(modname .. ":micro_" .. origname .. "_top", newmod..":micro_" .. newname .. "_top")
+	function register_technic_stairs_alias(origmod, origname, newmod, newname)
+		local func = minetest.register_alias
+		local function remap(kind, suffix)
+			-- Old: stairsplus:slab_concrete_wall
+			-- New:    technic:slab_concrete_wall
+			func(("%s:%s_%s%s"):format(origmod, kind, origname, suffix),
+				("%s:%s_%s%s"):format(newmod, kind, newname, suffix))
+		end
+
+		-- Slabs
+		remap("slab", "")
+		remap("slab", "_inverted")
+		remap("slab", "_wall")
+		remap("slab", "_quarter")
+		remap("slab", "_quarter_inverted")
+		remap("slab", "_quarter_wall")
+		remap("slab", "_three_quarter")
+		remap("slab", "_three_quarter_inverted")
+		remap("slab", "_three_quarter_wall")
+
+		-- Stairs
+		remap("stair", "")
+		remap("stair", "_inverted")
+		remap("stair", "_wall")
+		remap("stair", "_wall_half")
+		remap("stair", "_wall_half_inverted")
+		remap("stair", "_half")
+		remap("stair", "_half_inverted")
+		remap("stair", "_right_half")
+		remap("stair", "_right_half_inverted")
+		remap("stair", "_inner")
+		remap("stair", "_inner_inverted")
+		remap("stair", "_outer")
+		remap("stair", "_outer_inverted")
+
+		-- Other
+		remap("panel", "_bottom")
+		remap("panel", "_top")
+		remap("panel", "_vertical")
+		remap("micro", "_bottom")
+		remap("micro", "_top")
 	end
 
 	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")

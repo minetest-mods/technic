@@ -428,7 +428,7 @@ for _, state in pairs({"flowing", "source"}) do
 		liquidtype = state,
 		liquid_alternative_flowing = "technic:corium_flowing",
 		liquid_alternative_source = "technic:corium_source",
-		liquid_viscosity = LAVA_VISC,
+		liquid_viscosity = 7, -- like lava
 		liquid_renewable = false,
 		damage_per_second = 6,
 		post_effect_color = {a=192, r=80, g=160, b=80},

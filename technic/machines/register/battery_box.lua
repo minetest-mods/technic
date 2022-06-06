@@ -304,9 +304,9 @@ function technic.register_battery_box(data)
 			drop = "technic:"..ltier.."_battery_box0",
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
-				local EU_upgrade, tube_upgrade = 0, 0
+				local EU_upgrade, _ = 0
 				if data.upgrade then
-					EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+					EU_upgrade, _ = technic.handle_machine_upgrades(meta)
 				end
 				local max_charge = data.max_charge * (1 + EU_upgrade / 10)
 				local charge = meta:get_int("internal_EU_charge")
@@ -345,9 +345,9 @@ function technic.register_battery_box(data)
 					meta = minetest.get_meta(pos)
 					if not pipeworks.may_configure(pos, sender) then return end
 					fs_helpers.on_receive_fields(pos, fields)
-					local EU_upgrade, tube_upgrade = 0, 0
+					local EU_upgrade, _ = 0
 					if data.upgrade then
-						EU_upgrade, tube_upgrade = technic.handle_machine_upgrades(meta)
+						EU_upgrade, _ = technic.handle_machine_upgrades(meta)
 					end
 					local max_charge = data.max_charge * (1 + EU_upgrade / 10)
 					local charge = meta:get_int("internal_EU_charge")

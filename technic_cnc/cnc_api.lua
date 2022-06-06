@@ -325,11 +325,10 @@ function technic_cnc.register_all(recipeitem, groups, images, description)
 	end
 end
 
-
 -- REGISTER NEW TECHNIC_CNC_API's PART 2: technic_cnc..register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
 -----------------------------------------------------------------------------------------------------------------------
 function technic_cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_spheroid, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
-
+		-- TODO: Remove this evil sorcery
          technic_cnc.register_slope(recipeitem, groups, images, desc_slope)
          technic_cnc.register_slope_lying(recipeitem, groups, images, desc_slope_lying)
          technic_cnc.register_slope_upsdown(recipeitem, groups, images, desc_slope_upsdown)
@@ -354,10 +353,12 @@ end
 -- REGISTER STICKS: noncubic.register_xyz(recipeitem, groups, images, desc_element_xyz)
 ------------------------------------------------------------------------------------------------------------
 function technic_cnc.register_stick_etc(recipeitem, groups, images, desc_stick)
+		-- TODO: Remove this evil sorcery
          technic_cnc.register_stick(recipeitem, groups, images, desc_stick)
 end
 
 function technic_cnc.register_elements(recipeitem, groups, images, desc_element_straight_double, desc_element_edge_double, desc_element_t_double, desc_element_cross_double, desc_element_end_double)
+		-- TODO: Remove this evil sorcery
          technic_cnc.register_element_straight_double(recipeitem, groups, images, desc_element_straight_double)
          technic_cnc.register_element_edge_double(recipeitem, groups, images, desc_element_edge_double)
          technic_cnc.register_element_t_double(recipeitem, groups, images, desc_element_t_double)
