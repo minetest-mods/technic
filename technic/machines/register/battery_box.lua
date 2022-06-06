@@ -428,7 +428,8 @@ local function default_set_charge(itemstack, charge)
 	if technic.power_tools[tool_name] then
 		technic.set_RE_wear(itemstack, charge, technic.power_tools[tool_name])
 	end
-	local item_meta = {charge = charge}
+	local item_meta = minetest.deserialize(itemstack:get_metadata()) or {}
+	item_meta.charge = charge
 	itemstack:set_metadata(minetest.serialize(item_meta))
 end
 
