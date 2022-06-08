@@ -2,6 +2,10 @@
 
 This file documents the functions within the technic modpack for use in mods.
 
+[Switch to plaintext format](https://raw.githubusercontent.com/minetest-mods/technic/master/technic/doc/api.md)
+
+**Undocumented API may change at any time.**
+
 
 ## Tiers
 Tier are network types. List of pre-registered tiers:
@@ -37,33 +41,84 @@ Available functions:
 The machine type indicates the direction of power flow.
 List of pre-registered machine types:
 
-* `technic.receiver = "RE"` e.g. grinder
-* `technic.producer = "PR"` e.g. solar panel
+* `technic.receiver = "RE"`: consumes energy. e.g. grinder
+* `technic.producer = "PR"`: provides energy. e.g. solar panel
 * `technic.producer_receiver = "PR_RE"` supply converter
-* `technic.battery  = "BA"` e.g. LV battery box
+* `technic.battery  = "BA"`: stores energy. e.g. LV battery box
 
 Available functions:
 
+* `technic.register_base_machine(data)`
+	* Registers a new node and defines the underlying machine behaviour. `data` fields:
+	* `tier`: string, see #Tiers
+	* `typename`: string, equivalent to the processing type registered
+	  by `technic.register_recipe`. Examples: `"cooking"` `"alloy"`
+	* `machine_name`: string, node name
+	* `machine_desc`: string, node description
+	* `demand`: table, EU consumption values for each upgrade level.
+	  Up to three indices. Index 1 == no upgrade. Example: `{3000, 2000, 1000}`.
+	* `upgrade`: (boolean), whether to add upgrade slots
+	* `modname`: (string), mod origin
+	* `tube`: (boolean), whether the machine has Pipeworks connectivity
+	* `can_insert`: (func), see Pipeworks documentation
+		* Accepts all inputs by default, if `tube = 1`
+		* See also: `technic.can_insert_unique_stack`
+	* `insert_object`: (func), see Pipeworks documentation
+		* Accepts all inputs by default, if `tube = 1`
+		* See also: `technic.insert_object_unique_stack`
+	* `connect_sides`: (table), see Lua API documentation. Defaults to all directions but front.
 * `technic.register_machine(tier, nodename, machine_type)`
 	* Register an existing node as machine, bound to the network tier
-	* `tier`: see `register_tier`
+	* `tier`: string, see #Tiers
 	* `nodename`: string, node name
 	* `machine_type`: string, following options are possible:
-		* `"RE"`: Receiver
-		* `"PR"`: Producer
-		* `"BA"`: Battery, energy storage
+		* `technic.receiver = "RE"`: Consumes energy
+		* `technic.producer = "PR"`: Provides energy
+		* `technic.battery = "BA"`: Energy storage
 	* See also `Machine types`
 
-Functions to use for callbacks:
+Callbacks for pipeworks item transfer:
 
 * `technic.can_insert_unique_stack(pos, node, stack, direction)`
 * `technic.insert_object_unique_stack(pos, node, stack, direction)`
 	* Functions for the parameters `can_insert` and `insert_object` to avoid
 	  filling multiple inventory slots with same type of item.
 
-### Specific machines
-* `technic.register_solar_array(data)`
-	* data is a table (TODO)
+### Recipes
+
+* `technic.register_recipe_type(typename, recipedef)`
+	* Registers a new recipe type used for machine processing
+	* `typename`: string, name of the recipe type
+	* Fields of `recipedef`:
+		* `description`: string, descriptor of the recipe type
+		* `input_size`: (numeric), count of input ItemStacks. default 1
+		* `output_size`: (numeric), count of output ItemStacks. default 1
+* `technic.register_recipe(recipe)`
+	* Registers a individual input/output recipe. Fields of `recipe`:
+	* `input`: table, integer-indexed list of input ItemStacks.
+	* `output`: table/ItemStack, single output or list of output ItemStacks.
+	* `time`: numeric, process time in seconds.
+* `technic.get_recipe(typename, items)`
+	* `typename`: string, see `technic.register_recipe_type`
+	* `items`: table, integer-indexed list of input ItemStacks.
+	* Returns: `recipe` table on success, `nil` otherwise
+
+
+The following functions can be used to register recipes for
+a specific machine type:
+
+* Centrifuge
+	* `technic.register_separating_recipe(recipe)`
+* Compressor
+	* `technic.register_compressor_recipe(recipe)`
+* Furnaces (electric, normal)
+	* `minetest.register_recipe(recipe)`
+* Extractor
+	* `technic.register_extractor_recipe(recipe)`
+* Freezer
+	* `technic.register_freezer_recipe(recipe)`
+* Grinder
+	* `technic.register_grinder_recipe(recipe)`
 
 
 ## Tools
@@ -132,7 +187,7 @@ Groups:
 
 Additional definition fields:
 
-* `wear_represents = "string"`
+* `<itemdef>.wear_represents = "string"`
 	* Specifies how the tool wear level is handled. Available modes:
 		* `"mechanical_wear"`: represents physical damage
 		* `"technic_RE_charge"`: represents electrical charge
@@ -140,16 +195,22 @@ Additional definition fields:
 	* This callback is used to update the node.
 	  Modders have to manually change the information about supply etc. in the
 	  node metadata.
+	* Technic-registered machines use this callback by default.
 * `<itemdef>.technic_disabled_machine_name = "string"`
 	* Specifies the machine's node name to use when it's not connected connected to a network
 * `<itemdef>.technic_on_disable = function(pos, node) ...`
 	* This callback is run when the machine is no longer connected to a technic-powered network.
 * `<itemdef>.technic_get_charge = function(itemstack) ...`
-	* This optional callback will be used to get itemstack charge and max\_charge
-	* Have to return values `charge, max_charge`
+	* Optional callback to overwrite the default charge behaviour.
+	* `itemstack`: ItemStack, the tool to analyse
+	* Return values:
+		* `charge`: Electrical charge of the tool
+		* `max_charge`: Upper charge limit
 	* Etc. `local charge, maxcharge = itemdef.technic_get_charge(itemstack)`
 * `<itemdef>.technic_set_charge = function(itemstack, charge) ...`
-	* This optional callback will be used to set itemstack charge
+	* Optional callback to overwrite the default charge behaviour.
+	* `itemstack`: ItemStack, the tool to update
+	* `charge`: numeric, value between `0` and `max_charge`
 
 
 ## Node Metadata fields
@@ -171,33 +232,30 @@ data:
 multiple tiers (or networks).
 
 
-## Switching Station mechanics
+## Manual: Network basics
+
 The switching station is the center of all power distribution on an electric
-network.
+network. This node is used to calculate the power supply of the network and
+to distribute the power across nodes.
 
-The station collects power from sources (PR), distributes it to sinks (RE),
-and uses the excess/shortfall to charge and discharge batteries (BA).
+The switching station is the center of all electricity distribution. It collects
+power from sources (PR), distributes it to sinks (RE), and uses the
+excess/shortfall to charge and discharge batteries (BA).
 
-For now, all supply and demand values are expressed in kW.
+As a thumb of rule, "EU" (energy unit) values are expressed in kW.
 
-It works like this:
- All PR,BA,RE nodes are indexed and tagged with the switching station.
-The tagging is a workaround to allow more stations to be built without allowing
-a cheat with duplicating power.
- All the RE nodes are queried for their current EU demand. Those which are off
-would require no or a small standby EU demand, while those which are on would
-require more.
-If the total demand is less than the available power they are all updated with
-the demand number.
-If any surplus exists from the PR nodes the batteries will be charged evenly
-with this.
-If the total demand requires draw on the batteries they will be discharged
-evenly.
+Network functionality:
 
-If the total demand is more than the available power all RE nodes will be shut
-down. We have a brown-out situation.
-
-Hence for now all the power distribution logic resides in this single node.
+1. All PR, BA, RE nodes are indexed and tagged with one switching station.
+   The tagging is a workaround to allow more stations to be built without allowing
+   a cheat with duplicating power.
+2. All the RE nodes are queried for their current EU demand.
+   If the total demand is less than the available power they are all updated
+   with the demand number.
+3. BA nodes are evenly charged from energy surplus.
+4. Excess power draw will discharge batteries evenly.
+5. If the total demand is more than the available power all RE nodes will be shut
+   down. We have a brown-out situation.
 
 ## Deprecated functions
 

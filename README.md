@@ -24,7 +24,7 @@ world. A few notable features:
 
 ## FAQ
 
-The modpack is explained in the [Manual](manual.md) included in this repository.
+The modpack is explained in the **[Manual](manual.md)** included in this repository.
 
 1. My technic circuit doesn't work. No power is distributed.
     * Make sure you have a switching station connected.
@@ -32,7 +32,7 @@ The modpack is explained in the [Manual](manual.md) included in this repository.
     * Each machine type requires its own cable type. If you do not have a
       matching circuit, consider using a "Supply Converter" for simplicity.
 
-The API documentation can be found here: [Technic API](technic/doc/api.md)
+For modders: **[Technic Lua API](technic/doc/api.md)**
 
 
 ## License
