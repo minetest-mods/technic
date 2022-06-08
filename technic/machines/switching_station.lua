@@ -98,8 +98,10 @@ local function flatten(map)
 end
 
 -- Add a wire node to the LV/MV/HV network
+-- Returns: indicator whether the cable is new in the network
+local hash_node_position = minetest.hash_node_position
 local function add_network_node(nodes, pos, network_id)
-	local node_id = minetest.hash_node_position(pos)
+	local node_id = hash_node_position(pos)
 	technic.cables[node_id] = network_id
 	if nodes[node_id] then
 		return false
@@ -115,39 +117,45 @@ local function add_cable_node(nodes, pos, network_id, queue)
 end
 
 -- Generic function to add found connected nodes to the right classification array
-local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
+local check_node_subp = function(network, pos, machines, sw_pos, from_below, network_id, queue)
 	technic.get_or_load_node(pos)
 	local name = minetest.get_node(pos).name
 
-	if technic.is_tier_cable(name, tier) then
-		add_cable_node(all_nodes, pos,network_id, queue)
-	elseif machines[name] then
-		--dprint(name.." is a "..machines[name])
-		local meta = minetest.get_meta(pos)
-		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
-		if     machines[name] == technic.producer then
-			add_network_node(PR_nodes, pos, network_id)
-		elseif machines[name] == technic.receiver then
-			add_network_node(RE_nodes, pos, network_id)
-		elseif machines[name] == technic.producer_receiver then
-			add_network_node(PR_nodes, pos, network_id)
-			add_network_node(RE_nodes, pos, network_id)
-		elseif machines[name] == "SPECIAL" and
-				(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
-				from_below then
-			-- Another switching station -> disable it
-			add_network_node(SP_nodes, pos, network_id)
-			meta:set_int("active", 0)
-		elseif machines[name] == technic.battery then
-			add_network_node(BA_nodes, pos, network_id)
-		end
-
-		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
+	if technic.is_tier_cable(name, network.tier) then
+		add_cable_node(network.all_nodes, pos, network_id, queue)
+		return
 	end
+
+	local eu_type = machines[name]
+	if not eu_type then
+		return
+	end
+
+	--dprint(name.." is a "..machines[name])
+	local meta = minetest.get_meta(pos)
+	meta:set_string(network.tier.."_network", minetest.pos_to_string(sw_pos))
+
+	if     eu_type == technic.producer then
+		add_network_node(network.PR_nodes, pos, network_id)
+	elseif eu_type == technic.receiver then
+		add_network_node(network.RE_nodes, pos, network_id)
+	elseif eu_type == technic.producer_receiver then
+		add_network_node(network.PR_nodes, pos, network_id)
+		add_network_node(network.RE_nodes, pos, network_id)
+	elseif eu_type == technic.battery then
+		add_network_node(network.BA_nodes, pos, network_id)
+	elseif eu_type == "SPECIAL" and from_below and
+			not vector.equals(pos, sw_pos) then
+		-- Another switching station -> disable it
+		add_network_node(network.SP_nodes, pos, network_id)
+		meta:set_int("active", 0)
+	end
+
+	meta:set_int(network.tier.."_EU_timeout", 2) -- Touch node
 end
 
 -- Traverse a network given a list of machines and a cable type name
-local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, network_id, queue)
+local traverse_network = function(network, pos, machines, sw_pos, network_id, queue)
 	local positions = {
 		{x=pos.x+1, y=pos.y,   z=pos.z},
 		{x=pos.x-1, y=pos.y,   z=pos.z},
@@ -156,7 +164,7 @@ local traverse_network = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_no
 		{x=pos.x,   y=pos.y,   z=pos.z+1},
 		{x=pos.x,   y=pos.y,   z=pos.z-1}}
 	for i, cur_pos in pairs(positions) do
-		check_node_subp(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, cur_pos, machines, tier, sw_pos, i == 3, network_id, queue)
+		check_node_subp(network, cur_pos, machines, sw_pos, i == 3, network_id, queue)
 	end
 end
 
@@ -167,43 +175,51 @@ local touch_nodes = function(list, tier)
 	end
 end
 
-local get_network = function(sw_pos, pos1, tier)
-	local network_id = minetest.hash_node_position(pos1)
+local get_network = function(sw_pos, cable_pos, tier)
+	local network_id = minetest.hash_node_position(cable_pos)
 	local cached = technic.networks[network_id]
 	if cached and cached.tier == tier then
+		-- Re-use cached system data
 		touch_nodes(cached.PR_nodes, tier)
 		touch_nodes(cached.BA_nodes, tier)
 		touch_nodes(cached.RE_nodes, tier)
 		for _, pos in ipairs(cached.SP_nodes) do
+			-- Disable all other switching stations (again)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("active", 0)
-			meta:set_string("active_pos", minetest.serialize(sw_pos))
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
-	local PR_nodes = {}
-	local BA_nodes = {}
-	local RE_nodes = {}
-	local SP_nodes = {}
-	local all_nodes = {}
+
+	local machines = technic.machines[tier]
+	local network = {
+		tier = tier,
+		PR_nodes = {},
+		BA_nodes = {},
+		RE_nodes = {},
+		SP_nodes = {},
+		all_nodes = {}
+	}
+	-- Traverse the network step by step starting from the node underneath the switching station
 	local queue = {}
-	add_cable_node(all_nodes, pos1, network_id, queue)
+	add_cable_node(network.all_nodes, cable_pos, network_id, queue)
 	while next(queue) do
 		local to_visit = {}
 		for _, pos in ipairs(queue) do
-			traverse_network(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes,
-					pos, technic.machines[tier], tier, sw_pos, network_id, to_visit)
+			traverse_network(network, pos, machines, sw_pos, network_id, to_visit)
 		end
 		queue = to_visit
 	end
-	PR_nodes = flatten(PR_nodes)
-	BA_nodes = flatten(BA_nodes)
-	RE_nodes = flatten(RE_nodes)
-	SP_nodes = flatten(SP_nodes)
-	all_nodes = flatten(all_nodes)
-	technic.networks[network_id] = {tier = tier, all_nodes = all_nodes, SP_nodes = SP_nodes,
-			PR_nodes = PR_nodes, RE_nodes = RE_nodes, BA_nodes = BA_nodes}
-	return PR_nodes, BA_nodes, RE_nodes
+
+	-- Convert { [hash] = pos, ... } to { pos, ... }
+	network.PR_nodes = flatten(network.PR_nodes)
+	network.BA_nodes = flatten(network.BA_nodes)
+	network.RE_nodes = flatten(network.RE_nodes)
+	network.SP_nodes = flatten(network.SP_nodes)
+	network.all_nodes = flatten(network.all_nodes)
+	technic.networks[network_id] = network
+
+	return network.PR_nodes, network.BA_nodes, network.RE_nodes
 end
 
 -----------------------------------------------
@@ -213,19 +229,17 @@ end
 technic.powerctrl_state = true
 
 minetest.register_chatcommand("powerctrl", {
-	params = "state",
+	params = "[on/off]",
 	description = "Enables or disables technic's switching station ABM",
 	privs = { basic_privs = true },
 	func = function(name, state)
-		if state == "on" then
-			technic.powerctrl_state = true
-		else
-			technic.powerctrl_state = false
-		end
+		technic.powerctrl_state = (state:trim():lower() == "on")
+		minetest.chat_send_player(name, "Technic switching station: " ..
+			(technic.powerctrl_state and "on" or "off"))
 	end
 })
 
--- Run all the nodes
+-- Run `technic_run` on all nodes in the power grid
 local function run_nodes(list, run_stage)
 	for _, pos in ipairs(list) do
 		technic.get_or_load_node(pos)
@@ -241,25 +255,23 @@ end
 
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
-	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
+	label = "Switching Station", -- name for the Minetest mod profiler
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
 		local meta = minetest.get_meta(pos)
 		local meta1
-		local PR_nodes
-		local BA_nodes
-		local RE_nodes
+		local PR_nodes, BA_nodes, RE_nodes
 		local machine_name = S("Switching Station")
 
 		-- Which kind of network are we on:
-		local pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
+		local cable_pos = {x=pos.x, y=pos.y-1, z=pos.z}
 
 		--Disable if necessary
 		if meta:get_int("active") ~= 1 then
 			minetest.forceload_free_block(pos)
-			minetest.forceload_free_block(pos1)
+			minetest.forceload_free_block(cable_pos)
 			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
 
 			local poshash = minetest.hash_node_position(pos)
@@ -271,18 +283,18 @@ minetest.register_abm({
 			return
 		end
 
-		local name = minetest.get_node(pos1).name
+		local name = minetest.get_node(cable_pos).name
 		local tier = technic.get_cable_tier(name)
 		if tier then
 			-- Forceload switching station
 			minetest.forceload_block(pos)
-			minetest.forceload_block(pos1)
-			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
+			minetest.forceload_block(cable_pos)
+			PR_nodes, BA_nodes, RE_nodes = get_network(pos, cable_pos, tier)
 		else
 			--dprint("Not connected to a network")
 			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
 			minetest.forceload_free_block(pos)
-			minetest.forceload_free_block(pos1)
+			minetest.forceload_free_block(cable_pos)
 			return
 		end
 
@@ -335,20 +347,14 @@ minetest.register_abm({
 		end
 		--dprint("Total RE demand:"..RE_eu_demand)
 
-		-- Get all the power from the BA nodes
-		local BA_eu_supply = 0
+		-- Batteries
+		local BA_eu_supply, BA_eu_demand = 0, 0
 		for _, pos1 in pairs(BA_nodes) do
 			meta1 = minetest.get_meta(pos1)
 			BA_eu_supply = BA_eu_supply + meta1:get_int(eu_supply_str)
-		end
-		--dprint("Total BA supply:"..BA_eu_supply)
-
-		-- Get all the demand from the BA nodes
-		local BA_eu_demand = 0
-		for _, pos1 in pairs(BA_nodes) do
-			meta1 = minetest.get_meta(pos1)
 			BA_eu_demand = BA_eu_demand + meta1:get_int(eu_demand_str)
 		end
+		--dprint("Total BA supply:"..BA_eu_supply)
 		--dprint("Total BA demand:"..BA_eu_demand)
 
 		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
@@ -369,8 +375,8 @@ minetest.register_abm({
 		end
 
 		-- Data that will be used by the power monitor
-		meta:set_int("supply",PR_eu_supply)
-		meta:set_int("demand",RE_eu_demand)
+		meta:set_int("supply", PR_eu_supply)
+		meta:set_int("demand", RE_eu_demand)
 
 		-- If the PR supply is enough for the RE demand supply them all
 		if PR_eu_supply >= RE_eu_demand then

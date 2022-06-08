@@ -71,21 +71,16 @@ local function clear_networks(pos)
 					local eu_type = technic.machines[tier][node.name]
 					meta:set_string(tier.."_network", minetest.pos_to_string(sw_pos))
 					if     eu_type == technic.producer then
-						table.insert(network.PR_nodes,pos)
+						table.insert(network.PR_nodes, pos)
 					elseif eu_type == technic.receiver then
-						table.insert(network.RE_nodes,pos)
+						table.insert(network.RE_nodes, pos)
 					elseif eu_type == technic.producer_receiver then
-						table.insert(network.PR_nodes,pos)
-						table.insert(network.RE_nodes,pos)
-					elseif eu_type == "SPECIAL" and
-							(pos.x ~= sw_pos.x or pos.y ~= sw_pos.y or pos.z ~= sw_pos.z) and
-							nil then
-						-- TODO: This case was never executed. Needs testing!
-						-- Supply converter.
-						table.insert(network.SP_nodes,pos)
+						table.insert(network.PR_nodes, pos)
+						table.insert(network.RE_nodes, pos)
 					elseif eu_type == technic.battery then
-						table.insert(network.BA_nodes,pos)
+						table.insert(network.BA_nodes, pos)
 					end
+					-- Note: SPECIAL (i.e. switching station) is not traversed!
 				end
 			elseif dead_end and not placed then
 				-- Dead end removed, remove it from the network
