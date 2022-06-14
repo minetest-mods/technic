@@ -1,6 +1,10 @@
--- Minetest 0.4.7 mod: technic
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
+
+if not minetest.get_translator then
+	error("[technic] Your Minetest version is no longer supported."
+		.. " (version < 5.0.0)")
+end
 
 local load_start = os.clock()
 
