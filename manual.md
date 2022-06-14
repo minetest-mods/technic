@@ -12,16 +12,16 @@ Documentation of the mod dependencies can be found here:
 *   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
 *   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
 
-## Recipes
+## 1.0 Recipes
 
 Recipes for items registered by technic are not specifically documented here.
 Please consult a craft guide mod to look up the recipes in-game.
 
 **Recommended mod:** [Unified Inventory](https://github.com/minetest-mods/unified_inventory)
 
-## Substances
+## 2.0 Substances
 
-### Ores
+### 2.1 Ores
 
 Technic registers a few ores which are needed to craft machines or items.
 Each ore type is found at a specific range of elevations so you will
@@ -59,14 +59,14 @@ of its usage, so you will usually have a surplus of it.
 #### Zinc
 Use: brass
 
-Depth: 2m, more commonly below -32m
+Generated below: 2m, more commonly below -32m
 
 Zinc only has a few uses but is a common metal.
 
 #### Chromium
 Use: stainless steel
 
-Depth: -100m, more commonly below -200m
+Generated below: -100m, more commonly below -200m
 
 #### Uranium
 Use: nuclear reactor fuel
@@ -82,14 +82,14 @@ Keep a safety distance of a meter to avoid being harmed by radiation.
 #### Silver ²
 Use: conductors
 
-Depth: -2m, evenly common
+Generated below: -2m, evenly common
 
 Silver is a semi-precious metal and is the best conductor of all the pure elements.
 
 #### Gold ¹
 Use: various
 
-Depth: -64m, more commonly below -256m
+Generated below: -64m, more commonly below -256m
 
 Gold is a precious metal. It is most notably used in electrical items due to
 its combination of good conductivity and corrosion resistance.
@@ -97,7 +97,7 @@ its combination of good conductivity and corrosion resistance.
 #### Mithril ²
 Use: chests
 
-Depth: -512m, evenly common
+Generated below: -512m, evenly common
 
 Mithril is a fictional ore, being derived from J. R. R. Tolkien's
 Middle-Earth setting.  It is little used.
@@ -114,7 +114,7 @@ Use: mainly for cutting machines
 Diamond is a precious gemstone. It is used moderately, mainly for reasons
 connected to its extreme hardness.
 
-### Rocks
+### 2.2 Rocks
 
 This section describes the rock types added by technic. Further rock types
 are supported by technic machines. These can be processed using the grinder:
@@ -136,7 +136,7 @@ Granite is found in dense clusters and is much harder to dig than standard
 stone. It has mainly decorative use, but also appears in a couple of
 machine recipes.
 
-### Rubber
+### 2.3 Rubber
 Rubber is a biologically-derived material that has industrial uses due
 to its electrical resistivity and its impermeability.  In technic, it
 is used in a few recipes, and it must be acquired by tapping rubber trees.
@@ -150,7 +150,7 @@ observed by its appearance.
 
 To obtain rubber from latex, alloy latex with coal dust.
 
-### Metals
+## 3.0 Metal processing
 Generally, each metal can exist in five forms:
 
  * ore -> stone containing the lump
@@ -162,7 +162,7 @@ Generally, each metal can exist in five forms:
 Metals can be converted between dust, ingot and block, but can't be converted
 from them back to ore or lump forms.
 
-#### Grinding
+### Grinding
 Ores can be processed as follows:
 
  * ore -> lump (digging) -> ingot (melting)
@@ -171,121 +171,59 @@ Ores can be processed as follows:
 At the expense of some energy consumption, the grinder can extract more material
 from the lump, resulting in 2x dust which can be melted to two ingots in total.
 
-#### Alloying
-Alloying recipes in which a metal is the base ingredient, to produce a
-metal alloy, always come in two forms, using the metal either as dust
-or as an ingot.  If the secondary ingredient is also a metal, it must
-be supplied in the same form as the base ingredient.  The output alloy
-is also returned in the same form.
+### Alloying
+Input: two ingredients of the same form - lump or dust
 
-Example: 2x copper ingots + zinc ingot -> 3x brass ingot (alloying)
+Output: resulting alloy, as an ingot
 
-The same will also work for dust ingredients, resulting in brass dist.
+Example: 2x copper ingots + 1x zinc ingot -> 3x brass ingot (alloying)
 
-### iron and its alloys ###
+Note that grinding before alloying is the preferred method to gain more output.
 
-Iron forms several important alloys.  In real-life history, iron was the
-second metal to be used as the base component of deliberately-constructed
-alloys (the first was copper), and it was the first metal whose working
-required processes of any metallurgical sophistication.  The game
-mechanics around iron broadly imitate the historical progression of
-processes around it, rather than the less-varied modern processes.
+#### iron and its alloys
 
-The two-component alloying system of iron with carbon is of huge
-importance, both in the game and in real life.  The basic Minetest game
-doesn't distinguish between these pure iron and these alloys at all,
-but technic introduces a distinction based on the carbon content, and
-renames some items of the basic game accordingly.
+Historically iron was the first metal whose working required processes of any
+metallurgical sophistication. The mod's mechanics around iron broadly imitate
+the historical progression of processes around it to get more variety.
 
-The iron/carbon spectrum is represented in the game by three metal
-substances: wrought iron, carbon steel, and cast iron.  Wrought iron
-has low carbon content (less than 0.25%), resists shattering, and
-is easily welded, but is relatively soft and susceptible to rusting.
-In real-life history it was used for rails, gates, chains, wire, pipes,
-fasteners, and other purposes.  Cast iron has high carbon content
-(2.1% to 4%), is especially hard, and resists corrosion, but is
-relatively brittle, and difficult to work.  Historically it was used
-to build large structures such as bridges, and for cannons, cookware,
-and engine cylinders.  Carbon steel has medium carbon content (0.25%
-to 2.1%), and intermediate properties: moderately hard and also tough,
-somewhat resistant to corrosion.  In real life it is now used for most
-of the purposes previously satisfied by wrought iron and many of those
-of cast iron, but has historically been especially important for its
-use in swords, armor, skyscrapers, large bridges, and machines.
+Notable alloys:
 
-In real-life history, the first form of iron to be refined was
-wrought iron, which is nearly pure iron, having low carbon content.
-It was produced from ore by a low-temperature furnace process (the
-"bloomery") in which the ore/iron remains solid and impurities (slag)
-are progressively removed by hammering ("working", hence "wrought").
-This began in the middle East, around 1800 BCE.
+ * Wrought iron: <0.25% carbon
+     * Resists shattering but is relatively soft.
+     * Known since: 1800 BC (approx.)
+ * Cast iron: 2.1% to 4% carbon.
+     * Especially hard and rather corrosion-resistant
+     * Known since: 1200 BC (approx.)
+ * Carbon steel: 0.25% to 2.1% carbon.
+     * Intermediate of the two above.
+     * Known since: 1600 AD (approx.)
 
-Historically, the next forms of iron to be refined were those of high
-carbon content.  This was the result of the development of a more
-sophisticated kind of furnace, the blast furnace, capable of reaching
-higher temperatures.  The real advantage of the blast furnace is that it
-melts the metal, allowing it to be cast straight into a shape supplied by
-a mould, rather than having to be gradually beaten into the desired shape.
-A side effect of the blast furnace is that carbon from the furnace's fuel
-is unavoidably incorporated into the metal.  Normally iron is processed
-twice through the blast furnace: once producing "pig iron", which has
-very high carbon content and lots of impurities but lower melting point,
-casting it into rough ingots, then remelting the pig iron and casting it
-into the final moulds.  The result is called "cast iron".  Pig iron was
-first produced in China around 1200 BCE, and cast iron later in the 5th
-century BCE.  Incidentally, the Chinese did not have the bloomery process,
-so this was their first iron refining process, and, unlike the rest of
-the world, their first wrought iron was made from pig iron rather than
-directly from ore.
+Technic introduces a distinction based on the carbon content, and renames some
+items of the basic game accordingly. Iron and Steel are now distinguished.
 
-Carbon steel, with intermediate carbon content, was developed much later,
-in Europe in the 17th century CE.  It required a more sophisticated
-process, because the blast furnace made it extremely difficult to achieve
-a controlled carbon content.  Tweaks of the blast furnace would sometimes
-produce an intermediate carbon content by luck, but the first processes to
-reliably produce steel were based on removing almost all the carbon from
-pig iron and then explicitly mixing a controlled amount of carbon back in.
+Notable references:
 
-In the game, the bloomery process is represented by ordinary cooking
-or grinding of an iron lump.  The lump represents unprocessed ore,
-and is identified only as "iron", not specifically as wrought iron.
-This standard refining process produces dust or an ingot which is
-specifically identified as wrought iron.  Thus the standard refining
-process produces the (nearly) pure metal.
+ * https://en.wikipedia.org/wiki/Iron
+ * https://en.wikipedia.org/wiki/Stainless_steel
+ * ... plus many more.
 
-Cast iron is trickier.  You might expect from the real-life notes above
-that cooking an iron lump (representing ore) would produce pig iron that
-can then be cooked again to produce cast iron.  This is kind of the case,
-but not exactly, because as already noted cooking an iron lump produces
-wrought iron.  The game doesn't distinguish between low-temperature
-and high-temperature cooking processes: the same furnace is used not
-just to cast all kinds of metal but also to cook food.  So there is no
-distinction between cooking processes to produce distinct wrought iron
-and pig iron.  But repeated cooking *is* available as a game mechanic,
-and is indeed used to produce cast iron: re-cooking a wrought iron ingot
-produces a cast iron ingot.  So pig iron isn't represented in the game as
-a distinct item; instead wrought iron stands in for pig iron in addition
-to its realistic uses as wrought iron.
+Processes:
 
-Carbon steel is produced by a more regular in-game process: alloying
-wrought iron with coal dust (which is essentially carbon).  This bears
-a fair resemblance to the historical development of carbon steel.
-This alloying recipe is relatively time-consuming for the amount of
-material processed, when compared against other alloying recipes, and
-carbon steel is heavily used, so it is wise to alloy it in advance,
-when you're not waiting for it.
+ * Iron -> Wrought iron (melting)
+ * Wrought iron -> Cast iron (melting)
+ * Wrought iron + coal dust -> Carbon steel (alloying)
+ * Carbon steel + coal dust -> Cast iron (alloying)
+ * Carbon steel + chromium -> Stainless steel (alloying)
 
-There are additional recipes that permit all three of these types of iron
-to be converted into each other.  Alloying carbon steel again with coal
-dust produces cast iron, with its higher carbon content.  Cooking carbon
-steel or cast iron produces wrought iron, in an abbreviated form of the
-bloomery process.
+Reversible processes:
 
-There's one more iron alloy in the game: stainless steel.  It is managed
-in a completely regular manner, created by alloying carbon steel with
-chromium.
+ * Cast iron -> Wrought iron (melting)
+ * Carbon steel -> Wrought iron (melting)
 
-### uranium enrichment ###
+Check your preferred crafting guide for more information.
+
+
+### Uranium enrichment
 
 When uranium is to be used to fuel a nuclear reactor, it is not
 sufficient to merely isolate and refine uranium metal.  It is necessary
@@ -460,35 +398,15 @@ a post and adjacent concrete block.
 industrial processes
 --------------------
 
-### alloying ###
+### Alloying
 
-In technic, alloying is a way of combining items to create other items,
-distinct from standard crafting.  Alloying always uses inputs of exactly
-two distinct types, and produces a single output.  Like cooking, which
-takes a single input, it is performed using a powered machine, known
-generically as an "alloy furnace".  An alloy furnace always has two
-input slots, and it doesn't matter which way round the two ingredients
-are placed in the slots.  Many alloying recipes require one or both
-slots to contain a stack of more than one of the ingredient item: the
-quantity required of each ingredient is part of the recipe.
+In Technic, alloying is a way of combining items to create other items,
+distinct from standard crafting. Alloying always uses inputs of exactly
+two distinct types, and produces a single output.
 
-As with the furnaces used for cooking, there are multiple kinds of alloy
-furnace, powered in different ways.  The most-used alloy furnaces are
-electrically powered.  There is also an alloy furnace that is powered
-by directly burning fuel, just like the basic cooking furnace.  Building
-almost any electrical machine, including the electrically-powered alloy
-furnaces, requires a machine casing component, one ingredient of which
-is brass, an alloy.  It is therefore necessary to use the fuel-fired
-alloy furnace in the early part of the game, on the way to building
-electrical machinery.
+Check your preferred crafting guide for more information.
 
-Alloying recipes are mainly concerned with metals.  These recipes
-combine a base metal with some other element, most often another metal,
-to produce a new metal.  This is discussed in the section on metal.
-There are also a few alloying recipes in which the base ingredient is
-non-metallic, such as the recipe for the silicon wafer.
-
-### grinding, extracting, and compressing ###
+### Grinding, extracting, and compressing
 
 Grinding, extracting, and compressing are three distinct, but very
 similar, ways of converting one item into another.  They are all quite
@@ -562,57 +480,17 @@ metal alloys.  This can only be done using the dust form of the alloy.
 It recovers both components of binary metal/metal alloys.  It can't
 recover the carbon from steel or cast iron.
 
-chests
+Chests
 ------
 
-The technic mod replaces the basic Minetest game's single type of
-chest with a range of chests that have different sizes and features.
-The chest types are identified by the materials from which they are made;
-the better chests are made from more exotic materials.  The chest types
-form a linear sequence, each being (with one exception noted below)
-strictly more powerful than the preceding one.  The sequence begins with
-the wooden chest from the basic game, and each later chest type is built
-by upgrading a chest of the preceding type.  The chest types are:
+See [GitHub Wiki / Chests](https://github.com/minetest-mods/technic/wiki/Chests)
 
-1.  wooden chest: 8&times;4 (32) slots
-2.  iron chest: 9&times;5 (45) slots
-3.  copper chest: 12&times;5 (60) slots
-4.  silver chest: 12&times;6 (72) slots
-5.  gold chest: 15&times;6 (90) slots
-6.  mithril chest: 15&times;6 (90) slots
+Features of extended chests:
 
-The iron and later chests have the ability to sort their contents,
-when commanded by a button in their interaction forms.  Item types are
-sorted in the same order used in the unified\_inventory craft guide.
-The copper and later chests also have an auto-sorting facility that can
-be enabled from the interaction form.  An auto-sorting chest automatically
-sorts its contents whenever a player closes the chest.  The contents will
-then usually be in a sorted state when the chest is opened, but may not
-be if pneumatic tubes have operated on the chest while it was closed,
-or if two players have the chest open simultaneously.
+ * Larger storage space
+ * Labelling
+ * Advanced item sorting
 
-The silver and gold chests, but not the mithril chest, have a built-in
-sign-like capability.  They can be given a textual label, which will
-be visible when hovering over the chest.  The gold chest, but again not
-the mithril chest, can be further labelled with a colored patch that is
-visible from a moderate distance.
-
-The mithril chest is currently an exception to the upgrading system.
-It has only as many inventory slots as the preceding (gold) type, and has
-fewer of the features.  It has no feature that other chests don't have:
-it is strictly weaker than the gold chest.  It is planned that in the
-future it will acquire some unique features, but for now the only reason
-to use it is aesthetic.
-
-The size of the largest chests is dictated by the maximum size
-of interaction form that the game engine can successfully display.
-If in the future the engine becomes capable of handling larger forms,
-by scaling them to fit the screen, the sequence of chest sizes will
-likely be revised.
-
-As with the chest of the basic Minetest game, each chest type comes
-in both locked and unlocked flavors.  All of the chests work with the
-pneumatic tubes of the pipeworks mod.
 
 radioactivity
 -------------
@@ -750,115 +628,44 @@ so the positioning of holes in each layer must still be considered.
 Tricky shine paths can also be addressed by just keeping players out of
 the dangerous area.
 
-electrical power
-----------------
+## Electrical power
 
-Most machines in technic are electrically powered.  To operate them it is
-necessary to construct an electrical power network.  The network links
-together power generators and power-consuming machines, connecting them
-using power cables.
+Electrical networks in Technic are defined by a single tier (see below)
+and consist of:
 
-There are three tiers of electrical networking: low voltage (LV),
-medium voltage (MV), and high voltage (HV).  Each network must operate
-at a single voltage, and most electrical items are specific to a single
-voltage.  Generally, the machines of higher tiers are more powerful,
-but consume more energy and are more expensive to build, than machines
-of lower tiers.  It is normal to build networks of all three tiers,
-in ascending order as one progresses through the game, but it is not
-strictly necessary to do this.  Building HV equipment requires some parts
-that can only be manufactured using electrical machines, either LV or MV,
-so it is not possible to build an HV network first, but it is possible
-to skip either LV or MV on the way to HV.
+ * 1x Switching Station (central management unit)
+     * Any further stations are disabled automatically
+ * Electricity producers (PR)
+ * Electricity consumers/receivers (RE)
+ * Accumulators/batteries (BA)
 
-Each voltage has its own cable type, with distinctive insulation.  Cable
-segments connect to each other and to compatible machines automatically.
-Incompatible electrical items don't connect.  All non-cable electrical
-items must be connected via cable: they don't connect directly to each
-other.  Most electrical items can connect to cables in any direction,
-but there are a couple of important exceptions noted below.
+### Tiers
 
-To be useful, an electrical network must connect at least one power
-generator to at least one power-consuming machine.  In addition to these
-items, the network must have a "switching station" in order to operate:
-no energy will flow without one.  Unlike most electrical items, the
-switching station is not voltage-specific: the same item will manage
-a network of any tier.  However, also unlike most electrical items,
-it is picky about the direction in which it is connected to the cable:
-the cable must be directly below the switching station.
+ * LV: Low Voltage. Low material costs but is slower.
+ * MV: Medium Voltage. Higher processing speed.
+ * HV: High Voltage. High material costs but is the fastest.
 
-Hovering over a network's switching station will show the aggregate energy
-supply and demand, which is useful for troubleshooting.  Electrical energy
-is measured in "EU", and power (energy flow) in EU per second (EU/s).
-Energy is shifted around a network instantaneously once per second.
+Tiers can be converted from one to another using the Supply Converter node.
+Its top connects to the input, the bottom to the output network. Configure
+the input power by right-clicking it.
 
-In a simple network with only generators and consumers, if total
-demand exceeds total supply then no energy will flow, the machines
-will do nothing, and the generators' output will be lost.  To handle
-this situation, it is recommended to add a battery box to the network.
-A battery box will store generated energy, and when enough has been
-stored to run the consumers for one second it will deliver it to the
-consumers, letting them run part-time.  It also stores spare energy
-when supply exceeds demand, to let consumers run full-time when their
-demand occasionally peaks above the supply.  More battery boxes can
-be added to cope with larger periods of mismatched supply and demand,
-such as those resulting from using solar generators (which only produce
-energy in the daytime).
+### Machine upgrade slots
 
-When there are electrical networks of multiple tiers, it can be appealing
-to generate energy on one tier and transfer it to another.  The most
-direct way to do this is with the "supply converter", which can be
-directly wired into two networks.  It is another tier-independent item,
-and also particular about the direction of cable connections: it must
-have the cable of one network directly above, and the cable of another
-network directly below.  The supply converter demands 10000 EU/s from
-the network above, and when this network gives it power it supplies 9000
-EU/s to the network below.  Thus it is only 90% efficient, unlike most of
-the electrical system which is 100% efficient in moving energy around.
-To transfer more than 10000 EU/s between networks, connect multiple
-supply converters in parallel.
+Generally, machines of MV and HV tiers have two upgrade slots.
+Only specific items will have any upgrading effect. The occupied slots do
+count, but not the actual stack size.
 
-powered machines
-----------------
+**Type 1: Energy upgrade**
 
-### powered machine tiers ###
+Consists of any battery item. Reduces the machine's power consumption
+regardless the charge of the item.
 
-Each powered machine takes its power in some specific form, being
-either fuel-fired (burning fuel directly) or electrically powered at
-some specific voltage.  There is a general progression through the
-game from using fuel-fired machines to electrical machines, and to
-higher electrical voltages.  The most important kinds of machine come
-in multiple variants that are powered in different ways, so the earlier
-ones can be superseded.  However, some machines are only available for
-a specific power tier, so the tier can't be entirely superseded.
+**Type 2: Tube upgrade**
 
-### powered machine upgrades ###
+Consists of a control logic unit item. Ejects processed items into pneumatic
+tubes for quicker processing.
 
-Some machines have inventory slots that are used to upgrade them in
-some way.  Generally, machines of MV and HV tiers have two upgrade slots,
-and machines of lower tiers (fuel-fired and LV) do not.  Any item can
-be placed in an upgrade slot, but only specific items will have any
-upgrading effect.  It is possible to have multiple upgrades of the same
-type, but this can't be achieved by stacking more than one upgrade item
-in one slot: it is necessary to put the same kind of item in more than one
-upgrade slot.  The ability to upgrade machines is therefore very limited.
-Two kinds of upgrade are currently possible: an energy upgrade and a
-tube upgrade.
-
-An energy upgrade consists of a battery item, the same kind of battery
-that serves as a mobile energy store.  The effect of an energy upgrade
-is to improve in some way the machine's use of electrical energy, most
-often by making it use less energy.  The upgrade effect has no relation
-to energy stored in the battery: the battery's charge level is irrelevant
-and will not be affected.
-
-A tube upgrade consists of a control logic unit item.  The effect of a
-tube upgrade is to make the machine able, or more able, to eject items
-it has finished with into pneumatic tubes.  The machines that can take
-this kind of upgrade are in any case capable of accepting inputs from
-pneumatic tubes.  These upgrades are essential in using powered machines
-as components in larger automated systems.
-
-### tubes with powered machines ###
+### Machines + Tubes (pipeworks)
 
 Generally, powered machines of MV and HV tiers can work with pneumatic
 tubes, and those of lower tiers cannot.  (As an exception, the fuel-fired

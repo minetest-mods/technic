@@ -25,6 +25,7 @@ world. A few notable features:
 ## FAQ
 
 The modpack is explained in the **[Manual](manual.md)** included in this repository.
+Machine and tool descriptions can be found on the **[GitHub Wiki](https://github.com/minetest-mods/technic/wiki)**.
 
 1. My technic circuit doesn't work. No power is distributed.
     * Make sure you have a switching station connected.
@@ -38,7 +39,7 @@ For modders: **[Technic Lua API](technic/doc/api.md)**
 ## License
 
 Unless otherwise stated, all components of this modpack are licensed under the
-LGPLv2 or later. See also the individual mod folders for their
+[LGPLv2 or later](LICENSE.txt). See also the individual mod folders for their
 secondary/alternate licenses, if any.
 
 
