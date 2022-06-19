@@ -46,20 +46,27 @@ local mining_drill_mode_text = {
 	{S("3x3 nodes.")},
 }
 
-local function drill_dig_it0 (pos,player)
+local function drill_dig_it0(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		minetest.record_protection_violation(pos, player:get_player_name())
 		return
 	end
 	local node = minetest.get_node(pos)
-	if node.name == "air" or node.name == "ignore" then return end
-	if node.name == "default:lava_source" then return end
-	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
-	local def = minetest.registered_nodes[node.name]
-	if not def then return end
-	def.on_dig(pos, node, player)
+	local ndef = minetest.registered_nodes[node.name]
+	if not ndef or ndef.drawtype == "airlike" then
+		-- Covers "air", "ignore", unknown nodes and more.
+		return
+	end
+	local groups = ndef and ndef.groups or {}
+
+	if groups.lava then
+		return
+	end
+	if groups.water then
+		minetest.remove_node(pos)
+		return
+	end
+	ndef.on_dig(pos, node, player)
 end
 
 local function drill_dig_it1 (player)
@@ -284,7 +291,7 @@ local function mining_drill_mkX_handler(itemstack, user, pointed_thing, drill_ty
 
 	-- Do the actual shoorting action
 	local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-	drill_dig_it(pos, user, meta.mode)
+	drill_dig_it(pos, user, meta.mode or 1)
 	if not technic.creative_mode then
 		meta.charge = meta.charge - charge_to_take
 		itemstack:set_metadata(minetest.serialize(meta))
