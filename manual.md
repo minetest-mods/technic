@@ -34,6 +34,11 @@ Note ¹: *These ores are provided by Minetest Game. See [Ores](https://wiki.mine
 
 Note ²: *These ores are provided by moreores. TODO: Add reference link*
 
+#### Chromium
+Use: stainless steel
+
+Generated below: -100m, more commonly below -200m
+
 #### Coal ¹
 Use: Fuel, alloy as carbon
 
@@ -41,32 +46,60 @@ Burning coal is a way to generate electrical power. Coal is also used,
 usually in dust form, as an ingredient in alloying recipes, wherever
 elemental carbon is required.
 
-#### Iron ¹
-Use: multiple, mainly for alloys with carbon (coal).
-
 #### Copper ¹
 Copper is a common metal, used either on its own for its electrical
 conductivity, or as the base component of alloys.
 Although common, it is very heavily used, and most of the time it will
 be the material that most limits your activity.
 
+#### Diamond ¹
+Use: mainly for cutting machines
+
+Diamond is a precious gemstone. It is used moderately, mainly for reasons
+connected to its extreme hardness.
+
+#### Gold ¹
+Use: various
+
+Generated below: -64m, more commonly below -256m
+
+Gold is a precious metal. It is most notably used in electrical items due to
+its combination of good conductivity and corrosion resistance.
+
+#### Iron ¹
+Use: multiple, mainly for alloys with carbon (coal).
+
+#### Lead
+Use: batteries, HV nuclear reactor layout
+
+Generated below: 16m, more common below -128m
+
+#### Mese ¹
+Use: various
+
+Mese is a precious gemstone, and unlike diamond it is entirely fictional.
+It is used in small quantities, wherever some magic needs to be imparted.
+
+#### Mithril ²
+Use: chests
+
+Generated below: -512m, evenly common
+
+Mithril is a fictional ore, being derived from J. R. R. Tolkien's
+Middle-Earth setting.  It is little used.
+
+#### Silver ²
+Use: conductors
+
+Generated below: -2m, evenly common
+
+Silver is a semi-precious metal and is the best conductor of all the pure elements.
+
 #### Tin ¹
 Use: batteries, bronze
 
 Tin is a common metal but is used rarely. Its abundance is well in excess
 of its usage, so you will usually have a surplus of it.
-
-#### Zinc
-Use: brass
-
-Generated below: 2m, more commonly below -32m
-
-Zinc only has a few uses but is a common metal.
-
-#### Chromium
-Use: stainless steel
-
-Generated below: -100m, more commonly below -200m
 
 #### Uranium
 Use: nuclear reactor fuel
@@ -79,40 +112,13 @@ shielding materials available.
 
 Keep a safety distance of a meter to avoid being harmed by radiation.
 
-#### Silver ²
-Use: conductors
+#### Zinc
+Use: brass
 
-Generated below: -2m, evenly common
+Generated below: 2m, more commonly below -32m
 
-Silver is a semi-precious metal and is the best conductor of all the pure elements.
+Zinc only has a few uses but is a common metal.
 
-#### Gold ¹
-Use: various
-
-Generated below: -64m, more commonly below -256m
-
-Gold is a precious metal. It is most notably used in electrical items due to
-its combination of good conductivity and corrosion resistance.
-
-#### Mithril ²
-Use: chests
-
-Generated below: -512m, evenly common
-
-Mithril is a fictional ore, being derived from J. R. R. Tolkien's
-Middle-Earth setting.  It is little used.
-
-#### Mese ¹
-Use: various
-
-Mese is a precious gemstone, and unlike diamond it is entirely fictional.
-It is used in small quantities, wherever some magic needs to be imparted.
-
-#### Diamond ¹
-Use: mainly for cutting machines
-
-Diamond is a precious gemstone. It is used moderately, mainly for reasons
-connected to its extreme hardness.
 
 ### 2.2 Rocks
 
@@ -135,6 +141,12 @@ Depth: -150m, evenly common
 Granite is found in dense clusters and is much harder to dig than standard
 stone. It has mainly decorative use, but also appears in a couple of
 machine recipes.
+
+#### Sulfur
+Uses: battery box
+
+Sulur is generated around some lava patches (caves).
+
 
 ### 2.3 Rubber
 Rubber is a biologically-derived material that has industrial uses due
