@@ -120,7 +120,7 @@ local run = function(pos, node, run_stage)
 		return
 	end
 
-	local remain = 0.9
+	local efficiency = 0.9
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
