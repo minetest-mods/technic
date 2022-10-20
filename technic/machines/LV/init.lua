@@ -22,3 +22,6 @@ dofile(path.."/extractor.lua")
 dofile(path.."/compressor.lua")
 
 dofile(path.."/music_player.lua")
+-- NEW LV LAMPS
+dofile(path.."/led.lua")
+dofile(path.."/lamp.lua")
