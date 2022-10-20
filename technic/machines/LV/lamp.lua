@@ -84,18 +84,9 @@ local function lamp_toggle(pos, node, player)
 	end
 end
 
-minetest.register_node("technic:lv_lamp", {
-	description = desc,
+local common_fields = {
 	drawtype = "nodebox",
 	node_box = {
-		type = "fixed",
-		fixed = {0.5,0.5,0.5,-0.5,-0.2,-0.5}
-	},
-	collision_box = {
-		type = "fixed",
-		fixed = {0.5,0.5,0.5,-0.5,-0.2,-0.5}
-	},
-	selection_box = {
 		type = "fixed",
 		fixed = {0.5,0.5,0.5,-0.5,-0.2,-0.5}
 	},
@@ -107,56 +98,50 @@ minetest.register_node("technic:lv_lamp", {
 		"technic_lv_lamp_side.png",
 		"technic_lv_lamp_side.png"
 	},
-	groups = {cracky = 2, technic_machine = 1, technic_lv = 1},
 	connect_sides = {"front", "back", "left", "right", "top"},
 	can_dig = technic.machine_can_dig,
 	technic_run = lamp_run,
+	on_destruct = illuminate,
+	on_rightclick = lamp_toggle
+}
+
+local ndef
+
+ndef = {
+	description = desc,
+	groups = {cracky = 2, technic_machine = 1, technic_lv = 1},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", desc)
 		meta:set_int("LV_EU_demand", demand)
-	end,
-	on_destruct = illuminate,
-	on_rightclick = lamp_toggle
-})
+	end
+}
 
-minetest.register_node("technic:lv_lamp_active", {
+for k, v in pairs(common_fields) do
+	ndef[k] = v
+end
+
+minetest.register_node("technic:lv_lamp", ndef)
+
+
+ndef = {
 	description = active_desc,
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {0.5, 0.5, 0.5, -0.5, -0.2, -0.5}
-	},
-	collision_box = {
-		type = "fixed",
-		fixed = {0.5, 0.5, 0.5, -0.5, -0.2, -0.5}
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {0.5, 0.5, 0.5, -0.5, -0.2, -0.5}
-	},
-	tiles = {
-		"technic_lv_lamp_top.png",
-		"technic_lv_lamp_bottom.png",
-		"technic_lv_lamp_side.png",
-		"technic_lv_lamp_side.png",
-		"technic_lv_lamp_side.png",
-		"technic_lv_lamp_side.png"
-	},
 	paramtype = "light",
 	light_source = 14,
 	drop = "technic:lv_lamp",
 	groups = {cracky = 2, technic_machine = 1, technic_lv = 1, not_in_creative_inventory = 1},
-	connect_sides = {"front", "back", "left", "right", "top"},
-	can_dig = technic.machine_can_dig,
-	technic_run = lamp_run,
 	technic_on_disable = function(pos)
 		illuminate(pos, false)
 		technic.swap_node(pos, "technic:lv_lamp")
 	end,
-	on_destruct = illuminate,
-	on_rightclick = lamp_toggle,
-})
+}
+
+for k, v in pairs(common_fields) do
+	ndef[k] = v
+end
+
+minetest.register_node("technic:lv_lamp_active", ndef)
+
 
 technic.register_machine("LV", "technic:lv_lamp", technic.receiver)
 technic.register_machine("LV", "technic:lv_lamp_active", technic.receiver)
