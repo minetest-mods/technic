@@ -143,26 +143,33 @@ local run = function(pos, node, run_stage)
 	local to   = technic.get_cable_tier(name_down)
 
 	if from and to then
+		-- Get the "to" network switching station for EU demand calculation
 		local network_hash = technic.cables[minetest.hash_node_position(pos_down)]
 		local network = network_hash and minetest.get_position_from_hash(network_hash)
 		local sw_pos = network and {x=network.x,y=network.y+1,z=network.z}
 		local timeout = 0
 		for tier in pairs(technic.machines) do
-			timeout = math.max(meta:get_int(tier.."_EU_timeout"),timeout)
+			-- Supply converter must be connected to a network
+			timeout = math.max(meta:get_int(tier.."_EU_timeout"), timeout)
 		end
 		if timeout > 0 and sw_pos and minetest.get_node(sw_pos).name == "technic:switching_station" then
 			local sw_meta = minetest.get_meta(sw_pos)
-			local demand = enabled and math.min(meta:get_int("power"),
-				100 * math.ceil(sw_meta:get_int("demand") / remain / 100)) or 0
+			local demand = 0
+			if enabled then
+				-- Reverse evaluate the required machine and round to a nice number
+				demand = 100 * math.ceil((sw_meta:get_int("demand") / efficiency) / 100)
+				-- Do not draw more than the limit
+				demand = math.min(demand, meta:get_int("power"))
+			end
 
-			local input = meta:get_int(from.."_EU_input")
-			meta:set_int(from.."_EU_demand", demand)
+			local input = meta:get_int(from.."_EU_input") -- actual input
+			meta:set_int(from.."_EU_demand", demand) -- desired input
 			meta:set_int(from.."_EU_supply", 0)
 			meta:set_int(to.."_EU_demand", 0)
-			meta:set_int(to.."_EU_supply", input * remain)
+			meta:set_int(to.."_EU_supply", input * efficiency)
 			meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name,
 				technic.EU_string(input), from,
-				technic.EU_string(input * remain), to))
+				technic.EU_string(input * efficiency), to))
 		else
 			meta:set_string("infotext",S("%s Has No Network"):format(machine_name))
 		end
