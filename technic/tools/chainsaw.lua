@@ -5,9 +5,11 @@ local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
 -- if this is disabled.
 local chainsaw_leaves = true
 
+local chainsaw_efficiency = 0.95 -- Drops less items
+
 -- Maximal dimensions of the tree to cut
 local tree_max_radius = 10
-local tree_max_height = 100
+local tree_max_height = 70
 
 local S = technic.getter
 
@@ -22,9 +24,9 @@ This table is filled automatically afterwards to support mods such as:
 ]]
 local tree_nodes = {
 	-- For the sake of maintenance, keep this sorted alphabetically!
-	{"default:acacia_bush_stem", true},
-	{"default:bush_stem", true},
-	{"default:pine_bush_stem", true},
+	["default:acacia_bush_stem"] = -1,
+	["default:bush_stem"] = -1,
+	["default:pine_bush_stem"] = -1,
 
 	["default:cactus"] = -1,
 	["default:papyrus"] = -1,
@@ -56,11 +58,15 @@ local function populate_costs(name, def)
 
 	-- Function did not return! --> add content ID to the digging table
 	local content_id = minetest.get_content_id(name)
+
 	-- Get 12 in average
-	tree_nodes[content_id] = math.min(4,
-		(def.groups.choppy or 0) * 5   -- trunks
-		+ (def.groups.snappy or 0) * 2 -- leaves
-	)
+	local cost = 0
+	if def.groups.choppy then
+		cost = def.groups.choppy * 5 -- trunks (usually 3 * 5)
+	elseif def.groups.snappy then
+		cost = def.groups.snappy * 2 -- leaves
+	end
+	tree_nodes[content_id] = math.max(4, cost)
 end
 
 minetest.register_on_mods_loaded(function()
@@ -251,10 +257,20 @@ handle_drops = function(pos)
 		while count > 0 do
 			local drops = minetest.get_node_drops(name, "")
 			-- higher numbers are faster but return uneven sapling counts
-			local decrement = math.min(5, count)
+			local decrement = math.ceil(count * 0.3)
+			decrement = math.min(count, math.max(5, decrement))
+
 			for _, stack in ipairs(drops) do
-				for i = 1, decrement do
+				stack = ItemStack(stack)
+				local total = math.ceil(stack:get_count() * decrement * chainsaw_efficiency)
+				local stack_max = stack:get_stack_max()
+
+				-- Split into full stacks
+				while total > 0 do
+					local size = math.min(total, stack_max)
+					stack:set_count(size)
 					drop_inv:add_item("main", stack)
+					total = total - size
 				end
 			end
 			count = count - decrement
