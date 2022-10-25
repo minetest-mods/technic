@@ -133,7 +133,8 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 
 	--dprint(name.." is a "..machines[name])
 	local meta = minetest.get_meta(pos)
-	meta:set_string(network.tier.."_network", minetest.pos_to_string(sw_pos))
+	-- Normal tostring() does not have enough precision, neither does meta:set_int()
+	meta:set_string(network.tier.."_network", string.format("%X", network_id))
 
 	if     eu_type == technic.producer then
 		add_network_node(network.PR_nodes, pos, network_id)
