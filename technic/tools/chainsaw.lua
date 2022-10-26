@@ -31,6 +31,11 @@ local tree_nodes = {
 	["default:cactus"] = -1,
 	["default:papyrus"] = -1,
 
+	-- dfcaves "fruits"
+	["df_trees:blood_thorn_spike"] = -1,
+	["df_trees:blood_thorn_spike_dead"] = -1,
+	["df_trees:tunnel_tube_fruiting_body"] = -1,
+
 	["ethereal:bamboo"] = -1,
 }
 
