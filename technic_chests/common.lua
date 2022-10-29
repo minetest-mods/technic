@@ -1,7 +1,7 @@
 technic.chests.groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		tubedevice=1, tubedevice_receiver=1}
+		tubedevice=1, tubedevice_receiver=1, technic_chest=1}
 technic.chests.groups_noinv = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		tubedevice=1, tubedevice_receiver=1, not_in_creative_inventory=1}
+		tubedevice=1, tubedevice_receiver=1, not_in_creative_inventory=1, technic_chest=1}
 
 technic.chests.tube = {
 	insert_object = function(pos, node, stack, direction)
