@@ -69,7 +69,7 @@ local function clear_networks(pos)
 				elseif technic.machines[tier][node.name] then
 					-- Found a machine
 					local eu_type = technic.machines[tier][node.name]
-					meta:set_string(tier.."_network", minetest.pos_to_string(sw_pos))
+					meta:set_string(tier.."_network", string.format("%X", network_id))
 					if     eu_type == technic.producer then
 						table.insert(network.PR_nodes, pos)
 					elseif eu_type == technic.receiver then
