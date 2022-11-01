@@ -355,6 +355,8 @@ minetest.register_abm({
 			BA_eu_supply = BA_eu_supply + meta1:get_int(eu_supply_str)
 			BA_eu_demand = BA_eu_demand + meta1:get_int(eu_demand_str)
 		end
+		-- Expose value for the supply converter
+		meta:set_int("ba_demand", BA_eu_demand)
 		--dprint("Total BA supply:"..BA_eu_supply)
 		--dprint("Total BA demand:"..BA_eu_demand)
 

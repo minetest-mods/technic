@@ -157,7 +157,8 @@ local run = function(pos, node, run_stage)
 			local demand = 0
 			if enabled then
 				-- Reverse evaluate the required machine and round to a nice number
-				demand = 100 * math.ceil((sw_meta:get_int("demand") / efficiency) / 100)
+				demand = sw_meta:get_int("ba_demand") + sw_meta:get_int("demand")
+				demand = 100 * math.ceil(demand / efficiency / 100)
 				-- Do not draw more than the limit
 				demand = math.min(demand, meta:get_int("power"))
 			end
