@@ -11,6 +11,10 @@ function technic.get_cable_tier(name)
 	return cable_tier[name]
 end
 
+function technic.register_cable_tier(name, tier)
+	cable_tier[name] = tier
+end
+
 local function check_connections(pos)
 	-- Build a table of all machines
 	local machines = {}

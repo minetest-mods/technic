@@ -35,6 +35,10 @@ Available functions:
 * `technic.is_tier_cable(nodename, tier)`
 	* Tells whether the node `nodename` is the cable of the tier `tier`.
 	* Short version of `technic.get_cable_tier(nodename) == tier`
+* `technic.register_cable_tier(nodename, tier)`
+	* Register user defined cable to list of known tier cables.
+	* `nodename`: string, name of the node
+	* `tier`: string, tier name
 
 
 ## Machines
