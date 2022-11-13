@@ -1,0 +1,9 @@
+# technic_concrete japanese translation
+# technic_concreteの日本語への翻訳
+# by damiemk
+
+Rebar = 鉄筋
+Concrete Block = コンクリートのブロック
+Blast-resistant Concrete Block = 耐爆性コンクリートのブロック
+Concrete Post Platform = コンクリートのプラットフォーム
+Concrete Post = コンクリートポスト
