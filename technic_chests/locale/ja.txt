@@ -1,0 +1,41 @@
+# technic_chests japanese translation
+# technic_chestsの日本語への翻訳
+# by damiemk
+
+%s Chest = %s のチェスト
+%s Locked Chest = %s ロックされたチェスト
+%s Locked Chest (owned by %s) = %s のロックされたチェスト (%s が所有)
+Color Filter: %s = カラーフィルター: %s
+Edit chest description: = チェストの説明を編集する:
+
+# Colors
+Black = 黒
+Blue = 青
+Brown = 茶色
+Cyan = シアン
+Dark Green = 濃い緑色
+Dark Grey = 暗灰色 
+Green = 緑
+Grey = 灰色
+Magenta = マジェンタ
+Orange = 橙色
+Pink = 桃色
+Red = 赤
+Violet = 紫
+White = 白
+Yellow = 黄色
+None = デフォルト
+
+# Materials
+Copper = 銅
+Gold = 金
+Iron = 鉄
+Mithril = ミスリル
+Silver = 銀
+Wooden = 木造
+
+# Sorting
+Sort = 組織する
+Auto-sort is %s = 自動組織が %s になっている
+Off = オフ
+On = オン

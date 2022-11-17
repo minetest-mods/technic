@@ -1,0 +1,8 @@
+# technic_extranodes japanese translation
+# technic_extranodesの日本語への翻訳
+# by damiemk
+
+Marble = 大理石
+Marble Bricks = 大理石のレンガ
+Granite = 花崗岩
+Concrete = コンクリート

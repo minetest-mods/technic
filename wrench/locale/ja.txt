@@ -1,0 +1,6 @@
+# technic_wrench japanese translation
+# technic_wrenchの日本語への翻訳
+# by damiemk
+
+Wrench = レンチ
+%s with items = アイテム付きレンチ %s
