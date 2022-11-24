@@ -193,7 +193,7 @@ function technic.register_battery_box(data)
 
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
-		local network_id = tonumber(meta:get_string(tier.."_network"), 16)
+		local network_id = tonumber(meta:get_string(tier.."_network"))
 
 		if not technic.networks[network_id] then
 			meta:set_string("infotext", S("%s Battery Box Has No Network"):format(tier))
