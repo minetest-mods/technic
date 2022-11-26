@@ -117,6 +117,7 @@ local function add_cable_node(nodes, pos, network_id, queue)
 end
 
 -- Generic function to add found connected nodes to the right classification array
+-- !! IMPORTANT: register/cables.lua -> clear_networks() must be kept in sync
 local check_node_subp = function(network, pos, machines, sw_pos, from_below, network_id, queue)
 	technic.get_or_load_node(pos)
 	local name = minetest.get_node(pos).name
@@ -134,7 +135,7 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 	--dprint(name.." is a "..machines[name])
 	local meta = minetest.get_meta(pos)
 	-- Normal tostring() does not have enough precision, neither does meta:set_int()
-	-- Bug: Cannot use hexadecimal notation for compression (LuaJIT Windows bug, #911)
+	-- Lua 5.1 bug: Cannot use hexadecimal notation for compression (see LuaJIT #911)
 	meta:set_string(network.tier.."_network", string.format("%.20g", network_id))
 
 	if     eu_type == technic.producer then
