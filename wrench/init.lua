@@ -69,23 +69,26 @@ local function restore(pos, placer, itemstack)
 	return itemstack
 end
 
-for name, info in pairs(wrench.registered_nodes) do
-	local olddef = minetest.registered_nodes[name]
-	if olddef then
-		local newdef = {}
-		for key, value in pairs(olddef) do
-			newdef[key] = value
+minetest.register_on_mods_loaded(function()
+	-- Delayed registration for foreign mod support
+	for name, info in pairs(wrench.registered_nodes) do
+		local olddef = minetest.registered_nodes[name]
+		if olddef then
+			local newdef = {}
+			for key, value in pairs(olddef) do
+				newdef[key] = value
+			end
+			newdef.stack_max = 1
+			newdef.description = S("%s with items"):format(newdef.description)
+			newdef.groups = {}
+			newdef.groups.not_in_creative_inventory = 1
+			newdef.on_construct = nil
+			newdef.on_destruct = nil
+			newdef.after_place_node = restore
+			minetest.register_node(":"..get_pickup_name(name), newdef)
 		end
-		newdef.stack_max = 1
-		newdef.description = S("%s with items"):format(newdef.description)
-		newdef.groups = {}
-		newdef.groups.not_in_creative_inventory = 1
-		newdef.on_construct = nil
-		newdef.on_destruct = nil
-		newdef.after_place_node = restore
-		minetest.register_node(":"..get_pickup_name(name), newdef)
 	end
-end
+end)
 
 minetest.register_tool("wrench:wrench", {
 	description = S("Wrench"),
