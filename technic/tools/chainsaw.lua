@@ -5,9 +5,9 @@ local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
 -- if this is disabled.
 local chainsaw_leaves = true
 
-local chainsaw_efficiency = 0.95 -- Drops less items
+local chainsaw_efficiency = 0.92 -- Drops less items
 
--- Maximal dimensions of the tree to cut
+-- Maximal dimensions of the tree to cut (giant sequoia)
 local tree_max_radius = 10
 local tree_max_height = 70
 
@@ -39,12 +39,16 @@ local tree_nodes = {
 	["ethereal:bamboo"] = -1,
 }
 
+local tree_nodes_by_cid = {
+	-- content ID indexed table, data populated on mod load.
+	-- Format: [node_name] = cost_number
+}
+
 -- Function to decide whether or not to cut a certain node (and at which energy cost)
 local function populate_costs(name, def)
 	repeat
-		if tree_nodes[name] == -1 then
-			tree_nodes[name] = nil
-			break -- Manually added, but need updating
+		if tree_nodes[name] then
+			break -- Manually specified node to chop
 		end
 		if (def.groups.tree or 0) > 0 then
 			break -- Tree node
@@ -61,17 +65,18 @@ local function populate_costs(name, def)
 	until 1
 	-- luacheck: pop
 
-	-- Function did not return! --> add content ID to the digging table
+	-- Add the node cost to the content ID indexed table
 	local content_id = minetest.get_content_id(name)
 
-	-- Get 12 in average
-	local cost = 0
+	-- Make it so that the giant sequoia can be cut with a full charge
+	local cost = tree_nodes[name] or 0
 	if def.groups.choppy then
-		cost = def.groups.choppy * 5 -- trunks (usually 3 * 5)
-	elseif def.groups.snappy then
-		cost = def.groups.snappy * 2 -- leaves
+		cost = math.max(cost, def.groups.choppy * 14) -- trunks (usually 3 * 14)
 	end
-	tree_nodes[content_id] = math.max(4, cost)
+	if def.groups.snappy then
+		cost = math.max(cost, def.groups.snappy * 2) -- leaves
+	end
+	tree_nodes_by_cid[content_id] = math.max(4, cost)
 end
 
 minetest.register_on_mods_loaded(function()
@@ -121,11 +126,12 @@ local function dig_recursive(x, y, z)
 
 	if cutter.param2[i] ~= 0 then
 		-- Do not dig manually placed nodes
+		-- Problem: moretrees' generated jungle trees use param2 = 2
 		return
 	end
 
 	local c_id = cutter.data[i]
-	local cost = tree_nodes[c_id]
+	local cost = tree_nodes_by_cid[c_id]
 	if not cost or cost > cutter.charge then
 		return -- Cannot dig this node
 	end
