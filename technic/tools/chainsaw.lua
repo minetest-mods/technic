@@ -116,6 +116,7 @@ local cutter = {
 	-- See function cut_tree()
 }
 
+local safe_cut = minetest.settings:get_bool("technic_safe_chainsaw") ~= false
 local c_air = minetest.get_content_id("air")
 local function dig_recursive(x, y, z)
 	local i = cutter.area:index(x, y, z)
@@ -124,7 +125,7 @@ local function dig_recursive(x, y, z)
 	end
 	cutter.seen[i] = 1 -- Mark as visited
 
-	if cutter.param2[i] ~= 0 then
+	if safe_cut and cutter.param2[i] ~= 0 then
 		-- Do not dig manually placed nodes
 		-- Problem: moretrees' generated jungle trees use param2 = 2
 		return
