@@ -110,6 +110,41 @@ local function quarry_handle_purge(pos)
 	end
 end
 
+-- Determines whether the quarry can dig the node at "pos"
+-- "startpos" is located a few nodes above the quarry in South West direction (X-, Z-)
+-- Returns the node to dig (to avoid double minetest.get_node lookup)
+local function quarry_can_dig_node(startpos, pos, quarry_owner)
+	if minetest.is_protected(pos, quarry_owner) then
+		return nil
+	end
+
+	local node = technic.get_or_load_node(pos) or minetest.get_node(pos)
+	local def = minetest.registered_nodes[node.name] or {diggable=false}
+	-- doors mod among other thing does NOT like a nil digger...
+	local fakedigger = pipeworks.create_fake_player({
+		name = quarry_owner
+	})
+	if not def.diggable or (def.can_dig and not def.can_dig(pos, fakedigger)) then
+		return nil
+	end
+
+	-- Find airlike nodes on top of the current node. The entire Y column must be free.
+	local dir = (pos.y+1 < startpos.y) and 1 or -1
+	for ay = pos.y+1, startpos.y, dir do
+		local checkpos = {x=pos.x, y=ay, z=pos.z}
+		local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
+
+		local cdef = minetest.registered_nodes[checknode.name] or {}
+		local is_kind_of_gas = cdef.buildable_to and cdef.sunlight_propagates and not cdef.walkable
+			and not cdef.diggable and (cdef.drawtype == "airlike" or cdef.drawtype == "glasslike")
+		if not is_kind_of_gas then
+			return nil
+		end
+	end
+
+	return node
+end
+
 local function quarry_run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -153,35 +188,11 @@ local function quarry_run(pos, node)
 				vector.new(0, -ry, 0)),
 				vector.multiply(pdir, rp)),
 				vector.multiply(qdir, rq))
-			local can_dig = true
-			if can_dig and minetest.is_protected and minetest.is_protected(digpos, owner) then
-				can_dig = false
-			end
-			local dignode
-			if can_dig then
-				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
-				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
-				-- doors mod among other thing does NOT like a nil digger...
-				local fakedigger = pipeworks.create_fake_player({
-					name = owner
-				})
-				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, fakedigger)) then
-					can_dig = false
-				end
-			end
 
-			if can_dig then
-				for ay = startpos.y, digpos.y+1, -1 do
-					local checkpos = {x=digpos.x, y=ay, z=digpos.z}
-					local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
-					if checknode.name ~= "air" then
-						can_dig = false
-						break
-					end
-				end
-			end
 			nd = nd + 1
-			if can_dig then
+
+			local dignode = quarry_can_dig_node(startpos, digpos, owner)
+			if dignode then
 				minetest.remove_node(digpos)
 				local drops = minetest.get_node_drops(dignode.name, "")
 				for _, dropped_item in ipairs(drops) do
