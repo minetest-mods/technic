@@ -129,8 +129,7 @@ local function quarry_can_dig_node(startpos, pos, quarry_owner)
 	end
 
 	-- Find airlike nodes on top of the current node. The entire Y column must be free.
-	local dir = (pos.y+1 < startpos.y) and 1 or -1
-	for ay = pos.y+1, startpos.y, dir do
+	for ay = pos.y+1, startpos.y do
 		local checkpos = {x=pos.x, y=ay, z=pos.z}
 		local checknode = technic.get_or_load_node(checkpos) or minetest.get_node(checkpos)
 
