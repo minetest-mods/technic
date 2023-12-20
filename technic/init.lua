@@ -30,6 +30,27 @@ else
 	iron_ingrediant = 'default:steel_ingot'
 end
 
+iron_lump_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	iron_lump_ingrediant = "mcl_raw_ores:raw_iron"
+else
+	iron_lump_ingrediant = 'default:iron_lump'
+end
+
+gold_lump_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	gold_lump_ingrediant = "mcl_raw_ores:raw_gold"
+else
+	gold_lump_ingrediant = 'default:gold_lump'
+end
+
+copper_lump_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	copper_lump_ingrediant = "mcl_raw_ores:raw_copper"
+else
+	copper_lump_ingrediant = 'default:copper_lump'
+end
+
 mese_crystal_ingrediant = nil
 if minetest.get_modpath("mcl_core") then
 	mese_crystal_ingrediant = "mesecons:wire_00000000_off"
@@ -180,6 +201,13 @@ else
 	sand_ingrediant = 'default:sand'
 end
 
+gravel_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	gravel_ingrediant = "mcl_core:gravel"
+else
+	gravel_ingrediant = 'default:gravel'
+end
+
 desert_stone_ingrediant = nil
 if minetest.get_modpath("mcl_core") then
 	desert_stone_ingrediant = "mcl_core:redsandstone"
@@ -208,6 +236,13 @@ if minetest.get_modpath("mcl_core") then
 	mossy_cobble_ingrediant = "mcl_core:mossycobble"
 else
 	mossy_cobble_ingrediant = 'default:mossycobble'
+end
+
+cobble_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	cobble_ingrediant = "mcl_core:cobble"
+else
+	cobble_ingrediant = 'default:cobble'
 end
 
 snow_block_ingrediant = nil
@@ -267,6 +302,98 @@ if minetest.get_modpath("mcl_core") then
 else
 	stick_ingrediant = "default:stick"
 end
+
+emtpy_bucket_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	emtpy_bucket_ingrediant = "mcl_buckets:bucket_empty"
+else
+	emtpy_bucket_ingrediant = "bucket:bucket_empty"
+end
+
+water_bucket_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	water_bucket_ingrediant = "mcl_buckets:bucket_water"
+else
+	water_bucket_ingrediant = "bucket:bucket_water"
+end
+
+-- Ingredient Variables
+
+if minetest.get_modpath("mcl_core") then
+    blueberries_ingredient = "mcl_farming:blueberries" -- If available in MineClone2
+    grass_ingredient = "mcl_core:grass"
+    dry_shrub_ingredient = "mcl_core:deadbush"
+    junglegrass_ingredient = "mcl_core:tallgrass" -- Adjust as needed
+    cactus_ingredient = "mcl_core:cactus"
+    geranium_ingredient = "mcl_flowers:blue_orchid"
+    dandelion_white_ingredient = "mcl_flowers:oxeye_daisy"
+    dandelion_yellow_ingredient = "mcl_flowers:dandelion"
+    tulip_ingredient = "mcl_flowers:orange_tulip" -- Adjust for the tulip color
+    rose_ingredient = "mcl_flowers:poppy"
+    viola_ingredient = "mcl_flowers:allium"
+else
+    -- Default Minetest Game ingredients
+    blueberries_ingredient = "default:blueberries"
+    grass_ingredient = "default:grass_1"
+    dry_shrub_ingredient = "default:dry_shrub"
+    junglegrass_ingredient = "default:junglegrass"
+    cactus_ingredient = "default:cactus"
+    geranium_ingredient = "flowers:geranium"
+    dandelion_white_ingredient = "flowers:dandelion_white"
+    dandelion_yellow_ingredient = "flowers:dandelion_yellow"
+    tulip_ingredient = "flowers:tulip"
+    rose_ingredient = "flowers:rose"
+    viola_ingredient = "flowers:viola"
+end
+
+-- Dye Output Variables
+
+if minetest.get_modpath("mcl_core") then
+    -- MineClone2 dye names
+    dye_black = "mcl_dye:black"
+    dye_violet = "mcl_dye:violet"
+    dye_green = "mcl_dye:green"
+    dye_brown = "mcl_dye:brown"
+    dye_blue = "mcl_dye:blue"
+    dye_white = "mcl_dye:white"
+    dye_yellow = "mcl_dye:yellow"
+    dye_orange = "mcl_dye:orange"
+    dye_red = "mcl_dye:red"
+else
+    -- Default Minetest Game dye names
+    dye_black = "dye:black"
+    dye_violet = "dye:violet"
+    dye_green = "dye:green"
+    dye_brown = "dye:brown"
+    dye_blue = "dye:blue"
+    dye_white = "dye:white"
+    dye_yellow = "dye:yellow"
+    dye_orange = "dye:orange"
+    dye_red = "dye:red"
+end
+
+dirt_with_snow_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	dirt_with_snow_ingrediant = "mcl_core:dirt_with_grass_snow"
+else
+	dirt_with_snow_ingrediant = "default:dirt_with_snow"
+end
+
+bucket_lava_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	bucket_lava_ingrediant = "mcl_buckets:bucket_lava"
+else
+	bucket_lava_ingrediant = "bucket:bucket_lava"
+end
+
+bucket_river_water_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	bucket_river_water_ingrediant = "mcl_buckets:bucket_river_water"
+else
+	bucket_river_water_ingrediant = "bucket:bucket_river_water"
+end
+
+
 
 if not minetest.get_translator then
 	error("[technic] Your Minetest version is no longer supported."

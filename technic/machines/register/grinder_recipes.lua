@@ -9,32 +9,35 @@ function technic.register_grinder_recipe(data)
 end
 
 local recipes = {
-	-- Dusts
-	{"default:coal_lump",          "technic:coal_dust 2"},
-	{"default:copper_lump",        "technic:copper_dust 2"},
-	{"default:desert_stone",       "default:desert_sand"},
-	{"default:gold_lump",          "technic:gold_dust 2"},
-	{"default:iron_lump",          "technic:wrought_iron_dust 2"},
-	{"default:tin_lump",           "technic:tin_dust 2"},
-	{"technic:chromium_lump",      "technic:chromium_dust 2"},
-	{"technic:uranium_lump",       "technic:uranium_dust 2"},
-	{"technic:zinc_lump",          "technic:zinc_dust 2"},
-	{"technic:lead_lump",          "technic:lead_dust 2"},
-	{"technic:sulfur_lump",        "technic:sulfur_dust 2"},
-	{"default:stone",              "technic:stone_dust"},
-	{"default:sand",               "technic:stone_dust"},
-	{"default:desert_sand",        "technic:stone_dust"},
-	{"default:silver_sand",        "technic:stone_dust"},
+    -- Dusts
+    {coal_ingrediant,              "technic:coal_dust 2"},
+    {copper_lump_ingrediant,            "technic:copper_dust 2"},
+    {desert_stone_ingrediant,      desert_sand_ingrediant},
+    {gold_lump_ingrediant,        "technic:gold_dust 2"},
+    {iron_lump_ingrediant,              "technic:wrought_iron_dust 2"},
+    {"moreores:tin_lump",               "technic:tin_dust 2"},
+    {"technic:chromium_lump",      "technic:chromium_dust 2"},
+    {"technic:uranium_lump",       "technic:uranium_dust 2"},
+    {"technic:zinc_lump",          "technic:zinc_dust 2"},
+    {"technic:lead_lump",          "technic:lead_dust 2"},
+    {"technic:sulfur_lump",        "technic:sulfur_dust 2"},
+    {stone_ingrediant,             "technic:stone_dust"},
+    {sand_ingrediant,              "technic:stone_dust"},
+    {desert_sand_ingrediant,       "technic:stone_dust"},
 
-	-- Other
-	{"default:cobble",           "default:gravel"},
-	{"default:gravel",           "default:sand"},
-	{"default:sandstone",        "default:sand 2"}, -- reverse recipe can be found in the compressor
-	{"default:desert_sandstone", "default:desert_sand 2"}, -- reverse recipe can be found in the compressor
-	{"default:silver_sandstone", "default:silver_sand 2"}, -- reverse recipe can be found in the compressor
-
-	{"default:ice",              "default:snowblock"},
+    -- Other
+    {cobble_ingrediant,             gravel_ingrediant},
+    {gravel_ingrediant,             sand_ingrediant},
+    {sandstone_ingrediant,         sand_ingrediant.." 2"}, -- reverse recipe can be found in the compressor
+    {desert_stone_ingrediant,   desert_sand_ingrediant.." 2"}, -- reverse recipe can be found in the compressor
+    {ice_block_ingrediant,         snow_block_ingrediant},
 }
+
+
+if minetest.get_modpath("default") then
+	table.insert(recipes, {"default:silver_sandstone", "default:silver_sand 2"}) -- reverse recipe can be found in the compressor
+	table.insert(recipes, {"default:silver_sand",        "technic:stone_dust"})
+end
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
@@ -87,11 +90,13 @@ local function register_dust(name, ingot)
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
-		minetest.register_craft({
+		data1 = {
 			type = "cooking",
 			recipe = "technic:"..lname.."_dust",
 			output = ingot,
-		})
+		}
+		minetest.log("action",minetest.serialize(data1))
+		minetest.register_craft(data1)
 		technic.register_grinder_recipe({ input = {ingot}, output = "technic:"..lname.."_dust 1" })
 	end
 end
@@ -112,7 +117,7 @@ register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
 register_dust("Stone",           "default:stone")
 register_dust("Sulfur",          nil)
-register_dust("Tin",             "default:tin_ingot")
+register_dust("Tin",             tin_ingrediant)
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then

@@ -9,10 +9,10 @@ function technic.register_freezer_recipe(data)
 end
 
 local recipes = {
-	{"bucket:bucket_water", { "default:ice", "bucket:bucket_empty" } },
-	{"bucket:bucket_river_water", { "default:ice", "bucket:bucket_empty" } },
-	{"default:dirt", "default:dirt_with_snow" },
-	{"bucket:bucket_lava", { "default:obsidian", "bucket:bucket_empty" } }
+	{water_bucket_ingrediant, { ice_block_ingrediant, emtpy_bucket_ingrediant } },
+	{bucket_river_water_ingrediant, { ice_block_ingrediant, emtpy_bucket_ingrediant } },
+	{dirt_ingrediant , dirt_with_snow_ingrediant },
+	{bucket_lava_ingrediant, { obsidian_ingrediant, emtpy_bucket_ingrediant } }
 }
 
 for _, data in pairs(recipes) do

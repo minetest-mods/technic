@@ -13,22 +13,25 @@ if minetest.get_modpath("dye") then
 	local unifieddyes = minetest.get_modpath("unifieddyes")
 
 	-- register recipes with the same crafting ratios as `dye` provides
+
 	local dye_recipes = {
-		{"technic:coal_dust",                 "dye:black 2"},
-		{"default:blueberries",               "dye:violet 2"},
-		{"default:grass_1",                   "dye:green 1"},
-		{"default:dry_shrub",                 "dye:brown 1"},
-		{"default:junglegrass",               "dye:green 2"},
-		{"default:cactus",                    "dye:green 4"},
-		{"flowers:geranium",                  "dye:blue 4"},
-		{"flowers:dandelion_white",           "dye:white 4"},
-		{"flowers:dandelion_yellow",          "dye:yellow 4"},
-		{"flowers:tulip",                     "dye:orange 4"},
-		{"flowers:rose",                      "dye:red 4"},
-		{"flowers:viola",                     "dye:violet 4"},
-		{"bushes:blackberry",                 unifieddyes and "unifieddyes:magenta_s50 4" or "dye:violet 4"},
-		{"bushes:blueberry",                  unifieddyes and "unifieddyes:magenta_s50 4" or "dye:magenta 4"},
+		{"technic:coal_dust",                dye_black .. " 2"},
+		{blueberries_ingredient,              dye_violet .. " 2"},
+		{grass_ingredient,                    dye_green .. " 1"},
+		{dry_shrub_ingredient,                dye_brown .. " 1"},
+		{junglegrass_ingredient,              dye_green .. " 2"},
+		{cactus_ingredient,                   dye_green .. " 4"},
+		{geranium_ingredient,                 dye_blue .. " 4"},
+		{dandelion_white_ingredient,          dye_white .. " 4"},
+		{dandelion_yellow_ingredient,         dye_yellow .. " 4"},
+		{tulip_ingredient,                    dye_orange .. " 4"},
+		{rose_ingredient,                     dye_red .. " 4"},
+		{viola_ingredient,                    dye_violet .. " 4"},
+		{blackberry_ingredient,               unifieddyes and "unifieddyes:magenta_s50 4" or dye_violet .. " 4"},
+		{blueberry_ingredient,                unifieddyes and "unifieddyes:magenta_s50 4" or dye_magenta .. " 4"},
 	}
+	
+	
 
 	for _, data in ipairs(dye_recipes) do
 		technic.register_extractor_recipe({input = {data[1]}, output = data[2]})
