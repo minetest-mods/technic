@@ -62,6 +62,12 @@ else
 	granite_bricks_ingrediant = 'technic:granite_bricks'
 end
 
+coal_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	coal_ingrediant = "group:coal"
+else
+	coal_ingrediant = "default:coal_lump"
+end
 
 technic = rawget(_G, "technic") or {}
 technic.chests = {}
