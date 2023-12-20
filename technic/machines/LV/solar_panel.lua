@@ -50,7 +50,7 @@ minetest.register_node("technic:solar_panel", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_lv=1},
 	connect_sides = {"bottom"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = wood_sounds,
 	description = S("Small Solar %s Generator"):format("LV"),
 	active = false,
 	drawtype = "nodebox",

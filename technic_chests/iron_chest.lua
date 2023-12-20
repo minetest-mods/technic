@@ -9,11 +9,12 @@ minetest.register_craft({
 	output = 'technic:iron_chest 1',
 	recipe = {
 		{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
-		{cast_iron_ingot,'default:chest',cast_iron_ingot},
+		{cast_iron_ingot,chest_ingrediant,cast_iron_ingot},
 		{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
 	}
 })
 
+if minetest.get_modpath("default") then
 minetest.register_craft({
 	output = 'technic:iron_locked_chest 1',
 	recipe = {
@@ -22,6 +23,7 @@ minetest.register_craft({
 		{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
 	}
 })
+end
 
 minetest.register_craft({
 	output = 'technic:iron_locked_chest 1',

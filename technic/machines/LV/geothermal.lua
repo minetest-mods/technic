@@ -10,9 +10,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
-		{'technic:granite',          'default:diamond',        'technic:granite'},
+		{granite_ingrediant,          diamond_ingrediant,        granite_ingrediant},
 		{'basic_materials:copper_wire', 'technic:machine_casing', 'basic_materials:copper_wire'},
-		{'technic:granite',          'technic:lv_cable',       'technic:granite'},
+		{granite_ingrediant,          'technic:lv_cable',       granite_ingrediant},
 	},
 	replacements = {
 		{"basic_materials:copper_wire", "basic_materials:empty_spool"},
@@ -90,7 +90,7 @@ minetest.register_node("technic:geothermal", {
 		technic_machine=1, technic_lv=1},
 	paramtype2 = "facedir",
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Geothermal %s Generator"):format("LV"))
@@ -107,7 +107,7 @@ minetest.register_node("technic:geothermal_active", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = wood_sounds,
 	drop = "technic:geothermal",
 	technic_run = run,
 })

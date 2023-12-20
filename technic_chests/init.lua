@@ -4,6 +4,65 @@
 
 local modpath = minetest.get_modpath("technic_chests")
 
+-- Mineclone2 Support
+stone_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	stone_sounds = mcl_sounds.node_sound_stone_defaults()
+else
+	stone_sounds = default.node_sound_stone_defaults()
+end
+
+node_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	node_sounds = mcl_sounds.node_sound_defaults()
+else
+	node_sounds = default.node_sound_defaults()
+end
+
+wood_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	wood_sounds = mcl_sounds.node_sound_wood_defaults()
+else
+	wood_sounds = default.node_sound_wood_defaults()
+end
+
+-- Mineclone2 Recipes
+chest_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	chest_ingrediant = "mcl_chests:chest"
+else
+	chest_ingrediant = "default:chest"
+end
+
+copper_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	copper_ingrediant = "mcl_copper:copper_ingot"
+else
+	copper_ingrediant = 'default:copper_ingot'
+end
+
+gold_ingot_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	gold_ingot_ingrediant = "mcl_core:gold_ingot"
+else
+	gold_ingot_ingrediant = 'default:gold_ingot'
+end
+
+granite_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	granite_ingrediant = "mcl_core:granite"
+else
+	granite_ingrediant = 'technic:granite'
+end
+
+granite_bricks_ingrediant = nil
+if minetest.get_modpath("mcl_core") then
+	granite_bricks_ingrediant = "mcl_core:granite_smooth"
+else
+	granite_bricks_ingrediant = 'technic:granite_bricks'
+end
+
+
 technic = rawget(_G, "technic") or {}
 technic.chests = {}
 

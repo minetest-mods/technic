@@ -6,7 +6,7 @@ minetest.register_node( ":technic:mineral_uranium", {
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
 	groups = {cracky=3, radioactive=1},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	drop = "technic:uranium_lump",
 })
 
@@ -15,7 +15,7 @@ minetest.register_node( ":technic:mineral_chromium", {
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	drop = "technic:chromium_lump",
 })
 
@@ -24,7 +24,7 @@ minetest.register_node( ":technic:mineral_zinc", {
 	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	drop = "technic:zinc_lump",
 })
 
@@ -33,7 +33,7 @@ minetest.register_node( ":technic:mineral_lead", {
 	tiles = { "default_stone.png^technic_mineral_lead.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	drop = "technic:lead_lump",
 })
 
@@ -42,32 +42,35 @@ minetest.register_node( ":technic:mineral_sulfur", {
 	tiles = { "default_stone.png^technic_mineral_sulfur.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	drop = "technic:sulfur_lump",
 })
 
+if minetest.get_modpath("default") then
 minetest.register_node( ":technic:granite", {
 	description = S("Granite"),
 	tiles = { "technic_granite.png" },
 	is_ground_content = true,
 	groups = {cracky=1},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 })
+
 
 minetest.register_node( ":technic:granite_bricks", {
 	description = S("Granite Bricks"),
 	tiles = { "technic_granite_bricks.png" },
 	is_ground_content = false,
 	groups = {cracky=1},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 })
+end
 
 minetest.register_node( ":technic:marble", {
 	description = S("Marble"),
 	tiles = { "technic_marble.png" },
 	is_ground_content = true,
 	groups = {cracky=3, marble=1},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 })
 
 minetest.register_node( ":technic:marble_bricks", {
@@ -75,7 +78,7 @@ minetest.register_node( ":technic:marble_bricks", {
 	tiles = { "technic_marble_bricks.png" },
 	is_ground_content = false,
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 })
 
 minetest.register_node(":technic:uranium_block", {
@@ -83,7 +86,7 @@ minetest.register_node(":technic:uranium_block", {
 	tiles = { "technic_uranium_block.png" },
 	is_ground_content = true,
 	groups = {uranium_block=1, cracky=1, level=2, radioactive=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
 minetest.register_node(":technic:chromium_block", {
@@ -91,7 +94,7 @@ minetest.register_node(":technic:chromium_block", {
 	tiles = { "technic_chromium_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
 minetest.register_node(":technic:zinc_block", {
@@ -99,7 +102,7 @@ minetest.register_node(":technic:zinc_block", {
 	tiles = { "technic_zinc_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
 minetest.register_node(":technic:lead_block", {
@@ -107,22 +110,24 @@ minetest.register_node(":technic:lead_block", {
 	tiles = { "technic_lead_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
+if minetest.get_modpath("default") then
 minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
 
 minetest.override_item("default:steelblock", {
 	description = S("Wrought Iron Block"),
 	tiles = { "technic_wrought_iron_block.png" },
 })
+end
 
 minetest.register_node(":technic:cast_iron_block", {
 	description = S("Cast Iron Block"),
 	tiles = { "technic_cast_iron_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
 minetest.register_node(":technic:carbon_steel_block", {
@@ -130,7 +135,7 @@ minetest.register_node(":technic:carbon_steel_block", {
 	tiles = { "technic_carbon_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
 minetest.register_node(":technic:stainless_steel_block", {
@@ -138,16 +143,18 @@ minetest.register_node(":technic:stainless_steel_block", {
 	tiles = { "technic_stainless_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults()
+	sounds = stone_sounds
 })
 
+if minetest.get_modpath("default") then
 minetest.register_craft({
 	output = 'technic:granite_bricks 4',
 	recipe = {
-		{'technic:granite','technic:granite'},
-		{'technic:granite','technic:granite'}
+		{granite_ingrediant,granite_ingrediant},
+		{granite_ingrediant,granite_ingrediant}
 	}
 })
+end
 
 minetest.register_craft({
 	output = 'technic:marble_bricks 4',
@@ -171,6 +178,8 @@ local function for_each_registered_node(action)
 		action(name, def)
 	end
 end
+
+if minetest.get_modpath("default") then
 
 for_each_registered_node(function(node_name, node_def)
 	if node_name ~= "default:steelblock" and
@@ -202,3 +211,4 @@ for_each_registered_node(function(node_name, node_def)
 	end
 end)
 
+end

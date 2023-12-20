@@ -13,7 +13,7 @@ end
 
 local recipes = {
 	{"technic:copper_dust 7",         "technic:tin_dust",           "technic:bronze_dust 8", 12},
-	{"default:copper_ingot 7",        "default:tin_ingot",          "default:bronze_ingot 8", 12},
+	{"copper_ingrediant 7",        "default:tin_ingot",          "default:bronze_ingot 8", 12},
 	{"technic:wrought_iron_dust 2",   "technic:coal_dust",          "technic:carbon_steel_dust 2", 6},
 	{"technic:wrought_iron_ingot 2",  "technic:coal_dust",          "technic:carbon_steel_ingot 2", 6},
 	{"technic:carbon_steel_dust 2",   "technic:coal_dust",          "technic:cast_iron_dust 2", 6},
@@ -21,7 +21,7 @@ local recipes = {
 	{"technic:carbon_steel_dust 4",   "technic:chromium_dust",      "technic:stainless_steel_dust 5", 7.5},
 	{"technic:carbon_steel_ingot 4",  "technic:chromium_ingot",     "technic:stainless_steel_ingot 5", 7.5},
 	{"technic:copper_dust 2",         "technic:zinc_dust",          "technic:brass_dust 3"},
-	{"default:copper_ingot 2",        "technic:zinc_ingot",         "basic_materials:brass_ingot 3"},
+	{"copper_ingrediant 2",        "technic:zinc_ingot",         "basic_materials:brass_ingot 3"},
 	{"default:sand 2",                "technic:coal_dust 2",        "technic:silicon_wafer"},
 	{"technic:silicon_wafer",         "technic:gold_dust",          "technic:doped_silicon_wafer"},
 	-- from https://en.wikipedia.org/wiki/Carbon_black

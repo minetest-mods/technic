@@ -9,18 +9,19 @@ function technic.register_compressor_recipe(data)
 end
 
 local recipes = {
-	{"default:snowblock",          "default:ice"},
-	{"default:sand 2",             "default:sandstone"},
-	{"default:desert_sand 2",      "default:desert_sandstone"},
-	{"default:silver_sand 2",      "default:silver_sandstone"},
-	{"default:desert_sand",        "default:desert_stone"},
+	{snow_block_ingrediant,          ice_block_ingrediant},
+	{sand_ingrediant.." 2",             sandstone_ingrediant},
+	{desert_sand_ingrediant.." 2",      desert_stone_ingrediant},
+	{desert_sand_ingrediant,        desert_stone_ingrediant},
 	{"technic:mixed_metal_ingot",  "technic:composite_plate"},
-	{"default:copper_ingot 5",     "technic:copper_plate"},
+	{copper_ingrediant.." 5",     "technic:copper_plate"},
 	{"technic:coal_dust 4",        "technic:graphite"},
 	{"technic:carbon_cloth",       "technic:carbon_plate"},
 	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
-
+if minetest.get_modpath("default") then
+table.insert(recipes, {"default:silver_sand 2",      "default:silver_sandstone"})
+end
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
 minetest.clear_craft({
 	recipe = {

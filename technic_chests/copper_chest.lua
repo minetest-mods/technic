@@ -1,18 +1,18 @@
 minetest.register_craft({
 	output = 'technic:copper_chest 1',
 	recipe = {
-		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
-		{'default:copper_ingot','technic:iron_chest','default:copper_ingot'},
-		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
+		{copper_ingrediant,copper_ingrediant,copper_ingrediant},
+		{copper_ingrediant,'technic:iron_chest',copper_ingrediant},
+		{copper_ingrediant,copper_ingrediant,copper_ingrediant},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:copper_locked_chest 1',
 	recipe = {
-		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
-		{'default:copper_ingot','technic:iron_locked_chest','default:copper_ingot'},
-		{'default:copper_ingot','default:copper_ingot','default:copper_ingot'},
+		{copper_ingrediant,copper_ingrediant,copper_ingrediant},
+		{copper_ingrediant,'technic:iron_locked_chest',copper_ingrediant},
+		{copper_ingrediant,copper_ingrediant,copper_ingrediant},
 	}
 })
 

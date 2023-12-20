@@ -229,6 +229,13 @@ local function send_move_error(player)
 	return 0
 end
 
+local quarry_pick = nill
+if minetest.get_modpath("mcl_core") then
+	quarry_pick = "default_tool_diamondpick.png"
+else
+	quarry_pick = "default_tool_mesepick.png"
+end
+
 minetest.register_node("technic:quarry", {
 	description = S("%s Quarry"):format("HV"),
 	tiles = {
@@ -236,7 +243,7 @@ minetest.register_node("technic:quarry", {
 		"technic_carbon_steel_block.png"..cable_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
-		"technic_carbon_steel_block.png^default_tool_mesepick.png",
+		"technic_carbon_steel_block.png^"..quarry_pick,
 		"technic_carbon_steel_block.png"..cable_entry
 	},
 	paramtype2 = "facedir",

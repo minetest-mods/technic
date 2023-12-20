@@ -24,7 +24,7 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
 	recipe = {
-		{'technic:carbon_plate',          'default:obsidian_glass', 'technic:carbon_plate'},
+		{'technic:carbon_plate',          obsidian_glass_ingrediant, 'technic:carbon_plate'},
 		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
 		{'technic:stainless_steel_ingot', 'technic:hv_cable',       'technic:stainless_steel_ingot'},
 	}
@@ -414,7 +414,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	mesh = "technic_reactor.obj",
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = wood_sounds,
 	paramtype = "light",
 	paramtype2 = "facedir",
 	stack_max = 1,
@@ -449,7 +449,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core_active", {
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1, radioactive = 4,
 		not_in_creative_inventory = 1, digiline_remote_receive = 1},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = wood_sounds,
 	drop = "technic:hv_nuclear_reactor_core",
 	light_source = 14,
 	paramtype = "light",

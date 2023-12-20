@@ -1,5 +1,34 @@
 local modpath = minetest.get_modpath("technic_worldgen")
 
+-- Mineclone Support
+stone_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	stone_sounds = mcl_sounds.node_sound_stone_defaults()
+else
+	stone_sounds = default.node_sound_stone_defaults()
+end
+
+node_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	node_sounds = mcl_sounds.node_sound_defaults()
+else
+	node_sounds = default.node_sound_defaults()
+end
+
+wood_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	wood_sounds = mcl_sounds.node_sound_wood_defaults()
+else
+	wood_sounds = default.node_sound_wood_defaults()
+end
+
+leaves_sounds = nil
+if minetest.get_modpath("mcl_sounds") then
+	leaves_sounds = mcl_sounds.node_sound_leaves_defaults()
+else
+	leaves_sounds = default.node_sound_leaves_defaults()
+end
+
 technic = rawget(_G, "technic") or {}
 technic.worldgen = {
 	gettext = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end,
