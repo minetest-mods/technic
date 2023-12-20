@@ -1,52 +1,54 @@
 local default = minetest.get_modpath("default") and default or {}
+local mcl_core_modpath = minetest.get_modpath("mcl_core")
+
 -- Mineclone2 Support
-stone_sounds = minetest.get_modpath("mcl_sounds") and mcl_sounds.node_sound_stone_defaults() or default.node_sound_stone_defaults()
-mt_light_max = minetest.get_modpath("mcl_core") and mcl_core.LIGHT_MAX or default.LIGHT_MAX
-copper_ingrediant = minetest.get_modpath("mcl_core") and "mcl_copper:copper_ingot" or 'default:copper_ingot'
-iron_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:iron_ingot" or 'default:steel_ingot'
-iron_lump_ingrediant = minetest.get_modpath("mcl_core") and "mcl_raw_ores:raw_iron" or 'default:iron_lump'
-gold_lump_ingrediant = minetest.get_modpath("mcl_core") and "mcl_raw_ores:raw_gold" or 'default:gold_lump'
-copper_lump_ingrediant = minetest.get_modpath("mcl_core") and "mcl_raw_ores:raw_copper" or 'default:copper_lump'
-mese_crystal_ingrediant = minetest.get_modpath("mcl_core") and "mesecons:wire_00000000_off" or 'default:mese_crystal'
-diamond_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:diamond" or 'default:diamond'
-glass_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:glass" or 'default:glass'
-brick_block_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:brick_block" or 'default:brick'
-mese_block_ingrediant = minetest.get_modpath("mcl_core") and "mesecons_torch:redstoneblock" or "default:mese"
-paper_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:paper" or 'default:paper'
-obsidian_glass_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:obsidian" or 'default:obsidian_glass'
-obsidian_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:obsidian" or 'default:obsidian'
-green_dye_ingrediant = minetest.get_modpath("mcl_core") and "mcl_dye:green" or 'dye:green'
-blue_dye_ingrediant = minetest.get_modpath("mcl_core") and "mcl_dye:blue" or 'dye:blue'
-red_dye_ingrediant = minetest.get_modpath("mcl_core") and "mcl_dye:red" or 'dye:red'
-white_dye_ingrediant = minetest.get_modpath("mcl_core") and "mcl_dye:white" or 'dye:white'
-gold_ingot_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:gold_ingot" or 'default:gold_ingot'
-chest_ingrediant = minetest.get_modpath("mcl_core") and "mcl_chests:chest" or "default:chest"
-stone_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:stone" or "default:stone"
-wood_fence_ingrediant = minetest.get_modpath("mcl_core") and "group:fence_wood" or "default:fence_wood"
-diamond_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:diamond" or "default:diamond"
-bronze_ingrediant = minetest.get_modpath("mcl_core") and "mcl_copper:copper_ingot" or 'default:bronze_ingot'
-tin_ingrediant = minetest.get_modpath("mcl_core") and "moreores:tin_ingot" or 'default:tin_ingot'
-sandstone_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:sandstone" or 'default:desert_stone'
-sand_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:sand" or 'default:sand'
-gravel_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:gravel" or 'default:gravel'
-desert_stone_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:redsandstone" or 'default:desert_stone'
-desert_sand_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:redsand" or 'default:desert_sand'
-furnace_ingrediant = minetest.get_modpath("mcl_core") and "mcl_furnaces:furnace" or 'default:furnace'
-mossy_cobble_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:mossycobble" or 'default:mossycobble'
-cobble_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:cobble" or 'default:cobble'
-snow_block_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:snowblock" or 'default:snowblock'
-ice_block_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:ice" or 'default:ice'
-granite_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:granite" or 'technic:granite'
-granite_bricks_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:granite_smooth" or 'technic:granite_bricks'
-coal_ingrediant = minetest.get_modpath("mcl_core") and "group:coal" or "default:coal_lump"
-dirt_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:dirt" or "default:dirt"
-mesecons_fiber_ingrediant = minetest.get_modpath("mcl_core") and "mesecons:wire_00000000_off" or "mesecons_materials:fiber"
-stick_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:stick" or "default:stick"
-emtpy_bucket_ingrediant = minetest.get_modpath("mcl_core") and "mcl_buckets:bucket_empty" or "bucket:bucket_empty"
-water_bucket_ingrediant = minetest.get_modpath("mcl_core") and "mcl_buckets:bucket_water" or "bucket:bucket_water"
+stone_sounds = mcl_core_modpath and mcl_sounds.node_sound_stone_defaults() or default.node_sound_stone_defaults()
+mt_light_max = mcl_core_modpath and mcl_core.LIGHT_MAX or default.LIGHT_MAX
+copper_ingrediant = mcl_core_modpath and "mcl_copper:copper_ingot" or 'default:copper_ingot'
+iron_ingrediant = mcl_core_modpath and "mcl_core:iron_ingot" or 'default:steel_ingot'
+iron_lump_ingrediant = mcl_core_modpath and "mcl_raw_ores:raw_iron" or 'default:iron_lump'
+gold_lump_ingrediant = mcl_core_modpath and "mcl_raw_ores:raw_gold" or 'default:gold_lump'
+copper_lump_ingrediant = mcl_core_modpath and "mcl_raw_ores:raw_copper" or 'default:copper_lump'
+mese_crystal_ingrediant = mcl_core_modpath and "mesecons:wire_00000000_off" or 'default:mese_crystal'
+diamond_ingrediant = mcl_core_modpath and "mcl_core:diamond" or 'default:diamond'
+glass_ingrediant = mcl_core_modpath and "mcl_core:glass" or 'default:glass'
+brick_block_ingrediant = mcl_core_modpath and "mcl_core:brick_block" or 'default:brick'
+mese_block_ingrediant = mcl_core_modpath and "mesecons_torch:redstoneblock" or "default:mese"
+paper_ingrediant = mcl_core_modpath and "mcl_core:paper" or 'default:paper'
+obsidian_glass_ingrediant = mcl_core_modpath and "mcl_core:obsidian" or 'default:obsidian_glass'
+obsidian_ingrediant = mcl_core_modpath and "mcl_core:obsidian" or 'default:obsidian'
+green_dye_ingrediant = mcl_core_modpath and "mcl_dye:green" or 'dye:green'
+blue_dye_ingrediant = mcl_core_modpath and "mcl_dye:blue" or 'dye:blue'
+red_dye_ingrediant = mcl_core_modpath and "mcl_dye:red" or 'dye:red'
+white_dye_ingrediant = mcl_core_modpath and "mcl_dye:white" or 'dye:white'
+gold_ingot_ingrediant = mcl_core_modpath and "mcl_core:gold_ingot" or 'default:gold_ingot'
+chest_ingrediant = mcl_core_modpath and "mcl_chests:chest" or "default:chest"
+stone_ingrediant = mcl_core_modpath and "mcl_core:stone" or "default:stone"
+wood_fence_ingrediant = mcl_core_modpath and "group:fence_wood" or "default:fence_wood"
+diamond_ingrediant = mcl_core_modpath and "mcl_core:diamond" or "default:diamond"
+bronze_ingrediant = mcl_core_modpath and "mcl_copper:copper_ingot" or 'default:bronze_ingot'
+tin_ingrediant = mcl_core_modpath and "moreores:tin_ingot" or 'default:tin_ingot'
+sandstone_ingrediant = mcl_core_modpath and "mcl_core:sandstone" or 'default:desert_stone'
+sand_ingrediant = mcl_core_modpath and "mcl_core:sand" or 'default:sand'
+gravel_ingrediant = mcl_core_modpath and "mcl_core:gravel" or 'default:gravel'
+desert_stone_ingrediant = mcl_core_modpath and "mcl_core:redsandstone" or 'default:desert_stone'
+desert_sand_ingrediant = mcl_core_modpath and "mcl_core:redsand" or 'default:desert_sand'
+furnace_ingrediant = mcl_core_modpath and "mcl_furnaces:furnace" or 'default:furnace'
+mossy_cobble_ingrediant = mcl_core_modpath and "mcl_core:mossycobble" or 'default:mossycobble'
+cobble_ingrediant = mcl_core_modpath and "mcl_core:cobble" or 'default:cobble'
+snow_block_ingrediant = mcl_core_modpath and "mcl_core:snowblock" or 'default:snowblock'
+ice_block_ingrediant = mcl_core_modpath and "mcl_core:ice" or 'default:ice'
+granite_ingrediant = mcl_core_modpath and "mcl_core:granite" or 'technic:granite'
+granite_bricks_ingrediant = mcl_core_modpath and "mcl_core:granite_smooth" or 'technic:granite_bricks'
+coal_ingrediant = mcl_core_modpath and "group:coal" or "default:coal_lump"
+dirt_ingrediant = mcl_core_modpath and "mcl_core:dirt" or "default:dirt"
+mesecons_fiber_ingrediant = mcl_core_modpath and "mesecons:wire_00000000_off" or "mesecons_materials:fiber"
+stick_ingrediant = mcl_core_modpath and "mcl_core:stick" or "default:stick"
+emtpy_bucket_ingrediant = mcl_core_modpath and "mcl_buckets:bucket_empty" or "bucket:bucket_empty"
+water_bucket_ingrediant = mcl_core_modpath and "mcl_buckets:bucket_water" or "bucket:bucket_water"
 
 -- Ingredient Variables
-if minetest.get_modpath("mcl_core") then
+if mcl_core_modpath then
     blueberries_ingredient = "mcl_farming:blueberries"
     grass_ingredient = "mcl_core:grass"
     dry_shrub_ingredient = "mcl_core:deadbush"
@@ -73,7 +75,7 @@ else
 end
 
 -- Dye Output Variables
-if minetest.get_modpath("mcl_core") then
+if mcl_core_modpath then
     dye_black = "mcl_dye:black"
     dye_violet = "mcl_dye:violet"
     dye_green = "mcl_dye:green"
@@ -95,6 +97,6 @@ else
     dye_red = "dye:red"
 end
 
-dirt_with_snow_ingrediant = minetest.get_modpath("mcl_core") and "mcl_core:dirt_with_grass_snow" or "default:dirt_with_snow"
-bucket_lava_ingrediant = minetest.get_modpath("mcl_core") and "mcl_buckets:bucket_lava" or "bucket:bucket_lava"
-bucket_river_water_ingrediant = minetest.get_modpath("mcl_core") and "mcl_buckets:bucket_river_water" or "bucket:bucket_river_water"
+dirt_with_snow_ingrediant = mcl_core_modpath and "mcl_core:dirt_with_grass_snow" or "default:dirt_with_snow"
+bucket_lava_ingrediant = mcl_core_modpath and "mcl_buckets:bucket_lava" or "bucket:bucket_lava"
+bucket_river_water_ingrediant = mcl_core_modpath and "mcl_buckets:bucket_river_water" or "bucket:bucket_river_water"
