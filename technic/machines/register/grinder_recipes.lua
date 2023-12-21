@@ -90,13 +90,11 @@ local function register_dust(name, ingot)
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
-		data1 = {
+		minetest.register_craft({
 			type = "cooking",
 			recipe = "technic:"..lname.."_dust",
 			output = ingot,
-		}
-		minetest.log("action",minetest.serialize(data1))
-		minetest.register_craft(data1)
+		})
 		technic.register_grinder_recipe({ input = {ingot}, output = "technic:"..lname.."_dust 1" })
 	end
 end

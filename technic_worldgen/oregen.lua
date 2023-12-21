@@ -37,10 +37,32 @@ local lead_params = {
     persist = 0.7
 }
 local lead_threshold = 0.3
+local mcl_core_modpath = minetest.get_modpath("mcl_core")
+local stone_id = mcl_core_modpath and "mcl_core:stone" or "default:stone"
+local lava_source_id = mcl_core_modpath and "mcl_core:lava_source" or "default:lava_source"
+local lava_flowing_id = mcl_core_modpath and "mcl_core:lava_flowing" or "default:lava_flowing"
 
-local stone_id = minetest.get_modpath("mcl_core") and "mcl_core:stone" or "default:stone"
-local lava_source_id = minetest.get_modpath("mcl_core") and "mcl_core:lava_source" or "default:lava_source"
-local lava_flowing_id = minetest.get_modpath("mcl_core") and "mcl_core:lava_flowing" or "default:lava_flowing"
+-- Define default values for y_min and y_max
+local uranium_y_min = -300
+local uranium_y_max = -80
+local chromium_y_min = -200
+local chromium_y_max = -100
+local zinc_y_min = -32
+local zinc_y_max = 2
+local lead_y_min = -16
+local lead_y_max = 16
+
+-- Update values if MineClone2 is detected
+if mcl_core_modpath then
+    uranium_y_min = -57
+    uranium_y_max = 100
+    chromium_y_min = -57
+    chromium_y_max = 100
+    zinc_y_min = -57
+    zinc_y_max = 100
+    lead_y_min = -57
+    lead_y_max = 100
+end
 
 -- Uranium
 minetest.register_ore({
@@ -50,8 +72,8 @@ minetest.register_ore({
     clust_scarcity = 8*8*8,
     clust_num_ores = 4,
     clust_size = 3,
-    y_min = -300,
-    y_max = -80,
+    y_min = uranium_y_min,
+    y_max = uranium_y_max,
     noise_params = uranium_params,
     noise_threshold = uranium_threshold,
 })
@@ -64,8 +86,8 @@ minetest.register_ore({
     clust_scarcity = 8*8*8,
     clust_num_ores = 2,
     clust_size = 3,
-    y_min = -200,
-    y_max = -100,
+    y_min = chromium_y_min,
+    y_max = chromium_y_max,
     noise_params = chromium_params,
     noise_threshold = chromium_threshold,
 })
@@ -78,8 +100,8 @@ minetest.register_ore({
     clust_scarcity = 8*8*8,
     clust_num_ores = 5,
     clust_size = 7,
-    y_min = -32,
-    y_max = 2,
+    y_min = zinc_y_min,
+    y_max = zinc_y_max,
     noise_params = zinc_params,
     noise_threshold = zinc_threshold,
 })
@@ -92,8 +114,8 @@ minetest.register_ore({
     clust_scarcity = 9*9*9,
     clust_num_ores = 5,
     clust_size = 3,
-    y_min = -16,
-    y_max = 16,
+    y_min = lead_y_min,
+    y_max = lead_y_max,
     noise_params = lead_params,
     noise_threshold = lead_threshold,
 })

@@ -28,7 +28,7 @@ if minetest.get_modpath("dye") then
 		{rose_ingredient,                     dye_red .. " 4"},
 		{viola_ingredient,                    dye_violet .. " 4"},
 		{blackberry_ingredient,               unifieddyes and "unifieddyes:magenta_s50 4" or dye_violet .. " 4"},
-		{blueberry_ingredient,                unifieddyes and "unifieddyes:magenta_s50 4" or dye_magenta .. " 4"},
+		{blueberry_ingredient,                unifieddyes and "unifieddyes:magenta_s50 4" or ""},
 	}
 	
 	

@@ -5,45 +5,65 @@ minetest.register_node( ":technic:mineral_uranium", {
 	description = S("Uranium Ore"),
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
-	groups = {cracky=3, radioactive=1},
+	groups = {cracky=3, radioactive=1,pickaxey=5,material_stone=1},
 	sounds = stone_sounds,
 	drop = "technic:uranium_lump",
+	_mcl_hardness =  5,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node( ":technic:mineral_chromium", {
 	description = S("Chromium Ore"),
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3,pickaxey=3,material_stone=1},
 	sounds = stone_sounds,
 	drop = "technic:chromium_lump",
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node( ":technic:mineral_zinc", {
 	description = S("Zinc Ore"),
 	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3,pickaxey=2,material_stone=1},
 	sounds = stone_sounds,
 	drop = "technic:zinc_lump",
+	_mcl_hardness =  2,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node( ":technic:mineral_lead", {
 	description = S("Lead Ore"),
 	tiles = { "default_stone.png^technic_mineral_lead.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3,pickaxey=2,material_stone=1},
 	sounds = stone_sounds,
 	drop = "technic:lead_lump",
+	_mcl_hardness =  2,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node( ":technic:mineral_sulfur", {
 	description = S("Sulfur Ore"),
 	tiles = { "default_stone.png^technic_mineral_sulfur.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3,pickaxey=1,material_stone=1},
 	sounds = stone_sounds,
 	drop = "technic:sulfur_lump",
+	_mcl_hardness =  1,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 if minetest.get_modpath("default") then
