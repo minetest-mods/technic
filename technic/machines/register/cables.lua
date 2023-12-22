@@ -141,7 +141,7 @@ function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
 	cable_tier["technic:"..ltier.."_cable"] = tier
 
-	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, pickaxey=2,
 			["technic_"..ltier.."_cable"] = 1}
 
 	local node_box = {
@@ -171,6 +171,8 @@ function technic.register_cable(tier, size)
 			"group:technic_"..ltier, "group:technic_all_tiers"},
 		on_construct = clear_networks,
 		on_destruct = clear_networks,
+		_mcl_blast_resistance = 1.5,
+		_mcl_hardness = 3
 	})
 
 	local xyz = {
