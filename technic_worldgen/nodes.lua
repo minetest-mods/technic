@@ -91,6 +91,10 @@ minetest.register_node( ":technic:marble", {
 	is_ground_content = true,
 	groups = {cracky=3, marble=1},
 	sounds = stone_sounds,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node( ":technic:marble_bricks", {
@@ -106,7 +110,11 @@ minetest.register_node(":technic:uranium_block", {
 	tiles = { "technic_uranium_block.png" },
 	is_ground_content = true,
 	groups = {uranium_block=1, cracky=1, level=2, radioactive=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  5,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node(":technic:chromium_block", {
@@ -114,7 +122,11 @@ minetest.register_node(":technic:chromium_block", {
 	tiles = { "technic_chromium_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  4,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node(":technic:zinc_block", {
@@ -122,7 +134,11 @@ minetest.register_node(":technic:zinc_block", {
 	tiles = { "technic_zinc_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node(":technic:lead_block", {
@@ -130,7 +146,11 @@ minetest.register_node(":technic:lead_block", {
 	tiles = { "technic_lead_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  5,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
 })
 
 if minetest.get_modpath("default") then
@@ -147,7 +167,11 @@ minetest.register_node(":technic:cast_iron_block", {
 	tiles = { "technic_cast_iron_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
 })
 
 minetest.register_node(":technic:carbon_steel_block", {
@@ -155,7 +179,11 @@ minetest.register_node(":technic:carbon_steel_block", {
 	tiles = { "technic_carbon_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
 })
 
 minetest.register_node(":technic:stainless_steel_block", {
@@ -163,7 +191,11 @@ minetest.register_node(":technic:stainless_steel_block", {
 	tiles = { "technic_stainless_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds
+	sounds = stone_sounds,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
 })
 
 if minetest.get_modpath("default") then
