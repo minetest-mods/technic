@@ -207,3 +207,11 @@ minetest.register_craft({
 	type = "cooking",
 	recipe = "technic:rubber_goo",
 })
+
+if minetest.get_modpath("mcl_core") then
+minetest.register_craft({
+	output = "technic:raw_latex",
+	type = "cooking",
+	recipe = "mcl_mobitems:slimeball",
+})
+end
