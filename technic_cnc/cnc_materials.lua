@@ -5,12 +5,12 @@ local is_mcl = minetest.get_modpath("mcl_core")
 
 -- Textures and names for MineClone2
 local dirt_texture = is_mcl and "default_dirt.png" or "default_dirt.png"
-local grass_texture = is_mcl and "default_grass.png" or "default_grass.png"
+local grass_texture = is_mcl and "mcl_core_palette_grass.png" or "default_grass.png"
 local wood_texture = is_mcl and "default_wood.png" or "default_wood.png"
 local stone_texture = is_mcl and "default_stone.png" or "default_stone.png"
 local cobble_texture = is_mcl and "default_cobble.png" or "default_cobble.png"
 local brick_texture = is_mcl and "default_brick.png" or "default_brick.png"
-local sandstone_texture = is_mcl and "default_sandstone.png" or "default_sandstone.png"
+local sandstone_texture = is_mcl and "mcl_core_sandstone_top.png" or "default_sandstone.png"
 local leaves_texture = is_mcl and "default_leaves.png" or "default_leaves.png"
 local tree_texture = is_mcl and "default_tree.png" or "default_tree.png"
 local bronzeblock_texture = is_mcl and "mcl_core_bronze_block.png" or "default_bronze_block.png"
