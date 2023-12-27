@@ -8,14 +8,7 @@ function technic.register_freezer_recipe(data)
 	technic.register_recipe("freezing", data)
 end
 
-local recipes = {
-	{water_bucket_ingrediant, { ice_block_ingrediant, emtpy_bucket_ingrediant } },
-	{bucket_river_water_ingrediant, { ice_block_ingrediant, emtpy_bucket_ingrediant } },
-	{dirt_ingrediant , dirt_with_snow_ingrediant },
-	{bucket_lava_ingrediant, { obsidian_ingrediant, emtpy_bucket_ingrediant } }
-}
-
-for _, data in pairs(recipes) do
+for _, data in pairs(freezer_recipes) do
 	technic.register_freezer_recipe({input = {data[1]}, output = data[2]})
 end
 
