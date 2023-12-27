@@ -35,7 +35,7 @@ end
 -- handles the machine upgrades when set or removed
 local function on_machine_upgrade(meta, stack)
 	local stack_name = stack:get_name()
-	if stack_name == chest_ingrediant then
+	if stack_name == chest_ingredient then
 		meta:set_int("public", 1)
 		return 1
 	elseif stack_name ~= "technic:control_logic_unit"
@@ -47,7 +47,7 @@ end
 
 -- something is about to be removed
 local function on_machine_downgrade(meta, stack, list)
-	if stack:get_name() == chest_ingrediant then
+	if stack:get_name() == chest_ingredient then
 		local inv = meta:get_inventory()
 		local upg1, upg2 = inv:get_stack("upgrade1", 1), inv:get_stack("upgrade2", 1)
 

@@ -10,9 +10,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
-		{granite_ingrediant,          diamond_ingrediant,        granite_ingrediant},
+		{granite_ingredient,          diamond_ingredient,        granite_ingredient},
 		{'basic_materials:copper_wire', 'technic:machine_casing', 'basic_materials:copper_wire'},
-		{granite_ingrediant,          'technic:lv_cable',       granite_ingrediant},
+		{granite_ingredient,          'technic:lv_cable',       granite_ingredient},
 	},
 	replacements = {
 		{"basic_materials:copper_wire", "basic_materials:empty_spool"},

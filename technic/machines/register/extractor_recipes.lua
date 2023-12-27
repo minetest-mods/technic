@@ -11,7 +11,7 @@ end
 if minetest.get_modpath("dye") or minetest.get_modpath("mcl_dye") then
 	-- check if we are using dye or unifieddyes
 	local unifieddyes = minetest.get_modpath("unifieddyes")
-	
+
 	for _, data in ipairs(extractor_recipes) do
 		technic.register_extractor_recipe({input = {data[1]}, output = data[2]})
 	end

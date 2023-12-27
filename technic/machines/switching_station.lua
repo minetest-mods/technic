@@ -15,7 +15,7 @@ minetest.register_craft({
 	output = "technic:switching_station",
 	recipe = {
 		{"",                     "technic:lv_transformer", ""},
-		{copper_ingrediant, "technic:machine_casing", copper_ingrediant},
+		{copper_ingredient, "technic:machine_casing", copper_ingredient},
 		{"technic:lv_cable",     "technic:lv_cable",       "technic:lv_cable"}
 	}
 })

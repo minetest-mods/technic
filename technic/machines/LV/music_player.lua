@@ -7,9 +7,9 @@ minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
 	output = 'technic:music_player',
 	recipe = {
-		{'technic:chromium_ingot', diamond_ingrediant,        'technic:chromium_ingot'},
-		{diamond_ingrediant,        'technic:machine_casing', diamond_ingrediant},
-		{mossy_cobble_ingrediant,    'technic:lv_cable',       mossy_cobble_ingrediant},
+		{'technic:chromium_ingot', diamond_ingredient,        'technic:chromium_ingot'},
+		{diamond_ingredient,        'technic:machine_casing', diamond_ingredient},
+		{mossy_cobble_ingredient,    'technic:lv_cable',       mossy_cobble_ingredient},
 	}
 })
 

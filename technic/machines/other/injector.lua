@@ -47,7 +47,7 @@ minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
 		{'', 'technic:control_logic_unit',''},
-		{'', chest_ingrediant,''},
+		{'', chest_ingredient,''},
 		{'', 'pipeworks:tube_1',''},
 	}
 })

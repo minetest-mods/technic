@@ -6,7 +6,7 @@ minetest.register_node( ":technic:mineral_uranium", {
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
 	groups = {cracky=3, radioactive=1,pickaxey=5,material_stone=1},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	drop = "technic:uranium_lump",
 	_mcl_hardness =  5,
 	_mcl_blast_resistance =  3,
@@ -19,7 +19,7 @@ minetest.register_node( ":technic:mineral_chromium", {
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
 	groups = {cracky=3,pickaxey=3,material_stone=1},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	drop = "technic:chromium_lump",
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
@@ -32,7 +32,7 @@ minetest.register_node( ":technic:mineral_zinc", {
 	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
 	groups = {cracky=3,pickaxey=2,material_stone=1},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	drop = "technic:zinc_lump",
 	_mcl_hardness =  2,
 	_mcl_blast_resistance =  3,
@@ -45,7 +45,7 @@ minetest.register_node( ":technic:mineral_lead", {
 	tiles = { "default_stone.png^technic_mineral_lead.png" },
 	is_ground_content = true,
 	groups = {cracky=3,pickaxey=2,material_stone=1},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	drop = "technic:lead_lump",
 	_mcl_hardness =  2,
 	_mcl_blast_resistance =  3,
@@ -58,7 +58,7 @@ minetest.register_node( ":technic:mineral_sulfur", {
 	tiles = { "default_stone.png^technic_mineral_sulfur.png" },
 	is_ground_content = true,
 	groups = {cracky=3,pickaxey=1,material_stone=1},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	drop = "technic:sulfur_lump",
 	_mcl_hardness =  1,
 	_mcl_blast_resistance =  3,
@@ -67,22 +67,22 @@ minetest.register_node( ":technic:mineral_sulfur", {
 })
 
 if minetest.get_modpath("default") then
-minetest.register_node( ":technic:granite", {
-	description = S("Granite"),
-	tiles = { "technic_granite.png" },
-	is_ground_content = true,
-	groups = {cracky=1},
-	sounds = stone_sounds,
-})
+	minetest.register_node( ":technic:granite", {
+		description = S("Granite"),
+		tiles = { "technic_granite.png" },
+		is_ground_content = true,
+		groups = {cracky=1},
+		sounds = sounds.node_sound_stone_defaults(),
+	})
 
 
-minetest.register_node( ":technic:granite_bricks", {
-	description = S("Granite Bricks"),
-	tiles = { "technic_granite_bricks.png" },
-	is_ground_content = false,
-	groups = {cracky=1},
-	sounds = stone_sounds,
-})
+	minetest.register_node( ":technic:granite_bricks", {
+		description = S("Granite Bricks"),
+		tiles = { "technic_granite_bricks.png" },
+		is_ground_content = false,
+		groups = {cracky=1},
+		sounds = sounds.node_sound_stone_defaults(),
+	})
 end
 
 minetest.register_node( ":technic:marble", {
@@ -90,7 +90,7 @@ minetest.register_node( ":technic:marble", {
 	tiles = { "technic_marble.png" },
 	is_ground_content = true,
 	groups = {cracky=3, marble=1,pickaxey=3},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -102,7 +102,7 @@ minetest.register_node( ":technic:marble_bricks", {
 	tiles = { "technic_marble_bricks.png" },
 	is_ground_content = false,
 	groups = {cracky=3,pickaxey=3},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -114,7 +114,7 @@ minetest.register_node(":technic:uranium_block", {
 	tiles = { "technic_uranium_block.png" },
 	is_ground_content = true,
 	groups = {uranium_block=1, cracky=1, level=2, radioactive=2,pickaxey=5},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  5,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -126,7 +126,7 @@ minetest.register_node(":technic:chromium_block", {
 	tiles = { "technic_chromium_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2,pickaxey=4},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  4,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -138,7 +138,7 @@ minetest.register_node(":technic:zinc_block", {
 	tiles = { "technic_zinc_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2,pickaxey=3},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -150,7 +150,7 @@ minetest.register_node(":technic:lead_block", {
 	tiles = { "technic_lead_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2,pickaxey=5},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  5,
 	_mcl_blast_resistance =  5,
 	_mcl_silk_touch_drop = true,
@@ -158,12 +158,12 @@ minetest.register_node(":technic:lead_block", {
 })
 
 if minetest.get_modpath("default") then
-minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
+	minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
 
-minetest.override_item("default:steelblock", {
-	description = S("Wrought Iron Block"),
-	tiles = { "technic_wrought_iron_block.png" },
-})
+	minetest.override_item("default:steelblock", {
+		description = S("Wrought Iron Block"),
+		tiles = { "technic_wrought_iron_block.png" },
+	})
 end
 
 minetest.register_node(":technic:cast_iron_block", {
@@ -171,7 +171,7 @@ minetest.register_node(":technic:cast_iron_block", {
 	tiles = { "technic_cast_iron_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -183,7 +183,7 @@ minetest.register_node(":technic:carbon_steel_block", {
 	tiles = { "technic_carbon_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -195,7 +195,7 @@ minetest.register_node(":technic:stainless_steel_block", {
 	tiles = { "technic_stainless_steel_block.png" },
 	is_ground_content = true,
 	groups = {cracky=1, level=2},
-	sounds = stone_sounds,
+	sounds = sounds.node_sound_stone_defaults(),
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
@@ -203,13 +203,13 @@ minetest.register_node(":technic:stainless_steel_block", {
 })
 
 if minetest.get_modpath("default") then
-minetest.register_craft({
-	output = 'technic:granite_bricks 4',
-	recipe = {
-		{granite_ingrediant,granite_ingrediant},
-		{granite_ingrediant,granite_ingrediant}
-	}
-})
+	minetest.register_craft({
+		output = 'technic:granite_bricks 4',
+		recipe = {
+			{granite_ingredient,granite_ingredient},
+			{granite_ingredient,granite_ingredient}
+		}
+	})
 end
 
 minetest.register_craft({
@@ -236,35 +236,34 @@ local function for_each_registered_node(action)
 end
 
 if minetest.get_modpath("default") then
-
-for_each_registered_node(function(node_name, node_def)
-	if node_name ~= "default:steelblock" and
-			node_name:find("steelblock", 1, true) and
-			node_def.description:find("Steel", 1, true) then
-		minetest.override_item(node_name, {
-			description = node_def.description:gsub("Steel", S("Wrought Iron")),
-		})
-	end
-	local tiles = node_def.tiles or node_def.tile_images
-	if tiles then
-		local new_tiles = {}
-		local do_override = false
-		if type(tiles) == "string" then
-			tiles = {tiles}
-		end
-		for i, t in ipairs(tiles) do
-			if type(t) == "string" and t == "default_steel_block.png" then
-				do_override = true
-				t = "technic_wrought_iron_block.png"
-			end
-			table.insert(new_tiles, t)
-		end
-		if do_override then
+	for_each_registered_node(function(node_name, node_def)
+		if node_name ~= "default:steelblock" and
+				node_name:find("steelblock", 1, true) and
+				node_def.description:find("Steel", 1, true) then
 			minetest.override_item(node_name, {
-				tiles = new_tiles
+				description = node_def.description:gsub("Steel", S("Wrought Iron")),
 			})
 		end
-	end
-end)
+		local tiles = node_def.tiles or node_def.tile_images
+		if tiles then
+			local new_tiles = {}
+			local do_override = false
+			if type(tiles) == "string" then
+				tiles = {tiles}
+			end
+			for i, t in ipairs(tiles) do
+				if type(t) == "string" and t == "default_steel_block.png" then
+					do_override = true
+					t = "technic_wrought_iron_block.png"
+				end
+				table.insert(new_tiles, t)
+			end
+			if do_override then
+				minetest.override_item(node_name, {
+					tiles = new_tiles
+				})
+			end
+		end
+	end)
 
 end

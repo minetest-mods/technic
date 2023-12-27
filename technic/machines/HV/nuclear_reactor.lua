@@ -24,7 +24,7 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 minetest.register_craft({
 	output = 'technic:hv_nuclear_reactor_core',
 	recipe = {
-		{'technic:carbon_plate',          obsidian_glass_ingrediant, 'technic:carbon_plate'},
+		{'technic:carbon_plate',          obsidian_glass_ingredient, 'technic:carbon_plate'},
 		{'technic:composite_plate',       'technic:machine_casing', 'technic:composite_plate'},
 		{'technic:stainless_steel_ingot', 'technic:hv_cable',       'technic:stainless_steel_ingot'},
 	}

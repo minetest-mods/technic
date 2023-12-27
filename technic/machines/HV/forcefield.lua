@@ -17,9 +17,9 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 minetest.register_craft({
 	output = "technic:forcefield_emitter_off",
 	recipe = {
-		{mese_block_ingrediant,         "basic_materials:motor",          mese_block_ingrediant        },
+		{mese_block_ingredient, "basic_materials:motor", mese_block_ingredient},
 		{"technic:deployer_off", "technic:machine_casing", "technic:deployer_off"},
-		{mese_block_ingrediant,         "technic:hv_cable",       mese_block_ingrediant        },
+		{mese_block_ingredient, "technic:hv_cable", mese_block_ingredient},
 	}
 })
 

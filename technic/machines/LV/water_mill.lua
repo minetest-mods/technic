@@ -11,7 +11,7 @@ minetest.register_alias("water_mill", "technic:water_mill")
 minetest.register_craft({
 	output = 'technic:water_mill',
 	recipe = {
-		{'technic:marble', diamond_ingrediant,        'technic:marble'},
+		{'technic:marble', diamond_ingredient,        'technic:marble'},
 		{'group:wood',     'technic:machine_casing', 'group:wood'},
 		{'technic:marble', 'technic:lv_cable',       'technic:marble'},
 	}

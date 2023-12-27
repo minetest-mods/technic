@@ -17,9 +17,9 @@ technic.register_power_tool("technic:blue_energy_crystal", 450000)
 minetest.register_craft({
 	output = "technic:battery",
 	recipe = {
-		{"group:wood", copper_ingrediant, "group:wood"},
+		{"group:wood", copper_ingredient, "group:wood"},
 		{"group:wood", "default:tin_ingot",    "group:wood"},
-		{"group:wood", copper_ingrediant, "group:wood"},
+		{"group:wood", copper_ingredient, "group:wood"},
 	}
 })
 -- Sulfur-lead-water recipes:

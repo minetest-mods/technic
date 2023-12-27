@@ -135,7 +135,7 @@ minetest.register_craft({
 	output = 'technic:river_water_can 1',
 	recipe = {
 		{'technic:zinc_ingot', 'technic:rubber', 'technic:zinc_ingot'},
-		{iron_ingrediant, '', iron_ingrediant},
-		{'technic:zinc_ingot', iron_ingrediant, 'technic:zinc_ingot'},
+		{iron_ingredient, '', iron_ingredient},
+		{'technic:zinc_ingot', iron_ingredient, 'technic:zinc_ingot'},
 	}
 })

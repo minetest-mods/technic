@@ -40,6 +40,11 @@ else
 end
 local S = technic.getter
 
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
+end
+
 -- Read configuration file
 dofile(modpath.."/config.lua")
 

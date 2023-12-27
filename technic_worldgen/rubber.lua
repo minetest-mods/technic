@@ -11,7 +11,7 @@ minetest.register_node(":moretrees:rubber_tree_sapling", {
 	paramtype = "light",
 	walkable = false,
 	groups = {dig_immediate=3, flammable=2, sapling=1},
-	sounds = node_sounds,
+	sounds = sounds.node_sound_defaults(),
 })
 
 minetest.register_craft({
@@ -26,7 +26,7 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 		"technic_rubber_tree_full.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 		flammable=2},
-	sounds = wood_sounds,
+	sounds = sounds.node_sound_wood_defaults(),
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
@@ -35,7 +35,7 @@ minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
 		"technic_rubber_tree_empty.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
 			flammable=2, not_in_creative_inventory=1},
-	sounds = wood_sounds,
+	sounds = sounds.node_sound_wood_defaults(),
 })
 
 minetest.register_node(":moretrees:rubber_tree_leaves", {
@@ -55,7 +55,7 @@ minetest.register_node(":moretrees:rubber_tree_leaves", {
 		}
 		}
 	},
-	sounds = leaves_sounds,
+	sounds = sounds.node_sound_leaves_defaults()
 })
 
 technic.rubber_tree_model={

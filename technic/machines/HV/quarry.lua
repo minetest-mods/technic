@@ -229,7 +229,6 @@ local function send_move_error(player)
 	return 0
 end
 
-local quarry_pick = nil
 if minetest.get_modpath("mcl_core") then
 	quarry_pick = "default_tool_diamondpick.png"
 else

@@ -149,7 +149,7 @@ technic.register_machine("LV", "technic:lv_lamp_active", technic.receiver)
 minetest.register_craft({
 	output = "technic:lv_lamp",
 	recipe = {
-		{glass_ingrediant, glass_ingrediant, glass_ingrediant},
+		{glass_ingredient, glass_ingredient, glass_ingredient},
 		{"technic:lv_led", "technic:lv_led", "technic:lv_led"},
 		{"mesecons_materials:glue", "technic:lv_cable", "mesecons_materials:glue"},
 	}

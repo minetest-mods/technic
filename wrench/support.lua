@@ -23,7 +23,7 @@ local STRING, FLOAT  =
 	wrench.META_TYPE_FLOAT
 
 wrench.registered_nodes = {
-	[chest_ingrediant] = {
+	[chest_ingredient] = {
 		lists = {"main"},
 	},
 	["default:chest_locked"] = {

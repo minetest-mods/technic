@@ -4,6 +4,11 @@
 
 local modpath = minetest.get_modpath("technic_chests")
 
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(minetest.get_current_modname().." ".."requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)")
+end
+
 -- Mineclone2 Support
 stone_sounds = nil
 if minetest.get_modpath("mcl_sounds") then
@@ -27,46 +32,46 @@ else
 end
 
 -- Mineclone2 Recipes
-chest_ingrediant = nil
+chest_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	chest_ingrediant = "mcl_chests:chest"
+	chest_ingredient = "mcl_chests:chest"
 else
-	chest_ingrediant = "default:chest"
+	chest_ingredient = "default:chest"
 end
 
-copper_ingrediant = nil
+copper_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	copper_ingrediant = "mcl_copper:copper_ingot"
+	copper_ingredient = "mcl_copper:copper_ingot"
 else
-	copper_ingrediant = 'default:copper_ingot'
+	copper_ingredient = 'default:copper_ingot'
 end
 
-gold_ingot_ingrediant = nil
+gold_ingot_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	gold_ingot_ingrediant = "mcl_core:gold_ingot"
+	gold_ingot_ingredient = "mcl_core:gold_ingot"
 else
-	gold_ingot_ingrediant = 'default:gold_ingot'
+	gold_ingot_ingredient = 'default:gold_ingot'
 end
 
-granite_ingrediant = nil
+granite_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	granite_ingrediant = "mcl_core:granite"
+	granite_ingredient = "mcl_core:granite"
 else
-	granite_ingrediant = 'technic:granite'
+	granite_ingredient = 'technic:granite'
 end
 
-granite_bricks_ingrediant = nil
+granite_bricks_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	granite_bricks_ingrediant = "mcl_core:granite_smooth"
+	granite_bricks_ingredient = "mcl_core:granite_smooth"
 else
-	granite_bricks_ingrediant = 'technic:granite_bricks'
+	granite_bricks_ingredient = 'technic:granite_bricks'
 end
 
-coal_ingrediant = nil
+coal_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	coal_ingrediant = "group:coal"
+	coal_ingredient = "group:coal"
 else
-	coal_ingrediant = "default:coal_lump"
+	coal_ingredient = "default:coal_lump"
 end
 
 technic = rawget(_G, "technic") or {}

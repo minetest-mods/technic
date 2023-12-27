@@ -9,7 +9,7 @@ minetest.register_craft({
 	output = 'technic:iron_chest 1',
 	recipe = {
 		{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
-		{cast_iron_ingot,chest_ingrediant,cast_iron_ingot},
+		{cast_iron_ingot,chest_ingredient,cast_iron_ingot},
 		{cast_iron_ingot,cast_iron_ingot,cast_iron_ingot},
 	}
 })

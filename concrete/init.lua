@@ -1,26 +1,32 @@
 --Minetest 0.4.7 mod: concrete
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+
 local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
--- Mineclone2 Support
-local stone_ingrediant = nil
-if minetest.get_modpath("mcl_core") then
-	stone_ingrediant = "mcl_core:stone"
-else
-	stone_ingrediant = "default:stone"
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
 end
 
-local stone_sounds = nil
+-- Mineclone2 Support
+
+if minetest.get_modpath("mcl_core") then
+	stone_ingredient = "mcl_core:stone"
+else
+	stone_ingredient = "default:stone"
+end
+
 if minetest.get_modpath("mcl_sounds") then
 	stone_sounds = mcl_sounds.node_sound_stone_defaults()
 else
 	stone_sounds = default.node_sound_stone_defaults()
 end
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
@@ -41,9 +47,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:concrete_post 12',
 	recipe = {
-		{stone_ingrediant,'basic_materials:steel_bar',stone_ingrediant},
-		{stone_ingrediant,'basic_materials:steel_bar',stone_ingrediant},
-		{stone_ingrediant,'basic_materials:steel_bar',stone_ingrediant},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
 	}
 })
 

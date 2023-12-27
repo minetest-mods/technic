@@ -5,19 +5,23 @@
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
+end
+
 -- MineClone2 support
-local stone_sounds = nil
 if minetest.get_modpath("mcl_sounds") then
 	stone_sounds = mcl_sounds.node_sound_stone_defaults()
 else
 	stone_sounds = default.node_sound_stone_defaults()
 end
 
-wood_fence_ingrediant = nil
+wood_fence_ingredient = nil
 if minetest.get_modpath("mcl_core") then
-	wood_fence_ingrediant = "group:fence_wood"
+	wood_fence_ingredient = "group:fence_wood"
 else
-	wood_fence_ingrediant = "default:fence_wood"
+	wood_fence_ingredient = "default:fence_wood"
 end
 
 if minetest.get_modpath("moreblocks") then
@@ -126,7 +130,7 @@ end
 	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
 	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
 	if not minetest.get_modpath("mcl_core") then
-	register_technic_stairs_alias("stairsplus", "granite", "technic", "granite")
+		register_technic_stairs_alias("stairsplus", "granite", "technic", "granite")
 	end
 	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic", "marble_bricks")
 
@@ -234,35 +238,32 @@ minetest.register_node(":technic:insulator_clip", iclip_def)
 minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
 
 -- MineClone2 support
-local stone_ingrediant = nil
-local white_dye_ingrediant = nil
-local fence_ingrediant = nil
 
 if minetest.get_modpath("mcl_core") then
-	stone_ingrediant = "mcl_core:stone"
-	white_dye_ingrediant = "mcl_dye:white"
-	fence_ingrediant = "group:fence"
+	stone_ingredient = "mcl_core:stone"
+	white_dye_ingredient = "mcl_dye:white"
+	fence_ingredient = "group:fence"
 else
-	stone_ingrediant = "default:stone"
-	white_dye_ingrediant = "dye:white"
-	fence_ingrediant = "default:fence_wood"
+	stone_ingredient = "default:stone"
+	white_dye_ingredient = "dye:white"
+	fence_ingredient = "default:fence_wood"
 end
 
 minetest.register_craft({
 	output = "technic:insulator_clip",
 	recipe = {
-		{ "", white_dye_ingrediant, ""},
+		{ "", white_dye_ingredient, ""},
 		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", stone_ingrediant, "technic:raw_latex"},
+		{ "technic:raw_latex", stone_ingredient, "technic:raw_latex"},
 	}
 })
 
 minetest.register_craft({
 	output = "technic:insulator_clip_fencepost 2",
 	recipe = {
-		{ "", white_dye_ingrediant, ""},
+		{ "", white_dye_ingredient, ""},
 		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", wood_fence_ingrediant, "technic:raw_latex"},
+		{ "technic:raw_latex", wood_fence_ingredient, "technic:raw_latex"},
 	}
 })
 

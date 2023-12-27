@@ -10,7 +10,7 @@ minetest.register_craft({
 	output = "technic:power_monitor",
 	recipe = {
 		{"",                 "",                       ""},
-		{"",                 "technic:machine_casing", copper_ingrediant},
+		{"",                 "technic:machine_casing", copper_ingredient},
 		{"technic:lv_cable", "technic:lv_cable",       "technic:lv_cable"}
 	}
 })

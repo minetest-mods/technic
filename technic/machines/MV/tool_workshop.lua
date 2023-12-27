@@ -10,9 +10,9 @@ local tube_entry = "^pipeworks_tube_connection_wooden.png"
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
-		{'group:wood',                         diamond_ingrediant,        'group:wood'},
+		{'group:wood',                         diamond_ingredient,        'group:wood'},
 		{'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth'},
-		{obsidian_ingrediant,                   'technic:mv_cable',       obsidian_ingrediant},
+		{obsidian_ingredient,                   'technic:mv_cable',       obsidian_ingredient},
 	}
 })
 
