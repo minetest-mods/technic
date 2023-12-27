@@ -200,7 +200,7 @@ minetest.register_node("technic:supply_converter", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_all_tiers=1},
 	connect_sides = {"top", "bottom"},
-	sounds = wood_sounds,
+	sounds = technic.compat.wood_sounds,
 	on_receive_fields = supply_converter_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

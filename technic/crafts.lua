@@ -38,9 +38,9 @@ if pipeworks.enable_teleport_tube then
 	minetest.register_craft({
 		output = 'pipeworks:teleport_tube_1',
 		recipe = {
-			{mese_crystal_ingredient, 'technic:copper_coil', mese_crystal_ingredient},
+			{technic.compat.mese_crystal_ingredient, 'technic:copper_coil', technic.compat.mese_crystal_ingredient},
 			{'pipeworks:tube_1', 'technic:control_logic_unit', 'pipeworks:tube_1'},
-			{mese_crystal_ingredient, 'technic:copper_coil', mese_crystal_ingredient},
+			{technic.compat.mese_crystal_ingredient, 'technic:copper_coil', technic.compat.mese_crystal_ingredient},
 			}
 	})
 end
@@ -62,36 +62,36 @@ minetest.register_craft( {
 minetest.register_craft({
 	output = 'technic:diamond_drill_head',
 	recipe = {
-		{'technic:stainless_steel_ingot', diamond_ingredient, 'technic:stainless_steel_ingot'},
-		{diamond_ingredient,               '',                diamond_ingredient},
-		{'technic:stainless_steel_ingot', diamond_ingredient, 'technic:stainless_steel_ingot'},
+		{'technic:stainless_steel_ingot', technic.compat.diamond_ingredient, 'technic:stainless_steel_ingot'},
+		{technic.compat.diamond_ingredient,               '',                technic.compat.diamond_ingredient},
+		{'technic:stainless_steel_ingot', technic.compat.diamond_ingredient, 'technic:stainless_steel_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:green_energy_crystal',
 	recipe = {
-		{gold_ingot_ingredient, 'technic:battery', green_dye_ingredient},
+		{technic.compat.gold_ingot_ingredient, 'technic:battery', technic.compat.green_dye_ingredient},
 		{'technic:battery', 'technic:red_energy_crystal', 'technic:battery'},
-		{green_dye_ingredient, 'technic:battery', gold_ingot_ingredient},
+		{technic.compat.green_dye_ingredient, 'technic:battery', technic.compat.gold_ingot_ingredient},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:blue_energy_crystal',
 	recipe = {
-		{'moreores:mithril_ingot', 'technic:battery', blue_dye_ingredient},
+		{'moreores:mithril_ingot', 'technic:battery', technic.compat.blue_dye_ingredient},
 		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
-		{blue_dye_ingredient, 'technic:battery', 'moreores:mithril_ingot'},
+		{technic.compat.blue_dye_ingredient, 'technic:battery', 'moreores:mithril_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
-		{'moreores:silver_ingot', 'technic:battery', red_dye_ingredient},
+		{'moreores:silver_ingot', 'technic:battery', technic.compat.red_dye_ingredient},
 		{'technic:battery', 'basic_materials:energy_crystal_simple', 'technic:battery'},
-		{red_dye_ingredient, 'technic:battery', 'moreores:silver_ingot'},
+		{technic.compat.red_dye_ingredient, 'technic:battery', 'moreores:silver_ingot'},
 	}
 })
 
@@ -143,7 +143,7 @@ minetest.register_craft({
 	output = 'technic:control_logic_unit',
 	recipe = {
 		{'', 'basic_materials:gold_wire', ''},
-		{copper_ingredient, 'technic:silicon_wafer', copper_ingredient},
+		{technic.compat.copper_ingredient, 'technic:silicon_wafer', technic.compat.copper_ingredient},
 		{'', 'technic:chromium_ingot', ''},
 	},
 	replacements = { {"basic_materials:gold_wire", "basic_materials:empty_spool"}, },
@@ -153,8 +153,8 @@ minetest.register_craft({
 	output = 'technic:mixed_metal_ingot 9',
 	recipe = {
 		{'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot', 'technic:stainless_steel_ingot'},
-		{bronze_ingredient,          bronze_ingredient,          bronze_ingredient},
-		{tin_ingredient,             tin_ingredient,             tin_ingredient},
+		{technic.compat.bronze_ingredient,          technic.compat.bronze_ingredient,          technic.compat.bronze_ingredient},
+		{technic.compat.tin_ingredient,             technic.compat.tin_ingredient,             technic.compat.tin_ingredient},
 	}
 })
 
@@ -175,7 +175,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = dirt_ingredient.." 2",
+	output = technic.compat.dirt_ingredient.." 2",
 	type = "shapeless",
 	replacements = {{"bucket:bucket_water","bucket:bucket_empty"}},
 	recipe = {
@@ -191,14 +191,14 @@ minetest.register_craft({
 	type = "shapeless",
 	recipe = {
 		"technic:raw_latex",
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
-		coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
+		technic.compat.coal_ingredient,
 	},
 })
 

@@ -10,9 +10,9 @@ local tube_entry = "^pipeworks_tube_connection_wooden.png"
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
-		{'group:wood',                         diamond_ingredient,        'group:wood'},
+		{'group:wood',                         technic.compat.diamond_ingredient,        'group:wood'},
 		{'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth'},
-		{obsidian_ingredient,                   'technic:mv_cable',       obsidian_ingredient},
+		{technic.compat.obsidian_ingredient,                   'technic:mv_cable',       technic.compat.obsidian_ingredient},
 	}
 })
 
@@ -95,7 +95,7 @@ minetest.register_node("technic:tool_workshop", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
 	connect_sides = {"bottom", "back", "left", "right"},
-	sounds = wood_sounds,
+	sounds = technic.compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("%s Tool Workshop"):format("MV"))

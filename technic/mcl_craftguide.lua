@@ -34,74 +34,74 @@ centrifuge_recipes = {
 	{ "technic:bronze_dust 8",             "technic:copper_dust 7",       "technic:tin_dust"      },
 	{ "technic:stainless_steel_dust 5",    "technic:wrought_iron_dust 4", "technic:chromium_dust" },
 	{ "technic:brass_dust 3",              "technic:copper_dust 2",       "technic:zinc_dust"     },
-	{ "technic:chernobylite_dust",         sand_ingredient,                "technic:uranium3_dust" },
-	{ dirt_ingredient.." 4",                    sand_ingredient,                gravel_ingredient,       "default:clay_lump 2"     },
+	{ "technic:chernobylite_dust",         technic.compat.sand_ingredient,                "technic:uranium3_dust" },
+	{ technic.compat.dirt_ingredient.." 4",                    technic.compat.sand_ingredient,                technic.compat.gravel_ingredient,       "default:clay_lump 2"     },
 }
 
 compressor_recipes = {
-	{snow_block_ingredient,          ice_block_ingredient},
-	{sand_ingredient.." 2",             sandstone_ingredient},
-	{desert_sand_ingredient.." 2",      desert_stone_ingredient},
-	{desert_sand_ingredient,        desert_stone_ingredient},
+	{technic.compat.snow_block_ingredient,          technic.compat.ice_block_ingredient},
+	{technic.compat.sand_ingredient.." 2",             technic.compat.sandstone_ingredient},
+	{technic.compat.desert_sand_ingredient.." 2",      technic.compat.desert_stone_ingredient},
+	{technic.compat.desert_sand_ingredient,        technic.compat.desert_stone_ingredient},
 	{"technic:mixed_metal_ingot",  "technic:composite_plate"},
-	{copper_ingredient.." 5",     "technic:copper_plate"},
+	{technic.compat.copper_ingredient.." 5",     "technic:copper_plate"},
 	{"technic:coal_dust 4",        "technic:graphite"},
 	{"technic:carbon_cloth",       "technic:carbon_plate"},
 	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
 
 extractor_recipes = {
-    {"technic:coal_dust",                dye_black .. " 2"},
-    {blueberries_ingredient,              dye_violet .. " 2"},
-    {grass_ingredient,                    dye_green .. " 1"},
-    {dry_shrub_ingredient,                dye_brown .. " 1"},
-    {junglegrass_ingredient,              dye_green .. " 2"},
-    {cactus_ingredient,                   dye_green .. " 4"},
-    {geranium_ingredient,                 dye_blue .. " 4"},
-    {dandelion_white_ingredient,          dye_white .. " 4"},
-    {dandelion_yellow_ingredient,         dye_yellow .. " 4"},
-    {tulip_ingredient,                    dye_orange .. " 4"},
-    {rose_ingredient,                     dye_red .. " 4"},
-    {viola_ingredient,                    dye_violet .. " 4"},
-    {blackberry_ingredient,               unifieddyes and "unifieddyes:magenta_s50 4" or dye_violet .. " 4"},
-    {blueberry_ingredient,                unifieddyes and "unifieddyes:magenta_s50 4" or ""},
+    {"technic:coal_dust",                technic.compat.dye_black .. " 2"},
+    {technic.compat.blueberries_ingredient,              technic.compat.dye_violet .. " 2"},
+    {technic.compat.grass_ingredient,                    technic.compat.dye_green .. " 1"},
+    {technic.compat.dry_shrub_ingredient,                technic.compat.dye_brown .. " 1"},
+    {technic.compat.junglegrass_ingredient,              technic.compat.dye_green .. " 2"},
+    {technic.compat.cactus_ingredient,                   technic.compat.dye_green .. " 4"},
+    {technic.compat.geranium_ingredient,                 technic.compat.dye_blue .. " 4"},
+    {technic.compat.dandelion_white_ingredient,          technic.compat.dye_white .. " 4"},
+    {technic.compat.dandelion_yellow_ingredient,         technic.compat.dye_yellow .. " 4"},
+    {technic.compat.tulip_ingredient,                    technic.compat.dye_orange .. " 4"},
+    {technic.compat.rose_ingredient,                     technic.compat.dye_red .. " 4"},
+    {technic.compat.viola_ingredient,                    technic.compat.dye_violet .. " 4"},
+    {technic.compat.blackberry_ingredient,               unifieddyes and "unifieddyes:magenta_s50 4" or technic.compat.dye_violet .. " 4"},
+    {technic.compat.blueberry_ingredient,                unifieddyes and "unifieddyes:magenta_s50 4" or ""},
 }
 
 freezer_recipes = {
-	{water_bucket_ingredient, { ice_block_ingredient, emtpy_bucket_ingredient } },
-	{bucket_river_water_ingredient, { ice_block_ingredient, emtpy_bucket_ingredient } },
-	{dirt_ingredient , dirt_with_snow_ingredient },
-	{bucket_lava_ingredient, { obsidian_ingredient, emtpy_bucket_ingredient } }
+	{technic.compat.water_bucket_ingredient, { technic.compat.ice_block_ingredient, technic.compat.emtpy_bucket_ingredient } },
+	{technic.compat.bucket_river_water_ingredient, { technic.compat.ice_block_ingredient, technic.compat.emtpy_bucket_ingredient } },
+	{technic.compat.dirt_ingredient , technic.compat.dirt_with_snow_ingredient },
+	{technic.compat.bucket_lava_ingredient, { technic.compat.obsidian_ingredient, technic.compat.emtpy_bucket_ingredient } }
 }
 
 grinder_recipes = {
     -- Dusts
-    {coal_ingredient,              "technic:coal_dust 2"},
-    {copper_lump_ingredient,            "technic:copper_dust 2"},
-    {desert_stone_ingredient,      desert_sand_ingredient},
-    {gold_lump_ingredient,        "technic:gold_dust 2"},
-    {iron_lump_ingredient,              "technic:wrought_iron_dust 2"},
+    {technic.compat.coal_ingredient,              "technic:coal_dust 2"},
+    {technic.compat.copper_lump_ingredient,            "technic:copper_dust 2"},
+    {technic.compat.desert_stone_ingredient,      technic.compat.desert_sand_ingredient},
+    {technic.compat.gold_lump_ingredient,        "technic:gold_dust 2"},
+    {technic.compat.iron_lump_ingredient,              "technic:wrought_iron_dust 2"},
     {"moreores:tin_lump",               "technic:tin_dust 2"},
     {"technic:chromium_lump",      "technic:chromium_dust 2"},
     {"technic:uranium_lump",       "technic:uranium_dust 2"},
     {"technic:zinc_lump",          "technic:zinc_dust 2"},
     {"technic:lead_lump",          "technic:lead_dust 2"},
     {"technic:sulfur_lump",        "technic:sulfur_dust 2"},
-    {stone_ingredient,             "technic:stone_dust"},
-    {sand_ingredient,              "technic:stone_dust"},
-    {desert_sand_ingredient,       "technic:stone_dust"},
+    {technic.compat.stone_ingredient,             "technic:stone_dust"},
+    {technic.compat.sand_ingredient,              "technic:stone_dust"},
+    {technic.compat.desert_sand_ingredient,       "technic:stone_dust"},
 
     -- Other
-    {cobble_ingredient,             gravel_ingredient},
-    {gravel_ingredient,             sand_ingredient},
-    {sandstone_ingredient,         sand_ingredient.." 2"}, -- reverse recipe can be found in the compressor
-    {desert_stone_ingredient,   desert_sand_ingredient.." 2"}, -- reverse recipe can be found in the compressor
-    {ice_block_ingredient,         snow_block_ingredient},
+    {technic.compat.cobble_ingredient,             technic.compat.gravel_ingredient},
+    {technic.compat.gravel_ingredient,             technic.compat.sand_ingredient},
+    {technic.compat.sandstone_ingredient,         technic.compat.sand_ingredient.." 2"}, -- reverse recipe can be found in the compressor
+    {technic.compat.desert_stone_ingredient,   technic.compat.desert_sand_ingredient.." 2"}, -- reverse recipe can be found in the compressor
+    {technic.compat.ice_block_ingredient,         technic.compat.snow_block_ingredient},
 }
 
 alloy_recipes = {
 	{"technic:copper_dust 7",         "technic:tin_dust",           "technic:bronze_dust 8", 12},
-	{copper_ingredient.." 7",        tin_ingredient,          bronze_ingredient.." 8", 12},
+	{technic.compat.copper_ingredient.." 7",        technic.compat.tin_ingredient,          technic.compat.bronze_ingredient.." 8", 12},
 	{"technic:wrought_iron_dust 2",   "technic:coal_dust",          "technic:carbon_steel_dust 2", 6},
 	{"technic:wrought_iron_ingot 2",  "technic:coal_dust",          "technic:carbon_steel_ingot 2", 6},
 	{"technic:carbon_steel_dust 2",   "technic:coal_dust",          "technic:cast_iron_dust 2", 6},
@@ -109,14 +109,14 @@ alloy_recipes = {
 	{"technic:carbon_steel_dust 4",   "technic:chromium_dust",      "technic:stainless_steel_dust 5", 7.5},
 	{"technic:carbon_steel_ingot 4",  "technic:chromium_ingot",     "technic:stainless_steel_ingot 5", 7.5},
 	{"technic:copper_dust 2",         "technic:zinc_dust",          "technic:brass_dust 3"},
-	{copper_ingredient.." 2",        "technic:zinc_ingot",         "basic_materials:brass_ingot 3"},
-	{sand_ingredient.." 2",                "technic:coal_dust 2",        "technic:silicon_wafer"},
+	{technic.compat.copper_ingredient.." 2",        "technic:zinc_ingot",         "basic_materials:brass_ingot 3"},
+	{technic.compat.sand_ingredient.." 2",                "technic:coal_dust 2",        "technic:silicon_wafer"},
 	{"technic:silicon_wafer",         "technic:gold_dust",          "technic:doped_silicon_wafer"},
 	-- from https://en.wikipedia.org/wiki/Carbon_black
 	-- The highest volume use of carbon black is as a reinforcing filler in rubber products, especially tires.
 	-- "[Compounding a] pure gum vulcanizate … with 50% of its weight of carbon black improves its tensile strength and wear resistance …"
 	{"technic:raw_latex 4",           "technic:coal_dust 2",        "technic:rubber 6", 2},
-	{ice_block_ingredient, 		  emtpy_bucket_ingredient,        water_bucket_ingredient, 1 },
+	{technic.compat.ice_block_ingredient, 		  technic.compat.emtpy_bucket_ingredient,        technic.compat.water_bucket_ingredient, 1 },
 }
 
 for _, data in pairs(alloy_recipes) do

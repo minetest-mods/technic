@@ -7,6 +7,14 @@ technic_cnc.technic_modpath = minetest.get_modpath("technic")
 technic_cnc.use_technic = technic_cnc.technic_modpath
                           and minetest.settings:get_bool("technic_cnc_use_technic") ~= false
 
+local mcl = minetest.get_modpath("mcl_core")
+
+-- Compatibility table
+technic_cnc.compat = {}
+technic_cnc.compat.glass_ingredient = mcl and "mcl_core:glass" or 'default:glass'
+technic_cnc.compat.mese_block_ingredient = mcl and "mesecons_torch:redstoneblock" or "default:mese"
+technic_cnc.compat.diamond_ingredient = mcl and "mcl_core:diamond" or "default:diamond"
+
 if rawget(_G, "intllib") then
 	technic_cnc.getter = intllib.Getter()
 else

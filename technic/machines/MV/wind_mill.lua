@@ -25,7 +25,7 @@ minetest.register_node("technic:wind_mill_frame", {
 	tiles = {"technic_carbon_steel_block.png", "default_glass.png"},
 	sunlight_propagates = true,
 	groups = {cracky=3},
-	sounds = stone_sounds,
+	sounds = technic.compat.stone_sounds,
 	paramtype = "light",
 })
 
@@ -72,7 +72,7 @@ minetest.register_node("technic:wind_mill", {
 	paramtype2 = "facedir",
 	groups = {cracky=1, technic_machine=1, technic_mv=1},
 	connect_sides = {"top", "bottom", "back", "left", "right"},
-	sounds = stone_sounds,
+	sounds = technic.compat.stone_sounds,
 	drawtype = "nodebox",
 	paramtype = "light",
 	node_box = {
