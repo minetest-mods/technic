@@ -26,19 +26,8 @@ minetest.register_craftitem("technic:geothermal", {
 
 local check_node_around = function(pos)
 	local node = minetest.get_node(pos)
-	if technic_compat.mcl then
-		local water_flowing_node = "mcl_core:water_flowing"
-		local lava_flowing_node = "mcl_core:lava_flowing"
-		local water_source_node = "mcl_core:water_source"
-		local lava_source_node = "mcl_core:lava_source"
-	else
-		local water_flowing_node = "default:water_flowing"
-		local lava_flowing_node = "default:lava_flowing"
-		local water_source_node = "default:water_source"
-		local lava_source_node = "default:lava_source"
-	end
-	if node.name == water_source_node or node.name == water_flowing_node then return 1 end
-	if node.name == lava_source_node  or node.name == lava_flowing_node  then return 2 end
+	if minetest.get_item_group(node.name, "water") == 3 and (string.find(node.name, "flowing") or string.find(node.name, "source")) then return 1 end
+	if minetest.get_item_group(node.name, "lava") == 3 and (string.find(node.name, "flowing") or string.find(node.name, "source"))  then return 2 end
 	return 0
 end
 
