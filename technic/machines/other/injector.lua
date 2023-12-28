@@ -47,7 +47,7 @@ minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
 		{'', 'technic:control_logic_unit',''},
-		{'', technic.compat.chest_ingredient,''},
+		{'', technic_compat.chest_ingredient,''},
 		{'', 'pipeworks:tube_1',''},
 	}
 })
@@ -105,7 +105,7 @@ minetest.register_node("technic:injector", {
 		end,
 		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 	},
-	sounds = technic.compat.wood_sounds,
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Self-Contained Injector"))

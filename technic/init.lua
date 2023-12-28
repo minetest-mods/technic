@@ -48,12 +48,6 @@ end
 -- Read configuration file
 dofile(modpath.."/config.lua")
 
-
--- MineClone2 Support
-dofile(modpath.."/mcl_support.lua")
-
-dofile(modpath.."/mcl_craftguide.lua")
-
 -- Helper functions
 dofile(modpath.."/helpers.lua")
 

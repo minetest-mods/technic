@@ -11,25 +11,25 @@ local S = technic.getter
 minetest.register_craft({
 	output = "technic:laser_mk1",
 	recipe = {
-		{technic.compat.diamond_ingredient, "basic_materials:brass_ingot", technic.compat.obsidian_glass_ingredient},
+		{technic_compat.diamond_ingredient, "basic_materials:brass_ingot", technic_compat.obsidian_glass_ingredient},
 		{"","basic_materials:brass_ingot", "technic:red_energy_crystal"},
-		{"", "", technic.compat.copper_ingredient},
+		{"", "", technic_compat.copper_ingredient},
 	}
 })
 minetest.register_craft({
 	output = "technic:laser_mk2",
 	recipe = {
-		{technic.compat.diamond_ingredient, "technic:carbon_steel_ingot", "technic:laser_mk1"},
+		{technic_compat.diamond_ingredient, "technic:carbon_steel_ingot", "technic:laser_mk1"},
 		{"", "technic:carbon_steel_ingot", "technic:green_energy_crystal"},
-		{"", "", technic.compat.copper_ingredient},
+		{"", "", technic_compat.copper_ingredient},
 	}
 })
 minetest.register_craft({
 	output = "technic:laser_mk3",
 	recipe = {
-		{technic.compat.diamond_ingredient, "technic:carbon_steel_ingot", "technic:laser_mk2"},
+		{technic_compat.diamond_ingredient, "technic:carbon_steel_ingot", "technic:laser_mk2"},
 		{"", "technic:carbon_steel_ingot", "technic:blue_energy_crystal"},
-		{"", "", technic.compat.copper_ingredient},
+		{"", "", technic_compat.copper_ingredient},
 	}
 })
 

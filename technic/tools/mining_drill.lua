@@ -6,9 +6,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:mining_drill',
 	recipe = {
-		{technic.compat.tin_ingredient,             'technic:diamond_drill_head', technic.compat.tin_ingredient},
+		{technic_compat.tin_ingredient,             'technic:diamond_drill_head', technic_compat.tin_ingredient},
 		{'technic:stainless_steel_ingot', 'basic_materials:motor',              'technic:stainless_steel_ingot'},
-		{'',                              'technic:red_energy_crystal', technic.compat.copper_ingredient},
+		{'',                              'technic:red_energy_crystal', technic_compat.copper_ingredient},
 	}
 })
 minetest.register_craft({

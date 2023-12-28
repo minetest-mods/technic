@@ -5,9 +5,9 @@
 minetest.register_craft({
 	output = 'technic:electric_furnace',
 	recipe = {
-		{technic.compat.cobble_ingredient, technic.compat.cobble_ingredient,         technic.compat.cobble_ingredient},
-		{technic.compat.cobble_ingredient, 'technic:machine_casing', technic.compat.cobble_ingredient},
-		{technic.compat.cobble_ingredient, 'technic:lv_cable',       technic.compat.cobble_ingredient},
+		{technic_compat.cobble_ingredient, technic_compat.cobble_ingredient,         technic_compat.cobble_ingredient},
+		{technic_compat.cobble_ingredient, 'technic:machine_casing', technic_compat.cobble_ingredient},
+		{technic_compat.cobble_ingredient, 'technic:lv_cable',       technic_compat.cobble_ingredient},
 	}
 })
 

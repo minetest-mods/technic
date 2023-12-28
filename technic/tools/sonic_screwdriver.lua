@@ -90,9 +90,9 @@ minetest.register_tool("technic:sonic_screwdriver", {
 minetest.register_craft({
 	output = "technic:sonic_screwdriver",
 	recipe = {
-		{"",                         technic.compat.diamond_ingredient,        ""},
-		{technic.compat.mesecons_fiber_ingredient, "technic:battery",        technic.compat.mesecons_fiber_ingredient},
-		{technic.compat.mesecons_fiber_ingredient, "moreores:mithril_ingot", technic.compat.mesecons_fiber_ingredient}
+		{"",                         technic_compat.diamond_ingredient,        ""},
+		{technic_compat.mesecons_fiber_ingredient, "technic:battery",        technic_compat.mesecons_fiber_ingredient},
+		{technic_compat.mesecons_fiber_ingredient, "moreores:mithril_ingot", technic_compat.mesecons_fiber_ingredient}
 	}
 })
 

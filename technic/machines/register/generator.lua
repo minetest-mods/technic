@@ -125,7 +125,7 @@ function technic.register_generator(data)
 		groups = groups,
 		connect_sides = {"bottom", "back", "left", "right"},
 		legacy_facedir_simple = true,
-		sounds = technic.compat.wood_sounds,
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
@@ -195,7 +195,7 @@ function technic.register_generator(data)
 		groups = active_groups,
 		connect_sides = {"bottom"},
 		legacy_facedir_simple = true,
-		sounds = technic.compat.wood_sounds,
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		drop = "technic:"..ltier.."_generator",
 		can_dig = technic.machine_can_dig,

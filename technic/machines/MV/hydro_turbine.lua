@@ -77,7 +77,7 @@ minetest.register_node("technic:hydro_turbine", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 	technic_machine=1, technic_mv=1, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = technic.compat.wood_sounds,
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Hydro %s Generator"):format("MV"))
@@ -99,7 +99,7 @@ minetest.register_node("technic:hydro_turbine_active", {
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 			technic_machine=1, technic_mv=1, not_in_creative_inventory=1, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = technic.compat.wood_sounds,
+	sounds = technic_compat.wood_sounds,
 	drop = "technic:hydro_turbine",
 	technic_run = run,
 	technic_disabled_machine_name = "technic:hydro_turbine",

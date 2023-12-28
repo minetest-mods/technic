@@ -17,9 +17,9 @@ technic.register_power_tool("technic:blue_energy_crystal", 450000)
 minetest.register_craft({
 	output = "technic:battery",
 	recipe = {
-		{"group:wood", technic.compat.copper_ingredient, "group:wood"},
+		{"group:wood", technic_compat.copper_ingredient, "group:wood"},
 		{"group:wood", "default:tin_ingot",    "group:wood"},
-		{"group:wood", technic.compat.copper_ingredient, "group:wood"},
+		{"group:wood", technic_compat.copper_ingredient, "group:wood"},
 	}
 })
 -- Sulfur-lead-water recipes:
@@ -300,7 +300,7 @@ function technic.register_battery_box(data)
 			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
 			paramtype2 = "facedir",
-			sounds = technic.compat.wood_sounds,
+			sounds = technic_compat.wood_sounds,
 			drop = "technic:"..ltier.."_battery_box0",
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)

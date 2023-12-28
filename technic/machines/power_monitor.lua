@@ -10,7 +10,7 @@ minetest.register_craft({
 	output = "technic:power_monitor",
 	recipe = {
 		{"",                 "",                       ""},
-		{"",                 "technic:machine_casing", technic.compat.copper_ingredient},
+		{"",                 "technic:machine_casing", technic_compat.copper_ingredient},
 		{"technic:lv_cable", "technic:lv_cable",       "technic:lv_cable"}
 	}
 })
@@ -28,7 +28,7 @@ minetest.register_node("technic:power_monitor",{
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1, technic_machine=1,pickaxey=3},
 	connect_sides = {"bottom", "back"},
-	sounds = technic.compat.wood_sounds,
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Power Monitor"))

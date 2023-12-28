@@ -45,7 +45,7 @@ function technic.register_solar_array(data)
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png"},
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, ["technic_"..ltier]=1, pickaxey=3},
 		connect_sides = {"bottom"},
-		sounds = technic.compat.wood_sounds,
+		sounds = technic_compat.wood_sounds,
 		description = S("Arrayed Solar %s Generator"):format(tier),
 		active = false,
 		drawtype = "nodebox",

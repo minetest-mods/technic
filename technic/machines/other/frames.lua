@@ -1000,7 +1000,7 @@ minetest.register_craft({
 	output = 'technic:template 10',
 	recipe = {
 		{ '',                    'basic_materials:brass_ingot',  '' },
-		{ 'basic_materials:brass_ingot', technic.compat.mese_crystal_ingredient, 'basic_materials:brass_ingot' },
+		{ 'basic_materials:brass_ingot', technic_compat.mese_crystal_ingredient, 'basic_materials:brass_ingot' },
 		{ '',                    'basic_materials:brass_ingot',  '' },
 	}
 })
@@ -1028,7 +1028,7 @@ minetest.register_craft({
 	output = 'technic:template_tool',
 	recipe = {
 		{ '',                     'technic:template', '' },
-		{ technic.compat.mese_crystal_ingredient, 'default:stick',    technic.compat.mese_crystal_ingredient },
+		{ technic_compat.mese_crystal_ingredient, 'default:stick',    technic_compat.mese_crystal_ingredient },
 		{ '',                     'default:stick',    '' },
 	}
 })

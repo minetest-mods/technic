@@ -142,7 +142,7 @@ local function make_constructor(mark, length)
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 			mesecon = 2, technic_constructor = 1, pickaxey=3},
 		mesecons = {effector = {action_on = make_on(mark, length)}},
-		sounds = technic.compat.stone_sounds,
+		sounds = technic_compat.stone_sounds,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local formspec = "size[8,9;]"..
@@ -198,7 +198,7 @@ local function make_constructor(mark, length)
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 			mesecon=2, not_in_creative_inventory=1, technic_constructor=1, pickaxey = 3},
 		mesecons= {effector = {action_off = make_off(mark)}},
-		sounds = technic.compat.stone_sounds,
+		sounds = technic_compat.stone_sounds,
 		allow_metadata_inventory_put = allow_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,

@@ -174,7 +174,7 @@ function technic.register_base_machine(data)
 		tube = data.tube and tube or nil,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
-		sounds = technic.compat.wood_sounds,
+		sounds = technic_compat.wood_sounds,
 		on_construct = function(pos)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
@@ -248,7 +248,7 @@ function technic.register_base_machine(data)
 		groups = active_groups,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
-		sounds = technic.compat.wood_sounds,
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
