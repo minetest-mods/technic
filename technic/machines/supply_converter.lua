@@ -198,7 +198,7 @@ minetest.register_node("technic:supply_converter", {
 		"technic_supply_converter_side.png"
 		},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_all_tiers=1},
+		technic_machine=1, technic_all_tiers=1, pickaxey=3},
 	connect_sides = {"top", "bottom"},
 	sounds = technic.compat.wood_sounds,
 	on_receive_fields = supply_converter_receive_fields,
@@ -218,6 +218,10 @@ minetest.register_node("technic:supply_converter", {
 	digiline = digiline_def,
 	technic_run = run,
 	technic_on_disable = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_craft({

@@ -246,7 +246,7 @@ minetest.register_node("technic:quarry", {
 		"technic_carbon_steel_block.png"..cable_entry
 	},
 	paramtype2 = "facedir",
-	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1},
+	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1,pickaxey=3},
 	connect_sides = {"bottom", "front", "left", "right"},
 	tube = {
 		connect_sides = {top = 1},
@@ -289,7 +289,11 @@ minetest.register_node("technic:quarry", {
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		return send_move_error(player)
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("HV", "technic:quarry", technic.receiver)

@@ -72,7 +72,7 @@ minetest.register_node("technic:admin_anchor", {
 	drawtype = "normal",
 	tiles = {"technic_admin_anchor.png"},
 	is_ground_content = true,
-	groups = {cracky=3, not_in_creative_inventory=1},
+	groups = {cracky=3, not_in_creative_inventory=1, pickaxey=3},
 	sounds = technic.compat.stone_sounds,
 	after_place_node = function (pos, placer)
 		local meta = minetest.get_meta(pos)
@@ -114,4 +114,8 @@ minetest.register_node("technic:admin_anchor", {
 		end
 		set_display(pos, meta)
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })

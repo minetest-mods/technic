@@ -266,7 +266,7 @@ function technic.register_battery_box(data)
 
 	for i = 0, 8 do
 		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-				technic_machine=1, ["technic_"..ltier]=1}
+				technic_machine=1, ["technic_"..ltier]=1, pickaxey=3}
 		if i ~= 0 then
 			groups.not_in_creative_inventory = 1
 		end
@@ -381,6 +381,9 @@ function technic.register_battery_box(data)
 					end
 				},
 			},
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
 		})
 	end
 

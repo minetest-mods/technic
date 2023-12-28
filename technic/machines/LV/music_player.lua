@@ -94,7 +94,7 @@ minetest.register_node("technic:music_player", {
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
+		technic_machine=1, technic_lv=1, pickaxey=3},
 	connect_sides = {"bottom"},
 	sounds = technic.compat.wood_sounds,
 	on_construct = function(pos)
@@ -125,6 +125,10 @@ minetest.register_node("technic:music_player", {
 	on_destruct = stop_player,
 	technic_run = run,
 	technic_on_disable = stop_player,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("LV", "technic:music_player", technic.receiver)

@@ -90,7 +90,7 @@ minetest.register_node("technic:injector", {
 		"technic_injector_side.png"
 	},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1, pickaxey=3},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
@@ -140,7 +140,10 @@ minetest.register_node("technic:injector", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_abm({

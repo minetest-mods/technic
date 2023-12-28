@@ -24,9 +24,13 @@ minetest.register_node("technic:wind_mill_frame", {
 	drawtype = "glasslike_framed",
 	tiles = {"technic_carbon_steel_block.png", "default_glass.png"},
 	sunlight_propagates = true,
-	groups = {cracky=3},
+	groups = {cracky=3, pickaxey=3},
 	sounds = technic.compat.stone_sounds,
 	paramtype = "light",
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 local function check_wind_mill(pos)
@@ -70,7 +74,7 @@ minetest.register_node("technic:wind_mill", {
 	description = S("Wind %s Generator"):format("MV"),
 	tiles = {"technic_carbon_steel_block.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=1, technic_machine=1, technic_mv=1},
+	groups = {cracky=1, technic_machine=1, technic_mv=1, pickaxey=3},
 	connect_sides = {"top", "bottom", "back", "left", "right"},
 	sounds = technic.compat.stone_sounds,
 	drawtype = "nodebox",
@@ -90,6 +94,10 @@ minetest.register_node("technic:wind_mill", {
 		meta:set_int("MV_EU_supply", 0)
 	end,
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("MV", "technic:wind_mill", technic.producer)

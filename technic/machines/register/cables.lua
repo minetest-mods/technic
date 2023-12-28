@@ -213,6 +213,9 @@ function technic.register_cable(tier, size)
 				"group:technic_"..ltier, "group:technic_all_tiers"},
 			on_construct = clear_networks,
 			on_destruct = clear_networks,
+			_mcl_hardness =  3,
+			_mcl_blast_resistance =  3,
+			_mcl_silk_touch_drop = true
 		}
 		def.node_box.fixed = {
 			{-size, -size, -size, size, size, size},

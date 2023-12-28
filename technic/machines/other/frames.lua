@@ -236,7 +236,7 @@ for zp = 0, 1 do
 	end
 
 	local nameext = string.format("%d%d%d%d%d%d", xm, xp, ym, yp, zm, zp)
-	local groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 }
+	local groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, pickaxey=3}
 	if nameext ~= "111111" then groups.not_in_creative_inventory = 1 end
 
 
@@ -373,6 +373,10 @@ for zp = 0, 1 do
 				end
 			end
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
+		_mcl_fortune_drop = mcl_core.fortune_drop_ore
 	})
 
 end
@@ -616,7 +620,7 @@ minetest.register_node("technic:frame_motor", {
 		"pipeworks_filter_top.png^[transformR90", "technic_lv_cable.png", "technic_lv_cable.png",
 		"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"
 	},
-	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2 },
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2, pickaxey=3},
 	paramtype2 = "facedir",
 	mesecons = { effector = { action_on = frame_motor_on } },
 
@@ -633,7 +637,10 @@ minetest.register_node("technic:frame_motor", {
 			{ x = -1, y = 0, z = 0 }, { x = 0, y = -1, z = 0 }
 		})[math.floor(node.param2 / 4) + 1]
 		return dir2.x ~= -dir.x or dir2.y ~= -dir.y or dir2.z ~= -dir.z
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 
@@ -825,37 +832,46 @@ minetest.register_node("technic:template", {
 	description = S("Template"),
 	tiles = { "technic_mv_cable.png" },
 	drop = "",
-	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2 },
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, pickaxey=3},
 	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos, node, puncher)
 		swap_template(pos, "technic:template_disabled")
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_node("technic:template_disabled", {
 	description = S("Template"),
 	tiles = { "technic_hv_cable.png" },
 	drop = "",
-	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1 },
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1, pickaxey=3},
 	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos, node, puncher)
 	local _ = minetest.get_meta(pos)
 		swap_template(pos, "technic:template_connector")
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_node("technic:template_connector", {
 	description = S("Template"),
 	tiles = { "technic_lv_cable.png" },
 	drop = "",
-	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1 },
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1, pickaxey=3},
 	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos, node, puncher)
 		swap_template(pos, "technic:template")
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_craftitem("technic:template_replacer", {
@@ -949,13 +965,16 @@ minetest.register_node("technic:template_motor", {
 		"technic_lv_cable.png",
 		"technic_lv_cable.png"
 	},
-	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2 },
+	groups = { snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2, pickaxey=3},
 	paramtype2 = "facedir",
 	mesecons = { effector = { action_on = template_motor_on } },
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("owner", placer:get_player_name())
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 -- Crafts

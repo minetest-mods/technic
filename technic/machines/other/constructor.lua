@@ -140,7 +140,7 @@ local function make_constructor(mark, length)
 			"technic_constructor_front_off.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-			mesecon = 2, technic_constructor = 1},
+			mesecon = 2, technic_constructor = 1, pickaxey=3},
 		mesecons = {effector = {action_on = make_on(mark, length)}},
 		sounds = technic.compat.stone_sounds,
 		on_construct = function(pos)
@@ -179,7 +179,11 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_put = allow_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
-		on_rotate = screwdriver.rotate_simple
+		on_rotate = screwdriver.rotate_simple,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
+		_mcl_fortune_drop = mcl_core.fortune_drop_ore
 	})
 
 	minetest.register_node("technic:constructor_mk"..mark.."_on", {
@@ -192,13 +196,17 @@ local function make_constructor(mark, length)
 		paramtype2 = "facedir",
 		drop = "technic:constructor_mk"..mark.."_off",
 		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-			mesecon=2, not_in_creative_inventory=1, technic_constructor=1},
+			mesecon=2, not_in_creative_inventory=1, technic_constructor=1, pickaxey = 3},
 		mesecons= {effector = {action_off = make_off(mark)}},
 		sounds = technic.compat.stone_sounds,
 		allow_metadata_inventory_put = allow_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
-		on_rotate = false
+		on_rotate = false,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
+		_mcl_fortune_drop = mcl_core.fortune_drop_ore
 	})
 end
 

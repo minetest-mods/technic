@@ -87,7 +87,7 @@ minetest.register_node("technic:geothermal", {
 	tiles = {"technic_geothermal_top.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
+		technic_machine=1, technic_lv=1, pickaxey=3},
 	paramtype2 = "facedir",
 	legacy_facedir_simple = true,
 	sounds = technic.compat.wood_sounds,
@@ -97,6 +97,10 @@ minetest.register_node("technic:geothermal", {
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 minetest.register_node("technic:geothermal_active", {
@@ -105,11 +109,15 @@ minetest.register_node("technic:geothermal_active", {
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
+		technic_machine=1, technic_lv=1, not_in_creative_inventory=1, pickaxey=3},
 	legacy_facedir_simple = true,
 	sounds = technic.compat.wood_sounds,
 	drop = "technic:geothermal",
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("LV", "technic:geothermal",        technic.producer)

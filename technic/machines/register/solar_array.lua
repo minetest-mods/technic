@@ -43,7 +43,7 @@ function technic.register_solar_array(data)
 		tiles = {"technic_"..ltier.."_solar_array_top.png",  "technic_"..ltier.."_solar_array_bottom.png",
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png",
 			 "technic_"..ltier.."_solar_array_side.png", "technic_"..ltier.."_solar_array_side.png"},
-		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, ["technic_"..ltier]=1},
+		groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_machine=1, ["technic_"..ltier]=1, pickaxey=3},
 		connect_sides = {"bottom"},
 		sounds = technic.compat.wood_sounds,
 		description = S("Arrayed Solar %s Generator"):format(tier),
@@ -59,6 +59,9 @@ function technic.register_solar_array(data)
 			meta:set_int(tier.."_EU_supply", 0)
 		end,
 		technic_run = run,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine(tier, "technic:solar_array_"..ltier, technic.producer)

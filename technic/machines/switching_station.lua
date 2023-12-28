@@ -36,7 +36,7 @@ minetest.register_node("technic:switching_station",{
 		"technic_water_mill_top_active.png",
 		"technic_water_mill_top_active.png",
 		"technic_water_mill_top_active.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1,pickaxey=3},
 	connect_sides = {"bottom"},
 	sounds = technic.compat.wood_sounds,
 	on_construct = function(pos)

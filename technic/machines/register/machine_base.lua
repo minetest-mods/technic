@@ -41,12 +41,12 @@ function technic.register_base_machine(data)
 
 	data.modname = data.modname or minetest.get_current_modname()
 
-	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
+	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1, pickaxey=3}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
 	end
-	local active_groups = {not_in_creative_inventory = 1}
+	local active_groups = {not_in_creative_inventory = 1, pickaxey=3}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
@@ -228,6 +228,9 @@ function technic.register_base_machine(data)
 			end
 			meta:set_string("formspec", formspec..form_buttons)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	minetest.register_node(data.modname..":"..ltier.."_"..machine_name.."_active",{
@@ -273,6 +276,9 @@ function technic.register_base_machine(data)
 			end
 			meta:set_string("formspec", formspec..form_buttons)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine(tier, data.modname..":"..ltier.."_"..machine_name,            technic.receiver)

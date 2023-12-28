@@ -93,7 +93,7 @@ minetest.register_node("technic:tool_workshop", {
 		"technic_workshop_side.png"
 	},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
+		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1, pickaxey=3},
 	connect_sides = {"bottom", "back", "left", "right"},
 	sounds = technic.compat.wood_sounds,
 	on_construct = function(pos)
@@ -119,7 +119,11 @@ minetest.register_node("technic:tool_workshop", {
 	},
 	technic_run = run,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = technic.machine_after_dig_node
+	after_dig_node = technic.machine_after_dig_node,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("MV", "technic:tool_workshop", technic.receiver)

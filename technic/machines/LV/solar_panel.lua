@@ -48,7 +48,7 @@ minetest.register_node("technic:solar_panel", {
 	tiles = {"technic_solar_panel_top.png",  "technic_solar_panel_bottom.png", "technic_solar_panel_side.png",
 	         "technic_solar_panel_side.png", "technic_solar_panel_side.png",   "technic_solar_panel_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
+		technic_machine=1, technic_lv=1, pickaxey=3},
 	connect_sides = {"bottom"},
 	sounds = technic.compat.wood_sounds,
 	description = S("Small Solar %s Generator"):format("LV"),
@@ -66,6 +66,10 @@ minetest.register_node("technic:solar_panel", {
 		meta:set_string("infotext", S("Small Solar %s Generator"):format("LV"))
 	end,
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	_mcl_fortune_drop = mcl_core.fortune_drop_ore
 })
 
 technic.register_machine("LV", "technic:solar_panel", technic.producer)
