@@ -3,7 +3,7 @@
 
 -- FIXME: kpoppel I'd like to introduce an induction heating element here also
 minetest.register_craft({
-	output = 'technic:electric_furnace',
+	output = 'technic:lv_electric_furnace',
 	recipe = {
 		{technic_compat.cobble_ingredient, technic_compat.cobble_ingredient,         technic_compat.cobble_ingredient},
 		{technic_compat.cobble_ingredient, 'technic:machine_casing', technic_compat.cobble_ingredient},
