@@ -12,5 +12,6 @@ local mcl_path = modpath .. "/mcl/"
 dofile(mcl_path .. "sounds.lua")
 dofile(mcl_path .. "textures.lua")
 dofile(mcl_path .. "miscellaneous.lua")
+dofile(mcl_path .. "fluids.lua")
 dofile(mcl_path .. "crafting.lua")
 dofile(mcl_path .. "craftguide.lua")
