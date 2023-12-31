@@ -87,7 +87,7 @@ minetest.register_node("technic:hydro_turbine", {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 })
 
 minetest.register_node("technic:hydro_turbine_active", {
@@ -106,7 +106,7 @@ minetest.register_node("technic:hydro_turbine_active", {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 })
 
 technic.register_machine("MV", "technic:hydro_turbine",        technic.producer)

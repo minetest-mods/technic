@@ -30,7 +30,7 @@ minetest.register_node("technic:wind_mill_frame", {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 })
 
 local function check_wind_mill(pos)
@@ -97,7 +97,7 @@ minetest.register_node("technic:wind_mill", {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 })
 
 technic.register_machine("MV", "technic:wind_mill", technic.producer)

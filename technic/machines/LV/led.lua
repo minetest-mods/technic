@@ -58,7 +58,7 @@ ndef = {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 }
 
 for k, v in pairs(common_fields) do
@@ -80,7 +80,7 @@ ndef = {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 }
 
 for k, v in pairs(common_fields) do

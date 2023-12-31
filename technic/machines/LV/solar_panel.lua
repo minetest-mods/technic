@@ -69,7 +69,7 @@ minetest.register_node("technic:solar_panel", {
 	_mcl_hardness =  3,
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
+	
 })
 
 technic.register_machine("LV", "technic:solar_panel", technic.producer)
