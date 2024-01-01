@@ -1,7 +1,7 @@
 
 local S = technic.worldgen.gettext
 
-minetest.register_node( ":technic:mineral_uranium", {
+local mineral_uranium_def = {
 	description = S("Uranium Ore"),
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
@@ -12,9 +12,9 @@ minetest.register_node( ":technic:mineral_uranium", {
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
 	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+}
 
-minetest.register_node( ":technic:mineral_chromium", {
+local mineral_chromium_def = {
 	description = S("Chromium Ore"),
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
@@ -25,9 +25,9 @@ minetest.register_node( ":technic:mineral_chromium", {
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
 	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+}
 
-minetest.register_node( ":technic:mineral_zinc", {
+local mineral_zinc_def = {
 	description = S("Zinc Ore"),
 	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
@@ -38,9 +38,9 @@ minetest.register_node( ":technic:mineral_zinc", {
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
 	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+}
 
-minetest.register_node( ":technic:mineral_lead", {
+local mineral_lead_def = {
 	description = S("Lead Ore"),
 	tiles = { "default_stone.png^technic_mineral_lead.png" },
 	is_ground_content = true,
@@ -51,9 +51,9 @@ minetest.register_node( ":technic:mineral_lead", {
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
 	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+}
 
-minetest.register_node( ":technic:mineral_sulfur", {
+local mineral_sulfur_def = {
 	description = S("Sulfur Ore"),
 	tiles = { "default_stone.png^technic_mineral_sulfur.png" },
 	is_ground_content = true,
@@ -64,7 +64,118 @@ minetest.register_node( ":technic:mineral_sulfur", {
 	_mcl_blast_resistance =  3,
 	_mcl_silk_touch_drop = true,
 	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+}
+
+local marble_def = {
+	description = S("Marble"),
+	tiles = { "technic_marble.png" },
+	is_ground_content = true,
+	groups = {cracky=3, marble=1,pickaxey=3},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local marble_bricks_def = {
+	description = S("Marble Bricks"),
+	tiles = { "technic_marble_bricks.png" },
+	is_ground_content = false,
+	groups = {cracky=3,pickaxey=3},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local uranium_block_def = {
+	description = S("Uranium Block"),
+	tiles = { "technic_uranium_block.png" },
+	is_ground_content = true,
+	groups = {uranium_block=1, cracky=1, level=2, radioactive=2,pickaxey=5},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  5,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local chromium_block_def = {
+	description = S("Chromium Block"),
+	tiles = { "technic_chromium_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2,pickaxey=4},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  4,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local zinc_block_def = {
+	description = S("Zinc Block"),
+	tiles = { "technic_zinc_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2,pickaxey=3},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local lead_block_def = {
+	description = S("Lead Block"),
+	tiles = { "technic_lead_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2,pickaxey=5},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  5,
+	_mcl_blast_resistance =  5,
+	_mcl_silk_touch_drop = true
+}
+
+local cast_iron_block_def = {
+	description = S("Cast Iron Block"),
+	tiles = { "technic_cast_iron_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local carbon_steel_block_def = {
+	description = S("Carbon Steel Block"),
+	tiles = { "technic_carbon_steel_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+local stainless_steel_block_def = {
+	description = S("Stainless Steel Block"),
+	tiles = { "technic_stainless_steel_block.png" },
+	is_ground_content = true,
+	groups = {cracky=1, level=2},
+	sounds = sounds.node_sound_stone_defaults(),
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
+}
+
+
+
+minetest.register_node( ":technic:mineral_uranium", mineral_uranium_def)
+
+minetest.register_node( ":technic:mineral_chromium", mineral_chromium_def)
+
+minetest.register_node( ":technic:mineral_zinc", mineral_zinc_def)
+
+minetest.register_node( ":technic:mineral_lead", mineral_lead_def)
+
+minetest.register_node( ":technic:mineral_sulfur", mineral_sulfur_def)
 
 if minetest.get_modpath("default") then
 	minetest.register_node( ":technic:granite", {
@@ -85,77 +196,17 @@ if minetest.get_modpath("default") then
 	})
 end
 
-minetest.register_node( ":technic:marble", {
-	description = S("Marble"),
-	tiles = { "technic_marble.png" },
-	is_ground_content = true,
-	groups = {cracky=3, marble=1,pickaxey=3},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+minetest.register_node( ":technic:marble", marble_def)
 
-minetest.register_node( ":technic:marble_bricks", {
-	description = S("Marble Bricks"),
-	tiles = { "technic_marble_bricks.png" },
-	is_ground_content = false,
-	groups = {cracky=3,pickaxey=3},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+minetest.register_node( ":technic:marble_bricks", marble_bricks_def)
 
-minetest.register_node(":technic:uranium_block", {
-	description = S("Uranium Block"),
-	tiles = { "technic_uranium_block.png" },
-	is_ground_content = true,
-	groups = {uranium_block=1, cracky=1, level=2, radioactive=2,pickaxey=5},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  5,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+minetest.register_node(":technic:uranium_block", uranium_block_def)
 
-minetest.register_node(":technic:chromium_block", {
-	description = S("Chromium Block"),
-	tiles = { "technic_chromium_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2,pickaxey=4},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  4,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+minetest.register_node(":technic:chromium_block", chromium_block_def)
 
-minetest.register_node(":technic:zinc_block", {
-	description = S("Zinc Block"),
-	tiles = { "technic_zinc_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2,pickaxey=3},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore
-})
+minetest.register_node(":technic:zinc_block", zinc_block_def)
 
-minetest.register_node(":technic:lead_block", {
-	description = S("Lead Block"),
-	tiles = { "technic_lead_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2,pickaxey=5},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  5,
-	_mcl_blast_resistance =  5,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
-})
+minetest.register_node(":technic:lead_block", lead_block_def)
 
 if minetest.get_modpath("default") then
 	minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
@@ -166,41 +217,11 @@ if minetest.get_modpath("default") then
 	})
 end
 
-minetest.register_node(":technic:cast_iron_block", {
-	description = S("Cast Iron Block"),
-	tiles = { "technic_cast_iron_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
-})
+minetest.register_node(":technic:cast_iron_block", cast_iron_block_def)
 
-minetest.register_node(":technic:carbon_steel_block", {
-	description = S("Carbon Steel Block"),
-	tiles = { "technic_carbon_steel_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
-})
+minetest.register_node(":technic:carbon_steel_block", carbon_steel_block_def)
 
-minetest.register_node(":technic:stainless_steel_block", {
-	description = S("Stainless Steel Block"),
-	tiles = { "technic_stainless_steel_block.png" },
-	is_ground_content = true,
-	groups = {cracky=1, level=2},
-	sounds = sounds.node_sound_stone_defaults(),
-	_mcl_hardness =  3,
-	_mcl_blast_resistance =  3,
-	_mcl_silk_touch_drop = true,
-	_mcl_fortune_drop = mcl_core.fortune_drop_ore,
-})
+minetest.register_node(":technic:stainless_steel_block", stainless_steel_block_def)
 
 if minetest.get_modpath("default") then
 	minetest.register_craft({
