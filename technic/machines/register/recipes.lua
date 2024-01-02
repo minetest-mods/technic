@@ -121,22 +121,25 @@ function technic.get_recipe(typename, items)
 		return
 	end
 	local recipe = technic.recipes[typename].recipes[index]
-	if recipe then
-		local new_input = {}
-		for i, stack in ipairs(items) do
-			if stack:get_count() < recipe.input[stack:get_name()] then
-				return nil
-			else
-				new_input[i] = ItemStack(stack)
-				new_input[i]:take_item(recipe.input[stack:get_name()])
-			end
-		end
-		return {time = recipe.time,
-		        new_input = new_input,
-		        output = recipe.output}
-	else
-		return nil
-	end
+    if recipe then
+        local new_input = {}
+        for i, stack in ipairs(items) do
+            local input_count = recipe.input[stack:get_name()]
+            if input_count == nil then
+                -- Handle nil value, maybe return nil or log a warning
+                return nil
+            end
+            if stack:get_count() < input_count then
+                return nil
+            else
+                new_input[i] = ItemStack(stack)
+                new_input[i]:take_item(input_count)
+            end
+        end
+        return {time = recipe.time, new_input = new_input, output = recipe.output}
+    else
+        return nil
+    end
 end
 
 
