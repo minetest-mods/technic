@@ -15,10 +15,10 @@ world. A few notable features:
   * Minetest 5.0.0 or newer
   * [Minetest Game](https://github.com/minetest/minetest_game/)
   * [mesecons](https://github.com/minetest-mods/mesecons) -> signalling events
-  * [pipeworks](https://gitlab.com/VanessaE/pipeworks/) -> automation of item transport
+  * [pipeworks](https://github.com/mt-mods/pipeworks) -> automation of item transport
   * [moreores](https://github.com/minetest-mods/moreores/) -> additional ores
-  * [basic_materials](https://gitlab.com/VanessaE/basic_materials) -> basic craft items
-  * Supports [moretrees](https://gitlab.com/VanessaE/moretrees) -> rubber trees
+  * [basic_materials](https://github.com/mt-mods/basic_materials) -> basic craft items
+  * Supports [moretrees](https://github.com/mt-mods/moretrees) -> rubber trees
   * Consult `depends.txt` or `mod.conf` of each mod for further dependency information.
 
 
