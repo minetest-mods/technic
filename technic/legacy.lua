@@ -39,6 +39,13 @@ for i = 0, 64 do
 	minetest.register_alias("technic:lv_cable"..i, "technic:lv_cable")
 end
 
+-- Item meta
+
+-- Meta keys that have changed
+technic.legacy_meta_keys = {
+	["charge"] = "technic:charge",
+}
+
 -- Converts legacy itemstack metadata to itemstack meta and returns the ItemStackMetaRef
 function technic.get_stack_meta_compat(itemstack)
 	local meta = itemstack:get_meta()
@@ -48,7 +55,12 @@ function technic.get_stack_meta_compat(itemstack)
 		if metadata_table then
 			local table = meta:to_table()
 			for k, v in pairs(metadata_table) do
-				table.fields[k] = v
+				local legacy_key = technic.legacy_meta_keys[k]
+				if legacy_key then
+					table.fields[legacy_key] = v
+				else
+					table.fields[k] = v
+				end
 			end
 			meta:from_table(table)
 		end

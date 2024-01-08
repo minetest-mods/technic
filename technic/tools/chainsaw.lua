@@ -314,7 +314,7 @@ minetest.register_tool("technic:chainsaw", {
 		end
 
 		local meta = technic.get_stack_meta_compat(itemstack)
-		local charge = meta:get_int("charge")
+		local charge = meta:get_int("technic:charge")
 
 		local name = user:get_player_name()
 		if minetest.is_protected(pointed_thing.under, name) then
@@ -330,7 +330,7 @@ minetest.register_tool("technic:chainsaw", {
 		cutter = {} -- Free RAM
 
 		if not technic.creative_mode then
-			meta:set_int("charge", charge)
+			meta:set_int("technic:charge", charge)
 			technic.set_RE_wear(itemstack, charge, chainsaw_max_charge)
 		end
 		return itemstack

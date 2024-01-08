@@ -416,7 +416,7 @@ local function default_get_charge(itemstack)
 		return 0, 0
 	end
 	local item_meta = technic.get_stack_meta_compat(itemstack)
-	return item_meta:get_int("charge"), technic.power_tools[tool_name]
+	return item_meta:get_int("technic:charge"), technic.power_tools[tool_name]
 end
 
 local function default_set_charge(itemstack, charge)
@@ -425,7 +425,7 @@ local function default_set_charge(itemstack, charge)
 		technic.set_RE_wear(itemstack, charge, technic.power_tools[tool_name])
 	end
 	local item_meta = technic.get_stack_meta_compat(itemstack)
-	item_meta:set_int("charge", charge)
+	item_meta:set_int("technic:charge", charge)
 end
 
 function technic.charge_tools(meta, batt_charge, charge_step)

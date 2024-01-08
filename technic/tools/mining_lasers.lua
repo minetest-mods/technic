@@ -102,7 +102,7 @@ for _, m in pairs(mining_lasers_list) do
 		on_refill = technic.refill_RE_charge,
 		on_use = function(itemstack, user)
 			local meta = technic.get_stack_meta_compat(itemstack)
-			local charge = meta:get_int("charge")
+			local charge = meta:get_int("technic:charge")
 			if charge == 0 then
 				return
 			end
@@ -119,7 +119,7 @@ for _, m in pairs(mining_lasers_list) do
 				"technic_laser_mk" .. m[1])
 			if not technic.creative_mode then
 				charge = math.max(charge - m[4], 0)
-				meta:set_int("charge", charge)
+				meta:set_int("technic:charge", charge)
 				technic.set_RE_wear(itemstack, charge, m[3])
 			end
 			return itemstack

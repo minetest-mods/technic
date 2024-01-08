@@ -7,7 +7,7 @@ local function meta_to_table(meta)
 	local t = {}
 	local mt = meta:to_table()
 
-	t.charge = tonumber(mt.fields.charge) or 0
+	t.charge = tonumber(mt.fields["technic:charge"]) or 0
 	t.target = mt.fields.target or ""
 	t.look_depth = tonumber(mt.fields.look_depth) or 7
 	t.look_radius = tonumber(mt.fields.look_radius) or 1
@@ -33,7 +33,7 @@ minetest.register_tool("technic:prospector", {
 		end
 		if not technic.creative_mode then
 			toolmeta.charge = toolmeta.charge - charge_to_take
-			meta:set_int("charge", toolmeta.charge)
+			meta:set_int("technic:charge", toolmeta.charge)
 			technic.set_RE_wear(toolstack, toolmeta.charge, technic.power_tools[toolstack:get_name()])
 		end
 		-- What in the heaven's name is this evil sorcery ?

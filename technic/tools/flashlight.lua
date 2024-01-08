@@ -39,11 +39,11 @@ local function check_for_flashlight(player)
 	for i = 1, 8 do
 		if hotbar[i]:get_name() == "technic:flashlight" then
 			local meta = technic.get_stack_meta_compat(hotbar[i])
-			local charge = meta:get_int("charge")
+			local charge = meta:get_int("technic:charge")
 			if charge >= 2 then
 				if not technic.creative_mode then
 					charge = charge - 2;
-					meta:set_int("charge", charge)
+					meta:set_int("technic:charge", charge)
 					technic.set_RE_wear(hotbar[i], charge, flashlight_max_charge)
 					inv:set_stack("main", i, hotbar[i])
 				end

@@ -15,7 +15,7 @@ minetest.register_tool("technic:vacuum", {
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
 		local meta = technic.get_stack_meta_compat(itemstack)
-		local charge = meta:get_int("charge")
+		local charge = meta:get_int("technic:charge")
 		if charge < vacuum_charge_per_object then
 			return
 		end
@@ -44,7 +44,7 @@ minetest.register_tool("technic:vacuum", {
 			end
 		end
 
-		meta:set_int("charge", charge)
+		meta:set_int("technic:charge", charge)
 		technic.set_RE_wear(itemstack, charge, vacuum_max_charge)
 		return itemstack
 	end,

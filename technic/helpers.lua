@@ -71,7 +71,7 @@ function technic.refill_RE_charge(stack)
 	local max_charge = technic.power_tools[stack:get_name()]
 	if not max_charge then return stack end
 	local meta = technic.get_stack_meta_compat(stack)
-	meta:set_int("charge", max_charge)
+	meta:set_int("technic:charge", max_charge)
 	technic.set_RE_wear(stack, max_charge, max_charge)
 	return stack
 end

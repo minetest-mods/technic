@@ -42,7 +42,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	-- this is consistent with the previous sonic screwdriver
 
 	local meta = technic.get_stack_meta_compat(itemstack)
-	local charge = meta:get_int("charge")
+	local charge = meta:get_int("technic:charge")
 	if charge < 100 then
 		return
 	end
@@ -66,7 +66,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 
 	if not technic.creative_mode then
 		charge = charge - 100
-		meta:set_int("charge", charge)
+		meta:set_int("technic:charge", charge)
 		technic.set_RE_wear(itemstack, charge, sonic_screwdriver_max_charge)
 	end
 
