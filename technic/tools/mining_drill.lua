@@ -248,54 +248,52 @@ end
 
 local function mining_drill_mkX_setmode(user, itemstack, drill_type, max_modes)
 	local player_name = user:get_player_name()
-	local meta = minetest.deserialize(itemstack:get_metadata()) or {}
+	local meta = technic.get_stack_meta_compat(itemstack)
 
-	if not meta["mode"] then
+	if not meta:contains("mode") then
 		minetest.chat_send_player(player_name,
 			S("Use while sneaking to change Mining Drill Mk%d modes."):format(drill_type))
 	end
-	local mode = (meta["mode"] or 0) + 1
+	local mode = meta:get_int("mode") + 1
 	if mode > max_modes then mode = 1 end
 
 	minetest.chat_send_player(player_name,
 		S("Mining Drill Mk%d Mode %d"):format(2, mode)..
 		": "..mining_drill_mode_text[mode][1])
     itemstack:set_name(("technic:mining_drill_mk%d_%s"):format(drill_type, mode))
-	meta["mode"] = mode
-    itemstack:set_metadata(minetest.serialize(meta))
+	meta:set_int("mode", mode)
 	return itemstack
 end
 
 local function mining_drill_mkX_handler(itemstack, user, pointed_thing, drill_type, max_modes)
 	local keys = user:get_player_control()
-	local meta = minetest.deserialize(itemstack:get_metadata()) or {}
+	local meta = technic.get_stack_meta_compat(itemstack)
 
 	-- Mode switching (if possible)
 	if max_modes > 1 then
-		if not meta.mode or keys.sneak then
+		if not meta:contains("mode") or keys.sneak then
 			return mining_drill_mkX_setmode(user, itemstack, drill_type, max_modes)
 		end
 	end
 	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) then
 		return
 	end
-	if not meta.charge then
-		return
-	end
+
+	local charge = meta:get_int("charge")
+	local mode = meta:contains("mode") and meta:get_int("mode") or 1
 
 	-- Check whether the tool has enough charge
-	local charge_to_take = cost_to_use(drill_type, meta.mode or 1)
-	if meta.charge < charge_to_take then
+	local charge_to_take = cost_to_use(drill_type, mode)
+	if charge < charge_to_take then
 		return
 	end
 
 	-- Do the actual shoorting action
 	local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-	drill_dig_it(pos, user, meta.mode or 1)
+	drill_dig_it(pos, user, mode)
 	if not technic.creative_mode then
-		meta.charge = meta.charge - charge_to_take
-		itemstack:set_metadata(minetest.serialize(meta))
-		technic.set_RE_wear(itemstack, meta.charge, max_charge[drill_type])
+		meta:set_int("charge", charge)
+		technic.set_RE_wear(itemstack, charge, max_charge[drill_type])
 	end
 	return itemstack
 end

@@ -39,3 +39,33 @@ for i = 0, 64 do
 	minetest.register_alias("technic:lv_cable"..i, "technic:lv_cable")
 end
 
+-- Converts legacy itemstack metadata to itemstack meta and returns the ItemStackMetaRef
+function technic.get_stack_meta_compat(itemstack)
+	local meta = itemstack:get_meta()
+	local metadata = meta:get("")
+	if metadata then
+		local metadata_table = minetest.deserialize(metadata)
+		if metadata_table then
+			local table = meta:to_table()
+			for k, v in pairs(metadata_table) do
+				table.fields[k] = v
+			end
+			meta:from_table(table)
+		end
+		meta:set_string("", "")
+	end
+	return meta
+end
+
+-- Same as technic.get_stack_meta_compat for cans.
+-- (Cans didn't store a serialized table in the metadata, but just a number.)
+function technic.get_stack_meta_compat_cans(itemstack)
+	local meta = itemstack:get_meta()
+	local metadata = meta:get("")
+	if metadata then
+		meta:set_string("can_level", metadata)
+		meta:set_string("", "")
+		return meta
+	end
+	return meta
+end
