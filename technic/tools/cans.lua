@@ -73,6 +73,7 @@ function technic.register_can(d)
 			return itemstack
 		end,
 		on_refill = function(stack)
+			local meta = technic.get_stack_meta_compat_cans(stack)
 			meta:set_int("can_level", data.can_capacity)
 			set_can_wear(stack, data.can_capacity, data.can_capacity)
 			return stack
