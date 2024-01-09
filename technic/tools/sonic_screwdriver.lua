@@ -41,7 +41,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	-- contrary to the default screwdriver, do not check for can_dig, to allow rotating machines with CLU's in them
 	-- this is consistent with the previous sonic screwdriver
 
-	local meta = technic.get_stack_meta_compat(itemstack)
+	local meta = technic.get_stack_meta(itemstack)
 	local charge = meta:get_int("technic:charge")
 	if charge < 100 then
 		return

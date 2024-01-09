@@ -22,7 +22,7 @@ minetest.register_tool("technic:prospector", {
 	on_use = function(toolstack, user, pointed_thing)
 		if not user or not user:is_player() or user.is_fake_player then return end
 		if pointed_thing.type ~= "node" then return end
-		local meta = technic.get_stack_meta_compat(toolstack)
+		local meta = technic.get_stack_meta(toolstack)
 		local toolmeta = meta_to_table(meta)
 		local look_diameter = toolmeta.look_radius * 2 + 1
 		local charge_to_take = toolmeta.look_depth * (toolmeta.look_depth + 1) * look_diameter * look_diameter
@@ -80,7 +80,7 @@ minetest.register_tool("technic:prospector", {
 	end,
 	on_place = function(toolstack, user, pointed_thing)
 		if not user or not user:is_player() or user.is_fake_player then return end
-		local meta = technic.get_stack_meta_compat(toolstack)
+		local meta = technic.get_stack_meta(toolstack)
 		local toolmeta = meta_to_table(meta)
 		local pointed
 		if pointed_thing.type == "node" then
@@ -129,7 +129,7 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	if not user or not user:is_player() or user.is_fake_player then return end
 	local toolstack = user:get_wielded_item()
 	if toolstack:get_name() ~= "technic:prospector" then return true end
-	local meta = technic.get_stack_meta_compat(toolstack)
+	local meta = technic.get_stack_meta(toolstack)
 	for field, value in pairs(fields) do
 		if field:sub(1, 7) == "target_" then
 			meta:set_string("target", field:sub(8))

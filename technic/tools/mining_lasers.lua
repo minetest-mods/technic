@@ -101,7 +101,7 @@ for _, m in pairs(mining_lasers_list) do
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
 		on_use = function(itemstack, user)
-			local meta = technic.get_stack_meta_compat(itemstack)
+			local meta = technic.get_stack_meta(itemstack)
 			local charge = meta:get_int("technic:charge")
 			if charge == 0 then
 				return

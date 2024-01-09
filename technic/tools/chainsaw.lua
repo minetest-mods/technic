@@ -313,7 +313,7 @@ minetest.register_tool("technic:chainsaw", {
 			return itemstack
 		end
 
-		local meta = technic.get_stack_meta_compat(itemstack)
+		local meta = technic.get_stack_meta(itemstack)
 		local charge = meta:get_int("technic:charge")
 
 		local name = user:get_player_name()

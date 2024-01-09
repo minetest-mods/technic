@@ -47,7 +47,7 @@ technic.legacy_meta_keys = {
 }
 
 -- Converts legacy itemstack metadata string to itemstack meta and returns the ItemStackMetaRef
-function technic.get_stack_meta_compat(itemstack)
+function technic.get_stack_meta(itemstack)
 	local meta = itemstack:get_meta()
 	local legacy_string = meta:get("") -- Get deprecated metadata
 	if legacy_string then
@@ -69,9 +69,9 @@ function technic.get_stack_meta_compat(itemstack)
 	return meta
 end
 
--- Same as technic.get_stack_meta_compat for cans.
+-- Same as technic.get_stack_meta for cans.
 -- (Cans didn't store a serialized table in the legacy metadata string, but just a number.)
-function technic.get_stack_meta_compat_cans(itemstack)
+function technic.get_stack_meta_cans(itemstack)
 	local meta = itemstack:get_meta()
 	local legacy_string = meta:get("") -- Get deprecated metadata
 	if legacy_string then

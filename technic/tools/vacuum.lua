@@ -14,7 +14,7 @@ minetest.register_tool("technic:vacuum", {
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
-		local meta = technic.get_stack_meta_compat(itemstack)
+		local meta = technic.get_stack_meta(itemstack)
 		local charge = meta:get_int("technic:charge")
 		if charge < vacuum_charge_per_object then
 			return

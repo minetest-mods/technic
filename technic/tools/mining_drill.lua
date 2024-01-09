@@ -248,7 +248,7 @@ end
 
 local function mining_drill_mkX_setmode(user, itemstack, drill_type, max_modes)
 	local player_name = user:get_player_name()
-	local meta = technic.get_stack_meta_compat(itemstack)
+	local meta = technic.get_stack_meta(itemstack)
 
 	if not meta:contains("mode") then
 		minetest.chat_send_player(player_name,
@@ -267,7 +267,7 @@ end
 
 local function mining_drill_mkX_handler(itemstack, user, pointed_thing, drill_type, max_modes)
 	local keys = user:get_player_control()
-	local meta = technic.get_stack_meta_compat(itemstack)
+	local meta = technic.get_stack_meta(itemstack)
 
 	-- Mode switching (if possible)
 	if max_modes > 1 then

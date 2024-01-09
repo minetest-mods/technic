@@ -25,7 +25,7 @@ function technic.register_can(d)
 			if pointed_thing.type ~= "node" then return end
 			local node = minetest.get_node(pointed_thing.under)
 			if node.name ~= data.liquid_source_name then return end
-			local meta = technic.get_stack_meta_compat_cans(itemstack)
+			local meta = technic.get_stack_meta_cans(itemstack)
 			local charge = meta:get_int("can_level")
 			if charge == data.can_capacity then return end
 			if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
@@ -56,7 +56,7 @@ function technic.register_can(d)
 				-- Try to place node above the pointed source, or abort.
 				if not def.buildable_to or node_name == data.liquid_source_name then return end
 			end
-			local meta = technic.get_stack_meta_compat_cans(itemstack)
+			local meta = technic.get_stack_meta_cans(itemstack)
 			local charge = meta:get_int("can_level")
 			if charge == 0 then return end
 			if minetest.is_protected(pos, user:get_player_name()) then
@@ -73,7 +73,7 @@ function technic.register_can(d)
 			return itemstack
 		end,
 		on_refill = function(stack)
-			local meta = technic.get_stack_meta_compat_cans(stack)
+			local meta = technic.get_stack_meta_cans(stack)
 			meta:set_int("can_level", data.can_capacity)
 			set_can_wear(stack, data.can_capacity, data.can_capacity)
 			return stack

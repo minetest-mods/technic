@@ -38,7 +38,7 @@ local function check_for_flashlight(player)
 	local hotbar = inv:get_list("main")
 	for i = 1, 8 do
 		if hotbar[i]:get_name() == "technic:flashlight" then
-			local meta = technic.get_stack_meta_compat(hotbar[i])
+			local meta = technic.get_stack_meta(hotbar[i])
 			local charge = meta:get_int("technic:charge")
 			if charge >= 2 then
 				if not technic.creative_mode then
