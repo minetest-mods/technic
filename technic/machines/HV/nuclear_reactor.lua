@@ -31,24 +31,26 @@ minetest.register_craft({
 })
 
 local function make_reactor_formspec(meta)
-	local f = "size[8,9]"..
-	"label[0,0;"..S("Nuclear Reactor Rod Compartment").."]"..
-	"list[current_name;src;2,1;3,2;]"..
-	"list[current_player;main;0,5;8,4;]"..
-	"listring[]"..
-	"button[5.5,1.5;2,1;start;Start]"..
-	"checkbox[5.5,2.5;autostart;automatic Start;"..meta:get_string("autostart").."]"
+	local f =
+		"formspec_version[4]"..
+		"size[10.75,10.75]"..
+		"label[0.2,0.4;"..S("Nuclear Reactor Rod Compartment").."]"..
+		"list[current_name;src;1.5,1;3,2;]"..
+		"list[current_player;main;0.5,5.5;8,4;]"..
+		"listring[]"..
+		"button[5.7,1;2,1;start;Start]"..
+		"checkbox[5.7,2.75;autostart;automatic Start;"..meta:get_string("autostart").."]"
 	if not digiline_remote_path then
 		return f
 	end
 	local digiline_enabled = meta:get_string("enable_digiline")
-	f = f.."checkbox[0.5,2.8;enable_digiline;Enable Digiline;"..digiline_enabled.."]"
+	f = f.."checkbox[1.5,3.75;enable_digiline;Enable Digiline channel;"..digiline_enabled.."]"
 	if digiline_enabled ~= "true" then
 		return f
 	end
 	return f..
-		"button_exit[4.6,3.69;2,1;save;Save]"..
-		"field[1,4;4,1;remote_channel;Digiline Remote Channel;${remote_channel}]"
+		"field[2,4.2;4.25,1;remote_channel;;${remote_channel}]" ..
+		"button_exit[6.5,4.2;2,1;save;Save]"
 end
 
 local SS_OFF = 0
@@ -140,8 +142,11 @@ of a lead layer it will be converted to a lead layer.
 --]]
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
+
+	-- Blast-resistant Concrete Block layer outer positions
 	local pos1 = vector.subtract(pos, 3)
 	local pos2 = vector.add(pos, 3)
+
 	local MinEdge, MaxEdge = vm:read_from_map(pos1, pos2)
 	local data = vm:get_data()
 	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
@@ -157,16 +162,19 @@ local function reactor_structure_badness(pos)
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
 	for x = pos1.x, pos2.x do
+		-- In the entire volume, make sure there is:
 		local cid = data[area:index(x, y, z)]
 		if x == pos1.x or x == pos2.x or
 		   y == pos1.y or y == pos2.y or
 		   z == pos1.z or z == pos2.z then
+			-- r=3 : Blast-resistant Concrete Block shell
 			if cid == c_blast_concrete then
 				blast_layer = blast_layer + 1
 			end
 		elseif x == pos1.x+1 or x == pos2.x-1 or
 		       y == pos1.y+1 or y == pos2.y-1 or
 		       z == pos1.z+1 or z == pos2.z-1 then
+			-- r=2 : Lead Block shell
 			if cid == c_lead then
 				lead_layer = lead_layer + 1
 			elseif cid == c_steel then
@@ -175,6 +183,7 @@ local function reactor_structure_badness(pos)
 		elseif x == pos1.x+2 or x == pos2.x-2 or
 		       y == pos1.y+2 or y == pos2.y-2 or
 		       z == pos1.z+2 or z == pos2.z-2 then
+			-- r=1 : Water cooling
 			if cid == c_water_source or cid == c_water_flowing then
 				water_layer = water_layer + 1
 			end
@@ -184,6 +193,8 @@ local function reactor_structure_badness(pos)
 	end
 
 	if steel_layer >= 96 then
+		-- Legacy: convert stainless steel to lead
+		-- Why don't we accept both without conversion?
 		for z = pos1.z+1, pos2.z-1 do
 		for y = pos1.y+1, pos2.y-1 do
 		for x = pos1.x+1, pos2.x-1 do
@@ -206,6 +217,7 @@ local function reactor_structure_badness(pos)
 	if water_layer > 25 then water_layer = 25 end
 	if lead_layer > 96 then lead_layer = 96 end
 	if blast_layer > 216 then blast_layer = 216 end
+	-- Amount of missing blocks
 	return (25 - water_layer) + (96 - lead_layer) + (216 - blast_layer)
 end
 
@@ -297,7 +309,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("%s Idle"):format(reactor_desc))
+		meta:set_string("infotext", S("@1 Idle", reactor_desc))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)
