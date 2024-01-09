@@ -51,7 +51,7 @@ function technic.get_stack_meta(itemstack)
 	local meta = itemstack:get_meta()
 	local legacy_string = meta:get("") -- Get deprecated metadata
 	if legacy_string then
-		local legacy_table = minetest.deserialize(metadata)
+		local legacy_table = minetest.deserialize(legacy_string)
 		if legacy_table then
 			local table = meta:to_table()
 			for k, v in pairs(legacy_table) do
