@@ -46,15 +46,15 @@ technic.legacy_meta_keys = {
 	["charge"] = "technic:charge",
 }
 
--- Converts legacy itemstack metadata to itemstack meta and returns the ItemStackMetaRef
+-- Converts legacy itemstack metadata string to itemstack meta and returns the ItemStackMetaRef
 function technic.get_stack_meta_compat(itemstack)
 	local meta = itemstack:get_meta()
-	local metadata = meta:get("")
-	if metadata then
-		local metadata_table = minetest.deserialize(metadata)
-		if metadata_table then
+	local legacy_string = meta:get("") -- Get deprecated metadata
+	if legacy_string then
+		local legacy_table = minetest.deserialize(metadata)
+		if legacy_table then
 			local table = meta:to_table()
-			for k, v in pairs(metadata_table) do
+			for k, v in pairs(legacy_table) do
 				local legacy_key = technic.legacy_meta_keys[k]
 				if legacy_key then
 					table.fields[legacy_key] = v
@@ -64,19 +64,19 @@ function technic.get_stack_meta_compat(itemstack)
 			end
 			meta:from_table(table)
 		end
-		meta:set_string("", "")
+		meta:set_string("", "") -- Remove deprecated metadata
 	end
 	return meta
 end
 
 -- Same as technic.get_stack_meta_compat for cans.
--- (Cans didn't store a serialized table in the metadata, but just a number.)
+-- (Cans didn't store a serialized table in the legacy metadata string, but just a number.)
 function technic.get_stack_meta_compat_cans(itemstack)
 	local meta = itemstack:get_meta()
-	local metadata = meta:get("")
-	if metadata then
-		meta:set_string("can_level", metadata)
-		meta:set_string("", "")
+	local legacy_string = meta:get("") -- Get deprecated metadata
+	if legacy_string then
+		meta:set_string("can_level", legacy_string)
+		meta:set_string("", "") -- Remove deprecated metadata
 		return meta
 	end
 	return meta
