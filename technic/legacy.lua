@@ -55,12 +55,7 @@ function technic.get_stack_meta(itemstack)
 		if legacy_table then
 			local table = meta:to_table()
 			for k, v in pairs(legacy_table) do
-				local legacy_key = technic.legacy_meta_keys[k]
-				if legacy_key then
-					table.fields[legacy_key] = v
-				else
-					table.fields[k] = v
-				end
+				table.fields[technic.legacy_meta_keys[k] or k] = v
 			end
 			meta:from_table(table)
 		end
