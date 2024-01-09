@@ -292,6 +292,7 @@ local function mining_drill_mkX_handler(itemstack, user, pointed_thing, drill_ty
 	local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 	drill_dig_it(pos, user, mode)
 	if not technic.creative_mode then
+		charge = charge - charge_to_take
 		meta:set_int("technic:charge", charge)
 		technic.set_RE_wear(itemstack, charge, max_charge[drill_type])
 	end
