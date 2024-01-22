@@ -65,15 +65,26 @@ function technic.swap_node(pos, name)
 end
 
 
+--- Returns the meta of an item
+-- Gets overridden when legacy.lua is loaded
+function technic.get_stack_meta(itemstack)
+	return itemstack:get_meta()
+end
+
+--- Same as technic.get_stack_meta for cans
+function technic.get_stack_meta_cans(itemstack)
+	return itemstack:get_meta()
+end
+
+
 --- Fully charge RE chargeable item.
 -- Must be defined early to reference in item definitions.
 function technic.refill_RE_charge(stack)
 	local max_charge = technic.power_tools[stack:get_name()]
 	if not max_charge then return stack end
+	local meta = technic.get_stack_meta(stack)
+	meta:set_int("technic:charge", max_charge)
 	technic.set_RE_wear(stack, max_charge, max_charge)
-	local meta = minetest.deserialize(stack:get_metadata()) or {}
-	meta.charge = max_charge
-	stack:set_metadata(minetest.serialize(meta))
 	return stack
 end
 

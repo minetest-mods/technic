@@ -101,25 +101,26 @@ for _, m in pairs(mining_lasers_list) do
 		wear_represents = "technic_RE_charge",
 		on_refill = technic.refill_RE_charge,
 		on_use = function(itemstack, user)
-			local meta = minetest.deserialize(itemstack:get_metadata())
-			if not meta or not meta.charge or meta.charge == 0 then
+			local meta = technic.get_stack_meta(itemstack)
+			local charge = meta:get_int("technic:charge")
+			if charge == 0 then
 				return
 			end
 
 			local range = m[2]
-			if meta.charge < m[4] then
+			if charge < m[4] then
 				if not allow_entire_discharging then
 					return
 				end
 				-- If charge is too low, give the laser a shorter range
-				range = range * meta.charge / m[4]
+				range = range * charge / m[4]
 			end
 			laser_shoot(user, range, "technic_laser_beam_mk" .. m[1] .. ".png",
 				"technic_laser_mk" .. m[1])
 			if not technic.creative_mode then
-				meta.charge = math.max(meta.charge - m[4], 0)
-				technic.set_RE_wear(itemstack, meta.charge, m[3])
-				itemstack:set_metadata(minetest.serialize(meta))
+				charge = math.max(charge - m[4], 0)
+				meta:set_int("technic:charge", charge)
+				technic.set_RE_wear(itemstack, charge, m[3])
 			end
 			return itemstack
 		end,

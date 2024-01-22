@@ -415,12 +415,8 @@ local function default_get_charge(itemstack)
 	if not technic.power_tools[tool_name] then
 		return 0, 0
 	end
-	-- Set meta data for the tool if it didn't do it itself
-	local item_meta = minetest.deserialize(itemstack:get_metadata()) or {}
-	if not item_meta.charge then
-		item_meta.charge = 0
-	end
-	return item_meta.charge, technic.power_tools[tool_name]
+	local item_meta = technic.get_stack_meta(itemstack)
+	return item_meta:get_int("technic:charge"), technic.power_tools[tool_name]
 end
 
 local function default_set_charge(itemstack, charge)
@@ -428,9 +424,8 @@ local function default_set_charge(itemstack, charge)
 	if technic.power_tools[tool_name] then
 		technic.set_RE_wear(itemstack, charge, technic.power_tools[tool_name])
 	end
-	local item_meta = minetest.deserialize(itemstack:get_metadata()) or {}
-	item_meta.charge = charge
-	itemstack:set_metadata(minetest.serialize(item_meta))
+	local item_meta = technic.get_stack_meta(itemstack)
+	item_meta:set_int("technic:charge", charge)
 end
 
 function technic.charge_tools(meta, batt_charge, charge_step)

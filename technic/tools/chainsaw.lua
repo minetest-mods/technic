@@ -313,10 +313,8 @@ minetest.register_tool("technic:chainsaw", {
 			return itemstack
 		end
 
-		local meta = minetest.deserialize(itemstack:get_metadata())
-		if not meta or not meta.charge then
-			return
-		end
+		local meta = technic.get_stack_meta(itemstack)
+		local charge = meta:get_int("technic:charge")
 
 		local name = user:get_player_name()
 		if minetest.is_protected(pointed_thing.under, name) then
@@ -326,14 +324,14 @@ minetest.register_tool("technic:chainsaw", {
 
 		-- Send current charge to digging function so that the
 		-- chainsaw will stop after digging a number of nodes
-		chainsaw_dig(user, pointed_thing.under, meta.charge)
-		meta.charge = cutter.charge
+		chainsaw_dig(user, pointed_thing.under, charge)
+		charge = cutter.charge
 
 		cutter = {} -- Free RAM
 
 		if not technic.creative_mode then
-			technic.set_RE_wear(itemstack, meta.charge, chainsaw_max_charge)
-			itemstack:set_metadata(minetest.serialize(meta))
+			meta:set_int("technic:charge", charge)
+			technic.set_RE_wear(itemstack, charge, chainsaw_max_charge)
 		end
 		return itemstack
 	end,
