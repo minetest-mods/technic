@@ -1,0 +1,6 @@
+technic_compat.water_source_fluid = technic_compat.mcl and "mcl_core:water_source" or "default:water_source"
+technic_compat.water_flowing_fluid = technic_compat.mcl and "mcl_core:water_flowing" or "default:water_flowing"
+technic_compat.river_water_source_fluid = technic_compat.mcl and "mclx_core:river_water_source" or "default:river_water_source"
+technic_compat.river_water_flowing_fluid = technic_compat.mcl and "mclx_core:river_water_flowing" or "default:river_water_flowing"
+technic_compat.lava_source_fluid = technic_compat.mcl and "mcl_core:lava_source" or "default:lava_source"
+technic_compat.lava_flowing_fluid = technic_compat.mcl and "mcl_core:lava_flowing" or "default:lava_flowing"

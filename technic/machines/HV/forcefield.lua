@@ -17,9 +17,9 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 minetest.register_craft({
 	output = "technic:forcefield_emitter_off",
 	recipe = {
-		{"default:mese",         "basic_materials:motor",          "default:mese"        },
+		{technic_compat.mese_block_ingredient, "basic_materials:motor", technic_compat.mese_block_ingredient},
 		{"technic:deployer_off", "technic:machine_casing", "technic:deployer_off"},
-		{"default:mese",         "technic:hv_cable",       "default:mese"        },
+		{technic_compat.mese_block_ingredient, "technic:hv_cable", technic_compat.mese_block_ingredient},
 	}
 })
 
@@ -295,7 +295,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		"technic_forcefield_emitter_off.png",
 		"technic_forcefield_emitter_off.png"
 	},
-	groups = {cracky = 1, technic_machine = 1, technic_hv = 1},
+	groups = {cracky = 1, technic_machine = 1, technic_hv = 1,pickaxey=3},
 	on_receive_fields = forcefield_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -314,6 +314,10 @@ minetest.register_node("technic:forcefield_emitter_off", {
 	mesecons = mesecons,
 	digiline = digiline_def,
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
@@ -327,7 +331,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		"technic_forcefield_emitter_on.png"
 	},
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1,
-			not_in_creative_inventory=1},
+			not_in_creative_inventory=1,pickaxey=3},
 	drop = "technic:forcefield_emitter_off",
 	on_receive_fields = forcefield_receive_fields,
 	on_destruct = function(pos)
@@ -346,6 +350,10 @@ minetest.register_node("technic:forcefield_emitter_on", {
 		minetest.dig_node(pos)
 		return {"technic:forcefield_emitter_off"}
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_node("technic:forcefield", {
@@ -354,7 +362,7 @@ minetest.register_node("technic:forcefield", {
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1},
 	paramtype = "light",
-	light_source = default.LIGHT_MAX,
+	light_source = technic_compat.mt_light_max,
 	diggable = false,
 	drop = '',
 	tiles = {{

@@ -3,9 +3,9 @@ minetest.register_alias("grinder", "technic:lv_grinder")
 minetest.register_craft({
 	output = 'technic:lv_grinder',
 	recipe = {
-		{'default:desert_stone', 'default:diamond',        'default:desert_stone'},
-		{'default:desert_stone', 'technic:machine_casing', 'default:desert_stone'},
-		{'technic:granite',      'technic:lv_cable',       'technic:granite'},
+		{technic_compat.desert_stone_ingredient, technic_compat.diamond_ingredient,        technic_compat.desert_stone_ingredient},
+		{technic_compat.desert_stone_ingredient, 'technic:machine_casing', technic_compat.desert_stone_ingredient},
+		{technic_compat.granite_ingredient,      'technic:lv_cable',       technic_compat.granite_ingredient},
 	}
 })
 

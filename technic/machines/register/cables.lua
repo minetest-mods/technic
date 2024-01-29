@@ -141,7 +141,7 @@ function technic.register_cable(tier, size)
 	local ltier = string.lower(tier)
 	cable_tier["technic:"..ltier.."_cable"] = tier
 
-	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
+	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, pickaxey=2,
 			["technic_"..ltier.."_cable"] = 1}
 
 	local node_box = {
@@ -161,7 +161,7 @@ function technic.register_cable(tier, size)
 		inventory_image = "technic_"..ltier.."_cable_wield.png",
 		wield_image = "technic_"..ltier.."_cable_wield.png",
 		groups = groups,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		drop = "technic:"..ltier.."_cable",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -171,6 +171,8 @@ function technic.register_cable(tier, size)
 			"group:technic_"..ltier, "group:technic_all_tiers"},
 		on_construct = clear_networks,
 		on_destruct = clear_networks,
+		_mcl_blast_resistance = 1.5,
+		_mcl_hardness = 3
 	})
 
 	local xyz = {
@@ -201,7 +203,7 @@ function technic.register_cable(tier, size)
 			description = S("%s Cable Plate"):format(tier),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
-			sounds = default.node_sound_wood_defaults(),
+			sounds = technic_compat.wood_sounds,
 			drop = "technic:"..ltier.."_cable_plate_1",
 			paramtype = "light",
 			sunlight_propagates = true,
@@ -211,6 +213,9 @@ function technic.register_cable(tier, size)
 				"group:technic_"..ltier, "group:technic_all_tiers"},
 			on_construct = clear_networks,
 			on_destruct = clear_networks,
+			_mcl_hardness =  3,
+			_mcl_blast_resistance =  3,
+			_mcl_silk_touch_drop = true
 		}
 		def.node_box.fixed = {
 			{-size, -size, -size, size, size, size},

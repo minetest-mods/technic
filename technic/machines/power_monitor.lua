@@ -10,7 +10,7 @@ minetest.register_craft({
 	output = "technic:power_monitor",
 	recipe = {
 		{"",                 "",                       ""},
-		{"",                 "technic:machine_casing", "default:copper_ingot"},
+		{"",                 "technic:machine_casing", technic_compat.copper_ingredient},
 		{"technic:lv_cable", "technic:lv_cable",       "technic:lv_cable"}
 	}
 })
@@ -26,13 +26,17 @@ minetest.register_node("technic:power_monitor",{
 		"technic_power_monitor_front.png"
 	},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1, technic_machine=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1, technic_machine=1,pickaxey=3},
 	connect_sides = {"bottom", "back"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Power Monitor"))
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_abm({

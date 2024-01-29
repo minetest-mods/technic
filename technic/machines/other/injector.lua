@@ -47,7 +47,7 @@ minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
 		{'', 'technic:control_logic_unit',''},
-		{'', 'default:chest',''},
+		{'', technic_compat.chest_ingredient,''},
 		{'', 'pipeworks:tube_1',''},
 	}
 })
@@ -90,7 +90,7 @@ minetest.register_node("technic:injector", {
 		"technic_injector_side.png"
 	},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1, pickaxey=3},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
@@ -105,7 +105,7 @@ minetest.register_node("technic:injector", {
 		end,
 		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 	},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Self-Contained Injector"))
@@ -140,7 +140,10 @@ minetest.register_node("technic:injector", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_abm({

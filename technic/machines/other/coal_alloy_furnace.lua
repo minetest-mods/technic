@@ -6,9 +6,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',
 	recipe = {
-		{'default:brick', 'default:brick', 'default:brick'},
-		{'default:brick', '',              'default:brick'},
-		{'default:brick', 'default:brick', 'default:brick'},
+		{technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient},
+		{technic_compat.brick_block_ingredient, '',              technic_compat.brick_block_ingredient},
+		{technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient},
 	}
 })
 
@@ -34,9 +34,9 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = {cracky=2, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = technic_compat.stone_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec)
@@ -50,6 +50,10 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
@@ -60,13 +64,17 @@ minetest.register_node("technic:coal_alloy_furnace_active", {
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "technic:coal_alloy_furnace",
-	groups = {cracky=2, not_in_creative_inventory=1},
+	groups = {cracky=2, not_in_creative_inventory=1, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = technic_compat.stone_sounds,
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_abm({

@@ -26,7 +26,11 @@ minetest.register_node("technic:dummy_light_source", {
 	diggable = false,
 	pointable = false,
 	--drop = "",  -- Intentionally allowed to drop itself
-	groups = {not_in_creative_inventory = 1}
+	groups = {not_in_creative_inventory = 1, pickaxey=3},
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 
@@ -109,12 +113,16 @@ local ndef
 
 ndef = {
 	description = desc,
-	groups = {cracky = 2, technic_machine = 1, technic_lv = 1},
+	groups = {cracky = 2, technic_machine = 1, technic_lv = 1, pickaxey=3},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", desc)
 		meta:set_int("LV_EU_demand", demand)
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 }
 
 for k, v in pairs(common_fields) do
@@ -129,11 +137,15 @@ ndef = {
 	paramtype = "light",
 	light_source = 14,
 	drop = "technic:lv_lamp",
-	groups = {cracky = 2, technic_machine = 1, technic_lv = 1, not_in_creative_inventory = 1},
+	groups = {cracky = 2, technic_machine = 1, technic_lv = 1, not_in_creative_inventory = 1, pickaxey=3},
 	technic_on_disable = function(pos)
 		illuminate(pos, false)
 		technic.swap_node(pos, "technic:lv_lamp")
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 }
 
 for k, v in pairs(common_fields) do
@@ -149,7 +161,7 @@ technic.register_machine("LV", "technic:lv_lamp_active", technic.receiver)
 minetest.register_craft({
 	output = "technic:lv_lamp",
 	recipe = {
-		{"default:glass", "default:glass", "default:glass"},
+		{technic_compat.glass_ingredient, technic_compat.glass_ingredient, technic_compat.glass_ingredient},
 		{"technic:lv_led", "technic:lv_led", "technic:lv_led"},
 		{"mesecons_materials:glue", "technic:lv_cable", "mesecons_materials:glue"},
 	}

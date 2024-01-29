@@ -86,8 +86,8 @@ technic.register_can({
 	can_description = S("Water Can"),
 	can_inventory_image = "technic_water_can.png",
 	can_capacity = 16,
-	liquid_source_name = "default:water_source",
-	liquid_flowing_name = "default:water_flowing",
+	liquid_source_name = technic_compat.water_source_fluid,
+	liquid_flowing_name = technic_compat.water_flowing_fluid,
 })
 
 minetest.register_craft({
@@ -104,8 +104,8 @@ technic.register_can({
 	can_description = S("Lava Can"),
 	can_inventory_image = "technic_lava_can.png",
 	can_capacity = 8,
-	liquid_source_name = "default:lava_source",
-	liquid_flowing_name = "default:lava_flowing",
+	liquid_source_name = technic_compat.lava_source_fluid,
+	liquid_flowing_name = technic_compat.lava_flowing_fluid,
 })
 
 minetest.register_craft({
@@ -122,15 +122,15 @@ technic.register_can({
 	can_description = S("River Water Can"),
 	can_inventory_image = "technic_river_water_can.png",
 	can_capacity = 16,
-	liquid_source_name = "default:river_water_source",
-	liquid_flowing_name = "default:river_water_flowing",
+	liquid_source_name = technic_compat.river_water_source_fluid,
+	liquid_flowing_name = technic_compat.river_water_flowing_fluid,
 })
 
 minetest.register_craft({
 	output = 'technic:river_water_can 1',
 	recipe = {
 		{'technic:zinc_ingot', 'technic:rubber', 'technic:zinc_ingot'},
-		{'default:steel_ingot', '', 'default:steel_ingot'},
-		{'technic:zinc_ingot', 'default:steel_ingot', 'technic:zinc_ingot'},
+		{technic_compat.iron_ingredient, '', technic_compat.iron_ingredient},
+		{'technic:zinc_ingot', technic_compat.iron_ingredient, 'technic:zinc_ingot'},
 	}
 })

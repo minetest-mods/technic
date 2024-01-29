@@ -338,7 +338,13 @@ minetest.register_tool("technic:chainsaw", {
 })
 
 local mesecons_button = minetest.get_modpath("mesecons_button")
-local trigger = mesecons_button and "mesecons_button:button_off" or "default:mese_crystal_fragment"
+local trigger = nil
+
+if minetest.get_modpath("mcl_core") then
+	trigger = "mesecons_button:button_stone_off"
+else
+	trigger = mesecons_button and "mesecons_button:button_off" or "default:mese_crystal_fragment"
+end
 
 minetest.register_craft({
 	output = "technic:chainsaw",

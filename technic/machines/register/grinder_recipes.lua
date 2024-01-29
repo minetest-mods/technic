@@ -8,33 +8,11 @@ function technic.register_grinder_recipe(data)
 	technic.register_recipe("grinding", data)
 end
 
-local recipes = {
-	-- Dusts
-	{"default:coal_lump",          "technic:coal_dust 2"},
-	{"default:copper_lump",        "technic:copper_dust 2"},
-	{"default:desert_stone",       "default:desert_sand"},
-	{"default:gold_lump",          "technic:gold_dust 2"},
-	{"default:iron_lump",          "technic:wrought_iron_dust 2"},
-	{"default:tin_lump",           "technic:tin_dust 2"},
-	{"technic:chromium_lump",      "technic:chromium_dust 2"},
-	{"technic:uranium_lump",       "technic:uranium_dust 2"},
-	{"technic:zinc_lump",          "technic:zinc_dust 2"},
-	{"technic:lead_lump",          "technic:lead_dust 2"},
-	{"technic:sulfur_lump",        "technic:sulfur_dust 2"},
-	{"default:stone",              "technic:stone_dust"},
-	{"default:sand",               "technic:stone_dust"},
-	{"default:desert_sand",        "technic:stone_dust"},
-	{"default:silver_sand",        "technic:stone_dust"},
 
-	-- Other
-	{"default:cobble",           "default:gravel"},
-	{"default:gravel",           "default:sand"},
-	{"default:sandstone",        "default:sand 2"}, -- reverse recipe can be found in the compressor
-	{"default:desert_sandstone", "default:desert_sand 2"}, -- reverse recipe can be found in the compressor
-	{"default:silver_sandstone", "default:silver_sand 2"}, -- reverse recipe can be found in the compressor
-
-	{"default:ice",              "default:snowblock"},
-}
+if minetest.get_modpath("default") then
+	table.insert(grinder_recipes, {"default:silver_sandstone", "default:silver_sand 2"}) -- reverse recipe can be found in the compressor
+	table.insert(grinder_recipes, {"default:silver_sand",        "technic:stone_dust"})
+end
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
@@ -54,27 +32,27 @@ minetest.clear_craft({
 })
 
 if minetest.get_modpath("farming") then
-	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
+	table.insert(grinder_recipes, {"farming:seed_wheat",   "farming:flour 1"})
 end
 
 if minetest.get_modpath("moreores") then
-	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
-	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
+	table.insert(grinder_recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
+	table.insert(grinder_recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
 end
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
-	table.insert(recipes, {"gloopores:alatro_lump",   "technic:alatro_dust 2"})
-	table.insert(recipes, {"gloopores:kalite_lump",   "technic:kalite_dust 2"})
-	table.insert(recipes, {"gloopores:arol_lump",     "technic:arol_dust 2"})
-	table.insert(recipes, {"gloopores:talinite_lump", "technic:talinite_dust 2"})
-	table.insert(recipes, {"gloopores:akalin_lump",   "technic:akalin_dust 2"})
+	table.insert(grinder_recipes, {"gloopores:alatro_lump",   "technic:alatro_dust 2"})
+	table.insert(grinder_recipes, {"gloopores:kalite_lump",   "technic:kalite_dust 2"})
+	table.insert(grinder_recipes, {"gloopores:arol_lump",     "technic:arol_dust 2"})
+	table.insert(grinder_recipes, {"gloopores:talinite_lump", "technic:talinite_dust 2"})
+	table.insert(grinder_recipes, {"gloopores:akalin_lump",   "technic:akalin_dust 2"})
 end
 
 if minetest.get_modpath("homedecor") then
-	table.insert(recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
+	table.insert(grinder_recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
 end
 
-for _, data in pairs(recipes) do
+for _, data in pairs(grinder_recipes) do
 	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
 end
 
@@ -104,15 +82,15 @@ register_dust("Cast Iron",       "technic:cast_iron_ingot")
 register_dust("Chernobylite",    "technic:chernobylite_block")
 register_dust("Chromium",        "technic:chromium_ingot")
 register_dust("Coal",            nil)
-register_dust("Copper",          "default:copper_ingot")
+register_dust("Copper",          technic_compat.copper_ingredient)
 register_dust("Lead",            "technic:lead_ingot")
-register_dust("Gold",            "default:gold_ingot")
+register_dust("Gold",            technic_compat.gold_ingot_ingredient)
 register_dust("Mithril",         "moreores:mithril_ingot")
 register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
 register_dust("Stone",           "default:stone")
 register_dust("Sulfur",          nil)
-register_dust("Tin",             "default:tin_ingot")
+register_dust("Tin",             technic_compat.tin_ingredient)
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then

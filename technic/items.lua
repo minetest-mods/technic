@@ -131,7 +131,7 @@ minetest.register_node("technic:machine_casing", {
 	paramtype = "light",
 	drawtype = "allfaces",
 	tiles = {"technic_machine_casing.png"},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = technic_compat.stone_sounds,
 })
 
 minetest.register_craftitem("technic:rubber_goo", {
@@ -188,7 +188,7 @@ for p = 0, 35 do
 		is_ground_content = true,
 		groups = {uranium_block=1, not_in_creative_inventory=nici,
 			cracky=1, level=2, radioactive=radioactivity},
-		sounds = default.node_sound_stone_defaults(),
+		sounds = technic_compat.stone_sounds,
 	});
 	if not ov then
 		minetest.register_craft({

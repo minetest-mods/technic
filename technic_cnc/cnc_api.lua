@@ -273,7 +273,8 @@ technic_cnc.programs_disable = {
 
 -- Generic function for registering all the different node types
 function technic_cnc.register_program(recipeitem, suffix, model, groups, images, description, cbox, sbox)
-
+	groups.pickaxey = 3
+	
 	local dtype
 	local nodeboxdef
 	local meshdef
@@ -303,7 +304,10 @@ function technic_cnc.register_program(recipeitem, suffix, model, groups, images,
 		walkable      = true,
 		groups        = groups,
 		selection_box = sbox,
-		collision_box = cbox
+		collision_box = cbox,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 end
 

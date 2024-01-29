@@ -31,7 +31,9 @@ read_globals = {
     "protector", "isprotect",
     "homedecor_expect_infinite_stacks",
     
-    "craftguide", "i3"
+    "craftguide", "i3",
+    "mcl_sounds","mcl_core",
+    "mcl_craftguide"
 }
 
 -- Loop warning
