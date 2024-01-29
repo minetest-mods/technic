@@ -6,6 +6,7 @@ local defaults = {
 	enable_granite_generation = "true",
 	enable_marble_generation = "true",
 	enable_rubber_tree_generation = "true",
+	enable_steel_override = "true",
 }
 
 for k, v in pairs(defaults) do
