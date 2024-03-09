@@ -45,7 +45,6 @@ if minetest.get_modpath("everness") then
 	table.insert(recipes, {"everness:cursed_lands_deep_ocean_sandstone_block",   "everness:cursed_lands_deep_ocean_sand 2"})
 	table.insert(recipes, {"everness:cursed_sandstone_block",                    "everness:cursed_sand 2"})
 	table.insert(recipes, {"everness:mineral_sandstone",                         "everness:mineral_sand 2"})
-	-- As of 2024-03-09, reverse recipe in everness only exists for mineral_sandstone. Handled in the compressor.
 end
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
@@ -71,7 +70,7 @@ if minetest.get_modpath("everness") then
 			{"everness:mineral_sandstone"}
 		},
 	})
-	-- There seem to be no reverse recipes for any of the other everness sandstones.
+	-- Currently (2024-03-09), there seem to be no reverse recipes for any of the other everness sandstones.
 end
 
 if minetest.get_modpath("farming") then
