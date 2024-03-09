@@ -8,6 +8,15 @@ function technic.register_compressor_recipe(data)
 	technic.register_recipe("compressing", data)
 end
 
+function technic.clear_sand_to_sandstone_craft(sand_name)
+	minetest.clear_craft({
+		recipe = {
+			{sand_name, sand_name},
+			{sand_name, sand_name},
+		},
+	})
+end
+
 local recipes = {
 	{"default:snowblock",          "default:ice"},
 	{"default:sand 2",             "default:sandstone"},
@@ -22,85 +31,36 @@ local recipes = {
 }
 
 if minetest.get_modpath("everness") then
-	table.insert(recipes, {"everness:coral_deep_ocean_sand 2",          "everness:coral_deep_ocean_sandstone_block"})
-	table.insert(recipes, {"everness:coral_sand 2",                     "everness:coral_sandstone"})
-	table.insert(recipes, {"everness:coral_white_sand 2",               "everness:coral_white_sandstone"})
+	table.insert(recipes, {"everness:coral_deep_ocean_sand 2",			"everness:coral_deep_ocean_sandstone_block"})
+	table.insert(recipes, {"everness:coral_sand 2",						"everness:coral_sandstone"})
+	table.insert(recipes, {"everness:coral_white_sand 2",				"everness:coral_white_sandstone"})
 	table.insert(recipes, {"everness:crystal_forest_deep_ocean_sand 2", "everness:crystal_forest_deep_ocean_sandstone_block"})
-	table.insert(recipes, {"everness:crystal_sand 2",                   "everness:crystal_sandstone"})
-	table.insert(recipes, {"everness:cursed_lands_deep_ocean_sand 2",   "everness:cursed_lands_deep_ocean_sandstone_block"})
-	table.insert(recipes, {"everness:cursed_sand 2",                    "everness:cursed_sandstone_block"})
-	table.insert(recipes, {"everness:mineral_sand 2",                   "everness:mineral_sandstone"})
+	table.insert(recipes, {"everness:crystal_sand 2",					"everness:crystal_sandstone"})
+	table.insert(recipes, {"everness:cursed_lands_deep_ocean_sand 2",	"everness:cursed_lands_deep_ocean_sandstone_block"})
+	table.insert(recipes, {"everness:cursed_sand 2",					"everness:cursed_sandstone_block"})
+	table.insert(recipes, {"everness:mineral_sand 2",					"everness:mineral_sandstone"})
 end
 
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
-minetest.clear_craft({
-	recipe = {
-		{"default:sand", "default:sand"},
-		{"default:sand", "default:sand"},
-	},
-})
-minetest.clear_craft({
-	recipe = {
-		{"default:desert_sand", "default:desert_sand"},
-		{"default:desert_sand", "default:desert_sand"},
-	},
-})
-minetest.clear_craft({
-	recipe = {
-		{"default:silver_sand", "default:silver_sand"},
-		{"default:silver_sand", "default:silver_sand"},
-	},
-})
+local crafts_to_clear = {
+	"default:desert_sand",
+	"default:sand",
+	"default:silver_sand"
+}
 
 if minetest.get_modpath("everness") then
-	minetest.clear_craft({
-		recipe = {
-			{'everness:coral_sand', 'everness:coral_sand'},
-			{'everness:coral_sand', 'everness:coral_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand'},
-			{'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:coral_white_sand', 'everness:coral_white_sand'},
-			{'everness:coral_white_sand', 'everness:coral_white_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:crystal_sand', 'everness:crystal_sand'},
-			{'everness:crystal_sand', 'everness:crystal_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:cursed_sand', 'everness:cursed_sand'},
-			{'everness:cursed_sand', 'everness:cursed_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand'},
-			{'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand'},
-			{'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand'},
-		},
-	})
-	minetest.clear_craft({
-		recipe = {
-			{'everness:mineral_sand', 'everness:mineral_sand'},
-			{'everness:mineral_sand', 'everness:mineral_sand'},
-		},
-	})
+	table.insert(crafts_to_clear, "everness:coral_sand")
+	table.insert(crafts_to_clear, "everness:coral_forest_deep_ocean_sand")
+	table.insert(crafts_to_clear, "everness:coral_white_sand")
+	table.insert(crafts_to_clear, "everness:crystal_sand")
+	table.insert(crafts_to_clear, "everness:cursed_sand")
+	table.insert(crafts_to_clear, "everness:cursed_lands_deep_ocean_sand")
+	table.insert(crafts_to_clear, "everness:crystal_forest_deep_ocean_sand")
+	table.insert(crafts_to_clear, "everness:mineral_sand")
+end
+
+for _, sand_name in ipairs(crafts_to_clear) do
+	technic.clear_sand_to_sandstone_craft(sand_name)
 end
 
 for _, data in pairs(recipes) do
