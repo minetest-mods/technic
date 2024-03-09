@@ -53,6 +53,15 @@ minetest.clear_craft({
 	},
 })
 
+if minetest.get_modpath("everness") then
+	minetest.clear_craft({
+		recipe = {
+			{"everness:mineral_sandstone"}
+		},
+	})
+	-- There seem to be no reverse recipes for any of the other everness sandstones.
+end
+
 if minetest.get_modpath("farming") then
 	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
 end
