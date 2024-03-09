@@ -55,50 +55,50 @@ minetest.clear_craft({
 if minetest.get_modpath("everness") then
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:coral_sand', 'everness:coral_sand' },
-			{ 'everness:coral_sand', 'everness:coral_sand' },
+			{'everness:coral_sand', 'everness:coral_sand'},
+			{'everness:coral_sand', 'everness:coral_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand' },
-			{ 'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand' },
+			{'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand'},
+			{'everness:coral_forest_deep_ocean_sand', 'everness:coral_forest_deep_ocean_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:coral_white_sand', 'everness:coral_white_sand' },
-			{ 'everness:coral_white_sand', 'everness:coral_white_sand' },
+			{'everness:coral_white_sand', 'everness:coral_white_sand'},
+			{'everness:coral_white_sand', 'everness:coral_white_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:crystal_sand', 'everness:crystal_sand' },
-			{ 'everness:crystal_sand', 'everness:crystal_sand' },
+			{'everness:crystal_sand', 'everness:crystal_sand'},
+			{'everness:crystal_sand', 'everness:crystal_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:cursed_sand', 'everness:cursed_sand' },
-			{ 'everness:cursed_sand', 'everness:cursed_sand' },
+			{'everness:cursed_sand', 'everness:cursed_sand'},
+			{'everness:cursed_sand', 'everness:cursed_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand' },
-			{ 'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand' },
+			{'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand'},
+			{'everness:cursed_lands_deep_ocean_sand', 'everness:cursed_lands_deep_ocean_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand' },
-			{ 'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand' },
+			{'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand'},
+			{'everness:crystal_forest_deep_ocean_sand', 'everness:crystal_forest_deep_ocean_sand'},
 		},
 	})
 	minetest.clear_craft({
 		recipe = {
-			{ 'everness:mineral_sand', 'everness:mineral_sand' },
-			{ 'everness:mineral_sand', 'everness:mineral_sand' },
+			{'everness:mineral_sand', 'everness:mineral_sand'},
+			{'everness:mineral_sand', 'everness:mineral_sand'},
 		},
 	})
 end
