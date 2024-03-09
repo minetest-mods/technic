@@ -36,6 +36,18 @@ local recipes = {
 	{"default:ice",              "default:snowblock"},
 }
 
+if minetest.get_modpath("everness") then
+	table.insert(recipes, {"everness:coral_deep_ocean_sandstone_block",          "everness:coral_deep_ocean_sand 2"})
+	table.insert(recipes, {"everness:coral_sandstone",                           "everness:coral_sand 2"})
+	table.insert(recipes, {"everness:coral_white_sandstone",                     "everness:coral_white_sand 2"})
+	table.insert(recipes, {"everness:crystal_forest_deep_ocean_sandstone_block", "everness:crystal_forest_deep_ocean_sand 2"})
+	table.insert(recipes, {"everness:crystal_sandstone",                         "everness:crystal_sand 2"})
+	table.insert(recipes, {"everness:cursed_lands_deep_ocean_sandstone_block",   "everness:cursed_lands_deep_ocean_sand 2"})
+	table.insert(recipes, {"everness:cursed_sandstone_block",                    "everness:cursed_sand 2"})
+	table.insert(recipes, {"everness:mineral_sandstone",                         "everness:mineral_sand 2"})
+	-- As of 2024-03-09, reverse recipe in everness only exists for mineral_sandstone. Handled in the compressor.
+end
+
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
 	recipe = {
