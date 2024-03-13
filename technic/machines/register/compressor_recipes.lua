@@ -64,6 +64,7 @@ end
 
 for _, sand_name in ipairs(crafts_to_clear) do
 	minetest.clear_craft({
+		type = "shaped",
 		recipe = {
 			{sand_name, sand_name},
 			{sand_name, sand_name},
