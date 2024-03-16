@@ -23,14 +23,14 @@ local recipes = {
 
 if minetest.get_modpath("everness") then
 	local everness_sand_to_sandstone_recipes = {
-		{"everness:coral_deep_ocean_sand 2",			"everness:coral_deep_ocean_sandstone_block"},
-		{"everness:coral_sand 2",						"everness:coral_sandstone"},
-		{"everness:coral_white_sand 2",					"everness:coral_white_sandstone"},
-		{"everness:crystal_forest_deep_ocean_sand 2",	"everness:crystal_forest_deep_ocean_sandstone_block"},
-		{"everness:crystal_sand 2",						"everness:crystal_sandstone"},
-		{"everness:cursed_lands_deep_ocean_sand 2",		"everness:cursed_lands_deep_ocean_sandstone_block"},
-		{"everness:cursed_sand 2",						"everness:cursed_sandstone_block"},
-		{"everness:mineral_sand 2",						"everness:mineral_sandstone"},
+		{"everness:coral_deep_ocean_sand 2",          "everness:coral_deep_ocean_sandstone_block"},
+		{"everness:coral_sand 2",                     "everness:coral_sandstone"},
+		{"everness:coral_white_sand 2",               "everness:coral_white_sandstone"},
+		{"everness:crystal_forest_deep_ocean_sand 2", "everness:crystal_forest_deep_ocean_sandstone_block"},
+		{"everness:crystal_sand 2",                   "everness:crystal_sandstone"},
+		{"everness:cursed_lands_deep_ocean_sand 2",   "everness:cursed_lands_deep_ocean_sandstone_block"},
+		{"everness:cursed_sand 2",                    "everness:cursed_sandstone_block"},
+		{"everness:mineral_sand 2",                   "everness:mineral_sandstone"},
 	}
 
 	for _, data in ipairs(everness_sand_to_sandstone_recipes) do
