@@ -9,16 +9,16 @@ function technic.register_compressor_recipe(data)
 end
 
 local recipes = {
-	{"default:snowblock",			"default:ice"},
-	{"default:sand 2",				"default:sandstone"},
-	{"default:desert_sand 2",		"default:desert_sandstone"},
-	{"default:silver_sand 2",		"default:silver_sandstone"},
-	{"default:desert_sand",			"default:desert_stone"},
-	{"technic:mixed_metal_ingot",	"technic:composite_plate"},
-	{"default:copper_ingot 5",		"technic:copper_plate"},
-	{"technic:coal_dust 4",			"technic:graphite"},
-	{"technic:carbon_cloth",		"technic:carbon_plate"},
-	{"technic:uranium35_ingot 5",	"technic:uranium_fuel"},
+	{"default:snowblock",          "default:ice"},
+	{"default:sand 2",             "default:sandstone"},
+	{"default:desert_sand 2",      "default:desert_sandstone"},
+	{"default:silver_sand 2",      "default:silver_sandstone"},
+	{"default:desert_sand",        "default:desert_stone"},
+	{"technic:mixed_metal_ingot",  "technic:composite_plate"},
+	{"default:copper_ingot 5",     "technic:copper_plate"},
+	{"technic:coal_dust 4",        "technic:graphite"},
+	{"technic:carbon_cloth",       "technic:carbon_plate"},
+	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
 
 if minetest.get_modpath("everness") then
