@@ -21,27 +21,57 @@ local recipes = {
 	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
 
+if minetest.get_modpath("everness") then
+	local everness_sand_to_sandstone_recipes = {
+		{"everness:coral_deep_ocean_sand 2",          "everness:coral_deep_ocean_sandstone_block"},
+		{"everness:coral_sand 2",                     "everness:coral_sandstone"},
+		{"everness:coral_white_sand 2",               "everness:coral_white_sandstone"},
+		{"everness:crystal_forest_deep_ocean_sand 2", "everness:crystal_forest_deep_ocean_sandstone_block"},
+		{"everness:crystal_sand 2",                   "everness:crystal_sandstone"},
+		{"everness:cursed_lands_deep_ocean_sand 2",   "everness:cursed_lands_deep_ocean_sandstone_block"},
+		{"everness:cursed_sand 2",                    "everness:cursed_sandstone_block"},
+		{"everness:mineral_sand 2",                   "everness:mineral_sandstone"},
+	}
+
+	for _, data in ipairs(everness_sand_to_sandstone_recipes) do
+		table.insert(recipes, {data[1], data[2]})
+	end
+end
+
 -- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
-minetest.clear_craft({
-	recipe = {
-		{"default:sand", "default:sand"},
-		{"default:sand", "default:sand"},
-	},
-})
-minetest.clear_craft({
-	recipe = {
-		{"default:desert_sand", "default:desert_sand"},
-		{"default:desert_sand", "default:desert_sand"},
-	},
-})
-minetest.clear_craft({
-	recipe = {
-		{"default:silver_sand", "default:silver_sand"},
-		{"default:silver_sand", "default:silver_sand"},
-	},
-})
+local crafts_to_clear = {
+	"default:desert_sand",
+	"default:sand",
+	"default:silver_sand"
+}
+
+if minetest.get_modpath("everness") then
+	local everness_crafts_to_clear = {
+		"everness:coral_sand",
+		"everness:coral_forest_deep_ocean_sand",
+		"everness:coral_white_sand",
+		"everness:crystal_sand",
+		"everness:cursed_sand",
+		"everness:cursed_lands_deep_ocean_sand",
+		"everness:crystal_forest_deep_ocean_sand",
+		"everness:mineral_sand",
+	}
+
+	for _, sand_name in ipairs(everness_crafts_to_clear) do
+		table.insert(crafts_to_clear, sand_name)
+	end
+end
+
+for _, sand_name in ipairs(crafts_to_clear) do
+	minetest.clear_craft({
+		type = "shaped",
+		recipe = {
+			{sand_name, sand_name},
+			{sand_name, sand_name},
+		},
+	})
+end
 
 for _, data in pairs(recipes) do
 	technic.register_compressor_recipe({input = {data[1]}, output = data[2]})
 end
-
