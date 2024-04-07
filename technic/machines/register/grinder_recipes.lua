@@ -36,73 +36,69 @@ local recipes = {
 	{"default:ice",              "default:snowblock"},
 }
 
-if minetest.get_modpath("everness") then
-	table.insert(recipes, {"everness:coral_deep_ocean_sandstone_block",          "everness:coral_deep_ocean_sand 2"})
-	table.insert(recipes, {"everness:coral_sandstone",                           "everness:coral_sand 2"})
-	table.insert(recipes, {"everness:coral_white_sandstone",                     "everness:coral_white_sand 2"})
-	table.insert(recipes, {"everness:crystal_forest_deep_ocean_sandstone_block", "everness:crystal_forest_deep_ocean_sand 2"})
-	table.insert(recipes, {"everness:crystal_sandstone",                         "everness:crystal_sand 2"})
-	table.insert(recipes, {"everness:cursed_lands_deep_ocean_sandstone_block",   "everness:cursed_lands_deep_ocean_sand 2"})
-	table.insert(recipes, {"everness:cursed_sandstone_block",                    "everness:cursed_sand 2"})
-	table.insert(recipes, {"everness:mineral_sandstone",                         "everness:mineral_sand 2"})
+local dependent_recipes = {
+	everness = {
+	-- Sandstones
+		{"everness:coral_deep_ocean_sandstone_block",			"everness:coral_deep_ocean_sand 2"},
+		{"everness:coral_sandstone",							"everness:coral_sand 2"},
+		{"everness:coral_white_sandstone",						"everness:coral_white_sand 2"},
+		{"everness:crystal_forest_deep_ocean_sandstone_block",	"everness:crystal_forest_deep_ocean_sand 2"},
+		{"everness:crystal_sandstone",							"everness:crystal_sand 2"},
+		{"everness:cursed_lands_deep_ocean_sandstone_block",	"everness:cursed_lands_deep_ocean_sand 2"},
+		{"everness:cursed_sandstone_block",						"everness:cursed_sand 2"},
+		{"everness:mineral_sandstone",							"everness:mineral_sand 2"},
+	-- Lumps and wheat
+		{"everness:pyrite_lump",	"technic:pyrite_dust 2"},
+	},
+	farming = {
+		{"farming:seed_wheat",		"farming:flour 1"},
+	},
+	gloopores = {
+		{"gloopores:alatro_lump",	"technic:alatro_dust 2"},
+		{"gloopores:kalite_lump",	"technic:kalite_dust 2"},
+		{"gloopores:arol_lump",		"technic:arol_dust 2"},
+		{"gloopores:talinite_lump",	"technic:talinite_dust 2"},
+		{"gloopores:akalin_lump",	"technic:akalin_dust 2"},
+	},
+	homedecor = {
+		{"home_decor:brass_ingot",	"technic:brass_dust 1"},
+	},
+	moreores = {
+		{"moreores:mithril_lump",	"technic:mithril_dust 2"},
+		{"moreores:silver_lump",	"technic:silver_dust 2"},
+	},
+	nether = {
+		{"nether:nether_lump",		"technic:nether_dust 2"},
+	},
+}
+
+for dependency, materials_to_add in pairs(dependent_recipes) do
+	if minetest.get_modpath(dependency) then
+		for _, material_entry in pairs(materials_to_add) do
+			table.insert(recipes, material_entry)
+		end
+	end
 end
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
-	recipe = {
-		{"default:sandstone"}
-	},
+	recipe = {{"default:sandstone"}},
 })
 minetest.clear_craft({
-	recipe = {
-		{"default:desert_sandstone"}
-	},
+	recipe = {{"default:desert_sandstone"}},
 })
 minetest.clear_craft({
-	recipe = {
-		{"default:silver_sandstone"}
-	},
+	recipe = {{"default:silver_sandstone"}},
 })
 
 if minetest.get_modpath("everness") then
 	minetest.clear_craft({
-		recipe = {
-			{"everness:mineral_sandstone"}
-		},
+		recipe = {{"everness:mineral_sandstone"}},
 	})
 	-- Currently (2024-03-09), there seem to be no reverse recipes for any of the other everness sandstones.
 end
 
-if minetest.get_modpath("everness") then
-	table.insert(recipes, {"everness:pyrite_lump",  "technic:pyrite_dust 2"})
-end
-
-if minetest.get_modpath("farming") then
-	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
-end
-
-if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
-	table.insert(recipes, {"gloopores:alatro_lump",   "technic:alatro_dust 2"})
-	table.insert(recipes, {"gloopores:kalite_lump",   "technic:kalite_dust 2"})
-	table.insert(recipes, {"gloopores:arol_lump",     "technic:arol_dust 2"})
-	table.insert(recipes, {"gloopores:talinite_lump", "technic:talinite_dust 2"})
-	table.insert(recipes, {"gloopores:akalin_lump",   "technic:akalin_dust 2"})
-end
-
-if minetest.get_modpath("homedecor") then
-	table.insert(recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
-end
-
-if minetest.get_modpath("moreores") then
-	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
-	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
-end
-
-if minetest.get_modpath("nether") then
-	table.insert(recipes, {"nether:nether_lump",   "technic:nether_dust 2"})
-end
-
-for _, data in pairs(recipes) do
+for _, data in ipairs(recipes) do
 	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
 end
 
@@ -147,7 +143,9 @@ local dusts = {
 }
 
 local dependent_dusts = {
-	everness = {{"Pyrite",          "everness:pyrite_ingot"}},
+	everness = {
+		{"Pyrite",          "everness:pyrite_ingot"},
+	},
 	gloopores = {
 		{"Akalin",          "glooptest:akalin_ingot"},
 		{"Alatro",          "glooptest:alatro_ingot"},
@@ -155,7 +153,9 @@ local dependent_dusts = {
 		{"Kalite",          nil},
 		{"Talinite",        "glooptest:talinite_ingot"},
 	},
-	nether = {{"Nether",          "nether:nether_ingot"}},
+	nether = {
+		{"Nether",          "nether:nether_ingot"},
+	},
 }
 
 for dependency, dusts_to_add in pairs(dependent_dusts) do
@@ -170,6 +170,7 @@ for _, data in ipairs(dusts) do
 	register_dust(data[1], data[2])
 end
 
+-- Uranium
 for p = 0, 35 do
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
@@ -205,6 +206,7 @@ for pa = 0, 34 do
 	end
 end
 
+-- Fuels
 minetest.register_craft({
 	type = "fuel",
 	recipe = "technic:coal_dust",
