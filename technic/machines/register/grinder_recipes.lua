@@ -73,13 +73,12 @@ if minetest.get_modpath("everness") then
 	-- Currently (2024-03-09), there seem to be no reverse recipes for any of the other everness sandstones.
 end
 
-if minetest.get_modpath("farming") then
-	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
+if minetest.get_modpath("everness") then
+	table.insert(recipes, {"everness:pyrite_lump",  "technic:pyrite_dust 2"})
 end
 
-if minetest.get_modpath("moreores") then
-	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
-	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
+if minetest.get_modpath("farming") then
+	table.insert(recipes, {"farming:seed_wheat",   "farming:flour 1"})
 end
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
@@ -94,8 +93,9 @@ if minetest.get_modpath("homedecor") then
 	table.insert(recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
 end
 
-if minetest.get_modpath("everness") then
-	table.insert(recipes, {"everness:pyrite_lump",  "technic:pyrite_dust 2"})
+if minetest.get_modpath("moreores") then
+	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
+	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
 end
 
 for _, data in pairs(recipes) do
@@ -139,15 +139,15 @@ register_dust("Sulfur",          nil)
 register_dust("Tin",             "default:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
+if minetest.get_modpath("everness") then
+	register_dust("Pyrite",          "everness:pyrite_ingot")
+end
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	register_dust("Akalin",          "glooptest:akalin_ingot")
 	register_dust("Alatro",          "glooptest:alatro_ingot")
 	register_dust("Arol",            "glooptest:arol_ingot")
 	register_dust("Kalite",          nil)
 	register_dust("Talinite",        "glooptest:talinite_ingot")
-end
-if minetest.get_modpath("everness") then
-	register_dust("Pyrite",          "everness:pyrite_ingot")
 end
 
 for p = 0, 35 do
