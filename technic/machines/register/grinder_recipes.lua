@@ -98,6 +98,10 @@ if minetest.get_modpath("moreores") then
 	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
 end
 
+if minetest.get_modpath("nether") then
+	table.insert(recipes, {"nether:nether_lump",   "technic:nether_dust 2"})
+end
+
 for _, data in pairs(recipes) do
 	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
 end
@@ -148,6 +152,9 @@ if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	register_dust("Arol",            "glooptest:arol_ingot")
 	register_dust("Kalite",          nil)
 	register_dust("Talinite",        "glooptest:talinite_ingot")
+end
+if minetest.get_modpath("nether") then
+	register_dust("Nether",          "nether:nether_ingot")
 end
 
 for p = 0, 35 do
