@@ -37,8 +37,8 @@ local recipes = {
 }
 
 local dependent_recipes = {
-	everness = {
 	-- Sandstones
+	everness = {
 		{"everness:coral_deep_ocean_sandstone_block",			"everness:coral_deep_ocean_sand 2"},
 		{"everness:coral_sandstone",							"everness:coral_sand 2"},
 		{"everness:coral_white_sandstone",						"everness:coral_white_sand 2"},
@@ -74,7 +74,7 @@ local dependent_recipes = {
 
 for dependency, materials_to_add in pairs(dependent_recipes) do
 	if minetest.get_modpath(dependency) then
-		for _, material_entry in pairs(materials_to_add) do
+		for _, material_entry in ipairs(materials_to_add) do
 			table.insert(recipes, material_entry)
 		end
 	end
