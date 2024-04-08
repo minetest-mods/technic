@@ -21,8 +21,8 @@ local recipes = {
 	{"technic:uranium35_ingot 5",  "technic:uranium_fuel"},
 }
 
-if minetest.get_modpath("everness") then
-	local everness_sand_to_sandstone_recipes = {
+local dependent_recipes = {
+	everness = {
 		{"everness:coral_deep_ocean_sand 2",          "everness:coral_deep_ocean_sandstone_block"},
 		{"everness:coral_sand 2",                     "everness:coral_sandstone"},
 		{"everness:coral_white_sand 2",               "everness:coral_white_sandstone"},
@@ -31,29 +31,27 @@ if minetest.get_modpath("everness") then
 		{"everness:cursed_lands_deep_ocean_sand 2",   "everness:cursed_lands_deep_ocean_sandstone_block"},
 		{"everness:cursed_sand 2",                    "everness:cursed_sandstone_block"},
 		{"everness:mineral_sand 2",                   "everness:mineral_sandstone"},
-	}
-
-	for _, data in ipairs(everness_sand_to_sandstone_recipes) do
-		table.insert(recipes, {data[1], data[2]})
-	end
-end
-
-if minetest.get_modpath("nether") then
-	local nether_brick_and_lump_recipes = {
+	},
+	nether = {
 		{"nether:brick 9",				"nether:brick_compressed"},
 		{"nether:brick_compressed 9",	"nether:nether_lump"},
-	}
+	},
+}
 
-	for _, data in ipairs(nether_brick_and_lump_recipes) do
-		table.insert(recipes, {data[1], data[2]})
+for dependency, recipes_to_add in pairs(dependent_recipes) do
+	if minetest.get_modpath(dependency) then
+		for _, recipe_entry in ipairs(recipes_to_add) do
+			table.insert(recipes, recipe_entry)
+		end
 	end
 end
 
--- Defuse the default sandstone recipes, since we have the compressor to take over in a more realistic manner.
+-- Defuse the default sandstone recipes, since we have
+-- the compressor to take over in a more realistic manner.
 local crafts_to_clear = {
 	"default:desert_sand",
 	"default:sand",
-	"default:silver_sand"
+	"default:silver_sand",
 }
 
 if minetest.get_modpath("everness") then
