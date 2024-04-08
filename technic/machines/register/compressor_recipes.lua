@@ -38,7 +38,18 @@ if minetest.get_modpath("everness") then
 	end
 end
 
--- defuse the default sandstone recipe, since we have the compressor to take over in a more realistic manner
+if minetest.get_modpath("nether") then
+	local nether_brick_and_lump_recipes = {
+		{"nether:brick 9",				"nether:brick_compressed"},
+		{"nether:brick_compressed 9",	"nether:nether_lump"},
+	}
+
+	for _, data in ipairs(nether_brick_and_lump_recipes) do
+		table.insert(recipes, {data[1], data[2]})
+	end
+end
+
+-- Defuse the default sandstone recipes, since we have the compressor to take over in a more realistic manner.
 local crafts_to_clear = {
 	"default:desert_sand",
 	"default:sand",
@@ -70,6 +81,26 @@ for _, sand_name in ipairs(crafts_to_clear) do
 			{sand_name, sand_name},
 		},
 	})
+end
+
+if minetest.get_modpath("nether") then
+	-- Defuse the default compressed nether brick and nether lump recipes,
+	-- since we have the compressor to take over in a more realistic manner.
+	local nether_crafts_to_clear = {
+		"nether:brick",
+		"nether:brick_compressed",
+	}
+
+	for _, nether_brick_name in ipairs(nether_crafts_to_clear) do
+		minetest.clear_craft({
+			type = "shaped",
+			recipe = {
+				{nether_brick_name, nether_brick_name, nether_brick_name},
+				{nether_brick_name, nether_brick_name, nether_brick_name},
+				{nether_brick_name, nether_brick_name, nether_brick_name},
+			},
+		})
+	end
 end
 
 for _, data in pairs(recipes) do
