@@ -38,6 +38,8 @@ local dependent_recipes = {
 	},
 }
 
+-- Add dependent recipes to main recipe collection
+-- if their mods are used.
 for dependency, recipes_to_add in pairs(dependent_recipes) do
 	if minetest.get_modpath(dependency) then
 		for _, recipe_entry in ipairs(recipes_to_add) do
@@ -54,8 +56,8 @@ local crafts_to_clear = {
 	"default:silver_sand",
 }
 
-if minetest.get_modpath("everness") then
-	local everness_crafts_to_clear = {
+local dependent_crafts_to_clear = {
+	everness = {
 		"everness:coral_sand",
 		"everness:coral_forest_deep_ocean_sand",
 		"everness:coral_white_sand",
@@ -64,41 +66,43 @@ if minetest.get_modpath("everness") then
 		"everness:cursed_lands_deep_ocean_sand",
 		"everness:crystal_forest_deep_ocean_sand",
 		"everness:mineral_sand",
-	}
-
-	for _, sand_name in ipairs(everness_crafts_to_clear) do
-		table.insert(crafts_to_clear, sand_name)
-	end
-end
-
-for _, sand_name in ipairs(crafts_to_clear) do
-	minetest.clear_craft({
-		type = "shaped",
-		recipe = {
-			{sand_name, sand_name},
-			{sand_name, sand_name},
-		},
-	})
-end
-
-if minetest.get_modpath("nether") then
-	-- Defuse the default compressed nether brick and nether lump recipes,
-	-- since we have the compressor to take over in a more realistic manner.
-	local nether_crafts_to_clear = {
+	},
+	nether = {
 		"nether:brick",
 		"nether:brick_compressed",
-	}
+	},
+}
 
-	for _, nether_brick_name in ipairs(nether_crafts_to_clear) do
-		minetest.clear_craft({
-			type = "shaped",
-			recipe = {
-				{nether_brick_name, nether_brick_name, nether_brick_name},
-				{nether_brick_name, nether_brick_name, nether_brick_name},
-				{nether_brick_name, nether_brick_name, nether_brick_name},
-			},
-		})
+for dependency, crafts in pairs(dependent_crafts_to_clear) do
+	if minetest.get_modpath(dependency) then
+		for _, craft_entry in ipairs(crafts) do
+			table.insert(crafts_to_clear, craft_entry)
+		end
 	end
+end
+
+for _, craft_name in ipairs(crafts_to_clear) do
+	is_regular = string.sub(craft_name, 1, 7) ~= "nether:"
+
+	if is_regular then
+		-- Regular compression recipes use 2x2 shape.
+		shaped_recipe = {
+			{craft_name, craft_name},
+			{craft_name, craft_name},
+		}
+	else
+		-- Nether's compression recipes use 3x3 shape.
+		shaped_recipe = {
+			{craft_name, craft_name, craft_name},
+			{craft_name, craft_name, craft_name},
+			{craft_name, craft_name, craft_name},
+		}
+	end
+
+	minetest.clear_craft({
+		type = "shaped",
+		recipe = shaped_recipe,
+	})
 end
 
 for _, data in pairs(recipes) do
