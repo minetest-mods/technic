@@ -8,6 +8,18 @@ function technic.register_compressor_recipe(data)
 	technic.register_recipe("compressing", data)
 end
 
+-- Function for cases where multiple mods exist with the same name,
+-- to check if we have the right one.
+local function is_right_mod(dependency)
+	is_right = true
+
+	if dependency == "nether" then
+		is_right = minetest.registered_nodes["nether:brick_compressed"] ~= nil
+	end
+
+	return is_right
+end
+
 -- Defuse the default recipes, since we have
 -- the compressor to take over in a more realistic manner.
 local crafts_to_clear = {
@@ -36,7 +48,7 @@ local dependent_crafts_to_clear = {
 -- Add dependent recipes to main collection of
 -- recipes to be cleared if their mods are used.
 for dependency, crafts in pairs(dependent_crafts_to_clear) do
-	if minetest.get_modpath(dependency) then
+	if minetest.get_modpath(dependency) and is_right_mod(dependency) then
 		for _, craft_entry in ipairs(crafts) do
 			table.insert(crafts_to_clear, craft_entry)
 		end
@@ -104,7 +116,7 @@ local dependent_recipes = {
 -- Add dependent recipes to main recipe collection
 -- if their mods are used.
 for dependency, recipes_to_add in pairs(dependent_recipes) do
-	if minetest.get_modpath(dependency) then
+	if minetest.get_modpath(dependency) and is_right_mod(dependency) then
 		for _, recipe_entry in ipairs(recipes_to_add) do
 			table.insert(recipes, recipe_entry)
 		end
