@@ -11,7 +11,7 @@ end
 -- Function for cases where multiple mods exist with the same name,
 -- to check if we have the right one.
 local function is_right_mod(dependency)
-	local is_right = true
+	is_right = true
 
 	if dependency == "nether" then
 		is_right = minetest.registered_nodes["nether:brick_compressed"] ~= nil
