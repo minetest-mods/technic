@@ -46,7 +46,7 @@ end
 -- Clear recipes
 for _, craft_name in ipairs(crafts_to_clear) do
 	local is_regular = string.sub(craft_name, 1, 7) ~= "nether:"
-	local shaped_recipe = {}
+	local shaped_recipe
 
 	if is_regular then
 		-- Regular compression recipes use 2x2 shape.
