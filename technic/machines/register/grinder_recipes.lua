@@ -8,18 +8,6 @@ function technic.register_grinder_recipe(data)
 	technic.register_recipe("grinding", data)
 end
 
--- Function for cases where multiple mods exist with the same name,
--- to check if we have the right one.
-local function is_right_mod(dependency)
-	local is_right = true
-
-	if dependency == "nether" then
-		is_right = minetest.registered_nodes["nether:brick_compressed"] ~= nil
-	end
-
-	return is_right
-end
-
 local recipes = {
 	-- Dusts
 	{"default:coal_lump",          "technic:coal_dust 2"},
@@ -85,7 +73,7 @@ local dependent_recipes = {
 }
 
 for dependency, materials_to_add in pairs(dependent_recipes) do
-	if minetest.get_modpath(dependency) and is_right_mod(dependency) then
+	if minetest.get_modpath(dependency) then
 		for _, material_entry in ipairs(materials_to_add) do
 			table.insert(recipes, material_entry)
 		end
@@ -171,7 +159,7 @@ local dependent_dusts = {
 }
 
 for dependency, dusts_to_add in pairs(dependent_dusts) do
-	if minetest.get_modpath(dependency) and is_right_mod(dependency) then
+	if minetest.get_modpath(dependency) then
 		for _, dust_entry in pairs(dusts_to_add) do
 			table.insert(dusts, dust_entry)
 		end
