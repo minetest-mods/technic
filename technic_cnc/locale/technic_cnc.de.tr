@@ -1,0 +1,50 @@
+# textdomain: technic_cnc
+## CNC
+
+##[ cnc.lua ]##
+CNC Machine=CNC-Maschine
+@1 CNC Machine=@1 CNC-Maschine
+LV=LV
+Choose Milling Program:=Wähle das Fräsprogramm aus:
+Slim Elements half / normal height:=Schmale halb- / normalhohe Elemente:
+In:=Eingabe:
+Out:=Ausgabe:
+@1 Idle=@1 (wartend)
+@1 Unpowered=@1 (unbestromt)
+@1 Active=@1 (aktiv)
+
+##[ cnc_api.lua ]##
+Stick=Stock
+Element End Double=Endelement
+Element Cross Double=Kreuzelement
+Element T Double=T-Element
+Element Edge Double=Eckelement
+Element Straight Double=Gerades Element
+Element End=Halbes Endelement
+Element Cross=Halbes Kreuzelement
+Element T=Halbes T-Element
+Element Edge=Halbes Eckelement
+Element Straight=Halbes Gerades Eleent
+Oblate spheroid=Sphärenstück
+Sphere=Sphäre
+Horizontal Cylinder=Horizontaler Zylinder
+Cylinder=Zylinder
+Two Curved Edge/Corner Block=Doppelt gekrümmter Eck/-Randblock
+One Curved Edge Block=Einfach gekrümmter Eckblock
+Spike=Spitze
+Pyramid=Pyramide
+Slope Upside Down Inner Edge/Corner=Schräge (kopfüber), innere Ecke
+Slope Upside Down Outer Edge/Corner=Schräge (kopfüber), äussere Ecke
+Slope Inner Edge/Corner=Schräge, innere Ecke
+Slope Outer Edge/Corner=Schräge äussere Ecke
+Slope Upside Down=Schräge (kopfüber)
+Slope Lying=Liegende Schräge
+Slope=Schräge
+
+##[ cnc_materials.lua ]##
+Grassy dirt=Erde mit Gras
+Wooden=Holz
+Bronze=Bronze
+Steel=Stahl
+Wrought Iron=Schmiedeeisen
+Stainless Steel=Edelstahl

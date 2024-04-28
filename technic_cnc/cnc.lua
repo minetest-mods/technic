@@ -29,7 +29,7 @@ if technic_cnc.use_technic then
 	allow_metadata_inventory_take = technic.machine_inventory_take
 	allow_metadata_inventory_move = technic.machine_inventory_move
 	can_dig = technic.machine_can_dig
-	desc_tr = S("%s CNC Machine"):format("LV")
+	desc_tr = S("@1 CNC Machine", S("LV"))
 else
 	minetest.register_craft({
 		output = 'technic:cnc',
@@ -130,9 +130,9 @@ local cnc_formspec =
 	"image_button[5,4;1,1;technic_cnc_element_t.png;element_t; ]"..
 	"image_button[6,4;1,1;technic_cnc_element_edge.png;element_edge; ]"..
 
-	"label[0, 5.5;"..S("In:").."]"..
+	"label[0, 5;"..S("In:").."]"..
 	"list[current_name;src;0.5,5.5;1,1;]"..
-	"label[4, 5.5;"..S("Out:").."]"..
+	"label[4, 5;"..S("Out:").."]"..
 	"list[current_name;dst;5,5.5;4,1;]"..
 
 	"list[current_player;main;0,7;8,4;]"..
@@ -221,7 +221,7 @@ local run = function(pos, node)
 	   (not minetest.registered_nodes[result]) or
 	   (not inv:room_for_item("dst", result)) then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_string("infotext", S("@1 Idle", machine_name))
 		meta:set_string("cnc_product", "")
 		meta:set_int("LV_EU_demand", 0)
 		return
@@ -229,10 +229,10 @@ local run = function(pos, node)
 
 	if eu_input < demand then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", S("@1 Unpowered", machine_name))
 	elseif eu_input >= demand then
 		technic.swap_node(pos, machine_node.."_active")
-		meta:set_string("infotext", S("%s Active"):format(machine_name))
+		meta:set_string("infotext", S("@1 Active", machine_name))
 		meta:set_int("src_time", meta:get_int("src_time") + 1)
 		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
 			meta:set_int("src_time", 0)

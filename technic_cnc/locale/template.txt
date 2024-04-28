@@ -1,36 +1,50 @@
+# textdomain: technic_cnc
 ## CNC
-CNC Machine =
-%s CNC Machine =
-Cylinder =
-Element Cross =
-Element Cross Double =
-Element Edge =
-Element Edge Double =
-Element End =
-Element End Double =
-Element Straight =
-Element Straight Double =
-Element T =
-Element T Double =
-Horizontal Cylinder =
-One Curved Edge Block =
-Pyramid =
-Slope =
-Slope Edge =
-Slope Inner Edge =
-Slope Lying =
-Slope Upside Down =
-Slope Upside Down Edge =
-Slope Upside Down Inner Edge =
-Sphere =
-Spike =
-Stick =
-Two Curved Edge Block =
-Brick =
-Cobble =
-Dirt =
-Leaves =
-Sandstone =
-Stone =
-Tree =
-Wooden =
+
+##[ cnc.lua ]##
+CNC Machine=
+@1 CNC Machine=
+LV=
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+@1 Idle=
+@1 Unpowered=
+@1 Active=
+
+##[ cnc_api.lua ]##
+Stick=
+Element End Double=
+Element Cross Double=
+Element T Double=
+Element Edge Double=
+Element Straight Double=
+Element End=
+Element Cross=
+Element T=
+Element Edge=
+Element Straight=
+Oblate spheroid=
+Sphere=
+Horizontal Cylinder=
+Cylinder=
+Two Curved Edge/Corner Block=
+One Curved Edge Block=
+Spike=
+Pyramid=
+Slope Upside Down Inner Edge/Corner=
+Slope Upside Down Outer Edge/Corner=
+Slope Inner Edge/Corner=
+Slope Outer Edge/Corner=
+Slope Upside Down=
+Slope Lying=
+Slope=
+
+##[ cnc_materials.lua ]##
+Grassy dirt=
+Wooden=
+Bronze=
+Steel=
+Wrought Iron=
+Stainless Steel=
