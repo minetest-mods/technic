@@ -15,7 +15,7 @@ if (minetest.get_modpath('everness')) then
 		recipe = {
 			{'everness:coral_desert_stone', 'default:diamond',        'everness:coral_desert_stone'},
 			{'everness:coral_desert_stone', 'technic:machine_casing', 'everness:coral_desert_stone'},
-			{'technic:granite',      'technic:lv_cable',       'technic:granite'},
+			{'technic:granite',             'technic:lv_cable',       'technic:granite'},
 		}
 	})
 
@@ -24,7 +24,7 @@ if (minetest.get_modpath('everness')) then
 		recipe = {
 			{'everness:forsaken_desert_stone', 'default:diamond',        'everness:forsaken_desert_stone'},
 			{'everness:forsaken_desert_stone', 'technic:machine_casing', 'everness:forsaken_desert_stone'},
-			{'technic:granite',      'technic:lv_cable',       'technic:granite'},
+			{'technic:granite',                'technic:lv_cable',       'technic:granite'},
 		}
 	})
 end
