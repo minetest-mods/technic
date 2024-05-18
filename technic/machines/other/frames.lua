@@ -324,6 +324,7 @@ for zp = 0, 1 do
 
 		on_rightclick = function(pos, node, placer, itemstack, pointed_thing)
 			if is_supported_node(itemstack:get_name()) then
+				-- Stripped down version of "core.item_place_node"
 				if minetest.is_protected(pos, placer:get_player_name()) then
 					minetest.log("action", placer:get_player_name()
 						.. " tried to place " .. itemstack:get_name()
@@ -347,8 +348,7 @@ for zp = 0, 1 do
 				end
 
 				-- Run script hook
-				local callback = nil
-				for _, _ in ipairs(minetest.registered_on_placenodes) do
+				for _, callback in ipairs(minetest.registered_on_placenodes) do
 					-- Copy pos and node because callback can modify them
 					local pos_copy = { x = pos.x, y = pos.y, z = pos.z }
 					local newnode_copy = { name = def.name, param1 = 0, param2 = 0 }
