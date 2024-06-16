@@ -47,10 +47,11 @@ end
 
 -- Clear recipes
 for _, craft_name in ipairs(crafts_to_clear) do
-	local is_2x2 = string.sub(craft_name, 1, 7) ~= "nether:" or string.sub(craft_name, 1, 11) ~= "nether:rack"
+	-- Regular bricks are 2x2 shaped, nether bricks are 3x3 shaped (irregular)
+	local is_regular = string.sub(craft_name, 1, 12) ~= "nether:brick"
 	local shaped_recipe
 
-	if is_2x2 then
+	if is_regular then
 		shaped_recipe = {
 			{craft_name, craft_name},
 			{craft_name, craft_name},
