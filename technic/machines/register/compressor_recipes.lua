@@ -30,6 +30,8 @@ local dependent_crafts_to_clear = {
 	nether = {
 		"nether:brick",
 		"nether:brick_compressed",
+		"nether:rack",
+		"nether:rack_deep"
 	},
 }
 
@@ -45,17 +47,15 @@ end
 
 -- Clear recipes
 for _, craft_name in ipairs(crafts_to_clear) do
-	local is_regular = string.sub(craft_name, 1, 7) ~= "nether:"
+	local is_2x2 = string.sub(craft_name, 1, 7) ~= "nether:" or string.sub(craft_name, 1, 7) ~= "nether:rack"
 	local shaped_recipe
 
-	if is_regular then
-		-- Regular compression recipes use 2x2 shape.
+	if is_2x2 then
 		shaped_recipe = {
 			{craft_name, craft_name},
 			{craft_name, craft_name},
 		}
 	else
-		-- Nether's compression recipes use 3x3 shape.
 		shaped_recipe = {
 			{craft_name, craft_name, craft_name},
 			{craft_name, craft_name, craft_name},
@@ -99,6 +99,8 @@ local dependent_recipes = {
 	nether = {
 		{"nether:brick 9",				"nether:brick_compressed"},
 		{"nether:brick_compressed 9",	"nether:nether_lump"},
+		{"nether:rack",                 "nether:brick",},
+		{"nether:rack_deep",            "nether:brick_deep"},
 	},
 }
 
