@@ -47,7 +47,7 @@ end
 
 -- Clear recipes
 for _, craft_name in ipairs(crafts_to_clear) do
-	local is_2x2 = string.sub(craft_name, 1, 7) ~= "nether:" or string.sub(craft_name, 1, 7) ~= "nether:rack"
+	local is_2x2 = string.sub(craft_name, 1, 7) ~= "nether:" or string.sub(craft_name, 1, 11) ~= "nether:rack"
 	local shaped_recipe
 
 	if is_2x2 then
