@@ -31,7 +31,7 @@ local dependent_crafts_to_clear = {
 		"nether:brick",
 		"nether:brick_compressed",
 		"nether:rack",
-		"nether:rack_deep"
+		"nether:rack_deep",
 	},
 }
 
