@@ -160,6 +160,11 @@ Unsorted functions:
 	* If `technic.power_tools[itemstack:get_name()]` is `nil` (or `false`), this
 	  function does nothing, else that value is the maximum charge.
 	* The itemstack metadata is changed to contain the charge.
+* `technic.get_charge(itemstack)`
+	* Returns the charge and max charge of the given itemstack.
+	* If the itemstack is not an RE chargeable item, both return values will be zero.
+* `technic.set_charge(itemstack, charge)`
+	* Modifies the charge of the given itemstack.
 
 ### Node-specific
 * `technic.get_or_load_node(pos)`
