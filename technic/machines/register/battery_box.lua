@@ -409,7 +409,7 @@ minetest.register_on_player_receive_fields(
 	end
 )
 
-local function default_get_charge(itemstack)
+function technic.get_charge(itemstack)
 	-- check if is chargable
 	local tool_name = itemstack:get_name()
 	if not technic.power_tools[tool_name] then
@@ -419,7 +419,7 @@ local function default_get_charge(itemstack)
 	return item_meta:get_int("technic:charge"), technic.power_tools[tool_name]
 end
 
-local function default_set_charge(itemstack, charge)
+function technic.set_charge(itemstack, charge)
 	local tool_name = itemstack:get_name()
 	if technic.power_tools[tool_name] then
 		technic.set_RE_wear(itemstack, charge, technic.power_tools[tool_name])
@@ -437,8 +437,8 @@ function technic.charge_tools(meta, batt_charge, charge_step)
 
 	-- get callbacks
 	local src_def = src_stack:get_definition()
-	local technic_get_charge = src_def.technic_get_charge or default_get_charge
-	local technic_set_charge = src_def.technic_set_charge or default_set_charge
+	local technic_get_charge = src_def.technic_get_charge or technic.get_charge
+	local technic_set_charge = src_def.technic_set_charge or technic.set_charge
 
 	-- get tool charge
 	local tool_charge, item_max_charge = technic_get_charge(src_stack)
@@ -471,8 +471,8 @@ function technic.discharge_tools(meta, batt_charge, charge_step, max_charge)
 
 	-- get callbacks
 	local src_def = src_stack:get_definition()
-	local technic_get_charge = src_def.technic_get_charge or default_get_charge
-	local technic_set_charge = src_def.technic_set_charge or default_set_charge
+	local technic_get_charge = src_def.technic_get_charge or technic.get_charge
+	local technic_set_charge = src_def.technic_set_charge or technic.set_charge
 
 	-- get tool charge
 	local tool_charge, item_max_charge = technic_get_charge(src_stack)
