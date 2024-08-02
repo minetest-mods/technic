@@ -8,16 +8,27 @@ local ALPHA_CLIP = minetest.features.use_texture_alpha_string_modes and "clip" o
 ------------------------------------------------------
 
 -- Define slope boxes for the various nodes
+--[[
+Additional keys after registration:
+	programs[program.suffix] = program
+
+Additional fields after registration:
+	program.short_name = (trimmed suffix)
+	program.full_counterpart = suffix (optional, for full/half variants)
+	program.half_counterpart = suffix (optional, for full/half variants)
+]]
 -------------------------------------------
 technic_cnc.programs = {
 	{ suffix  = "technic_cnc_stick",
 		model = {-0.15, -0.5, -0.15, 0.15, 0.5, 0.15},
-		desc  = S("Stick")
+		desc  = S("Stick"),
+		output = 8
 	},
 
 	{ suffix  = "technic_cnc_element_end_double",
 		model = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.5},
-		desc  = S("Element End Double")
+		desc  = S("Element End Double"),
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_element_cross_double",
@@ -25,7 +36,8 @@ technic_cnc.programs = {
 			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3},
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-		desc  = S("Element Cross Double")
+		desc  = S("Element Cross Double"),
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_element_t_double",
@@ -33,24 +45,28 @@ technic_cnc.programs = {
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3},
 			{0.3, -0.5, -0.3, 0.5, 0.5, 0.3}},
-		desc  = S("Element T Double")
+		desc  = S("Element T Double"),
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_element_edge_double",
 		model = {
 			{-0.3, -0.5, -0.5, 0.3, 0.5, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0.5, 0.3}},
-		desc  = S("Element Edge Double")
+		desc  = S("Element Edge Double"),
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_element_straight_double",
 		model = {-0.3, -0.5, -0.5, 0.3, 0.5, 0.5},
-		desc  = S("Element Straight Double")
+		desc  = S("Element Straight Double"),
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_element_end",
 		model = {-0.3, -0.5, -0.3, 0.3, 0, 0.5},
-		desc  = S("Element End")
+		desc  = S("Element End"),
+		output = nil -- calculated
 	},
 
 	{ suffix  = "technic_cnc_element_cross",
@@ -58,7 +74,8 @@ technic_cnc.programs = {
 			{0.3, -0.5, -0.3, 0.5, 0, 0.3},
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.5},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-		desc  = S("Element Cross")
+		desc  = S("Element Cross"),
+		output = nil -- calculated
 	},
 
 	{ suffix  = "technic_cnc_element_t",
@@ -66,19 +83,22 @@ technic_cnc.programs = {
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3},
 			{0.3, -0.5, -0.3, 0.5, 0, 0.3}},
-		desc  = S("Element T")
+		desc  = S("Element T"),
+		output = nil -- calculated
 	},
 
 	{ suffix  = "technic_cnc_element_edge",
 		model = {
 			{-0.3, -0.5, -0.5, 0.3, 0, 0.3},
 			{-0.5, -0.5, -0.3, -0.3, 0, 0.3}},
-		desc  = S("Element Edge")
+		desc  = S("Element Edge"),
+		output = nil -- calculated
 	},
 
 	{ suffix  = "technic_cnc_element_straight",
 		model = {-0.3, -0.5, -0.5, 0.3, 0, 0.5},
-		desc  = S("Element Straight")
+		desc  = S("Element Straight"),
+		output = nil -- calculated
 	},
 
 	{ suffix  = "technic_cnc_oblate_spheroid",
@@ -91,32 +111,38 @@ technic_cnc.programs = {
 				{ -8/16, -4/16, -8/16, 8/16,  4/16, 8/16 },
 				{ -6/16, -8/16, -6/16, 6/16, -4/16, 6/16 }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_sphere",
 		model = "technic_cnc_sphere.obj",
-		desc  = S("Sphere")
+		desc  = S("Sphere"),
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_cylinder_horizontal",
 		model = "technic_cnc_cylinder_horizontal.obj",
-		desc  = S("Horizontal Cylinder")
+		desc  = S("Horizontal Cylinder"),
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_cylinder",
 		model = "technic_cnc_cylinder.obj",
-		desc  = S("Cylinder")
+		desc  = S("Cylinder"),
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_twocurvededge",
 		model = "technic_cnc_two_curved_edge.obj",
-		desc  = S("Two Curved Edge/Corner Block")
+		desc  = S("Two Curved Edge/Corner Block"),
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_onecurvededge",
 		model = "technic_cnc_one_curved_edge.obj",
-		desc  = S("One Curved Edge Block")
+		desc  = S("One Curved Edge Block"),
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_spike",
@@ -130,7 +156,8 @@ technic_cnc.programs = {
 				{ -6/16, -4/16, -6/16, 6/16,     0, 6/16 },
 				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_pyramid",
@@ -144,7 +171,8 @@ technic_cnc.programs = {
 				{ -6/16, -6/16, -6/16, 6/16, -4/16, 6/16 },
 				{ -8/16, -8/16, -8/16, 8/16, -6/16, 8/16 }
 			}
-		}
+		},
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_slope_inner_edge_upsdown",
@@ -165,7 +193,8 @@ technic_cnc.programs = {
 				{ -0.5,   0.25, -0.25, 0.5,  0,     0.5  },
 				{ -0.5,   0.5,  -0.5,  0.5,  0.25,  0.5  }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_slope_edge_upsdown",
@@ -179,7 +208,8 @@ technic_cnc.programs = {
 				{     0,     0,     0, 8/16, -4/16, 8/16 },
 				{  4/16, -4/16,  4/16, 8/16, -8/16, 8/16 }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_slope_inner_edge",
@@ -200,7 +230,8 @@ technic_cnc.programs = {
 				{ -0.5,   0.25,  0.25, 0.5,  0.5,   0.5  },
 				{  0.25,  0.25, -0.5,  0.5,  0.5,   0.5  }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_slope_edge",
@@ -214,7 +245,8 @@ technic_cnc.programs = {
 				{ -4/16, -4/16, -4/16, 8/16,     0, 8/16 },
 				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_slope_upsdown",
@@ -228,7 +260,8 @@ technic_cnc.programs = {
 				{ -8/16,     0,     0, 8/16, -4/16, 8/16 },
 				{ -8/16, -4/16,  4/16, 8/16, -8/16, 8/16 }
 			}
-		}
+		},
+		output = 1
 	},
 
 	{ suffix  = "technic_cnc_slope_lying",
@@ -242,7 +275,8 @@ technic_cnc.programs = {
 				{ -4/16, -8/16, -4/16,     0, 8/16, 8/16 },
 				{ -8/16, -8/16, -8/16, -4/16, 8/16, 8/16 }
 			}
-		}
+		},
+		output = 2
 	},
 
 	{ suffix  = "technic_cnc_slope",
@@ -256,10 +290,39 @@ technic_cnc.programs = {
 				{ -8/16, -4/16, -4/16, 8/16,     0, 8/16 },
 				{ -8/16, -8/16, -8/16, 8/16, -4/16, 8/16 }
 			}
-		}
+		},
+		output = 2
 	},
 
 }
+
+technic_cnc._populate_shortcuts = function()
+	-- Program quick access by string key
+	for _, data in ipairs(technic_cnc.programs) do
+		technic_cnc.programs[data.suffix] = data
+		data.short_name = assert(data.suffix:match("technic_cnc_(%S+)"))
+	end
+
+	-- Detect half/full counterparts
+	for k, data in pairs(technic_cnc.programs) do
+		if type(k) == "string" then
+			local full = technic_cnc.programs[k .. "_double"]
+			if full then
+				full.half_counterpart = k
+				data.full_counterpart = k .. "_double"
+				data.output = full.output * 2
+
+				--print("populate", k)
+			end
+		end
+	end
+
+	-- Final checks
+	for _, data in ipairs(technic_cnc.programs) do
+		assert(type(data.output) == "number", data.suffix)
+		assert(type(data.short_name) == "string", data.suffix)
+	end
+end
 
 -- Allow disabling certain programs for some node. Default is allowing all types for all nodes
 technic_cnc.programs_disable = {
@@ -325,46 +388,5 @@ function technic_cnc.register_all(recipeitem, groups, images, description)
 			    groups, images, description.." "..data.desc, data.cbox, data.sbox)
 		end
 	end
-end
-
--- REGISTER NEW TECHNIC_CNC_API's PART 2: technic_cnc..register_element_end(subname, recipeitem, groups, images, desc_element_xyz)
------------------------------------------------------------------------------------------------------------------------
-function technic_cnc.register_slope_edge_etc(recipeitem, groups, images, desc_slope, desc_slope_lying, desc_slope_upsdown, desc_slope_edge, desc_slope_inner_edge, desc_slope_upsdwn_edge, desc_slope_upsdwn_inner_edge, desc_pyramid, desc_spike, desc_onecurvededge, desc_twocurvededge, desc_cylinder, desc_cylinder_horizontal, desc_spheroid, desc_element_straight, desc_element_edge, desc_element_t, desc_element_cross, desc_element_end)
-		-- TODO: Remove this evil sorcery
-         technic_cnc.register_slope(recipeitem, groups, images, desc_slope)
-         technic_cnc.register_slope_lying(recipeitem, groups, images, desc_slope_lying)
-         technic_cnc.register_slope_upsdown(recipeitem, groups, images, desc_slope_upsdown)
-         technic_cnc.register_slope_edge(recipeitem, groups, images, desc_slope_edge)
-         technic_cnc.register_slope_inner_edge(recipeitem, groups, images, desc_slope_inner_edge)
-         technic_cnc.register_slope_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_edge)
-         technic_cnc.register_slope_inner_edge_upsdown(recipeitem, groups, images, desc_slope_upsdwn_inner_edge)
-         technic_cnc.register_pyramid(recipeitem, groups, images, desc_pyramid)
-         technic_cnc.register_spike(recipeitem, groups, images, desc_spike)
-         technic_cnc.register_onecurvededge(recipeitem, groups, images, desc_onecurvededge)
-         technic_cnc.register_twocurvededge(recipeitem, groups, images, desc_twocurvededge)
-         technic_cnc.register_cylinder(recipeitem, groups, images, desc_cylinder)
-         technic_cnc.register_cylinder_horizontal(recipeitem, groups, images, desc_cylinder_horizontal)
-         technic_cnc.register_spheroid(recipeitem, groups, images, desc_spheroid)
-         technic_cnc.register_element_straight(recipeitem, groups, images, desc_element_straight)
-         technic_cnc.register_element_edge(recipeitem, groups, images, desc_element_edge)
-         technic_cnc.register_element_t(recipeitem, groups, images, desc_element_t)
-         technic_cnc.register_element_cross(recipeitem, groups, images, desc_element_cross)
-         technic_cnc.register_element_end(recipeitem, groups, images, desc_element_end)
-end
-
--- REGISTER STICKS: noncubic.register_xyz(recipeitem, groups, images, desc_element_xyz)
-------------------------------------------------------------------------------------------------------------
-function technic_cnc.register_stick_etc(recipeitem, groups, images, desc_stick)
-		-- TODO: Remove this evil sorcery
-         technic_cnc.register_stick(recipeitem, groups, images, desc_stick)
-end
-
-function technic_cnc.register_elements(recipeitem, groups, images, desc_element_straight_double, desc_element_edge_double, desc_element_t_double, desc_element_cross_double, desc_element_end_double)
-		-- TODO: Remove this evil sorcery
-         technic_cnc.register_element_straight_double(recipeitem, groups, images, desc_element_straight_double)
-         technic_cnc.register_element_edge_double(recipeitem, groups, images, desc_element_edge_double)
-         technic_cnc.register_element_t_double(recipeitem, groups, images, desc_element_t_double)
-         technic_cnc.register_element_cross_double(recipeitem, groups, images, desc_element_cross_double)
-         technic_cnc.register_element_end_double(recipeitem, groups, images, desc_element_end_double)
 end
 
