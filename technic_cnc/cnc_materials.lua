@@ -10,6 +10,7 @@ local function register_material(nodename, tiles_override, descr_override)
 	end
 
 	local groups = {
+		cracky = ndef.groups.cracky,
 		crumbly = ndef.groups.crumbly,
 		choppy = ndef.groups.choppy,
 		flammable = ndef.groups.flammable,
@@ -19,6 +20,12 @@ local function register_material(nodename, tiles_override, descr_override)
 		oddly_breakable_by_hand = ndef.groups.oddly_breakable_by_hand,
 		not_in_creative_inventory = 1,
 	}
+	local count = 0
+	for _ in pairs(groups) do
+		count = count + 1
+	end
+	assert(count >= 2, "Too few groups. node name=" .. nodename)
+
 	local tiles = tiles_override or { ndef.tiles[#ndef.tiles] }
 	assert(tiles and #tiles == 1, "Unknown tile format in node name=" .. nodename)
 
