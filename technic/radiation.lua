@@ -28,9 +28,26 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
+local rad_resistance_node = {}
+local rad_resistance_group = {}
+local cache_radiation_resistance = {}
+
+-- Function to register node-specific resistance
+function technic.register_rad_resistance(node_name, resistance)
+    rad_resistance_node[node_name] = resistance
+    cache_radiation_resistance[node_name] = nil -- Invalidate cache
+end
+
+-- Function to register multiple node resistances at once
+function technic.register_multiple_resistances(resistances)
+    for node_name, resistance in pairs(resistances) do
+        technic.register_rad_resistance(node_name, resistance)
+    end
+end
+
 local S = technic.getter
 
-local rad_resistance_node = {
+local node_resistances = {
 	["default:brick"] = 13,
 	["default:bronzeblock"] = 45,
 	["default:clay"] = 15,
@@ -165,38 +182,62 @@ local rad_resistance_node = {
 	["tnt:tnt"] = 11,
 	["tnt:tnt_burning"] = 11,
 }
-local rad_resistance_group = {
-	concrete = 16,
-	tree = 3.4,
-	uranium_block = 500,
-	wood = 1.7,
-}
-local cache_radiation_resistance = {}
-local function node_radiation_resistance(node_name)
-	local resistance = cache_radiation_resistance[node_name]
-	if resistance then
-		return resistance
-	end
-	local def = minetest.registered_nodes[node_name]
-	if not def then
-		cache_radiation_resistance[node_name] = 0
-		return 0
-	end
-	resistance = def.radiation_resistance or
-			rad_resistance_node[node_name]
-	if not resistance then
-		resistance = 0
-		for g, v in pairs(def.groups) do
-			if v > 0 and rad_resistance_group[g] then
-				resistance = resistance + rad_resistance_group[g]
-			end
-		end
-	end
-	resistance = math.sqrt(resistance)
-	cache_radiation_resistance[node_name] = resistance
-	return resistance
+
+-- Register all node resistances at once
+technic.register_multiple_resistances(node_resistances)
+
+-- Function to register group-specific resistance
+function technic.register_group_resistance(group_name, resistance)
+    rad_resistance_group[group_name] = resistance
+    -- Invalidate cache for all nodes in this group
+    for node_name, def in pairs(minetest.registered_nodes) do
+        if def.groups[group_name] then
+            cache_radiation_resistance[node_name] = nil
+        end
+    end
 end
 
+technic.register_group_resistance("concrete", 16)
+technic.register_group_resistance("tree", 3.4)
+technic.register_group_resistance("uranium_block", 500)
+technic.register_group_resistance("wood", 1.7)
+
+-- Function to calculate radiation resistance
+function node_radiation_resistance(node_name)
+    local resistance = cache_radiation_resistance[node_name]
+    if resistance then
+        return resistance
+    end
+    local def = minetest.registered_nodes[node_name]
+    if not def then
+        cache_radiation_resistance[node_name] = 0
+        return 0
+    end
+
+    -- Check for rad_resistance group in node definition
+    resistance = 0
+    for g, v in pairs(def.groups) do
+        if g == "rad_resistance" then
+            resistance = resistance + v
+        end
+    end
+
+    -- If no rad_resistance group, use registered node-specific resistance
+    if resistance == 0 then
+        resistance = rad_resistance_node[node_name] or 0
+    end
+
+    -- Add group-specific resistance if applicable
+    for g, v in pairs(def.groups) do
+        if v > 0 and rad_resistance_group[g] then
+            resistance = resistance + rad_resistance_group[g]
+        end
+    end
+
+    resistance = math.sqrt(resistance)
+    cache_radiation_resistance[node_name] = resistance
+    return resistance
+end
 
 --[[
 Radioactive nodes cause damage to nearby players.  The damage
