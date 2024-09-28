@@ -106,7 +106,7 @@ minetest.register_node(":technic:lead_block", {
 	description = S("Lead Block"),
 	tiles = { "technic_lead_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=80},
 	sounds = default.node_sound_stone_defaults()
 })
 
