@@ -222,7 +222,7 @@ function node_radiation_resistance(node_name)
     end
 
     -- If no rad_resistance group, use registered node-specific resistance
-    if resistance == 0 then
+    if resistance >= 0 then
         resistance = rad_resistance_node[node_name] or 0
     end
 
