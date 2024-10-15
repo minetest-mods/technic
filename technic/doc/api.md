@@ -145,6 +145,10 @@ Unsorted functions:
 	* Some configuration function
 * `technic.tube_inject_item(pos, start_pos, velocity, item)`
 	* Same as `pipeworks.tube_inject_item`
+* `technic.register_rad_resistance(node_name, resistance)`
+	* Sets the radiation resistance of the given node.
+	* `node_name`: name of the node
+	* `resistance`: number, radiation resistance of the node
 
 ### Energy modifiers
 * `technic.set_RE_wear(itemstack, item_load, max_charge)`
@@ -193,6 +197,9 @@ Groups:
 	* UNRELIABLE. Indicates whether the item or node belongs to technic
 * `connect_sides = {"top", "left", ...}`
 	* Extends the Minetest API. Indicates where the machine can be connected.
+* `radioactive = <radiation>`
+	* Makes the node radioactive.
+ 	* `<radiation>`: Strength of the node's radiation (ex. `80`).
 
 Additional definition fields:
 
