@@ -197,7 +197,7 @@ technic.register_group_resistance("uranium_block", 500)
 technic.register_group_resistance("wood", 1.7)
 
 -- Function to calculate radiation resistance
-function node_radiation_resistance(node_name)
+local function node_radiation_resistance(node_name)
 	local resistance = cache_radiation_resistance[node_name]
 	if resistance then
 		return resistance
