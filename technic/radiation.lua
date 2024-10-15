@@ -38,13 +38,6 @@ function technic.register_rad_resistance(node_name, resistance)
     cache_radiation_resistance[node_name] = nil -- Invalidate cache
 end
 
--- Function to register multiple node resistances at once
-function technic.register_multiple_resistances(resistances)
-    for node_name, resistance in pairs(resistances) do
-        technic.register_rad_resistance(node_name, resistance)
-    end
-end
-
 local S = technic.getter
 
 local node_resistances = {
@@ -183,7 +176,9 @@ local node_resistances = {
 }
 
 -- Register all node resistances at once
-technic.register_multiple_resistances(node_resistances)
+for node_name, resistance in pairs(node_resistances) do
+    technic.register_rad_resistance(node_name, resistance)
+end
 
 -- Function to register group-specific resistance
 function technic.register_group_resistance(group_name, resistance)
