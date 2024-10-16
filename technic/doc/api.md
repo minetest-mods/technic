@@ -199,7 +199,10 @@ Groups:
 	* Extends the Minetest API. Indicates where the machine can be connected.
 * `radioactive = <radiation>`
 	* Makes the node radioactive.
- 	* `<radiation>`: Strength of the node's radiation (ex. `80`).
+ 	* `<radiation>`: Strength of the node's radiation (ex. `2`).
+* `rad_resistance = <resistance>`
+	* Makes the node resistant to radiation.
+	* `<resistance>`: Strength of the node's resistance (ex. `80`).
 
 Additional definition fields:
 
