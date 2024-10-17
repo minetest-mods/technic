@@ -28,14 +28,15 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
-local rad_resistance_node = {}
-local rad_resistance_group = {}
-local cache_radiation_resistance = {}
-
 -- Function to register node-specific resistance
 function technic.register_rad_resistance(node_name, resistance)
-	rad_resistance_node[node_name] = resistance
-	cache_radiation_resistance[node_name] = nil -- Invalidate cache
+	local node = minetest.registered_nodes[node_name]
+	if node then
+		if not node.groups then
+			node.groups = {}
+		end
+        node.groups.rad_resistance = resistance
+	end
 end
 
 local S = technic.getter
@@ -182,11 +183,11 @@ end
 
 -- Function to register group-specific resistance
 function technic.register_group_resistance(group_name, resistance)
-	rad_resistance_group[group_name] = resistance
-	-- Invalidate cache for all nodes in this group
-	for node_name, def in pairs(minetest.registered_nodes) do
-		if def.groups[group_name] then
-			cache_radiation_resistance[node_name] = nil
+	for node_name, node_def in pairs(minetest.registered_nodes) do
+		if node_def.groups[group_name] then
+			if not node_def.groups.rad_resistance then
+				node_def.groups.rad_resistance = resistance
+			end
 		end
 	end
 end
@@ -198,39 +199,18 @@ technic.register_group_resistance("wood", 1.7)
 
 -- Function to calculate radiation resistance
 local function node_radiation_resistance(node_name)
-	local resistance = cache_radiation_resistance[node_name]
-	if resistance then
-		return resistance
-	end
 	local def = minetest.registered_nodes[node_name]
 	if not def then
-		cache_radiation_resistance[node_name] = 0
 		return 0
 	end
-	
-	-- Check for rad_resistance group in node definition
-	resistance = 0
-	for g, v in pairs(def.groups) do
-		if g == "rad_resistance" then
-			resistance = resistance + v
-		end
-	end
 
-	-- If no rad_resistance group, use registered node-specific resistance
-	if resistance >= 0 then
-		resistance = rad_resistance_node[node_name] or 0
+	local resistance = 0
+	-- Add rad_resistance group value if it exists
+	if def.groups.rad_resistance then
+		resistance = resistance + def.groups.rad_resistance
 	end
-
-	-- Add group-specific resistance if applicable
-	for g, v in pairs(def.groups) do
-		if v > 0 and rad_resistance_group[g] then
-			resistance = resistance + rad_resistance_group[g]
-		end
-	end
-
-	resistance = math.sqrt(resistance)
-	cache_radiation_resistance[node_name] = resistance
-	return resistance
+    
+	return math.sqrt(resistance)
 end
 
 --[[
