@@ -149,6 +149,10 @@ Unsorted functions:
 	* Sets the radiation resistance of the given node.
 	* `node_name`: name of the node
 	* `resistance`: number, radiation resistance of the node
+* `technic.register_group_resistance(group_name, resistance)`
+	* Sets the radiation resistance of the given group of nodes.
+	* `group_name`: name of the group
+	* `resistance`: number, radiation resistance of the group
 
 ### Energy modifiers
 * `technic.set_RE_wear(itemstack, item_load, max_charge)`
