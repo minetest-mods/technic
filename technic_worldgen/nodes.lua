@@ -5,7 +5,7 @@ minetest.register_node( ":technic:mineral_uranium", {
 	description = S("Uranium Ore"),
 	tiles = { "default_stone.png^technic_mineral_uranium.png" },
 	is_ground_content = true,
-	groups = {cracky=3, radioactive=1},
+	groups = {cracky=3, radioactive=1, rad_resistance=71},
 	sounds = default.node_sound_stone_defaults(),
 	drop = "technic:uranium_lump",
 })
@@ -14,7 +14,7 @@ minetest.register_node( ":technic:mineral_chromium", {
 	description = S("Chromium Ore"),
 	tiles = { "default_stone.png^technic_mineral_chromium.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, rad_resistance=19},
 	sounds = default.node_sound_stone_defaults(),
 	drop = "technic:chromium_lump",
 })
@@ -23,7 +23,7 @@ minetest.register_node( ":technic:mineral_zinc", {
 	description = S("Zinc Ore"),
 	tiles = { "default_stone.png^technic_mineral_zinc.png" },
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, rad_resistance=19},
 	sounds = default.node_sound_stone_defaults(),
 	drop = "technic:zinc_lump",
 })
@@ -50,7 +50,7 @@ minetest.register_node( ":technic:granite", {
 	description = S("Granite"),
 	tiles = { "technic_granite.png" },
 	is_ground_content = true,
-	groups = {cracky=1},
+	groups = {cracky=1, rad_resistance=18},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -58,7 +58,7 @@ minetest.register_node( ":technic:granite_bricks", {
 	description = S("Granite Bricks"),
 	tiles = { "technic_granite_bricks.png" },
 	is_ground_content = false,
-	groups = {cracky=1},
+	groups = {cracky=1, rad_resistance=18},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -66,7 +66,7 @@ minetest.register_node( ":technic:marble", {
 	description = S("Marble"),
 	tiles = { "technic_marble.png" },
 	is_ground_content = true,
-	groups = {cracky=3, marble=1},
+	groups = {cracky=3, marble=1, rad_resistance=18},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -74,7 +74,7 @@ minetest.register_node( ":technic:marble_bricks", {
 	description = S("Marble Bricks"),
 	tiles = { "technic_marble_bricks.png" },
 	is_ground_content = false,
-	groups = {cracky=3},
+	groups = {cracky=3, rad_resistance=18},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -90,7 +90,7 @@ minetest.register_node(":technic:chromium_block", {
 	description = S("Chromium Block"),
 	tiles = { "technic_chromium_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=37},
 	sounds = default.node_sound_stone_defaults()
 })
 
@@ -98,7 +98,7 @@ minetest.register_node(":technic:zinc_block", {
 	description = S("Zinc Block"),
 	tiles = { "technic_zinc_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=36},
 	sounds = default.node_sound_stone_defaults()
 })
 
@@ -121,7 +121,7 @@ minetest.register_node(":technic:cast_iron_block", {
 	description = S("Cast Iron Block"),
 	tiles = { "technic_cast_iron_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=40},
 	sounds = default.node_sound_stone_defaults()
 })
 
@@ -129,7 +129,7 @@ minetest.register_node(":technic:carbon_steel_block", {
 	description = S("Carbon Steel Block"),
 	tiles = { "technic_carbon_steel_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=40},
 	sounds = default.node_sound_stone_defaults()
 })
 
@@ -137,7 +137,7 @@ minetest.register_node(":technic:stainless_steel_block", {
 	description = S("Stainless Steel Block"),
 	tiles = { "technic_stainless_steel_block.png" },
 	is_ground_content = true,
-	groups = {cracky=1, level=2},
+	groups = {cracky=1, level=2, rad_resistance=40},
 	sounds = default.node_sound_stone_defaults()
 })
 
