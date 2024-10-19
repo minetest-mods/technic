@@ -197,7 +197,7 @@ local function node_radiation_resistance(node_name)
 	if def.groups.rad_resistance then
 		resistance = resistance + def.groups.rad_resistance
 	end
-   
+	
 	return math.sqrt(resistance)
 end
 
