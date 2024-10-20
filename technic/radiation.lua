@@ -185,21 +185,29 @@ technic.register_group_resistance("tree", 3.4)
 technic.register_group_resistance("uranium_block", 500)
 technic.register_group_resistance("wood", 1.7)
 
--- Function to calculate radiation resistance
+technic.resistance_cache = {}
+
+function technic.cache_resistances()
+	for node_name, node_def in pairs(minetest.registered_nodes) do
+		local resistance = 0
+		if node_def.groups and node_def.groups.rad_resistance then
+			resistance = node_def.groups.rad_resistance
+		end
+		technic.resistance_cache[node_name] = resistance
+	end
+end
+
 local function node_radiation_resistance(node_name)
-	local def = minetest.registered_nodes[node_name]
-	if not def then
+	local cached_resistance = technic.resistance_cache[node_name]
+	if cached_resistance then
+		return math.sqrt(cached_resistance)
+	else
 		return 0
 	end
-
-	local resistance = 0
-	-- Add rad_resistance group value if it exists
-	if def.groups.rad_resistance then
-		resistance = resistance + def.groups.rad_resistance
-	end
-
-	return math.sqrt(resistance)
 end
+
+-- Initialize cache
+technic.cache_resistances()
 
 --[[
 Radioactive nodes cause damage to nearby players.  The damage
