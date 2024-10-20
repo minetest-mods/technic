@@ -145,14 +145,6 @@ Unsorted functions:
 	* Some configuration function
 * `technic.tube_inject_item(pos, start_pos, velocity, item)`
 	* Same as `pipeworks.tube_inject_item`
-* `technic.register_rad_resistance(node_name, resistance)`
-	* Sets the radiation resistance of the given node.
-	* `node_name`: name of the node
-	* `resistance`: number, radiation resistance of the node
-* `technic.register_group_resistance(group_name, resistance)`
-	* Sets the radiation resistance of the given group of nodes.
-	* `group_name`: name of the group
-	* `resistance`: number, radiation resistance of the group
 
 ### Energy modifiers
 * `technic.set_RE_wear(itemstack, item_load, max_charge)`
@@ -279,6 +271,20 @@ Network functionality:
 4. Excess power draw will discharge batteries evenly.
 5. If the total demand is more than the available power all RE nodes will be shut
    down. We have a brown-out situation.
+
+
+## Radiation
+* `technic.register_rad_resistance(node_name, resistance)`
+	* Sets the radiation resistance of the given node.
+	* `node_name`: name of the node
+	* `resistance`: number, radiation resistance of the node
+* `technic.register_group_resistance(group_name, resistance)`
+	* Sets the radiation resistance of the given group of nodes.
+	* `group_name`: name of the group
+	* `resistance`: number, radiation resistance of the group
+* `technic.cache_resistances()`
+	* Cache radiation resistances after Technic loads.
+
 
 ## Deprecated functions
 
