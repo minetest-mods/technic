@@ -1,7 +1,7 @@
 
 local digilines_path = minetest.get_modpath("digilines")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -92,7 +92,7 @@ local dirtab = {
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
-		--print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
+		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return stack
@@ -106,7 +106,7 @@ local tube = {
 		end
 	end,
 	can_insert = function(pos, node, stack, direction)
-		--print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
+		print(minetest.pos_to_string(direction), dirtab[direction.x+2+(direction.z+2)*2], node.param2)
 		if direction.y == 1
 			or (direction.y == 0 and dirtab[direction.x+2+(direction.z+2)*2] == node.param2) then
 			return false
@@ -166,7 +166,7 @@ function technic.register_battery_box(data)
 		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
 		"list[context;dst;5,1;1,1;]"..
-		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+		"label[0,0;"..S("@1 Battery Box",tier).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
@@ -196,7 +196,7 @@ function technic.register_battery_box(data)
 		local network_id = tonumber(meta:get_string(tier.."_network"))
 
 		if not technic.networks[network_id] then
-			meta:set_string("infotext", S("%s Battery Box Has No Network"):format(tier))
+			meta:set_string("infotext", S("@1 Battery Box Has No Network", tier))
 			return
 		end
 
@@ -259,7 +259,7 @@ function technic.register_battery_box(data)
 				technic.EU_string(current_charge),
 				technic.EU_string(max_charge))
 		if eu_input == 0 then
-			infotext = S("%s Idle"):format(infotext)
+			infotext = S("@1 Idle", infotext)
 		end
 		meta:set_string("infotext", infotext)
 	end
@@ -288,7 +288,7 @@ function technic.register_battery_box(data)
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
-			description = S("%s Battery Box"):format(tier),
+			description = S("@1 Battery Box", tier),
 			tiles = {
 				top_tex,
 				bottom_tex,
@@ -312,7 +312,7 @@ function technic.register_battery_box(data)
 				local charge = meta:get_int("internal_EU_charge")
 				local cpercent = math.floor(charge / max_charge * 100)
 				local inv = meta:get_inventory()
-				meta:set_string("infotext", S("%s Battery Box"):format(tier))
+				meta:set_string("infotext", S("@1 Battery Box", tier))
 				meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
 				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)

@@ -1,0 +1,168 @@
+# German Translation for Technic Mod
+# Deutsche Uebersetzung des Technic Mods
+# by Xanthin
+
+## Misc
+[Technic] Loaded in %f seconds = [Technic] ist in %f Sekunden geladen
+
+## Items
+Silicon Wafer = Siliziumscheibe
+Doped Silicon Wafer = Dotierte Siliziumscheibe
+Enriched Uranium = Angereichertes Uran
+Uranium Fuel = Uranbrennstoff
+Diamond Drill Head = Diamantbohrkopf
+Blue Energy Crystal = Blauer Energiekristall
+Green Energy Crystal = Gruener Energiekristall
+Red Energy Crystal = Roter Energiekristall
+Fine Copper Wire = Feinkupferdraht
+Copper Coil = Kupferspule
+Electric Motor = Elektromotor
+Low Voltage Transformer = Niederspannungstransformator
+Medium Voltage Transformer = Mittelspannungstransformator
+High Voltage Transformer = Hochspannungstransformator
+Control Logic Unit = Steuer- und Regelungseinheit
+Mixed Metal Ingot = Mischmetallbarren
+Composite Plate = Verbundplatte
+Copper Plate = Kupferplatte
+Carbon Plate = Kohlefaserplatte
+Graphite = Graphit
+Carbon Cloth = Kohlefasergewebe
+Raw Latex = Rohlatex
+Rubber Fiber = Gummifaser
+%.1f%%-Fissile Uranium Ingot =
+%.1f%%-Fissile Uranium Block =
+
+## Machine misc
+Machine cannot be removed because it is not empty = Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
+Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugriff verweigert.
+# $1: Machine name (Includes tier)
+@1 Active (@2 EU) = @1 ist eingeschaltet (@2 EU)
+%s Active = %s ist eingeschaltet
+%s Disabled = %s ist ausgeschaltet
+%s Enabled =
+%s Idle = %s ist bereit
+%s Improperly Placed = %s ist falsch plaziert
+%s Unpowered = %s hat keine Stromversorgung
+%s Out Of Fuel = %s hat keinen Brennstoff
+%s Has Bad Cabling = %s ist falsch verkabelt
+%s Has No Network = %s hat kein Netzwerk
+%s Finished = %s ist fertig
+Enable/Disable = Einschalten/Ausschalten
+Range = Reichweite
+Upgrade Slots = Verbesserungsfaecher
+In: = Rein:
+Out: = Raus:
+Slot %d = Fach %d
+Itemwise = Einzelstuecke
+Stackwise = Ganzer Stapel
+Owner: =
+Unlocked =
+Locked =
+Radius: =
+Enabled =
+Disabled =
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace = %s Legierungsofen
+%s Battery Box = %s Batteriebox
+%s Cable = %s Kabel
+%s Compressor = %s Kompressor
+%s Extractor = %s Extraktor
+%s Forcefield Emitter = %s Kraftfeld-Emitter
+%s Furnace = %s Ofen
+%s Grinder = %s Schleifmaschine
+%s Music Player = %s Musikspieler
+%s Quarry = %s Steinbruch
+%s Tool Workshop = %s Werkzeugwerkstatt
+Arrayed Solar %s Generator = %s Solaranlage
+Fuel-Fired %s Generator = %s Kohle-Generator
+Geothermal %s Generator = %s Geothermie-Generator
+Hydro %s Generator = %s Wassermuehle
+Nuclear %s Generator Core = %s Reaktorkern
+Small Solar %s Generator = %s Solarmodul
+Wind %s Generator = %s Windmuehle
+Self-Contained Injector = Selbstversorger-Injektor
+Constructor Mk%d = Konstruktor Modell %d
+Frame = Rahmen
+Frame Motor = Rahmenmotor
+Template = Schablone
+Template (replacing) = Schablone (ersetzend)
+Template motor = Schablonenmotor
+Template tool = Schablonenwerkzeug
+Battery Box = Batteriebox
+Supply Converter = Stromumwandler
+Switching Station = Schaltanlage
+Fuel-Fired Alloy Furnace = Kohle-Legierungsofen
+Fuel-Fired Furnace = Kohle-Ofen
+Wind Mill Frame = Windmuehlengeruest
+Forcefield = Kraftfeld
+Nuclear Reactor Rod Compartment = Brennstabfaecher
+Administrative World Anchor =
+
+## Machine-specific
+# $1: Pruduced EU
+Charge = Aufladen
+Discharge = Entladen
+Power level = Energiestufe
+# $1: Tier $2: current_charge $3: max_charge
+@1 Battery Box: @2/@3 = @1 Batteriebox: @2/@3
+# $1: Machine name $2: Supply $3: Demand
+@1. Supply: @2 Demand: @3 = @1. Versorgung: @2 Bedarf: @3
+Production at %d%% = Produktion bei %d%%
+Choose Milling Program: = Waehle ein Fraesprogramm:
+Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
+Current track %s = Aktueller Titel %s
+Stopped =
+Keeping %d/%d map blocks loaded =
+Digging not started =
+Digging finished =
+Digging %d m above machine =
+Digging %d m below machine =
+
+## Grinder Recipes
+# $1: Name
+%s Dust = %sstaub
+Akalin = Akalin
+Alatro = Alatro
+Arol = Arol
+Brass = Messing
+Bronze = Bronze
+Carbon Steel = Kohlenstoffstahl
+Cast Iron = Gusseisen
+Chromium = Chrom
+Coal = Kohle
+Copper = Kupfer
+Gold = Gold
+Mithril = Mithril
+Silver = Silber
+Stainless Steel = Edelstahl
+Talinite = Talinite
+Tin = Zinn
+Wrought Iron = Schmiedeeisen
+Zinc = Zink
+%.1f%%-Fissile Uranium =
+
+## Tools
+RE Battery = Akkubatterie
+Water Can = Wasserkanister
+Lava Can = Lavakanister
+Chainsaw = Kettensaege
+Flashlight = Taschenlampe
+3 nodes deep. = 3 Bloecke tief.
+3 nodes tall. = 3 Bloecke hoch.
+3 nodes wide. = 3 Bloecke breit.
+3x3 nodes. = 3x3 Bloecke.
+Use while sneaking to change Mining Drill Mk%d modes. = Halte die Shift-Taste beim Benutzen gedrueckt, um die Funktion des Bergbaubohrers Modell %d zu aendern.
+Mining Drill Mk%d Mode %d = Bergbaubohrer Modell %d Funktion %d
+Mining Drill Mk%d = Bergbaubohrer Modell %d
+Mining Laser Mk%d = Bergbaulaser Modell %d
+Single node. = Einzelblock
+Sonic Screwdriver = Schallschraubendreher
+Tree Tap = Baumzapfhahn
+
+## Craft descriptions
+Alloy cooking =
+Grinding =
+Compressing =
+Extracting =

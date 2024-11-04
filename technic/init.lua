@@ -32,7 +32,7 @@ else
 		end)
 	end
 end
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 -- Read configuration file
 dofile(modpath.."/config.lua")

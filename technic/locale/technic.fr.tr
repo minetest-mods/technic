@@ -1,0 +1,215 @@
+# template.txt
+# Template for translations of Technic
+
+## Misc
+[Technic] Loaded in %f seconds                          = [Technic] Chargement en %f secondes
+                                                        
+## Items                                                
+Silicon Wafer                                           = Tranche de silicium
+Doped Silicon Wafer                                     = Tranche de silicium doppée
+Enriched Uranium                                        = Uranium enrichi
+Uranium Fuel                                            = Uranium 235
+Diamond Drill Head                                      = Tête de forage en diamant
+Blue Energy Crystal                                     = Cristal d'énergie bleu
+Green Energy Crystal                                    = Cristal d'énergie vert
+Red Energy Crystal                                      = Cristal d'énergie rouge
+Fine Copper Wire                                        = Fil en cuivre fin
+Fine Gold Wire                                          = Fil en or fin
+Fine Silver Wire                                        = Fil en argent fin
+Copper Coil                                             = Bobine de cuivre
+Electric Motor                                          = Moteur électrique
+Low Voltage Transformer                                 = Transformateur basse tension
+Medium Voltage Transformer                              = Transformateur moyenne tension
+High Voltage Transformer                                = Transformateur haute tension
+Control Logic Unit                                      = Unité de contrôle logique
+Mixed Metal Ingot                                       = Lingot de métal allié
+Composite Plate                                         = Plaque composite
+Copper Plate                                            = Plaque de cuivre
+Carbon Plate                                            = Plaque de carbone
+Graphite                                                = Graphite
+Carbon Cloth                                            = Fibre de carbone
+Raw Latex                                               = Latex brut
+Rubber Fiber                                            = Fibre de caoutchouc
+%.1f%%-Fissile Uranium Ingot                            = Lingot d'uranium fissile (%.1f%%)
+%.1f%%-Fissile Uranium Block                            = Bloc d'uranium fissile (%.1f%%)
+
+## Machine misc
+Machine cannot be removed because it is not empty       = La machine ne peut pas être retirée car elle n'est pas vide
+Inventory move disallowed due to protection             = Le mouvement d'inventaire n'est pas autorisé en raison de la protection
+
+# $1: Machine name (Includes tier)
+@1 Active (@2 EU)                                       = @1 Active (@2 EU)
+%s Active                                               = %s actif
+%s Disabled                                             = %s désactivé
+%s Enabled                                              = %s activé
+%s Idle                                                 = %s au repos
+%s Improperly Placed                                    = %s est mal placé
+%s is empty                                             = %s est vide
+%s Unpowered                                            = %s non alimenté en énergie
+%s Out Of Fuel                                          = %s plus de carburant
+%s Has Bad Cabling                                      = %s est mal cablé
+%s (Slave)                                              = %s (esclave)
+%s Has No Network                                       = %s n'a pas de réseau
+%s Finished                                             = %s a fini
+Enable/Disable                                          = Activer/Désactiver
+Range                                                   = Plage
+Upgrade Slots                                           = Emplacement d'amélioration
+In:                                                     = Entrée :
+Out:                                                    = Sortie :
+Slot %d                                                 = Emplacement %d
+Itemwise                                                = Item par Item
+Stackwise                                               = Stack par Stack
+Ignoring Mesecon Signal                                 = Ignorer le signal Mesecon
+Controlled by Mesecon Signal                            = Contrôlé par signal Mesecon
+Owner:                                                  = Propriétaire :
+Unlocked                                                = Déverrouillé
+Locked                                                  = Verrouillé
+Radius:                                                 = Rayon :
+Enabled                                                 = Activé
+Disabled                                                = Désactivé
+
+## Machine names
+# $1: Tier
+%s Alloy Furnace                                        = Four à alliage %s
+%s Battery Box                                          = Batterie %s
+%s Cable                                                = Câble %s
+%s CNC Machine                                          = Machine-outils %s
+%s Centrifuge                                           = Centrifugeuse %s
+%s Compressor                                           = Compresseur %s
+%s Extractor                                            = Extracteur %s
+%s Forcefield Emitter                                   = Emetteur de champ de force %s
+%s Furnace                                              = Four %s
+%s Grinder                                              = Broyeur %s
+%s Music Player                                         = Grammophone %s
+%s Quarry                                               = Carrière %s
+%s Tool Workshop                                        = Atelier d'outillage %s
+Arrayed Solar %s Generator                              = Générateur solaire %s
+Fuel-Fired %s Generator                                 = Générateur thermique %s
+Geothermal %s Generator                                 = Géénarteur géothermique %s
+Hydro %s Generator                                      = Générateur hydroélectrique %s
+Nuclear %s Generator Core                               = Générateur nucléaire %
+Small Solar %s Generator                                = Petit générateur solaire %s
+Wind %s Generator                                       = Générateur éolien %s
+Self-Contained Injector                                 = Injecteur autonome
+Constructor Mk%d                                        = Constructeur Mk%d
+Frame                                                   = Cadre
+Frame Motor                                             = Cadre de moteur
+Template                                                = Modèle
+Template (replacing)                                    =
+Template Motor                                          =
+Template Tool                                           =
+Battery Box                                             = Compartiment à batterie
+Supply Converter                                        = Convertisseur de tension
+Switching Station                                       = Station de commutation
+Fuel-Fired Alloy Furnace                                = Four à alliage à carburant
+Fuel-Fired Furnace                                      = Four à carburant
+Wind Mill Frame                                         = Cadre d'éolienne
+Forcefield                                              = Champ de force
+Nuclear Reactor Rod Compartment                         = Compartiment à barres du réacteur nucléaire
+Administrative World Anchor                             =
+                                                        
+## Machine-specific                                     
+# $1: Pruduced EU                                       
+Charge                                                  = Charger
+Discharge                                               = Décharger
+Power level                                             = Niveau d'énergie
+
+# $1: Tier $2: current_charge $3: max_charge 
+@1 Battery Box: @2/@3                                   = @1 batterie : @2/@3
+                                                        
+# $1: Machine name $2: Supply $3: Demand                
+@1. Supply: @2 Demand: @3                               = @1. fournit : @2 demande : @3
+Production at %d%%                                      = Production à %d%%
+Choose Milling Program:                                 = Choisissez le programme de fraisage :
+Slim Elements half / normal height:                     =
+Current track %s                                        = Morceau actuel %s
+Stopped                                                 = Arrêté
+Keeping %d/%d map blocks loaded                         =
+Digging not started                                     = Creusement non démarré
+Digging finished                                        = Creusement terminé
+Digging %d m above machine                              = Creusement à %dm au dessus de la machine
+Digging %d m below machine                              = Creusement à %dm en dessous de la machine
+@1 (@2 @3 -> @4 @5)                                     = @1 (@2 @3 -> @4 @5)
+                                                        
+## CNC                                                  
+Cylinder                                                =
+Element Cross                                           = Elément croisé
+Element Cross Double                                    = Elément croisé (double)
+Element Edge                                            = Elément de bordure
+Element Edge Double                                     = Elément de bordure (double)
+Element End                                             = Elément de fin
+Element End Double                                      = Elément de fin (double)
+Element Straight                                        = Elément droit
+Element Straight Double                                 = Elément droit (double)
+Element T                                               = Elément en T
+Element T Double                                        = Elément en T (double)
+Horizontal Cylinder                                     = Cylindre horizontal
+One Curved Edge Block                                   = Bloc à un bord incurvé
+Pyramid                                                 = Pyramide
+Slope                                                   = Pente
+Slope Edge                                              =
+Slope Inner Edge                                        =
+Slope Lying                                             =
+Slope Upside Down                                       =
+Slope Upside Down Edge                                  =
+Slope Upside Down Inner Edge                            =
+Sphere                                                  = Sphère
+Spike                                                   = Pointe
+Stick                                                   = Bâton
+Two Curved Edge Block                                   = Bloc à deux bords incurvés
+Brick                                                   = Brique
+Cobble                                                  = Pierre taillée
+Dirt                                                    = Terre
+Leaves                                                  = Feuilles
+Sandstone                                               = Grès
+Stone                                                   = Pierre
+Tree                                                    = Arbre
+Wooden                                                  = Bois
+
+## Grinder Recipes
+# $1: Name
+%s Dust                                                 = Poudre de %s
+Akalin                                                  =
+Alatro                                                  =
+Arol                                                    =
+Brass                                                   = Laiton
+Bronze                                                  = Bronze
+Carbon Steel                                            = Acier au carbone
+Cast Iron                                               = Fonte
+Chromium                                                = Chrome
+Coal                                                    = Charbon
+Copper                                                  = Cuivre
+Gold                                                    = Or
+Mithril                                                 = Mithril
+Silver                                                  = Argent
+Stainless Steel                                         = Acier inoxydable
+Talinite                                                = Talanite
+Tin                                                     = Etain
+Wrought Iron                                            = Fer
+Zinc                                                    = Zinc
+%.1f%%-Fissile Uranium                                  = Uranium fissile (%.1f%%)
+
+## Tools
+RE Battery                                              = Batterie RE
+Water Can                                               = Jerrycan d'eau
+Lava Can                                                = Jerrycan de lave
+Chainsaw                                                = Tronçonneuse
+Flashlight                                              = Lampe-torche
+3 nodes deep.                                           =
+3 nodes tall.                                           =
+3 nodes wide.                                           =
+3x3 nodes.                                              =
+Use while sneaking to change Mining Drill Mk%d modes.   =
+Mining Drill Mk%d Mode %d                               = Foreuse Mk%d Mode %d
+Mining Drill Mk%d                                       = Foreuse Mk%d
+Mining Laser Mk%d                                       = Foreuse laser Mk%d
+Single node.                                            = Mode simple.
+Sonic Screwdriver                                       = Tournevis supersonique
+Tree Tap                                                = Robinet à sève
+
+## Craft descriptions
+Alloy cooking                                           = Fonderie d'alliage
+Grinding                                                = Broyage
+Compressing                                             = Compression
+Extracting                                              = Extraction
+Separating                                              = Séparation
