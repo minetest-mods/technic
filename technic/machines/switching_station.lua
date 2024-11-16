@@ -468,20 +468,27 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		local has_network = false
+		local technic_machine = false
 		for tier, machines in pairs(technic.machines) do
-			if machines[node.name] and switching_station_timeout_count(pos, tier) then
-				local nodedef = minetest.registered_nodes[node.name]
-				if nodedef then
-					local meta = minetest.get_meta(pos)
-					meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
-				end
-				if nodedef and nodedef.technic_disabled_machine_name then
-					node.name = nodedef.technic_disabled_machine_name
-					minetest.swap_node(pos, node)
-				end
-				if nodedef and nodedef.technic_on_disable then
-					nodedef.technic_on_disable(pos, node)
-				end
+			if machines[node.name] then
+				technic_machine = true
+				has_network = has_network or not switching_station_timeout_count(pos, tier)
+			end
+		end
+
+		if technic_machine and not has_network then
+			local nodedef = minetest.registered_nodes[node.name]
+			if nodedef then
+				local meta = minetest.get_meta(pos)
+				meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+			end
+			if nodedef and nodedef.technic_disabled_machine_name then
+				node.name = nodedef.technic_disabled_machine_name
+				minetest.swap_node(pos, node)
+			end
+			if nodedef and nodedef.technic_on_disable then
+				nodedef.technic_on_disable(pos, node)
 			end
 		end
 	end,
