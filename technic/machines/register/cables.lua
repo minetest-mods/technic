@@ -43,7 +43,7 @@ local function check_connections(pos)
 	return connections
 end
 
-local function clear_networks(pos)
+function technic.clear_networks(pos)
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
@@ -77,6 +77,7 @@ local function clear_networks(pos)
 					-- Found a machine
 					local eu_type = technic.machines[tier][node.name]
 					meta:set_string(tier.."_network", string.format("%.20g", network_id))
+					meta:set_int(tier.."_EU_timeout", 2)
 					if     eu_type == technic.producer then
 						table.insert(network.PR_nodes, pos)
 					elseif eu_type == technic.receiver then
@@ -169,8 +170,8 @@ function technic.register_cable(tier, size)
 		node_box = node_box,
 		connects_to = {"group:technic_"..ltier.."_cable",
 			"group:technic_"..ltier, "group:technic_all_tiers"},
-		on_construct = clear_networks,
-		on_destruct = clear_networks,
+		on_construct = technic.clear_networks,
+		on_destruct = technic.clear_networks,
 	})
 
 	local xyz = {
@@ -209,8 +210,8 @@ function technic.register_cable(tier, size)
 			node_box = table.copy(node_box),
 			connects_to = {"group:technic_"..ltier.."_cable",
 				"group:technic_"..ltier, "group:technic_all_tiers"},
-			on_construct = clear_networks,
-			on_destruct = clear_networks,
+			on_construct = technic.clear_networks,
+			on_destruct = technic.clear_networks,
 		}
 		def.node_box.fixed = {
 			{-size, -size, -size, size, size, size},
@@ -295,7 +296,7 @@ end
 local function clear_nets_if_machine(pos, node)
 	for tier, machine_list in pairs(technic.machines) do
 		if machine_list[node.name] ~= nil then
-			return clear_networks(pos)
+			return technic.clear_networks(pos)
 		end
 	end
 end
