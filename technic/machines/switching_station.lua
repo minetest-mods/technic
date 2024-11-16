@@ -481,15 +481,13 @@ minetest.register_abm({
 
 		if technic_machine and not has_network then
 			local nodedef = minetest.registered_nodes[node.name]
-			if nodedef then
-				local meta = minetest.get_meta(pos)
-				meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
-			end
-			if nodedef and nodedef.technic_disabled_machine_name then
+			local meta = minetest.get_meta(pos)
+			meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+			if nodedef.technic_disabled_machine_name then
 				node.name = nodedef.technic_disabled_machine_name
 				minetest.swap_node(pos, node)
 			end
-			if nodedef and nodedef.technic_on_disable then
+			if nodedef.technic_on_disable then
 				nodedef.technic_on_disable(pos, node)
 			end
 		end
