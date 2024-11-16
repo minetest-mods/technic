@@ -68,10 +68,9 @@ function technic.clear_networks(pos)
 
 				-- Actually add it to the (cached) network
 				-- !! IMPORTANT: ../switching_station.lua -> check_node_subp() must be kept in sync
-				technic.cables[minetest.hash_node_position(pos)] = network_id
 				pos.visited = 1
 				if technic.is_tier_cable(node.name, tier) then
-					-- Found a cable
+					technic.cables[minetest.hash_node_position(pos)] = network_id
 					table.insert(network.all_nodes,pos)
 				elseif technic.machines[tier][node.name] then
 					-- Found a machine

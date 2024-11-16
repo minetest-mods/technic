@@ -100,9 +100,11 @@ end
 -- Add a wire node to the LV/MV/HV network
 -- Returns: indicator whether the cable is new in the network
 local hash_node_position = minetest.hash_node_position
-local function add_network_node(nodes, pos, network_id)
+local function add_network_node(nodes, pos, network_id, cable)
 	local node_id = hash_node_position(pos)
-	technic.cables[node_id] = network_id
+	if cable then
+		technic.cables[node_id] = network_id
+	end
 	if nodes[node_id] then
 		return false
 	end
@@ -111,7 +113,7 @@ local function add_network_node(nodes, pos, network_id)
 end
 
 local function add_cable_node(nodes, pos, network_id, queue)
-	if add_network_node(nodes, pos, network_id) then
+	if add_network_node(nodes, pos, network_id, true) then
 		queue[#queue + 1] = pos
 	end
 end
@@ -149,18 +151,18 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 	end
 
 	if     eu_type == technic.producer then
-		add_network_node(network.PR_nodes, pos, network_id)
+		add_network_node(network.PR_nodes, pos, network_id, false)
 	elseif eu_type == technic.receiver then
-		add_network_node(network.RE_nodes, pos, network_id)
+		add_network_node(network.RE_nodes, pos, network_id, false)
 	elseif eu_type == technic.producer_receiver then
-		add_network_node(network.PR_nodes, pos, network_id)
-		add_network_node(network.RE_nodes, pos, network_id)
+		add_network_node(network.PR_nodes, pos, network_id, false)
+		add_network_node(network.RE_nodes, pos, network_id, false)
 	elseif eu_type == technic.battery then
-		add_network_node(network.BA_nodes, pos, network_id)
+		add_network_node(network.BA_nodes, pos, network_id, false)
 	elseif eu_type == "SPECIAL" and from_below and
 			not vector.equals(pos, sw_pos) then
 		-- Another switching station -> disable it
-		add_network_node(network.SP_nodes, pos, network_id)
+		add_network_node(network.SP_nodes, pos, network_id, false)
 		meta:set_int("active", 0)
 	end
 
