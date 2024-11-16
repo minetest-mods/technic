@@ -181,7 +181,7 @@ local traverse_network = function(network, pos, machines, sw_pos, network_id, qu
 	end
 end
 
-local touch_nodes = function(list, tier, network_id)
+local touch_nodes = function(list, tier)
 	for _, pos in ipairs(list) do
 		local meta = minetest.get_meta(pos)
 		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
@@ -193,9 +193,9 @@ local get_network = function(sw_pos, cable_pos, tier)
 	local cached = technic.networks[network_id]
 	if cached and cached.tier == tier then
 		-- Re-use cached system data
-		touch_nodes(cached.PR_nodes, tier, network_id)
-		touch_nodes(cached.BA_nodes, tier, network_id)
-		touch_nodes(cached.RE_nodes, tier, network_id)
+		touch_nodes(cached.PR_nodes, tier)
+		touch_nodes(cached.BA_nodes, tier)
+		touch_nodes(cached.RE_nodes, tier)
 		for _, pos in ipairs(cached.SP_nodes) do
 			-- Disable all other switching stations (again)
 			local meta = minetest.get_meta(pos)
