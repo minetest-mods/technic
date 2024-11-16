@@ -473,7 +473,9 @@ minetest.register_abm({
 		for tier, machines in pairs(technic.machines) do
 			if machines[node.name] then
 				technic_machine = true
-				has_network = has_network or not switching_station_timeout_count(pos, tier)
+				if not switching_station_timeout_count(pos, tier) then
+					has_network = true
+				end
 			end
 		end
 
