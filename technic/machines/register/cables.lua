@@ -52,17 +52,17 @@ local function clear_network(net)
 	technic.networks[net] = nil
 
 	for _,n_pos in pairs(network_bckup.PR_nodes) do
-		technic.clear_networks(n_pos)
+		clear_networks(n_pos)
 	end
 	for _,n_pos in pairs(network_bckup.RE_nodes) do
-		technic.clear_networks(n_pos)
+		clear_networks(n_pos)
 	end
 	for _,n_pos in pairs(network_bckup.BA_nodes) do
-		technic.clear_networks(n_pos)
+		clear_networks(n_pos)
 	end
 end
 
-function technic.clear_networks(pos)
+local function clear_networks(pos)
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
@@ -191,8 +191,8 @@ function technic.register_cable(tier, size)
 		node_box = node_box,
 		connects_to = {"group:technic_"..ltier.."_cable",
 			"group:technic_"..ltier, "group:technic_all_tiers"},
-		on_construct = technic.clear_networks,
-		after_destruct = technic.clear_networks,
+		on_construct = clear_networks,
+		after_destruct = clear_networks,
 	})
 
 	local xyz = {
@@ -231,8 +231,8 @@ function technic.register_cable(tier, size)
 			node_box = table.copy(node_box),
 			connects_to = {"group:technic_"..ltier.."_cable",
 				"group:technic_"..ltier, "group:technic_all_tiers"},
-			on_construct = technic.clear_networks,
-			after_destruct = technic.clear_networks,
+			on_construct = clear_networks,
+			after_destruct = clear_networks,
 		}
 		def.node_box.fixed = {
 			{-size, -size, -size, size, size, size},
@@ -317,7 +317,7 @@ end
 local function clear_nets_if_machine(pos, node)
 	for tier, machine_list in pairs(technic.machines) do
 		if machine_list[node.name] ~= nil then
-			return technic.clear_networks(pos)
+			return clear_networks(pos)
 		end
 	end
 end
