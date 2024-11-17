@@ -43,6 +43,8 @@ local function check_connections(pos)
 	return connections
 end
 
+local clear_networks
+
 local function clear_network(net)
 	for _,v in pairs(technic.networks[net].all_nodes) do
 		local pos1 = minetest.hash_node_position(v)
@@ -62,7 +64,7 @@ local function clear_network(net)
 	end
 end
 
-local function clear_networks(pos)
+clear_networks = function(pos)
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
