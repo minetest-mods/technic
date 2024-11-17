@@ -43,83 +43,106 @@ local function check_connections(pos)
 	return connections
 end
 
+local function clear_network(net)
+	for _,v in pairs(technic.networks[net].all_nodes) do
+		local pos1 = minetest.hash_node_position(v)
+		technic.cables[pos1] = nil
+	end
+	local network_bckup = technic.networks[net]
+	technic.networks[net] = nil
+
+	for _,n_pos in pairs(network_bckup.PR_nodes) do
+		technic.clear_networks(n_pos)
+	end
+	for _,n_pos in pairs(network_bckup.RE_nodes) do
+		technic.clear_networks(n_pos)
+	end
+	for _,n_pos in pairs(network_bckup.BA_nodes) do
+		technic.clear_networks(n_pos)
+	end
+end
+
 function technic.clear_networks(pos)
 	local node = minetest.get_node(pos)
+	core.log(node.name)
 	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
 	local positions = check_connections(pos)
+
 	if #positions < 1 then return end
-	local dead_end = #positions == 1
-	for _,connected_pos in pairs(positions) do
-		local net = technic.cables[minetest.hash_node_position(connected_pos)]
-		if net and technic.networks[net] then
-			if dead_end and placed then
-				-- Dead end placed, add it to the network
-				-- Get the network
-				local network_id = technic.cables[minetest.hash_node_position(positions[1])]
-				if not network_id then
-					-- We're evidently not on a network, nothing to add ourselves to
-					return
-				end
-				local sw_pos = minetest.get_position_from_hash(network_id)
-				sw_pos.y = sw_pos.y + 1
-				local network = technic.networks[network_id]
-				local tier = network.tier
 
-				-- Actually add it to the (cached) network
-				-- !! IMPORTANT: ../switching_station.lua -> check_node_subp() must be kept in sync
-				pos.visited = 1
-				if technic.is_tier_cable(node.name, tier) then
-					technic.cables[minetest.hash_node_position(pos)] = network_id
-					table.insert(network.all_nodes,pos)
-				elseif technic.machines[tier][node.name] then
-					-- Found a machine
-					local eu_type = technic.machines[tier][node.name]
-					meta:set_string(tier.."_network", string.format("%.20g", network_id))
-					meta:set_int(tier.."_EU_timeout", 2)
-					if     eu_type == technic.producer then
-						table.insert(network.PR_nodes, pos)
-					elseif eu_type == technic.receiver then
-						table.insert(network.RE_nodes, pos)
-					elseif eu_type == technic.producer_receiver then
-						table.insert(network.PR_nodes, pos)
-						table.insert(network.RE_nodes, pos)
-					elseif eu_type == technic.battery then
-						table.insert(network.BA_nodes, pos)
-					end
-					-- Note: SPECIAL (i.e. switching station) is not traversed!
-				end
-			elseif dead_end and not placed then
-				-- Dead end removed, remove it from the network
-				-- Get the network
-				local network_id = technic.cables[minetest.hash_node_position(positions[1])]
-				if not network_id then
-					-- We're evidently not on a network, nothing to add ourselves to
-					return
-				end
-				local network = technic.networks[network_id]
+	if #positions == 1 then
+		if placed then
+			-- Dead end placed, add it to the network
+			-- Get the network
+			local network_id = technic.cables[minetest.hash_node_position(positions[1])]
+			if not network_id then
+				-- We're evidently not on a network, nothing to add ourselves to
+				return
+			end
+			local network = technic.networks[network_id]
+			local tier = network.tier
 
-				-- Search for and remove machine
-				technic.cables[minetest.hash_node_position(pos)] = nil
-				for tblname,table in pairs(network) do
-					if tblname ~= "tier" then
-						for machinenum,machine in pairs(table) do
-							if machine.x == pos.x
-							and machine.y == pos.y
-							and machine.z == pos.z then
-								table[machinenum] = nil
-							end
+			-- Actually add it to the (cached) network
+			-- !! IMPORTANT: ../switching_station.lua -> check_node_subp() must be kept in sync
+			pos.visited = 1
+			if technic.is_tier_cable(node.name, tier) then
+				technic.cables[minetest.hash_node_position(pos)] = network_id
+				table.insert(network.all_nodes,pos)
+			elseif technic.machines[tier][node.name] then
+				-- Found a machine
+				local eu_type = technic.machines[tier][node.name]
+				meta:set_string(tier.."_network", string.format("%.20g", network_id))
+				meta:set_int(tier.."_EU_timeout", 2)
+				if     eu_type == technic.producer then
+					table.insert(network.PR_nodes, pos)
+				elseif eu_type == technic.receiver then
+					table.insert(network.RE_nodes, pos)
+				elseif eu_type == technic.producer_receiver then
+					table.insert(network.PR_nodes, pos)
+					table.insert(network.RE_nodes, pos)
+				elseif eu_type == technic.battery then
+					table.insert(network.BA_nodes, pos)
+				end
+				-- Note: SPECIAL (i.e. switching station) is not traversed!
+			end
+		else
+			-- Dead end removed, remove it from the network
+			-- Get the network
+			local network_id = technic.cables[minetest.hash_node_position(positions[1])]
+			if not network_id then
+				-- We're evidently not on a network, nothing to add ourselves to
+				return
+			end
+			local network = technic.networks[network_id]
+
+			-- Search for and remove machine
+			technic.cables[minetest.hash_node_position(pos)] = nil
+			for tblname,table in pairs(network) do
+				if tblname ~= "tier" then
+					for machinenum,machine in pairs(table) do
+						if machine.x == pos.x
+						and machine.y == pos.y
+						and machine.z == pos.z then
+							table[machinenum] = nil
 						end
 					end
 				end
-			else
-				-- Not a dead end, so the whole network needs to be recalculated
-				for _,v in pairs(technic.networks[net].all_nodes) do
-					local pos1 = minetest.hash_node_position(v)
-					technic.cables[pos1] = nil
-				end
-				technic.networks[net] = nil
 			end
+		end
+		return
+	end
+
+	local net = technic.cables[minetest.hash_node_position(pos)]
+	if net and technic.networks[net] then
+		clear_network(net)
+	end
+
+	for _,connected_pos in pairs(positions) do
+		local net = technic.cables[minetest.hash_node_position(connected_pos)]
+		if net and technic.networks[net] then
+			-- Not a dead end, so the whole network needs to be recalculated
+			clear_network(net)
 		end
 	end
 end
@@ -170,7 +193,7 @@ function technic.register_cable(tier, size)
 		connects_to = {"group:technic_"..ltier.."_cable",
 			"group:technic_"..ltier, "group:technic_all_tiers"},
 		on_construct = technic.clear_networks,
-		on_destruct = technic.clear_networks,
+		after_destruct = technic.clear_networks,
 	})
 
 	local xyz = {
@@ -210,7 +233,7 @@ function technic.register_cable(tier, size)
 			connects_to = {"group:technic_"..ltier.."_cable",
 				"group:technic_"..ltier, "group:technic_all_tiers"},
 			on_construct = technic.clear_networks,
-			on_destruct = technic.clear_networks,
+			after_destruct = technic.clear_networks,
 		}
 		def.node_box.fixed = {
 			{-size, -size, -size, size, size, size},

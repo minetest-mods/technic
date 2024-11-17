@@ -97,12 +97,12 @@ local function flatten(map)
 	return list
 end
 
--- Add a wire node to the LV/MV/HV network
--- Returns: indicator whether the cable is new in the network
+-- Add a node to the LV/MV/HV network
+-- Returns: indicator whether the node is new in the network
 local hash_node_position = minetest.hash_node_position
-local function add_network_node(nodes, pos, network_id, cable)
+local function add_network_node(nodes, pos, network_id)
 	local node_id = hash_node_position(pos)
-	if cable then
+	if network_id then
 		technic.cables[node_id] = network_id
 	end
 	if nodes[node_id] then
@@ -113,7 +113,7 @@ local function add_network_node(nodes, pos, network_id, cable)
 end
 
 local function add_cable_node(nodes, pos, network_id, queue)
-	if add_network_node(nodes, pos, network_id, true) then
+	if add_network_node(nodes, pos, network_id) then
 		queue[#queue + 1] = pos
 	end
 end
@@ -151,18 +151,18 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 	end
 
 	if     eu_type == technic.producer then
-		add_network_node(network.PR_nodes, pos, network_id, false)
+		add_network_node(network.PR_nodes, pos)
 	elseif eu_type == technic.receiver then
-		add_network_node(network.RE_nodes, pos, network_id, false)
+		add_network_node(network.RE_nodes, pos)
 	elseif eu_type == technic.producer_receiver then
-		add_network_node(network.PR_nodes, pos, network_id, false)
-		add_network_node(network.RE_nodes, pos, network_id, false)
+		add_network_node(network.PR_nodes, pos)
+		add_network_node(network.RE_nodes, pos)
 	elseif eu_type == technic.battery then
-		add_network_node(network.BA_nodes, pos, network_id, false)
+		add_network_node(network.BA_nodes, pos)
 	elseif eu_type == "SPECIAL" and from_below and
 			not vector.equals(pos, sw_pos) then
 		-- Another switching station -> disable it
-		add_network_node(network.SP_nodes, pos, network_id, false)
+		add_network_node(network.SP_nodes, pos)
 		meta:set_int("active", 0)
 	end
 
@@ -205,7 +205,6 @@ local get_network = function(sw_pos, cable_pos, tier)
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
-
 	local machines = technic.machines[tier]
 	local network = {
 		tier = tier,
@@ -495,7 +494,6 @@ minetest.register_abm({
 				if nodedef and nodedef.technic_on_disable then
 					nodedef.technic_on_disable(pos, node)
 				end
-				technic.clear_networks(pos)
 			end
 		end
 	end,
