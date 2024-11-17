@@ -64,7 +64,6 @@ end
 
 function technic.clear_networks(pos)
 	local node = minetest.get_node(pos)
-	core.log(node.name)
 	local meta = minetest.get_meta(pos)
 	local placed = node.name ~= "air"
 	local positions = check_connections(pos)
