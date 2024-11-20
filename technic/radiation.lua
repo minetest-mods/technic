@@ -185,6 +185,7 @@ technic.register_group_resistance("tree", 3.4)
 technic.register_group_resistance("uranium_block", 500)
 technic.register_group_resistance("wood", 1.7)
 
+--Radiation resistances cache
 technic.resistance_cache = {}
 
 function technic.cache_resistances()
@@ -197,6 +198,8 @@ function technic.cache_resistances()
 	end
 end
 
+technic.cache_resistances()
+
 local function node_radiation_resistance(node_name)
 	local cached_resistance = technic.resistance_cache[node_name]
 	if cached_resistance then
@@ -205,9 +208,6 @@ local function node_radiation_resistance(node_name)
 		return 0
 	end
 end
-
--- Initialize cache
-technic.cache_resistances()
 
 --[[
 Radioactive nodes cause damage to nearby players.  The damage
