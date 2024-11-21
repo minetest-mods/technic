@@ -45,13 +45,17 @@ end
 
 local clear_networks
 
-local function clear_network(net)
-	for _,v in pairs(technic.networks[net].all_nodes) do
+local function clear_network(network_id)
+	if not network_id then
+		return
+	end
+
+	for _,v in pairs(technic.networks[network_id].all_nodes) do
 		local pos1 = minetest.hash_node_position(v)
 		technic.cables[pos1] = nil
 	end
-	local network_bckup = technic.networks[net]
-	technic.networks[net] = nil
+	local network_bckup = technic.networks[network_id]
+	technic.networks[network_id] = nil
 
 	for _,n_pos in pairs(network_bckup.PR_nodes) do
 		clear_networks(n_pos)
@@ -86,7 +90,6 @@ clear_networks = function(pos)
 
 			-- Actually add it to the (cached) network
 			-- !! IMPORTANT: ../switching_station.lua -> check_node_subp() must be kept in sync
-			pos.visited = 1
 			if technic.is_tier_cable(node.name, tier) then
 				technic.cables[minetest.hash_node_position(pos)] = network_id
 				table.insert(network.all_nodes,pos)
@@ -134,17 +137,12 @@ clear_networks = function(pos)
 		return
 	end
 
-	local net = technic.cables[minetest.hash_node_position(pos)]
-	if net and technic.networks[net] then
-		clear_network(net)
-	end
+	clear_network(technic.cables[minetest.hash_node_position(pos)])
 
 	for _,connected_pos in pairs(positions) do
-		local net = technic.cables[minetest.hash_node_position(connected_pos)]
-		if net and technic.networks[net] then
-			-- Not a dead end, so the whole network needs to be recalculated
-			clear_network(net)
-		end
+		local network_id = technic.cables[minetest.hash_node_position(connected_pos)]
+		-- Not a dead end, so the whole network needs to be recalculated
+		clear_network(network_id)
 	end
 end
 
