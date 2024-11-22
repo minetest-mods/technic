@@ -97,12 +97,14 @@ local function flatten(map)
 	return list
 end
 
--- Add a wire node to the LV/MV/HV network
--- Returns: indicator whether the cable is new in the network
+-- Add a node to the LV/MV/HV network
+-- Returns: indicator whether the node is new in the network
 local hash_node_position = minetest.hash_node_position
 local function add_network_node(nodes, pos, network_id)
 	local node_id = hash_node_position(pos)
-	technic.cables[node_id] = network_id
+	if network_id then
+		technic.cables[node_id] = network_id
+	end
 	if nodes[node_id] then
 		return false
 	end
@@ -136,21 +138,31 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 	local meta = minetest.get_meta(pos)
 	-- Normal tostring() does not have enough precision, neither does meta:set_int()
 	-- Lua 5.1 bug: Cannot use hexadecimal notation for compression (see LuaJIT #911)
-	meta:set_string(network.tier.."_network", string.format("%.20g", network_id))
+	local network_str = string.format("%.20g", network_id)
+	local network_key = network.tier.."_network"
+	local m_network_str = meta:get_string(network_key)
+
+	if m_network_str == "" then
+		meta:set_string(network_key, network_str)
+	else
+		if m_network_str ~= network_str then
+			return
+		end
+	end
 
 	if     eu_type == technic.producer then
-		add_network_node(network.PR_nodes, pos, network_id)
+		add_network_node(network.PR_nodes, pos)
 	elseif eu_type == technic.receiver then
-		add_network_node(network.RE_nodes, pos, network_id)
+		add_network_node(network.RE_nodes, pos)
 	elseif eu_type == technic.producer_receiver then
-		add_network_node(network.PR_nodes, pos, network_id)
-		add_network_node(network.RE_nodes, pos, network_id)
+		add_network_node(network.PR_nodes, pos)
+		add_network_node(network.RE_nodes, pos)
 	elseif eu_type == technic.battery then
-		add_network_node(network.BA_nodes, pos, network_id)
+		add_network_node(network.BA_nodes, pos)
 	elseif eu_type == "SPECIAL" and from_below and
 			not vector.equals(pos, sw_pos) then
 		-- Another switching station -> disable it
-		add_network_node(network.SP_nodes, pos, network_id)
+		add_network_node(network.SP_nodes, pos)
 		meta:set_int("active", 0)
 	end
 
@@ -193,7 +205,6 @@ local get_network = function(sw_pos, cable_pos, tier)
 		end
 		return cached.PR_nodes, cached.BA_nodes, cached.RE_nodes
 	end
-
 	local machines = technic.machines[tier]
 	local network = {
 		tier = tier,
@@ -455,6 +466,7 @@ local function switching_station_timeout_count(pos, tier)
 	local meta = minetest.get_meta(pos)
 	local timeout = meta:get_int(tier.."_EU_timeout")
 	if timeout <= 0 then
+		meta:set_string(tier.."_network", "")
 		meta:set_int(tier.."_EU_input", 0) -- Not needed anymore <-- actually, it is for supply converter
 		return true
 	else
