@@ -1,8 +1,11 @@
+# textdomain: concrete
+Blast-resistant Concrete Block=
+Blast-resistant Concrete=
+Concrete Post Platform=
+Concrete Post=
+
+
+##### not used anymore #####
+
 # technic_concrete translation template
-
 Rebar =
-Concrete Block =
-Blast-resistant Concrete Block =
-Concrete Post Platform =
-Concrete Post =
-
