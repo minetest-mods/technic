@@ -1,7 +1,177 @@
+# textdomain: technic
+@1 Alloy Furnace=
+Alloying=
+Administrative World Anchor=
+Owner:=
+Unlocked=
+Locked=
+Keeping @1/@2 map blocks loaded=
+Radius:=
+Disabled=
+Enabled=
+RE Battery=
+@1 Battery Box=
+Charge=
+Discharge=
+Power level=
+@1 Battery Box Has No Network=
+@1 Battery Box: @2 / @3=
+@1 Cable=
+@1 Cable Plate=
+Water Can=
+Lava Can=
+River Water Can=
+@1 Centrifuge=
+Separating=
+Chainsaw=
+Fuel-Fired Alloy Furnace=
+@1 is empty=
+@1 Out Of Fuel=
+Fuel-Fired Furnace=
+Machine cannot be removed because it is not empty=
+Inventory move disallowed due to protection=
+@1 Compressor=
+Compressing=
+Constructor Mk@1=
+Slot @1=
+@1 Furnace=
+@1 Extractor=
+Extracting=
+Flashlight=
+Range=
+Sphere=
+Cube=
+@1 Disabled=
+@1 Forcefield Emitter=
+@1 Enabled=
+@1 Forcefield=
+@1 Unpowered=
+@1 Active=
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+Frame=
+Frame Motor=
+Template=
+Template (replacing)=
+Template Tool=
+Template Motor=
+@1 Freezer=
+Freezing=
+Fuel-Fired @1 Generator=
+Geothermal @1 Generator=
+Geothermal %s Generator=
+@1 Grinder=
+Grinding=
+Dust=
+@1 Dust=
+@1-Fissile Uranium=
+Sawdust=
+@1 Grinding=
+Hydro @1 Generator=
+[Technic] Loaded in @1 seconds=
+Self-Contained Injector=
+Stackwise=
+Itemwise=
+Public=
+Private=
+Silicon Wafer=
+Doped Silicon Wafer=
+Uranium Fuel=
+Diamond Drill Head=
+Blue Energy Crystal=
+Green Energy Crystal=
+Red Energy Crystal=
+Copper Coil=
+Low Voltage Transformer=
+Medium Voltage Transformer=
+High Voltage Transformer=
+Control Logic Unit=
+Mixed Metal Ingot=
+Composite Plate=
+Copper Plate=
+Carbon Plate=
+Graphite=
+Carbon Cloth=
+Machine Casing=
+Rubber Goo=
+@1-Fissile Uranium Ingot=
+@1-Fissile Uranium Block=
+@1 Lamp=
+@1 Off=
+Dummy light source node=
+@1 LED=
+LV=
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+White Glowlight (small cube)=
+Single node.=
+3 nodes deep.=
+3 nodes wide.=
+3 nodes tall.=
+3x3 nodes.=
+Mining Drill Mk#1 Mode #2=
+Use while sneaking to change Mining Drill Mk@1 modes.=
+Mining Drill Mk@1=
+Mining Laser Mk%d=
+%s Music Player=
+Stopped=
+Current track %s=
+@1 Nuclear Reactor Core=
+HV=
+Nuclear Reactor Rod Compartment=
+@1 Idle=
+Power Monitor=
+Power Monitor. Supply: @1 Demand: @2=
+Power Monitor Has No Network=
+Prospector=
+%s Quarry=
+Digging not started=
+Digging finished=
+Purging cache=
+Restart=
+%s purging cache=
+%s Finished=
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+%s Unpowered=
+%s Active=
+%s Disabled=
+Chernobylite Block=
+Arrayed Solar @1 Generator=
+Small Solar %s Generator=
+%s Idle=
+@1 Active (@2)=
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
+Input Power=
+Supply Converter=
+%s Enabled=
+@1 (@2 @3 -> @4 @5)=
+%s Has Bad Cabling=
+Switching Station=
+%s Already Present=
+@1. Supply: @2 Demand: @3=
+%s Has No Network=
+%s Tool Workshop=
+Upgrade Slots=
+Tree Tap=
+Raw Latex=
+Rubber Fiber=
+Vacuum Cleaner=
+Hydro %s Generator=
+Wind Mill Frame=
+Wind %s Generator=
+%s Improperly Placed=
+@1 (@2)=
+
+
+##### not used anymore #####
 
 ## Misc
 [Technic] Loaded in %f seconds = [Technic] caricato in %f secondi
-
 ## Items
 Silicon Wafer = Wafer di silicone
 Doped Silicon Wafer = Wafer di silicone dopato
@@ -28,7 +198,6 @@ Raw Latex = Latex grezzo
 Rubber Fiber = Fibra di gomma
 %.1f%%-Fissile Uranium Ingot = %.1f%%-Lingotto di uranio fissile
 %.1f%%-Fissile Uranium Block = %.1f%%-Blocco di uranio fissile
-
 ## Machine misc
 Machine cannot be removed because it is not empty = La macchina non può essere rimossa perchè non è vuota
 Inventory move disallowed due to protection = Impossibile muovere l'inventario a causa della protezione
@@ -58,7 +227,6 @@ Locked = Chiuso a chiave
 Radius: = Raggio:
 Enabled = Abilitato
 Disabled = Disabilitato
-
 ## Machine names
 # $1: Tier
 %s Alloy Furnace = %s Fornace per leghe
@@ -96,7 +264,6 @@ Wind Mill Frame = Pala eolica
 Forcefield = Campo di forza
 Nuclear Reactor Rod Compartment = Compartimento combustibile nucleare
 Administrative World Anchor = Ancora-mondo amministrativa
-
 ## Machine-specific
 # $1: Pruduced EU
 Charge = Carica
@@ -116,7 +283,6 @@ Digging not started = Scavo non iniziato
 Digging finished = Scavo finito
 Digging %d m above machine = Scavo di %d m sopra la macchina
 Digging %d m below machine = Scavo di %d m sotto la macchina
-
 ## Grinder Recipes
 # $1: Name
 %s Dust = Polvere di %s
@@ -139,7 +305,6 @@ Tin = Stagno
 Wrought Iron = Ferro Battuto
 Zinc = Zinco
 %.1f%%-Fissile Uranium = %.1f%%-Uranio fissile
-
 ## Tools
 RE Battery = Batteria RE
 Water Can = Serbatoio d'acqua
@@ -157,7 +322,6 @@ Mining Laser Mk%d = Laser da miniera mk%d
 Single node. = Nodo singolo.
 Sonic Screwdriver = Cacciavite sonico
 Tree Tap = Batti albero
-
 ## Craft descriptions
 Alloy cooking = Cottura lege
 Grinding = Macinazione

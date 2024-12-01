@@ -62,9 +62,8 @@ local function set_display(pos, meta)
 		(meta:get_int("enabled") == 0 and
 			"button[3,2;2,1;enable;"..ESC(S("Disabled")).."]" or
 			"button[3,2;2,1;disable;"..ESC(S("Enabled")).."]")..
-		"label[0,3;"..ESC(S("Keeping %d/%d map blocks loaded"):format(
-			#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta)
-		)).."]")
+		"label[0,3;"..ESC(S("Keeping @1/@2 map blocks loaded",
+				#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta))).."]")
 end
 
 minetest.register_node("technic:admin_anchor", {

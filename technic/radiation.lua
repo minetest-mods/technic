@@ -28,7 +28,7 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local rad_resistance_node = {
 	["default:brick"] = 13,

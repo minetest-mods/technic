@@ -62,6 +62,6 @@ dofile(modpath.."/tools/init.lua")
 dofile(modpath.."/legacy.lua")
 
 if minetest.settings:get_bool("log_mods") then
-	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
+	print(S("[Technic] Loaded in @1 seconds", os.clock() - load_start))
 end
 

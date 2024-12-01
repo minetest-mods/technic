@@ -1,23 +1,96 @@
 # textdomain: technic
-
-
-## Misc
-[Technic] Loaded in %f seconds=[Техника] Загружено за %f секунд
-
+@1 Alloy Furnace=@1 Печь для сплава
+Alloying=Легирование
+Administrative World Anchor=Административный мировой якорь
+Owner:=Владелец:
+Unlocked=Разблокировано
+Locked=Заблокировано
+Keeping @1/@2 map blocks loaded=Сохранение загруженных блоков карты @1/@2
+Radius:=Радиус:
+Disabled=Выключено
+Enabled=Включено
+## Tools
+RE Battery=RE Батарея
+@1 Battery Box=@1 Батарейный отсек
+## Machine-specific
+# $1: Pruduced EU
+Charge=Зарядка
+Discharge=Разрядка
+Power level=Уровень мощности
+@1 Battery Box Has No Network=@1 В аккумуляторном ящике нет сети
+# $1: Tier $2: current_charge $3: max_charge
+@1 Battery Box: @2 / @3=@1 Батарейный ящик: @2 / @3
+@1 Cable=@1 Кабель
+@1 Cable Plate=@1 Кабельная пластина
+Water Can=Банка с водой
+Lava Can=Банка с лавой
+River Water Can=Канистра для речной воды
+@1 Centrifuge=@1 Центрифуга
+Separating=Разделение
+Chainsaw=Бензопила
+Fuel-Fired Alloy Furnace=Топливная печь для сплавов
+@1 is empty=@1 пусто
+@1 Out Of Fuel=@1 закончилось топливо
+Fuel-Fired Furnace=Топливная печь
+## Machine misc
+Machine cannot be removed because it is not empty=Машину невозможно удалить, поскольку она не пуста.
+Inventory move disallowed due to protection=Перемещение инвентаря запрещено из-за защиты
+@1 Compressor=@1 Компрессор
+Compressing=Сжатие
+Constructor Mk@1=Конструктор Мк@1
+Slot @1=Слот @1
+@1 Furnace=@1 Печь
+@1 Extractor=@1 Экстрактор
+Extracting=Извлечение
+Flashlight=Фонарик
+Range=Диапазон
+##Force firld
+Sphere=Сфера
+Cube=Куб
+@1 Disabled=@1 Отключено
+@1 Forcefield Emitter=@1 Эмиттер силового поля
+@1 Enabled=@1 Включено
+@1 Forcefield=@1 Силовое поле
+@1 Unpowered=@1 Без питания
+@1 Active=@1 Активный
+Ignoring Mesecon Signal=Игнорирование сигнала Месекона
+Controlled by Mesecon Signal=Управляется сигналом Месекон
+Frame=Рамка
+Frame Motor=Рамный двигатель
+Template=Шаблон
+Template (replacing)=Шаблон (замена)
+Template Tool=Инструмент «Шаблон»
+Template Motor=Мотор шаблона
+@1 Freezer=@1 Морозильник
+Freezing=Замораживание
+Fuel-Fired @1 Generator=Топливный @1 генератор
+Geothermal @1 Generator=Геотермальный @1 генератор
+Geothermal %s Generator=
+@1 Grinder=@1 Гриндер
+Grinding=Шлифование
+Dust=Пыль
+## Grinder Recipes
+# $1: Name
+@1 Dust=@1 Пыль
+@1-Fissile Uranium=@1-Делящийся уран
+Sawdust=Опилки
+@1 Grinding=@1 Шлифовка
+Hydro @1 Generator=Гидрогенератор @1
+[Technic] Loaded in @1 seconds=[Техника] Загружено за @1 секунду
+Self-Contained Injector=Автономный инжектор
+Stackwise=Стекообразно
+Itemwise=По пунктам
+Public=Публичный
+Private=Частный
 ## Items
 Silicon Wafer=Кремниевая пластина
 Doped Silicon Wafer=Легированная кремниевая пластина
-Enriched Uranium=Обогащенный уран
 Uranium Fuel=Урановое топливо
 Diamond Drill Head=Алмазная буровая головка
 Blue Energy Crystal=Синий энергетический кристалл
 Green Energy Crystal=Зеленый Энергетический Кристалл
 Red Energy Crystal=Красный Энергетический Кристалл
-Fine Copper Wire=Тонкая медная проволока
-Fine Gold Wire=Тонкая золотая проволока
-Fine Silver Wire=Тонкая серебряная проволока
 Copper Coil=Медная катушка
-Electric Motor=Электрический двигатель
 Low Voltage Transformer=Трансформатор низкого напряжения
 Medium Voltage Transformer=Трансформатор среднего напряжения
 High Voltage Transformer=Трансформатор высокого напряжения
@@ -28,118 +101,112 @@ Copper Plate=Медная тарелка
 Carbon Plate=Карбоновая пластина
 Graphite=Графит
 Carbon Cloth=Углеродная ткань
-Raw Latex=Сырой латекс
-Rubber Fiber=Резиновое волокно
-@1-Fissile Uranium Ingot=@1-Слиток делящегося урана
-@1-Fissile Uranium Block=@1-Делящийся урановый блок
 Machine Casing=Корпус машины
 Rubber Goo=Резиновая жижа
+@1-Fissile Uranium Ingot=@1-Слиток делящегося урана
+@1-Fissile Uranium Block=@1-Делящийся урановый блок
+@1 Lamp=@1 Лампа
+@1 Off=@1 Выкл.
+Dummy light source node=Узел фиктивного источника света
+@1 LED=@1 светодиод
+LV=ЛВ
+someone=кто-то
+Sorry, @1 owns that spot.=Извините, это место принадлежит @1.
+Yellow Glowlight (thick)=Желтый светящийся свет (густой)
+Yellow Glowlight (thin)=Желтый светящийся свет (тонкий)
+White Glowlight (thick)=Белый светящийся свет (толстый)
+White Glowlight (thin)=Белый светящийся свет (тонкий)
+Yellow Glowlight (small cube)=Желтый светящийся свет (маленький куб)
+White Glowlight (small cube)=Белый светящийся свет (маленький куб)
+Single node.=Одиночный узел.
+3 nodes deep.=Глубина 3 узла.
+3 nodes wide.=Ширина 3 узла.
+3 nodes tall.=Высота 3 узла.
+3x3 nodes.=3х3 узла.
+Mining Drill Mk%1 Mode %2=Горный бур Mk%1, режим %2
+Use while sneaking to change Mining Drill Mk@1 modes.=
+Mining Drill Mk@1=Горный бур Mk@1
+Mining Laser Mk%d=
+%s Music Player=%s Музыкальный проигрыватель
+Stopped=Остановлено
+Current track %s=Текущий трек %s
+@1 Nuclear Reactor Core=@1 Активная зона ядерного реактора
+HV=
+Nuclear Reactor Rod Compartment=Стержневой отсек ядерного реактора
+@1 Idle=@1 В режиме ожидания
+Power Monitor=Монитор мощности
+Power Monitor. Supply: @1 Demand: @2=
+Power Monitor Has No Network=У монитора питания нет сети
+Prospector=Старатель
+%s Quarry=%s Карьер
+Digging not started=Копать не начали
+Digging finished=Копание закончено
+Purging cache=Очистка кэша
+Restart=Перезапуск
+%s purging cache=
+%s Finished=%s Завершено
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=Ручное извлечение/удаление из кэша невозможно. Если вы не хотите ждать, перезапустите или отключите карьер, чтобы начать автоматическую очистку.
+%s Unpowered=
+%s Active=
+%s Disabled=
+Chernobylite Block=Блок Чернобылит
+Arrayed Solar @1 Generator=Массивный солнечный @1 генератор
+Small Solar %s Generator=Маленький солнечный %s генератор
+%s Idle=
+@1 Active (@2)=@1 Активный (@2)
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
+Input Power=Входная мощность
+Supply Converter=Преобразователь питания
+%s Enabled=
+@1 (@2 @3 -> @4 @5)=@1 (@2 @3 -> @4 @5)
+%s Has Bad Cabling=%s Имеет плохой кабель
+Switching Station=Коммутационная станция
+%s Already Present=
+@1. Supply: @2 Demand: @3=
+%s Has No Network=%s не имеет сети
+%s Tool Workshop=%s Инструментальная мастерская
+Upgrade Slots=Обновление слотов
+Tree Tap=Деревянный кран
+Raw Latex=Сырой латекс
+Rubber Fiber=Резиновое волокно
+Vacuum Cleaner=Пылесос
+Hydro %s Generator=Гидро %s генератор
+Wind Mill Frame=Рама ветряной мельницы
+Wind %s Generator=Ветеро %s Генератор
+%s Improperly Placed=%s Размещено неправильно
+@1 (@2)=
 
-## Machine misc
-Machine cannot be removed because it is not empty=Машину невозможно удалить, поскольку она не пуста.
-Inventory move disallowed due to protection=Перемещение инвентаря запрещено из-за защиты
 
+##### not used anymore #####
+
+Use while sneaking to change Mining Drill Mk%d modes.=Используйте кнопку подкрадывания, чтобы изменить режимы Горного бура Mk%d.
+Mining Laser Mk@1=Горный лазер Mk@1
+[Technic] Loaded in %f seconds=[Техника] Загружено за %f секунд
+Constructor Mk%d=Конструктор Mk%d
+Slot %d=Слот %d
+%s is empty=%s пуст
+Keeping %d/%d map blocks loaded=Сохранение загруженных блоков карты %d/%d
+Enriched Uranium=Обогащенный уран
+Fine Copper Wire=Тонкая медная проволока
+Fine Gold Wire=Тонкая золотая проволока
+Fine Silver Wire=Тонкая серебряная проволока
+Electric Motor=Электрический двигатель
 # $1: Machine name (Includes tier)
 @1 Active (@2 EU)=@1 Актив (@2 EU)
-@1 Active=@1 Активен
-@1 Disabled=@1 Отключено
-@1 Enabled=@1 Включено
-@1 Idle=@1 В режиме ожидания
-%s Improperly Placed=%s Размещено неправильно
-%s is empty=%s пуст
-@1 Unpowered=@1 Отключен от питания
-@1 Out Of Fuel=@1 закончилось топливо
-%s Has Bad Cabling=%s Имеет плохой кабель
 %s (Slave)=%s (Подчиненный)
-%s Has No Network=%s не имеет сети
-%s Finished=%s Завершено
-@1 Freezer=@1 Морозильник
 Enable/Disable=Включить/Выключить
-Range=Диапазон
-Upgrade Slots=Обновление слотов
 In:=Вход:
 Out:=Выход:
-Slot %d=Слот %d
-Itemwise=По пунктам
-Stackwise=Стекообразно
-Ignoring Mesecon Signal=Игнорирование сигнала Месекона
-Controlled by Mesecon Signal=Управляется сигналом Месекон
-Owner:=Владелец:
-Unlocked=Разблокировано
-Locked=Заблокировано
-Radius:=Радиус:
-Enabled=Включено
-Disabled=Выключено
-@1 Unpowered=@1 Без питания
-@1 Active=@1 Активный
-@1 Forcefield=@1 Силовое поле
-
-## Machine names
-# $1: Tier
-@1 Alloy Furnace=@1 Печь для сплава
-@1 Battery Box=@1 Батарейный отсек
-@1 Cable=@1 Кабель
-@1 Cable Plate=@1 Кабельная пластина
-@1 Centrifuge=@1 Центрифуга
-@1 Compressor=@1 Компрессор
-@1 Extractor=@1 Экстрактор
-@1 Forcefield Emitter=@1 Эмиттер силового поля
-@1 Furnace=@1 Печь
-@1 Grinder=@1 Гриндер
-%s Music Player=%s Музыкальный проигрыватель
-%s Quarry=%s Карьер
-%s Tool Workshop=%s Инструментальная мастерская
-@1 Battery Box Has No Network=@1 В аккумуляторном ящике нет сети
-Arrayed Solar @1 Generator=Массивный солнечный @1 генератор
-Fuel-Fired @1 Generator=Топливный @1 генератор
-Geothermal %s Generator=Геотермальный %s генератор
-Hydro %s Generator=Гидро %s генератор
 Nuclear %s Generator Core=Ядро %s ядерного генератора
-Small Solar %s Generator=Маленький солнечный %s генератор
-Wind %s Generator=Ветеро %s Генератор
-Self-Contained Injector=Автономный инжектор
-Constructor Mk%d=Конструктор Mk%d
-Frame=Рамка
-Frame Motor=Рамный двигатель
-Template=Шаблон
-Template (replacing)=Шаблон (замена)
-Template Motor=Мотор шаблона
-Template Tool=Инструмент «Шаблон»
 Battery Box=Батарейный ящик
-Supply Converter=Преобразователь питания
-Switching Station=Коммутационная станция
-Fuel-Fired Alloy Furnace=Топливная печь для сплавов
-Fuel-Fired Furnace=Топливная печь
-Wind Mill Frame=Рама ветряной мельницы
 Forcefield=Силовое поле
-Nuclear Reactor Rod Compartment=Стержневой отсек ядерного реактора
-Administrative World Anchor=Административный мировой якорь
-
-## Machine-specific
-# $1: Pruduced EU
-Charge=Зарядка
-Discharge=Разрядка
-Power level=Уровень мощности
-# $1: Tier $2: current_charge $3: max_charge
-@1 Battery Box: @2 / @3=@1 Батарейный ящик: @2 / @3
 # $1: Machine name $2: Supply $3: Demand
 @1. Supply: @2 Demand: @3=@1. Поставляет: @2 Спрос: @3
 Production at %d%%=Производство на %d%%
 Choose Milling Program:=Выберите программу фрезерования:
 Slim Elements half / normal height:=Slim Elements половинная/нормальная высота:
-Current track %s=Текущий трек %s
-Stopped=Остановлено
-Keeping %d/%d map blocks loaded=Сохранение загруженных блоков карты %d/%d
-Digging not started=Копать не начали
-Digging finished=Копание закончено
 Digging %d m above machine=Копаем %d м над машиной
 Digging %d m below machine=Копаем %d м под машиной
-@1 (@2 @3 -> @4 @5)=@1 (@2 @3 -> @4 @5)
-@1 Grinding=@1 Шлифовка
-
-## Grinder Recipes
-# $1: Name
-@1 Dust=@1 Пыль
 Akalin=Акалин
 Alatro=Алатро
 Arol=Арол
@@ -158,36 +225,6 @@ Talinite=Талинит
 Tin=Банка
 Wrought Iron=Кованое железо
 Zinc=Цинк
-@1-Fissile Uranium=@1-Делящийся уран
-Sawdust=Опилки
-
-## Tools
-RE Battery=RE Батарея
-Water Can=Банка с водой
-Lava Can=Банка с лавой
-Chainsaw=Бензопила
-Flashlight=Фонарик
-3 nodes deep.=Глубина 3 узла.
-3 nodes tall.=Высота 3 узла.
-3 nodes wide.=Ширина 3 узла.
-3x3 nodes.=3х3 узла.
-Use while sneaking to change Mining Drill Mk%d modes.=Используйте кнопку подкрадывания, чтобы изменить режимы Горного бура Mk%d.
-Mining Drill Mk%d Mode %d=Горный бур Mk%d, режим %d
-Mining Drill Mk%d=Горный бур Mk%d
-Mining Laser Mk%d=Горный лазер Mk%d
-Single node.=Одиночный узел.
 Sonic Screwdriver=Звуковая отвертка
-Tree Tap=Деревянный кран
-
 ## Craft descriptions
 Alloy cooking=Сплав варочный
-Grinding=Шлифование
-Compressing=Сжатие
-Extracting=Извлечение
-Separating=Разделение
-Freezing=Замораживание
-
-##Force firld
-Sphere=Сфера
-Cube=Куб
-

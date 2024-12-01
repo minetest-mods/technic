@@ -103,11 +103,12 @@ for _, data in ipairs(recipes) do
 end
 
 -- Dusts
+local dust = S("Dust")
 local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	minetest.register_craftitem("technic:"..lname.."_dust", {
-		description = S("@1 Dust", name),
+		description = S(name) .. ' ' .. dust,
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
@@ -122,7 +123,7 @@ end
 
 -- Sorted alphabetically
 local dusts = {
-	{"Brass",           "basic_materials:brass_ingot"},
+	{"Brass",        "basic_materials:brass_ingot"},
 	{"Bronze",          "default:bronze_ingot"},
 	{"Carbon Steel",    "technic:carbon_steel_ingot"},
 	{"Cast Iron",       "technic:cast_iron_ingot"},

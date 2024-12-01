@@ -1,9 +1,179 @@
+# textdomain: technic
+@1 Alloy Furnace=
+Alloying=
+Administrative World Anchor=
+Owner:=
+Unlocked=
+Locked=
+Keeping @1/@2 map blocks loaded=
+Radius:=
+Disabled=
+Enabled=
+RE Battery=
+@1 Battery Box=
+Charge=
+Discharge=
+Power level=
+@1 Battery Box Has No Network=
+@1 Battery Box: @2 / @3=
+@1 Cable=
+@1 Cable Plate=
+Water Can=
+Lava Can=
+River Water Can=
+@1 Centrifuge=
+Separating=
+Chainsaw=
+Fuel-Fired Alloy Furnace=
+@1 is empty=
+@1 Out Of Fuel=
+Fuel-Fired Furnace=
+Machine cannot be removed because it is not empty=
+Inventory move disallowed due to protection=
+@1 Compressor=
+Compressing=
+Constructor Mk@1=
+Slot @1=
+@1 Furnace=
+@1 Extractor=
+Extracting=
+Flashlight=
+Range=
+Sphere=
+Cube=
+@1 Disabled=
+@1 Forcefield Emitter=
+@1 Enabled=
+@1 Forcefield=
+@1 Unpowered=
+@1 Active=
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+Frame=
+Frame Motor=
+Template=
+Template (replacing)=
+Template Tool=
+Template Motor=
+@1 Freezer=
+Freezing=
+Fuel-Fired @1 Generator=
+Geothermal @1 Generator=
+Geothermal %s Generator=
+@1 Grinder=
+Grinding=
+Dust=
+@1 Dust=
+@1-Fissile Uranium=
+Sawdust=
+@1 Grinding=
+Hydro @1 Generator=
+[Technic] Loaded in @1 seconds=
+Self-Contained Injector=
+Stackwise=
+Itemwise=
+Public=
+Private=
+Silicon Wafer=
+Doped Silicon Wafer=
+Uranium Fuel=
+Diamond Drill Head=
+Blue Energy Crystal=
+Green Energy Crystal=
+Red Energy Crystal=
+Copper Coil=
+Low Voltage Transformer=
+Medium Voltage Transformer=
+High Voltage Transformer=
+Control Logic Unit=
+Mixed Metal Ingot=
+Composite Plate=
+Copper Plate=
+Carbon Plate=
+Graphite=
+Carbon Cloth=
+Machine Casing=
+Rubber Goo=
+@1-Fissile Uranium Ingot=
+@1-Fissile Uranium Block=
+@1 Lamp=
+@1 Off=
+Dummy light source node=
+@1 LED=
+LV=
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+White Glowlight (small cube)=
+Single node.=
+3 nodes deep.=
+3 nodes wide.=
+3 nodes tall.=
+3x3 nodes.=
+Mining Drill Mk#1 Mode #2=
+Use while sneaking to change Mining Drill Mk@1 modes.=
+Mining Drill Mk@1=
+Mining Laser Mk%d=
+%s Music Player=
+Stopped=
+Current track %s=
+@1 Nuclear Reactor Core=
+HV=
+Nuclear Reactor Rod Compartment=
+@1 Idle=
+Power Monitor=
+Power Monitor. Supply: @1 Demand: @2=
+Power Monitor Has No Network=
+Prospector=
+%s Quarry=
+Digging not started=
+Digging finished=
+Purging cache=
+Restart=
+%s purging cache=
+%s Finished=
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+%s Unpowered=
+%s Active=
+%s Disabled=
+Chernobylite Block=
+Arrayed Solar @1 Generator=
+Small Solar %s Generator=
+%s Idle=
+@1 Active (@2)=
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
+Input Power=
+Supply Converter=
+%s Enabled=
+@1 (@2 @3 -> @4 @5)=
+%s Has Bad Cabling=
+Switching Station=
+%s Already Present=
+@1. Supply: @2 Demand: @3=
+%s Has No Network=
+%s Tool Workshop=
+Upgrade Slots=
+Tree Tap=
+Raw Latex=
+Rubber Fiber=
+Vacuum Cleaner=
+Hydro %s Generator=
+Wind Mill Frame=
+Wind %s Generator=
+%s Improperly Placed=
+@1 (@2)=
+
+
+##### not used anymore #####
+
 # template.txt
 # Template for translations of Technic
-
 ## Misc
 [Technic] Loaded in %f seconds                          = [Technic] Chargement en %f secondes
-                                                        
 ## Items                                                
 Silicon Wafer                                           = Tranche de silicium
 Doped Silicon Wafer                                     = Tranche de silicium doppée
@@ -32,11 +202,9 @@ Raw Latex                                               = Latex brut
 Rubber Fiber                                            = Fibre de caoutchouc
 %.1f%%-Fissile Uranium Ingot                            = Lingot d'uranium fissile (%.1f%%)
 %.1f%%-Fissile Uranium Block                            = Bloc d'uranium fissile (%.1f%%)
-
 ## Machine misc
 Machine cannot be removed because it is not empty       = La machine ne peut pas être retirée car elle n'est pas vide
 Inventory move disallowed due to protection             = Le mouvement d'inventaire n'est pas autorisé en raison de la protection
-
 # $1: Machine name (Includes tier)
 @1 Active (@2 EU)                                       = @1 Active (@2 EU)
 %s Active                                               = %s actif
@@ -67,7 +235,6 @@ Locked                                                  = Verrouillé
 Radius:                                                 = Rayon :
 Enabled                                                 = Activé
 Disabled                                                = Désactivé
-
 ## Machine names
 # $1: Tier
 %s Alloy Furnace                                        = Four à alliage %s
@@ -95,9 +262,6 @@ Constructor Mk%d                                        = Constructeur Mk%d
 Frame                                                   = Cadre
 Frame Motor                                             = Cadre de moteur
 Template                                                = Modèle
-Template (replacing)                                    =
-Template Motor                                          =
-Template Tool                                           =
 Battery Box                                             = Compartiment à batterie
 Supply Converter                                        = Convertisseur de tension
 Switching Station                                       = Station de commutation
@@ -106,31 +270,24 @@ Fuel-Fired Furnace                                      = Four à carburant
 Wind Mill Frame                                         = Cadre d'éolienne
 Forcefield                                              = Champ de force
 Nuclear Reactor Rod Compartment                         = Compartiment à barres du réacteur nucléaire
-Administrative World Anchor                             =
-                                                        
 ## Machine-specific                                     
 # $1: Pruduced EU                                       
 Charge                                                  = Charger
 Discharge                                               = Décharger
 Power level                                             = Niveau d'énergie
-
 # $1: Tier $2: current_charge $3: max_charge 
 @1 Battery Box: @2/@3                                   = @1 batterie : @2/@3
-                                                        
 # $1: Machine name $2: Supply $3: Demand                
 @1. Supply: @2 Demand: @3                               = @1. fournit : @2 demande : @3
 Production at %d%%                                      = Production à %d%%
 Choose Milling Program:                                 = Choisissez le programme de fraisage :
-Slim Elements half / normal height:                     =
 Current track %s                                        = Morceau actuel %s
 Stopped                                                 = Arrêté
-Keeping %d/%d map blocks loaded                         =
 Digging not started                                     = Creusement non démarré
 Digging finished                                        = Creusement terminé
 Digging %d m above machine                              = Creusement à %dm au dessus de la machine
 Digging %d m below machine                              = Creusement à %dm en dessous de la machine
 @1 (@2 @3 -> @4 @5)                                     = @1 (@2 @3 -> @4 @5)
-                                                        
 ## CNC                                                  
 Cylinder                                                =
 Element Cross                                           = Elément croisé
@@ -147,12 +304,6 @@ Horizontal Cylinder                                     = Cylindre horizontal
 One Curved Edge Block                                   = Bloc à un bord incurvé
 Pyramid                                                 = Pyramide
 Slope                                                   = Pente
-Slope Edge                                              =
-Slope Inner Edge                                        =
-Slope Lying                                             =
-Slope Upside Down                                       =
-Slope Upside Down Edge                                  =
-Slope Upside Down Inner Edge                            =
 Sphere                                                  = Sphère
 Spike                                                   = Pointe
 Stick                                                   = Bâton
@@ -165,13 +316,9 @@ Sandstone                                               = Grès
 Stone                                                   = Pierre
 Tree                                                    = Arbre
 Wooden                                                  = Bois
-
 ## Grinder Recipes
 # $1: Name
 %s Dust                                                 = Poudre de %s
-Akalin                                                  =
-Alatro                                                  =
-Arol                                                    =
 Brass                                                   = Laiton
 Bronze                                                  = Bronze
 Carbon Steel                                            = Acier au carbone
@@ -188,25 +335,18 @@ Tin                                                     = Etain
 Wrought Iron                                            = Fer
 Zinc                                                    = Zinc
 %.1f%%-Fissile Uranium                                  = Uranium fissile (%.1f%%)
-
 ## Tools
 RE Battery                                              = Batterie RE
 Water Can                                               = Jerrycan d'eau
 Lava Can                                                = Jerrycan de lave
 Chainsaw                                                = Tronçonneuse
 Flashlight                                              = Lampe-torche
-3 nodes deep.                                           =
-3 nodes tall.                                           =
-3 nodes wide.                                           =
-3x3 nodes.                                              =
-Use while sneaking to change Mining Drill Mk%d modes.   =
 Mining Drill Mk%d Mode %d                               = Foreuse Mk%d Mode %d
 Mining Drill Mk%d                                       = Foreuse Mk%d
 Mining Laser Mk%d                                       = Foreuse laser Mk%d
 Single node.                                            = Mode simple.
 Sonic Screwdriver                                       = Tournevis supersonique
 Tree Tap                                                = Robinet à sève
-
 ## Craft descriptions
 Alloy cooking                                           = Fonderie d'alliage
 Grinding                                                = Broyage

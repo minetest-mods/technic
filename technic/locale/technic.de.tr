@@ -1,10 +1,180 @@
+# textdomain: technic
+@1 Alloy Furnace=
+Alloying=
+Administrative World Anchor=
+Owner:=
+Unlocked=
+Locked=
+Keeping @1/@2 map blocks loaded=
+Radius:=
+Disabled=
+Enabled=
+RE Battery=
+@1 Battery Box=
+Charge=
+Discharge=
+Power level=
+@1 Battery Box Has No Network=
+@1 Battery Box: @2 / @3=
+@1 Cable=
+@1 Cable Plate=
+Water Can=
+Lava Can=
+River Water Can=
+@1 Centrifuge=
+Separating=
+Chainsaw=
+Fuel-Fired Alloy Furnace=
+@1 is empty=
+@1 Out Of Fuel=
+Fuel-Fired Furnace=
+Machine cannot be removed because it is not empty=
+Inventory move disallowed due to protection=
+@1 Compressor=
+Compressing=
+Constructor Mk@1=
+Slot @1=
+@1 Furnace=
+@1 Extractor=
+Extracting=
+Flashlight=
+Range=
+Sphere=
+Cube=
+@1 Disabled=
+@1 Forcefield Emitter=
+@1 Enabled=
+@1 Forcefield=
+@1 Unpowered=
+@1 Active=
+Ignoring Mesecon Signal=
+Controlled by Mesecon Signal=
+Frame=
+Frame Motor=
+Template=
+Template (replacing)=
+Template Tool=
+Template Motor=
+@1 Freezer=
+Freezing=
+Fuel-Fired @1 Generator=
+Geothermal @1 Generator=
+Geothermal %s Generator=
+@1 Grinder=
+Grinding=
+Dust=
+@1 Dust=
+@1-Fissile Uranium=
+Sawdust=
+@1 Grinding=
+Hydro @1 Generator=
+[Technic] Loaded in @1 seconds=
+Self-Contained Injector=
+Stackwise=
+Itemwise=
+Public=
+Private=
+Silicon Wafer=
+Doped Silicon Wafer=
+Uranium Fuel=
+Diamond Drill Head=
+Blue Energy Crystal=
+Green Energy Crystal=
+Red Energy Crystal=
+Copper Coil=
+Low Voltage Transformer=
+Medium Voltage Transformer=
+High Voltage Transformer=
+Control Logic Unit=
+Mixed Metal Ingot=
+Composite Plate=
+Copper Plate=
+Carbon Plate=
+Graphite=
+Carbon Cloth=
+Machine Casing=
+Rubber Goo=
+@1-Fissile Uranium Ingot=
+@1-Fissile Uranium Block=
+@1 Lamp=
+@1 Off=
+Dummy light source node=
+@1 LED=
+LV=
+someone=
+Sorry, @1 owns that spot.=
+Yellow Glowlight (thick)=
+Yellow Glowlight (thin)=
+White Glowlight (thick)=
+White Glowlight (thin)=
+Yellow Glowlight (small cube)=
+White Glowlight (small cube)=
+Single node.=
+3 nodes deep.=
+3 nodes wide.=
+3 nodes tall.=
+3x3 nodes.=
+Mining Drill Mk#1 Mode #2=
+Use while sneaking to change Mining Drill Mk@1 modes.=
+Mining Drill Mk@1=
+Mining Laser Mk%d=
+%s Music Player=
+Stopped=
+Current track %s=
+@1 Nuclear Reactor Core=
+HV=
+Nuclear Reactor Rod Compartment=
+@1 Idle=
+Power Monitor=
+Power Monitor. Supply: @1 Demand: @2=
+Power Monitor Has No Network=
+Prospector=
+%s Quarry=
+Digging not started=
+Digging finished=
+Purging cache=
+Restart=
+%s purging cache=
+%s Finished=
+Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge.=
+%s Unpowered=
+%s Active=
+%s Disabled=
+Chernobylite Block=
+Arrayed Solar @1 Generator=
+Small Solar %s Generator=
+%s Idle=
+@1 Active (@2)=
+Sonic Screwdriver (left-click rotates face, right-click rotates axis)=
+Input Power=
+Supply Converter=
+%s Enabled=
+@1 (@2 @3 -> @4 @5)=
+%s Has Bad Cabling=
+Switching Station=
+%s Already Present=
+@1. Supply: @2 Demand: @3=
+%s Has No Network=
+%s Tool Workshop=
+Upgrade Slots=
+Tree Tap=
+Raw Latex=
+Rubber Fiber=
+Vacuum Cleaner=
+Hydro %s Generator=
+Wind Mill Frame=
+Wind %s Generator=
+%s Improperly Placed=
+@1 (@2)=
+
+
+##### not used anymore #####
+
 # German Translation for Technic Mod
 # Deutsche Uebersetzung des Technic Mods
 # by Xanthin
-
 ## Misc
 [Technic] Loaded in %f seconds = [Technic] ist in %f Sekunden geladen
-
 ## Items
 Silicon Wafer = Siliziumscheibe
 Doped Silicon Wafer = Dotierte Siliziumscheibe
@@ -29,9 +199,6 @@ Graphite = Graphit
 Carbon Cloth = Kohlefasergewebe
 Raw Latex = Rohlatex
 Rubber Fiber = Gummifaser
-%.1f%%-Fissile Uranium Ingot =
-%.1f%%-Fissile Uranium Block =
-
 ## Machine misc
 Machine cannot be removed because it is not empty = Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
 Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugriff verweigert.
@@ -39,7 +206,6 @@ Inventory move disallowed due to protection = Das Inventar ist geschuetzt, Zugri
 @1 Active (@2 EU) = @1 ist eingeschaltet (@2 EU)
 %s Active = %s ist eingeschaltet
 %s Disabled = %s ist ausgeschaltet
-%s Enabled =
 %s Idle = %s ist bereit
 %s Improperly Placed = %s ist falsch plaziert
 %s Unpowered = %s hat keine Stromversorgung
@@ -55,13 +221,6 @@ Out: = Raus:
 Slot %d = Fach %d
 Itemwise = Einzelstuecke
 Stackwise = Ganzer Stapel
-Owner: =
-Unlocked =
-Locked =
-Radius: =
-Enabled =
-Disabled =
-
 ## Machine names
 # $1: Tier
 %s Alloy Furnace = %s Legierungsofen
@@ -98,8 +257,6 @@ Fuel-Fired Furnace = Kohle-Ofen
 Wind Mill Frame = Windmuehlengeruest
 Forcefield = Kraftfeld
 Nuclear Reactor Rod Compartment = Brennstabfaecher
-Administrative World Anchor =
-
 ## Machine-specific
 # $1: Pruduced EU
 Charge = Aufladen
@@ -113,13 +270,6 @@ Production at %d%% = Produktion bei %d%%
 Choose Milling Program: = Waehle ein Fraesprogramm:
 Slim Elements half / normal height: = Schmale Elemente von halber / normaler Hoehe:
 Current track %s = Aktueller Titel %s
-Stopped =
-Keeping %d/%d map blocks loaded =
-Digging not started =
-Digging finished =
-Digging %d m above machine =
-Digging %d m below machine =
-
 ## Grinder Recipes
 # $1: Name
 %s Dust = %sstaub
@@ -141,8 +291,6 @@ Talinite = Talinite
 Tin = Zinn
 Wrought Iron = Schmiedeeisen
 Zinc = Zink
-%.1f%%-Fissile Uranium =
-
 ## Tools
 RE Battery = Akkubatterie
 Water Can = Wasserkanister
@@ -160,9 +308,5 @@ Mining Laser Mk%d = Bergbaulaser Modell %d
 Single node. = Einzelblock
 Sonic Screwdriver = Schallschraubendreher
 Tree Tap = Baumzapfhahn
-
 ## Craft descriptions
 Alloy cooking =
-Grinding =
-Compressing =
-Extracting =

@@ -1,5 +1,5 @@
 
-local S = technic.worldgen.gettext
+local S = minetest.get_translator("technic_worldgen")
 
 minetest.register_craftitem(":technic:uranium_lump", {
 	description = S("Uranium Lump"),
@@ -184,9 +184,10 @@ for _, i in ipairs({
 	steel_to_iron[i] = true
 end
 
+local iron = S("Iron")
 for_each_registered_item(function(item_name)
 	local item_def = minetest.registered_items[item_name]
 	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", iron) })
 	end
 end)
