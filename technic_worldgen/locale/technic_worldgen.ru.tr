@@ -1,5 +1,4 @@
 # textdomain: technic_worldgen
-
 Uranium Lump=Кусок урана
 Uranium Ingot=Урановый слиток
 Chromium Lump=Кусок хрома
@@ -14,6 +13,7 @@ Cast Iron Ingot=Чугунный слиток
 Carbon Steel Ingot=Слиток углеродистой стали
 Stainless Steel Ingot=Слиток нержавеющей стали
 Iron=Железо
+Steel=Сталь
 Uranium Ore=Урановая руда
 Chromium Ore=Хромовая руда
 Zinc Ore=Цинковая руда

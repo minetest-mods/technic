@@ -1,6 +1,6 @@
 -- Code of rubber tree by PilzAdam
 
-local S = technic.worldgen.gettext
+local S = minetest.get_translator("technic_worldgen")
 
 minetest.register_node(":moretrees:rubber_tree_sapling", {
 	description = S("Rubber Tree Sapling"),

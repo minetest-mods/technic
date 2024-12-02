@@ -185,9 +185,10 @@ for _, i in ipairs({
 end
 
 local iron = S("Iron")
+local steel = S("Steel")
 for_each_registered_item(function(item_name)
 	local item_def = minetest.registered_items[item_name]
-	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", iron) })
+	if steel_to_iron[item_name] and string.find(item_def.description, steel) then
+		minetest.override_item(item_name, { description = string.gsub(item_def.description, steel, iron) })
 	end
 end)

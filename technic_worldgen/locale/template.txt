@@ -13,6 +13,7 @@ Cast Iron Ingot=
 Carbon Steel Ingot=
 Stainless Steel Ingot=
 Iron=
+Steel=
 Uranium Ore=
 Chromium Ore=
 Zinc Ore=
