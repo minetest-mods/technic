@@ -193,6 +193,12 @@ Groups:
 	* UNRELIABLE. Indicates whether the item or node belongs to technic
 * `connect_sides = {"top", "left", ...}`
 	* Extends the Minetest API. Indicates where the machine can be connected.
+* `radioactive = <radiation>`
+	* Makes the node radioactive.
+ 	* `<radiation>`: Strength of the node's radiation (ex. `2`).
+* `rad_resistance = <resistance>`
+	* Makes the node resistant to radiation.
+	* `<resistance>`: Strength of the node's resistance (ex. `80`).
 
 Additional definition fields:
 
@@ -265,6 +271,20 @@ Network functionality:
 4. Excess power draw will discharge batteries evenly.
 5. If the total demand is more than the available power all RE nodes will be shut
    down. We have a brown-out situation.
+
+
+## Radiation
+* `technic.register_rad_resistance(node_name, resistance)`
+	* Sets the radiation resistance of the given node.
+	* `node_name`: name of the node
+	* `resistance`: number, radiation resistance of the node
+* `technic.register_group_resistance(group_name, resistance)`
+	* Sets the radiation resistance of the given group of nodes.
+	* `group_name`: name of the group
+	* `resistance`: number, radiation resistance of the group
+* `technic.cache_resistances()`
+	* Cache radiation resistances after Technic loads.
+
 
 ## Deprecated functions
 
