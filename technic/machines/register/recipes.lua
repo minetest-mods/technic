@@ -32,7 +32,10 @@ function technic.register_recipe_type(typename, origdata)
 end
 
 local function get_recipe_index(items)
-	if not items or type(items) ~= "table" then return false end
+	if type(items) ~= "table" then
+		return false
+	end
+
 	local l = {}
 	for i, stack in ipairs(items) do
 		l[i] = ItemStack(stack):get_name()
@@ -75,22 +78,21 @@ local function register_recipe(typename, data)
 	end
 	if (have_cg or have_i3) and technic.recipes[typename].output_size == 1 then
 		local result = data.output
-		if (type(result)=="table") then
+		if type(result) == "table" then
 			result = result[1]
 		end
-		local items = table.concat(data.input, ", ")
 		if have_cg and craftguide.register_craft then
 			craftguide.register_craft({
 				type = typename,
 				result = result,
-				items = {items},
+				items = data.input,
 			})
 		end
 		if have_i3 then
 			i3.register_craft({
 				type = typename,
 				result = result,
-				items = {items},
+				items = data.input,
 			})
 		end
 	end
