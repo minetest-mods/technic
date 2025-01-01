@@ -1,7 +1,7 @@
 local S = minetest.get_translator("technic_chests")
 
 technic.chests:register(S("Copper"), "copper", {
-	width = 12,
+	width = 14,
 	height = 5,
 	sort = true,
 	autosort = true,
@@ -11,7 +11,7 @@ technic.chests:register(S("Copper"), "copper", {
 })
 
 technic.chests:register(S("Copper"), "copper",{
-	width = 12,
+	width = 14,
 	height = 5,
 	sort = true,
 	autosort = true,
