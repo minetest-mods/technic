@@ -133,7 +133,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		fs[#fs + 1] = "label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
+		fs[#fs + 1] = "label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: @1", colorName).."]"
 	end
 	meta:set_string("formspec", table.concat(fs))
 end

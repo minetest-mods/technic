@@ -1,39 +1,39 @@
-# technic_chests translation template
+# textdomain: technic_chests
 
-%s Chest =
-%s Locked Chest =
-%s Locked Chest (owned by %s) =
-Color Filter: %s =
-Edit chest description: =
+@1 Chest=@1 Сундук
+@1 Locked Chest=@1 Запертый сундук
+@1 Locked Chest (owned by @2)=@1 Запертый сундук (принадлежит @2)
+Color Filter: @1=Цветовой фильтр: @1
+Edit chest description:=Редактировать описание сундука:
 
 # Colors
-Black = Черный
-Blue =
-Brown =
-Cyan =
-Dark Green =
-Dark Grey =
-Green =
-Grey =
-Magenta =
-Orange =
-Pink =
-Red =
-Violet =
-White =
-Yellow =
-None =
+Black=Черный
+Blue=Синий
+Brown=Коричневый
+Cyan=Голубой
+Dark Green=Темно-зеленый
+Dark Grey=Темно-серый
+Green=Зеленый
+Grey=Серый
+Magenta=Пурпурный
+Orange=Оранжевый
+Pink=Розовый
+Red=Красный
+Violet=Фиолетовый цвет
+White=Белый
+Yellow=Желтый
+None=Не выбран
 
 # Materials
-Copper =
-Gold=Золото
-Iron=Железо
-Mithril =
-Silver =
-Wooden =
+Copper=Медный
+Gold=Золотой
+Iron=Железный
+Mithril=Мифриловый
+Silver=Серебреный
+Wooden=Деревянный
 
 # Sorting
 Sort=Сортировать
-Auto-sort is %s =
-Off =
-On =
+Auto-sort is @1=Автоматическая сортировка равна @1
+Off=Выключен
+On=Включон
