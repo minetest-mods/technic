@@ -1,3 +1,4 @@
+local S = minetest.get_translator("technic_chests")
 
 local material_list
 if minetest.get_modpath("moreores") then
@@ -36,7 +37,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), "gold", {
 	width = 15,
 	height = 6,
 	sort = true,
@@ -46,7 +47,7 @@ technic.chests:register("Gold", {
 	locked = false,
 })
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), "gold", {
 	width = 15,
 	height = 6,
 	sort = true,

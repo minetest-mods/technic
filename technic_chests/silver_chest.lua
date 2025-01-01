@@ -1,3 +1,5 @@
+local S = minetest.get_translator("technic_chests")
+
 if minetest.get_modpath("moreores") then
 	minetest.register_craft({
 		output = 'technic:silver_chest',
@@ -27,7 +29,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), "silver", {
 	width = 12,
 	height = 6,
 	sort = true,
@@ -37,7 +39,7 @@ technic.chests:register("Silver", {
 	locked = false,
 })
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), "silver",{
 	width = 12,
 	height = 6,
 	sort = true,

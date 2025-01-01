@@ -1,3 +1,25 @@
+local S = minetest.get_translator("technic_chests")
+
+technic.chests:register(S("Copper"), "copper", {
+	width = 12,
+	height = 5,
+	sort = true,
+	autosort = true,
+	infotext = false,
+	color = false,
+	locked = false,
+})
+
+technic.chests:register(S("Copper"), "copper",{
+	width = 12,
+	height = 5,
+	sort = true,
+	autosort = true,
+	infotext = false,
+	color = false,
+	locked = true,
+})
+
 minetest.register_craft({
 	output = 'technic:copper_chest 1',
 	recipe = {
@@ -24,24 +46,3 @@ minetest.register_craft({
 		'technic:copper_chest',
 	}
 })
-
-technic.chests:register("Copper", {
-	width = 12,
-	height = 5,
-	sort = true,
-	autosort = true,
-	infotext = false,
-	color = false,
-	locked = false,
-})
-
-technic.chests:register("Copper", {
-	width = 12,
-	height = 5,
-	sort = true,
-	autosort = true,
-	infotext = false,
-	color = false,
-	locked = true,
-})
-

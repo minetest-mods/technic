@@ -1,3 +1,4 @@
+local S = minetest.get_translator("technic_chests")
 local cast_iron_ingot
 if minetest.get_modpath("technic_worldgen") then
 	cast_iron_ingot = "technic:cast_iron_ingot"
@@ -32,7 +33,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), "iron", {
 	width = 9,
 	height = 5,
 	sort = true,
@@ -42,7 +43,7 @@ technic.chests:register("Iron", {
 	locked = false,
 })
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), "iron", {
 	width = 9,
 	height = 5,
 	sort = true,
