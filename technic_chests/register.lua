@@ -165,8 +165,7 @@ local function sort_inventory(inv)
 	end
 end
 
-local function get_receive_fields(name, data)
-	local lname = name:lower()
+local function get_receive_fields(name, lname,  data)
 	return function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
 		local page = "main"
@@ -306,7 +305,7 @@ function technic.chests:definition(name, lname, data)
 			inv:set_size("main", data.width * data.height)
 		end,
 		can_dig = self.can_dig,
-		on_receive_fields = get_receive_fields(name, data),
+		on_receive_fields = get_receive_fields(name, lname, data),
 		on_metadata_inventory_move = self.on_inv_move,
 		on_metadata_inventory_put = self.on_inv_put,
 		on_metadata_inventory_take = self.on_inv_take,
