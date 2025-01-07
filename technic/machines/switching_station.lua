@@ -7,7 +7,7 @@ technic.redundant_warn = {}
 local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 

@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local desc = S("Administrative World Anchor")
 

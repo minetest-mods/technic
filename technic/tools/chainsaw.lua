@@ -11,7 +11,7 @@ local chainsaw_efficiency = 0.92 -- Drops less items
 local tree_max_radius = 10
 local tree_max_height = 70
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 --[[
 Format: [node_name] = dig_cost
@@ -203,8 +203,7 @@ local function chainsaw_dig(player, pos, remaining_charge)
 	end
 
 	if cutter.stopped_by_safe_cut then
-		minetest.chat_send_player(player_name, S("The chainsaw could not dig all nodes" ..
-			" because the safety mechanism was activated."))
+		minetest.chat_send_player(player_name, S("The chainsaw could not dig all nodes because the safety mechanism was activated."))
 	end
 
 	minetest.sound_play("chainsaw", {

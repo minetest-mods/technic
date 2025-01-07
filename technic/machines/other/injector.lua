@@ -1,5 +1,5 @@
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local fs_helpers = pipeworks.fs_helpers
 

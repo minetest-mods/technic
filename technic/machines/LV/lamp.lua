@@ -3,7 +3,7 @@
 -- Illuminates a 7x7x3(H) volume below itself with light bright as the sun.
 
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local desc = S("@1 Lamp", S("LV"))
 local active_desc = S("@1 Active", desc)

@@ -1,7 +1,7 @@
 
 -- Fuel driven alloy furnace. This uses no EUs:
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',

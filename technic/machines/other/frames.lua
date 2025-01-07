@@ -1,4 +1,4 @@
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local infinite_stacks = minetest.settings:get_bool("creative_mode")
 	and minetest.get_modpath("unified_inventory") == nil

@@ -1,5 +1,5 @@
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 local mesecons_materials = minetest.get_modpath("mesecons_materials")
 
 minetest.register_tool("technic:treetap", {

@@ -15,7 +15,7 @@ local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
 local cable_entry = "^technic_cable_connection_overlay.png"

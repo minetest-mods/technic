@@ -1,7 +1,7 @@
 -- LED
 -- Intended primarily as a core component for LED lamps.
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local desc = S("@1 LED", S("LV"))
 local active_desc = S("@1 Active", desc)

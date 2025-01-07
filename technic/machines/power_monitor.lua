@@ -2,7 +2,7 @@
 -- The power monitor can be used to monitor how much power is available on a network,
 -- similarly to the old "slave" switching stations.
 
-local S = technic.getter
+local S = minetest.get_translator("technic")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
