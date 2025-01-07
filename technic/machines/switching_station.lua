@@ -286,7 +286,7 @@ minetest.register_abm({
 		if meta:get_int("active") ~= 1 then
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(cable_pos)
-			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+			meta:set_string("infotext",S("@1 Already Present", machine_name))
 
 			local poshash = minetest.hash_node_position(pos)
 
@@ -306,7 +306,7 @@ minetest.register_abm({
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, cable_pos, tier)
 		else
 			--dprint("Not connected to a network")
-			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+			meta:set_string("infotext", S("@1 Has No Network", machine_name))
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(cable_pos)
 			return
@@ -494,7 +494,7 @@ minetest.register_abm({
 		if technic_machine and not has_network then
 			local nodedef = minetest.registered_nodes[node.name]
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+			meta:set_string("infotext", S("@1 Has No Network", nodedef.description))
 			if nodedef.technic_disabled_machine_name then
 				node.name = nodedef.technic_disabled_machine_name
 				minetest.swap_node(pos, node)
