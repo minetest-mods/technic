@@ -124,7 +124,7 @@ local check_node_subp = function(network, pos, machines, sw_pos, from_below, net
 	--minetest.log('action', 'Check node: ' .. dump(pos))
 	technic.get_or_load_node(pos)
 	local name = minetest.get_node(pos).name
-	minetest.log('action', 'Check node name: ' .. dump(network.tier))
+	--minetest.log('action', 'Check node name: ' .. dump(network.tier))
 
 	if technic.is_tier_cable(name, network.tier) then
 		add_cable_node(network.all_nodes, pos, network_id, queue)
