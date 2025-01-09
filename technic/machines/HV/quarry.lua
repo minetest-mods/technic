@@ -50,15 +50,15 @@ local function set_quarry_demand(meta)
 	local do_purge = meta:get_int("purge_on") == 1
 	if meta:get_int("enabled") == 0 or do_purge then
 		local infotext = do_purge and
-			S("@1 purging cache") or S("%s Disabled")
+			S("purging cache") or S("Disabled")
 		meta:set_string("infotext", infotext:format(machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	elseif meta:get_int("dug") == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
-		meta:set_string("infotext", S("%s Finished"):format(machine_name))
+		meta:set_string("infotext", S("@1 Finished", machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	else
 		local infotext = meta:get_int("HV_EU_input") >= quarry_demand
-			and S("%s Active") or S("%s Unpowered")
+			and S("Active") or S("Unpowered")
 		meta:set_string("infotext", infotext:format(machine_name))
 		meta:set_int("HV_EU_demand", quarry_demand)
 	end
@@ -224,8 +224,7 @@ end
 
 local function send_move_error(player)
 	minetest.chat_send_player(player:get_player_name(),
-		S("Manually taking/removing from cache by hand is not possible. "..
-		"If you can't wait, restart or disable the quarry to start automatic purge."))
+		S("Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge."))
 	return 0
 end
 
@@ -257,7 +256,7 @@ minetest.register_node("technic:quarry", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s Quarry"):format("HV"))
+		meta:set_string("infotext", S("@1 Quarry", "HV"))
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		set_quarry_demand(meta)
