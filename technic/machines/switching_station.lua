@@ -121,8 +121,10 @@ end
 -- Generic function to add found connected nodes to the right classification array
 -- !! IMPORTANT: register/cables.lua -> clear_networks() must be kept in sync
 local check_node_subp = function(network, pos, machines, sw_pos, from_below, network_id, queue)
+	--minetest.log('action', 'Check node: ' .. dump(pos))
 	technic.get_or_load_node(pos)
 	local name = minetest.get_node(pos).name
+	minetest.log('action', 'Check node name: ' .. dump(network.tier))
 
 	if technic.is_tier_cable(name, network.tier) then
 		add_cable_node(network.all_nodes, pos, network_id, queue)
@@ -185,6 +187,7 @@ end
 
 local touch_nodes = function(list, tier)
 	for _, pos in ipairs(list) do
+		--minetest.log("action", 'pos: ' .. dump(pos))
 		local meta = minetest.get_meta(pos)
 		meta:set_int(tier.."_EU_timeout", 2) -- Touch node
 	end
