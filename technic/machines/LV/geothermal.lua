@@ -93,7 +93,7 @@ minetest.register_node("technic:geothermal", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Geothermal %s Generator"):format("LV"))
+		meta:set_string("infotext", S("Geothermal @1 Generator", "LV"))
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
