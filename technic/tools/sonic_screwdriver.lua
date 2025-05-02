@@ -31,10 +31,20 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
-	if not ndef or not ndef.paramtype2 == "facedir" or
-			(ndef.drawtype == "nodebox" and
-			not ndef.node_box.type == "fixed") or
-			node.param2 == nil then
+
+	if not ndef then return end
+
+	local paramtype2 = ndef.paramtype2
+	if (
+		paramtype2 == nil or
+		paramtype2 == "color" or
+		paramtype2 == "meshoptions" or
+		paramtype2 == "leveled" or
+		paramtype2 == "flowingliquid" or
+		paramtype2 == "glasslikeliquidlevel" or
+		paramtype2 == "wallmounted" or
+		paramtype2 == "colorwallmounted"
+	) then
 		return
 	end
 
@@ -50,18 +60,54 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10})
 
 	-- Set param2
-	local rotationPart = node.param2 % 32 -- get first 4 bits
-	local preservePart = node.param2 - rotationPart
+	local new_param2
+	local param2 = node.param2
 
-	local axisdir = math.floor(rotationPart / 4)
-	local rotation = rotationPart - axisdir * 4
-	if mode == ROTATE_FACE then
-		rotationPart = axisdir * 4 + nextrange(rotation, 3)
-	elseif mode == ROTATE_AXIS then
-		rotationPart = nextrange(axisdir, 5) * 4
+	local floor = math.floor
+	if (paramtype2 == "facedir") or (paramtype2 == "colorfacedir") then
+		local aux = floor(param2 / 32)
+		local rotation = param2 % 32
+
+		if mode == ROTATE_FACE then
+			rotation = (floor(param2 / 4)) * 4 + ((rotation + 1) % 4)
+		elseif mode == ROTATE_AXIS then
+			rotation = ((floor(param2 / 4) + 1) * 4) % 24
+		end
+
+		new_param2 = aux * 32 + rotation
+	elseif (paramtype2 == "4dir") or (paramtype2 == "color4dir") then
+		local aux = floor(param2 / 4)
+		local rotation = param2 % 4
+
+		if mode == ROTATE_FACE then
+			rotation = (rotation + 1) % 4
+		elseif mode == ROTATE_AXIS then
+			rotation = 0
+		end
+		
+		new_param2 = aux * 4 + rotation
+	elseif (paramtype2 == "degrotate") then
+		if mode == ROTATE_FACE then
+			new_param2 = rotation + 1
+		elseif mode == ROTATE_AXIS then
+			new_param2 = rotation + 20
+		end
+		new_param2 = new_param2 % 240
+	elseif (paramtype2 == "colordegrotate") then
+		local aux = floor(param2 / 32)
+		local rotation = param2 % 32
+
+		if mode == ROTATE_FACE then
+			rotation = rotation + 1
+		elseif mode == ROTATE_AXIS then
+			rotation = rotation + 4
+		end
+		rotation = rotation % 24
+
+		new_param2 = aux * 32 + rotation
 	end
 
-	node.param2 = preservePart + rotationPart
+	node.param2 = new_param2
 	minetest.swap_node(pos, node)
 
 	if not technic.creative_mode then
