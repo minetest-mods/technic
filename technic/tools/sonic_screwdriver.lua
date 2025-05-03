@@ -88,9 +88,9 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		new_param2 = aux * 4 + rotation
 	elseif (paramtype2 == "degrotate") then
 		if mode == ROTATE_FACE then
-			new_param2 = rotation + 1
+			new_param2 = param2 + 1
 		elseif mode == ROTATE_AXIS then
-			new_param2 = rotation + 20
+			new_param2 = param2 + 20
 		end
 		new_param2 = new_param2 % 240
 	elseif (paramtype2 == "colordegrotate") then
