@@ -63,29 +63,45 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	local new_param2
 	local param2 = node.param2
 
+	local dirs_per_axis = 4
+
+	local dir_components = {
+		-- 2^5, 5 bits
+		facedir = 32,
+		colorfacedir = 32,
+		colordegrotate = 32,
+
+		-- 2^2, 2 bits
+		["4dir"] = 4, -- lua doesn't like it when vars start with a digit
+		color4dir = 4,
+	}
+
+	dir_component = dir_components[paramtype2]
+	
 	local floor = math.floor
+	-- non-direction data is preserved whether it be color or otherwise
 	if (paramtype2 == "facedir") or (paramtype2 == "colorfacedir") then
-		local aux = floor(param2 / 32)
-		local rotation = param2 % 32
+		local aux = floor(param2 / dir_component)
+		local dir = param2 % dir_component
 
 		if mode == ROTATE_FACE then
-			rotation = (floor(param2 / 4)) * 4 + ((rotation + 1) % 4)
+			dir = (floor(param2 / dirs_per_axis)) * dirs_per_axis + ((dir + 1) % dirs_per_axis)
 		elseif mode == ROTATE_AXIS then
-			rotation = ((floor(param2 / 4) + 1) * 4) % 24
+			dir = ((floor(param2 / dirs_per_axis) + 1) * dirs_per_axis) % 24
 		end
 
-		new_param2 = aux * 32 + rotation
+		new_param2 = aux * dir_component + dir
 	elseif (paramtype2 == "4dir") or (paramtype2 == "color4dir") then
-		local aux = floor(param2 / 4)
-		local rotation = param2 % 4
+		local aux = floor(param2 / dir_component)
+		local dir = param2 % dir_component
 
 		if mode == ROTATE_FACE then
-			rotation = (rotation + 1) % 4
+			dir = (dir + 1) % dirs_per_axis
 		elseif mode == ROTATE_AXIS then
-			rotation = 0
+			dir = 0
 		end
 		
-		new_param2 = aux * 4 + rotation
+		new_param2 = aux * dir_component + dir
 	elseif (paramtype2 == "degrotate") then
 		if mode == ROTATE_FACE then
 			new_param2 = param2 + 1
@@ -94,8 +110,8 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		end
 		new_param2 = new_param2 % 240
 	elseif (paramtype2 == "colordegrotate") then
-		local aux = floor(param2 / 32)
-		local rotation = param2 % 32
+		local aux = floor(param2 / dir_component)
+		local rotation = param2 % dir_component
 
 		if mode == ROTATE_FACE then
 			rotation = rotation + 1
@@ -104,7 +120,9 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		end
 		rotation = rotation % 24
 
-		new_param2 = aux * 32 + rotation
+		new_param2 = aux * dir_component + rotation
+	else
+		return
 	end
 
 	node.param2 = new_param2
