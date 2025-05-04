@@ -76,8 +76,8 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		color4dir = 4,
 	}
 
-	dir_component = dir_components[paramtype2]
-	
+	local dir_component = dir_components[paramtype2]
+
 	local floor = math.floor
 	-- non-direction data is preserved whether it be color or otherwise
 	if (paramtype2 == "facedir") or (paramtype2 == "colorfacedir") then
@@ -100,7 +100,7 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 		elseif mode == ROTATE_AXIS then
 			dir = 0
 		end
-		
+
 		new_param2 = aux * dir_component + dir
 	elseif (paramtype2 == "degrotate") then
 		if mode == ROTATE_FACE then
