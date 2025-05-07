@@ -196,7 +196,7 @@ Groups:
 * `radioactive = <radiation>`
 	* Makes the node radioactive.
  	* `<radiation>`: Strength of the node's radiation (ex. `2`).
-* `rad_resistance = <resistance>`
+* `rad_resistant = <resistance>`
 	* Makes the node resistant to radiation.
 	* `<resistance>`: Strength of the node's resistance (ex. `80`).
 
@@ -257,7 +257,7 @@ The switching station is the center of all electricity distribution. It collects
 power from sources (PR), distributes it to sinks (RE), and uses the
 excess/shortfall to charge and discharge batteries (BA).
 
-As a thumb of rule, "EU" (energy unit) values are expressed in kW.
+As a rule of thumb, "EU" (energy unit) values are expressed in kW.
 
 Network functionality:
 
