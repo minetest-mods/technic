@@ -128,6 +128,7 @@ local function dig_recursive(x, y, z)
 	if safe_cut and cutter.param2[i] ~= 0 then
 		-- Do not dig manually placed nodes
 		-- Problem: moretrees' generated jungle trees use param2 = 2
+		cutter.stopped_by_safe_cut = true
 		return
 	end
 
@@ -199,6 +200,11 @@ local function chainsaw_dig(player, pos, remaining_charge)
 			" contains protected nodes.")
 		minetest.record_protection_violation(pos, player_name)
 		return
+	end
+
+	if cutter.stopped_by_safe_cut then
+		minetest.chat_send_player(player_name, S("The chainsaw could not dig all nodes" ..
+			" because the safety mechanism was activated."))
 	end
 
 	minetest.sound_play("chainsaw", {
