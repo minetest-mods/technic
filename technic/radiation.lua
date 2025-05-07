@@ -35,7 +35,7 @@ function technic.register_rad_resistance(node_name, resistance)
 		if not node.groups then
 			node.groups = {}
 		end
-        node.groups.rad_resistance = resistance
+        node.groups.rad_resistant = resistance
 	end
 end
 
@@ -173,8 +173,8 @@ end
 function technic.register_group_resistance(group_name, resistance)
 	for node_name, node_def in pairs(minetest.registered_nodes) do
 		if node_def.groups[group_name] then
-			if not node_def.groups.rad_resistance then
-				node_def.groups.rad_resistance = resistance
+			if not node_def.groups.rad_resistant then
+				node_def.groups.rad_resistant = resistance
 			end
 		end
 	end
@@ -191,8 +191,8 @@ technic.resistance_cache = {}
 function technic.cache_resistances()
 	for node_name, node_def in pairs(minetest.registered_nodes) do
 		local resistance = 0
-		if node_def.groups and node_def.groups.rad_resistance then
-			resistance = node_def.groups.rad_resistance
+		if node_def.groups and node_def.groups.rad_resistant then
+			resistance = node_def.groups.rad_resistant
 		end
 		technic.resistance_cache[node_name] = resistance
 	end
@@ -467,7 +467,7 @@ minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
 	tiles = {"technic_chernobylite_block.png"},
 	is_ground_content = true,
-	groups = {cracky=1, radioactive=4, level=2, rad_resistance=40},
+	groups = {cracky=1, radioactive=4, level=2, rad_resistant=40},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 })
