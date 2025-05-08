@@ -35,29 +35,9 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	if not ndef then return end
 
 	local paramtype2 = ndef.paramtype2
-	if (
-		paramtype2 == nil or
-		paramtype2 == "color" or
-		paramtype2 == "meshoptions" or
-		paramtype2 == "leveled" or
-		paramtype2 == "flowingliquid" or
-		paramtype2 == "glasslikeliquidlevel" or
-		paramtype2 == "wallmounted" or
-		paramtype2 == "colorwallmounted"
-	) then
-		return
-	end
 
 	-- contrary to the default screwdriver, do not check for can_dig, to allow rotating machines with CLU's in them
 	-- this is consistent with the previous sonic screwdriver
-
-	local meta = technic.get_stack_meta(itemstack)
-	local charge = meta:get_int("technic:charge")
-	if charge < 100 then
-		return
-	end
-
-	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10})
 
 	-- Set param2
 	local new_param2
@@ -124,6 +104,14 @@ local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	else
 		return
 	end
+
+	local meta = technic.get_stack_meta(itemstack)
+	local charge = meta:get_int("technic:charge")
+	if charge < 100 then
+		return
+	end
+
+	minetest.sound_play("technic_sonic_screwdriver", {pos = pos, gain = 0.3, max_hear_distance = 10})
 
 	node.param2 = new_param2
 	minetest.swap_node(pos, node)
