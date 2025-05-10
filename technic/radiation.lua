@@ -198,9 +198,9 @@ function technic.cache_resistances()
 	end
 end
 
-technic.cache_resistances()
-
 local function node_radiation_resistance(node_name)
+	technic.cache_resistances()
+
 	local cached_resistance = technic.resistance_cache[node_name]
 	if cached_resistance then
 		return math.sqrt(cached_resistance)
