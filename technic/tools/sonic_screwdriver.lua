@@ -8,14 +8,6 @@ technic.register_power_tool("technic:sonic_screwdriver", sonic_screwdriver_max_c
 local ROTATE_FACE = 1
 local ROTATE_AXIS = 2
 
-local function nextrange(x, max)
-	x = x + 1
-	if x > max then
-		x = 0
-	end
-	return x
-end
-
 -- Handles rotation
 local function screwdriver_handler(itemstack, user, pointed_thing, mode)
 	if pointed_thing.type ~= "node" then
