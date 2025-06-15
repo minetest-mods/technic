@@ -28,9 +28,20 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
+-- Function to register node-specific resistance
+function technic.register_rad_resistance(node_name, resistance)
+	local node = minetest.registered_nodes[node_name]
+	if node then
+		if not node.groups then
+			node.groups = {}
+		end
+        node.groups.rad_resistant = resistance
+	end
+end
+
 local S = technic.getter
 
-local rad_resistance_node = {
+local node_resistances = {
 	["default:brick"] = 13,
 	["default:bronzeblock"] = 45,
 	["default:clay"] = 15,
@@ -147,56 +158,56 @@ local rad_resistance_node = {
 	["moreores:silver_block"] = 53,
 	["snow:snow_brick"] = 2.8,
 	["basic_materials:brass_block"] = 43,
-	["technic:carbon_steel_block"] = 40,
-	["technic:cast_iron_block"] = 40,
-	["technic:chernobylite_block"] = 40,
-	["technic:chromium_block"] = 37,
 	["technic:corium_flowing"] = 40,
 	["technic:corium_source"] = 80,
-	["technic:granite"] = 18,
-	["technic:lead_block"] = 80,
-	["technic:marble"] = 18,
-	["technic:marble_bricks"] = 18,
-	["technic:mineral_chromium"] = 19,
-	["technic:mineral_uranium"] = 71,
-	["technic:mineral_zinc"] = 19,
-	["technic:stainless_steel_block"] = 40,
-	["technic:zinc_block"] = 36,
 	["tnt:tnt"] = 11,
 	["tnt:tnt_burning"] = 11,
 }
-local rad_resistance_group = {
-	concrete = 16,
-	tree = 3.4,
-	uranium_block = 500,
-	wood = 1.7,
-}
-local cache_radiation_resistance = {}
-local function node_radiation_resistance(node_name)
-	local resistance = cache_radiation_resistance[node_name]
-	if resistance then
-		return resistance
-	end
-	local def = minetest.registered_nodes[node_name]
-	if not def then
-		cache_radiation_resistance[node_name] = 0
-		return 0
-	end
-	resistance = def.radiation_resistance or
-			rad_resistance_node[node_name]
-	if not resistance then
-		resistance = 0
-		for g, v in pairs(def.groups) do
-			if v > 0 and rad_resistance_group[g] then
-				resistance = resistance + rad_resistance_group[g]
+
+-- Register all node resistances at once
+for node_name, resistance in pairs(node_resistances) do
+	technic.register_rad_resistance(node_name, resistance)
+end
+
+-- Function to register group-specific resistance
+function technic.register_group_resistance(group_name, resistance)
+	for node_name, node_def in pairs(minetest.registered_nodes) do
+		if node_def.groups[group_name] then
+			if not node_def.groups.rad_resistant then
+				node_def.groups.rad_resistant = resistance
 			end
 		end
 	end
-	resistance = math.sqrt(resistance)
-	cache_radiation_resistance[node_name] = resistance
-	return resistance
 end
 
+technic.register_group_resistance("concrete", 16)
+technic.register_group_resistance("tree", 3.4)
+technic.register_group_resistance("uranium_block", 500)
+technic.register_group_resistance("wood", 1.7)
+
+--Radiation resistances cache
+technic.resistance_cache = {}
+
+function technic.cache_resistances()
+	for node_name, node_def in pairs(minetest.registered_nodes) do
+		local resistance = 0
+		if node_def.groups and node_def.groups.rad_resistant then
+			resistance = node_def.groups.rad_resistant
+		end
+		technic.resistance_cache[node_name] = resistance
+	end
+end
+
+local function node_radiation_resistance(node_name)
+	technic.cache_resistances()
+
+	local cached_resistance = technic.resistance_cache[node_name]
+	if cached_resistance then
+		return math.sqrt(cached_resistance)
+	else
+		return 0
+	end
+end
 
 --[[
 Radioactive nodes cause damage to nearby players.  The damage
@@ -456,7 +467,7 @@ minetest.register_node("technic:chernobylite_block", {
         description = S("Chernobylite Block"),
 	tiles = {"technic_chernobylite_block.png"},
 	is_ground_content = true,
-	groups = {cracky=1, radioactive=4, level=2},
+	groups = {cracky=1, radioactive=4, level=2, rad_resistant=40},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 2,
 })
