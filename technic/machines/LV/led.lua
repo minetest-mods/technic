@@ -90,6 +90,7 @@ minetest.register_craft({
 	recipe = {
 		{"", "homedecor:plastic_sheeting", ""},
 		{"homedecor:plastic_sheeting", "technic:doped_silicon_wafer", "homedecor:plastic_sheeting"},
-		{"", "technic:fine_silver_wire", ""},
-	}
+		{"", "basic_materials:silver_wire", ""},
+	},
+	replacements = { {"basic_materials:silver_wire", "basic_materials:empty_spool"}, },
 })
