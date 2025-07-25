@@ -146,7 +146,7 @@ for p = 0, 35 do
 	local block = "technic:uranium"..psuffix.."_block"
 	local ov = p == 7 and minetest.override_item or nil;
 	(ov or minetest.register_craftitem)(ingot, {
-		description = S("@1-Fissile Uranium Ingot", string.format("%.1f%%", p/10)),
+		description = S("@1%-Fissile Uranium Ingot", p/10),
 		inventory_image = "technic_uranium_ingot.png",
 		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
 	});
