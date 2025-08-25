@@ -25,6 +25,11 @@ local defaults = {
 
 for k, v in pairs(defaults) do
 	if conf_table[k] == nil then
-		technic.config:set(k, v)
+		local minetest_val = minetest.settings:get(k)
+		if minetest_val == nil then
+			technic.config:set(k, v)
+		else
+			technic.config:set(k, bool_to_string(minetest_val))
+		end
 	end
 end

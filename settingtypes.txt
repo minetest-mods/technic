@@ -15,7 +15,7 @@ enable_mining_drill (Enable Mining Drill) bool true
 enable_wind_mill (Enable Wind Mill) bool false
 
 # Enables the Flashlight.
-enable_ (Enable Flashlight) bool false
+enable_flashlight (Enable Flashlight) bool false
 
 # Enables Frames.
 enable_frames (Enable Frames) bool false
