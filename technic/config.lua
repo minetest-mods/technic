@@ -2,6 +2,13 @@ technic.config = technic.config or Settings(minetest.get_worldpath().."/technic.
 
 local conf_table = technic.config:to_table()
 
+local function bool_to_string(bool)
+	if bool then
+		return "true"
+	end
+	return "false"
+end
+
 local defaults = {
 	enable_mining_drill = "true",
 	enable_mining_laser = "true",
@@ -13,6 +20,7 @@ local defaults = {
 	enable_entity_radiation_damage = "true",
 	enable_longterm_radiation_damage = "true",
 	enable_nuclear_reactor_digiline_selfdestruct = "false",
+	technic_safe_chainsaw = "true",
 }
 
 for k, v in pairs(defaults) do

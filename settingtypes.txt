@@ -7,3 +7,30 @@
 #
 #    Disabling this feature will sacrifice safety for convenience.
 technic_safe_chainsaw (Chainsaw safety feature) bool true
+
+# Enables the mining drills.
+enable_mining_drill (Enable Mining Drill) bool true
+
+# Enables Wind Mills.
+enable_wind_mill (Enable Wind Mill) bool false
+
+# Enables the Flashlight.
+enable_ (Enable Flashlight) bool false
+
+# Enables Frames.
+enable_frames (Enable Frames) bool false
+
+# Enables Corium Griefing.
+enable_corium_griefing (Enable corium_griefing) bool true
+
+# Enables Radiation Protection.
+enable_radiation_protection (Enable Radiation Protection) bool true
+
+# Enables Entity Radiation Damage.
+enable_entity_radiation_damage (Enable Entity Radiation Damage) bool true
+
+# Enables Long Term Radiation Damage.
+enable_longterm_radiation_damage (Enable Long Term Radiation Damage) bool true
+
+# Enables Nuclear Reactor Digiline Selfdestruct.
+enable_nuclear_reactor_digiline_selfdestruct (Enable Nuclear Reactor Digiline Selfdestruct) bool false
