@@ -17,7 +17,7 @@ BlockMen modified by Zefram (CC BY-SA 3.0):
   * technic_corium_flowing_animated.png
   * technic_corium_source_animated.png
 
-celeron55 (Perttu Ahola) modified by Zefram (CC BY-SA 3.0):
+celeron55 (Perttu Ahola) modified by Zefram modified by The4codeblocks (The4spaceconstants elsewhere) (CC BY-SA 3.0):
   * technic_bucket_corium.png
 
 sdzen (Elise Staudter) (CC BY-SA 3.0):
