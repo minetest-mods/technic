@@ -4,9 +4,9 @@ local constant_digit_count = technic.config:get("constant_digit_count")
 -- 15 → "15 ", 0.1501 → "150.1 m"
 -- a non-breaking space (U+a0) instead of a usual one is put after number
 -- The precision is 4 digits
-local prefixes = {[-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
+local prefixes = {[-10] = "q", [-9] = "r", [-8] = "y", [-7] = "z", [-6] = "a", [-5] = "f", [-4] = "p",
 	[-3] = "n", [-2] = "µ", [-1] = "m", [0] = "",  [1] = "k", [2] = "M",
-	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y"}
+	[3] = "G", [4] = "T", [5] = "P", [6] = "E", [7] = "Z", [8] = "Y", [9] = "R", [10] = "Q"}
 function technic.pretty_num(num)
 	-- the small number added is due to floating point inaccuracy
 	local b = math.floor(math.log10(math.abs(num)) +0.000001)
