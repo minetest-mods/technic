@@ -19,6 +19,9 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
+core.log("warning", ("This wrench mod (in '%s') is deprecated and will be removed in 2027." ..
+	" Please use https://github.com/mt-mods/wrench instead."):format(modpath))
+
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 

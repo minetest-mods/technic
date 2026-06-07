@@ -3,23 +3,28 @@
 [![Build status](https://github.com/minetest-mods/technic/workflows/Check%20&%20Release/badge.svg)](https://github.com/minetest-mods/technic/actions)
 [![License](https://img.shields.io/badge/license-LGPLv2.0%2B-purple.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.en.html)
 
-This Minetest modpack adds machinery and automation procedure content to your
+This Luanti modpack adds machinery and automation procedure content to your
 world. A few notable features:
 
   * Electric circuits
   * Automated material processing (ores, wood, ...)
   * Extended chest functionalities
 
+
 ## Dependencies
 
-  * Minetest 5.0.0 or newer
-  * [Minetest Game](https://github.com/minetest/minetest_game/)
+  * Luanti/Minetest 5.0.0 or newer
+  * [Minetest Game](https://github.com/luanti-org/minetest_game)
   * [mesecons](https://github.com/minetest-mods/mesecons) -> signalling events
   * [pipeworks](https://github.com/mt-mods/pipeworks) -> automation of item transport
   * [moreores](https://github.com/minetest-mods/moreores/) -> additional ores
   * [basic_materials](https://github.com/mt-mods/basic_materials) -> basic craft items
   * Supports [moretrees](https://github.com/mt-mods/moretrees) -> rubber trees
-  * Consult `depends.txt` or `mod.conf` of each mod for further dependency information.
+  * Consult `mod.conf` of each mod or the main menu for further dependency information.
+
+Recommended mods:
+
+ * The included `wrench` mod is **deprecated**. Please use [wrench](https://github.com/mt-mods/wrench) instead.
 
 
 ## FAQ

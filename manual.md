@@ -1246,6 +1246,5 @@ This manual needs to be extended with sections on:
     *   prospector
     *   sonic screwdriver
 *   liquid cans
-*   wrench
 *   frames
 *   templates
