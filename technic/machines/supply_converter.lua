@@ -10,6 +10,7 @@
 local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("Supply Converter"))
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -30,9 +31,9 @@ local function set_supply_converter_formspec(meta)
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..get_description(S("Disabled")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("Supply Converter")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..get_description(S("Enabled")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -122,7 +123,6 @@ local run = function(pos, node, run_stage)
 
 	local efficiency = 0.9
 	-- Machine information
-	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
 	local enabled       = meta:get_string("enabled")
 	if enabled == "" then
@@ -168,14 +168,14 @@ local run = function(pos, node, run_stage)
 			meta:set_int(from.."_EU_supply", 0)
 			meta:set_int(to.."_EU_demand", 0)
 			meta:set_int(to.."_EU_supply", input * efficiency)
-			meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name,
+			meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", get_description(nil),
 				technic.EU_string(input), from,
 				technic.EU_string(input * efficiency), to))
 		else
-			meta:set_string("infotext",S("%s Has No Network"):format(machine_name))
+			meta:set_string("infotext",get_description(S("No Network")))
 		end
 	else
-		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Bad Cabling")))
 		if to then
 			meta:set_int(to.."_EU_supply", 0)
 		end
@@ -188,7 +188,7 @@ local run = function(pos, node, run_stage)
 end
 
 minetest.register_node("technic:supply_converter", {
-	description = S("Supply Converter"),
+	description = get_description(nil),
 	tiles  = {
 		"technic_supply_converter_tb.png"..cable_entry,
 		"technic_supply_converter_tb.png"..cable_entry,
@@ -204,7 +204,7 @@ minetest.register_node("technic:supply_converter", {
 	on_receive_fields = supply_converter_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Supply Converter"))
+		meta:set_string("infotext", get_description(nil))
 		if digilines_path then
 			meta:set_string("channel", "supply_converter"..minetest.pos_to_string(pos))
 		end

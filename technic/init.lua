@@ -15,24 +15,11 @@ technic.creative_mode = minetest.settings:get_bool("creative_mode")
 local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
-
--- Boilerplate to support intllib
-if rawget(_G, "intllib") then
-	technic.getter = intllib.Getter()
-else
-	-- Intllib copypasta: TODO replace with the client-side translation API
-	technic.getter = function(s,a,...)
-		if a==nil then return s end
-		a={a,...}
-		return s:gsub("(@?)@(%(?)(%d+)(%)?)", function(e,o,n,c)
-			if e==""then
-				return a[tonumber(n)]..(o==""and c or"")
-			end
-			return "@"..o..n..c
-		end)
-	end
+local S = core.get_translator("technic")
+technic.getter = S
+technic.getter_escaped = function(...)
+	return core.formspec_escape(S(...))
 end
-local S = technic.getter
 
 -- Read configuration file
 dofile(modpath.."/config.lua")
@@ -61,7 +48,6 @@ dofile(modpath.."/tools/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
-if minetest.settings:get_bool("log_mods") then
-	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
+if core.settings:get_bool("log_mods") then
+	print(("[Technic] Loaded in %.2f ms"):format(1000 * (os.clock() - load_start)))
 end
-

@@ -3,6 +3,7 @@
 -- similarly to the old "slave" switching stations.
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("Power Monitor"))
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -16,7 +17,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("technic:power_monitor",{
-	description = S("Power Monitor"),
+	description = get_description(nil),
 	tiles  = {
 		"technic_power_monitor_sides.png",
 		"technic_power_monitor_sides.png"..cable_entry,
@@ -31,7 +32,7 @@ minetest.register_node("technic:power_monitor",{
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Power Monitor"))
+		meta:set_string("infotext", get_description(nil))
 	end,
 })
 
@@ -54,10 +55,10 @@ minetest.register_abm({
 			local supply = sw_meta:get_int("supply")
 			local demand = sw_meta:get_int("demand")
 			meta:set_string("infotext",
-					S("Power Monitor. Supply: @1 Demand: @2",
+					get_description(nil) .. "\n" .. S("Supply: @1 Demand: @2",
 					technic.EU_string(supply), technic.EU_string(demand)))
 		else
-			meta:set_string("infotext",S("Power Monitor Has No Network"))
+			meta:set_string("infotext", get_description(S("No Network")))
 		end
 	end,
 })

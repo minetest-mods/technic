@@ -3,6 +3,7 @@
 -- It is a little over half as good as the thermal generator.
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("Hydro @1 Generator", "LV"))
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -51,9 +52,8 @@ local run = function(pos, node)
 	production_level = math.floor(100 * eu_supply / max_output)
 
 	meta:set_int("LV_EU_supply", eu_supply)
-
-	meta:set_string("infotext",
-		S("Hydro %s Generator"):format("LV").." ("..production_level.."%)")
+	meta:set_string("infotext", get_description(nil) ..
+		" (" .. production_level .. "%)")
 
 	if production_level > 0 and
 	   minetest.get_node(pos).name == "technic:water_mill" then
@@ -67,7 +67,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:water_mill", {
-	description = S("Hydro %s Generator"):format("LV"),
+	description = get_description(nil),
 	tiles = {
 		"technic_water_mill_top.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -83,14 +83,14 @@ minetest.register_node("technic:water_mill", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Hydro %s Generator"):format("LV"))
+		meta:set_string("infotext", get_description(nil))
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
 })
 
 minetest.register_node("technic:water_mill_active", {
-	description = S("Hydro %s Generator"):format("LV"),
+	description = get_description(nil),
 	tiles = {"technic_water_mill_top_active.png", "technic_machine_bottom.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png",
 	         "technic_water_mill_side.png",       "technic_water_mill_side.png"},

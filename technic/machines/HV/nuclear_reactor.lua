@@ -16,8 +16,8 @@ local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digili
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
 local S = technic.getter
+local FS = technic.getter_escaped
 
-local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
 local cable_entry = "^technic_cable_connection_overlay.png"
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
@@ -34,7 +34,7 @@ local function make_reactor_formspec(meta)
 	local f =
 		"formspec_version[4]"..
 		"size[10.75,10.75]"..
-		"label[0.2,0.4;"..S("Nuclear Reactor Rod Compartment").."]"..
+		"label[0.2,0.4;"..FS("Nuclear Reactor Rod Compartment").."]"..
 		"list[current_name;src;1.5,1;3,2;]"..
 		"list[current_player;main;0.5,5.5;8,4;]"..
 		"listring[]"..
@@ -277,6 +277,9 @@ minetest.register_abm({
 	end,
 })
 
+-- This does not work well in every language but it's easier to translate
+local get_description = technic._get_desc_formatter(S("@1 Nuclear Reactor Core", "HV"))
+
 local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local burn_time = meta:get_int("burn_time") or 0
@@ -292,7 +295,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("@1 Idle", reactor_desc))
+		meta:set_string("infotext", get_description(S("Idle")))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)
@@ -300,7 +303,7 @@ local function run(pos, node)
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
-		meta:set_string("infotext", reactor_desc.." ("..percent.."%)")
+		meta:set_string("infotext", get_description(nil) .. " ("..percent.."%)")
 		meta:set_int("HV_EU_supply", power_supply)
 	end
 end
@@ -400,7 +403,7 @@ local digiline_remote_def = function(pos, channel, msg)
 end
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = reactor_desc,
+	description = get_description(nil),
 	tiles = {
 		"technic_hv_nuclear_reactor_core.png",
 		"technic_hv_nuclear_reactor_core.png"..cable_entry
@@ -416,7 +419,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	on_receive_fields = nuclear_reactor_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", reactor_desc)
+		meta:set_string("infotext", get_description(nil))
 		meta:set_string("formspec", make_reactor_formspec(meta))
 		if digiline_remote_path then
 			meta:set_string("remote_channel",

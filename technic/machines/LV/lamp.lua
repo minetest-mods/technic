@@ -4,11 +4,11 @@
 
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("@1 Lamp", "LV"))
 
-local desc = S("@1 Lamp", S("LV"))
-local active_desc = S("@1 Active", desc)
-local unpowered_desc = S("@1 Unpowered", desc)
-local off_desc = S("@1 Off", desc)
+local active_desc = get_description(S("Active"))
+local unpowered_desc = get_description(S("Unpowered"))
+local off_desc = get_description(S("Off"))
 local demand = 50
 
 
@@ -105,14 +105,12 @@ local common_fields = {
 	on_rightclick = lamp_toggle
 }
 
-local ndef
-
-ndef = {
-	description = desc,
+local ndef = {
+	description = get_description(nil),
 	groups = {cracky = 2, technic_machine = 1, technic_lv = 1},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", desc)
+		meta:set_string("infotext", get_description(nil))
 		meta:set_int("LV_EU_demand", demand)
 	end
 }

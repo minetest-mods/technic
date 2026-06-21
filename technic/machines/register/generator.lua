@@ -1,4 +1,5 @@
 local S = technic.getter
+local ESC = core.formspec_escape
 
 local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
@@ -34,15 +35,39 @@ function technic.register_generator(data)
 	local active_groups = {not_in_creative_inventory = 1}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
-	local generator_formspec =
-		"size[8,9;]"..
-		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
-		"list[current_name;src;3,1;1,1;]"..
-		"image[4,1;1,1;default_furnace_fire_bg.png]"..
-		"list[current_player;main;0,5;8,4;]"..
-		"listring[]"
+	local get_description = technic._get_desc_formatter(S("Fuel-Fired @1 Generator", tier))
 
-	local desc = S("Fuel-Fired %s Generator"):format(tier)
+	local function get_formspec(meta)
+		local fs =
+			"size[8,9;]"..
+			"label[0,0;"..ESC(get_description(nil)).."]"..
+			"list[current_name;src;3,1;1,1;]"
+		if meta then
+			local burn_totaltime = meta:get_int("burn_totaltime")
+			local burn_time      = meta:get_int("burn_time")
+			local percent = math.floor(burn_time / math.max(1, burn_totaltime) * 100)
+
+			fs = fs .. "image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
+				(percent)..":default_furnace_fire_fg.png]"
+		else
+			fs = fs .. "image[4,1;1,1;default_furnace_fire_bg.png]"
+		end
+
+		fs = fs .. "list[current_player;main;0,5;8,4;]"..
+			"listring[]"
+		if ltier ~= "lv" then
+			fs = fs .. fs_helpers.cycling_button(
+				meta,
+				pipeworks.button_base,
+				"splitstacks",
+				{
+					pipeworks.button_off,
+					pipeworks.button_on
+				}
+			)..pipeworks.button_label
+		end
+		return fs
+	end
 
 	local run = function(pos, node)
 		local meta = minetest.get_meta(pos)
@@ -65,7 +90,7 @@ function technic.register_generator(data)
 						{method = "fuel", width = 1,
 						items = fuellist})
 				if not fuel or fuel.time == 0 then
-					meta:set_string("infotext", S("%s Out Of Fuel"):format(desc))
+					meta:set_string("infotext", get_description(S("Out Of Fuel")))
 					technic.swap_node(pos, "technic:"..ltier.."_generator")
 					meta:set_int(tier.."_EU_supply", 0)
 					return
@@ -82,37 +107,15 @@ function technic.register_generator(data)
 		end
 		if burn_totaltime == 0 then burn_totaltime = 1 end
 		local percent = math.floor((burn_time / burn_totaltime) * 100)
-		meta:set_string("infotext", desc.." ("..percent.."%)")
-
-		local form_buttons = ""
-		if ltier ~= "lv" then
-			form_buttons = fs_helpers.cycling_button(
-				meta,
-				pipeworks.button_base,
-				"splitstacks",
-				{
-					pipeworks.button_off,
-					pipeworks.button_on
-				}
-			)..pipeworks.button_label
-		end
-		meta:set_string("formspec",
-			"size[8, 9]"..
-			"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-			"list[current_name;src;3, 1;1, 1;]"..
-			"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
-			(percent)..":default_furnace_fire_fg.png]"..
-			"list[current_player;main;0, 5;8, 4;]"..
-			"listring[]"..
-			form_buttons
-		)
+		meta:set_string("infotext", get_description(nil).." ("..percent.."%)")
+		meta:set_string("formspec", get_formspec(meta))
 	end
 
 	local tentry = tube_entry
 	if ltier == "lv" then tentry = "" end
 
 	minetest.register_node("technic:"..ltier.."_generator", {
-		description = desc,
+		description = get_description(nil),
 		tiles = {
 				"technic_"..ltier.."_generator_top.png"..tentry,
 				"technic_machine_bottom.png"..tentry,
@@ -129,24 +132,12 @@ function technic.register_generator(data)
 		tube = data.tube and tube or nil,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
-			meta:set_string("infotext", desc)
+			meta:set_string("infotext", get_description(nil))
 			meta:set_int(data.tier.."_EU_supply", 0)
 			meta:set_int("burn_time", 0)
 			meta:set_int("tube_time",  0)
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-						meta,
-						pipeworks.button_base,
-						"splitstacks",
-						{
-							pipeworks.button_off,
-							pipeworks.button_on
-						}
-					)..pipeworks.button_label
-			end
-			meta:set_string("formspec", generator_formspec..form_buttons)
+
+			meta:set_string("formspec", get_formspec(meta))
 			local inv = meta:get_inventory()
 			inv:set_size("src", 1)
 		end,
@@ -161,25 +152,12 @@ function technic.register_generator(data)
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-						meta,
-						pipeworks.button_base,
-						"splitstacks",
-						{
-							pipeworks.button_off,
-							pipeworks.button_on
-						}
-					)..pipeworks.button_label
-			end
-			meta:set_string("formspec", generator_formspec..form_buttons)
+			meta:set_string("formspec", get_formspec(meta))
 		end,
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
-		description = desc,
+		description = get_description(nil),
 		tiles = {
 			"technic_"..ltier.."_generator_top.png"..tube_entry,
 			"technic_machine_bottom.png"..tube_entry,
@@ -207,7 +185,6 @@ function technic.register_generator(data)
 		end,
 		on_timer = function(pos, node)
 			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
 
 			-- Connected back?
 			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
@@ -221,68 +198,16 @@ function technic.register_generator(data)
 				return false
 			end
 
-			local burn_totaltime = meta:get_int("burn_totaltime") or 0
-			if burn_totaltime == 0 then burn_totaltime = 1 end
 			burn_time = burn_time - 1
 			meta:set_int("burn_time", burn_time)
-			local percent = math.floor(burn_time / burn_totaltime * 100)
-
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-					meta,
-					pipeworks.button_base,
-					"splitstacks",
-					{
-						pipeworks.button_off,
-						pipeworks.button_on
-					}
-				)..pipeworks.button_label
-			end
-			meta:set_string("formspec",
-				"size[8, 9]"..
-				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-				"list[current_name;src;3, 1;1, 1;]"..
-				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
-				(percent)..":default_furnace_fire_fg.png]"..
-				"list[current_player;main;0, 5;8, 4;]"..
-				"listring[]"..
-				form_buttons
-			)
+			meta:set_string("formspec", get_formspec(meta))
 			return true
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
-			local form_buttons = ""
-			if not string.find(node.name, ":lv_") then
-				form_buttons = fs_helpers.cycling_button(
-						meta,
-						pipeworks.button_base,
-						"splitstacks",
-						{
-							pipeworks.button_off,
-							pipeworks.button_on
-						}
-					)..pipeworks.button_label
-			end
-
-			local burn_totaltime = meta:get_int("burn_totaltime") or 0
-			local burn_time = meta:get_int("burn_time")
-			local percent = math.floor(burn_time / burn_totaltime * 100)
-
-			meta:set_string("formspec",
-				"size[8, 9]"..
-				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-				"list[current_name;src;3, 1;1, 1;]"..
-				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
-				(percent)..":default_furnace_fire_fg.png]"..
-				"list[current_player;main;0, 5;8, 4;]"..
-				"listring[]"..
-				form_buttons
-			)
+			meta:set_string("formspec", get_formspec(meta))
 		end,
 	})
 

@@ -8,6 +8,7 @@ local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("Switching Station"))
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -28,7 +29,7 @@ if mesecons_path then
 end
 
 minetest.register_node("technic:switching_station",{
-	description = S("Switching Station"),
+	description = get_description(nil),
 	tiles  = {
 		"technic_water_mill_top_active.png",
 		"technic_water_mill_top_active.png"..cable_entry,
@@ -41,7 +42,7 @@ minetest.register_node("technic:switching_station",{
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Switching Station"))
+		meta:set_string("infotext", get_description(nil))
 		meta:set_string("active", 1)
 		meta:set_string("channel", "switching_station"..minetest.pos_to_string(pos))
 		meta:set_string("formspec", "field[channel;Channel;${channel}]")
@@ -277,7 +278,6 @@ minetest.register_abm({
 		local meta = minetest.get_meta(pos)
 		local meta1
 		local PR_nodes, BA_nodes, RE_nodes
-		local machine_name = S("Switching Station")
 
 		-- Which kind of network are we on:
 		local cable_pos = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -286,7 +286,7 @@ minetest.register_abm({
 		if meta:get_int("active") ~= 1 then
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(cable_pos)
-			meta:set_string("infotext",S("%s Already Present"):format(machine_name))
+			meta:set_string("infotext", get_description(S("Disabled (already present)")))
 
 			local poshash = minetest.hash_node_position(pos)
 
@@ -306,7 +306,7 @@ minetest.register_abm({
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, cable_pos, tier)
 		else
 			--dprint("Not connected to a network")
-			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+			meta:set_string("infotext", get_description(S("No Network")))
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(cable_pos)
 			return
@@ -373,9 +373,12 @@ minetest.register_abm({
 		--dprint("Total BA supply:"..BA_eu_supply)
 		--dprint("Total BA demand:"..BA_eu_demand)
 
-		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
-				machine_name, technic.EU_string(PR_eu_supply),
-				technic.EU_string(RE_eu_demand)))
+		meta:set_string("infotext", get_description(nil) .. "\n" ..
+			S("Supply: @1 Demand: @2",
+				technic.EU_string(PR_eu_supply),
+				technic.EU_string(RE_eu_demand)
+			)
+		)
 
 		-- If mesecon signal and power supply or demand changed then
 		-- send them via digilines.
@@ -494,7 +497,8 @@ minetest.register_abm({
 		if technic_machine and not has_network then
 			local nodedef = minetest.registered_nodes[node.name]
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+			local get_description = technic._get_desc_formatter(nodedef.description)
+			meta:set_string("infotext", get_description(S("No Network")))
 			if nodedef.technic_disabled_machine_name then
 				node.name = nodedef.technic_disabled_machine_name
 				minetest.swap_node(pos, node)
