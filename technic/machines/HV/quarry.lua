@@ -1,5 +1,8 @@
 
 local S = technic.getter
+local FS = technic.getter_escaped
+local ESC = core.formspec_escape
+local get_description = technic._get_desc_formatter(S("@1 Quarry", "HV"))
 
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
@@ -22,12 +25,12 @@ local function set_quarry_formspec(meta)
 	local formspec = "size[6,4.3]"..
 		"list[context;cache;0,1;4,3;]"..
 		"item_image[4.8,0;1,1;technic:quarry]"..
-		"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
-		"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
+		"label[0,0.2;" .. ESC(get_description(nil)) .. "]" ..
+		"field[4.3,3.5;2,1;size;"..FS("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
+		formspec = formspec.."button[4,1;2,1;enable;"..FS("Disabled").."]"
 	else
-		formspec = formspec.."button[4,1;2,1;disable;"..S("Enabled").."]"
+		formspec = formspec.."button[4,1;2,1;disable;"..FS("Enabled").."]"
 	end
 	local diameter = radius*2 + 1
 	local nd = meta:get_int("dug")
@@ -39,27 +42,26 @@ local function set_quarry_formspec(meta)
 				S("Digging %d m "..(rel_y > 0 and "above" or "below").." machine")
 					:format(math.abs(rel_y))))
 			).."]"
-	formspec = formspec.."button[4,2;2,1;restart;"..S("Restart").."]"
+	formspec = formspec.."button[4,2;2,1;restart;"..FS("Restart").."]"
 	meta:set_string("formspec", formspec)
 end
 
 local function set_quarry_demand(meta)
 	local radius = meta:get_int("size")
 	local diameter = radius*2 + 1
-	local machine_name = S("%s Quarry"):format("HV")
 	local do_purge = meta:get_int("purge_on") == 1
 	if meta:get_int("enabled") == 0 or do_purge then
-		local infotext = do_purge and
-			S("%s purging cache") or S("%s Disabled")
-		meta:set_string("infotext", infotext:format(machine_name))
+		local status = do_purge and
+			S("Purging cache") or S("Disabled")
+		meta:set_string("infotext", get_description(status))
 		meta:set_int("HV_EU_demand", 0)
 	elseif meta:get_int("dug") == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
-		meta:set_string("infotext", S("%s Finished"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Finished")))
 		meta:set_int("HV_EU_demand", 0)
 	else
-		local infotext = meta:get_int("HV_EU_input") >= quarry_demand
-			and S("%s Active") or S("%s Unpowered")
-		meta:set_string("infotext", infotext:format(machine_name))
+		local status = meta:get_int("HV_EU_input") >= quarry_demand
+			and S("Active") or S("Unpowered")
+		meta:set_string("infotext", get_description(status))
 		meta:set_int("HV_EU_demand", quarry_demand)
 	end
 end
@@ -230,7 +232,7 @@ local function send_move_error(player)
 end
 
 minetest.register_node("technic:quarry", {
-	description = S("%s Quarry"):format("HV"),
+	description = get_description(nil),
 	tiles = {
 		"technic_carbon_steel_block.png"..tube_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
@@ -257,7 +259,7 @@ minetest.register_node("technic:quarry", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s Quarry"):format("HV"))
+		meta:set_string("infotext", get_description(nil))
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		set_quarry_demand(meta)

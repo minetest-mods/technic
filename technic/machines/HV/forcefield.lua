@@ -11,6 +11,8 @@ local digilines_path = minetest.get_modpath("digilines")
 local forcefield_power_drain   = 10
 
 local S = technic.getter
+local FS = technic.getter_escaped
+local ESC = core.formspec_escape
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -88,6 +90,10 @@ local function update_forcefield(pos, meta, active)
 	vm:write_to_map()
 end
 
+
+-- This does not work well in every language but it's easier to translate
+local get_description = technic._get_desc_formatter(S("@1 Forcefield Emitter", "HV"))
+
 local function set_forcefield_formspec(meta)
 	local formspec
 	if digilines_path then
@@ -97,28 +103,28 @@ local function set_forcefield_formspec(meta)
 		formspec = "size[5,2.25]"
 	end
 	formspec = formspec..
-		"field[0.3,0.5;2,1;range;"..S("Range")..";"..meta:get_int("range").."]"
+		"field[0.3,0.5;2,1;range;"..FS("Range")..";"..meta:get_int("range").."]"
 	-- The names for these toggle buttons are explicit about which
 	-- state they'll switch to, so that multiple presses (arising
 	-- from the ambiguity between lag and a missed press) only make
 	-- the single change that the user expects.
 	if meta:get_int("shape") == 0 then
-		formspec = formspec.."button[3,0.2;2,1;shape1;"..S("Sphere").."]"
+		formspec = formspec.."button[3,0.2;2,1;shape1;"..FS("Sphere").."]"
 	else
-		formspec = formspec.."button[3,0.2;2,1;shape0;"..S("Cube").."]"
+		formspec = formspec.."button[3,0.2;2,1;shape0;"..FS("Cube").."]"
 	end
 	if meta:get_int("mesecon_mode") == 0 then
-		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..S("Ignoring Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_1;"..FS("Ignoring Mesecon Signal").."]"
 	else
-		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
+		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..FS("Controlled by Mesecon Signal").."]"
 	end
-	-- TODO: String replacement with %s will stop working with client-side translations
+
 	if meta:get_int("enabled") == 0 then
 		formspec = formspec.."button[0,1.75;5,1;enable;"..
-			S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+			ESC(get_description(S("Disabled"))).."]"
 	else
 		formspec = formspec.."button[0,1.75;5,1;disable;"..
-			S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+			ESC(get_description(S("Enabled"))).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -249,7 +255,6 @@ local function run(pos, node)
 	local eu_input   = meta:get_int("HV_EU_input")
 	local enabled = meta:get_int("enabled") ~= 0 and
 		(meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
-	local machine_name = S("%s Forcefield Emitter"):format("HV")
 
 	local range = meta:get_int("range")
 	local power_requirement
@@ -264,14 +269,14 @@ local function run(pos, node)
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
-			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+			meta:set_string("infotext", get_description(S("Disabled")))
 		end
 		meta:set_int("HV_EU_demand", 0)
 		return
 	end
 	meta:set_int("HV_EU_demand", power_requirement)
 	if eu_input < power_requirement then
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Unpowered")))
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
@@ -279,14 +284,14 @@ local function run(pos, node)
 	elseif eu_input >= power_requirement then
 		if node.name == "technic:forcefield_emitter_off" then
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
+			meta:set_string("infotext", get_description(S("Active")))
 		end
 		update_forcefield(pos, meta, true)
 	end
 end
 
 minetest.register_node("technic:forcefield_emitter_off", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = get_description(nil),
 	tiles = {
 		"technic_forcefield_emitter_off.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -308,7 +313,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		if digilines_path then
 			meta:set_string("channel", "forcefield"..minetest.pos_to_string(pos))
 		end
-		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
+		meta:set_string("infotext", get_description(nil))
 		set_forcefield_formspec(meta)
 	end,
 	mesecons = mesecons,
@@ -317,7 +322,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = get_description(nil),
 	tiles = {
 		"technic_forcefield_emitter_on.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -349,7 +354,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 })
 
 minetest.register_node("technic:forcefield", {
-	description = S("%s Forcefield"):format("HV"),
+	description = S("@1 Forcefield", "HV"),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1},

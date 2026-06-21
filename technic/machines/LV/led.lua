@@ -2,10 +2,10 @@
 -- Intended primarily as a core component for LED lamps.
 
 local S = technic.getter
+local get_description = technic._get_desc_formatter(S("@1 LED", "LV"))
 
-local desc = S("@1 LED", S("LV"))
-local active_desc = S("@1 Active", desc)
-local unpowered_desc = S("@1 Unpowered", desc)
+local active_desc = get_description(S("Active"))
+local unpowered_desc = get_description(S("Unpowered"))
 local demand = 5
 
 
@@ -45,14 +45,14 @@ local common_fields = {
 local ndef
 
 ndef = {
-	description = desc,
+	description = get_description(nil),
 	inventory_image = "technic_lv_led_inv.png",
 	sunlight_propagates = true,
 	groups = {cracky = 2, technic_machine = 1, technic_lv = 1},
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", desc)
+		meta:set_string("infotext", get_description(nil))
 		meta:set_int("LV_EU_demand", demand)
 	end,
 }

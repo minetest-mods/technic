@@ -2,6 +2,7 @@
 local digilines_path = minetest.get_modpath("digilines")
 
 local S = technic.getter
+local ESC = core.formspec_escape
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -160,13 +161,15 @@ function technic.register_battery_box(data)
 	local tier = data.tier
 	local ltier = string.lower(tier)
 
+	local get_description = technic._get_desc_formatter(S("@1 Battery Box", tier))
+
 	local formspec =
 		"size[8,9]"..
 		"image[1,1;1,2;technic_power_meter_bg.png]"..
 		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
 		"list[context;dst;5,1;1,1;]"..
-		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+		"label[0,0;"..ESC(get_description(nil)).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
@@ -196,7 +199,7 @@ function technic.register_battery_box(data)
 		local network_id = tonumber(meta:get_string(tier.."_network"))
 
 		if not technic.networks[network_id] then
-			meta:set_string("infotext", S("%s Battery Box Has No Network"):format(tier))
+			meta:set_string("infotext", get_description(S("No Network")))
 			return
 		end
 
@@ -255,12 +258,10 @@ function technic.register_battery_box(data)
 
 		local charge_percent = math.floor(current_charge / max_charge * 100)
 		meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, charge_percent))
-		local infotext = S("@1 Battery Box: @2 / @3", tier,
+		local status = eu_input == 0 and S("Idle") or nil
+		local infotext = get_description(status) .. "\n" .. S("Charge: @1 / @2",
 				technic.EU_string(current_charge),
 				technic.EU_string(max_charge))
-		if eu_input == 0 then
-			infotext = S("%s Idle"):format(infotext)
-		end
 		meta:set_string("infotext", infotext)
 	end
 
@@ -288,7 +289,7 @@ function technic.register_battery_box(data)
 		end
 
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
-			description = S("%s Battery Box"):format(tier),
+			description = get_description(nil),
 			tiles = {
 				top_tex,
 				bottom_tex,
@@ -312,7 +313,7 @@ function technic.register_battery_box(data)
 				local charge = meta:get_int("internal_EU_charge")
 				local cpercent = math.floor(charge / max_charge * 100)
 				local inv = meta:get_inventory()
-				meta:set_string("infotext", S("%s Battery Box"):format(tier))
+				meta:set_string("infotext", get_description(nil))
 				meta:set_string("formspec", formspec..add_on_off_buttons(meta, ltier, cpercent))
 				meta:set_string("channel", ltier.."_battery_box"..minetest.pos_to_string(pos))
 				meta:set_int(tier.."_EU_demand", 0)

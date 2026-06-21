@@ -1,6 +1,5 @@
 local S = technic.getter
-
-local desc = S("Administrative World Anchor")
+local get_description = technic._get_desc_formatter(S("Administrative World Anchor"))
 
 local function compute_forceload_positions(pos, meta)
 	local radius = meta:get_int("radius")
@@ -49,11 +48,13 @@ end
 
 local function set_display(pos, meta)
 	local ESC = minetest.formspec_escape
-	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
+	meta:set_string("infotext", get_description(
+		meta:get_int("enabled") ~= 0 and S("Enabled") or S("Disabled")
+	))
 	meta:set_string("formspec",
 		"size[5,3.5]"..
 		"item_image[0,0;1,1;technic:admin_anchor]"..
-		"label[1,0;"..ESC(desc).."]"..
+		"label[1,0;"..ESC(get_description(nil)).."]"..
 		"label[0,1;"..ESC(S("Owner:").." "..meta:get_string("owner")).."]"..
 		(meta:get_int("locked") == 0 and
 			"button[3,1;2,1;lock;"..ESC(S("Unlocked")).."]" or
@@ -62,13 +63,13 @@ local function set_display(pos, meta)
 		(meta:get_int("enabled") == 0 and
 			"button[3,2;2,1;enable;"..ESC(S("Disabled")).."]" or
 			"button[3,2;2,1;disable;"..ESC(S("Enabled")).."]")..
-		"label[0,3;"..ESC(S("Keeping %d/%d map blocks loaded"):format(
+		"label[0,3;"..ESC(S("Keeping @1/@2 map blocks loaded",
 			#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta)
 		)).."]")
 end
 
 minetest.register_node("technic:admin_anchor", {
-	description = desc,
+	description = get_description(nil),
 	drawtype = "normal",
 	tiles = {"technic_admin_anchor.png"},
 	is_ground_content = true,

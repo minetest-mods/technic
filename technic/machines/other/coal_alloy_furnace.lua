@@ -2,6 +2,8 @@
 -- Fuel driven alloy furnace. This uses no EUs:
 
 local S = technic.getter
+local ESC = core.formspec_escape
+local get_description = technic._get_desc_formatter(S("Fuel-Fired Alloy Furnace"))
 
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',
@@ -12,24 +14,31 @@ minetest.register_craft({
 	}
 })
 
-local machine_name = S("Fuel-Fired Alloy Furnace")
-local formspec =
-	"size[8,9]"..
-	"label[0,0;"..machine_name.."]"..
-	"image[2,2;1,1;default_furnace_fire_bg.png]"..
-	"list[current_name;fuel;2,3;1,1;]"..
-	"list[current_name;src;2,1;2,1;]"..
-	"list[current_name;dst;5,1;2,2;]"..
-	"list[current_player;main;0,5;8,4;]"..
-	"listring[current_name;dst]"..
-	"listring[current_player;main]"..
-	"listring[current_name;src]"..
-	"listring[current_player;main]"..
-	"listring[current_name;fuel]"..
-	"listring[current_player;main]"
+local function get_formspec(percent)
+	local fs =
+		"size[8,9]"..
+		"label[0,0;"..ESC(get_description(nil)).."]"
+	if percent then
+		fs = fs .. "image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
+			(100 - percent)..":default_furnace_fire_fg.png]"
+	else
+		fs = fs .. "image[2,2;1,1;default_furnace_fire_bg.png]"
+	end
+
+	return fs .. "list[current_name;fuel;2,3;1,1;]"..
+		"list[current_name;src;2,1;2,1;]"..
+		"list[current_name;dst;5,1;2,2;]"..
+		"list[current_player;main;0,5;8,4;]"..
+		"listring[current_name;dst]"..
+		"listring[current_player;main]"..
+		"listring[current_name;src]"..
+		"listring[current_player;main]"..
+		"listring[current_name;fuel]"..
+		"listring[current_player;main]"
+end
 
 minetest.register_node("technic:coal_alloy_furnace", {
-	description = machine_name,
+	description = get_description(nil),
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
@@ -39,8 +48,8 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", formspec)
-		meta:set_string("infotext", machine_name)
+		meta:set_string("formspec", get_formspec(nil))
+		meta:set_string("infotext", get_description(nil))
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 2)
@@ -53,7 +62,7 @@ minetest.register_node("technic:coal_alloy_furnace", {
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
-	description = machine_name,
+	description = get_description(nil),
 	tiles = {"technic_coal_alloy_furnace_top.png",  "technic_coal_alloy_furnace_bottom.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front_active.png"},
@@ -120,23 +129,10 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext", S("%s Active"):format(machine_name).." ("..percent.."%)")
+			meta:set_string("infotext", get_description(S("Active")) ..
+				" (" .. percent .. "%)")
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
-			meta:set_string("formspec",
-					"size[8,9]"..
-					"label[0,0;"..machine_name.."]"..
-					"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
-					(100 - percent)..":default_furnace_fire_fg.png]"..
-					"list[current_name;fuel;2,3;1,1;]"..
-					"list[current_name;src;2,1;2,1;]"..
-					"list[current_name;dst;5,1;2,2;]"..
-					"list[current_player;main;0,5;8,4;]"..
-					"listring[current_name;dst]"..
-					"listring[current_player;main]"..
-					"listring[current_name;src]"..
-					"listring[current_player;main]"..
-					"listring[current_name;fuel]"..
-					"listring[current_player;main]")
+			meta:set_string("formspec", get_formspec(percent))
 			return
 		end
 
@@ -144,9 +140,9 @@ minetest.register_abm({
 
 		if not recipe then
 			if was_active then
-				meta:set_string("infotext", S("%s is empty"):format(machine_name))
+				meta:set_string("infotext", get_description(S("Empty")))
 				technic.swap_node(pos, "technic:coal_alloy_furnace")
-				meta:set_string("formspec", formspec)
+				meta:set_string("formspec", get_formspec(nil))
 			end
 			return
 		end
@@ -161,9 +157,9 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext", S("%s Out Of Fuel"):format(machine_name))
+			meta:set_string("infotext", get_description(S("Out Of Fuel")))
 			technic.swap_node(pos, "technic:coal_alloy_furnace")
-			meta:set_string("formspec", formspec)
+			meta:set_string("formspec", get_formspec(nil))
 			return
 		end
 
