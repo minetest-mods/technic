@@ -1076,13 +1076,14 @@ power cable must connect to draw off the generated power.
 The reactor structure consists of concentric layers, each a cubical
 shell, around the core.  Immediately around the core is a layer of water,
 representing the reactor coolant; water blocks may be either source blocks
-or flowing blocks.  Around that is a layer of stainless steel blocks,
-representing the reactor pressure vessel, and around that a layer of
-blast-resistant concrete blocks, representing a containment structure.
+or flowing blocks.  Around that is a layer of stainless steel or lead
+blocks, representing the reactor pressure vessel, and around that a layer
+of blast-resistant concrete blocks, representing a containment structure.
 It is customary, though no longer mandatory, to surround this with a
 layer of ordinary concrete blocks.  The mandatory reactor structure
 makes a 7&times;7&times;7 cube, and the full customary structure a
-9&times;9&times;9 cube.
+9&times;9&times;9 cube.  If you use stainless steel blocks, they will be
+converted to lead blocks.
 
 The layers surrounding the core don't have to be absolutely complete.
 Indeed, if they were complete, it would be impossible to cable the core to
