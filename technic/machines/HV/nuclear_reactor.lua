@@ -137,8 +137,8 @@ implementation of radiation) it needs to continue being adequate
 shielding of legacy reactors.  If it ever ceases to be adequate
 shielding for new reactors, legacy ones should be grandfathered.
 
-For legacy reasons, if the reactor has a stainless steel layer instead
-of a lead layer it will be converted to a lead layer.
+For legacy reasons, a stainless steel layer instead of a lead
+layer is accepted too.
 --]]
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
@@ -192,25 +192,8 @@ local function reactor_structure_badness(pos)
 	end
 	end
 
-	if steel_layer >= 96 then
-		-- Legacy: convert stainless steel to lead
-		-- Why don't we accept both without conversion?
-		for z = pos1.z+1, pos2.z-1 do
-		for y = pos1.y+1, pos2.y-1 do
-		for x = pos1.x+1, pos2.x-1 do
-			local vi = area:index(x, y, z)
-			if x == pos1.x+1 or x == pos2.x-1 or
-			   y == pos1.y+1 or y == pos2.y-1 or
-			   z == pos1.z+1 or z == pos2.z-1 then
-				if data[vi] == c_steel then
-					data[vi] = c_lead
-				end
-			end
-		end
-		end
-		end
-		vm:set_data(data)
-		vm:write_to_map()
+	if steel_layer >= (96 / 2) then
+		-- Legacy: Allow steel instead of lead
 		lead_layer = steel_layer
 	end
 
