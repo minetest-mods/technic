@@ -20,7 +20,9 @@ local quarry_eject_dir = vector.new(0, 1, 0)
 local function set_quarry_formspec(meta)
 	local radius = meta:get_int("size")
 	local formspec = "size[6,4.3]"..
+		technic_compat.formspec_prefix..
 		"list[context;cache;0,1;4,3;]"..
+		technic_compat.get_itemslot_bg(0, 1, 4, 3)..
 		"item_image[4.8,0;1,1;technic:quarry]"..
 		"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
 		"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
@@ -229,6 +231,12 @@ local function send_move_error(player)
 	return 0
 end
 
+if minetest.get_modpath("mcl_core") then
+	quarry_pick = "default_tool_diamondpick.png"
+else
+	quarry_pick = "default_tool_mesepick.png"
+end
+
 minetest.register_node("technic:quarry", {
 	description = S("%s Quarry"):format("HV"),
 	tiles = {
@@ -236,11 +244,11 @@ minetest.register_node("technic:quarry", {
 		"technic_carbon_steel_block.png"..cable_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
 		"technic_carbon_steel_block.png"..cable_entry,
-		"technic_carbon_steel_block.png^default_tool_mesepick.png",
+		"technic_carbon_steel_block.png^"..quarry_pick,
 		"technic_carbon_steel_block.png"..cable_entry
 	},
 	paramtype2 = "facedir",
-	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1},
+	groups = {cracky=2, tubedevice=1, technic_machine=1, technic_hv=1,pickaxey=3},
 	connect_sides = {"bottom", "front", "left", "right"},
 	tube = {
 		connect_sides = {top = 1},
@@ -283,7 +291,11 @@ minetest.register_node("technic:quarry", {
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		return send_move_error(player)
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 technic.register_machine("HV", "technic:quarry", technic.receiver)

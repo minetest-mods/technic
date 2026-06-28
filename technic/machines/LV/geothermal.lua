@@ -10,9 +10,9 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:geothermal',
 	recipe = {
-		{'technic:granite',          'default:diamond',        'technic:granite'},
+		{technic_compat.granite_ingredient,          technic_compat.diamond_ingredient,        technic_compat.granite_ingredient},
 		{'basic_materials:copper_wire', 'technic:machine_casing', 'basic_materials:copper_wire'},
-		{'technic:granite',          'technic:lv_cable',       'technic:granite'},
+		{technic_compat.granite_ingredient,          'technic:lv_cable',       technic_compat.granite_ingredient},
 	},
 	replacements = {
 		{"basic_materials:copper_wire", "basic_materials:empty_spool"},
@@ -26,8 +26,8 @@ minetest.register_craftitem("technic:geothermal", {
 
 local check_node_around = function(pos)
 	local node = minetest.get_node(pos)
-	if node.name == "default:water_source" or node.name == "default:water_flowing" then return 1 end
-	if node.name == "default:lava_source"  or node.name == "default:lava_flowing"  then return 2 end
+	if minetest.get_item_group(node.name, "water") == 3 and (string.find(node.name, "flowing") or string.find(node.name, "source")) then return 1 end
+	if minetest.get_item_group(node.name, "lava") == 3 and (string.find(node.name, "flowing") or string.find(node.name, "source"))  then return 2 end
 	return 0
 end
 
@@ -87,16 +87,20 @@ minetest.register_node("technic:geothermal", {
 	tiles = {"technic_geothermal_top.png", "technic_machine_bottom.png", "technic_geothermal_side.png",
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
+		technic_machine=1, technic_lv=1, pickaxey=3},
 	paramtype2 = "facedir",
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Geothermal %s Generator"):format("LV"))
 		meta:set_int("LV_EU_supply", 0)
 	end,
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_node("technic:geothermal_active", {
@@ -105,11 +109,15 @@ minetest.register_node("technic:geothermal_active", {
 	         "technic_geothermal_side.png", "technic_geothermal_side.png", "technic_geothermal_side.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
+		technic_machine=1, technic_lv=1, not_in_creative_inventory=1, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	drop = "technic:geothermal",
 	technic_run = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 technic.register_machine("LV", "technic:geothermal",        technic.producer)

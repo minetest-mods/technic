@@ -122,8 +122,8 @@ minetest.register_node("technic:power_radiator", {
 	description = "MV Power Radiator",
 	tiles  = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
 	          "technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
-	sounds = default.node_sound_wood_defaults(),
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, pickaxey=3},
+	sounds = technic_compat.wood_sounds,
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,
@@ -143,7 +143,11 @@ minetest.register_node("technic:power_radiator", {
 	end,
 	on_punch = function(pos, node, puncher)
 		toggle_on_off_inductive_appliances(pos, node, puncher)
-	end
+	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_abm({

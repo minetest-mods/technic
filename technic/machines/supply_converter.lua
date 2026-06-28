@@ -15,6 +15,7 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 
 local function set_supply_converter_formspec(meta)
 	local formspec = "size[5,2.25]"..
+		technic_compat.formspec_prefix..
 		"field[0.3,0.5;2,1;power;"..S("Input Power")..";"..meta:get_int("power").."]"
 	if digilines_path then
 		formspec = formspec..
@@ -198,9 +199,9 @@ minetest.register_node("technic:supply_converter", {
 		"technic_supply_converter_side.png"
 		},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_all_tiers=1},
+		technic_machine=1, technic_all_tiers=1, pickaxey=3},
 	connect_sides = {"top", "bottom"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_receive_fields = supply_converter_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -218,6 +219,10 @@ minetest.register_node("technic:supply_converter", {
 	digiline = digiline_def,
 	technic_run = run,
 	technic_on_disable = run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_craft({

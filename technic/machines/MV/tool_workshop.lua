@@ -10,9 +10,9 @@ local tube_entry = "^pipeworks_tube_connection_wooden.png"
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
-		{'group:wood',                         'default:diamond',        'group:wood'},
-		{'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth'},
-		{'default:obsidian',                   'technic:mv_cable',       'default:obsidian'},
+		{'group:wood',                         technic_compat.diamond_ingredient,        'group:wood'},
+		{technic_compat.sticky_piston_ingredient, 'technic:machine_casing', 'technic:carbon_cloth'},
+		{technic_compat.obsidian_ingredient,                   'technic:mv_cable',       technic_compat.obsidian_ingredient},
 	}
 })
 
@@ -20,12 +20,17 @@ local workshop_demand = {5000, 3500, 2000}
 
 local workshop_formspec =
 	"size[8,9;]"..
+	technic_compat.formspec_prefix..
 	"list[current_name;src;3,1;1,1;]"..
+	technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 	"label[0,0;"..S("%s Tool Workshop"):format("MV").."]"..
 	"list[current_name;upgrade1;1,3;1,1;]"..
+	technic_compat.get_itemslot_bg(1, 3, 1, 1)..
 	"list[current_name;upgrade2;2,3;1,1;]"..
+	technic_compat.get_itemslot_bg(2, 3, 1, 1)..
 	"label[1,4;"..S("Upgrade Slots").."]"..
 	"list[current_player;main;0,5;8,4;]"..
+	technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 	"listring[current_player;main]"..
 	"listring[current_name;src]"..
 	"listring[current_player;main]"..
@@ -93,9 +98,9 @@ minetest.register_node("technic:tool_workshop", {
 		"technic_workshop_side.png"
 	},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
+		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1, pickaxey=3},
 	connect_sides = {"bottom", "back", "left", "right"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("%s Tool Workshop"):format("MV"))
@@ -119,7 +124,11 @@ minetest.register_node("technic:tool_workshop", {
 	},
 	technic_run = run,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = technic.machine_after_dig_node
+	after_dig_node = technic.machine_after_dig_node,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 technic.register_machine("MV", "technic:tool_workshop", technic.receiver)

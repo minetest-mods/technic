@@ -52,6 +52,7 @@ local function set_display(pos, meta)
 	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
 	meta:set_string("formspec",
 		"size[5,3.5]"..
+		technic_compat.formspec_prefix..
 		"item_image[0,0;1,1;technic:admin_anchor]"..
 		"label[1,0;"..ESC(desc).."]"..
 		"label[0,1;"..ESC(S("Owner:").." "..meta:get_string("owner")).."]"..
@@ -72,8 +73,8 @@ minetest.register_node("technic:admin_anchor", {
 	drawtype = "normal",
 	tiles = {"technic_admin_anchor.png"},
 	is_ground_content = true,
-	groups = {cracky=3, not_in_creative_inventory=1},
-	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky=3, not_in_creative_inventory=1, pickaxey=3},
+	sounds = technic_compat.stone_sounds,
 	after_place_node = function (pos, placer)
 		local meta = minetest.get_meta(pos)
 		if placer and placer:is_player() then
@@ -114,4 +115,8 @@ minetest.register_node("technic:admin_anchor", {
 		end
 		set_display(pos, meta)
 	end,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })

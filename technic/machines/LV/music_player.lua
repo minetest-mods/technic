@@ -7,9 +7,9 @@ minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
 	output = 'technic:music_player',
 	recipe = {
-		{'technic:chromium_ingot', 'default:diamond',        'technic:chromium_ingot'},
-		{'default:diamond',        'technic:machine_casing', 'default:diamond'},
-		{'default:mossycobble',    'technic:lv_cable',       'default:mossycobble'},
+		{'technic:chromium_ingot', technic_compat.diamond_ingredient,        'technic:chromium_ingot'},
+		{technic_compat.diamond_ingredient,        'technic:machine_casing', technic_compat.diamond_ingredient},
+		{technic_compat.mossy_cobble_ingredient,    'technic:lv_cable',       technic_compat.mossy_cobble_ingredient},
 	}
 })
 
@@ -71,6 +71,7 @@ end
 local function set_display(meta)
 	meta:set_string("formspec",
 			"size[4,4.5]"..
+			technic_compat.formspec_prefix..
 			"item_image[0,0;1,1;technic:music_player]"..
 			"label[1,0;"..S("%s Music Player"):format("LV").."]"..
 			"button[0,1;1,1;track1;1]"..
@@ -94,9 +95,9 @@ minetest.register_node("technic:music_player", {
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, technic_lv=1},
+		technic_machine=1, technic_lv=1, pickaxey=3},
 	connect_sides = {"bottom"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("%s Music Player"):format("LV"))
@@ -125,6 +126,10 @@ minetest.register_node("technic:music_player", {
 	on_destruct = stop_player,
 	technic_run = run,
 	technic_on_disable = stop_player,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 technic.register_machine("LV", "technic:music_player", technic.receiver)

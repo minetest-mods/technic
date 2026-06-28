@@ -26,20 +26,23 @@ function technic.register_generator(data)
 	local ltier = string.lower(tier)
 
 	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, ["technic_"..ltier]=1}
+		technic_machine=1, ["technic_"..ltier]=1, pickaxey=3}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
 	end
-	local active_groups = {not_in_creative_inventory = 1}
+	local active_groups = {not_in_creative_inventory = 1, pickaxey=3}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local generator_formspec =
 		"size[8,9;]"..
+		technic_compat.formspec_prefix..
 		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
 		"list[current_name;src;3,1;1,1;]"..
+		technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"..
+		technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 		"listring[]"
 
 	local desc = S("Fuel-Fired %s Generator"):format(tier)
@@ -98,11 +101,14 @@ function technic.register_generator(data)
 		end
 		meta:set_string("formspec",
 			"size[8, 9]"..
+				technic_compat.formspec_prefix..
 			"label[0, 0;"..minetest.formspec_escape(desc).."]"..
 			"list[current_name;src;3, 1;1, 1;]"..
+			technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 			"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 			(percent)..":default_furnace_fire_fg.png]"..
 			"list[current_player;main;0, 5;8, 4;]"..
+			technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 			"listring[]"..
 			form_buttons
 		)
@@ -125,7 +131,7 @@ function technic.register_generator(data)
 		groups = groups,
 		connect_sides = {"bottom", "back", "left", "right"},
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
@@ -176,6 +182,9 @@ function technic.register_generator(data)
 			end
 			meta:set_string("formspec", generator_formspec..form_buttons)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
@@ -192,7 +201,7 @@ function technic.register_generator(data)
 		groups = active_groups,
 		connect_sides = {"bottom"},
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		drop = "technic:"..ltier.."_generator",
 		can_dig = technic.machine_can_dig,
@@ -241,11 +250,14 @@ function technic.register_generator(data)
 			end
 			meta:set_string("formspec",
 				"size[8, 9]"..
+				technic_compat.formspec_prefix..
 				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
 				"list[current_name;src;3, 1;1, 1;]"..
+				technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
+				technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 				"listring[]"..
 				form_buttons
 			)
@@ -275,15 +287,21 @@ function technic.register_generator(data)
 
 			meta:set_string("formspec",
 				"size[8, 9]"..
+				technic_compat.formspec_prefix..
 				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
 				"list[current_name;src;3, 1;1, 1;]"..
+				technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
+				technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 				"listring[]"..
 				form_buttons
 			)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)

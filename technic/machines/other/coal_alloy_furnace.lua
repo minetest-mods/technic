@@ -6,21 +6,26 @@ local S = technic.getter
 minetest.register_craft({
 	output = 'technic:coal_alloy_furnace',
 	recipe = {
-		{'default:brick', 'default:brick', 'default:brick'},
-		{'default:brick', '',              'default:brick'},
-		{'default:brick', 'default:brick', 'default:brick'},
+		{technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient},
+		{technic_compat.brick_block_ingredient, '',              technic_compat.brick_block_ingredient},
+		{technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient, technic_compat.brick_block_ingredient},
 	}
 })
 
 local machine_name = S("Fuel-Fired Alloy Furnace")
 local formspec =
 	"size[8,9]"..
+	technic_compat.formspec_prefix..
 	"label[0,0;"..machine_name.."]"..
 	"image[2,2;1,1;default_furnace_fire_bg.png]"..
 	"list[current_name;fuel;2,3;1,1;]"..
+	technic_compat.get_itemslot_bg(2, 3, 1, 1)..
 	"list[current_name;src;2,1;2,1;]"..
+	technic_compat.get_itemslot_bg(2, 1, 2, 1)..
 	"list[current_name;dst;5,1;2,2;]"..
+	technic_compat.get_itemslot_bg(5, 1, 2, 2)..
 	"list[current_player;main;0,5;8,4;]"..
+	technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 	"listring[current_name;dst]"..
 	"listring[current_player;main]"..
 	"listring[current_name;src]"..
@@ -34,9 +39,9 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_side.png",
 	         "technic_coal_alloy_furnace_side.png", "technic_coal_alloy_furnace_front.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = {cracky=2, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = technic_compat.stone_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec)
@@ -50,6 +55,10 @@ minetest.register_node("technic:coal_alloy_furnace", {
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_node("technic:coal_alloy_furnace_active", {
@@ -60,13 +69,17 @@ minetest.register_node("technic:coal_alloy_furnace_active", {
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "technic:coal_alloy_furnace",
-	groups = {cracky=2, not_in_creative_inventory=1},
+	groups = {cracky=2, not_in_creative_inventory=1, pickaxey=3},
 	legacy_facedir_simple = true,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = technic_compat.stone_sounds,
 	can_dig = technic.machine_can_dig,
 	allow_metadata_inventory_put = technic.machine_inventory_put,
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
+	
 })
 
 minetest.register_abm({
@@ -124,13 +137,18 @@ minetest.register_abm({
 			technic.swap_node(pos, "technic:coal_alloy_furnace_active")
 			meta:set_string("formspec",
 					"size[8,9]"..
+					technic_compat.formspec_prefix..
 					"label[0,0;"..machine_name.."]"..
 					"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
 					(100 - percent)..":default_furnace_fire_fg.png]"..
 					"list[current_name;fuel;2,3;1,1;]"..
+					technic_compat.get_itemslot_bg(2, 3, 1, 1)..
 					"list[current_name;src;2,1;2,1;]"..
+					technic_compat.get_itemslot_bg(2, 1, 2, 1)..
 					"list[current_name;dst;5,1;2,2;]"..
+					technic_compat.get_itemslot_bg(5, 1, 2, 2)..
 					"list[current_player;main;0,5;8,4;]"..
+					technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 					"listring[current_name;dst]"..
 					"listring[current_player;main]"..
 					"listring[current_name;src]"..

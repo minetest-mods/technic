@@ -1,4 +1,3 @@
-
 local S = technic.getter
 
 technic.register_recipe_type("compressing", { description = S("Compressing") })
@@ -98,10 +97,10 @@ local dependent_recipes = {
 		{"everness:mineral_sand 2",                   "everness:mineral_sandstone"},
 	},
 	nether = {
-		{"nether:brick 9",				"nether:brick_compressed"},
-		{"nether:brick_compressed 9",	"nether:nether_lump"},
-		{"nether:rack",                 "nether:brick",},
-		{"nether:rack_deep",            "nether:brick_deep"},
+		{"nether:brick 9",            "nether:brick_compressed"},
+		{"nether:brick_compressed 9", "nether:nether_lump"},
+		{"nether:rack",               "nether:brick"},
+		{"nether:rack_deep",          "nether:brick_deep"},
 	},
 }
 

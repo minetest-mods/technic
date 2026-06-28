@@ -21,7 +21,8 @@ minetest.register_tool("technic:treetap", {
 		end
 		node.name = "moretrees:rubber_tree_trunk_empty"
 		minetest.swap_node(pos, node)
-		minetest.handle_node_drops(pointed_thing.above, {"technic:raw_latex"}, user)
+		local drop_pos = pointed_thing.above
+		minetest.add_item(drop_pos, "technic:raw_latex")
 		if not technic.creative_mode then
 			local item_wear = tonumber(itemstack:get_wear())
 			item_wear = item_wear + 819
@@ -38,8 +39,8 @@ minetest.register_tool("technic:treetap", {
 minetest.register_craft({
 	output = "technic:treetap",
 	recipe = {
-		{"pipeworks:tube_1", "group:wood",    "default:stick"},
-		{"",               "default:stick", "default:stick"}
+		{"pipeworks:tube_1", "group:wood",    technic_compat.stick_ingredient},
+		{"",               technic_compat.stick_ingredient, technic_compat.stick_ingredient}
 	},
 })
 

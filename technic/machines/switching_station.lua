@@ -15,7 +15,7 @@ minetest.register_craft({
 	output = "technic:switching_station",
 	recipe = {
 		{"",                     "technic:lv_transformer", ""},
-		{"default:copper_ingot", "technic:machine_casing", "default:copper_ingot"},
+		{technic_compat.copper_ingredient, "technic:machine_casing", technic_compat.copper_ingredient},
 		{"technic:lv_cable",     "technic:lv_cable",       "technic:lv_cable"}
 	}
 })
@@ -36,9 +36,9 @@ minetest.register_node("technic:switching_station",{
 		"technic_water_mill_top_active.png",
 		"technic_water_mill_top_active.png",
 		"technic_water_mill_top_active.png"},
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, technic_all_tiers=1,pickaxey=3},
 	connect_sides = {"bottom"},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Switching Station"))

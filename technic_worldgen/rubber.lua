@@ -2,7 +2,7 @@
 
 local S = technic.worldgen.gettext
 
-minetest.register_node(":moretrees:rubber_tree_sapling", {
+local sapling_def = {
 	description = S("Rubber Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"technic_rubber_sapling.png"},
@@ -10,9 +10,23 @@ minetest.register_node(":moretrees:rubber_tree_sapling", {
 	wield_image = "technic_rubber_sapling.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {dig_immediate=3, flammable=2, sapling=1},
-	sounds = default.node_sound_defaults(),
-})
+	groups = {dig_immediate=3, flammable=2, sapling=1, pickaxey=1, handy=1},
+	sounds = sounds.node_sound_defaults(),
+	_mcl_hardness =  1,
+	_mcl_blast_resistance =  1,
+	_mcl_silk_touch_drop = true
+}
+
+-- Add bonemeal support when mcl_bone_meal is available
+if minetest.get_modpath("mcl_bone_meal") then
+	sapling_def._on_bone_meal = function(itemstack, placer, pointed_thing, pos, node)
+		if math.random() > 0.45 then return end
+		minetest.remove_node(pos)
+		minetest.spawn_tree(pos, technic.rubber_tree_model)
+	end
+end
+
+minetest.register_node(":moretrees:rubber_tree_sapling", sapling_def)
 
 minetest.register_craft({
 	type = "fuel",
@@ -25,8 +39,11 @@ minetest.register_node(":moretrees:rubber_tree_trunk", {
 	tiles = {"default_tree_top.png", "default_tree_top.png",
 		"technic_rubber_tree_full.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
-		flammable=2},
-	sounds = default.node_sound_wood_defaults(),
+		flammable=2, handy=1, axey=1},
+	sounds = sounds.node_sound_wood_defaults(),
+	_mcl_hardness =  1,
+	_mcl_blast_resistance =  1,
+	_mcl_silk_touch_drop = true
 })
 
 minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
@@ -34,8 +51,11 @@ minetest.register_node(":moretrees:rubber_tree_trunk_empty", {
 	tiles = {"default_tree_top.png", "default_tree_top.png",
 		"technic_rubber_tree_empty.png"},
 	groups = {tree=1, snappy=1, choppy=2, oddly_breakable_by_hand=1,
-			flammable=2, not_in_creative_inventory=1},
-	sounds = default.node_sound_wood_defaults(),
+			flammable=2, not_in_creative_inventory=1, handy=1, axey=1},
+	sounds = sounds.node_sound_wood_defaults(),
+	_mcl_hardness =  1,
+	_mcl_blast_resistance =  1,
+	_mcl_silk_touch_drop = true
 })
 
 minetest.register_node(":moretrees:rubber_tree_leaves", {
@@ -43,7 +63,8 @@ minetest.register_node(":moretrees:rubber_tree_leaves", {
 	description = S("Rubber Tree Leaves"),
 	tiles = {"technic_rubber_leaves.png"},
 	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, leaves=1},
+	groups = {snappy=3, leafdecay=3, flammable=2, leaves=1,
+		handy=1, shearsy=1, swordy=1, hoey=1, dig_by_piston=1, deco_block=1},
 	drop = {
 		max_items = 1,
 		items = {{
@@ -55,7 +76,10 @@ minetest.register_node(":moretrees:rubber_tree_leaves", {
 		}
 		}
 	},
-	sounds = default.node_sound_leaves_defaults(),
+	sounds = sounds.node_sound_leaves_defaults(),
+	_mcl_hardness =  1,
+	_mcl_blast_resistance =  1,
+	_mcl_silk_touch_drop = true
 })
 
 technic.rubber_tree_model={
@@ -91,8 +115,17 @@ if technic.config:get_bool("enable_rubber_tree_generation") then
 				x = (maxp.x - minp.x) / 2 + minp.x,
 				y = (maxp.y - minp.y) / 2 + minp.y,
 				z = (maxp.z - minp.z) / 2 + minp.z}
+		local near_node = nil
+		if minetest.get_modpath("mcl_core") then
+			near_node = "mcl_core:dirt_with_grass"
+		else if minetest.get_modpath("default") then
+			near_node = "default:dirt_with_grass"
+		else
+			error(S("[TECHNIC] Cant generate rubber trees as default or mcl_core is not installed, please use a mineclone compatible game or minetest_game"))
+		end
+		end
 		local pos = minetest.find_node_near(tmp, maxp.x - minp.x,
-				{"default:dirt_with_grass"})
+				near_node)
 		if pos ~= nil then
 			minetest.spawn_tree({x=pos.x, y=pos.y+1, z=pos.z}, technic.rubber_tree_model)
 		end

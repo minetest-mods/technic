@@ -17,9 +17,9 @@ technic.register_power_tool("technic:blue_energy_crystal", 450000)
 minetest.register_craft({
 	output = "technic:battery",
 	recipe = {
-		{"group:wood", "default:copper_ingot", "group:wood"},
-		{"group:wood", "default:tin_ingot",    "group:wood"},
-		{"group:wood", "default:copper_ingot", "group:wood"},
+		{"group:wood", technic_compat.copper_ingredient, "group:wood"},
+		{"group:wood", technic_compat.tin_ingredient,    "group:wood"},
+		{"group:wood", technic_compat.copper_ingredient, "group:wood"},
 	}
 })
 -- Sulfur-lead-water recipes:
@@ -162,15 +162,19 @@ function technic.register_battery_box(data)
 
 	local formspec =
 		"size[8,9]"..
+		technic_compat.formspec_prefix..
 		"image[1,1;1,2;technic_power_meter_bg.png]"..
 		"list[context;src;3,1;1,1;]"..
+		technic_compat.get_itemslot_bg(3, 1, 1, 1)..
 		"image[4,1;1,1;technic_battery_reload.png]"..
 		"list[context;dst;5,1;1,1;]"..
+		technic_compat.get_itemslot_bg(5, 1, 1, 1)..
 		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
 		"list[current_player;main;0,5;8,4;]"..
+		technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 		"listring[context;dst]"..
 		"listring[current_player;main]"..
 		"listring[context;src]"..
@@ -183,7 +187,9 @@ function technic.register_battery_box(data)
 	if data.upgrade then
 		formspec = formspec..
 			"list[context;upgrade1;3.5,3;1,1;]"..
+			technic_compat.get_itemslot_bg(3.5, 3, 1, 1)..
 			"list[context;upgrade2;4.5,3;1,1;]"..
+			technic_compat.get_itemslot_bg(4.5, 3, 1, 1)..
 			"label[3.5,4;"..S("Upgrade Slots").."]"..
 			"listring[context;upgrade1]"..
 			"listring[current_player;main]"..
@@ -266,7 +272,7 @@ function technic.register_battery_box(data)
 
 	for i = 0, 8 do
 		local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-				technic_machine=1, ["technic_"..ltier]=1}
+				technic_machine=1, ["technic_"..ltier]=1, pickaxey=3}
 		if i ~= 0 then
 			groups.not_in_creative_inventory = 1
 		end
@@ -300,7 +306,7 @@ function technic.register_battery_box(data)
 			connect_sides = {"bottom"},
 			tube = data.tube and tube or nil,
 			paramtype2 = "facedir",
-			sounds = default.node_sound_wood_defaults(),
+			sounds = technic_compat.wood_sounds,
 			drop = "technic:"..ltier.."_battery_box0",
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
@@ -381,6 +387,9 @@ function technic.register_battery_box(data)
 					end
 				},
 			},
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
 		})
 	end
 

@@ -13,6 +13,11 @@ available to survival-mode players.
 
 local LATEST_SERIALIZATION_VERSION = 1
 
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(minetest.get_current_modname().." ".."requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)")
+end
+
 wrench = {}
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
