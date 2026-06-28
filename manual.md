@@ -6,11 +6,10 @@ describes how to use the modpack, mainly from a player's perspective.
 
 Documentation of the mod dependencies can be found here:
 
-*   [Minetest Game Documentation](https://wiki.minetest.net/Main_Page)
-*   [Mesecons Documentation](http://mesecons.net/items.html)
+*   Minetest Game Documentation (unavailable. [backups exist](https://github.com/rollerozxa/mt-wiki-dumping-ground))
+*   [Mesecons Documentation](https://mesecons.net/items.html)
 *   [Pipeworks Documentation](https://github.com/mt-mods/pipeworks/wiki/)
-*   [Moreores Forum Post](https://forum.minetest.net/viewtopic.php?t=549)
-*   [Basic materials Repository](https://gitlab.com/VanessaE/basic_materials)
+*   [Moreores Forum Post](https://forum.luanti.org/viewtopic.php?t=549)
 
 ## 1.0 Recipes
 
@@ -30,7 +29,7 @@ ultimately need to mine at more than one elevation to find all the ores.
 Elevation (Y axis) is measured in meters. The reference is usually at sea
 level. Ores can generally be found more commonly by going downwards to -1000m.
 
-Note ¹: *These ores are provided by Minetest Game. See [Ores](https://wiki.minetest.net/Ores#Ores_overview) for a rough overview*
+Note ¹: *These ores are provided by Minetest Game. See [Ores](https://web.archive.org/web/20240313025136/https://wiki.minetest.net/Ores) for a rough overview*
 
 Note ²: *These ores are provided by moreores. TODO: Add reference link*
 
@@ -165,11 +164,11 @@ To obtain rubber from latex, alloy latex with coal dust.
 ## 3.0 Metal processing
 Generally, each metal can exist in five forms:
 
- * ore -> stone containing the lump
- * lump -> draw metal obtained by digging ("nuggets")
- * dust -> grinder output
- * ingot -> melted/cooked lump or dust
- * block -> placeable node
+ * ore = stone containing the lump
+ * lump = raw metal obtained by digging ("nuggets")
+ * dust = grinder output
+ * ingot = melted/cooked lump or dust
+ * block = placeable node
 
 Metals can be converted between dust, ingot and block, but can't be converted
 from them back to ore or lump forms.
@@ -192,7 +191,7 @@ Example: 2x copper ingots + 1x zinc ingot -> 3x brass ingot (alloying)
 
 Note that grinding before alloying is the preferred method to gain more output.
 
-#### iron and its alloys
+#### Iron and its alloys
 
 Historically iron was the first metal whose working required processes of any
 metallurgical sophistication. The mod's mechanics around iron broadly imitate
@@ -219,18 +218,18 @@ Notable references:
  * https://en.wikipedia.org/wiki/Stainless_steel
  * ... plus many more.
 
-Processes:
+**Processes:**
 
- * Iron -> Wrought iron (melting)
- * Wrought iron -> Cast iron (melting)
- * Wrought iron + coal dust -> Carbon steel (alloying)
- * Carbon steel + coal dust -> Cast iron (alloying)
- * Carbon steel + chromium -> Stainless steel (alloying)
+ * Iron -> (melting) -> Wrought iron
+ * Wrought iron -> (melting) -> Cast iron
+ * Wrought iron + coal dust -> (alloying) -> Carbon steel
+ * Carbon steel + coal dust -> (alloying) -> Cast iron
+ * Carbon steel + chromium -> (alloying) -> Stainless steel
 
-Reversible processes:
+**Reversible processes:**
 
- * Cast iron -> Wrought iron (melting)
- * Carbon steel -> Wrought iron (melting)
+ * Cast iron -> (melting) -> Wrought iron
+ * Carbon steel -> (melting) -> Wrought iron
 
 Check your preferred crafting guide for more information.
 
@@ -257,141 +256,64 @@ a small number of reactor types that can use it, but technic doesn't
 have such a reactor.)  Better nuclear fuel needs to contain a higher
 proportion of U-235.
 
-Achieving a higher U-235 content isn't as simple as separating the U-235
-from the U-238 and just using the required amount of U-235.  Because
-U-235 and U-238 are both uranium, and therefore chemically identical,
-they cannot be chemically separated, in the way that different elements
-are separated from each other when refining metal.  They do differ
-in atomic mass, so they can be separated by centrifuging, but because
-their atomic masses are very close, centrifuging doesn't separate them
-very well.  They cannot be separated completely, but it is possible to
-produce uranium that has the isotopes mixed in different proportions.
 Uranium with a significantly larger fissile U-235 fraction than natural
 uranium is called "enriched", and that with a significantly lower fissile
 fraction is called "depleted".
 
-A single pass through a centrifuge produces two output streams, one with
-a fractionally higher fissile proportion than the input, and one with a
-fractionally lower fissile proportion.  To alter the fissile proportion
-by a significant amount, these output streams must be centrifuged again,
+Achieving a higher U-235 content isn't as simple as separating the U-235
+from the U-238 and just using the required amount of U-235.  They do differ
+in atomic mass, so they can be separated by centrifuging. However, they
+cannot be separated completely, but it is possible to
+produce uranium that has the isotopes mixed in different proportions.
+
+To alter the fissile proportion by a significant amount, these separated
+streams must be centrifuged again,
 repeatedly.  The usual arrangement is a "cascade", a linear arrangement
-of many centrifuges.  Each centrifuge takes as input uranium with some
-specific fissile proportion, and passes its two output streams to the
-two adjacent centrifuges.  Natural uranium is input somewhere in the
+of many centrifuges.  Natural uranium is input somewhere in the
 middle of the cascade, and the two ends of the cascade produce properly
 enriched and depleted uranium.
 
 Fuel for technic's nuclear reactor consists of enriched uranium of which
 3.5% is fissile.  (This is a typical value for a real-life light water
-reactor, a common type for power generation.)  To enrich uranium in the
-game, it must first be in dust form: the centrifuge will not operate
-on ingots.  (In real life uranium enrichment is done with the uranium
-in the form of a gas.)  It is best to grind uranium lumps directly to
-dust, rather than cook them to ingots first, because this yields twice
-as much metal dust.  When uranium is in refined form (dust, ingot, or
-block), the name of the inventory item indicates its fissile proportion.
-Uranium of any available fissile proportion can be put through all the
-usual processes for metal.
+reactor, a common type for power generation.)
 
-A single centrifuge operation takes two uranium dust piles, and produces
-as output one dust pile with a fissile proportion 0.1% higher and one with
-a fissile proportion 0.1% lower.  Uranium can be enriched up to the 3.5%
-required for nuclear fuel, and depleted down to 0.0%.  Thus a cascade
-covering the full range of fissile fractions requires 34 cascade stages.
-(In real life, enriching to 3.5% uses thousands of cascade stages.
-Also, centrifuging is less effective when the input isotope ratio
-is more skewed, so the steps in fissile proportion are smaller for
-relatively depleted uranium.  Zero fissile content is only asymptotically
-approachable, and natural uranium relatively cheap, so uranium is normally
-only depleted to around 0.3%.  On the other hand, much higher enrichment
-than 3.5% isn't much more difficult than enriching that far.)
+**How it works in-game:**
 
-Although centrifuges can be used manually, it is not feasible to perform
-uranium enrichment by hand.  It is a practical necessity to set up
-an automated cascade, using pneumatic tubes to transfer uranium dust
-piles between centrifuges.  Because both outputs from a centrifuge are
-ejected into the same tube, sorting tubes are needed to send the outputs
-in different directions along the cascade.  It is possible to send items
-into the centrifuges through the same tubes that take the outputs, so the
-simplest version of the cascade structure has a line of 34 centrifuges
-linked by a line of 34 sorting tube segments.
+Objective: obtain 3.5%-fissile (enriched) Uranium to craft 6 fuel rods.
 
-Assuming that the cascade depletes uranium all the way to 0.0%,
-producing one unit of 3.5%-fissile uranium requires the input of five
-units of 0.7%-fissile (natural) uranium, takes 490 centrifuge operations,
-and produces four units of 0.0%-fissile (fully depleted) uranium as a
-byproduct.  It is possible to reduce the number of required centrifuge
-operations by using more natural uranium input and outputting only
-partially depleted uranium, but (unlike in real life) this isn't usually
-an economical approach.  The 490 operations are not spread equally over
-the cascade stages: the busiest stage is the one taking 0.7%-fissile
-uranium, which performs 28 of the 490 operations.  The least busy is the
-one taking 3.4%-fissile uranium, which performs 1 of the 490 operations.
+1. Grind Uranium to dust (use lumps for 2x output)
+2. Keep an eye on the item description, which indicates the fissile proportion. (variable!)
+3. Insert two dust piles into the centrifuge
+4. The centrifuge separates them into +0.1% and -0.1% fissile proportion.
+    * The limits are 0.0% (depleted) and 3.5% (enriched).
+    * Note: This process is a simplification compared to real life.
+5. Repeat the centrifuge step (requires 34 cascade stages)
+    * This can take 490 centrifuge operations!
+    * Hint: Use pneumatic and sorting tubes (from `pipeworks`) to automate this process.
+      Items can be extracted and injected through the same tube.
 
-A centrifuge cascade will consume quite a lot of energy.  It is
-worth putting a battery upgrade in each centrifuge.  (Only one can be
-accommodated, because a control logic unit upgrade is also required for
-tube operation.)  An MV centrifuge, the only type presently available,
-draws 7 kEU/s in this state, and takes 5 s for each uranium centrifuging
-operation.  It thus takes 35 kEU per operation, and the cascade requires
-17.15 MEU to produce each unit of enriched uranium.  It takes five units
-of enriched uranium to make each fuel rod, and six rods to fuel a reactor,
-so the enrichment cascade requires 514.5 MEU to process a full set of
-reactor fuel.  This is about 0.85% of the 6.048 GEU that the reactor
-will generate from that fuel.
+To reduce the centrifuge energy consumption, add a battery upgrade in
+addition to the *control logic unit* upgrade.
 
-If there is enough power available, and enough natural uranium input,
-to keep the cascade running continuously, and exactly one centrifuge
-at each stage, then the overall speed of the cascade is determined by
-the busiest stage, the 0.7% stage.  It can perform its 28 operations
-towards the enrichment of a single uranium unit in 140 s, so that is
-the overall cycle time of the cascade.  It thus takes 70 min to enrich
-a full set of reactor fuel.  While the cascade is running at this full
-speed, its average power consumption is 122.5 kEU/s.  The instantaneous
-power consumption varies from second to second over the 140 s cycle,
-and the maximum possible instantaneous power consumption (with all 34
-centrifuges active simultaneously) is 238 kEU/s.  It is recommended to
-have some battery boxes to smooth out these variations.
+Calculations for 1 (one) centrifuge:
 
-If the power supplied to the centrifuge cascade averages less than
-122.5 kEU/s, then the cascade can't run continuously.  (Also, if the
-power supply is intermittent, such as solar, then continuous operation
-requires more battery boxes to smooth out the supply variations, even if
-the average power is high enough.)  Because it's automated and doesn't
-require continuous player attention, having the cascade run at less
-than full speed shouldn't be a major problem.  The enrichment work will
-consume the same energy overall regardless of how quickly it's performed,
-and the speed will vary in direct proportion to the average power supply
-(minus any supply lost because battery boxes filled completely).
+* Power consumption: 7 kEU/s
+* Processing time: 5 s
+* Energy per operation: 35 kEU
 
-If there is insufficient power to run both the centrifuge cascade at
-full speed and whatever other machines require power, all machines on
-the same power network as the centrifuge will be forced to run at the
-same fractional speed.  This can be inconvenient, especially if use
-of the other machines is less automated than the centrifuge cascade.
-It can be avoided by putting the centrifuge cascade on a separate power
-network from other machines, and limiting the proportion of the generated
-power that goes to it.
+To produce 6 fuel rods to power the reactor, the enrichment cascade requires
+514.5 MEU. This is about 0.85% of the 6.048 GEU that the reactor will generate from that fuel.
 
-If there is sufficient power and it is desired to enrich uranium faster
-than a single cascade can, the process can be speeded up more economically
-than by building an entire second cascade.  Because the stages of the
-cascade do different proportions of the work, it is possible to add a
-second and subsequent centrifuges to only the busiest stages, and have
-the less busy stages still keep up with only a single centrifuge each.
+Note that the power draw of the centrifuge cascade does fluctuate depending on
+their activity (average: 122.5 kEU/s, peak: 238 kEU/s). Use batteries and, if possible,
+a separate network to avoid power shortages.
 
-Another possible approach to uranium enrichment is to have no fixed
-assignment of fissile proportions to centrifuges, dynamically putting
-whatever uranium is available into whichever centrifuges are available.
-Theoretically all of the centrifuges can be kept almost totally busy all
-the time, making more efficient use of capital resources, and the number
-of centrifuges used can be as little (down to one) or as large as desired.
-The difficult part is that it is not sufficient to put each uranium dust
-pile individually into whatever centrifuge is available: they must be
-input in matched pairs.  Any odd dust pile in a centrifuge will not be
-processed and will prevent that centrifuge from accepting any other input.
+See also: section [6.0 Radioactivity](#60-radioactivity).
 
-### concrete ###
+
+### Concrete
+
+*Provided by the mod `concrete`, included in this modpack.*
 
 Concrete is a synthetic building material.  The technic modpack implements
 it in the game.
@@ -401,14 +323,8 @@ Two forms of concrete are available as building blocks: ordinary
 name, the latter has no special resistance to explosions or to any other
 means of destruction.
 
-Concrete can also be used to make fences.  They act just like wooden
-fences, but aren't flammable.  Confusingly, the item that corresponds
-to a wooden "fence" is called "concrete post".  Posts placed adjacently
-will implicitly create fence between them.  Fencing also appears between
-a post and adjacent concrete block.
 
-industrial processes
---------------------
+## 4.0 Industrial processes
 
 ### Alloying
 
@@ -420,80 +336,33 @@ Check your preferred crafting guide for more information.
 
 ### Grinding, extracting, and compressing
 
-Grinding, extracting, and compressing are three distinct, but very
-similar, ways of converting one item into another.  They are all quite
-similar to the cooking found in the basic Minetest game.  Each uses
-an input consisting of a single item type, and produces a single
-output.  They are all performed using powered machines, respectively
-known generically as a "grinder", "extractor", and "compressor".
-Some compressing recipes require the input to be a stack of more than
-one of the input item: the quantity required is part of the recipe.
-Grinding and extracting recipes never require such a stacked input.
+These are three distinct - yet very similar - ways of converting one item into another.
+Some recipes require a stack of more than one of the input item.
 
 There are multiple kinds of grinder, extractor, and compressor.  Unlike
 cooking furnaces and alloy furnaces, there are none that directly burn
 fuel; they are all electrically powered.
 
-Grinding recipes always produce some kind of dust, loosely speaking,
-as output.  The most important grinding recipes are concerned with metals:
-every metal lump or ingot can be ground into metal dust.  Coal can also
-be ground into dust, and burning the dust as fuel produces much more
-energy than burning the original coal lump.  There are a few other
-grinding recipes that make block types from the basic Minetest game
-more interconvertible: standard stone can be ground to standard sand,
-desert stone to desert sand, cobblestone to gravel, and gravel to dirt.
+* Grinding: Converts to dust or sand
+* Extracting: (iscellaneous category)
+    * Extracts dye
+    * Creates rubber from raw latex (3x more efficient than cooking)
+* Compressing: Produces artificial item types (plates) or solids
 
-Extracting is a miscellaneous category, used for a small group
-of processes that just don't fit nicely anywhere else.  (Its name is
-notably vaguer than those of the other kinds of processing.)  It is used
-for recipes that produce dye, mainly from flowers.  (However, for those
-recipes using flowers, the basic Minetest game provides parallel crafting
-recipes that are easier to use and produce more dye, and those recipes
-are not suppressed by technic.)  Its main use is to generate rubber from
-raw latex, which it does three times as efficiently as merely cooking
-the latex.  Extracting was also formerly used for uranium enrichment for
-use as nuclear fuel, but this use has been superseded by a new enrichment
-system using the centrifuge.
+### Separating
 
-Compressing recipes are mainly used to produce a few relatively advanced
-artificial item types, such as the copper and carbon plates used in
-advanced machine recipes.  There are also a couple of compressing recipes
-making natural block types more interconvertible.
+This processing step is done by the Centrifuge. It separates one
+input item (commonly liquid or gas) into constituent substances.
 
-### centrifuging ###
-
-Centrifuging is another way of using a machine to convert items.
-Centrifuging takes an input of a single item type, and produces outputs
-of two distinct types.  The input may be required to be a stack of
-more than one of the input item: the quantity required is part of
-the recipe.  Centrifuging is only performed by a single machine type,
-the MV (electrically-powered) centrifuge.
-
-Currently, centrifuging recipes don't appear in the unified\_inventory
-craft guide, because unified\_inventory can't yet handle recipes with
-multiple outputs.
-
-Generally, centrifuging separates the input item into constituent
-substances, but it can only work when the input is reasonably fluid,
-and in marginal cases it is quite destructive to item structure.
-(In real life, centrifuges require their input to be mainly fluid, that
-is either liquid or gas.  Few items in the game are described as liquid
-or gas, so the concept of the centrifuge is stretched a bit to apply to
-finely-divided solids.)
-
-The main use of centrifuging is in uranium enrichment, where it
-separates the isotopes of uranium dust that otherwise appears uniform.
-Enrichment is a necessary process before uranium can be used as nuclear
-fuel, and the radioactivity of uranium blocks is also affected by its
-isotopic composition.
+The main use of centrifuging is in uranium enrichment. See also: section [Uranium enrichment](#uranium-enrichment).
 
 A secondary use of centrifuging is to separate the components of
 metal alloys.  This can only be done using the dust form of the alloy.
 It recovers both components of binary metal/metal alloys.  It can't
 recover the carbon from steel or cast iron.
 
-Chests
-------
+
+## 5.0 Chests
 
 See [GitHub Wiki / Chests](https://github.com/minetest-mods/technic/wiki/Chests)
 
@@ -504,8 +373,7 @@ Features of extended chests:
  * Advanced item sorting
 
 
-radioactivity
--------------
+## 6.0 Radioactivity
 
 The technic mod adds radioactivity to the game, as a hazard that can
 harm player characters.  Certain substances in the game are radioactive,
@@ -606,7 +474,10 @@ in 0.53 m (factor of 3.7 per meter), but is a bit scarce to use for
 this purpose.  Uranium halves radiation in 0.31 m (factor of 9.4 per
 meter), but is itself radioactive.  The very best shielding in the game
 is nyancat material (nyancats and their rainbow blocks), which halves
-radiation in 0.22 m (factor of 24 per meter), but is extremely scarce. See [technic/technic/radiation.lua](https://github.com/minetest-technic/technic/blob/master/technic/radiation.lua) for the in-game shielding values, which are different from real-life values.
+radiation in 0.22 m (factor of 24 per meter), but is extremely scarce.
+
+See [technic/radiation.lua](technic/radiation.lua) for the in-game
+shielding values, which are different from real-life values.
 
 If the theoretical radiation damage from a particular source is
 sufficiently small, due to distance and shielding, then no damage at all
@@ -706,6 +577,8 @@ the output slots or upgrade slots.  Output slots are normally filled
 only by the processing operation of the machine, and upgrade slots must
 be filled manually.
 
+See also: section [Machine upgrade slots](#machine-upgrade-slots).
+
 Powered machines generally do not eject outputs into tubes without
 an upgrade.  One tube upgrade will make them eject outputs at a slow
 rate; a second tube upgrade will increase the rate.  Whether the slower
@@ -728,10 +601,8 @@ powered tools.  They are thus a mixture of electrical infrastructure,
 powered machine, and generator.  Battery boxes connect to cables only
 from the bottom.
 
-MV and HV battery boxes have upgrade slots.  Energy upgrades increase
-the capacity of a battery box, each by 10% of the un-upgraded capacity.
-This increase is far in excess of the capacity of the battery that forms
-the upgrade.
+MV and HV battery boxes have upgrade slots ([Machine upgrade slots](#machine-upgrade-slots)),
++10% capacity enhancement for each upgrade.
 
 For charging and discharging of power tools, rather than having input and
 output slots, each battery box has a charging slot and a discharging slot.
@@ -1072,6 +943,8 @@ the reactor; the rest of the structure consists of blocks that have mainly
 non-nuclear uses.  The reactor core is where all the generator-specific
 action happens: it is where the fuel rods are inserted, and where the
 power cable must connect to draw off the generated power.
+
+See also: [GitHub Wiki / Reactors](https://github.com/minetest-mods/technic/wiki/Reactors)
 
 The reactor structure consists of concentric layers, each a cubical
 shell, around the core.  Immediately around the core is a layer of water,
