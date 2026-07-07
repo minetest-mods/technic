@@ -1,19 +1,14 @@
 # textdomain: technic_cnc
 ## CNC
-
-##[ cnc.lua ]##
-CNC Machine=
 @1 CNC Machine=
-LV=
+CNC Machine=
 Choose Milling Program:=
 Slim Elements half / normal height:=
 In:=
 Out:=
-@1 Idle=
-@1 Unpowered=
-@1 Active=
-
-##[ cnc_api.lua ]##
+Idle=
+Unpowered=
+Active=
 Stick=
 Element End Double=
 Element Cross Double=
@@ -40,11 +35,10 @@ Slope Outer Edge/Corner=
 Slope Upside Down=
 Slope Lying=
 Slope=
-
-##[ cnc_materials.lua ]##
 Grassy dirt=
 Wooden=
 Bronze=
 Steel=
 Wrought Iron=
 Stainless Steel=
+@1@nStatus: @2=
