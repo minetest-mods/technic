@@ -8,14 +8,59 @@
 --   box definitions and easily stuff it in the this machine for production.
 
 local S = technic_cnc.getter
+local FS = function(...)
+	return core.formspec_escape(S(...))
+end
+local get_description -- func([status?]) -> string
 
-local allow_metadata_inventory_put
-local allow_metadata_inventory_take
-local allow_metadata_inventory_move
+local technic = technic_cnc.use_technic and technic
+
+local function allow_metadata_inventory_put(pos, listname, index, stack, player)
+	if technic then
+		if technic.machine_inventory_put(pos, listname, index, stack, player) == 0 then
+			return 0
+		end
+	else
+		if core.is_protected(pos, player:get_player_name()) then
+			return 0
+		end
+	end
+
+	if listname == "dst" then
+		return 0
+	end
+
+	return stack:get_count()
+end
+
+local function allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if technic then
+		if technic.machine_inventory_take(pos, listname, index, stack, player) == 0 then
+			return 0
+		end
+	else
+		if core.is_protected(pos, player:get_player_name()) then
+			return 0
+		end
+	end
+
+	return stack:get_count()
+end
+
+local function allow_metadata_inventory_move(pos, from_list, from_index,
+		to_list, to_index, count, player)
+	local inv = core.get_meta(pos):get_inventory()
+	local stack = inv:get_stack(from_list, from_index)
+	stack:set_count(count)
+
+	return allow_metadata_inventory_put(pos, to_list, to_index, stack, player)
+end
+
 local can_dig
-local desc_tr = S("CNC Machine")
 
 if technic_cnc.use_technic then
+	get_description = technic._get_desc_formatter(S("@1 CNC Machine", "LV"))
+
 	minetest.register_craft({
 		output = 'technic:cnc',
 		recipe = {
@@ -24,13 +69,10 @@ if technic_cnc.use_technic then
 			{'technic:carbon_steel_ingot', 'technic:lv_cable',           'technic:carbon_steel_ingot'},
 		},
 	})
-
-	allow_metadata_inventory_put = technic.machine_inventory_put
-	allow_metadata_inventory_take = technic.machine_inventory_take
-	allow_metadata_inventory_move = technic.machine_inventory_move
 	can_dig = technic.machine_can_dig
-	desc_tr = S("@1 CNC Machine", S("LV"))
 else
+	get_description = technic._get_desc_formatter(S("CNC Machine"))
+
 	minetest.register_craft({
 		output = 'technic:cnc',
 		recipe = {
@@ -39,28 +81,6 @@ else
 			{'default:steel_ingot', 'default:mese',       'default:steel_ingot'},
 		},
 	})
-
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return 0
-		end
-		return stack:get_count()
-	end
-
-	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return 0
-		end
-		return stack:get_count()
-	end
-
-	allow_metadata_inventory_move = function(pos, from_list, from_index,
-	                                to_list, to_index, count, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return 0
-		end
-		return count
-	end
 
 	can_dig = function(pos, player)
 		if player and minetest.is_protected(pos, player:get_player_name()) then return false end
@@ -100,21 +120,21 @@ end
 local function make_formspec()
 	local t = {
 		"size[9,11;]",
-		"label[1,0;"..S("Choose Milling Program:").."]",
+		"label[1,0;"..FS("Choose Milling Program:").."]",
 	}
 	add_buttons(false, t, 0, 0.5)
 
 	t[#t + 1] = (
-		"label[1,3.5;"..S("Slim Elements half / normal height:").."]"..
+		"label[1,3.5;"..FS("Slim Elements half / normal height:").."]"..
 		"image_button[1,4;1,0.5;technic_cnc_full.png;full; ]"..
 		"image_button[1,4.5;1,0.5;technic_cnc_half.png;half; ]"
 	)
 	add_buttons(true, t, 1, 4)
 
 	t[#t + 1] = (
-		"label[0, 5;"..S("In:").."]"..
+		"label[0, 5;"..FS("In:").."]"..
 		"list[current_name;src;0.5,5.5;1,1;]"..
-		"label[4, 5;"..S("Out:").."]"..
+		"label[4, 5;"..FS("Out:").."]"..
 		"list[current_name;dst;5,5.5;4,1;]"..
 
 		"list[current_player;main;0,7;8,4;]"..
@@ -135,6 +155,29 @@ minetest.register_on_mods_loaded(function()
 end)
 
 
+local function cnc_step_get_result(meta, inv) --> string (result)
+	local input, suffix = string.match(meta:get_string("cnc_product"), "(.*) (.*)")
+	if not suffix then
+		return nil
+	end
+
+	local result = input .. "_" .. suffix
+	if inv:get_stack("src", 1):get_name() == input
+			and core.registered_nodes[result]
+			and inv:room_for_item("dst", result) then
+		return result
+	end
+	return nil
+end
+
+local function cnc_step_execute(meta, inv, result)
+	local srcstack = inv:get_stack("src", 1)
+	srcstack:take_item()
+	inv:set_stack("src", 1, srcstack)
+	inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
+end
+
+
 -- The form handler is declared here because we need it in both the inactive and active modes
 -- in order to be able to change programs wile it is running.
 local function form_handler(pos, formname, fields, sender)
@@ -153,6 +196,10 @@ local function form_handler(pos, formname, fields, sender)
 		return
 	end
 
+	if fields.quit then
+		return
+	end
+
 	-- Resolve the node name and the number of items to make
 	local inv        = meta:get_inventory()
 	local inputstack = inv:get_stack("src", 1)
@@ -160,6 +207,13 @@ local function form_handler(pos, formname, fields, sender)
 	local size       = meta:get_int("size")
 	if size < 1 then size = 1 end
 
+	do
+		-- Legacy: Clean up old, unused variables.
+		meta:set_string("technic_power_machine", "")
+		meta:set_string("cnc_user", "")
+	end
+
+	-- Get selected program (-> product)
 	for k, _ in pairs(fields) do
 		-- Set a multipier for the half/full size capable blocks
 		local program = technic_cnc.programs["technic_cnc_" .. k]
@@ -167,37 +221,25 @@ local function form_handler(pos, formname, fields, sender)
 			program = technic_cnc.programs["technic_cnc_" .. k .. "_double"]
 		end
 		if program then
-			local multiplier = program.output
-			local product = inputname .. "_" .. program.suffix
-
-			meta:set_float( "cnc_multiplier", multiplier)
-			meta:set_string("cnc_user", sender:get_player_name())
-
-			if program.half_counterpart then -- is full
-				if size == 1 then
-					meta:set_string("cnc_product", product)
-					--print(product, multiplier)
-				end
+			if program.half_counterpart and size ~= 1 then
 				break -- no larger sizes allowed
 			end
 
-			-- half for normal
+			local multiplier = program.output
+			local product = inputname .. " " .. program.suffix -- see `cnc_step_get_result`
+
 			meta:set_string("cnc_product", product)
+			meta:set_float("cnc_multiplier", multiplier)
 			--print(product, multiplier)
 			break
 		end
 	end
 
+	-- Each click = craft one
 	if not technic_cnc.use_technic then
-		local result = meta:get_string("cnc_product")
-
-		if not inv:is_empty("src")
-		  and minetest.registered_nodes[result]
-		  and inv:room_for_item("dst", result) then
-			local srcstack = inv:get_stack("src", 1)
-			srcstack:take_item()
-			inv:set_stack("src", 1, srcstack)
-			inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
+		local result = cnc_step_get_result(meta, inv)
+		if result then
+			cnc_step_execute(meta, inv, result)
 		end
 	end
 end
@@ -207,16 +249,13 @@ local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local inv          = meta:get_inventory()
 	local eu_input     = meta:get_int("LV_EU_input")
-	local machine_name = desc_tr
 	local machine_node = "technic:cnc"
 	local demand       = 450
 
-	local result = meta:get_string("cnc_product")
-	if inv:is_empty("src") or
-	   (not minetest.registered_nodes[result]) or
-	   (not inv:room_for_item("dst", result)) then
+	local result = cnc_step_get_result(meta, inv)
+	if not result then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("@1 Idle", machine_name))
+		meta:set_string("infotext", get_description(S("Idle")))
 		meta:set_string("cnc_product", "")
 		meta:set_int("LV_EU_demand", 0)
 		return
@@ -224,17 +263,14 @@ local run = function(pos, node)
 
 	if eu_input < demand then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("@1 Unpowered", machine_name))
+		meta:set_string("infotext", get_description(S("Unpowered")))
 	elseif eu_input >= demand then
 		technic.swap_node(pos, machine_node.."_active")
-		meta:set_string("infotext", S("@1 Active", machine_name))
+		meta:set_string("infotext", get_description(S("Active")))
 		meta:set_int("src_time", meta:get_int("src_time") + 1)
 		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
 			meta:set_int("src_time", 0)
-			local srcstack = inv:get_stack("src", 1)
-			srcstack:take_item()
-			inv:set_stack("src", 1, srcstack)
-			inv:add_item("dst", result.." "..meta:get_int("cnc_multiplier"))
+			cnc_step_execute(meta, inv, result)
 		end
 	end
 	meta:set_int("LV_EU_demand", demand)
@@ -242,7 +278,7 @@ end
 
 -- The actual block inactive state
 minetest.register_node(":technic:cnc", {
-	description = desc_tr,
+	description = get_description(nil),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
 	groups = {cracky=2, technic_machine=1, technic_lv=1},
@@ -251,8 +287,7 @@ minetest.register_node(":technic:cnc", {
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", desc_tr)
-		meta:set_float("technic_power_machine", 1)
+		meta:set_string("infotext", get_description(nil))
 		meta:set_string("formspec", cnc_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -270,7 +305,7 @@ minetest.register_node(":technic:cnc", {
 if technic_cnc.use_technic then
 
 	minetest.register_node(":technic:cnc_active", {
-		description = desc_tr,
+		description = get_description(nil),
 		tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 					   "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 		groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
