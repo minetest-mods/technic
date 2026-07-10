@@ -9,14 +9,21 @@ local get_description = technic._get_desc_formatter(S("@1 Tool Workshop", "MV"))
 
 local tube_entry = "^pipeworks_tube_connection_wooden.png"
 
-minetest.register_craft({
-	output = 'technic:tool_workshop',
-	recipe = {
-		{'group:wood',                         'default:diamond',        'group:wood'},
-		{'mesecons_pistons:piston_sticky_off', 'technic:machine_casing', 'technic:carbon_cloth'},
-		{'default:obsidian',                   'technic:mv_cable',       'default:obsidian'},
-	}
-})
+do
+	-- Recipe registration
+	local piston = (core.get_modpath("mesecons_pistons")
+		and "mesecons_pistons:piston_sticky_off"
+		or "pipeworks:autocrafter"
+	)
+	core.register_craft({
+		output = 'technic:tool_workshop',
+		recipe = {
+			{'group:wood',       'default:diamond',        'group:wood'},
+			{piston,             'technic:machine_casing', 'technic:carbon_cloth'},
+			{'default:obsidian', 'technic:mv_cable',       'default:obsidian'},
+		}
+	})
+end
 
 local workshop_demand = {5000, 3500, 2000}
 
