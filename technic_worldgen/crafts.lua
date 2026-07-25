@@ -1,5 +1,5 @@
 
-local S = technic.worldgen.gettext
+local S = technic_worldgen.getter
 
 minetest.register_craftitem(":technic:uranium_lump", {
 	description = S("Uranium Lump"),
@@ -141,52 +141,32 @@ minetest.register_craft({
 	output = "technic:wrought_iron_ingot",
 })
 
-local function for_each_registered_item(action)
-	local already_reg = {}
-	for k, _ in pairs(minetest.registered_items) do
-		table.insert(already_reg, k)
-	end
-	local really_register_craftitem = minetest.register_craftitem
-	minetest.register_craftitem = function(name, def)
-		really_register_craftitem(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	local really_register_tool = minetest.register_tool
-	minetest.register_tool = function(name, def)
-		really_register_tool(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	local really_register_node = minetest.register_node
-	minetest.register_node = function(name, def)
-		really_register_node(name, def)
-		action(string.gsub(name, "^:", ""))
-	end
-	for _, name in ipairs(already_reg) do
-		action(name)
-	end
-end
 
-local steel_to_iron = {}
-for _, i in ipairs({
-	"default:axe_steel",
-	"default:pick_steel",
-	"default:shovel_steel",
-	"default:sword_steel",
-	"doors:door_steel",
-	"farming:hoe_steel",
-	"glooptest:hammer_steel",
-	"glooptest:handsaw_steel",
-	"glooptest:reinforced_crystal_glass",
-	"mesecons_doors:op_door_steel",
-	"mesecons_doors:sig_door_steel",
-	"vessels:steel_bottle",
-}) do
-	steel_to_iron[i] = true
-end
+-- Change "Steel" to "Iron"
 
-for_each_registered_item(function(item_name)
-	local item_def = minetest.registered_items[item_name]
-	if steel_to_iron[item_name] and string.find(item_def.description, "Steel") then
-		minetest.override_item(item_name, { description = string.gsub(item_def.description, "Steel", S("Iron")) })
+-- "do not translate (yet)"
+local NS = function(v) return v end
+local steel_to_iron = {
+	["default:axe_steel"]             = NS("Iron Axe"),
+	["default:pick_steel"]            = NS("Iron Pickaxe"),
+	["default:shovel_steel"]          = NS("Iron Shovel"),
+	["default:sword_steel"]           = NS("Iron Sword"),
+	["doors:door_steel"]              = NS("Iron Door"),
+	["farming:hoe_steel"]             = NS("Iron Hoe"),
+	["glooptest:hammer_steel"]        = NS("Iron Hammer"),
+	["glooptest:handsaw_steel"]       = NS("Iron Handsaw"),
+	["glooptest:reinforced_crystal_glass"] = NS("Iron-Reinforced Crystal Glass"),
+	["vessels:steel_bottle"]          = NS("Iron Bottle"),
+}
+
+core.register_on_mods_loaded(function()
+	for name, desc in pairs(steel_to_iron) do
+		local def = core.registered_items[name]
+		if def then
+			core.override_item(name, {
+				description = S(desc)
+			})
+		end
 	end
 end)
+

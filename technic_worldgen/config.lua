@@ -1,6 +1,7 @@
-technic.config = technic.config or Settings(minetest.get_worldpath().."/technic.conf")
+technic_worldgen.config = technic_worldgen.config or
+	Settings(core.get_worldpath().."/technic.conf")
 
-local conf_table = technic.config:to_table()
+local conf_table = technic_worldgen.config:to_table()
 
 local defaults = {
 	enable_granite_generation = true,
@@ -10,6 +11,6 @@ local defaults = {
 
 for k, v in pairs(defaults) do
 	if conf_table[k] == nil then
-		technic.config:set(k, tostring(v))
+		technic_worldgen.config:set(k, tostring(v))
 	end
 end

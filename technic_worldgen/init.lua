@@ -1,8 +1,13 @@
+if not core.strip_escapes then
+	error("technic_worldgen requires Luanti 5.14.0 or newer. Please update.")
+end
+
 local modpath = minetest.get_modpath("technic_worldgen")
 
-technic = rawget(_G, "technic") or {}
-technic.worldgen = {
-	gettext = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end,
+local technic = rawget(_G, "technic")
+technic_worldgen = {
+	getter = core.get_translator("technic_worldgen"),
+	config = technic and technic.config or nil
 }
 
 dofile(modpath.."/config.lua")

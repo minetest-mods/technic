@@ -1,5 +1,5 @@
 
-local S = technic.worldgen.gettext
+local S = technic_worldgen.getter
 
 minetest.register_node( ":technic:mineral_uranium", {
 	description = S("Uranium Ore"),
@@ -112,11 +112,6 @@ minetest.register_node(":technic:lead_block", {
 
 minetest.register_alias("technic:wrought_iron_block", "default:steelblock")
 
-minetest.override_item("default:steelblock", {
-	description = S("Wrought Iron Block"),
-	tiles = { "technic_wrought_iron_block.png" },
-})
-
 minetest.register_node(":technic:cast_iron_block", {
 	description = S("Cast Iron Block"),
 	tiles = { "technic_cast_iron_block.png" },
@@ -161,44 +156,61 @@ minetest.register_alias("technic:diamond_block", "default:diamondblock")
 minetest.register_alias("technic:diamond", "default:diamond")
 minetest.register_alias("technic:mineral_diamond", "default:stone_with_diamond")
 
-local function for_each_registered_node(action)
-	local really_register_node = minetest.register_node
-	minetest.register_node = function(name, def)
-		really_register_node(name, def)
-		action(name:gsub("^:", ""), def)
-	end
-	for name, def in pairs(minetest.registered_nodes) do
-		action(name, def)
-	end
-end
 
-for_each_registered_node(function(node_name, node_def)
-	if node_name ~= "default:steelblock" and
-			node_name:find("steelblock", 1, true) and
-			node_def.description:find("Steel", 1, true) then
-		minetest.override_item(node_name, {
-			description = node_def.description:gsub("Steel", S("Wrought Iron")),
+-- Change "Steel" to "Wrought Iron"
+local NS = function() end
+NS("Wrought Iron Block")
+NS("Wrought Iron Block Stair")
+NS("Outer Wrought Iron Block Stair")
+NS("Inner Wrought Iron Block Stair")
+
+local function override_node(name, def)
+	if name:find("steelblock", 1, true) and
+			def.description:find("Steel", 1, true) then
+		local desc = core.strip_escapes(def.description)
+		desc = desc:gsub("Steel", "Wrought Iron")
+		--print("overwrite desc", name, desc)
+		core.override_item(name, {
+			description = S(desc),
 		})
 	end
-	local tiles = node_def.tiles or node_def.tile_images
+
+	local tiles = def.tiles or def.tile_images
 	if tiles then
-		local new_tiles = {}
+		tiles = type(tiles) == "table" and tiles or {tiles}
 		local do_override = false
-		if type(tiles) == "string" then
-			tiles = {tiles}
-		end
-		for i, t in ipairs(tiles) do
-			if type(t) == "string" and t == "default_steel_block.png" then
+		local function replace(value)
+			local count
+			value, count = value:gsub("default_steel_block%.png", "technic_wrought_iron_block.png")
+			if count > 0 then
 				do_override = true
-				t = "technic_wrought_iron_block.png"
 			end
-			table.insert(new_tiles, t)
+			return value
+		end
+
+		for i, v in ipairs(tiles) do
+			if type(v) == "table" then
+				if v.name then
+					v.name = replace(v.name)
+				end
+				if v.image then
+					v.image = replace(v.image)
+				end
+			elseif type(v) == "string" then
+				tiles[i] = replace(v)
+			end
 		end
 		if do_override then
-			minetest.override_item(node_name, {
-				tiles = new_tiles
+			--print("overwrite tiles", name)
+			core.override_item(name, {
+				tiles = tiles
 			})
 		end
 	end
-end)
+end
 
+core.register_on_mods_loaded(function()
+	for name, def in pairs(core.registered_nodes) do
+		override_node(name, def)
+	end
+end)

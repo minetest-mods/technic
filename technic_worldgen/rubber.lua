@@ -1,6 +1,6 @@
 -- Code of rubber tree by PilzAdam
 
-local S = technic.worldgen.gettext
+local S = technic_worldgen.getter
 
 minetest.register_node(":moretrees:rubber_tree_sapling", {
 	description = S("Rubber Tree Sapling"),
@@ -58,7 +58,7 @@ minetest.register_node(":moretrees:rubber_tree_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-technic.rubber_tree_model={
+local rubber_tree_model = {
 	axiom = "FFFFA",
 	rules_a = "[&FFBFA]////[&BFFFA]////[&FBFFA]",
 	rules_b = "[&FFA]////[&FFA]////[&FFA]",
@@ -78,11 +78,11 @@ minetest.register_abm({
 	chance = 20,
 	action = function(pos, node)
 		minetest.remove_node(pos)
-		minetest.spawn_tree(pos, technic.rubber_tree_model)
+		minetest.spawn_tree(pos, rubber_tree_model)
 	end
 })
 
-if technic.config:get_bool("enable_rubber_tree_generation") then
+if technic_worldgen.config:get_bool("enable_rubber_tree_generation") then
 	minetest.register_on_generated(function(minp, maxp, blockseed)
 		if math.random(1, 100) > 5 then
 			return
@@ -94,7 +94,7 @@ if technic.config:get_bool("enable_rubber_tree_generation") then
 		local pos = minetest.find_node_near(tmp, maxp.x - minp.x,
 				{"default:dirt_with_grass"})
 		if pos ~= nil then
-			minetest.spawn_tree({x=pos.x, y=pos.y+1, z=pos.z}, technic.rubber_tree_model)
+			minetest.spawn_tree({x=pos.x, y=pos.y+1, z=pos.z}, rubber_tree_model)
 		end
 	end)
 end

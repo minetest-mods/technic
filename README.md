@@ -13,7 +13,7 @@ world. A few notable features:
 
 ## Dependencies
 
-  * Luanti/Minetest 5.0.0 or newer
+  * Luanti 5.14.0 or newer
   * [Minetest Game](https://github.com/luanti-org/minetest_game)
   * [mesecons](https://github.com/minetest-mods/mesecons) -> signalling events
   * [pipeworks](https://github.com/mt-mods/pipeworks) -> automation of item transport
