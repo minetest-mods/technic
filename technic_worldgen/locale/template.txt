@@ -1,37 +1,53 @@
-# template.txt
-# technic_worldgen translation template
+# textdomain: technic_worldgen
 
-###crafts.lua
-Uranium Lump =
-Uranium Ingot =
-Chromium Lump =
-Chromium Ingot =
-Zinc Lump =
-Zinc Ingot =
-Brass Ingot =
-Wrought Iron Ingot =
-Cast Iron Ingot =
-Carbon Steel Ingot =
-Stainless Steel Ingot =
-Iron =
+##[ crafts.lua ]##
+Uranium Lump=
+Uranium Ingot=
+Chromium Lump=
+Chromium Ingot=
+Zinc Lump=
+Zinc Ingot=
+Lead Lump=
+Lead Ingot=
+Sulfur Lump=
+Wrought Iron Ingot=
+Cast Iron Ingot=
+Carbon Steel Ingot=
+Stainless Steel Ingot=
+Iron Axe=
+Iron Pickaxe=
+Iron Shovel=
+Iron Sword=
+Iron Door=
+Iron Hoe=
+Iron Hammer=
+Iron Handsaw=
+Iron-Reinforced Crystal Glass=
+Iron Bottle=
 
-###nodes.lua
-Uranium Ore =
-Chromium Ore =
-Zinc Ore =
-Granite =
-Marble =
-Marble Bricks =
-Uranium Block =
-Chromium Block =
-Zinc Block =
-Wrought Iron Block =
-Cast Iron Block =
-Carbon Steel Block =
-Stainless Steel Block =
-Brass Block =
-Wrought Iron =
+##[ nodes.lua ]##
+Uranium Ore=
+Chromium Ore=
+Zinc Ore=
+Lead Ore=
+Sulfur Ore=
+Granite=
+Granite Bricks=
+Marble=
+Marble Bricks=
+Uranium Block=
+Chromium Block=
+Zinc Block=
+Lead Block=
+Cast Iron Block=
+Carbon Steel Block=
+Stainless Steel Block=
+Wrought Iron Block=
+Wrought Iron Block Stair=
+Outer Wrought Iron Block Stair=
+Inner Wrought Iron Block Stair=
 
-###rubber.lua
-Rubber Tree Sapling =
-Rubber Tree =
+##[ rubber.lua ]##
+Rubber Tree Sapling=
+Rubber Tree=
+Rubber Tree Leaves=
