@@ -2,8 +2,53 @@
 -- namespace: technic
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local stairsplus = core.get_modpath("moreblocks") and stairsplus
 
-if minetest.get_modpath("moreblocks") then
+-- TODO: This is seems to be obsolete. The node names already use the "technic" prefix.
+function register_technic_stairs_alias(origmod, material, newmod)
+	local func = minetest.register_alias
+	local function remap(kind, suffix)
+		-- Old: stairsplus:slab_concrete_wall
+		-- New:    technic:slab_concrete_wall
+		func(("%s:%s_%s%s"):format(origmod, kind, material, suffix),
+			("%s:%s_%s%s"):format(newmod, kind, material, suffix))
+	end
+
+	-- Slabs
+	remap("slab", "")
+	remap("slab", "_inverted")
+	remap("slab", "_wall")
+	remap("slab", "_quarter")
+	remap("slab", "_quarter_inverted")
+	remap("slab", "_quarter_wall")
+	remap("slab", "_three_quarter")
+	remap("slab", "_three_quarter_inverted")
+	remap("slab", "_three_quarter_wall")
+
+	-- Stairs
+	remap("stair", "")
+	remap("stair", "_inverted")
+	remap("stair", "_wall")
+	remap("stair", "_wall_half")
+	remap("stair", "_wall_half_inverted")
+	remap("stair", "_half")
+	remap("stair", "_half_inverted")
+	remap("stair", "_right_half")
+	remap("stair", "_right_half_inverted")
+	remap("stair", "_inner")
+	remap("stair", "_inner_inverted")
+	remap("stair", "_outer")
+	remap("stair", "_outer_inverted")
+
+	-- Other
+	remap("panel", "_bottom")
+	remap("panel", "_top")
+	remap("panel", "_vertical")
+	remap("micro", "_bottom")
+	remap("micro", "_top")
+end
+
+if stairsplus and core.get_modpath("technic_worldgen") then
 
 	-- register stairsplus/circular_saw nodes
 	-- we skip blast resistant concrete and uranium intentionally
@@ -14,31 +59,39 @@ if minetest.get_modpath("moreblocks") then
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"technic_marble.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "marble", "technic")
 
 	stairsplus:register_all("technic", "marble_bricks", "technic:marble_bricks", {
 		description=S("Marble Bricks"),
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"technic_marble_bricks.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic")
 
 	stairsplus:register_all("technic", "granite", "technic:granite", {
 		description=S("Granite"),
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_granite.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "granite", "technic")
 
 	stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
 		description=S("Granite Bricks"),
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_granite_bricks.png"},
 	})
+end
 
+if stairsplus and core.get_modpath("concrete") then
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"basic_materials_concrete_block.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "concrete", "technic")
+end
 
+if stairsplus and core.get_modpath("technic_worldgen") then
 	stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
 		description=S("Zinc Block"),
 		groups={cracky=1, not_in_creative_inventory=1},
@@ -62,55 +115,6 @@ if minetest.get_modpath("moreblocks") then
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_stainless_steel_block.png"},
 	})
-
-	function register_technic_stairs_alias(origmod, origname, newmod, newname)
-		local func = minetest.register_alias
-		local function remap(kind, suffix)
-			-- Old: stairsplus:slab_concrete_wall
-			-- New:    technic:slab_concrete_wall
-			func(("%s:%s_%s%s"):format(origmod, kind, origname, suffix),
-				("%s:%s_%s%s"):format(newmod, kind, newname, suffix))
-		end
-
-		-- Slabs
-		remap("slab", "")
-		remap("slab", "_inverted")
-		remap("slab", "_wall")
-		remap("slab", "_quarter")
-		remap("slab", "_quarter_inverted")
-		remap("slab", "_quarter_wall")
-		remap("slab", "_three_quarter")
-		remap("slab", "_three_quarter_inverted")
-		remap("slab", "_three_quarter_wall")
-
-		-- Stairs
-		remap("stair", "")
-		remap("stair", "_inverted")
-		remap("stair", "_wall")
-		remap("stair", "_wall_half")
-		remap("stair", "_wall_half_inverted")
-		remap("stair", "_half")
-		remap("stair", "_half_inverted")
-		remap("stair", "_right_half")
-		remap("stair", "_right_half_inverted")
-		remap("stair", "_inner")
-		remap("stair", "_inner_inverted")
-		remap("stair", "_outer")
-		remap("stair", "_outer_inverted")
-
-		-- Other
-		remap("panel", "_bottom")
-		remap("panel", "_top")
-		remap("panel", "_vertical")
-		remap("micro", "_bottom")
-		remap("micro", "_top")
-	end
-
-	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
-	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
-	register_technic_stairs_alias("stairsplus", "granite", "technic", "granite")
-	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic", "marble_bricks")
-
 end
 
 local iclip_def = {
@@ -214,23 +218,26 @@ end
 minetest.register_node(":technic:insulator_clip", iclip_def)
 minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
 
-minetest.register_craft({
-	output = "technic:insulator_clip",
-	recipe = {
-		{ "", "dye:white", ""},
-		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", "default:stone", "technic:raw_latex"},
-	}
-})
+do
+	local insulator = core.get_modpath("technic") and "technic:raw_latex" or "basic_materials:plastic_strip"
+	core.register_craft({
+		output = "technic:insulator_clip",
+		recipe = {
+			{"", "dye:white", ""},
+			{"", insulator, ""},
+			{insulator, "default:stone", insulator},
+		}
+	})
 
-minetest.register_craft({
-	output = "technic:insulator_clip_fencepost 2",
-	recipe = {
-		{ "", "dye:white", ""},
-		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", "default:fence_wood", "technic:raw_latex"},
-	}
-})
+	core.register_craft({
+		output = "technic:insulator_clip_fencepost 2",
+		recipe = {
+			{"", "dye:white", ""},
+			{"", insulator, ""},
+			{insulator, "default:fence_wood", insulator},
+		}
+	})
+end
 
 local steelmod = minetest.get_modpath("steel")
 

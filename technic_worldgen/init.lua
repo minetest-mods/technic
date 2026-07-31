@@ -4,10 +4,9 @@ end
 
 local modpath = minetest.get_modpath("technic_worldgen")
 
-local technic = rawget(_G, "technic")
 technic_worldgen = {
 	getter = core.get_translator("technic_worldgen"),
-	config = technic and technic.config or nil
+	config = nil
 }
 
 dofile(modpath.."/config.lua")

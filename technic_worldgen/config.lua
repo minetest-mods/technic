@@ -1,5 +1,4 @@
-technic_worldgen.config = technic_worldgen.config or
-	Settings(core.get_worldpath().."/technic.conf")
+technic_worldgen.config = Settings(core.get_worldpath().."/technic.conf")
 
 local conf_table = technic_worldgen.config:to_table()
 

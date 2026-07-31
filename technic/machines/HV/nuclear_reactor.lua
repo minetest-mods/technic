@@ -13,7 +13,7 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
-local digiline_remote_path = minetest.get_modpath("digiline_remote")
+local digiline_remote = core.get_modpath("digiline_remote") and digiline_remote
 
 local S = technic.getter
 local FS = technic.getter_escaped
@@ -40,7 +40,7 @@ local function make_reactor_formspec(meta)
 		"listring[]"..
 		"button[5.7,1;2,1;start;Start]"..
 		"checkbox[5.7,2.75;autostart;automatic Start;"..meta:get_string("autostart").."]"
-	if not digiline_remote_path then
+	if not digiline_remote then
 		return f
 	end
 	local digiline_enabled = meta:get_string("enable_digiline")
@@ -284,7 +284,7 @@ local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local burn_time = meta:get_int("burn_time") or 0
 	if burn_time >= burn_ticks or burn_time == 0 then
-		if digiline_remote_path and meta:get_int("HV_EU_supply") == power_supply then
+		if digiline_remote and meta:get_int("HV_EU_supply") == power_supply then
 			digiline_remote.send_to_node(pos, meta:get_string("remote_channel"),
 					"fuel used", 6, true)
 		end
@@ -421,7 +421,7 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", get_description(nil))
 		meta:set_string("formspec", make_reactor_formspec(meta))
-		if digiline_remote_path then
+		if digiline_remote then
 			meta:set_string("remote_channel",
 					"nucelear_reactor"..minetest.pos_to_string(pos))
 		end

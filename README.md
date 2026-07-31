@@ -26,6 +26,18 @@ Recommended mods:
 
  * The included `wrench` mod is **deprecated**. Please use [wrench](https://github.com/mt-mods/wrench) instead.
 
+**Mods supported by `technic` without dependency:**
+
+ * `mesecons_mvps`: For Frames and Forcefields
+ * `digilines`: Automation (status monitoring)
+ * `digiline_remote`: Nuclear Reactor remote control
+ * `everness`: Grinder + Compressor recipes
+ * `nether`: Grinder + Compressor recipes
+
+**Mods supported by `extranodes` without dependency:**
+
+ * `streetsmod` / `steelsupport` and `steel`: Steel Strut node and recipes
+
 
 ## FAQ
 
