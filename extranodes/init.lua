@@ -2,7 +2,7 @@
 -- namespace: technic
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
-local stairsplus = core.get_modpath("moreblocks") and stairsplus
+local stairsplus = core.get_modpath("moreblocks") and assert(stairsplus)
 
 -- TODO: This is seems to be obsolete. The node names already use the "technic" prefix.
 function register_technic_stairs_alias(origmod, material, newmod)

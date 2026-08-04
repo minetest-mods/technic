@@ -13,7 +13,7 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
-local digiline_remote = core.get_modpath("digiline_remote") and digiline_remote
+local digiline_remote = core.get_modpath("digiline_remote") and assert(digiline_remote)
 
 local S = technic.getter
 local FS = technic.getter_escaped
