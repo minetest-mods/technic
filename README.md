@@ -30,7 +30,6 @@ Recommended mods:
 
  * `mesecons_mvps`: For Frames and Forcefields
  * `digilines`: Automation (status monitoring)
- * `digiline_remote`: Nuclear Reactor remote control
  * `everness`: Grinder + Compressor recipes
  * `nether`: Grinder + Compressor recipes
 
