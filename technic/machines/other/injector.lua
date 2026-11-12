@@ -47,7 +47,7 @@ minetest.register_craft({
 	output = 'technic:injector 1',
 	recipe = {
 		{'', 'technic:control_logic_unit',''},
-		{'', 'default:chest',''},
+		{'', technic_compat.chest_ingredient,''},
 		{'', 'pipeworks:tube_1',''},
 	}
 })
@@ -56,6 +56,7 @@ local function set_injector_formspec(meta)
 	local is_stack = meta:get_string("mode") == "whole stacks"
 	meta:set_string("formspec",
 		"size[8,9;]"..
+		technic_compat.formspec_prefix..
 		"item_image[0,0;1,1;technic:injector]"..
 		"label[1,0;"..S("Self-Contained Injector").."]"..
 		(is_stack and
@@ -65,7 +66,9 @@ local function set_injector_formspec(meta)
 			"button[2,1;2,1;mode_private;"..S("Public").."]" or
 			"button[2,1;2,1;mode_public;"..S("Private").."]")..
 		"list[current_name;main;0,2;8,2;]"..
+		technic_compat.get_itemslot_bg(0, 2, 8, 2)..
 		"list[current_player;main;0,5;8,4;]"..
+		technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 		"listring[]"..
 		fs_helpers.cycling_button(
 			meta,
@@ -90,7 +93,7 @@ minetest.register_node("technic:injector", {
 		"technic_injector_side.png"
 	},
 	paramtype2 = "facedir",
-	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1},
+	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2, tubedevice=1, tubedevice_receiver=1, pickaxey=3},
 	tube = {
 		can_insert = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
@@ -105,7 +108,7 @@ minetest.register_node("technic:injector", {
 		end,
 		connect_sides = {left=1, right=1, back=1, top=1, bottom=1},
 	},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Self-Contained Injector"))
@@ -140,7 +143,10 @@ minetest.register_node("technic:injector", {
 	allow_metadata_inventory_take = technic.machine_inventory_take,
 	allow_metadata_inventory_move = technic.machine_inventory_move,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true,
 })
 
 minetest.register_abm({

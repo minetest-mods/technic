@@ -1,10 +1,16 @@
 -- namespace: technic
 -- (c) 2012-2013 by RealBadAngel <mk@realbadangel.pl>
 
+
+
+
+
 if not minetest.get_translator then
 	error("[technic] Your Minetest version is no longer supported."
 		.. " (version < 5.0.0)")
 end
+
+
 
 local load_start = os.clock()
 
@@ -19,6 +25,11 @@ local S = core.get_translator("technic")
 technic.getter = S
 technic.getter_escaped = function(...)
 	return core.formspec_escape(S(...))
+end
+
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
 end
 
 -- Read configuration file

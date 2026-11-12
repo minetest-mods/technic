@@ -1,11 +1,32 @@
 --Minetest 0.4.7 mod: concrete
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+
 local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
+end
+
+-- Mineclone2 Support
+
+if minetest.get_modpath("mcl_core") then
+	stone_ingredient = "mcl_core:stone"
+else
+	stone_ingredient = "default:stone"
+end
+
+if minetest.get_modpath("mcl_sounds") then
+	stone_sounds = mcl_sounds.node_sound_stone_defaults()
+else
+	stone_sounds = default.node_sound_stone_defaults()
+end
+
+
 
 for i = 0, 31 do
 	minetest.register_alias("technic:concrete_post"..i,
@@ -26,9 +47,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'technic:concrete_post 12',
 	recipe = {
-		{'default:stone','basic_materials:steel_bar','default:stone'},
-		{'default:stone','basic_materials:steel_bar','default:stone'},
-		{'default:stone','basic_materials:steel_bar','default:stone'},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
+		{stone_ingredient,'basic_materials:steel_bar',stone_ingredient},
 	}
 })
 
@@ -45,7 +66,7 @@ minetest.register_node(":technic:blast_resistant_concrete", {
 	description = S("Blast-resistant Concrete Block"),
 	tiles = {"technic_blast_resistant_concrete_block.png",},
 	groups = {cracky=1, level=3, concrete=1},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	on_blast = function(pos, intensity)
 		if intensity > 9 then
 			minetest.remove_node(pos)
@@ -80,7 +101,7 @@ minetest.register_node(":technic:concrete_post_platform", {
 	description = S("Concrete Post Platform"),
 	tiles = {"basic_materials_concrete_block.png",},
 	groups={cracky=1, level=2},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	paramtype = "light",
 	drawtype = "nodebox",
 	node_box = {
@@ -112,7 +133,7 @@ for platform = 0, 1 do
 		description = S("Concrete Post"),
 		tiles = {"basic_materials_concrete_block.png"},
 		groups = {cracky=1, level=2, concrete_post=1, not_in_creative_inventory=platform},
-		sounds = default.node_sound_stone_defaults(),
+		sounds = stone_sounds,
 		drop = (platform == 1 and "technic:concrete_post_platform" or
 				"technic:concrete_post"),
 		paramtype = "light",

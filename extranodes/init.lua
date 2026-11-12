@@ -1,8 +1,30 @@
 -- Minetest 0.4.6 mod: extranodes
 -- namespace: technic
 -- Boilerplate to support localized strings if intllib mod is installed.
+
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 local stairsplus = core.get_modpath("moreblocks") and assert(stairsplus)
+
+
+-- Check if mcl_core or default is installed
+if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") then
+	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
+end
+
+-- MineClone2 support
+local stone_sounds
+if minetest.get_modpath("mcl_sounds") then
+	stone_sounds = mcl_sounds.node_sound_stone_defaults()
+else
+	stone_sounds = default.node_sound_stone_defaults()
+end
+
+local wood_fence_ingredient
+if minetest.get_modpath("mcl_core") then
+	wood_fence_ingredient = "group:fence_wood"
+else
+	wood_fence_ingredient = "default:fence_wood"
+end
 
 -- TODO: This is seems to be obsolete. The node names already use the "technic" prefix.
 function register_technic_stairs_alias(origmod, material, newmod)
@@ -68,18 +90,20 @@ if stairsplus and core.get_modpath("technic_worldgen") then
 	})
 	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic")
 
-	stairsplus:register_all("technic", "granite", "technic:granite", {
-		description=S("Granite"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_granite.png"},
-	})
-	register_technic_stairs_alias("stairsplus", "granite", "technic")
+	if not minetest.get_modpath("mcl_core") then
+		stairsplus:register_all("technic", "granite", "technic:granite", {
+			description=S("Granite"),
+			groups={cracky=1, not_in_creative_inventory=1},
+			tiles={"technic_granite.png"},
+		})
+		register_technic_stairs_alias("stairsplus", "granite", "technic")
 
-	stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
-		description=S("Granite Bricks"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_granite_bricks.png"},
-	})
+		stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
+			description=S("Granite Bricks"),
+			groups={cracky=1, not_in_creative_inventory=1},
+			tiles={"technic_granite_bricks.png"},
+		})
+	end
 end
 
 if stairsplus and core.get_modpath("concrete") then
@@ -124,7 +148,7 @@ local iclip_def = {
 	tiles = {"technic_insulator_clip.png"},
 	is_ground_content = false,
 	groups = {choppy=1, snappy=1, oddly_breakable_by_hand=1 },
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 }
 
 local iclipfence_def = {
@@ -158,7 +182,7 @@ local iclipfence_def = {
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree"},
 	groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1 },
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 }
 
 local sclip_tex = {
@@ -186,7 +210,7 @@ local sclip_def = {
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	is_ground_content = false,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = stone_sounds,
 	groups = { choppy=1, cracky=1 },
 	backface_culling = false
 }
@@ -223,18 +247,18 @@ do
 	core.register_craft({
 		output = "technic:insulator_clip",
 		recipe = {
-			{"", "dye:white", ""},
+			{"", technic_compat.white_dye_ingredient, ""},
 			{"", insulator, ""},
-			{insulator, "default:stone", insulator},
+			{insulator, technic_compat.stone_ingredient, insulator},
 		}
 	})
 
 	core.register_craft({
 		output = "technic:insulator_clip_fencepost 2",
 		recipe = {
-			{"", "dye:white", ""},
+			{"", technic_compat.white_dye_ingredient, ""},
 			{"", insulator, ""},
-			{insulator, "default:fence_wood", insulator},
+			{insulator, wood_fence_ingredient, insulator},
 		}
 	})
 end

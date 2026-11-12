@@ -27,12 +27,12 @@ function technic.register_generator(data)
 	local ltier = string.lower(tier)
 
 	local groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
-		technic_machine=1, ["technic_"..ltier]=1}
+		technic_machine=1, ["technic_"..ltier]=1, pickaxey=3}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
 	end
-	local active_groups = {not_in_creative_inventory = 1}
+	local active_groups = {not_in_creative_inventory = 1, pickaxey=3}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local get_description = technic._get_desc_formatter(S("Fuel-Fired @1 Generator", tier))
@@ -40,8 +40,10 @@ function technic.register_generator(data)
 	local function get_formspec(meta)
 		local fs =
 			"size[8,9;]"..
+			technic_compat.formspec_prefix..
 			"label[0,0;"..ESC(get_description(nil)).."]"..
-			"list[current_name;src;3,1;1,1;]"
+			"list[current_name;src;3,1;1,1;]"..
+			technic_compat.get_itemslot_bg(3, 1, 1, 1)
 		if meta then
 			local burn_totaltime = meta:get_int("burn_totaltime")
 			local burn_time      = meta:get_int("burn_time")
@@ -54,6 +56,7 @@ function technic.register_generator(data)
 		end
 
 		fs = fs .. "list[current_player;main;0,5;8,4;]"..
+			technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 			"listring[]"
 		if ltier ~= "lv" then
 			fs = fs .. fs_helpers.cycling_button(
@@ -128,7 +131,7 @@ function technic.register_generator(data)
 		groups = groups,
 		connect_sides = {"bottom", "back", "left", "right"},
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
@@ -154,6 +157,9 @@ function technic.register_generator(data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", get_formspec(meta))
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true,
 	})
 
 	minetest.register_node("technic:"..ltier.."_generator_active", {
@@ -170,7 +176,7 @@ function technic.register_generator(data)
 		groups = active_groups,
 		connect_sides = {"bottom"},
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		drop = "technic:"..ltier.."_generator",
 		can_dig = technic.machine_can_dig,
@@ -209,6 +215,9 @@ function technic.register_generator(data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", get_formspec(meta))
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine(tier, "technic:"..ltier.."_generator",        technic.producer)

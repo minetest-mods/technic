@@ -114,11 +114,14 @@ minetest.register_node("technic:light", {
 	drawtype = "glasslike",
 	tiles = {"technic_light.png"},
 	paramtype = "light",
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = 1, pickaxey=3},
 	drop = "",
 	walkable = false,
 	buildable_to = true,
 	sunlight_propagates = true,
 	light_source = minetest.LIGHT_MAX,
 	pointable = false,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
 })

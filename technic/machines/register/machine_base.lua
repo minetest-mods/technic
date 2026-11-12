@@ -42,19 +42,23 @@ function technic.register_base_machine(data)
 
 	data.modname = data.modname or minetest.get_current_modname()
 
-	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
+	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1, pickaxey=3}
 	if data.tube then
 		groups.tubedevice = 1
 		groups.tubedevice_receiver = 1
 	end
-	local active_groups = {not_in_creative_inventory = 1}
+	local active_groups = {not_in_creative_inventory = 1, pickaxey=3}
 	for k, v in pairs(groups) do active_groups[k] = v end
 
 	local formspec =
 		"size[8,9;]"..
+		technic_compat.formspec_prefix..
 		"list[current_name;src;"..(4-input_size)..",1;"..input_size..",1;]"..
+		technic_compat.get_itemslot_bg(4-input_size, 1, input_size, 1)..
 		"list[current_name;dst;5,1;2,2;]"..
+		technic_compat.get_itemslot_bg(5, 1, 2, 2)..
 		"list[current_player;main;0,5;8,4;]"..
+		technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 		"label[0,0;"..ESC(machine_desc_tier).."]"..
 		"listring[current_name;dst]"..
 		"listring[current_player;main]"..
@@ -63,7 +67,9 @@ function technic.register_base_machine(data)
 	if data.upgrade then
 		formspec = formspec..
 			"list[current_name;upgrade1;1,3;1,1;]"..
+			technic_compat.get_itemslot_bg(1, 3, 1, 1)..
 			"list[current_name;upgrade2;2,3;1,1;]"..
+			technic_compat.get_itemslot_bg(2, 3, 1, 1)..
 			"label[1,4;"..ESC(S("Upgrade Slots")).."]"..
 			"listring[current_name;upgrade1]"..
 			"listring[current_player;main]"..
@@ -176,7 +182,7 @@ function technic.register_base_machine(data)
 		tube = data.tube and tube or nil,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		on_construct = function(pos)
 			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
@@ -230,6 +236,9 @@ function technic.register_base_machine(data)
 			end
 			meta:set_string("formspec", formspec..form_buttons)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	core.register_node(node_name .. "_active",{
@@ -247,7 +256,7 @@ function technic.register_base_machine(data)
 		groups = active_groups,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = technic_compat.wood_sounds,
 		tube = data.tube and tube or nil,
 		can_dig = technic.machine_can_dig,
 		allow_metadata_inventory_put = technic.machine_inventory_put,
@@ -275,6 +284,9 @@ function technic.register_base_machine(data)
 			end
 			meta:set_string("formspec", formspec..form_buttons)
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine(tier, node_name,              technic.receiver)

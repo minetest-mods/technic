@@ -298,7 +298,7 @@ function technic.chests:definition(name, data)
 		groups = self.groups,
 		tube = self.tube,
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = wood_sounds,
 		after_place_node = locked_after_place,
 		after_dig_node = pipeworks.after_dig,
 
@@ -321,7 +321,12 @@ function technic.chests:definition(name, data)
 			minetest.remove_node(pos)
 			return drops
 		end,
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	}
+	def.groups.pickaxey = 3
+
 	if data.locked then
 		def.allow_metadata_inventory_move = self.inv_move
 		def.allow_metadata_inventory_put = self.inv_put

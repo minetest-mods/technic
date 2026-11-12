@@ -64,9 +64,9 @@ if technic then
 	minetest.register_craft({
 		output = 'technic:cnc',
 		recipe = {
-			{'default:glass',              'technic:diamond_drill_head', 'default:glass'},
-			{'technic:control_logic_unit', 'technic:machine_casing',     'basic_materials:motor'},
-			{'technic:carbon_steel_ingot', 'technic:lv_cable',           'technic:carbon_steel_ingot'},
+			{technic_cnc.compat.glass_ingredient, 'technic:diamond_drill_head', technic_cnc.compat.glass_ingredient},
+			{'technic:control_logic_unit', 'technic:machine_casing', 'basic_materials:motor'},
+			{'technic:carbon_steel_ingot', 'technic:lv_cable', 'technic:carbon_steel_ingot'},
 		},
 	})
 	can_dig = technic.machine_can_dig
@@ -82,9 +82,9 @@ else
 	minetest.register_craft({
 		output = 'technic:cnc',
 		recipe = {
-			{'default:glass',       'default:diamond',    'default:glass'},
-			{'basic_materials:ic',  'default:steelblock', 'basic_materials:motor'},
-			{'default:steel_ingot', 'default:mese',       'default:steel_ingot'},
+			{technic_cnc.compat.glass_ingredient, technic_cnc.compat.diamond_ingredient, technic_cnc.compat.glass_ingredient},
+			{'basic_materials:ic', 'default:steelblock', 'basic_materials:motor'},
+			{'default:steel_ingot', technic_cnc.compat.mese_block_ingredient, 'default:steel_ingot'},
 		},
 	})
 
@@ -287,7 +287,7 @@ minetest.register_node(":technic:cnc", {
 	description = get_description(nil),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
-	groups = {cracky=2, technic_machine=1, technic_lv=1},
+	groups = {cracky=2, technic_machine=1, technic_lv=1, pickaxey=3},
 	connect_sides = {"bottom", "back", "left", "right"},
 	paramtype2  = "facedir",
 	legacy_facedir_simple = true,
@@ -305,6 +305,9 @@ minetest.register_node(":technic:cnc", {
 	allow_metadata_inventory_move = allow_metadata_inventory_move,
 	on_receive_fields = form_handler,
 	technic_run = technic and run,
+	_mcl_hardness =  3,
+	_mcl_blast_resistance =  3,
+	_mcl_silk_touch_drop = true
 })
 
 -- Active state block
@@ -314,7 +317,7 @@ if technic then
 		description = get_description(nil),
 		tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 					   "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
-		groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},
+		groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1, pickaxey=3},
 		connect_sides = {"bottom", "back", "left", "right"},
 		paramtype2 = "facedir",
 		drop = "technic:cnc",
@@ -326,6 +329,9 @@ if technic then
 		on_receive_fields = form_handler,
 		technic_run = run,
 		technic_disabled_machine_name = "technic:cnc",
+		_mcl_hardness =  3,
+		_mcl_blast_resistance =  3,
+		_mcl_silk_touch_drop = true
 	})
 
 	technic.register_machine("LV", "technic:cnc",        technic.receiver)

@@ -48,12 +48,21 @@ minetest.register_craftitem(":technic:sulfur_lump", {
 	inventory_image = "technic_sulfur_lump.png",
 })
 
+if minetest.get_modpath("default") then
 minetest.register_alias("technic:wrought_iron_ingot", "default:steel_ingot")
 
 minetest.override_item("default:steel_ingot", {
 	description = S("Wrought Iron Ingot"),
 	inventory_image = "technic_wrought_iron_ingot.png",
 })
+elseif minetest.get_modpath("mcl_core") then
+	minetest.register_alias("technic:wrought_iron_ingot", "mcl_core:iron_ingot")
+
+	minetest.override_item("mcl_core:iron_ingot", {
+		description = S("Wrought Iron Ingot"),
+		inventory_image = "technic_wrought_iron_ingot.png",
+	})
+end
 
 minetest.register_craftitem(":technic:cast_iron_ingot", {
 	description = S("Cast Iron Ingot"),
@@ -127,6 +136,9 @@ minetest.register_craft({
 	output = "technic:cast_iron_ingot",
 })
 
+
+
+
 minetest.register_craft({
 	type = 'cooking',
 	recipe = "technic:cast_iron_ingot",
@@ -169,4 +181,3 @@ core.register_on_mods_loaded(function()
 		end
 	end
 end)
-

@@ -1,0 +1,1 @@
+technic_compat.stone_sounds = technic_compat.mcl and mcl_sounds.node_sound_stone_defaults() or default.node_sound_stone_defaults()
