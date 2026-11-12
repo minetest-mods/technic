@@ -4,17 +4,26 @@
 minetest.register_alias("tool_workshop", "technic:tool_workshop")
 
 local S = technic.getter
+local ESC = core.formspec_escape
+local get_description = technic._get_desc_formatter(S("@1 Tool Workshop", "MV"))
 
 local tube_entry = "^pipeworks_tube_connection_wooden.png"
 
-minetest.register_craft({
-	output = 'technic:tool_workshop',
-	recipe = {
-		{'group:wood',                         technic_compat.diamond_ingredient,        'group:wood'},
-		{technic_compat.sticky_piston_ingredient, 'technic:machine_casing', 'technic:carbon_cloth'},
-		{technic_compat.obsidian_ingredient,                   'technic:mv_cable',       technic_compat.obsidian_ingredient},
-	}
-})
+do
+	-- Recipe registration
+	local piston = ((technic_compat.mcl or core.get_modpath("mesecons_pistons"))
+		and technic_compat.sticky_piston_ingredient
+		or "pipeworks:autocrafter"
+	)
+	core.register_craft({
+		output = 'technic:tool_workshop',
+		recipe = {
+			{'group:wood',       technic_compat.diamond_ingredient,        'group:wood'},
+			{piston,             'technic:machine_casing', 'technic:carbon_cloth'},
+			{technic_compat.obsidian_ingredient, 'technic:mv_cable',       technic_compat.obsidian_ingredient},
+		}
+	})
+end
 
 local workshop_demand = {5000, 3500, 2000}
 
@@ -23,12 +32,12 @@ local workshop_formspec =
 	technic_compat.formspec_prefix..
 	"list[current_name;src;3,1;1,1;]"..
 	technic_compat.get_itemslot_bg(3, 1, 1, 1)..
-	"label[0,0;"..S("%s Tool Workshop"):format("MV").."]"..
+	"label[0,0;"..ESC(get_description(nil)).."]"..
 	"list[current_name;upgrade1;1,3;1,1;]"..
 	technic_compat.get_itemslot_bg(1, 3, 1, 1)..
 	"list[current_name;upgrade2;2,3;1,1;]"..
 	technic_compat.get_itemslot_bg(2, 3, 1, 1)..
-	"label[1,4;"..S("Upgrade Slots").."]"..
+	"label[1,4;"..ESC(S("Upgrade Slots")).."]"..
 	"list[current_player;main;0,5;8,4;]"..
 	technic_compat.get_itemslot_bg(0, 5, 8, 4)..
 	"listring[current_player;main]"..
@@ -43,7 +52,6 @@ local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local inv          = meta:get_inventory()
 	local eu_input     = meta:get_int("MV_EU_input")
-	local machine_name = S("%s Tool Workshop"):format("MV")
 
 	-- Setup meta data if it does not exist.
 	if not eu_input then
@@ -71,15 +79,15 @@ local run = function(pos, node)
 		end
 	end)
 	if not repairable then
-		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Idle")))
 		meta:set_int("MV_EU_demand", 0)
 		return
 	end
 
 	if eu_input < workshop_demand[EU_upgrade+1] then
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Unpowered")))
 	elseif eu_input >= workshop_demand[EU_upgrade+1] then
-		meta:set_string("infotext", S("%s Active"):format(machine_name))
+		meta:set_string("infotext", get_description(S("Active")))
 		srcstack:add_wear(-1000)
 		inv:set_stack("src", 1, srcstack)
 	end
@@ -87,7 +95,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:tool_workshop", {
-	description = S("%s Tool Workshop"):format("MV"),
+	description = get_description(nil),
 	paramtype2 = "facedir",
 	tiles = {
 		"technic_workshop_top.png"..tube_entry,
@@ -103,7 +111,7 @@ minetest.register_node("technic:tool_workshop", {
 	sounds = technic_compat.wood_sounds,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s Tool Workshop"):format("MV"))
+		meta:set_string("infotext", get_description(nil))
 		meta:set_string("formspec", workshop_formspec)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)

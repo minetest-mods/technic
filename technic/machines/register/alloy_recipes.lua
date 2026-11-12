@@ -3,6 +3,7 @@ local S = technic.getter
 
 technic.register_recipe_type("alloy", {
 	description = S("Alloying"),
+	icon = "technic_coal_alloy_furnace_front_active.png",
 	input_size = 2,
 })
 

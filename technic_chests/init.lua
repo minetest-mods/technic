@@ -53,13 +53,6 @@ else
 	gold_ingot_ingredient = 'default:gold_ingot'
 end
 
-granite_ingredient = nil
-if minetest.get_modpath("mcl_core") then
-	granite_ingredient = "mcl_core:granite"
-else
-	granite_ingredient = 'technic:granite'
-end
-
 granite_bricks_ingredient = nil
 if minetest.get_modpath("mcl_core") then
 	granite_bricks_ingredient = "mcl_core:granite_smooth"

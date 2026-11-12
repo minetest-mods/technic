@@ -10,15 +10,20 @@ end
 
 
 technic.recipes = { cooking = { input_size = 1, output_size = 1 } }
-function technic.register_recipe_type(typename, origdata)
-	local data = {}
-	for k, v in pairs(origdata) do data[k] = v end
+function technic.register_recipe_type(typename, data)
+	data = table.copy(data)
+	if not data.icon then
+		core.log("warning", "[technic] Recipe type '" .. typename .. "' has no icon defined.")
+		data.icon = "technic_machine_casing.png"
+	end
+	--data.icon = nil
 	data.input_size = data.input_size or 1
 	data.output_size = data.output_size or 1
 
 	if ui_version and (unified_inventory.version >= 6 or data.output_size == 1) then
 		unified_inventory.register_craft_type(typename, {
 			description = data.description,
+			icon = data.icon,
 			width = data.input_size,
 			height = 1,
 		})
@@ -27,16 +32,24 @@ function technic.register_recipe_type(typename, origdata)
 		if cg_version then
 			craftguide.register_craft_type(typename, {
 				description = data.description,
+				icon = data.icon,
 			})
 		end
 		if i3_version then
 			i3.register_craft_type(typename, {
 				description = data.description,
+				icon = data.icon,
 			})
 		end
 	end
 	data.recipes = {}
 	technic.recipes[typename] = data
+end
+
+function technic._register_crafting_tool(typename, node_name)
+	if ui_version and unified_inventory.version >= 8 then
+		unified_inventory.register_crafting_tool(typename, node_name)
+	end
 end
 
 --- @brief  Generates a (hopefully) unique hash from the given input items

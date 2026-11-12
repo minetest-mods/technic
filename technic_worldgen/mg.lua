@@ -63,7 +63,7 @@ mg.register_ore({
 	numperblock = 3
 })
 
-if technic.config:get_bool("enable_granite_generation") then
+if technic_worldgen.config:get_bool("enable_granite_generation") then
 	mg.register_ore_sheet({
 		name = "technic:granite",
 		wherein = "default:stone",
@@ -76,7 +76,7 @@ if technic.config:get_bool("enable_granite_generation") then
 	})
 end
 
-if technic.config:get_bool("enable_marble_generation") then
+if technic_worldgen.config:get_bool("enable_marble_generation") then
 	mg.register_ore_sheet({
 		name = "technic:marble",
 		wherein = "default:stone",

@@ -94,7 +94,7 @@ end
 for _, m in pairs(mining_lasers_list) do
 	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
 	minetest.register_tool("technic:laser_mk"..m[1], {
-		description = S("Mining Laser Mk%d"):format(m[1]),
+		description = S("Mining Laser Mk@1", m[1]),
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		range = 0,
 		stack_max = 1,

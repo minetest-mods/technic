@@ -165,7 +165,7 @@ minetest.register_on_generated(function(minp, maxp)
 end)
 
 -- Marble and Granite (if enabled)
-if technic.config:get_bool("enable_marble_generation") then
+if technic_worldgen.config:get_bool("enable_marble_generation") then
     minetest.register_ore({
         ore_type = "sheet",
         ore = "technic:marble",
@@ -183,7 +183,7 @@ if technic.config:get_bool("enable_marble_generation") then
     })
 end
 if not minetest.get_modpath("mcl_core") then
-if technic.config:get_bool("enable_granite_generation") then
+if technic_worldgen.config:get_bool("enable_granite_generation") then
     minetest.register_ore({
         ore_type = "sheet",
         ore = "technic:granite",

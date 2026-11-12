@@ -1,0 +1,45 @@
+# textdomain: technic_cnc
+## CNC
+# Author: mat9117
+@1 CNC Machine=@1 Obrabiarka CNC
+CNC Machine=Obrabiarka CNC
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+Idle=
+Unpowered=
+Active=
+Stick=Patyk
+Element End Double=Podwójna końcowa część
+Element Cross Double=Podwójna część krzyżowa
+Element T Double=Podwójna część T
+Element Edge Double=Podwójna krawędź części
+Element Straight Double=Podwójna prosta część
+Element End=Końcowa część
+Element Cross=Część krzyżowa
+Element T=Część T
+Element Edge=Krawędź części
+Element Straight=Prosta część
+Oblate spheroid=
+Sphere=Kula
+Horizontal Cylinder=Poziomy walec
+Cylinder=Walec
+Two Curved Edge/Corner Block=
+One Curved Edge Block=Blok z zagiętą krawędzią
+Spike=Kolec
+Pyramid=Ostrosłup
+Slope Upside Down Inner Edge/Corner=
+Slope Upside Down Outer Edge/Corner=
+Slope Inner Edge/Corner=
+Slope Outer Edge/Corner=
+Slope Upside Down=Odwrócony spad
+Slope Lying=Leżący spad
+Slope=Spad
+Grassy dirt=
+Wooden=Drewniany
+Bronze=
+Steel=
+Wrought Iron=
+Stainless Steel=
+@1@nStatus: @2=

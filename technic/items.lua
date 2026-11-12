@@ -140,13 +140,15 @@ minetest.register_craftitem("technic:rubber_goo", {
 })
 
 for p = 0, 35 do
+	local perc_fmt = string.format("%.1f", p/10)
+
 	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
 	local psuffix = p == 7 and "" or p
 	local ingot = "technic:uranium"..psuffix.."_ingot"
 	local block = "technic:uranium"..psuffix.."_block"
-	local ov = p == 7 and minetest.override_item or nil;
+	local ov = p == 7 and minetest.override_item or nil
 	(ov or minetest.register_craftitem)(ingot, {
-		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p/10),
+		description = S("@1%-Fissile Uranium Ingot", perc_fmt),
 		inventory_image = "technic_uranium_ingot.png",
 		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
 	});
@@ -183,7 +185,7 @@ for p = 0, 35 do
 	-- a 3.5%-fissile uranium block.
 	local radioactivity = math.floor(math.sqrt((1+5.55*p/35) * 18 / (1+5.55*7/35)) + 0.5);
 	(ov or minetest.register_node)(block, {
-		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
+		description = S("@1%-Fissile Uranium Block", perc_fmt),
 		tiles = {"technic_uranium_block.png"},
 		is_ground_content = true,
 		groups = {uranium_block=1, not_in_creative_inventory=nici,

@@ -1,0 +1,45 @@
+# textdomain: technic_cnc
+## CNC
+# Author: pagliaccio
+@1 CNC Machine=Tornio CNC @1
+CNC Machine=Tornio CNC
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+Idle=
+Unpowered=
+Active=
+Stick=Bastone
+Element End Double=Elemento finale doppio
+Element Cross Double=Elemento a croce doppio
+Element T Double=Elemento a T doppio
+Element Edge Double=Elemento bordo doppio
+Element Straight Double=Elemento dritto doppio
+Element End=Elemento finale
+Element Cross=Elemento a croce
+Element T=Elemento a T
+Element Edge=Elemento bordo
+Element Straight=Elemento dritto
+Oblate spheroid=
+Sphere=Sfera
+Horizontal Cylinder=Cilindro orizzontale
+Cylinder=Cilindro
+Two Curved Edge/Corner Block=
+One Curved Edge Block=Blocco con bordo curvo
+Spike=Spuntone
+Pyramid=Piramide
+Slope Upside Down Inner Edge/Corner=
+Slope Upside Down Outer Edge/Corner=
+Slope Inner Edge/Corner=
+Slope Outer Edge/Corner=
+Slope Upside Down=Pendenza capovolta
+Slope Lying=Pendenza bugiarda
+Slope=Inclinato
+Grassy dirt=
+Wooden=Legno
+Bronze=
+Steel=
+Wrought Iron=
+Stainless Steel=
+@1@nStatus: @2=

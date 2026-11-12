@@ -13,11 +13,11 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
-local digiline_remote_path = minetest.get_modpath("digiline_remote")
+local digiline_remote = core.get_modpath("digiline_remote") and assert(digiline_remote)
 
 local S = technic.getter
+local FS = technic.getter_escaped
 
-local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
 local cable_entry = "^technic_cable_connection_overlay.png"
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
@@ -35,7 +35,7 @@ local function make_reactor_formspec(meta)
 		"formspec_version[4]"..
 		"size[10.75,10.75]"..
 		technic_compat.formspec_prefix..
-		"label[0.2,0.4;"..S("Nuclear Reactor Rod Compartment").."]"..
+		"label[0.2,0.4;"..FS("Nuclear Reactor Rod Compartment").."]"..
 		"list[current_name;src;1.5,1;3,2;]"..
 		technic_compat.get_itemslot_bg(1.5, 1, 3, 2)..
 		"list[current_player;main;0.5,5.5;8,4;]"..
@@ -43,7 +43,7 @@ local function make_reactor_formspec(meta)
 		"listring[]"..
 		"button[5.7,1;2,1;start;Start]"..
 		"checkbox[5.7,2.75;autostart;automatic Start;"..meta:get_string("autostart").."]"
-	if not digiline_remote_path then
+	if not digiline_remote then
 		return f
 	end
 	local digiline_enabled = meta:get_string("enable_digiline")
@@ -140,8 +140,8 @@ implementation of radiation) it needs to continue being adequate
 shielding of legacy reactors.  If it ever ceases to be adequate
 shielding for new reactors, legacy ones should be grandfathered.
 
-For legacy reasons, if the reactor has a stainless steel layer instead
-of a lead layer it will be converted to a lead layer.
+For legacy reasons, a stainless steel layer instead of a lead
+layer is accepted too.
 --]]
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
@@ -195,25 +195,8 @@ local function reactor_structure_badness(pos)
 	end
 	end
 
-	if steel_layer >= 96 then
-		-- Legacy: convert stainless steel to lead
-		-- Why don't we accept both without conversion?
-		for z = pos1.z+1, pos2.z-1 do
-		for y = pos1.y+1, pos2.y-1 do
-		for x = pos1.x+1, pos2.x-1 do
-			local vi = area:index(x, y, z)
-			if x == pos1.x+1 or x == pos2.x-1 or
-			   y == pos1.y+1 or y == pos2.y-1 or
-			   z == pos1.z+1 or z == pos2.z-1 then
-				if data[vi] == c_steel then
-					data[vi] = c_lead
-				end
-			end
-		end
-		end
-		end
-		vm:set_data(data)
-		vm:write_to_map()
+	if steel_layer >= (96 / 2) then
+		-- Legacy: Allow steel instead of lead
 		lead_layer = steel_layer
 	end
 
@@ -297,11 +280,14 @@ minetest.register_abm({
 	end,
 })
 
+-- This does not work well in every language but it's easier to translate
+local get_description = technic._get_desc_formatter(S("@1 Nuclear Reactor Core", "HV"))
+
 local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local burn_time = meta:get_int("burn_time") or 0
 	if burn_time >= burn_ticks or burn_time == 0 then
-		if digiline_remote_path and meta:get_int("HV_EU_supply") == power_supply then
+		if digiline_remote and meta:get_int("HV_EU_supply") == power_supply then
 			digiline_remote.send_to_node(pos, meta:get_string("remote_channel"),
 					"fuel used", 6, true)
 		end
@@ -312,7 +298,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("@1 Idle", reactor_desc))
+		meta:set_string("infotext", get_description(S("Idle")))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)
@@ -320,7 +306,7 @@ local function run(pos, node)
 		burn_time = burn_time + 1
 		meta:set_int("burn_time", burn_time)
 		local percent = math.floor(burn_time / burn_ticks * 100)
-		meta:set_string("infotext", reactor_desc.." ("..percent.."%)")
+		meta:set_string("infotext", get_description(nil) .. " ("..percent.."%)")
 		meta:set_int("HV_EU_supply", power_supply)
 	end
 end
@@ -420,7 +406,7 @@ local digiline_remote_def = function(pos, channel, msg)
 end
 
 minetest.register_node("technic:hv_nuclear_reactor_core", {
-	description = reactor_desc,
+	description = get_description(nil),
 	tiles = {
 		"technic_hv_nuclear_reactor_core.png",
 		"technic_hv_nuclear_reactor_core.png"..cable_entry
@@ -436,9 +422,9 @@ minetest.register_node("technic:hv_nuclear_reactor_core", {
 	on_receive_fields = nuclear_reactor_receive_fields,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", reactor_desc)
+		meta:set_string("infotext", get_description(nil))
 		meta:set_string("formspec", make_reactor_formspec(meta))
-		if digiline_remote_path then
+		if digiline_remote then
 			meta:set_string("remote_channel",
 					"nucelear_reactor"..minetest.pos_to_string(pos))
 		end

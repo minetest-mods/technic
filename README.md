@@ -3,23 +3,39 @@
 [![Build status](https://github.com/minetest-mods/technic/workflows/Check%20&%20Release/badge.svg)](https://github.com/minetest-mods/technic/actions)
 [![License](https://img.shields.io/badge/license-LGPLv2.0%2B-purple.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.en.html)
 
-This Minetest modpack adds machinery and automation procedure content to your
+This Luanti modpack adds machinery and automation procedure content to your
 world. A few notable features:
 
   * Electric circuits
   * Automated material processing (ores, wood, ...)
   * Extended chest functionalities
 
+
 ## Dependencies
 
-  * Minetest 5.0.0 or newer
-  * [Minetest Game](https://github.com/minetest/minetest_game/)
+  * Luanti 5.14.0 or newer
+  * [Minetest Game](https://github.com/luanti-org/minetest_game)
   * [mesecons](https://github.com/minetest-mods/mesecons) -> signalling events
   * [pipeworks](https://github.com/mt-mods/pipeworks) -> automation of item transport
   * [moreores](https://github.com/minetest-mods/moreores/) -> additional ores
   * [basic_materials](https://github.com/mt-mods/basic_materials) -> basic craft items
   * Supports [moretrees](https://github.com/mt-mods/moretrees) -> rubber trees
-  * Consult `depends.txt` or `mod.conf` of each mod for further dependency information.
+  * Consult `mod.conf` of each mod or the main menu for further dependency information.
+
+Recommended mods:
+
+ * The included `wrench` mod is **deprecated**. Please use [wrench](https://github.com/mt-mods/wrench) instead.
+
+**Mods supported by `technic` without dependency:**
+
+ * `mesecons_mvps`: For Frames and Forcefields
+ * `digilines`: Automation (status monitoring)
+ * `everness`: Grinder + Compressor recipes
+ * `nether`: Grinder + Compressor recipes
+
+**Mods supported by `extranodes` without dependency:**
+
+ * `streetsmod` / `steelsupport` and `steel`: Steel Strut node and recipes
 
 
 ## FAQ
@@ -34,6 +50,25 @@ Machine and tool descriptions can be found on the **[GitHub Wiki](https://github
       matching circuit, consider using a "Supply Converter" for simplicity.
 
 For modders: **[Technic Lua API](technic/doc/api.md)**
+
+
+### World-specific settings
+
+World-specific settings can be specified in the file `??/worlds/WORLDNAME/technic.conf` (optional).
+Due to mod security checks, can be no defaults file to parse. To avoid duplication, please
+find the available settings here:
+
+* See [technic/config.lua](technic/config.lua)
+* See [technic_worldgen/config.lua](technic_worldgen/config.lua)
+
+The `technic.conf` file uses the `Settings` format as defined in
+[Luanti / lua_api.md](https://github.com/luanti-org/luanti/blob/5.16.1/doc/lua_api.md?plain=1#L9688-L9698).
+
+**Example**
+
+	enable_wind_mill = true
+	enable_flashlight = true
+	enable_granite_generation = false
 
 
 ## License

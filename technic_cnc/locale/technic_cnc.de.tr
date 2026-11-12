@@ -1,19 +1,15 @@
 # textdomain: technic_cnc
 ## CNC
-
-##[ cnc.lua ]##
-CNC Machine=CNC-Maschine
+# Authors: Xanthin, Krock
 @1 CNC Machine=@1 CNC-Maschine
-LV=LV
+CNC Machine=CNC-Maschine
 Choose Milling Program:=Wähle das Fräsprogramm aus:
 Slim Elements half / normal height:=Schmale halb- / normalhohe Elemente:
 In:=Eingabe:
 Out:=Ausgabe:
-@1 Idle=@1 (wartend)
-@1 Unpowered=@1 (unbestromt)
-@1 Active=@1 (aktiv)
-
-##[ cnc_api.lua ]##
+Idle=Bereit
+Unpowered=Ohne Stromversorgung
+Active=Aktiv
 Stick=Stock
 Element End Double=Endelement
 Element Cross Double=Kreuzelement
@@ -40,11 +36,10 @@ Slope Outer Edge/Corner=Schräge äussere Ecke
 Slope Upside Down=Schräge (kopfüber)
 Slope Lying=Liegende Schräge
 Slope=Schräge
-
-##[ cnc_materials.lua ]##
 Grassy dirt=Erde mit Gras
 Wooden=Holz
 Bronze=Bronze
 Steel=Stahl
 Wrought Iron=Schmiedeeisen
 Stainless Steel=Edelstahl
+@1@nStatus: @2=@1@nStatus: @2

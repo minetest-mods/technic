@@ -68,6 +68,18 @@ minetest.register_craft({
 	}
 })
 
+-- Simple Crystal -> Red -> Green -> Blue
+
+local material_ore_rare = core.get_modpath("moreores") and "moreores:mithril_ingot" or technic_compat.diamond_ingredient
+minetest.register_craft({
+	output = 'technic:blue_energy_crystal',
+	recipe = {
+		{material_ore_rare, 'technic:battery', technic_compat.blue_dye_ingredient},
+		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
+		{technic_compat.blue_dye_ingredient, 'technic:battery', material_ore_rare},
+	}
+})
+
 minetest.register_craft({
 	output = 'technic:green_energy_crystal',
 	recipe = {
@@ -77,21 +89,13 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = 'technic:blue_energy_crystal',
-	recipe = {
-		{'moreores:mithril_ingot', 'technic:battery', technic_compat.blue_dye_ingredient},
-		{'technic:battery', 'technic:green_energy_crystal', 'technic:battery'},
-		{technic_compat.blue_dye_ingredient, 'technic:battery', 'moreores:mithril_ingot'},
-	}
-})
-
+local material_ore_common = core.get_modpath("moreores") and "moreores:silver_ingot" or "technic:lead_ingot"
 minetest.register_craft({
 	output = 'technic:red_energy_crystal',
 	recipe = {
-		{'moreores:silver_ingot', 'technic:battery', technic_compat.red_dye_ingredient},
+		{material_ore_common, 'technic:battery', technic_compat.red_dye_ingredient},
 		{'technic:battery', 'basic_materials:energy_crystal_simple', 'technic:battery'},
-		{technic_compat.red_dye_ingredient, 'technic:battery', 'moreores:silver_ingot'},
+		{technic_compat.red_dye_ingredient, 'technic:battery', material_ore_common},
 	}
 })
 

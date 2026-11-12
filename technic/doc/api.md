@@ -244,7 +244,7 @@ Additional definition fields:
 	* Return values:
 		* `charge`: Electrical charge of the tool
 		* `max_charge`: Upper charge limit
-	* Etc. `local charge, maxcharge = itemdef.technic_get_charge(itemstack)`
+	* E.g. `local charge, maxcharge = itemdef.technic_get_charge(itemstack)`
 * `<itemdef>.technic_set_charge = function(itemstack, charge) ...`
 	* Optional callback to overwrite the default charge behaviour.
 	* `itemstack`: ItemStack, the tool to update

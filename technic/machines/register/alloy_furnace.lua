@@ -1,5 +1,5 @@
 
-local S = technic.getter
+local NS = function(s) return s end
 
 function technic.insert_object_unique_stack(pos, node, incoming_stack, direction)
 	local meta = minetest.get_meta(pos)
@@ -40,7 +40,7 @@ end
 function technic.register_alloy_furnace(data)
 	data.typename = "alloy"
 	data.machine_name = "alloy_furnace"
-	data.machine_desc = S("%s Alloy Furnace")
+	data.machine_desc = NS("@1 Alloy Furnace")
 
 	data.insert_object = technic.insert_object_unique_stack
 	data.can_insert = technic.can_insert_unique_stack

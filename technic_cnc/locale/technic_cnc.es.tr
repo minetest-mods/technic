@@ -1,0 +1,45 @@
+# textdomain: technic_cnc
+## CNC
+# Author: kaeza
+@1 CNC Machine=Maquina CNC @1
+CNC Machine=Maquina CNC
+Choose Milling Program:=
+Slim Elements half / normal height:=
+In:=
+Out:=
+Idle=
+Unpowered=
+Active=
+Stick=Varita
+Element End Double=Doble Fin de Elemento
+Element Cross Double=Elemento Cruz Doble
+Element T Double=
+Element Edge Double=Elemento Borde Doble
+Element Straight Double=Elemento Doble Recto
+Element End=Fin de Elemento
+Element Cross=Cruce de Elementos
+Element T=Elemento T
+Element Edge=Elemento Borde
+Element Straight=Recta de Elemento
+Oblate spheroid=
+Sphere=Esfera
+Horizontal Cylinder=Cilindro Horizontal
+Cylinder=Cilindro
+Two Curved Edge/Corner Block=
+One Curved Edge Block=Un Bloque de Borde Curvado
+Spike=Pica
+Pyramid=Piramide
+Slope Upside Down Inner Edge/Corner=
+Slope Upside Down Outer Edge/Corner=
+Slope Inner Edge/Corner=
+Slope Outer Edge/Corner=
+Slope Upside Down=Rampa Al Reves
+Slope Lying=Rampa en Reposo
+Slope=Rampa
+Grassy dirt=
+Wooden=Madera
+Bronze=
+Steel=
+Wrought Iron=
+Stainless Steel=
+@1@nStatus: @2=

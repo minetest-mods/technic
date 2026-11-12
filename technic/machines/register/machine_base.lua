@@ -1,5 +1,6 @@
 
 local S = technic.getter
+local ESC = core.formspec_escape
 
 local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
@@ -35,8 +36,8 @@ function technic.register_base_machine(data)
 	local typename = data.typename
 	local input_size = technic.recipes[typename].input_size
 	local machine_name = data.machine_name
-	local machine_desc = data.machine_desc
 	local tier = data.tier
+	local machine_desc_tier = S(data.machine_desc, tier)
 	local ltier = string.lower(tier)
 
 	data.modname = data.modname or minetest.get_current_modname()
@@ -58,7 +59,7 @@ function technic.register_base_machine(data)
 		technic_compat.get_itemslot_bg(5, 1, 2, 2)..
 		"list[current_player;main;0,5;8,4;]"..
 		technic_compat.get_itemslot_bg(0, 5, 8, 4)..
-		"label[0,0;"..machine_desc:format(tier).."]"..
+		"label[0,0;"..ESC(machine_desc_tier).."]"..
 		"listring[current_name;dst]"..
 		"listring[current_player;main]"..
 		"listring[current_name;src]"..
@@ -69,7 +70,7 @@ function technic.register_base_machine(data)
 			technic_compat.get_itemslot_bg(1, 3, 1, 1)..
 			"list[current_name;upgrade2;2,3;1,1;]"..
 			technic_compat.get_itemslot_bg(2, 3, 1, 1)..
-			"label[1,4;"..S("Upgrade Slots").."]"..
+			"label[1,4;"..ESC(S("Upgrade Slots")).."]"..
 			"listring[current_name;upgrade1]"..
 			"listring[current_player;main]"..
 			"listring[current_name;upgrade2]"..
@@ -89,7 +90,7 @@ function technic.register_base_machine(data)
 		local inv      = meta:get_inventory()
 		local eu_input = meta:get_int(tier.."_EU_input")
 
-		local machine_desc_tier = machine_desc:format(tier)
+		local get_description = technic._get_desc_formatter(machine_desc_tier)
 		local machine_node      = data.modname..":"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
@@ -116,18 +117,18 @@ function technic.register_base_machine(data)
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", get_description(S("Idle")))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
 				return
 			end
 			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
+			meta:set_string("infotext", get_description(S("Active")))
 			if meta:get_int("src_time") < round(result.time*10) then
 				if not powered then
 					technic.swap_node(pos, machine_node)
-					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
+					meta:set_string("infotext", get_description(S("Unpowered")))
 				end
 				return
 			end
@@ -149,7 +150,7 @@ function technic.register_base_machine(data)
 			end
 			if not room_for_output then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", get_description(S("Idle")))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
 				return
@@ -165,8 +166,9 @@ function technic.register_base_machine(data)
 		tentry = ""
 	end
 
-	minetest.register_node(data.modname..":"..ltier.."_"..machine_name, {
-		description = machine_desc:format(tier),
+	local node_name = data.modname..":"..ltier.."_"..machine_name
+	core.register_node(node_name, {
+		description = machine_desc_tier,
 		tiles = {
 			data.modname.."_"..ltier.."_"..machine_name.."_top.png"..tentry,
 			data.modname.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
@@ -198,7 +200,7 @@ function technic.register_base_machine(data)
 				)..pipeworks.button_label
 			end
 
-			meta:set_string("infotext", machine_desc:format(tier))
+			meta:set_string("infotext", machine_desc_tier)
 			meta:set_int("tube_time",  0)
 			meta:set_string("formspec", formspec..form_buttons)
 			local inv = meta:get_inventory()
@@ -239,8 +241,8 @@ function technic.register_base_machine(data)
 		_mcl_silk_touch_drop = true
 	})
 
-	minetest.register_node(data.modname..":"..ltier.."_"..machine_name.."_active",{
-		description = machine_desc:format(tier),
+	core.register_node(node_name .. "_active",{
+		description = machine_desc_tier,
 		tiles = {
 			data.modname.."_"..ltier.."_"..machine_name.."_top.png"..tentry,
 			data.modname.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
@@ -287,8 +289,9 @@ function technic.register_base_machine(data)
 		_mcl_silk_touch_drop = true
 	})
 
-	technic.register_machine(tier, data.modname..":"..ltier.."_"..machine_name,            technic.receiver)
-	technic.register_machine(tier, data.modname..":"..ltier.."_"..machine_name.."_active", technic.receiver)
+	technic.register_machine(tier, node_name,              technic.receiver)
+	technic.register_machine(tier, node_name .. "_active", technic.receiver)
+	technic._register_crafting_tool(typename, node_name)
 
 end -- End registration
 

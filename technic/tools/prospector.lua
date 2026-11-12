@@ -143,10 +143,12 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	return true
 end)
 
+local material_ore_rare = core.get_modpath("moreores") and "moreores:mithril_block" or "default:mese"
+local material_pickaxe  = core.get_modpath("moreores") and "moreores:pick_silver"   or "default:pick_bronze"
 minetest.register_craft({
 	output = "technic:prospector",
 	recipe = {
-		{"moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1"},
+		{material_pickaxe             , material_ore_rare           , "pipeworks:teleport_tube_1"},
 		{"basic_materials:brass_ingot", "technic:control_logic_unit", "basic_materials:brass_ingot"},
 		{"", "technic:blue_energy_crystal", ""},
 	}

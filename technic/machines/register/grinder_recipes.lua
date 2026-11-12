@@ -1,6 +1,9 @@
 local S = technic.getter
 
-technic.register_recipe_type("grinding", { description = S("Grinding") })
+technic.register_recipe_type("grinding", {
+	description = S("Grinding"),
+	icon = "technic_lv_grinder_front_active.png",
+})
 
 function technic.register_grinder_recipe(data)
 	data.time = data.time or 3
@@ -88,7 +91,7 @@ local function register_dust(name, ingot, texture_name)
 	local lname = texture_name or string.lower(name):gsub(' ', '_')
 	local item_lname = string.lower(name):gsub(' ', '_')
 	minetest.register_craftitem("technic:"..item_lname.."_dust", {
-		description = S("%s Dust"):format(S(name)),
+		description = S("@1 Dust", name),
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
@@ -162,4 +165,53 @@ for _, data in ipairs(dusts) do
 	register_dust(data[1], data[2], data[3])
 end
 
--- Uranium Logic remains same...
+-- Uranium
+for p = 0, 35 do
+	local nici = (p ~= 0 and p ~= 7 and p ~= 35) and 1 or nil
+	local psuffix = p == 7 and "" or p
+	local ingot = "technic:uranium"..psuffix.."_ingot"
+	local dust = "technic:uranium"..psuffix.."_dust"
+	minetest.register_craftitem(dust, {
+		description = S("@1 Dust", S("@1%-Fissile Uranium", string.format("%.1f", p/10))),
+		inventory_image = "technic_uranium_dust.png",
+		on_place_on_ground = minetest.craftitem_place_item,
+		groups = {uranium_dust=1, not_in_creative_inventory=nici},
+	})
+	minetest.register_craft({
+		type = "cooking",
+		recipe = dust,
+		output = ingot,
+	})
+	technic.register_grinder_recipe({ input = {ingot}, output = dust })
+end
+
+local function uranium_dust(p)
+	return "technic:uranium"..(p == 7 and "" or p).."_dust"
+end
+for pa = 0, 34 do
+	for pb = pa+1, 35 do
+		local pc = (pa+pb)/2
+		if pc == math.floor(pc) then
+			minetest.register_craft({
+				type = "shapeless",
+				recipe = { uranium_dust(pa), uranium_dust(pb) },
+				output = uranium_dust(pc).." 2",
+			})
+		end
+	end
+end
+
+-- Fuels
+minetest.register_craft({
+	type = "fuel",
+	recipe = "technic:coal_dust",
+	burntime = 50,
+})
+
+if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
+	minetest.register_craft({
+		type = "fuel",
+		recipe = "technic:kalite_dust",
+		burntime = 37.5,
+	})
+end

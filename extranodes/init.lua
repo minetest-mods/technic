@@ -3,6 +3,7 @@
 -- Boilerplate to support localized strings if intllib mod is installed.
 
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local stairsplus = core.get_modpath("moreblocks") and assert(stairsplus)
 
 
 -- Check if mcl_core or default is installed
@@ -11,20 +12,65 @@ if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") 
 end
 
 -- MineClone2 support
+local stone_sounds
 if minetest.get_modpath("mcl_sounds") then
 	stone_sounds = mcl_sounds.node_sound_stone_defaults()
 else
 	stone_sounds = default.node_sound_stone_defaults()
 end
 
-wood_fence_ingredient = nil
+local wood_fence_ingredient
 if minetest.get_modpath("mcl_core") then
 	wood_fence_ingredient = "group:fence_wood"
 else
 	wood_fence_ingredient = "default:fence_wood"
 end
 
-if minetest.get_modpath("moreblocks") then
+-- TODO: This is seems to be obsolete. The node names already use the "technic" prefix.
+function register_technic_stairs_alias(origmod, material, newmod)
+	local func = minetest.register_alias
+	local function remap(kind, suffix)
+		-- Old: stairsplus:slab_concrete_wall
+		-- New:    technic:slab_concrete_wall
+		func(("%s:%s_%s%s"):format(origmod, kind, material, suffix),
+			("%s:%s_%s%s"):format(newmod, kind, material, suffix))
+	end
+
+	-- Slabs
+	remap("slab", "")
+	remap("slab", "_inverted")
+	remap("slab", "_wall")
+	remap("slab", "_quarter")
+	remap("slab", "_quarter_inverted")
+	remap("slab", "_quarter_wall")
+	remap("slab", "_three_quarter")
+	remap("slab", "_three_quarter_inverted")
+	remap("slab", "_three_quarter_wall")
+
+	-- Stairs
+	remap("stair", "")
+	remap("stair", "_inverted")
+	remap("stair", "_wall")
+	remap("stair", "_wall_half")
+	remap("stair", "_wall_half_inverted")
+	remap("stair", "_half")
+	remap("stair", "_half_inverted")
+	remap("stair", "_right_half")
+	remap("stair", "_right_half_inverted")
+	remap("stair", "_inner")
+	remap("stair", "_inner_inverted")
+	remap("stair", "_outer")
+	remap("stair", "_outer_inverted")
+
+	-- Other
+	remap("panel", "_bottom")
+	remap("panel", "_top")
+	remap("panel", "_vertical")
+	remap("micro", "_bottom")
+	remap("micro", "_top")
+end
+
+if stairsplus and core.get_modpath("technic_worldgen") then
 
 	-- register stairsplus/circular_saw nodes
 	-- we skip blast resistant concrete and uranium intentionally
@@ -35,31 +81,41 @@ if minetest.get_modpath("moreblocks") then
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"technic_marble.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "marble", "technic")
 
 	stairsplus:register_all("technic", "marble_bricks", "technic:marble_bricks", {
 		description=S("Marble Bricks"),
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"technic_marble_bricks.png"},
 	})
-if not minetest.get_modpath("mcl_core") then
-	stairsplus:register_all("technic", "granite", "technic:granite", {
-		description=S("Granite"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_granite.png"},
-	})
+	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic")
 
-	stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
-		description=S("Granite Bricks"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_granite_bricks.png"},
-	})
+	if not minetest.get_modpath("mcl_core") then
+		stairsplus:register_all("technic", "granite", "technic:granite", {
+			description=S("Granite"),
+			groups={cracky=1, not_in_creative_inventory=1},
+			tiles={"technic_granite.png"},
+		})
+		register_technic_stairs_alias("stairsplus", "granite", "technic")
+
+		stairsplus:register_all("technic", "granite_bricks", "technic:granite_bricks", {
+			description=S("Granite Bricks"),
+			groups={cracky=1, not_in_creative_inventory=1},
+			tiles={"technic_granite_bricks.png"},
+		})
+	end
 end
+
+if stairsplus and core.get_modpath("concrete") then
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
 		tiles={"basic_materials_concrete_block.png"},
 	})
+	register_technic_stairs_alias("stairsplus", "concrete", "technic")
+end
 
+if stairsplus and core.get_modpath("technic_worldgen") then
 	stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
 		description=S("Zinc Block"),
 		groups={cracky=1, not_in_creative_inventory=1},
@@ -83,57 +139,6 @@ end
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_stainless_steel_block.png"},
 	})
-
-	function register_technic_stairs_alias(origmod, origname, newmod, newname)
-		local func = minetest.register_alias
-		local function remap(kind, suffix)
-			-- Old: stairsplus:slab_concrete_wall
-			-- New:    technic:slab_concrete_wall
-			func(("%s:%s_%s%s"):format(origmod, kind, origname, suffix),
-				("%s:%s_%s%s"):format(newmod, kind, newname, suffix))
-		end
-
-		-- Slabs
-		remap("slab", "")
-		remap("slab", "_inverted")
-		remap("slab", "_wall")
-		remap("slab", "_quarter")
-		remap("slab", "_quarter_inverted")
-		remap("slab", "_quarter_wall")
-		remap("slab", "_three_quarter")
-		remap("slab", "_three_quarter_inverted")
-		remap("slab", "_three_quarter_wall")
-
-		-- Stairs
-		remap("stair", "")
-		remap("stair", "_inverted")
-		remap("stair", "_wall")
-		remap("stair", "_wall_half")
-		remap("stair", "_wall_half_inverted")
-		remap("stair", "_half")
-		remap("stair", "_half_inverted")
-		remap("stair", "_right_half")
-		remap("stair", "_right_half_inverted")
-		remap("stair", "_inner")
-		remap("stair", "_inner_inverted")
-		remap("stair", "_outer")
-		remap("stair", "_outer_inverted")
-
-		-- Other
-		remap("panel", "_bottom")
-		remap("panel", "_top")
-		remap("panel", "_vertical")
-		remap("micro", "_bottom")
-		remap("micro", "_top")
-	end
-
-	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
-	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
-	if not minetest.get_modpath("mcl_core") then
-		register_technic_stairs_alias("stairsplus", "granite", "technic", "granite")
-	end
-	register_technic_stairs_alias("stairsplus", "marble_bricks", "technic", "marble_bricks")
-
 end
 
 local iclip_def = {
@@ -237,35 +242,26 @@ end
 minetest.register_node(":technic:insulator_clip", iclip_def)
 minetest.register_node(":technic:insulator_clip_fencepost", iclipfence_def)
 
--- MineClone2 support
+do
+	local insulator = core.get_modpath("technic") and "technic:raw_latex" or "basic_materials:plastic_strip"
+	core.register_craft({
+		output = "technic:insulator_clip",
+		recipe = {
+			{"", technic_compat.white_dye_ingredient, ""},
+			{"", insulator, ""},
+			{insulator, technic_compat.stone_ingredient, insulator},
+		}
+	})
 
-if minetest.get_modpath("mcl_core") then
-	stone_ingredient = "mcl_core:stone"
-	white_dye_ingredient = "mcl_dye:white"
-	fence_ingredient = "group:fence"
-else
-	stone_ingredient = "default:stone"
-	white_dye_ingredient = "dye:white"
-	fence_ingredient = "default:fence_wood"
+	core.register_craft({
+		output = "technic:insulator_clip_fencepost 2",
+		recipe = {
+			{"", technic_compat.white_dye_ingredient, ""},
+			{"", insulator, ""},
+			{insulator, wood_fence_ingredient, insulator},
+		}
+	})
 end
-
-minetest.register_craft({
-	output = "technic:insulator_clip",
-	recipe = {
-		{ "", white_dye_ingredient, ""},
-		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", stone_ingredient, "technic:raw_latex"},
-	}
-})
-
-minetest.register_craft({
-	output = "technic:insulator_clip_fencepost 2",
-	recipe = {
-		{ "", white_dye_ingredient, ""},
-		{ "", "technic:raw_latex", ""},
-		{ "technic:raw_latex", wood_fence_ingredient, "technic:raw_latex"},
-	}
-})
 
 local steelmod = minetest.get_modpath("steel")
 

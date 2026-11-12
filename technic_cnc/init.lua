@@ -24,6 +24,14 @@ if not minetest.get_modpath("mcl_core") and not minetest.get_modpath("default") 
 	error(S(minetest.get_current_modname()).." "..S("requires mcl_core or default to be installed (please install MTG or MCL2, or compatible games)"))
 end
 
+-- From technic/helpers.lua
+function technic_cnc._get_desc_formatter(name, status)
+	return function(status)
+		return status and S("@1@nStatus: @2", name, status) or name
+	end
+end
+
+
 dofile(modpath.."/cnc.lua")
 dofile(modpath.."/cnc_api.lua")
 dofile(modpath.."/cnc_materials.lua")

@@ -1,7 +1,10 @@
 
 local S = technic.getter
 
-technic.register_recipe_type("freezing", { description = S("Freezing") })
+technic.register_recipe_type("freezing", {
+	description = S("Freezing"),
+	icon = "technic_mv_freezer_front_active.png",
+})
 
 function technic.register_freezer_recipe(data)
 	data.time = data.time or 5
